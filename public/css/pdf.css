@@ -1,0 +1,272 @@
+pdf.css.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+a {
+  color: #5D6975;
+  text-decoration: underline;
+}
+
+body {
+  position: relative;
+  width: 21cm;
+  height: 29.7cm;
+  margin: 0 auto;
+  color: #001028;
+  background: #FFFFFF;
+  font-family: "Century Gothic";
+  font-size: 12px;
+}
+
+header {
+  padding: 10px 0;
+  margin-bottom: 30px;
+}
+
+#logo {
+  float: left;
+  margin-top: -1px;
+  background-color: white;
+  margin-left: -1px;
+}
+
+
+#logo img {
+  height:120px;
+  margin-left: 5%;
+}
+
+#company {
+  float: right;
+  text-align: right;
+}
+
+
+#details {
+  margin-bottom: 50px;
+}
+
+#client {
+  padding-left: 6px;
+  border-left: 6px solid #0087C3;
+  float: left;
+}
+
+#client .to {
+  color: #777777;
+}
+
+h2.name {
+  font-size: 1.4em;
+  font-weight: normal;
+  margin: 0;
+}
+
+#invoice {
+  float: right;
+  text-align: center;
+}
+
+h1 {
+  color: #000;
+  font-size: 1.4em;
+  line-height: 1em;
+  font-weight: normal;
+  margin: 0  0 10px 0;
+  text-align: center;
+  background-color: #fff;
+}
+h1 div:nth-last-child(n+2){
+  color:#000;
+  height: 35px;
+}
+h1 div:nth-last-child(3){
+  background-color: #fff;
+  height: 10px;
+}
+#invoice .date {
+  font-size: 1.1em;
+  color: #777777;
+}
+
+header {
+
+
+
+}
+
+#project {
+  float: left;
+}
+
+#project span {
+  color: #5D6975;
+  text-align: right;
+  width: 52px;
+  margin-right: 10px;
+  display: inline-block;
+  font-size: 0.8em;
+}
+
+#company {
+  float: right;
+  text-align: right;
+}
+
+
+div {
+	white-space: nowrap;
+	color: #030303;
+
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 2;
+  margin-bottom: 5px;
+}
+
+
+
+table th,
+table td {
+  text-align: center;
+}
+
+table th {
+  font-family: "Century Gothic";
+  font-size: 12px;
+  padding: 5px;
+  color: #000;
+  border: 1px solid #000;
+  white-space: normal;
+  font-weight: lighter;
+  border-collapse: collapse;
+  background-color: #fff;
+  font-weight: bold;
+}
+
+table .service,
+table .desc {
+  text-align: center;
+}
+
+table td {
+  padding: 5px;
+  text-align: center;
+  border:1px solid black;
+}
+
+table td.service,
+table td.desc {
+  vertical-align: top;
+}
+
+table td.unit,
+table td.qty,
+table td.total {
+  font-size: 1.2em;
+}
+
+table td.grand {
+  border-top: 1px solid #5D6975;;
+}
+
+#notices .notice {
+  color: #5D6975;
+  font-size: 1.2em;
+}
+
+footer {
+  color: #5D6975;
+  width: 100%;
+  height: 30px;
+  position: absolute;
+  bottom: 0;
+  border-top: 1px solid #C1CED9;
+  padding: 8px 0;
+  text-align: center;
+}
+
+
+
+
+td:nth-child(n){
+  background-color: #fff;
+}
+.table-totales td{
+  border-right: 1px solid #000000;
+}
+td.total{
+  background-color: #fff;
+  color: #000;
+  border-bottom:1px solid #000;
+  border-right: none;
+  border-left: none;
+  font-weight: bold;
+}
+td.total:last-child(){
+  border-right: 1px solid #000;
+}
+td.total:first-child(){
+    border-left: 1px solid #000;
+}
+td.encabezado-pedido{
+  background-color: #d9d9d9;
+  color: #000;
+  border:1px solid #000;
+}
+
+#nombre-empresa,#descripcion{
+  width: 100%;
+  background-color: #fff;
+  color:#000;
+  text-align: center;
+  margin-top: 0;
+  height: 30px;
+  font-size: 15px;
+  font-family: "Century Gothic";
+  border: none;
+  font-weight: bold;
+}
+
+#descripcion{
+  background-color: #fff;
+}
+body{
+  font-family: "Century Gothic";
+}
+h1{
+  margin-bottom: 0;
+}
+#encabezado td:nth-child(1){
+	background-color: #fff;
+  width: 98px;
+  text-align: left;
+  border:1px solid #000;
+}
+#encabezado td:nth-child(2){
+	background-color:#fff;
+  text-align: left;
+  border:1px solid #000;
+}
+.meta{
+  font-weight: bold;
+}
+main{
+  margin-top: 0;
+  border-top: 0;
+}
+
+header{
+  margin-bottom: 0;
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+ table{
+   margin-bottom: 0;
+
+ }
