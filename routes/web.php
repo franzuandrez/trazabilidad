@@ -15,3 +15,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('registro/proveedores','ProveedorController@index')->name('proveedores.index');
+Route::get('registro/proveedores/create','ProveedorController@create')->name('proveedores.create');
