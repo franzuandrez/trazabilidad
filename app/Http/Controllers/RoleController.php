@@ -22,7 +22,7 @@ class RoleController extends Controller
 
         $search = $request->get('search') == null ? '' : $request->get('search');
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
-        $sortField = $request->get('field') == null ? 'descripcion' : $request->get('field');
+        $sortField = $request->get('field') == null ? 'name' : $request->get('field');
 
 
 
@@ -42,6 +42,35 @@ class RoleController extends Controller
         }
 
 
+
+
+    }
+
+
+    public function create(){
+
+        $menus = Permission::where('orden_menu','!=','0')
+            ->orderBy('orden_menu','ASC')
+            ->get();
+        $opciones = Permission::where('id_menu','!=','0')
+            ->get();
+
+        return view('registro.roles.create',compact('menus','opciones'));
+
+    }
+
+    public function store(Request $request){
+
+        $role = Role::create([
+            'name'=>$request->input('name'),
+            'descripcion'=>$request->input('descripcion')
+        ]);
+        $role->syncPermissions($request->input('permission'));
+
+
+
+        return redirect()->route('roles.index')
+            ->with('success','Rol creado exitosamente');
 
 
     }
