@@ -3,6 +3,18 @@
 
 @section('contenido')
 
+    @component('componentes.nav',['operation'=>'Editar',
+        'menu_icon'=>'fa-cogs',
+        'submenu_icon'=>'fa-wrench',
+        'operation_icon'=>'fa-pencil',])
+        @slot('menu')
+            Usuarios
+        @endslot
+        @slot('submenu')
+            Roles
+        @endslot
+    @endcomponent
+
     <div class="panel-body">
         {!!Form::model($role,['method'=>'PATCH','route'=>['roles.update',$role->id]])!!}
         {{Form::token()}}
