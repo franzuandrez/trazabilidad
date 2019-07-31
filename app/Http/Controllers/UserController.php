@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Proveedor;
+use http\Exception\UnexpectedValueException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\User;
+use Spatie\Activitylog\Models\Activity;
 
 class UserController extends Controller
 {
@@ -25,8 +28,13 @@ class UserController extends Controller
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
         $sortField = $request->get('field') == null ? 'username' : $request->get('field');
 
-        $users = User::active()
+        $users = User::join('model_has_roles','model_has_roles.model_id','=','users.id')
+            ->join('roles','roles.id','=','model_has_roles.role_id')
+            ->select('users.*','roles.name as rol')
+            ->active()
             ->where('email','LIKE','%'.$search.'%')
+            ->orwhere('nombre','LIKE','%'.$search.'%')
+            ->orwhere('username','LIKE','%'.$search.'%')
             ->orderBy($sortField,$sort)
             ->paginate(20);
 
