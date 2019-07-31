@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\User;
 use Spatie\Activitylog\Models\Activity;
+use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -51,6 +53,27 @@ class UserController extends Controller
 
 
 
+
+
+    }
+
+    public function create(){
+
+        $roles = Role::active()->get();
+
+        return view('registro.users.create',compact('roles'));
+    }
+
+    public function store(Request $request){
+
+        $input = $request->all();
+
+        $input['password'] = Hash::make($input['password']);
+
+        $user = User::create($input);
+        $user->assignRole($request->input('id_rol'));
+
+        return redirect()->route('users.index') ->with('success','Usuario creado correctamente');
 
 
     }

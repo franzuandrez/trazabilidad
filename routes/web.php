@@ -21,6 +21,9 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('users','UserController@index')->name('users.index');
+Route::get('users/create','UserController@create')->name('users.create');
+Route::post('users/create','UserController@store')->name('users.store');
+
 Route::get('roles','RoleController@index')->name('roles.index');
 Route::get('roles/create','RoleController@create')->name('roles.create');
 Route::post('roles/create','RoleController@store')->name('roles.store');
