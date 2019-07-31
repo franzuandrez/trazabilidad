@@ -1,27 +1,4 @@
-@component('componentes.nav',['operation'=>'LIST',
-'menu_icon'=>'fa-cogs',
-'submenu_icon'=>'fa-cog',
-'operation_icon'=>'',])
-    @slot('menu')
-        Usuarios
-    @endslot
-    @slot('submenu')
-        Administrar
-    @endslot
-@endcomponent
 
-<div class="row">
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        @component('componentes.btn-create',['url'=>url('users/create')])
-        @endcomponent
-        @component('componentes.btn-edit',['url'=>'javascript:editar()'])
-        @endcomponent
-        @component('componentes.btn-ver',['url'=>'javascript:ver()'])
-        @endcomponent
-        @component('componentes.btn-eliminar',['url'=>'javascript:eliminar()'])
-        @endcomponent
-    </div>
-</div>
 @component('componentes.search',['search'=>$search])
     @slot('modulo')
         users
