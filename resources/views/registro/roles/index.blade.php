@@ -46,6 +46,7 @@
                 <tbody>
                 @foreach($roles as $key => $rol)
                 <tr>
+                    <td><input name="id_rol" value="{{$rol->id}}" type="radio"></td>
                     <td>{{$rol->name}}</td>
                     <td>{{$rol->descripcion}}</td>
                     <td>
