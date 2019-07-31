@@ -41,7 +41,20 @@
 
                 </li>
             </ul>
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="#" data-toggle="dropdown" style="background-color: #01579B;  color: #fff;">Usuarios<b
+                                class="caret"></b></a>
 
+                    <ul class="dropdown-menu">
+
+                        <li><a href="{{url('users')}}"><i class="fa fa-cog"></i>Administrar</a></li>
+
+
+                        <li><a href="{{url('roles')}}"><i class=" fa fa-wrench"></i>Roles</a></li>
+
+                    </ul>
+            </ul>
         </div>
     </div>
 </div>
