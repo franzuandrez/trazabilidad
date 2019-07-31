@@ -16,3 +16,9 @@ Route::get('/', function () {
 });
 Route::get('registro/proveedores','ProveedorController@index')->name('proveedores.index');
 Route::get('registro/proveedores/create','ProveedorController@create')->name('proveedores.create');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('users','UserController@index')->name('users.index');
+Route::get('roles','RoleController@index')->name('roles.index');
