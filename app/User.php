@@ -32,7 +32,7 @@ class User extends Authenticatable
     public function scopeActive($query){
 
 
-        return $query->where('estado',1);
+        return $query->where('users.estado',1);
 
     }
 }
