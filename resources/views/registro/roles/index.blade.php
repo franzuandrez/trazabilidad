@@ -57,6 +57,14 @@
                      @endif
                     </td>
                 </tr>
+
+                    @component('componentes.alert-delete',
+                    ['model'=>'ROL',
+                    'id'=>$rol->id,
+                    'method'=>'RoleController@destroy',
+                    'extras'=>$rol->descripcion,
+                    'description'=>$rol->name])
+                    @endcomponent
                 @endforeach
 
                 </tbody>

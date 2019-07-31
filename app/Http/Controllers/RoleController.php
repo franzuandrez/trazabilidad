@@ -115,4 +115,16 @@ class RoleController extends Controller
 
 
     }
+
+    public function destroy($id){
+
+        $role = Role::find($id);
+        $role->estado = '0';
+        $role->update();
+
+        return redirect()->route('roles.index')
+            ->with('success','Rol dado de baja correctamente');
+
+
+    }
 }
