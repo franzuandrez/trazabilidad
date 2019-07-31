@@ -127,4 +127,21 @@ class RoleController extends Controller
 
 
     }
+
+    public function show($id){
+
+        $role = Role::find($id);
+
+        $menus= Permission::where('orden_menu','!=','0')
+            ->orderBy('orden_menu','ASC')->get();
+        $opciones = Permission::where('id_menu','!=','0')->get();
+        $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id",$id)
+            ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
+            ->all();
+
+
+        return view('registro.roles.show',compact('role','menus','opciones','rolePermissions'));
+
+
+    }
 }

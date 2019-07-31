@@ -27,3 +27,4 @@ Route::post('roles/create','RoleController@store')->name('roles.store');
 Route::get('roles/{id}/edit','RoleController@edit')->name('roles.edit');
 Route::patch('roles/{id}','RoleController@update')->name('roles.update');
 Route::delete('roles/{id}','RoleController@destroy')->name('roles.destroy');
+Route::get('roles/{id}','RoleController@show')->name('roles.show');
