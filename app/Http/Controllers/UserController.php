@@ -123,4 +123,15 @@ class UserController extends Controller
 
 
     }
+
+    public function show($id){
+
+        $user = User::find($id);
+        $roles = Role::active()->get();
+        $userRole = $user->roles->all();
+
+        return view('registro.users.show',compact('user','roles','userRole'));
+
+
+    }
 }
