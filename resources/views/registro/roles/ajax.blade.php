@@ -5,7 +5,7 @@
 
 @endsection
 @section('contenido')
-
+    @include('componentes.alert-success')
     @component('componentes.nav',['operation'=>'LIST',
         'menu_icon'=>'fa-cogs',
         'submenu_icon'=>'fa-wrench',
