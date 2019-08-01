@@ -25,6 +25,7 @@ Route::get('users/create','UserController@create')->name('users.create');
 Route::post('users/create','UserController@store')->name('users.store');
 Route::get('users/{id}/edit','UserController@edit')->name('users.edit');
 Route::patch('users/{id}','UserController@update')->name('users.update');
+Route::post('users/{id}','UserController@destroy')->name('users.destroy');
 
 Route::get('roles','RoleController@index')->name('roles.index');
 Route::get('roles/create','RoleController@create')->name('roles.create');

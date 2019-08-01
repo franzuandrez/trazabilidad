@@ -89,8 +89,15 @@
                                 </span>
                             @endif
                         </td>
-
+                        @component('componentes.alert-delete',
+                                              ['model'=>'USUARIO',
+                                              'id'=>$user->id,
+                                              'method'=>'UserController@destroy',
+                                              'extras'=>'',
+                                              'description'=>$user->username])
+                        @endcomponent
                     </tr>
+
                 @endforeach
 
 
