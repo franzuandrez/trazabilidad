@@ -14,10 +14,9 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><span class="fa fa-remove"></span> CERRAR</button>
-                <button type="submit" class="btn btn-default"><span class=" fa fa-check"></span> ACEPTAR</button>
+                <button type="button" onclick="javascipt:darBaja('{{url('users/')}}{{'/'.$id}}')" class="btn btn-default"><span class=" fa fa-check"></span> ACEPTAR</button>
             </div>
         </div>
     </div>
-    {{Form::Close()}}
-
+    {{Form::close()}}
 </div>

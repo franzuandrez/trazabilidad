@@ -55,3 +55,29 @@ function ver(){
     }
 
 }
+
+function darBaja(url){
+
+    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+    $.ajax({
+
+        url:url,
+        type:'post',
+        data:{_token:CSRF_TOKEN},
+        success:function(response){
+
+            window.location.reload();
+
+        },
+        error:function(e){
+
+
+        }
+
+
+    });
+
+
+
+}
