@@ -134,4 +134,41 @@ class UserController extends Controller
 
 
     }
+
+
+    public function editPassword($id){
+        $user = User::find($id);
+        $roles = Role::where('estado','1')->get();
+        $userRole = $user->roles->all();
+
+        return view('registro.users.cambiar_contrasena',compact('user','roles','userRole'));
+
+    }
+
+    public function updatePassword(Request $request, $id){
+
+        $input = $request->all();
+
+        if($this->validatePass($request)){
+
+            $input['password'] = Hash::make($input['password']);
+            $user = User::find($id);
+            $user->password =$input['password'];
+            $user->update();
+            return redirect()->route('users.index')
+                ->with('success','Contraseña Actualizada correctamente');
+        }else{
+            return redirect()->route('users.index')
+                ->with('error','No se pudo actualizar la contraseña');
+        }
+
+    }
+
+    private function validatePass($request){
+
+        return Hash::check($request->get('admin_pass'), \Auth::user()->password);
+
+
+
+    }
 }

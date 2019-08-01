@@ -81,3 +81,16 @@ function darBaja(url){
 
 
 }
+
+
+
+
+function cambiar_password(){
+    let id_user = getUserSelected();
+    if(id_user==null){
+        $('#errorToEdit').modal();
+    }else{
+        window.location.href = "users"+"/"+id_user+"/cambio";
+    }
+
+}

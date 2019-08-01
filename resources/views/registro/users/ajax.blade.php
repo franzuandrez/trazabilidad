@@ -34,6 +34,8 @@
             @endcomponent
             @component('componentes.btn-eliminar',['url'=>'javascript:eliminar()'])
             @endcomponent
+            @component('componentes.btn-change-password',['url'=>'javascript:cambiar_password()'])
+            @endcomponent
         </div>
     </div>
 <div id="content">
