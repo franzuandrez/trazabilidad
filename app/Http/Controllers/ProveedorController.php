@@ -21,9 +21,9 @@ class ProveedorController extends Controller
             ->actived()
             ->where(function ($query)use($search){
                 $query->where('razon_social','LIKE','%'.$search.'%')
-                    ->where('nombre_comercial','LIKE','%'.$search.'%')
-                    ->where('direccion_planta','LIKE','%'.$search.'%')
-                    ->where('nit','LIKE','%'.$search.'%');
+                    ->orwhere('nombre_comercial','LIKE','%'.$search.'%')
+                    ->orwhere('direccion_planta','LIKE','%'.$search.'%')
+                    ->orwhere('nit','LIKE','%'.$search.'%');
             })
             ->paginate(20);
 
