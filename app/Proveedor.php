@@ -35,7 +35,8 @@ class Proveedor extends Model
         'sistema_calidad_auditado_intermamente',
         'sistema_calidad_auditado_por_terceros',
         'certificaciones',
-        'observaciones'
+        'observaciones',
+        'estado'
     ];
 
     protected static $logOnlyDirty = true;
@@ -64,7 +65,8 @@ class Proveedor extends Model
         'sistema_calidad_auditado_intermamente',
         'sistema_calidad_auditado_por_terceros',
         'certificaciones',
-        'observaciones'
+        'observaciones',
+        'estado'
     ];
 
     protected $dates = [
@@ -72,6 +74,11 @@ class Proveedor extends Model
         'updated_at'
     ];
 
+
+    public function scopeActived($query){
+
+        return $query->where('proveedores.estado',1);
+    }
     public function referencias_comerciales(){
 
        return  $this->hasMany('App\ReferenciasComerciales','id_proveedor');
