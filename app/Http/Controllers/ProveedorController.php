@@ -11,12 +11,35 @@ class ProveedorController extends Controller
 {
     //
 
-    public function  index(){
+    public function  index(Request $request){
+
+        $search = $request->get('search')==null?'':$request->get('search');
+        $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
+        $sortField = $request->get('field') == null ? 'username' : $request->get('field');
+
+        $proveedores = Proveedor::select('razon_social','nombre_comercial','nit','direccion_planta','estado')
+            ->actived()
+            ->where(function ($query)use($search){
+                $query->where('razon_social','LIKE','%'.$search.'%')
+                    ->where('nombre_comercial','LIKE','%'.$search.'%')
+                    ->where('direccion_planta','LIKE','%'.$search.'%')
+                    ->where('nit','LIKE','%'.$search.'%');
+            })
+            ->paginate(20);
 
 
+        if($request->ajax()){
+
+            return view('registro.proveedores.index',
+                compact('search','sort','sortField','proveedores'));
+
+        }else{
+            return view('registro.proveedores.ajax',
+                compact('search','sort','sortField','proveedores'));
+
+        }
 
 
-        return view('registro.proveedores.index');
 
     }
 
