@@ -9,7 +9,7 @@ function editar(){
     if(id_proveedor ==null){
         $('#errorToEdit').modal();
     }else{
-        window.location.href = "registro/proveedores"+"/"+id_proveedor+"/edit";
+        window.location.href = "proveedores"+"/"+id_proveedor+"/edit";
     }
 
 }
@@ -51,7 +51,7 @@ function ver(){
     if(id_proveedor==null){
         $('#errorToEdit').modal();
     }else{
-        window.location.href = "registro/proveedores"+"/"+id_proveedor+"";
+        window.location.href = "proveedores"+"/"+id_proveedor+"";
     }
 
 }
