@@ -245,6 +245,26 @@ class ProveedorController extends Controller
 
     }
 
+    public function show($id){
+
+        try {
+
+            $proveedor = Proveedor::findOrFail($id);
+
+
+            return view('registro.proveedores.show',compact('proveedor'));
+
+
+        }catch(\Exception $ex){
+
+
+            return redirect()->route('proveedores.index')
+                ->with('error','En este momento no es posible procesar su petición');
+
+        }
+
+    }
+
     private function getValueChecked($value)
     {
 
