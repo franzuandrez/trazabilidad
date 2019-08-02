@@ -85,7 +85,14 @@
                             @endif
                         </td>
                     </tr>
-
+                    @component('componentes.alert-delete',
+                      ['model'=>'PROVEEDOR',
+                      'id'=>$proveedor->id_proveedor,
+                      'method'=>'RoleController@destroy',
+                      'extras'=>'',
+                      'description'=>$proveedor->razon_social,
+                      'url'=>url('registro/proveedores/')."/".$proveedor->id_proveedor])
+                    @endcomponent
 
                 @endforeach
 

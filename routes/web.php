@@ -43,3 +43,4 @@ Route::post('registro/proveedores/create','ProveedorController@store')->name('pr
 Route::get('registro/proveedores/{id}/edit','ProveedorController@edit')->name('proveedores.edit');
 Route::patch('registro/proveedores/{id}','ProveedorController@update')->name('proveedores.update');
 Route::get('registro/proveedores/{id}','ProveedorController@show')->name('proveedores.show');
+Route::post('registro/proveedores/{id}','ProveedorController@destroy')->name('proveedores.destroy');

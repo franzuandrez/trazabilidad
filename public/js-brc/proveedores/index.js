@@ -67,10 +67,16 @@ function darBaja(url){
         data:{_token:CSRF_TOKEN},
         success:function(response){
 
-            window.location.reload();
+            $('.modal').modal('hide');
+
+            setTimeout(function () {
+                ajaxLoad(window.location.href);
+            },500);
+
 
         },
         error:function(e){
+
 
 
         }

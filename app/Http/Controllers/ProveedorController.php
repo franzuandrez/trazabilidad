@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use http\Env\Response;
 use Illuminate\Http\Request;
 use DB;
 use App\Proveedor;
@@ -245,21 +246,44 @@ class ProveedorController extends Controller
 
     }
 
-    public function show($id){
+    public function show($id)
+    {
 
         try {
 
             $proveedor = Proveedor::findOrFail($id);
 
 
-            return view('registro.proveedores.show',compact('proveedor'));
+            return view('registro.proveedores.show', compact('proveedor'));
 
 
-        }catch(\Exception $ex){
+        } catch (\Exception $ex) {
 
 
             return redirect()->route('proveedores.index')
-                ->with('error','En este momento no es posible procesar su petición');
+                ->with('error', 'En este momento no es posible procesar su petición');
+
+        }
+
+    }
+
+    public function destroy($id)
+    {
+
+        try {
+
+            $proveedor = Proveedor::findOrFail($id);
+            $proveedor->estado = 0;
+            $proveedor->update();
+            return response()->json(['success'=>'Proveedor dado de baja exitosamente']);
+
+        } catch (\Exception $ex) {
+
+            return response()->json(
+                ['error'=>'En este momento no es posible procesar su petición',
+                    'mensaje'=>$ex->getMessage()
+                ]
+            );
 
         }
 
