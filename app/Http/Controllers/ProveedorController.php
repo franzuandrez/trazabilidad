@@ -17,7 +17,7 @@ class ProveedorController extends Controller
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
         $sortField = $request->get('field') == null ? 'razon_social' : $request->get('field');
 
-        $proveedores = Proveedor::select('razon_social','nombre_comercial','nit','direccion_planta','estado')
+        $proveedores = Proveedor::select('id_proveedor','razon_social','nombre_comercial','nit','direccion_planta','estado')
             ->actived()
             ->where(function ($query)use($search){
                 $query->where('razon_social','LIKE','%'.$search.'%')
