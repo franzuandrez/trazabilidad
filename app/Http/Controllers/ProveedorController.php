@@ -15,7 +15,7 @@ class ProveedorController extends Controller
 
         $search = $request->get('search')==null?'':$request->get('search');
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
-        $sortField = $request->get('field') == null ? 'username' : $request->get('field');
+        $sortField = $request->get('field') == null ? 'razon_social' : $request->get('field');
 
         $proveedores = Proveedor::select('razon_social','nombre_comercial','nit','direccion_planta','estado')
             ->actived()
@@ -25,6 +25,7 @@ class ProveedorController extends Controller
                     ->orwhere('direccion_planta','LIKE','%'.$search.'%')
                     ->orwhere('nit','LIKE','%'.$search.'%');
             })
+            ->orderBy($sortField,$sort)
             ->paginate(20);
 
 
