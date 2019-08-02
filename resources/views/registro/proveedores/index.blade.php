@@ -1,3 +1,8 @@
+@component('componentes.search',
+['search'=>$search,'modulo'=>'registro/proveedores'])
+
+@endcomponent
+
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
 
@@ -11,19 +16,44 @@
 
                     </th>
                     <th>
-                        RAZON SOCIAL
+                        @component('componentes.column-sort',['modulo'=>'registro/proveedores',
+                           'sort'=>$sort,
+                           'sortField'=>$sortField,
+                           'field'=>'razon_social',
+                           'titulo'=>'RAZON SOCIAL'])
+                        @endcomponent
                     </th>
                     <th>
-                        NOMBRE COMERCIAL
+                        @component('componentes.column-sort',['modulo'=>'registro/proveedores',
+                         'sort'=>$sort,
+                         'sortField'=>$sortField,
+                         'field'=>'nombre_comercial',
+                         'titulo'=>'NOMBRE COMERCIAL'])
+                        @endcomponent
                     </th>
                     <th>
-                        NIT
+                        @component('componentes.column-sort',['modulo'=>'registro/proveedores',
+                       'sort'=>$sort,
+                       'sortField'=>$sortField,
+                       'field'=>'nit',
+                       'titulo'=>'NIT'])
+                        @endcomponent
                     </th>
                     <th>
-                        DIRECCION PLANTA
+                        @component('componentes.column-sort',['modulo'=>'registro/proveedores',
+                     'sort'=>$sort,
+                     'sortField'=>$sortField,
+                     'field'=>'direccion_planta',
+                     'titulo'=>'direccion planta'])
+                        @endcomponent
                     </th>
                     <th>
-                        ESTADO
+                        @component('componentes.column-sort',['modulo'=>'registro/proveedores',
+                      'sort'=>$sort,
+                      'sortField'=>$sortField,
+                      'field'=>'estado',
+                      'titulo'=>'estado'])
+                        @endcomponent
                     </th>
                 </tr>
                 </thead>
