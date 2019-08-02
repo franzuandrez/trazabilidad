@@ -14,8 +14,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('registro/proveedores','ProveedorController@index')->name('proveedores.index');
-Route::get('registro/proveedores/create','ProveedorController@create')->name('proveedores.create');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -37,3 +36,7 @@ Route::get('roles/{id}/edit','RoleController@edit')->name('roles.edit');
 Route::patch('roles/{id}','RoleController@update')->name('roles.update');
 Route::delete('roles/{id}','RoleController@destroy')->name('roles.destroy');
 Route::get('roles/{id}','RoleController@show')->name('roles.show');
+
+Route::get('registro/proveedores','ProveedorController@index')->name('proveedores.index');
+Route::get('registro/proveedores/create','ProveedorController@create')->name('proveedores.create');
+Route::post('registro/proveedores/create','ProveedorController@store')->name('proveedores.store');

@@ -1,6 +1,15 @@
 @extends('layouts.admin')
+@section('style')
+    <style>
+        .page-header {
+            margin-top: 20px;
+            margin-bottom: 02px;
+            padding-bottom: 0;
+        }
+    </style>
+    @endsection
 @section('contenido')
-    @component('componentes.nav',['operation'=>'crear',
+    @component('componentes.nav',['operation'=>'Crear',
     'menu_icon'=>'fa-file-text',
     'submenu_icon'=>'fa fa-users',
     'operation_icon'=>'fa-plus',])
@@ -12,278 +21,329 @@
         @endslot
     @endcomponent
 
-        <div class="row">
-            <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-                <form class="form" role="form">
-                    <div class="page-header" id="datos-reclamante">
-                        <h2>
-                            <small>INFORMACIÓN COMERCIAL  </small>
-                        </h2>
-                    </div>
-                    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                        <div class="form-group">
-                            <label for="nombre">Razón Social</label>
-                            <input type="text" name="razon_social" value="{{old('razon_social')}}"
-                                   class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                        <div class="form-group">
-                            <label for="nombre">Nombre Comercial</label>
-                            <input type="text" name="nombre_comercial" value="{{old('nombre_comercial')}}"
-                                   class="form-control">
-                        </div>
-                    </div>
-
-                    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                        <div class="form-group">
-                            <label for="nombre">NIT</label>
-                            <input type="text" name="nit" value="{{old('nit')}}"
-                                   class="form-control">
-                        </div>
-                    </div>
-
-                    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                        <div class="form-group">
-                            <label for="nombre">Dirección Fiscal</label>
-                            <input type="text" name="direccion_fiscal" value="{{old('direccion_fiscal')}}"
-                                   class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                        <div class="form-group">
-                            <label for="nombre">Dirección Planta</label>
-                            <input type="text" name="direccion_planta" value="{{old('direccion_planta')}}"
-                                   class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                        <div class="form-group">
-                            <label for="nombre">Nombre y puesto de contacto</label>
-                            <input type="text" name="nombre_contacto" value="{{old('nombre_contacto')}}"
-                                   class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                        <div class="form-group">
-                            <label for="nombre">Teléfono de Contacto</label>
-                            <input type="text" name="telefono_contacto" value="{{old('telefono_contacto')}}"
-                                   class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                        <div class="form-group">
-                            <label for="nombre">E-mail</label>
-                            <input type="text" name="email" value="{{old('email')}}"
-                                   class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                        <div class="form-group">
-                            <label for="nombre">Régimen Tributario</label>
-                            <input type="text" name="regimen_tributario" value="{{old('regimen_tributario')}}"
-                                   class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                        <div class="form-group">
-                            <label for="nombre">Patente de Comercio</label>
-                            <input type="text" name="patente_comercio" value="{{old('patente_comercio')}}"
-                                   class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                        <div class="form-group">
-                            <label for="nombre">Patente de Sociedad</label>
-                            <input type="text" name="patente_sociedad" value="{{old('patente_sociedad')}}"
-                                   class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                        <div class="form-group">
-                            <label for="nombre">Días de Crédito</label>
-                            <input type="text" name="dias_credito" value="{{old('dias_credito')}}"
-                                   class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                        <div class="form-group">
-                            <label for="nombre">Monto de Crédito</label>
-                            <input type="text" name="monto_credito" value="{{old('monto_credito')}}"
-                                   class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                        <div class="form-group">
-                            <label for="nombre">Horario de Entregas</label>
-                            <input type="text" name="horario_entrega" value="{{old('horario_entrega')}}"
-                                   class="form-control">
-                        </div>
-                    </div>
-
-                    <div class="page-header" id="datos-reclamante">
-                        <h2>
-                            <small> INFORMACIÓN BÁSICA DE CALIDAD.</small>
-                        </h2>
-                    </div>
-
-                    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="programa_bpm_implementado" name="programa_bpm_implementado">
-                            <label class="custom-control-label" for="programa_bpm_implementado" >¿Cuenta con Programa de BPM implementadas, documentadas y evaluadas?</label>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="otros_programas" name="otros_programas">
-                            <label class="custom-control-label" for="otros_programas" >¿Cuenta con otros Programas Prerrequisito implementados, documentados y evaluados?</label>
-                        </div>
-                    </div>
-                    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="sistema_haccp" name="sistema_haccp">
-                            <label class="custom-control-label" for="sistema_haccp">¿Cuenta con Sistema HACCP Iplementado, Documentado y evaluado?</label>
-                        </div>
-                    </div>
-                    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="programa_capacitacion" name="programa_capacitacion">
-                            <label class="custom-control-label" for="programa_capacitacion" >¿Cuenta con un Programa de Capacitación implementado documentado y evaluado?</label>
-                        </div>
-                    </div>
-                    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="sistema_trazabilidad" name="sistema_trazabilidad">
-                            <label class="custom-control-label" for="sistema_trazabilidad">¿Cuenta con un Sistema de Trazabilidad implementado, documentado y evaluado?</label>
-                        </div>
-                    </div>
-                    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="sistema_calidad_auditado_intermamente" name="sistema_calidad_auditado_intermamente">
-                            <label class="custom-control-label" for="sistema_calidad_auditado_intermamente">¿Su Sistema de Calidad y/o sus componentes es auditado internamente?</label>
-                        </div>
-                    </div>
-                    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="sistema_calidad_auditado_por_terceros" name="sistema_calidad_auditado_por_terceros">
-                            <label class="custom-control-label" for="sistema_calidad_auditado_por_terceros">¿Su Sistema de Calidad y/o sus componentes es auditado por terceros?</label>
-                        </div>
-                    </div>
-                    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="certificaciones" name="certificaciones">
-                            <label class="custom-control-label" for="certificaciones">Certificaciones.</label>
-                        </div>
-                    </div>
 
 
+    {!!Form::open(array('url'=>'registro/proveedores/create','method'=>'POST','autocomplete'=>'off'))!!}
+             {{Form::token()}}
+        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
 
-                    <div class="page-header" id="datos-reclamante">
-                        <h2>
-                            <small> REFERENCIAS COMERCIALES.</small>
-                        </h2>
-                    </div>
-
-                    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                        <div class="form-group">
-                            <label for="nombre">Nombre de la Empresa</label>
-                            <input id="empresa"  type="text" name="descripcion" value="{{old('descripcion')}}"
-                                   class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                        <div class="form-group">
-                            <label for="nombre">Teléfono</label>
-                            <input id="telefono"  type="text" name="descripcion" value="{{old('descripcion')}}"
-                                   class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                        <div class="form-group">
-                            <label for="nombre">Dirección</label>
-                            <input id="direccion" type="text" name="descripcion" value="{{old('descripcion')}}"
-                                   class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-lg-5 col-sm-5 col-md-5 col-xs-10">
-                        <div class="form-group">
-                            <label for="nombre">Contacto</label>
-                            <input id="contacto" type="text" name="descripcion" value="{{old('descripcion')}}"
-                                   class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-lg-1 col-sm-1 col-md-1 col-xs-2">
-                        <br>
-                        <div class="form-group">
-                            <button id="btnAdd1" class="btn btn-default block" style="margin-top: 5px;" type="button"><span class=" fa fa-plus"></span> </button>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-
-                        <table id="detalles1" class="table table-striped table-bordered table-condensed table-hover">
-
-                            <thead style="background-color: #01579B;  color: #fff;">
-                            <th>OPCION</th>
-                            <th>EMPRESA</th>
-                            <th>TELEFONO</th>
-                            <th>DIRECCION</th>
-                            <th>CONTACTO</th>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-                        <div class="form-group">
-                            <label for="nombre">OBSERVACIONES</label>
-                            <input id="contacto" type="text" name="descripcion" value="{{old('descripcion')}}"
-                                   class="form-control">
-                        </div>
-                    </div>
-
-
-
-
-
-                    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-                        <div class="form-group">
-                            <button class="btn btn-default" type="submit">
-                                <span class=" fa fa-check"></span> GUARDAR
-                            </button>
-                            <a href="{{url('registro/proveedores')}}">
-                                <button class="btn btn-default" type="button">
-                                    <span class="fa fa-remove"></span>
-                                    CANCELAR
-                                </button>
-                            </a>
-
-                        </div>
-                    </div>
-
-                </form>
+            <div class="page-header" >
+                <h2>
+                    <small>&nbsp;&nbsp; INFORMACIÓN COMERCIAL .</small>
+                </h2>
             </div>
-        </div>
-        <div class="modal fade" id="modal-default" style="display: none;">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">x</span></button>
-                        <h4 class="modal-title">Advertencia</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>Complete todo los campos...</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                    <div class="form-group">
+                        <label for="nombre">RAZON SOCIAL</label>
+                        <input type="text" name="razon_social" value="{{old('razon_social')}}"
+                               class="form-control">
                     </div>
                 </div>
-                <!-- /.modal-content -->
+                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                    <div class="form-group">
+                        <label for="nombre">NOMBRE COMERCIAL</label>
+                        <input type="text" name="nombre_comercial" value="{{old('nombre_comercial')}}"
+                               class="form-control">
+                    </div>
+                </div>
+                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                    <div class="form-group">
+                        <label for="nombre">NIT</label>
+                        <input type="text" name="nit" value="{{old('nit')}}"
+                               class="form-control">
+                    </div>
+                </div>
+                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                    <div class="form-group">
+                        <label for="nombre">DIRECCION FISCAL</label>
+                        <input type="text" name="direccion_fiscal" value="{{old('direccion_fiscal')}}"
+                               class="form-control">
+                    </div>
+                </div>
+                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                    <div class="form-group">
+                        <label for="nombre">DIRECCION PLANTA</label>
+                        <input type="text" name="direccion_planta" value="{{old('direccion_planta')}}"
+                               class="form-control">
+                    </div>
+                </div>
+                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                    <div class="form-group">
+                        <label for="nombre">NOMBRE CONTACTO</label>
+                        <input type="text" name="nombre_contacto" value="{{old('nombre_contacto')}}"
+                               class="form-control">
+                    </div>
+                </div>
+                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                    <div class="form-group">
+                        <label for="nombre">TELEFONO DE CONTACTO</label>
+                        <input type="text" name="telefono_contacto" value="{{old('telefono_contacto')}}"
+                               class="form-control">
+                    </div>
+                </div>
+                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                    <div class="form-group">
+                        <label for="nombre">E-MAIL</label>
+                        <input type="text" name="email" value="{{old('email')}}"
+                               class="form-control">
+                    </div>
+                </div>
+                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                    <div class="form-group">
+                        <label for="nombre">REGIMEN TRIBUTARIO</label>
+                        <input type="text" name="regimen_tributario" value="{{old('regimen_tributario')}}"
+                               class="form-control">
+                    </div>
+                </div>
+                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                    <div class="form-group">
+                        <label for="nombre">PATENTE DE COMERCIO</label>
+                        <input type="text" name="patente_comercio" value="{{old('patente_comercio')}}"
+                               class="form-control">
+                    </div>
+                </div>
+                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                    <div class="form-group">
+                        <label for="nombre">PATENTE DE SOCIEDAD</label>
+                        <input type="text" name="patente_sociedad" value="{{old('patente_sociedad')}}"
+                               class="form-control">
+                    </div>
+                </div>
+                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                    <div class="form-group">
+                        <label for="nombre">DIAS DE CREDITO</label>
+                        <input type="text" name="dias_credito" value="{{old('dias_credito')}}"
+                               class="form-control">
+                    </div>
+                </div>
+                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                    <div class="form-group">
+                        <label for="nombre">MONTO DE CREDITO</label>
+                        <input type="text" name="monto_credito" value="{{old('monto_credito')}}"
+                               class="form-control">
+                    </div>
+                </div>
+
+        </div>
+        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+
+            <div class="page-header" >
+                <h2>
+                    <small>&nbsp;&nbsp; INFORMACIÓN BÁSICA DE CALIDAD </small>
+                </h2>
             </div>
-            <!-- /.modal-dialog -->
+                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="programa_bpm_implementado" value="1"
+                               name="programa_bpm_implementado">
+                        <label class="custom-control-label" for="programa_bpm_implementado">¿Cuenta con Programa de BPM
+                            implementadas, documentadas y evaluadas?</label>
+                    </div>
+                </div>
+
+                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" value="1" class="custom-control-input" id="otros_programas" name="otros_programas">
+                        <label class="custom-control-label" for="otros_programas">¿Cuenta con otros Programas
+                            Prerrequisito implementados, documentados y evaluados?</label>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox"  value="1" class="custom-control-input" id="sistema_haccp" name="sistema_haccp">
+                        <label class="custom-control-label" for="sistema_haccp">¿Cuenta con Sistema HACCP Iplementado,
+                            Documentado y evaluado?</label>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="programa_capacitacion" value="1"
+                               name="programa_capacitacion">
+                        <label class="custom-control-label" for="programa_capacitacion">¿Cuenta con un Programa de
+                            Capacitación implementado documentado y evaluado?</label>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="sistema_trazabilidad" value="1"
+                               name="sistema_trazabilidad">
+                        <label class="custom-control-label" for="sistema_trazabilidad">¿Cuenta con un Sistema de
+                            Trazabilidad implementado, documentado y evaluado?</label>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="sistema_calidad_auditado_intermamente" value="1"
+                               name="sistema_calidad_auditado_intermamente">
+                        <label class="custom-control-label" for="sistema_calidad_auditado_intermamente">¿Su Sistema de
+                            Calidad y/o sus componentes es auditado internamente?</label>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="sistema_calidad_auditado_por_terceros" value="1"
+                               name="sistema_calidad_auditado_por_terceros">
+                        <label class="custom-control-label" for="sistema_calidad_auditado_por_terceros">¿Su Sistema de
+                            Calidad y/o sus componentes es auditado por terceros?</label>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="certificaciones" value="1" name="certificaciones">
+                        <label class="custom-control-label" for="certificaciones">Certificaciones.</label>
+                    </div>
+                </div>
+        </div>
+        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                <div class="page-header" id="datos-reclamante">
+                    <h2>
+                        <small>&nbsp;&nbsp; REFERENCIAS COMERCIALES.</small>
+                    </h2>
+                </div>
+
+                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                    <div class="form-group">
+                        <label for="rc_empresa">EMPRESA</label>
+                        <input id="rc_empresa" type="text" name="rc_empresa" value="{{old('rc_empresa')}}"
+                               class="form-control">
+                    </div>
+                </div>
+                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                    <div class="form-group">
+                        <label for="rc_telefono">TELEFONO</label>
+                        <input id="rc_telefono" type="text" name="rc_telefono" value="{{old('rc_telefono')}}"
+                               class="form-control">
+                    </div>
+                </div>
+                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                    <div class="form-group">
+                        <label for="nombre">DIRECCION</label>
+                        <input id="rc_direccion" type="text" name="rc_direccion" value="{{old('rc_direccion')}}"
+                               class="form-control">
+                    </div>
+                </div>
+                <div class="col-lg-5 col-sm-5 col-md-5 col-xs-10">
+                    <div class="form-group">
+                        <label for="rc_contacto">CONTACTO</label>
+                        <input id="rc_contacto" type="text" name="rc_contacto" value="{{old('rc_contacto')}}"
+                               class="form-control">
+                    </div>
+                </div>
+                <div class="col-lg-1 col-sm-1 col-md-1 col-xs-2">
+                    <br>
+                    <div class="form-group">
+                        <button id="btnAddReferencias" class="btn btn-default block" style="margin-top: 5px;"
+                                type="button"><span class=" fa fa-plus"></span></button>
+                    </div>
+                </div>
+
+                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+
+                    <table id="detalle_referencias"
+                           class="table table-striped table-bordered table-condensed table-hover">
+
+                        <thead style="background-color: #01579B;  color: #fff;">
+                        <th>OPCION</th>
+                        <th>EMPRESA</th>
+                        <th>TELEFONO</th>
+                        <th>DIRECCION</th>
+                        <th>CONTACTO</th>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="observaciones">OBSERVACIONES</label>
+                        <input id="observaciones" type="text" name="observaciones" value="{{old('observaciones')}}"
+                               class="form-control">
+                    </div>
+                </div>
         </div>
 
+                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                    <div class="form-group">
+                        <button class="btn btn-default" type="submit">
+                            <span class=" fa fa-check"></span> GUARDAR
+                        </button>
+                        <a href="{{url('registro/proveedores')}}">
+                            <button class="btn btn-default" type="button">
+                                <span class="fa fa-remove"></span>
+                                CANCELAR
+                            </button>
+                        </a>
+
+                    </div>
+                </div>
+            {!!Form::close()!!}
+        </div>
+    </div>
+    <div class="modal fade" id="modal-default" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">x</span></button>
+                    <h4 class="modal-title">Advertencia</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Complete todo los campos...</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+@section('scripts')
+    <script>
+        $("#btnAddReferencias").click(function () {
+            addToTableComerciales();
+        });
+
+        function addToTableComerciales() {
+            if ($("#rc_empresa").val() != "" && $("#rc_telefono").val() != "" && $("#rc_direccion").val() != "" && $("#rc_contacto").val() != "") {
+                let empresa = $("#rc_empresa");
+                let telefono = $("#rc_telefono");
+                let direccion = $("#rc_direccion");
+                let contacto = $("#rc_contacto");
+
+                let row =
+                    `<tr>
+            <td><button onclick=removeFromTable(this) type="button" class="btn btn-warning">x</button></td>
+            <td><input type="hidden" value='${empresa.val()}' name=empresa[]>${empresa.val()}</td>
+            <td><input type="hidden" value='${telefono.val()}' name=telefono[]>${telefono.val()}</td>
+            <td ><input type="hidden" value ='${direccion.val()}'  name=direccion[] >${direccion.val()}</td>
+            <td ><input type="hidden" value ='${contacto.val()}'  name=contacto[] >${contacto.val()}</td>
+            </tr>`;
+
+                $("#detalle_referencias").append(row);
+                empresa.val('');
+                telefono.val('');
+                direccion.val('');
+                contacto.val('');
+            } else {
+                $('#modal-default').modal('show');
+                return false;
+            }
+        }
+
+        function removeFromTable(element) {
+
+            let td = $(element).parent();
+            td.parent().remove();
+
+            let tdNext = td.next();
+            let tdNextNext = tdNext.next();
+            addToSelect(tdNext);
+            addToTarea(tdNextNext);
+        }
+
+    </script>
+@endsection
 @endsection
