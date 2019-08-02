@@ -40,3 +40,5 @@ Route::get('roles/{id}','RoleController@show')->name('roles.show');
 Route::get('registro/proveedores','ProveedorController@index')->name('proveedores.index');
 Route::get('registro/proveedores/create','ProveedorController@create')->name('proveedores.create');
 Route::post('registro/proveedores/create','ProveedorController@store')->name('proveedores.store');
+Route::get('registro/proveedores/{id}/edit','ProveedorController@edit')->name('proveedores.edit');
+Route::patch('registro/proveedores/{id}','ProveedorController@update')->name('proveedores.update');
