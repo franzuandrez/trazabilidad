@@ -32,6 +32,11 @@
 
         </div>
     </div>
+    @component('componentes.alert-no-selecction')
+        @slot('mensaje')
+          SELECCIONE UN PROVEEDOR
+        @endslot
+    @endcomponent
     <div id="content">
         @include('registro.proveedores.index')
     </div>
@@ -42,4 +47,5 @@
 @endsection
 @section('scripts')
     <script src="{{asset('js/ajax-crud.js')}}"></script>
+    <script src="{{asset('js-brc/proveedores/index.js')}}"></script>
 @endsection
