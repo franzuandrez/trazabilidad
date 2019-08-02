@@ -3,10 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use LogsActivity;
+use Spatie\Activitylog\Traits\LogsActivity;
 class Proveedor extends Model
 {
     //
+    use LogsActivity;
 
     protected $table = 'proveedores';
     protected $primaryKey = 'id_proveedor';
