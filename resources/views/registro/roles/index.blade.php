@@ -63,7 +63,8 @@
                     'id'=>$rol->id,
                     'method'=>'RoleController@destroy',
                     'extras'=>$rol->descripcion,
-                    'description'=>$rol->name])
+                    'description'=>$rol->name,
+                    'url'=>url('roles')."/".$rol->id])
                     @endcomponent
                 @endforeach
 
