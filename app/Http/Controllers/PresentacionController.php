@@ -65,4 +65,43 @@ class PresentacionController extends Controller
 
 
     }
+
+    public function edit($id){
+
+
+        try{
+            $presentacion = Presentacion::findOrFail($id);
+
+            return view('registro.presentaciones.edit',compact('presentacion'));
+
+        }catch(\Exception $ex){
+
+            return redirect()->route('presentacion.index')
+                ->with('error','Presentacion no encontrada');
+
+        }
+
+
+
+    }
+
+    public function update(Request $request,$id){
+
+        try{
+
+            $presentacion = Presentacion::findOrFail($id);
+            $presentacion->codigo_barras = $request->get('codigo_barras');
+            $presentacion->descripcion = $request->get('descripcion');
+            $presentacion->update();
+
+            return redirect()->route('presentacion.index')
+                ->with('success','Presentacion actulizada correctamente');
+
+        }catch(\Exception $ex){
+
+            return redirect()->route('presentacion.index')
+                ->with('error','Presentacion no encontrada');
+        }
+
+    }
 }
