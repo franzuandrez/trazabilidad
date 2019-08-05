@@ -94,7 +94,8 @@
                                               'id'=>$user->id,
                                               'method'=>'UserController@destroy',
                                               'extras'=>'',
-                                              'description'=>$user->username])
+                                              'description'=>$user->username,
+                                              'url'=>url('users')."/".$user->id])
                         @endcomponent
                     </tr>
 
