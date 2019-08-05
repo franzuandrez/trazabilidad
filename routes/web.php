@@ -56,3 +56,5 @@ Route::post('registro/presentaciones/{id}','PresentacionController@destroy')->na
 
 
 Route::get('registro/dimensionales','DimensionalController@index')->name('dimensionales.index');
+Route::get('registro/dimensionales/create','DimensionalController@create')->name('dimensionales.create');
+Route::post('registro/dimensionales/create','DimensionalController@store')->name('dimensionales.store');

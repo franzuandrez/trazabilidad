@@ -44,4 +44,25 @@ class DimensionalController extends Controller
         }
 
     }
+
+
+    public function create(){
+
+
+        return view('registro.dimensionales.create');
+
+    }
+
+    public function store(Request $request){
+
+        $dimensional = new Dimensional();
+        $dimensional->descripcion = $request->get('descripcion');
+        $dimensional->unidad_medida=$request->get('unidad_medida');
+        $dimensional->factor = $request->get('factor');
+        $dimensional->save();
+
+        return redirect()->route('dimensionales.index')
+            ->with('success','Dimensional dada de alta correctamente');
+
+    }
 }
