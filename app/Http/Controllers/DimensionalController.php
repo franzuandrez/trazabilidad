@@ -122,4 +122,25 @@ class DimensionalController extends Controller
         }
 
     }
+
+    public function destroy($id){
+
+        try{
+
+            $dimensional = Dimensional::findOrFail($id);
+            $dimensional->estado = 0;
+            $dimensional->update();
+
+        }catch(\Exception $ex){
+
+            return response()->json(
+                ['error'=>'En este momento no es posible procesar su petición',
+                    'mensaje'=>$ex->getMessage()
+                ]
+            );
+
+        }
+
+
+    }
 }

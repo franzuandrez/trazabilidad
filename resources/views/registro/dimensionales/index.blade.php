@@ -67,7 +67,14 @@
                         </td>
 
                     </tr>
-
+                    @component('componentes.alert-delete',
+                                       ['model'=>'DIMENSIONAL',
+                                       'id'=>$dimensional->id_dimensional,
+                                       'method'=>'DimensionalController@destroy',
+                                       'extras'=>'',
+                                       'description'=>$dimensional->descripcion,
+                                       'url'=>url('registro/dimensionales/')."/".$dimensional->id_dimensional])
+                    @endcomponent
                 @endforeach
 
 
