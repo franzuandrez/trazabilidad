@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\CategoriaCliente;
 use Illuminate\Http\Request;
 
 class CategoriaClienteController extends Controller
@@ -18,10 +19,27 @@ class CategoriaClienteController extends Controller
 
         $search = $request->get('search') == null ? '' : $request->get('search');
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
-        $sortField = $request->get('field') == null ? 'descripcion' : $request->get('field');
+        $sortField = $request->get('field') == null ? 'id_categoria' : $request->get('field');
+
+        $categorias = CategoriaCliente::actived()
+            ->where(function($query) use ($search){
+
+                $query->where('categoria_clientes.descripcion','LIKE','%'.$search.'%');
+
+            })
+            ->orderBy($sortField,$sort)
+            ->paginate(20);
 
 
-        return view('registro.categoria_clientes.ajax');
+        if($request->ajax()){
+            return view('registro.categoria_clientes.index',
+                compact('search','sort','sortField','categorias'));
+
+        }else{
+            return view('registro.categoria_clientes.ajax',
+                compact('search','sort','sortField','categorias'));
+        }
+
 
 
 
