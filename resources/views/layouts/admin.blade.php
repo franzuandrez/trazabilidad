@@ -63,6 +63,14 @@
                             </a>
 
                         </li>
+                        <li>
+
+                            <a href="{{url('registro/clientes')}}">
+                                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                Clientes
+                            </a>
+
+                        </li>
                     </ul>
 
                 </li>

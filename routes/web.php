@@ -71,3 +71,7 @@ Route::get('registro/categoria_clientes/{id}/edit','CategoriaClienteController@e
 Route::patch('registro/categoria_clientes/{id}','CategoriaClienteController@update')->name('categoria_clientes.update');
 Route::get('registro/categoria_clientes/{id}','CategoriaClienteController@show')->name('categoria_clientes.show');
 Route::post('registro/categoria_clientes/{id}','CategoriaClienteController@destroy')->name('categoria_clientes.destroy');
+
+
+
+Route::get('registro/clientes','ClienteController@index')->name('clientes.index');
