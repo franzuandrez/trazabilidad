@@ -37,6 +37,15 @@
                             </a>
 
                         </li>
+
+                        <li>
+
+                            <a href="{{url('registro/presentaciones')}}">
+                                <i class="fa fa-th-large"></i>
+                                Presentaciones
+                            </a>
+
+                        </li>
                     </ul>
 
                 </li>

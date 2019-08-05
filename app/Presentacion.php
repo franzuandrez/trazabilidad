@@ -29,7 +29,7 @@ class Presentacion extends Model
 
     protected static $logOnlyDirty = true;
 
-    protected function scopeActived($query){
+    public function scopeActived($query){
 
         return $query->where('presentaciones.estado',1);
     }
