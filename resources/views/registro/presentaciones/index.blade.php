@@ -50,6 +50,13 @@
                         <td>
                             {{$presentacion->descripcion}}
                         </td>
+                        <td>
+                            @if($presentacion->estado == 1)
+                            <span class="label label-success">Activo</span>
+                            @else
+                                <span class="label label-danger">De baja</span>
+                            @endif
+                        </td>
 
                     </tr>
                 @endforeach
