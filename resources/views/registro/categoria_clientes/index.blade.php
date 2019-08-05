@@ -57,6 +57,14 @@
                             @endif
                         </td>
                     </tr>
+                    @component('componentes.alert-delete',
+                                      ['model'=>'CATEGORIA CLIENTE',
+                                      'id'=>$categoria->id_categoria,
+                                      'method'=>'CategoriaClienteController@destroy',
+                                      'extras'=>'',
+                                      'description'=>$categoria->descripcion,
+                                      'url'=>url('registro/categoria_clientes/')."/".$categoria->id_categoria])
+                    @endcomponent
                 @endforeach
 
 

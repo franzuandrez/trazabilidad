@@ -16,46 +16,46 @@ class CategoriaClienteController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(Request $request){
+    public function index(Request $request)
+    {
 
         $search = $request->get('search') == null ? '' : $request->get('search');
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
         $sortField = $request->get('field') == null ? 'id_categoria' : $request->get('field');
 
         $categorias = CategoriaCliente::actived()
-            ->where(function($query) use ($search){
+            ->where(function ($query) use ($search) {
 
-                $query->where('categoria_clientes.descripcion','LIKE','%'.$search.'%');
+                $query->orwhere('categoria_clientes.descripcion', 'LIKE', '%' . $search . '%');
 
             })
-            ->orderBy($sortField,$sort)
+            ->orderBy($sortField, $sort)
             ->paginate(20);
 
 
-        if($request->ajax()){
+        if ($request->ajax()) {
             return view('registro.categoria_clientes.index',
-                compact('search','sort','sortField','categorias'));
+                compact('search', 'sort', 'sortField', 'categorias'));
 
-        }else{
+        } else {
             return view('registro.categoria_clientes.ajax',
-                compact('search','sort','sortField','categorias'));
+                compact('search', 'sort', 'sortField', 'categorias'));
         }
 
 
-
-
-
     }
 
-    public function create(){
+    public function create()
+    {
 
         $tipos_documentos = TipoDocumento::all();
 
-        return view('registro.categoria_clientes.create',compact('tipos_documentos'));
+        return view('registro.categoria_clientes.create', compact('tipos_documentos'));
 
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
 
         $categoria = new CategoriaCliente();
         $categoria->descripcion = $request->get('descripcion');
@@ -64,32 +64,34 @@ class CategoriaClienteController extends Controller
         $categoria->save();
 
         return redirect()->route('categoria_clientes.index')
-            ->with('success','Categoria dada de alta correctamente');
+            ->with('success', 'Categoria dada de alta correctamente');
 
 
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
 
-        try{
+        try {
 
             $categoria = CategoriaCliente::findOrFail($id);
             $tipos_documentos = TipoDocumento::all();
 
-            return view('registro.categoria_clientes.edit',compact('categoria','tipos_documentos'));
+            return view('registro.categoria_clientes.edit', compact('categoria', 'tipos_documentos'));
 
-        }catch(\Exception $ex){
+        } catch (\Exception $ex) {
 
             return redirect()->route('categoria_clientes.index')
-                ->withErrors(['error'=>'No se ha encontrado dicha categoria']);
+                ->withErrors(['error' => 'No se ha encontrado dicha categoria']);
         }
 
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
 
 
-        try{
+        try {
             $categoria = CategoriaCliente::findOrFail($id);
             $categoria->descripcion = $request->get('descripcion');
             $categoria->tipo_documento = $request->get('tipo_documento');
@@ -97,36 +99,60 @@ class CategoriaClienteController extends Controller
             $categoria->update();
 
             return redirect()->route('categoria_clientes.index')
-                ->with('success','Categoria de cliente actualizada correctamente');
+                ->with('success', 'Categoria de cliente actualizada correctamente');
 
 
-        }catch(\Exception $ex){
+        } catch (\Exception $ex) {
 
             return redirect()->route('categoria_clientes.index')
-                ->withErrors(['error'=>'No se ha encontrado dicha categoria']);
+                ->withErrors(['error' => 'No se ha encontrado dicha categoria']);
 
         }
 
     }
 
-    public function show($id){
+    public function show($id)
+    {
 
-        try{
+        try {
 
             $categoria = CategoriaCliente::findOrFail($id);
             $tipos_documentos = TipoDocumento::all();
 
             return view('registro.categoria_clientes.show',
-                compact('categoria','tipos_documentos'));
+                compact('categoria', 'tipos_documentos'));
 
 
-        }catch (\Exception $ex){
+        } catch (\Exception $ex) {
 
             return redirect()->route('categoria_clientes.index')
-                ->withErrors(['error'=>'No se ha encontrado dicha categoria']);
+                ->withErrors(['error' => 'No se ha encontrado dicha categoria']);
         }
     }
 
+    public function destroy($id)
+    {
+
+        try {
+
+            $categoria = CategoriaCliente::findOrFail($id);
+            $categoria->estado = 0;
+            $categoria->update();
+
+            return response()->json(['success'=>'Presentación dada de baja exitosamente']);
+
+        } catch (\Exception $ex) {
+
+            return response()->json(
+                ['error' => 'En este momento no es posible procesar su petición',
+                    'mensaje' => $ex->getMessage()
+                ]
+            );
+
+        }
+
+
+    }
 
 
 }

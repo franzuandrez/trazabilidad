@@ -70,3 +70,4 @@ Route::post('registro/categoria_clientes/create','CategoriaClienteController@sto
 Route::get('registro/categoria_clientes/{id}/edit','CategoriaClienteController@edit')->name('categoria_clientes.edit');
 Route::patch('registro/categoria_clientes/{id}','CategoriaClienteController@update')->name('categoria_clientes.update');
 Route::get('registro/categoria_clientes/{id}','CategoriaClienteController@show')->name('categoria_clientes.show');
+Route::post('registro/categoria_clientes/{id}','CategoriaClienteController@destroy')->name('categoria_clientes.destroy');
