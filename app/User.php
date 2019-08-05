@@ -42,4 +42,9 @@ class User extends Authenticatable
         return $query->where('users.estado',1);
 
     }
+
+    public function log_actividades(){
+
+        return $this->hasMany('Spatie\Activitylog\Models\Activity','causer_id');
+    }
 }
