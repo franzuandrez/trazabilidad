@@ -109,6 +109,24 @@ class CategoriaClienteController extends Controller
 
     }
 
+    public function show($id){
+
+        try{
+
+            $categoria = CategoriaCliente::findOrFail($id);
+            $tipos_documentos = TipoDocumento::all();
+
+            return view('registro.categoria_clientes.show',
+                compact('categoria','tipos_documentos'));
+
+
+        }catch (\Exception $ex){
+
+            return redirect()->route('categoria_clientes.index')
+                ->withErrors(['error'=>'No se ha encontrado dicha categoria']);
+        }
+    }
+
 
 
 }
