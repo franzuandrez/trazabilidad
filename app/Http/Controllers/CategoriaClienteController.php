@@ -46,4 +46,27 @@ class CategoriaClienteController extends Controller
 
     }
 
+    public function create(){
+
+
+        return view('registro.categoria_clientes.create');
+
+    }
+
+    public function store(Request $request){
+
+        $categoria = new CategoriaCliente();
+        $categoria->descripcion = $request->get('descripcion');
+        $categoria->tipo_documento = $request->get('tipo_documento');
+        $categoria->impresion_recibo = $request->get('impresion_recibo');
+        $categoria->save();
+
+        return redirect()->route('categoria_clientes.index')
+            ->with('success','Categoria dada de alta correctamente');
+
+
+    }
+
+
+
 }
