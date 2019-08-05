@@ -120,4 +120,24 @@ class PresentacionController extends Controller
 
         }
     }
+
+    public function destroy($id){
+
+        try{
+            $presentacion = Presentacion::findOrFail($id);
+            $presentacion->estado = 0;
+            $presentacion->update();
+
+            return response()->json(['success'=>'Presentación dada de baja exitosamente']);
+        }catch(\Exception $ex){
+
+            return response()->json(
+                ['error'=>'En este momento no es posible procesar su petición',
+                    'mensaje'=>$ex->getMessage()
+                ]
+            );
+
+        }
+
+    }
 }

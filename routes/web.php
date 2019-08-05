@@ -52,3 +52,4 @@ Route::post('registro/presentaciones/create','PresentacionController@store')->na
 Route::get('registro/presentaciones/{id}/edit','PresentacionController@edit')->name('presentacion.edit');
 Route::patch('registro/presentaciones/{id}','PresentacionController@update')->name('presentacion.update');
 Route::get('registro/presentaciones/{id}','PresentacionController@show')->name('presentacion.show');
+Route::post('registro/presentaciones/{id}','PresentacionController@destroy')->name('presentacion.destroy');

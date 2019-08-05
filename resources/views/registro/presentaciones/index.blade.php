@@ -59,6 +59,15 @@
                         </td>
 
                     </tr>
+
+                    @component('componentes.alert-delete',
+                     ['model'=>'PRESENTACION',
+                     'id'=>$presentacion->id_presentacion,
+                     'method'=>'PresentacionController@destroy',
+                     'extras'=>'',
+                     'description'=>$presentacion->descripcion,
+                     'url'=>url('registro/presentaciones/')."/".$presentacion->id_presentacion])
+                    @endcomponent
                 @endforeach
 
 
