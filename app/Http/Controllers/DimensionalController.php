@@ -65,4 +65,44 @@ class DimensionalController extends Controller
             ->with('success','Dimensional dada de alta correctamente');
 
     }
+
+    public function edit($id){
+
+        try{
+
+            $dimensional = Dimensional::findOrFail($id);
+
+            return view('registro.dimensionales.edit',compact('dimensional'));
+
+
+        }catch(\Exception $ex){
+
+            return redirect()->route('dimensionales.index')
+                ->with('error','Dimensional no encontrada');
+        }
+    }
+
+    public function update(Request $request, $id){
+
+        try{
+
+            $dimensional = Dimensional::findOrFail($id);
+            $dimensional->descripcion = $request->get('descripcion');
+            $dimensional->unidad_medida = $request->get('unidad_medida');
+            $dimensional->factor = $request->get('factor');
+            $dimensional->update();
+
+
+            return redirect()->route('dimensionales.index')
+                ->with('success','Dimensional actualizada correctamente');
+
+
+
+        }catch(\Exception $ex){
+
+            return redirect()->route('dimensionales.index')
+                ->with('error','Dimensional no encontrada');
+        }
+
+    }
 }
