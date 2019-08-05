@@ -74,14 +74,37 @@ class CategoriaClienteController extends Controller
         try{
 
             $categoria = CategoriaCliente::findOrFail($id);
+            $tipos_documentos = TipoDocumento::all();
 
-
-            return view('registro.categoria_clientes.edit',compact('categoria'));
+            return view('registro.categoria_clientes.edit',compact('categoria','tipos_documentos'));
 
         }catch(\Exception $ex){
 
             return redirect()->route('categoria_clientes.index')
                 ->withErrors(['error'=>'No se ha encontrado dicha categoria']);
+        }
+
+    }
+
+    public function update(Request $request, $id){
+
+
+        try{
+            $categoria = CategoriaCliente::findOrFail($id);
+            $categoria->descripcion = $request->get('descripcion');
+            $categoria->tipo_documento = $request->get('tipo_documento');
+            $categoria->impresion_recibo = $request->get('impresion_recibo');
+            $categoria->update();
+
+            return redirect()->route('categoria_clientes.index')
+                ->with('success','Categoria de cliente actualizada correctamente');
+
+
+        }catch(\Exception $ex){
+
+            return redirect()->route('categoria_clientes.index')
+                ->withErrors(['error'=>'No se ha encontrado dicha categoria']);
+
         }
 
     }

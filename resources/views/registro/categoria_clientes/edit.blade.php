@@ -32,8 +32,15 @@
             <label for="tipo_documento">TIPO DOCUMENTO</label>
             <select name="tipo_documento" class="form-control selectpicker">
 
-                <option value="FACC">FACTURA CAMBIARIA</option>
-                <option value="FAC">FACTURA </option>
+                @foreach($tipos_documentos as $tipo )
+
+                    @if($tipo->codigo == $categoria->tipo_documento)
+                        <option selected value="{{$tipo->codigo}}">{{$tipo->descripcion}} </option>
+                    @else
+                        <option value="{{$tipo->codigo}}">{{$tipo->descripcion}} </option>
+                    @endif
+                @endforeach
+
             </select>
         </div>
     </div>
@@ -41,8 +48,13 @@
         <div class="form-group">
             <label for="impresion_recibo">IMPRESION RECIBO</label>
             <select name="impresion_recibo" class="form-control selectpicker">
-                <option value="1">SI</option>
-                <option value="0">NO</option>
+                @if($categoria->impresion_recibo == 1)
+                    <option selected value="1">SI</option>
+                    <option  value="0">NO</option>
+                @else
+                    <option  value="1">SI</option>
+                    <option selected value="0">NO</option>
+                @endif
             </select>
         </div>
     </div>
