@@ -10,7 +10,7 @@
             Registro
         @endslot
         @slot('submenu')
-            Dimensionales
+            Categoria Clientes
         @endslot
     @endcomponent
 
