@@ -60,3 +60,4 @@ Route::get('registro/dimensionales/create','DimensionalController@create')->name
 Route::post('registro/dimensionales/create','DimensionalController@store')->name('dimensionales.store');
 Route::get('registro/dimensionales/{id}/edit','DimensionalController@edit')->name('dimensionales.edit');
 Route::patch('registro/dimensionales/{id}','DimensionalController@update')->name('dimensionales.update');
+Route::get('registro/dimensionales/{id}','DimensionalController@show')->name('dimensionales.show');

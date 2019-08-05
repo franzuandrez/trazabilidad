@@ -105,4 +105,21 @@ class DimensionalController extends Controller
         }
 
     }
+
+    public function show($id){
+
+        try{
+
+            $dimensional = Dimensional::findOrFail($id);
+
+            return view('registro.dimensionales.show',compact('dimensional'));
+
+
+        }catch(\Exception $ex){
+
+            return redirect()->route('dimensionales.index')
+                ->with('error','Dimensional no encontrada');
+        }
+
+    }
 }
