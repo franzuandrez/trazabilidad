@@ -104,4 +104,20 @@ class PresentacionController extends Controller
         }
 
     }
+
+
+    public function show($id){
+
+        try{
+            $presentacion = Presentacion::findOrFail($id);
+
+            return view('registro.presentaciones.show',compact('presentacion'));
+
+        }catch(\Exception $ex){
+
+            return redirect()->route('presentacion.index')
+                ->with('error','Presentación no encontrada');
+
+        }
+    }
 }
