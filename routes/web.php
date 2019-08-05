@@ -53,3 +53,6 @@ Route::get('registro/presentaciones/{id}/edit','PresentacionController@edit')->n
 Route::patch('registro/presentaciones/{id}','PresentacionController@update')->name('presentacion.update');
 Route::get('registro/presentaciones/{id}','PresentacionController@show')->name('presentacion.show');
 Route::post('registro/presentaciones/{id}','PresentacionController@destroy')->name('presentacion.destroy');
+
+
+Route::get('registro/dimensionales','DimensionalController@index')->name('dimensionales.index');

@@ -46,6 +46,15 @@
                             </a>
 
                         </li>
+
+                        <li>
+
+                            <a href="{{url('registro/dimensionales')}}">
+                                <i class="fa fa-cubes" ></i>
+                                Dimensionales
+                            </a>
+
+                        </li>
                     </ul>
 
                 </li>
