@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use function foo\func;
+
 use Illuminate\Auth\Passwords\PasswordResetServiceProvider;
 use Illuminate\Http\Request;
 use App\Presentacion;
-
+use Illuminate\Support\Facades\Auth;
 class PresentacionController extends Controller
 {
     //
@@ -42,5 +42,27 @@ class PresentacionController extends Controller
             return view('registro.presentaciones.ajax',
                 compact('presentaciones','sort','sortField','search'));
         }
+    }
+
+
+    public function create(){
+
+        return view('registro.presentaciones.create');
+    }
+
+    public function store(Request $request){
+
+
+        $presentacion = new Presentacion();
+        $presentacion->codigo_barras = $request->get('codigo_barras');
+        $presentacion->descripcion = $request->get('descripcion');
+        $presentacion->creado_por = Auth::user()->id;
+        $presentacion->save();
+
+
+        return redirect()->route('presentacion.index')
+            ->with('success','Presentacion creada correctamente');
+
+
     }
 }

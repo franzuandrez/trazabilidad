@@ -47,3 +47,5 @@ Route::post('registro/proveedores/{id}','ProveedorController@destroy')->name('pr
 
 
 Route::get('registro/presentaciones','PresentacionController@index')->name('presentacion.index');
+Route::get('registro/presentaciones/create','PresentacionController@create')->name('presentacion.create');
+Route::post('registro/presentaciones/create','PresentacionController@store')->name('presentacion.store');
