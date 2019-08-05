@@ -30,8 +30,10 @@
         <div class="form-group">
             <label for="tipo_documento">TIPO DOCUMENTO</label>
             <select name="tipo_documento" class="form-control selectpicker">
-                <option value="FACC">FACTURA CAMBIARIA</option>
-                <option value="FAC">FACTURA </option>
+
+                @foreach($tipos_documentos as $tipo )
+                    <option value="{{$tipo->codigo}}" > {{$tipo->descripcion}}</option>
+                @endforeach
             </select>
         </div>
     </div>

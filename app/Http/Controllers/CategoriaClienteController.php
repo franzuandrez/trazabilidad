@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\CategoriaCliente;
+use App\TipoDocumento;
 use Illuminate\Http\Request;
 
 class CategoriaClienteController extends Controller
@@ -48,8 +49,9 @@ class CategoriaClienteController extends Controller
 
     public function create(){
 
+        $tipos_documentos = TipoDocumento::all();
 
-        return view('registro.categoria_clientes.create');
+        return view('registro.categoria_clientes.create',compact('tipos_documentos'));
 
     }
 
