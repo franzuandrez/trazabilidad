@@ -55,6 +55,14 @@
                             </a>
 
                         </li>
+                        <li>
+
+                            <a href="{{url('registro/categoria_clientes')}}">
+                                <i class="fa fa-list-ol"></i>
+                                Categoria de  Clientes
+                            </a>
+
+                        </li>
                     </ul>
 
                 </li>

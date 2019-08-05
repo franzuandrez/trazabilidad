@@ -62,3 +62,6 @@ Route::get('registro/dimensionales/{id}/edit','DimensionalController@edit')->nam
 Route::patch('registro/dimensionales/{id}','DimensionalController@update')->name('dimensionales.update');
 Route::get('registro/dimensionales/{id}','DimensionalController@show')->name('dimensionales.show');
 Route::post('registro/dimensionales/{id}','DimensionalController@destroy')->name('dimensionales.destroy');
+
+
+Route::get('registro/categoria_clientes','CategoriaClienteController@index')->name('categoria_clientes.index');
