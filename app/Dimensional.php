@@ -10,6 +10,7 @@ class Dimensional extends Model
     use LogsActivity;
     protected $table = 'dimensionales';
     protected $primaryKey = 'id_dimensional';
+    public $timestamps = false;
 
     protected $fillable = [
         'descripcion',
