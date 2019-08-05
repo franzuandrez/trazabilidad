@@ -67,3 +67,5 @@ Route::post('registro/dimensionales/{id}','DimensionalController@destroy')->name
 Route::get('registro/categoria_clientes','CategoriaClienteController@index')->name('categoria_clientes.index');
 Route::get('registro/categoria_clientes/create','CategoriaClienteController@create')->name('categoria_clientes.create');
 Route::post('registro/categoria_clientes/create','CategoriaClienteController@store')->name('categoria_clientes.store');
+Route::get('registro/categoria_clientes/{id}/edit','CategoriaClienteController@edit')->name('categoria_clientes.edit');
+Route::patch('registro/categoria_clientes/{id}','CategoriaClienteController@update')->name('categoria_clientes.update');

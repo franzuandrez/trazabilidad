@@ -67,6 +67,23 @@ class CategoriaClienteController extends Controller
 
     }
 
+    public function edit($id){
+
+        try{
+
+            $categoria = CategoriaCliente::findOrFail($id);
+
+
+            return view('registro.categoria_clientes.edit',compact('categoria'));
+
+        }catch(\Exception $ex){
+
+            return redirect()->route('categoria_clientes.index')
+                ->withErrors(['error'=>'No se ha encontrado dicha categoria']);
+        }
+
+    }
+
 
 
 }
