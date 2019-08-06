@@ -28,9 +28,6 @@
             @endcomponent
             @component('componentes.btn-ver',['url'=>'javascript:ver()'])
             @endcomponent
-            @component('componentes.btn-eliminar',['url'=>'javascript:eliminar()'])
-            @endcomponent
-
 
         </div>
     </div>
