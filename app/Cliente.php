@@ -11,7 +11,7 @@ class Cliente extends Model
     use LogsActivity;
 
     protected $table = 'clientes';
-    protected $primaryKey = 'id_categoria';
+    protected $primaryKey = 'id_cliente';
     public $timestamps = false;
     protected $fillable = [
         'razon_social',
