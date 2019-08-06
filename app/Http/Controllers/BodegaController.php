@@ -76,4 +76,47 @@ class BodegaController extends Controller
 
 
     }
+
+    public function edit($id){
+
+        try{
+
+            $bodega = Bodega::findOrFail($id);
+            $encargados = User::actived()->get();
+            $localidades = Localidad::actived()->get();
+            return view('registro.bodegas.edit',compact('encargados','localidades','bodega'));
+
+        }catch(\Exception $ex){
+
+            return redirect()->route('bodegas.index')
+                ->withErrors(['error'=>'Bodega no encontrada']);
+
+        }
+    }
+
+    public function update(Request $request,$id ){
+
+        try{
+
+            $bodega = Bodega::findOrFail($id);
+            $bodega->codigo_barras = $request->get('codigo_barras');
+            $bodega->descripcion = $request->get('descripcion');
+            $bodega->telefono = $request->get('telefono');
+            $bodega->largo = $request->get('largo');
+            $bodega->ancho = $request->get('ancho');
+            $bodega->alto = $request->get('alto');
+            $bodega->id_encargado = $request->get('id_encargado');
+            $bodega->id_localidad = $request->get('id_localidad');
+            $bodega->update();
+
+            return redirect()->route('bodegas.index')
+                ->with('success','Bodega actualizada correctamente');
+
+        }catch(\Exception $ex){
+
+            return redirect()->route('bodegas.index')
+                ->withErrors(['error'=>'Bodega no encontrada']);
+
+        }
+    }
 }
