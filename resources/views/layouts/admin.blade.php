@@ -85,6 +85,18 @@
             </ul>
             <ul class="nav navbar-nav">
                 <li class="dropdown">
+                    <a href="#" data-toggle="dropdown" style="background-color: #01579B;  color: #fff;">Control Chaomin<b
+                            class="caret"></b></a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="#" data-toggle="dropdown" style="background-color: #01579B;  color: #fff;">Control Sopas<b
+                            class="caret"></b></a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
                     <a href="#" data-toggle="dropdown" style="background-color: #01579B;  color: #fff;">Usuarios<b
                                 class="caret"></b></a>
 
