@@ -79,6 +79,12 @@
                             </a>
 
                         </li>
+                        <li>
+                            <a href="{{url('registro/bodegas')}}">
+                                <i class="fa fa-building-o" aria-hidden="true"></i>
+                                Bodegas
+                            </a>
+                        </li>
                     </ul>
 
                 </li>

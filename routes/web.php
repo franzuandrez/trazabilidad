@@ -89,3 +89,6 @@ Route::get('registro/localidades/{id}/edit','LocalidadController@edit')->name('l
 Route::patch('registro/localidades/{id}','LocalidadController@update')->name('localidades.update');
 Route::get('registro/localidades/{id}','LocalidadController@show')->name('localidades.show');
 Route::post('registro/localidades/{id}','LocalidadController@destroy')->name('localidades.destroy');
+
+
+Route::get('registro/bodegas','BodegaController@index')->name('bodegas.index');
