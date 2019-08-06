@@ -12,7 +12,7 @@ class Cliente extends Model
 
     protected $table = 'clientes';
     protected $primaryKey = 'id_categoria';
-
+    public $timestamps = false;
     protected $fillable = [
         'razon_social',
         'nit',
