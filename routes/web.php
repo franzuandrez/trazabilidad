@@ -77,3 +77,5 @@ Route::post('registro/categoria_clientes/{id}','CategoriaClienteController@destr
 Route::get('registro/clientes','ClienteController@index')->name('clientes.index');
 Route::get('registro/clientes/create','ClienteController@create')->name('clientes.create');
 Route::post('registro/clientes/create','ClienteController@store')->name('clientes.store');
+Route::get('registro/clientes/{id}/edit','ClienteController@edit')->name('clientes.edit');
+Route::patch('registro/clientes/{id}','ClienteController@update')->name('clientes.update');
