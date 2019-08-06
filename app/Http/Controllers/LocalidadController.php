@@ -108,4 +108,19 @@ class LocalidadController extends Controller
         }
 
     }
+
+    public function show($id){
+        try{
+
+            $localidad = Localidad::findOrFail($id);
+            $encargados = User::actived()->get();
+
+            return view('registro.localidades.show',compact('localidad','encargados'));
+
+        }catch (\Exception $ex){
+
+            return redirect()->route('localidades.index')
+                ->withErrors(['error'=>'Localidad no encontrada']);
+        }
+    }
 }
