@@ -123,4 +123,25 @@ class LocalidadController extends Controller
                 ->withErrors(['error'=>'Localidad no encontrada']);
         }
     }
+
+    public function destroy($id){
+
+        try{
+
+            $localidad = Localidad::findOrFail($id);
+            $localidad->estado = 0;
+            $localidad->update();
+
+            return response()->json(['success'=>'Localidad dada de baja exitosamente']);
+
+        }catch (\Exception $ex){
+
+            return response()->json(
+                ['error'=>'En este momento no es posible procesar su petición',
+                    'mensaje'=>$ex->getMessage()
+                ]
+            );
+
+        }
+    }
 }

@@ -77,6 +77,15 @@
                             @endif
                         </td>
                     </tr>
+
+                    @component('componentes.alert-delete',
+                   ['model'=>'LOCALIDAD',
+                   'id'=>$localidad->id_localidad,
+                   'method'=>'LocalidadController@destroy',
+                   'extras'=>'',
+                   'description'=>$localidad->descripcion,
+                   'url'=>url('registro/localidades/')."/".$localidad->id_localidad])
+                    @endcomponent
                 @endforeach
                 </tbody>
             </table>
