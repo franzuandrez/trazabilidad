@@ -80,3 +80,6 @@ Route::post('registro/clientes/create','ClienteController@store')->name('cliente
 Route::get('registro/clientes/{id}/edit','ClienteController@edit')->name('clientes.edit');
 Route::patch('registro/clientes/{id}','ClienteController@update')->name('clientes.update');
 Route::get('registro/clientes/{id}','ClienteController@show')->name('clientes.show');
+
+
+Route::get('registro/localidades','LocalidadController@index')->name('localidades.index');

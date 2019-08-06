@@ -71,6 +71,14 @@
                             </a>
 
                         </li>
+                        <li>
+
+                            <a href="{{url('registro/localidades')}}">
+                                <i class="fa fa-building" aria-hidden="true"></i>
+                                Localidades
+                            </a>
+
+                        </li>
                     </ul>
 
                 </li>
