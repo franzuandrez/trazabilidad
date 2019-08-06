@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Bodega;
+use App\Localidad;
+use App\User;
 use Illuminate\Http\Request;
 
 class BodegaController extends Controller
@@ -43,6 +45,34 @@ class BodegaController extends Controller
 
         }
 
+
+
+    }
+
+    public function create(){
+
+
+        $encargados = User::actived()->get();
+        $localidades = Localidad::actived()->get();
+
+        return view('registro.bodegas.create',compact('encargados','localidades'));
+    }
+
+    public function store(Request $request){
+
+        $bodega = new Bodega();
+        $bodega->codigo_barras = $request->get('codigo_barras');
+        $bodega->descripcion = $request->get('descripcion');
+        $bodega->telefono = $request->get('telefono');
+        $bodega->largo = $request->get('largo');
+        $bodega->alto = $request->get('alto');
+        $bodega->ancho = $request->get('ancho');
+        $bodega->id_encargado = $request->get('id_encargado');
+        $bodega->id_localidad = $request->get('id_localidad');
+        $bodega->save();
+
+        return redirect()->route('bodegas.index')
+            ->with('success','Bodega dada de alta correctamente');
 
 
     }
