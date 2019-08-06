@@ -119,4 +119,21 @@ class BodegaController extends Controller
 
         }
     }
+
+    public function show($id){
+
+        try{
+
+            $bodega = Bodega::findOrFail($id);
+            $encargados = User::actived()->get();
+            $localidades = Localidad::actived()->get();
+            return view('registro.bodegas.show',compact('encargados','localidades','bodega'));
+
+        }catch(\Exception $ex){
+
+            return redirect()->route('bodegas.index')
+                ->withErrors(['error'=>'Bodega no encontrada']);
+
+        }
+    }
 }

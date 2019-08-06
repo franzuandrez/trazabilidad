@@ -96,3 +96,4 @@ Route::get('registro/bodegas/create','BodegaController@create')->name('bodegas.c
 Route::post('registro/bodegas/create','BodegaController@store')->name('bodegas.store');
 Route::get('registro/bodegas/{id}/edit','BodegaController@edit')->name('bodegas.edit');
 Route::patch('registro/bodegas/{id}','BodegaController@update')->name('bodegas.update');
+Route::get('registro/bodegas/{id}','BodegaController@show')->name('bodegas.show');
