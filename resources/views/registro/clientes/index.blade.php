@@ -33,14 +33,7 @@
                           'titulo'=>'direccion'])
                     @endcomponent
                 </th>
-                <th>
-                    @component('componentes.column-sort',['modulo'=>'registro/clientes',
-                         'sort'=>$sort,
-                         'sortField'=>$sortField,
-                         'field'=>'estado',
-                         'titulo'=>'estado'])
-                    @endcomponent
-                </th>
+
                 </thead>
                 <tbody>
                 @foreach($clientes as $cliente)
@@ -57,13 +50,6 @@
                         </td>
                         <td>
                             {{$cliente->direccion}}
-                        </td>
-                        <td>
-                            @if($cliente->estado == 1)
-                                <span class="label label-success">Activo</span>
-                            @else
-                                <span class="label label-danger">De baja</span>
-                            @endif
                         </td>
 
                     </tr>
