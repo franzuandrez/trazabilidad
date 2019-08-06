@@ -54,7 +54,7 @@
                 @foreach($localidades as $localidad)
                     <tr>
                         <td>
-                            <input type="radio" name="id_presentacion" value="{{$presentacion->id_presentacion}}">
+                            <input type="radio" name="id_localidad" value="{{$localidad->id_localidad}}">
 
                         </td>
                         <td>
