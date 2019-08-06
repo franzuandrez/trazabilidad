@@ -36,7 +36,7 @@ class User extends Authenticatable
     ];
     protected static $logOnlyDirty = true;
 
-    public function scopeActive($query){
+    public function scopeActived($query){
 
 
         return $query->where('users.estado',1);

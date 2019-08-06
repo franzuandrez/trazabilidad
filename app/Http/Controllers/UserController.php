@@ -34,7 +34,7 @@ class UserController extends Controller
         $users = User::join('model_has_roles','model_has_roles.model_id','=','users.id')
             ->join('roles','roles.id','=','model_has_roles.role_id')
             ->select('users.*','roles.name as rol')
-            ->active()
+            ->actived()
             ->where('email','LIKE','%'.$search.'%')
             ->orwhere('nombre','LIKE','%'.$search.'%')
             ->orwhere('username','LIKE','%'.$search.'%')
