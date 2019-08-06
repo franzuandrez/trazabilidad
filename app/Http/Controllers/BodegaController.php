@@ -136,4 +136,26 @@ class BodegaController extends Controller
 
         }
     }
+
+    public function destroy($id){
+
+
+        try{
+
+            $bodega = Bodega::findOrFail($id);
+            $bodega->estado = 0;
+            $bodega->update();
+
+            return response()->json(['success'=>'Bodega dada de baja exitosamente']);
+
+        }catch(\Exception $ex){
+
+            return response()->json(
+                ['error'=>'En este momento no es posible procesar su petición',
+                    'mensaje'=>$ex->getMessage()
+                ]
+            );
+
+        }
+    }
 }
