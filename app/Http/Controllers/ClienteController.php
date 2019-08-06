@@ -143,6 +143,22 @@ class ClienteController extends Controller
 
     }
 
+    public function show($id){
+
+        try {
+
+            $cliente = Cliente::findOrFail($id);
+            $categorias = CategoriaCliente::actived()->get();
+
+            return view('registro.clientes.show', compact('categorias', 'cliente'));
+
+        } catch (\Exception $ex) {
+
+            return redirect()->route('clientes.index')
+                ->withErrors(['error' => 'Cliente no encontrado']);
+        }
+    }
+
     private function getValueCheched($value)
     {
 
