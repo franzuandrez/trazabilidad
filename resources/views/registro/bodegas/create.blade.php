@@ -4,13 +4,13 @@
 
     @component('componentes.nav',['operation'=>'Crear',
     'menu_icon'=>'fa-file-text',
-    'submenu_icon'=>'fa fa-building',
+    'submenu_icon'=>'fa fa-building-o',
     'operation_icon'=>'fa-plus',])
         @slot('menu')
             Registro
         @endslot
         @slot('submenu')
-            Localidades
+            Bodegas
         @endslot
     @endcomponent
 
