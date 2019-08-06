@@ -85,6 +85,12 @@
                                 Bodegas
                             </a>
                         </li>
+                        <li>
+                            <a href="{{url('registro/sectores')}}">
+                                <i class="fa fa-square-o" aria-hidden="true"></i>
+                                Sectores
+                            </a>
+                        </li>
                     </ul>
 
                 </li>

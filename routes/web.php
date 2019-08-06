@@ -98,3 +98,6 @@ Route::get('registro/bodegas/{id}/edit','BodegaController@edit')->name('bodegas.
 Route::patch('registro/bodegas/{id}','BodegaController@update')->name('bodegas.update');
 Route::get('registro/bodegas/{id}','BodegaController@show')->name('bodegas.show');
 Route::post('registro/bodegas/{id}','BodegaController@destroy')->name('bodegas.destroy');
+
+
+Route::get('registro/sectores','SectorController@index')->name('sectores.index');
