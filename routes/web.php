@@ -83,3 +83,5 @@ Route::get('registro/clientes/{id}','ClienteController@show')->name('clientes.sh
 
 
 Route::get('registro/localidades','LocalidadController@index')->name('localidades.index');
+Route::get('registro/localidades/create','LocalidadController@create')->name('localidades.create');
+Route::post('registro/localidades/create','LocalidadController@store')->name('localidades.store');

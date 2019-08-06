@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Localidad;
+use App\User;
 use Illuminate\Http\Request;
 
 class LocalidadController extends Controller
@@ -22,7 +23,7 @@ class LocalidadController extends Controller
 
 
         $localidades = Localidad::join('users','users.id','=','localidades.id_encargado')
-            ->select('localidades.*','users.username as encargado')
+            ->select('localidades.*','users.nombre as encargado')
             ->actived()
             ->where(function ($query)use($search){
                 $query->where('codigo_barras','LIKE','%'.$search.'%')
@@ -42,6 +43,30 @@ class LocalidadController extends Controller
 
 
 
+
+    }
+
+    public function create(){
+
+        $encargados = User::actived()->get();
+
+
+        return view('registro.localidades.create',compact('encargados'));
+    }
+
+    public function store(Request $request){
+
+
+
+        $localidad = new Localidad();
+        $localidad->codigo_barras = $request->get('codigo_barras');
+        $localidad->descripcion = $request->get('descripcion');
+        $localidad->direccion = $request->get('direccion');
+        $localidad->id_encargado = $request->get('id_encargado');
+        $localidad->save();
+
+        return redirect()->route('localidades.index')
+            ->with('success','Localidad dada de alta correctamente');
 
     }
 }
