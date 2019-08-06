@@ -69,4 +69,43 @@ class LocalidadController extends Controller
             ->with('success','Localidad dada de alta correctamente');
 
     }
+
+    public function edit($id){
+
+        try{
+
+            $localidad = Localidad::findOrFail($id);
+            $encargados = User::actived()->get();
+
+            return view('registro.localidades.edit',compact('localidad','encargados'));
+
+        }catch (\Exception $ex){
+
+            return redirect()->route('localidades.index')
+                ->withErrors(['error'=>'Localidad no encontrada']);
+        }
+
+    }
+
+    public function update( Request $request ,$id){
+        try{
+
+            $localidad = Localidad::findOrFail($id);
+            $localidad->codigo_barras = $request->get('codigo_barras');
+            $localidad->descripcion = $request->get('descripcion');
+            $localidad->direccion = $request->get('direccion');
+            $localidad->id_encargado = $request->get('id_encargado');
+            $localidad->update();
+
+            return redirect()->route('localidades.index')
+            ->with('success','Localidad actualizada correctamente');
+
+
+        }catch (\Exception $ex){
+
+            return redirect()->route('localidades.index')
+                ->withErrors(['error'=>'Localidad no encontrada']);
+        }
+
+    }
 }
