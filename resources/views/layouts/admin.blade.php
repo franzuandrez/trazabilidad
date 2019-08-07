@@ -115,6 +115,12 @@
                                 Posiciones
                             </a>
                         </li>
+                        <li>
+                            <a href="{{url('registro/bines')}}">
+                                <i class="fa fa-inbox" aria-hidden="true"></i>
+                                Bines
+                            </a>
+                        </li>
                     </ul>
 
                 </li>

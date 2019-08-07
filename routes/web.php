@@ -150,6 +150,9 @@ Route::get('registro/posiciones/{id}','PosicionController@show')->name('posicion
 Route::post('registro/posiciones/{id}','PosicionController@destroy')->name('posiciones.destroy');
 
 
+Route::get('registro/bines','BinController@index')->name('bines.index');
+
+
 
 Route::get('control/chaomin','ChaomeanController@index')->name('chaomin.index');
 Route::get('control/chaomin/create','ChaomeanController@create')->name('chaomin.create');
