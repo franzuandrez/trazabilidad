@@ -61,4 +61,50 @@ class NivelController extends Controller
 
         return redirect()->route('niveles.index')->with('success','Nivel dado de alta correctamente');
     }
+
+    public function edit($id){
+
+        try{
+
+            $nivel = Nivel::findOrFail($id);
+
+            $pasillo = $nivel->rack->pasillo;
+            $sector = $pasillo->sector;
+            $bodega = $sector->bodega;
+            $localidad = $bodega->localidad;
+
+
+            $localidades = Localidad::actived()->get();
+
+
+            return view('registro.niveles.edit',
+                compact('pasillo','bodega','sector','nivel','localidades','localidad'));
+
+
+        }catch(\Exception $ex){
+
+
+        }
+    }
+
+    public function update( Request $request , $id) {
+        try{
+
+            $nivel = Nivel::findOrFail($id);
+            $nivel->codigo_barras = $request->get('codigo_barras');
+            $nivel->descripcion = $request->get('descripcion');
+            $nivel->id_rack = $request->get('id_rack');
+            $nivel->update();
+
+            return redirect()->route('niveles.index')
+                ->with('success','Nivel actualizado correctamente');
+
+        }catch(\Exception $ex){
+
+            return redirect()->route('niveles.index')
+                ->withErrors(['error'=>'Lo sentimos, no se ha podido completar su petición']);
+
+        }
+
+    }
 }
