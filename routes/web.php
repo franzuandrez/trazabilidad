@@ -132,4 +132,5 @@ Route::post('registro/racks/{id}','RackController@destroy')->name('racks.destroy
 
 
 Route::get('registro/niveles','NivelController@index')->name('niveles.index');
+Route::get('registro/niveles/create','NivelController@create')->name('niveles.create');
 

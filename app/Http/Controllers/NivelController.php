@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Nivel;
+use App\Localidad;
 use Illuminate\Http\Request;
 
 class NivelController extends Controller
@@ -41,5 +42,12 @@ class NivelController extends Controller
             return view('registro.niveles.ajax',compact('search','sort','sortField','niveles'));
 
         }
+    }
+
+    public function create(){
+
+        $localidades = Localidad::actived()->get();
+
+        return view('registro.niveles.create',compact('localidades'));
     }
 }
