@@ -83,7 +83,8 @@ class NivelController extends Controller
 
         }catch(\Exception $ex){
 
-
+            return redirect()->route('niveles.index')
+                ->withErrors(['error'=>'Nivel no encontrado']);
         }
     }
 
