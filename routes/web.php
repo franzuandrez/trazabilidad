@@ -162,6 +162,9 @@ Route::post('registro/bines/{id}','BinController@destroy')->name('bines.destroy'
 Route::get('registro/productos','ProductoController@index')->name('productos.index');
 Route::get('registro/productos/create','ProductoController@create')->name('productos.create');
 Route::post('registro/productos/create','ProductoController@store')->name('productos.store');
+Route::get('registro/productos/{id}/edit','ProductoController@edit')->name('productos.edit');
+Route::patch('registro/productos/{id}','ProductoController@update')->name('productos.update');
+
 
 
 
