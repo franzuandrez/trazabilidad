@@ -158,4 +158,13 @@ class BodegaController extends Controller
 
         }
     }
+
+    public function bodegas_by_localidad($localidad){
+
+        $bodegas = Localidad::findOrFail($localidad)->bodegas()->actived()->get();
+
+        return response()->json(['bodegas'=>$bodegas]);
+
+
+    }
 }
