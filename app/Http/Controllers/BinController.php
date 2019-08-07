@@ -120,4 +120,36 @@ class BinController extends Controller
 
 
     }
+
+    public function show($id){
+
+        try{
+
+            $bin = Bin::findOrFail($id);
+
+            $posicion = $bin->posicion;
+            $nivel = $posicion->nivel;
+            $rack = $nivel->rack;
+            $pasillo = $nivel->rack->pasillo;
+            $sector = $pasillo->sector;
+            $bodega = $sector->bodega;
+            $localidad = $bodega->localidad;
+
+
+            $localidades = Localidad::actived()->get();
+
+
+            return view('registro.bines.show',
+                compact('pasillo','bodega','sector',
+                    'nivel','localidades','localidad','posicion','rack','bin'));
+
+
+        }catch(\Exception $ex){
+
+            return redirect()->route('posiciones.index')
+                ->withErrors(['error'=>'Posicion no encontrada']);
+        }
+    }
+
+
 }
