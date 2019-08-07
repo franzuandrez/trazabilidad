@@ -51,4 +51,22 @@ class RackController extends Controller
 
         return view('registro.racks.create',compact('localidades'));
     }
+
+    public function store(Request $request){
+
+
+        $rack = new Rack();
+        $rack->codigo_barras = $request->get('codigo_barras');
+        $rack->descripcion = $request->get('descripcion');
+        $rack->id_pasillo = $request->get('id_pasillo');
+        $rack->lado = $request->get('lado');
+        $rack->save();
+
+        return redirect()
+            ->route('racks.index')
+            ->with('success','Rack dado de alta correctamente');
+
+
+
+    }
 }
