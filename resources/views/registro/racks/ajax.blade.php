@@ -37,7 +37,7 @@
         @endslot
     @endcomponent
     <div id="content">
-
+        @include('registro.racks.index')
     </div>
     <div class="loading">
         <i class="fa fa-refresh fa-spin "></i><br/>
