@@ -60,4 +60,26 @@ class ProductoController extends Controller
 
 
     }
+
+    public function store( Request $request ){
+
+        $producto = new Producto();
+        $producto->codigo_barras = $request->get('codigo_barras');
+        $producto->codigo_interno = $request->get('codigo_interno');
+        $producto->descripcion = $request->get('descripcion');
+        $producto->id_dimensional = $request->get('id_dimensional');
+        $producto->id_presentacion= $request->get('id_presentacion');
+        $producto->id_proveedor = $request->get('id_proveedor');
+        $producto->tipo_producto = $request->get('tipo_producto');
+        $producto->fecha_creacion = \Carbon\Carbon::now();
+        $producto->estado = 1;
+        $producto->creado_por= \Auth::user()->id;
+        $producto->save();
+
+        return redirect()->route('productos.index')
+            ->with('success','Producto dado de alta correctamente');
+
+
+
+    }
 }

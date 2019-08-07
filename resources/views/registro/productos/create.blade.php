@@ -76,8 +76,8 @@
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="id_proveedor">TIPO PRODUCTO</label>
-            <select name="id_proveedor" id="proveedores" class="form-control selectpicker">
+            <label for="tipo_producto">TIPO PRODUCTO</label>
+            <select name="tipo_producto" id="tipo_producto" class="form-control selectpicker">
                 <option selected value="">SELECCIONAR TIPO PRODUCTO</option>
                 <option value="MP"> MATERIA PRIMA</option>
                 <option value="PT">PRODUCTO TERMINADO</option>
