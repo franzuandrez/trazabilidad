@@ -84,7 +84,7 @@
             <button class="btn btn-default" type="submit">
                 <span class=" fa fa-check"></span> GUARDAR
             </button>
-            <a href="{{url('registro/racks')}}">
+            <a href="{{url('registro/niveles')}}">
                 <button class="btn btn-default" type="button">
                     <span class="fa fa-remove"></span>
                     CANCELAR
