@@ -5,14 +5,14 @@
 @section('contenido')
 
     @component('componentes.nav',['operation'=>'LIST',
-    'menu_icon'=>'fa-file-text',
-    'submenu_icon'=>'fa fa-square-o',
+    'menu_icon'=>'fa fa-check-square-o',
+    'submenu_icon'=>'a fa-line-chart',
     'operation_icon'=>'',])
         @slot('menu')
-            Registro
+            Control
         @endslot
         @slot('submenu')
-            Sectores
+            Línea para Chaomin
         @endslot
     @endcomponent
 
@@ -34,7 +34,7 @@
 
     @component('componentes.alert-no-selecction')
         @slot('mensaje')
-            SELECCIONE UN SECTOR
+            SELECCIONE UNA LINEA
         @endslot
     @endcomponent
     <div id="content">

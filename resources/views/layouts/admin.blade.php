@@ -125,7 +125,7 @@
                         Chaomin<b
                             class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{url('control/chaomin')}}"><i class="fa fa-line-chart"></i>Línea para Chao Men</a></li>
+                        <li><a href="{{url('control/chaomin')}}"><i class="fa fa-line-chart"></i>Línea para ChaoMin</a></li>
                     </ul>
                 </li>
             </ul>
