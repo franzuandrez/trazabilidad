@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Posicion;
+use App\Localidad;
 use Illuminate\Http\Request;
 
 class PosicionController extends Controller
@@ -42,5 +43,11 @@ class PosicionController extends Controller
         }
 
 
+    }
+
+    public function create(){
+
+        $localidades = Localidad::actived()->get();
+        return view('registro.posiciones.create',compact('localidades'));
     }
 }

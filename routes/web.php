@@ -141,6 +141,7 @@ Route::get('registro/niveles/{id}','NivelController@show')->name('niveles.show')
 Route::post('registro/niveles/{id}','NivelController@destroy')->name('niveles.destroy');
 
 Route::get('registro/posiciones','PosicionController@index')->name('posiciones.index');
+Route::get('registro/posiciones/create','PosicionController@create')->name('posiciones.create');
 
 
 
