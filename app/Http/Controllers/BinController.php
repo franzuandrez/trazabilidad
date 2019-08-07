@@ -64,4 +64,60 @@ class BinController extends Controller
 
 
     }
+
+    public function edit($id){
+
+        try{
+
+            $bin = Bin::findOrFail($id);
+
+            $posicion = $bin->posicion;
+            $nivel = $posicion->nivel;
+            $rack = $nivel->rack;
+            $pasillo = $nivel->rack->pasillo;
+            $sector = $pasillo->sector;
+            $bodega = $sector->bodega;
+            $localidad = $bodega->localidad;
+
+
+            $localidades = Localidad::actived()->get();
+
+
+            return view('registro.bines.edit',
+                compact('pasillo','bodega','sector',
+                    'nivel','localidades','localidad','posicion','rack','bin'));
+
+
+        }catch(\Exception $ex){
+
+            return redirect()->route('posiciones.index')
+                ->withErrors(['error'=>'Posicion no encontrada']);
+        }
+    }
+
+
+    public function update(Request $request , $id){
+
+        try{
+            $bin = Bin::findOrFail($id);
+            $bin->codigo_barras = $request->get('codigo_barras');
+            $bin->descripcion = $request->get('descripcion');
+            $bin->id_posicion = $request->get('id_posicion');
+            $bin->update();
+
+            return redirect()->route('bines.index')
+                ->with('success','Bin actualizado corretamente');
+
+
+
+        }catch (\Exception $ex){
+
+            return redirect()->route('bines.index')
+                ->withErrors(['error'=>'No ha sido posible procesar su petición']);
+
+
+        }
+
+
+    }
 }
