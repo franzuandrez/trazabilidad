@@ -148,6 +148,7 @@ Route::get('registro/posiciones/{id}/edit','PosicionController@edit')->name('pos
 Route::patch('registro/posiciones/{id}','PosicionController@update')->name('posiciones.update');
 Route::get('registro/posiciones/{id}','PosicionController@show')->name('posiciones.show');
 Route::post('registro/posiciones/{id}','PosicionController@destroy')->name('posiciones.destroy');
+Route::get('registro/posiciones_by_nivel/{nivel}','PosicionController@posiciones_by_nivel')->name('posiciones.by_nivel');
 
 
 Route::get('registro/bines','BinController@index')->name('bines.index');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Nivel;
 use App\Posicion;
 use App\Localidad;
 use Illuminate\Http\Request;
@@ -163,6 +164,19 @@ class PosicionController extends Controller
             );
 
         }
+    }
+
+    public  function posiciones_by_nivel($nivel){
+
+        try{
+            $posiciones = Nivel::findOrFail($nivel)->posiciones()->actived()->get();
+
+        }catch(\Exception $ex){
+
+            $posiciones= [];
+        }
+
+        return response()->json(['posiciones'=>$posiciones]);
     }
 
 }
