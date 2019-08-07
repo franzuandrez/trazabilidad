@@ -159,6 +159,8 @@ Route::patch('registro/bines/{id}','BinController@update')->name('bines.update')
 Route::get('registro/bines/{id}','BinController@show')->name('bines.show');
 Route::post('registro/bines/{id}','BinController@destroy')->name('bines.destroy');
 
+Route::get('registro/productos','ProductoController@index')->name('productos.index');
+
 
 
 Route::get('control/chaomin','ChaomeanController@index')->name('chaomin.index');

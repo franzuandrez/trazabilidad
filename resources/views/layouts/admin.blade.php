@@ -55,6 +55,16 @@
                             </a>
 
                         </li>
+
+                        <li>
+
+                            <a href="{{url('registro/productos')}}">
+                                <i class="fa fa-tags"></i>
+                                Productos
+                            </a>
+
+                        </li>
+
                         <li>
 
                             <a href="{{url('registro/categoria_clientes')}}">
