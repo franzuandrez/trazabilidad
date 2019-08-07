@@ -129,6 +129,7 @@ Route::get('registro/racks/{id}/edit','RackController@edit')->name('racks.edit')
 Route::patch('registro/racks/{id}','RackController@update')->name('racks.update');
 Route::get('registro/racks/{id}','RackController@show')->name('racks.show');
 Route::post('registro/racks/{id}','RackController@destroy')->name('racks.destroy');
+Route::get('registro/racks_by_pasillo/{pasillo}','RackController@racks_by_pasillo')->name('racks.by_pasillo');
 
 
 Route::get('registro/niveles','NivelController@index')->name('niveles.index');

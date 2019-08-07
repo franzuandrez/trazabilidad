@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Localidad;
 use App\Rack;
+use App\Pasillo;
 use Illuminate\Http\Request;
 use League\Flysystem\ConfigAwareTrait;
 
@@ -156,5 +157,18 @@ class RackController extends Controller
             );
 
         }
+    }
+
+    public function racks_by_pasillo($pasillo){
+
+        try{
+            $racks = Pasillo::findOrFail($pasillo)->racks()->actived()->get();
+        }catch(\Exception $ex){
+
+            $racks = [];
+        }
+
+
+        return response()->json(['racks'=>$racks]);
     }
 }
