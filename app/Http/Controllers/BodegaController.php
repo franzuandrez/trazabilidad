@@ -161,7 +161,13 @@ class BodegaController extends Controller
 
     public function bodegas_by_localidad($localidad){
 
-        $bodegas = Localidad::findOrFail($localidad)->bodegas()->actived()->get();
+        try{
+            $bodegas = Localidad::findOrFail($localidad)->bodegas()->actived()->get();
+        }catch(\Exception $ex){
+            $bodegas = [];
+        }
+
+
 
         return response()->json(['bodegas'=>$bodegas]);
 
