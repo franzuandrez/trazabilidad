@@ -72,6 +72,7 @@ class PosicionController extends Controller
             $posicion = Posicion::findOrFail($id);
 
             $nivel = $posicion->nivel;
+            $rack = $nivel->rack;
             $pasillo = $nivel->rack->pasillo;
             $sector = $pasillo->sector;
             $bodega = $sector->bodega;
@@ -81,8 +82,9 @@ class PosicionController extends Controller
             $localidades = Localidad::actived()->get();
 
 
-            return view('registro.niveles.edit',
-                compact('pasillo','bodega','sector','nivel','localidades','localidad','posicion'));
+            return view('registro.posiciones.edit',
+                compact('pasillo','bodega','sector',
+                    'nivel','localidades','localidad','posicion','rack'));
 
 
         }catch(\Exception $ex){
@@ -91,5 +93,27 @@ class PosicionController extends Controller
                 ->withErrors(['error'=>'Posicion no encontrada']);
         }
 
+    }
+
+    public function update(Request $request, $id) {
+
+        try{
+
+            $posicion = Posicion::findOrFail($id);
+            $posicion->codigo_barras = $request->get('codigo_barras');
+            $posicion->descripcion = $request->get('descripcion');
+            $posicion->id_nivel = $request->get('id_nivel');
+            $posicion->update();
+
+            return redirect()->route('posiciones.index')
+                ->with('success','Posicion actualizada correctamente');
+
+
+        }catch(\Exception $ex){
+
+            return redirect()->route('posiciones.index')
+                ->withErrors(['error'=>'Posicion no encontrada']);
+
+        }
     }
 }

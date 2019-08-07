@@ -106,7 +106,7 @@
                     class="form-control selectpicker"
             >
                 <option value="">SELECCIONAR NIVEL</option>
-                @foreach( $rack->niveles() as $nv )
+                @foreach( $rack->niveles as $nv )
                     @if($nivel->id_nivel  == $nv->id_nivel)
                         <option selected value="{{$nv->id_nivel}}">{{$nv->descripcion}}</option>
                     @else
