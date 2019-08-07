@@ -108,6 +108,10 @@ Route::get('registro/sectores/{id}/edit','SectorController@edit')->name('sectore
 Route::patch('registro/sectores/{id}','SectorController@update')->name('sectores.update');
 Route::get('registro/sectores/{id}','SectorController@show')->name('sectores.show');
 Route::post('registro/sectores/{id}','SectorController@destroy')->name('sectores.destroy');
+Route::get('registro/sectores_by_bodega/{bodega}','SectorController@sectores_by_bodega')->name('sectores.by_bodega');
+
 
 
 Route::get('registro/pasillos','PasilloController@index')->name('pasillos.index');
+Route::get('registro/pasillos/create','PasilloController@create')->name('pasillos.create');
+Route::post('registro/pasillos/create','PasilloController@store')->name('pasillos.store');
