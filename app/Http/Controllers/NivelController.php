@@ -108,4 +108,27 @@ class NivelController extends Controller
         }
 
     }
+
+    public function  show($id){
+        try{
+
+            $nivel = Nivel::findOrFail($id);
+
+            $pasillo = $nivel->rack->pasillo;
+            $sector = $pasillo->sector;
+            $bodega = $sector->bodega;
+            $localidad = $bodega->localidad;
+
+            $localidades = Localidad::actived()->get();
+
+            return view('registro.niveles.show',
+                compact('pasillo','bodega','sector','nivel','localidades','localidad'));
+
+
+        }catch(\Exception $ex){
+
+            return redirect()->route('niveles.index')
+                ->withErrors(['error'=>'Nivel no encontrado']);
+        }
+    }
 }
