@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Localidad;
 use App\Pasillo;
+use App\Sector;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -152,5 +153,20 @@ class PasilloController extends Controller
             );
 
         }
+    }
+
+    public function pasillos_by_sector($sector){
+
+
+        try{
+            $pasillos = Sector::findOrFail($sector)->pasillos()->actived()->get();
+
+        }catch(\Exception $ex){
+
+            $pasillos = [];
+        }
+
+        return response()->json(['pasillos'=>$pasillos]);
+
     }
 }

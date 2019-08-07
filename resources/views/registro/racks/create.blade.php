@@ -41,7 +41,7 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="id_encargado">SECTOR</label>
-            <select name="id_sector" id="sectores" class="form-control selectpicker">
+            <select name="id_sector" id="sectores" class="form-control selectpicker" onchange="cargarPasillos()">
                 <option value="">SELECCIONAR SECTOR</option>
             </select>
         </div>
@@ -112,8 +112,10 @@
 
                     let bodegas = $('#bodegas');
                     let sectores = $('#sectores');
+                    let pasillos = $('#pasillos');
                     clearSelect(bodegas);
                     clearSelect(sectores);
+                    clearSelect(pasillos);
                     response.bodegas.forEach(function(e){
                         addToSelect(e.id_bodega,e.descripcion,bodegas);
                     })
@@ -139,9 +141,38 @@
                 success : function(response){
 
                     let sectores = $('#sectores');
+                    let pasillos = $('#pasillos');
                     clearSelect(sectores);
+                    clearSelect(pasillos);
                     response.sectores.forEach(function(e){
                         addToSelect(e.id_sector,e.descripcion,sectores);
+                    })
+                },
+                error: function(e){
+
+                }
+
+            })
+
+
+        }
+
+        function cargarPasillos(){
+
+
+            let idSector = $('#sectores option:selected').val();
+            idSector = idSector =="" ? 0 : idSector;
+            $.ajax({
+
+                url :   "{{url('registro/pasillos_by_sector/')}}" +"/"+idSector ,
+                type:   "get",
+                dataType:  "json",
+                success : function(response){
+
+                    let pasillos = $('#pasillos');
+                    clearSelect(pasillos);
+                    response.pasillos.forEach(function(e){
+                        addToSelect(e.id_pasillo,e.descripcion,pasillos);
                     })
                 },
                 error: function(e){
