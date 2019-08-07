@@ -153,6 +153,7 @@ Route::get('registro/posiciones_by_nivel/{nivel}','PosicionController@posiciones
 
 Route::get('registro/bines','BinController@index')->name('bines.index');
 Route::get('registro/bines/create','BinController@create')->name('bines.create');
+Route::post('registro/bines/create','BinController@store')->name('bines.store');
 
 
 

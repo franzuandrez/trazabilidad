@@ -50,4 +50,18 @@ class BinController extends Controller
         return view('registro.bines.create',compact('localidades'));
 
     }
+
+    public function store(Request $request){
+
+        $bin = new Bin();
+        $bin->codigo_barras = $request->get('codigo_barras');
+        $bin->descripcion = $request->get('descripcion');
+        $bin->id_posicion = $request->get('id_posicion');
+        $bin->save();
+
+        return redirect()->route('bines.index')
+            ->with('success','Bin dado de alta corretamente');
+
+
+    }
 }
