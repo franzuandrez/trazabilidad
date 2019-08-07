@@ -85,7 +85,8 @@ class PasilloController extends Controller
                 compact('pasillo','localidad','bodega','localidades','encargados'));
 
         }catch(\Exception $ex){
-
+            return redirect()->route('pasillos.index')
+                ->withErrors(['error'=>'Pasillo no encontrado']);
 
         }
     }
@@ -110,5 +111,25 @@ class PasilloController extends Controller
                 ->withErrors(['error'=>'No se ha completar su petición']);
         }
 
+    }
+
+    public function show($id){
+
+        try{
+
+            $pasillo = Pasillo::findOrFail($id);
+            $localidades = Localidad::actived()->get();
+            $encargados = User::actived()->get();
+
+            $localidad = $pasillo->sector->bodega->localidad;
+            $bodega = $pasillo->sector->bodega;
+
+            return view('registro.pasillos.show',
+                compact('pasillo','localidad','bodega','localidades','encargados'));
+
+        }catch(\Exception $ex){
+            return redirect()->route('pasillos.index')
+                ->withErrors(['error'=>'Pasillo no encontrado']);
+        }
     }
 }
