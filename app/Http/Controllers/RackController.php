@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Localidad;
 use App\Rack;
 use Illuminate\Http\Request;
+use League\Flysystem\ConfigAwareTrait;
 
 class RackController extends Controller
 {
@@ -39,5 +41,14 @@ class RackController extends Controller
         }
 
 
+    }
+
+
+    public function create(){
+
+        $localidades = Localidad::actived()->get();
+
+
+        return view('registro.racks.create',compact('localidades'));
     }
 }

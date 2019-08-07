@@ -122,3 +122,6 @@ Route::post('registro/pasillos/{id}','PasilloController@destroy')->name('pasillo
 
 
 Route::get('registro/racks','RackController@index')->name('racks.index');
+Route::get('registro/racks/create','RackController@create')->name('racks.create');
+Route::post('registro/racks/create','RackController@store')->name('racks.store');
+
