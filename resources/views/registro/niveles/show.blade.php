@@ -117,7 +117,7 @@
         <div class="form-group">
             <a href="{{url('registro/niveles')}}">
                 <button class="btn btn-default" type="button">
-                    <span class="fa fa-remove"></span>
+                    <span class="fa fa-backward"></span>
                     REGRESAR
                 </button>
             </a>
