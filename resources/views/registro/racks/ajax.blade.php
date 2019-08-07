@@ -46,4 +46,5 @@
 @endsection
 @section('scripts')
     <script src="{{asset('js/ajax-crud.js')}}"></script>
+    <script src="{{asset('js-brc/racks/index.js')}}"></script>
 @endsection
