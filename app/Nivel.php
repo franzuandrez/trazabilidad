@@ -40,4 +40,9 @@ class Nivel extends Model
         return $this->belongsTo('App\Rack','id_rack');
 
     }
+
+    public function posiciones(){
+
+        return $this->hasMany('App\Posicion','id_nivel');
+    }
 }

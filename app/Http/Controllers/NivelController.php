@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Nivel;
 use App\Localidad;
+use App\Rack;
 use Illuminate\Http\Request;
 
 class NivelController extends Controller
@@ -149,6 +150,23 @@ class NivelController extends Controller
             );
 
         }
+
+    }
+
+    public function niveles_by_rack($rack)
+    {
+        try{
+            $niveles = Rack::findOrFail($rack)->niveles()->actived()->get();
+
+        }catch(\Exception $ex){
+
+            $niveles = [];
+        }
+
+        return response()->json(['niveles'=>$niveles]);
+
+
+
 
     }
 }
