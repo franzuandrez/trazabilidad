@@ -103,6 +103,12 @@
                                 Racks
                             </a>
                         </li>
+                        <li>
+                            <a href="{{url('registro/niveles')}}">
+                                <i class="fa fa-sort-numeric-desc" aria-hidden="true"></i>
+                                Niveles
+                            </a>
+                        </li>
                     </ul>
 
                 </li>
