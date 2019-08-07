@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Presentacion;
 use App\Sector;
+use App\User;
 use Illuminate\Http\Request;
 
 class ChaomeanController extends Controller
@@ -59,7 +60,8 @@ class ChaomeanController extends Controller
     {
         //
         $presentaciones =Presentacion::actived()->get();
-        return view('control.chaomin.create',compact('presentaciones'));
+        $responsables = User::actived()->get();
+        return view('control.chaomin.create',compact('presentaciones','responsables'));
     }
 
     /**
