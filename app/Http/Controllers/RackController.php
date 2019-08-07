@@ -114,4 +114,26 @@ class RackController extends Controller
         }
 
     }
+
+    public function show($id){
+        try{
+
+            $rack = Rack::findOrFail($id);
+            $localidades = Localidad::actived()->get();
+
+            $sector = $rack->pasillo->sector;
+            $bodega = $sector->bodega;
+            $localidad = $bodega->localidad;
+
+            return view('registro.racks.show',
+                compact('rack','localidades','sector','bodega','localidad'));
+
+
+        }catch(\Exception $ex){
+
+            return redirect()->route('racks.index')
+                ->withErrors(['error'=>'Rack no encontrado']);
+
+        }
+    }
 }
