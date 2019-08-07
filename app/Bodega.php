@@ -49,6 +49,6 @@ class Bodega extends Model
     }
 
     public function sectores(){
-        return $this->hasMany('App\Sector','id_sector');
+        return $this->hasMany('App\Sector','id_bodega');
     }
 }
