@@ -5,7 +5,7 @@
     @component('componentes.nav',['operation'=>'Editar',
     'menu_icon'=>'fa-file-text',
     'submenu_icon'=>'fa fa-ellipsis-v',
-    'operation_icon'=>'fa-pencil',])
+    'operation_icon'=>'fa-eye',])
         @slot('menu')
             Registro
         @endslot
