@@ -91,6 +91,12 @@
                                 Sectores
                             </a>
                         </li>
+                        <li>
+                            <a href="{{url('registro/pasillos')}}">
+                                <i class="fa fa-pause" aria-hidden="true"></i>
+                                Pasillos
+                            </a>
+                        </li>
                     </ul>
 
                 </li>
