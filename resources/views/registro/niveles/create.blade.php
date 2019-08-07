@@ -4,7 +4,7 @@
 
     @component('componentes.nav',['operation'=>'Crear',
     'menu_icon'=>'fa-file-text',
-    'submenu_icon'=>'fa a-sort-numeric-desc',
+    'submenu_icon'=>'fa fa-sort-numeric-desc',
     'operation_icon'=>'fa-plus',])
         @slot('menu')
             Registro
