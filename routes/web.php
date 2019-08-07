@@ -146,7 +146,7 @@ Route::get('registro/posiciones/create','PosicionController@create')->name('posi
 Route::post('registro/posiciones/create','PosicionController@store')->name('posiciones.store');
 Route::get('registro/posiciones/{id}/edit','PosicionController@edit')->name('posiciones.edit');
 Route::patch('registro/posiciones/{id}','PosicionController@update')->name('posiciones.update');
-
+Route::get('registro/posiciones/{id}','PosicionController@show')->name('posiciones.show');
 
 
 

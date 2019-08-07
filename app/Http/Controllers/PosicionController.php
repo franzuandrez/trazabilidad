@@ -116,4 +116,34 @@ class PosicionController extends Controller
 
         }
     }
+
+    public function show( $id ){
+
+        try{
+
+            $posicion = Posicion::findOrFail($id);
+
+            $nivel = $posicion->nivel;
+            $rack = $nivel->rack;
+            $pasillo = $nivel->rack->pasillo;
+            $sector = $pasillo->sector;
+            $bodega = $sector->bodega;
+            $localidad = $bodega->localidad;
+
+            $localidades = Localidad::actived()->get();
+
+
+            return view('registro.posiciones.show',
+                compact('pasillo','bodega','sector',
+                    'nivel','localidades','localidad','posicion','rack'));
+
+
+        }catch(\Exception $ex){
+            dd($ex);
+            return redirect()->route('posiciones.index')
+                ->withErrors(['error'=>'Posicion no encontrada']);
+        }
+
+    }
+
 }
