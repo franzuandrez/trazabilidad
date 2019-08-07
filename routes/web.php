@@ -140,6 +140,8 @@ Route::patch('registro/niveles/{id}','NivelController@update')->name('niveles.up
 Route::get('registro/niveles/{id}','NivelController@show')->name('niveles.show');
 Route::post('registro/niveles/{id}','NivelController@destroy')->name('niveles.destroy');
 
+Route::get('registro/posiciones','PosicionController@index')->name('posiciones.index');
+
 
 
 

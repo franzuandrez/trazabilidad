@@ -109,6 +109,12 @@
                                 Niveles
                             </a>
                         </li>
+                        <li>
+                            <a href="{{url('registro/posiciones')}}">
+                                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                                Posiciones
+                            </a>
+                        </li>
                     </ul>
 
                 </li>
