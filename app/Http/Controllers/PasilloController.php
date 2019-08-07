@@ -68,4 +68,47 @@ class PasilloController extends Controller
             ->with('success','Pasillo dado de alta correctamente');
 
     }
+
+
+    public function edit($id){
+
+        try{
+
+            $pasillo = Pasillo::findOrFail($id);
+            $localidades = Localidad::actived()->get();
+            $encargados = User::actived()->get();
+
+            $localidad = $pasillo->sector->bodega->localidad;
+            $bodega = $pasillo->sector->bodega;
+
+            return view('registro.pasillos.edit',
+                compact('pasillo','localidad','bodega','localidades','encargados'));
+
+        }catch(\Exception $ex){
+
+
+        }
+    }
+
+
+    public function update(Request $request,$id){
+
+        try{
+
+            $pasillo = Pasillo::findOrFail($id);
+            $pasillo->codigo_barras = $request->get('codigo_barras');
+            $pasillo->descripcion = $request->get('descripcion');
+            $pasillo->id_sector = $request->get('id_sector');
+            $pasillo->id_encargado = $request->get('id_encargado');
+            $pasillo->update();
+
+            return redirect()->route('pasillos.index')
+                ->with('success','Pasillo actualizado correctamente');
+
+        }catch(\Exception $ex){
+            return redirect()->route('pasillos.index')
+                ->withErrors(['error'=>'No se ha completar su petición']);
+        }
+
+    }
 }
