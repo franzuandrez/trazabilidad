@@ -143,4 +143,21 @@ class SectorController extends Controller
         }
 
     }
+
+    public function destroy($id){
+
+        try{
+            $sector = Sector::findOrFail($id);
+            $sector->estado = 0;
+            $sector->update();
+            return response()->json(['success'=>'Sector dado de baja correctamente']);
+        }catch(\Exception $ex){
+
+            return response()->json(
+                ['error'=>'En este momento no es posible procesar su petición',
+                    'mensaje'=>$ex->getMessage()
+                ]
+            );
+        }
+    }
 }
