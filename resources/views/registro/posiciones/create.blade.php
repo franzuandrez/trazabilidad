@@ -57,7 +57,10 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="id_rack">RACKS</label>
-            <select name="id_rack" id="racks" class="form-control selectpicker">
+            <select name="id_rack" id="racks"
+                    class="form-control selectpicker"
+                    onchange="cargarNiveles()"
+            >
                 <option value="">SELECCIONAR RACK</option>
             </select>
         </div>
@@ -65,7 +68,11 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="id_nivel">NIVELES</label>
-            <select name="id_nivel" id="niveles" class="form-control selectpicker">
+            <select name="id_nivel"
+                    id="niveles"
+                    class="form-control selectpicker"
+
+            >
                 <option value="">SELECCIONAR NIVEL</option>
             </select>
         </div>
@@ -106,31 +113,33 @@
 
 @section('scripts')
     <script>
-        function cargarBodegas(){
+        function cargarBodegas() {
 
 
             let idLocalidad = $('#localidades option:selected').val();
-            idLocalidad = idLocalidad =="" ? 0 : idLocalidad;
+            idLocalidad = idLocalidad == "" ? 0 : idLocalidad;
             $.ajax({
 
-                url :   "{{url('registro/bodegas_by_localidad/')}}" +"/"+idLocalidad ,
-                type:   "get",
-                dataType:  "json",
-                success : function(response){
+                url: "{{url('registro/bodegas_by_localidad/')}}" + "/" + idLocalidad,
+                type: "get",
+                dataType: "json",
+                success: function (response) {
 
                     let bodegas = $('#bodegas');
                     let sectores = $('#sectores');
                     let pasillos = $('#pasillos');
                     let racks = $('#racks');
+                    let niveles = $('#niveles');
                     clearSelect(bodegas);
                     clearSelect(sectores);
                     clearSelect(pasillos);
                     clearSelect(racks);
-                    response.bodegas.forEach(function(e){
-                        addToSelect(e.id_bodega,e.descripcion,bodegas);
+                    clearSelect(niveles);
+                    response.bodegas.forEach(function (e) {
+                        addToSelect(e.id_bodega, e.descripcion, bodegas);
                     })
                 },
-                error: function(e){
+                error: function (e) {
 
                 }
 
@@ -138,29 +147,32 @@
 
 
         }
-        function cargarSectores(){
+
+        function cargarSectores() {
 
 
             let idBodega = $('#bodegas option:selected').val();
-            idBodega = idBodega =="" ? 0 : idBodega;
+            idBodega = idBodega == "" ? 0 : idBodega;
             $.ajax({
 
-                url :   "{{url('registro/sectores_by_bodega/')}}" +"/"+idBodega ,
-                type:   "get",
-                dataType:  "json",
-                success : function(response){
+                url: "{{url('registro/sectores_by_bodega/')}}" + "/" + idBodega,
+                type: "get",
+                dataType: "json",
+                success: function (response) {
 
                     let sectores = $('#sectores');
                     let pasillos = $('#pasillos');
                     let racks = $('#racks');
+                    let niveles = $('#niveles');
                     clearSelect(sectores);
                     clearSelect(pasillos);
                     clearSelect(racks);
-                    response.sectores.forEach(function(e){
-                        addToSelect(e.id_sector,e.descripcion,sectores);
+                    clearSelect(niveles);
+                    response.sectores.forEach(function (e) {
+                        addToSelect(e.id_sector, e.descripcion, sectores);
                     })
                 },
-                error: function(e){
+                error: function (e) {
 
                 }
 
@@ -169,27 +181,29 @@
 
         }
 
-        function cargarPasillos(){
+        function cargarPasillos() {
 
 
             let idSector = $('#sectores option:selected').val();
-            idSector = idSector =="" ? 0 : idSector;
+            idSector = idSector == "" ? 0 : idSector;
             $.ajax({
 
-                url :   "{{url('registro/pasillos_by_sector/')}}" +"/"+idSector ,
-                type:   "get",
-                dataType:  "json",
-                success : function(response){
+                url: "{{url('registro/pasillos_by_sector/')}}" + "/" + idSector,
+                type: "get",
+                dataType: "json",
+                success: function (response) {
 
                     let pasillos = $('#pasillos');
                     let racks = $('#racks');
+                    let niveles = $('#niveles');
                     clearSelect(pasillos);
                     clearSelect(racks);
-                    response.pasillos.forEach(function(e){
-                        addToSelect(e.id_pasillo,e.descripcion,pasillos);
+                    clearSelect(niveles);
+                    response.pasillos.forEach(function (e) {
+                        addToSelect(e.id_pasillo, e.descripcion, pasillos);
                     })
                 },
-                error: function(e){
+                error: function (e) {
 
                 }
 
@@ -198,24 +212,26 @@
 
         }
 
-        function cargarRacks(){
+        function cargarRacks() {
 
             let idPasillo = $('#pasillos option:selected').val();
-            idPasillo = idPasillo =="" ? 0 : idPasillo;
+            idPasillo = idPasillo == "" ? 0 : idPasillo;
             $.ajax({
 
-                url :   "{{url('registro/racks_by_pasillo/')}}" +"/"+idPasillo ,
-                type:   "get",
-                dataType:  "json",
-                success : function(response){
+                url: "{{url('registro/racks_by_pasillo/')}}" + "/" + idPasillo,
+                type: "get",
+                dataType: "json",
+                success: function (response) {
 
                     let racks = $('#racks');
+                    let niveles = $('#niveles');
                     clearSelect(racks);
-                    response.racks.forEach(function(e){
-                        addToSelect(e.id_rack,e.descripcion,racks);
+                    clearSelect(niveles);
+                    response.racks.forEach(function (e) {
+                        addToSelect(e.id_rack, e.descripcion, racks);
                     })
                 },
-                error: function(e){
+                error: function (e) {
 
                 }
 
@@ -223,12 +239,41 @@
 
 
         }
-        function clearSelect(select){
+
+        function cargarNiveles() {
+
+            let idRack = $('#racks option:selected').val();
+            idRack = idRack == "" ? 0 : idRack;
+            $.ajax({
+
+                url: "{{url('registro/niveles_by_rack/')}}" + "/" + idRack,
+                type: "get",
+                dataType: "json",
+                success: function (response) {
+
+                    let niveles = $('#niveles');
+                    clearSelect(niveles);
+                    response.niveles.forEach(function (e) {
+                        addToSelect(e.id_nivel, e.descripcion, niveles);
+                    })
+                },
+                error: function (e) {
+
+                }
+
+            })
+
+
+        }
+
+
+        function clearSelect(select) {
 
             $(select).find('option:not(:first)').remove();
             $(select).selectpicker('refresh');
         }
-        function addToSelect(value,txt,select){
+
+        function addToSelect(value, txt, select) {
 
             let option = `<option value='${value}'>${txt}</option>`;
             $(select).append(option);

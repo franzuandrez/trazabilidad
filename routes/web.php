@@ -139,6 +139,7 @@ Route::get('registro/niveles/{id}/edit','NivelController@edit')->name('niveles.e
 Route::patch('registro/niveles/{id}','NivelController@update')->name('niveles.update');
 Route::get('registro/niveles/{id}','NivelController@show')->name('niveles.show');
 Route::post('registro/niveles/{id}','NivelController@destroy')->name('niveles.destroy');
+Route::get('registro/niveles_by_rack/{rack}','NivelController@niveles_by_rack')->name('niveles.by_rack');
 
 Route::get('registro/posiciones','PosicionController@index')->name('posiciones.index');
 Route::get('registro/posiciones/create','PosicionController@create')->name('posiciones.create');
