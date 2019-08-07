@@ -41,4 +41,9 @@ class Localidad extends Model
         return $this->belongsTo('App\User','id_encargado');
     }
 
+    public function bodegas(){
+
+        return $this->hasMany('App\Bodega','id_localidad');
+    }
+
 }
