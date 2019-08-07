@@ -49,7 +49,7 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="id_encargado">PASILLOS</label>
-            <select name="id_pasillo" id="pasillos" class="form-control selectpicker">
+            <select name="id_pasillo" id="pasillos" class="form-control selectpicker" onchange="cargarRacks()">
                 <option value="">SELECCIONAR PASILLO</option>
             </select>
         </div>
@@ -113,9 +113,11 @@
                     let bodegas = $('#bodegas');
                     let sectores = $('#sectores');
                     let pasillos = $('#pasillos');
+                    let racks = $('#racks');
                     clearSelect(bodegas);
                     clearSelect(sectores);
                     clearSelect(pasillos);
+                    clearSelect(racks);
                     response.bodegas.forEach(function(e){
                         addToSelect(e.id_bodega,e.descripcion,bodegas);
                     })
@@ -142,8 +144,10 @@
 
                     let sectores = $('#sectores');
                     let pasillos = $('#pasillos');
+                    let racks = $('#racks');
                     clearSelect(sectores);
                     clearSelect(pasillos);
+                    clearSelect(racks);
                     response.sectores.forEach(function(e){
                         addToSelect(e.id_sector,e.descripcion,sectores);
                     })
@@ -170,7 +174,9 @@
                 success : function(response){
 
                     let pasillos = $('#pasillos');
+                    let racks = $('#racks');
                     clearSelect(pasillos);
+                    clearSelect(racks);
                     response.pasillos.forEach(function(e){
                         addToSelect(e.id_pasillo,e.descripcion,pasillos);
                     })
@@ -186,6 +192,26 @@
 
         function cargarRacks(){
 
+            let idPasillo = $('#pasillos option:selected').val();
+            idPasillo = idPasillo =="" ? 0 : idPasillo;
+            $.ajax({
+
+                url :   "{{url('registro/racks_by_pasillo/')}}" +"/"+idPasillo ,
+                type:   "get",
+                dataType:  "json",
+                success : function(response){
+
+                    let racks = $('#racks');
+                    clearSelect(racks);
+                    response.racks.forEach(function(e){
+                        addToSelect(e.id_rack,e.descripcion,racks);
+                    })
+                },
+                error: function(e){
+
+                }
+
+            })
 
 
         }
