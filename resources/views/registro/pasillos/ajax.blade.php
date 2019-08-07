@@ -38,7 +38,7 @@
         @endslot
     @endcomponent
     <div id="content">
-
+        @include('registro.pasillos.index')
     </div>
     <div class="loading">
         <i class="fa fa-refresh fa-spin "></i><br/>
