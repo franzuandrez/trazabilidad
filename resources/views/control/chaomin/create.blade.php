@@ -3,14 +3,14 @@
 @section('contenido')
 
     @component('componentes.nav',['operation'=>'Crear',
-    'menu_icon'=>'fa-file-text',
-    'submenu_icon'=>'fa fa-square-o',
+    'menu_icon'=>'fa fa-check-square-o',
+    'submenu_icon'=>'a fa-line-chart',
     'operation_icon'=>'fa-plus',])
         @slot('menu')
-            Registro
+            Control
         @endslot
         @slot('submenu')
-            Sectores
+            Chaomin
         @endslot
     @endcomponent
 
@@ -39,8 +39,12 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="responsable_monitoreo">RESPONSABLE DEL MONITOREO</label>
-            <input type="text" name="responsable_monitoreo" value="{{old('responsable_monitoreo')}}"
-                   class="form-control">
+            <select name="id_responsable" class="form-control selectpicker" id="responsable_monitoreo">
+                <option value="">SELECCIONAR RESPONSABLE</option>
+                @foreach($responsables as $responsable)
+                    <option value="{{$responsable->id}}">{{$responsable->nombre}}</option>
+                @endforeach
+            </select>
         </div>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
@@ -94,6 +98,127 @@
                    class="form-control">
         </div>
     </div>
+
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="mezcla_alta">TIEMPO DE MEZCLA ALTA (300 S)</label>
+            <input type="text" name="mezcla_alta" value="{{old('mezcla_alta')}}"
+                   class="form-control">
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="mezcla_alta_observacion">OBSERVACIONES</label>
+            <input type="text" name="mezcla_alta_observacion" value="{{old('mezcla_alta_observacion')}}"
+                   class="form-control">
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="mezcla_baja">TIEMPO DE MEZCLA BAJA (600 S)</label>
+            <input type="text" name="mezcla_baja" value="{{old('mezcla_baja')}}"
+                   class="form-control">
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="mezcla_baja_observacion">OBSERVACIONES</label>
+            <input type="text" name="mezcla_baja_observacion" value="{{old('mezcla_baja_observacion')}}"
+                   class="form-control">
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="temperatura_reposo">TEMPERATURA RECAMARA DE REPOSO (MÁS DE 36 °C)</label>
+            <input type="text" name="temperatura_reposo" value="{{old('temperatura_reposo')}}"
+                   class="form-control">
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="temperatura_reposo_observacion">OBSERVACIONES</label>
+            <input type="text" name="temperatura_reposo_observacion" value="{{old('temperatura_reposo_observacion')}}"
+                   class="form-control">
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="ancho_cartucho">ANCHO DEL CARTUCHO (1.0 m, 1.5 m y 1.8 m)</label>
+            <input type="text" name="ancho_cartucho" value="{{old('ancho_cartucho')}}"
+                   class="form-control">
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="ancho_cartucho_observacion">OBSERVACIONES</label>
+            <input type="text" name="ancho_cartucho_observacion" value="{{old('ancho_cartucho_observacion')}}"
+                   class="form-control">
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="temperatura_precocedora_1">PARAMETROS PRE-COCEDORA 1 TEMPERATURA (98 A 105)</label>
+            <input type="text" name="temperatura_precocedora_1" value="{{old('temperatura_precocedora_1')}}"
+                   class="form-control">
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="temperatura_precocedora_1_observacion">OBSERVACIONES</label>
+            <input type="text" name="temperatura_precocedora_1_observacion" value="{{old('temperatura_precocedora_1_observacion')}}"
+                   class="form-control">
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="tiempo_precedore_1">PARAMETROS PRE-COCEDORA 1 TIEMPO (10 A 30 MIN)</label>
+            <input type="text" name="tiempo_precedore_1" value="{{old('tiempo_precedore_1')}}"
+                   class="form-control">
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="tiempo_precedore_1_observacion">OBSERVACIONES</label>
+            <input type="text" name="tiempo_precedore_1_observacion" value="{{old('tiempo_precedore_1_observacion')}}"
+                   class="form-control">
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="temperatura_precocedora_1">PARAMETROS PRE-COCEDORA 2 TEMPERATURA (100 A 105)</label>
+            <input type="text" name="temperatura_precocedora_1" value="{{old('temperatura_precocedora_1')}}"
+                   class="form-control">
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="temperatura_precocedora_1_observacion">OBSERVACIONES</label>
+            <input type="text" name="temperatura_precocedora_1_observacion" value="{{old('temperatura_precocedora_1_observacion')}}"
+                   class="form-control">
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="tiempo_precedore_2">PARAMETROS PRE-COCEDORA 2 TIEMPO (10 A 30 MIN)</label>
+            <input type="text" name="tiempo_precedore_2" value="{{old('tiempo_precedore_2')}}"
+                   class="form-control">
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="tiempo_precedore_2_observacion">OBSERVACIONES</label>
+            <input type="text" name="tiempo_precedore_2_observacion" value="{{old('tiempo_precedore_2_observacion')}}"
+                   class="form-control">
+        </div>
+    </div>
+
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
