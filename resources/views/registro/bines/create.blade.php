@@ -70,7 +70,7 @@
             <select name="id_nivel"
                     id="niveles"
                     class="form-control selectpicker"
-
+                    onchange="cargarPosiciones()"
             >
                 <option value="">SELECCIONAR NIVEL</option>
             </select>
@@ -138,11 +138,13 @@
                     let pasillos = $('#pasillos');
                     let racks = $('#racks');
                     let niveles = $('#niveles');
+                    let posiciones = $('#posiciones');
                     clearSelect(bodegas);
                     clearSelect(sectores);
                     clearSelect(pasillos);
                     clearSelect(racks);
                     clearSelect(niveles);
+                    clearSelect(posiciones);
                     response.bodegas.forEach(function (e) {
                         addToSelect(e.id_bodega, e.descripcion, bodegas);
                     })
@@ -172,10 +174,12 @@
                     let pasillos = $('#pasillos');
                     let racks = $('#racks');
                     let niveles = $('#niveles');
+                    let posiciones = $('#posiciones');
                     clearSelect(sectores);
                     clearSelect(pasillos);
                     clearSelect(racks);
                     clearSelect(niveles);
+                    clearSelect(posiciones);
                     response.sectores.forEach(function (e) {
                         addToSelect(e.id_sector, e.descripcion, sectores);
                     })
@@ -204,9 +208,11 @@
                     let pasillos = $('#pasillos');
                     let racks = $('#racks');
                     let niveles = $('#niveles');
+                    let posiciones = $('#posiciones');
                     clearSelect(pasillos);
                     clearSelect(racks);
                     clearSelect(niveles);
+                    clearSelect(posiciones);
                     response.pasillos.forEach(function (e) {
                         addToSelect(e.id_pasillo, e.descripcion, pasillos);
                     })
@@ -233,8 +239,10 @@
 
                     let racks = $('#racks');
                     let niveles = $('#niveles');
+                    let posiciones = $('#posiciones');
                     clearSelect(racks);
                     clearSelect(niveles);
+                    clearSelect(posiciones);
                     response.racks.forEach(function (e) {
                         addToSelect(e.id_rack, e.descripcion, racks);
                     })
@@ -260,7 +268,9 @@
                 success: function (response) {
 
                     let niveles = $('#niveles');
+                    let posiciones = $('#posiciones');
                     clearSelect(niveles);
+                    clearSelect(posiciones);
                     response.niveles.forEach(function (e) {
                         addToSelect(e.id_nivel, e.descripcion, niveles);
                     })
@@ -273,7 +283,35 @@
 
 
         }
+        
+        function cargarPosiciones() {
 
+
+            let idNivel = $('#niveles option:selected').val();
+            idNivel = idNivel == "" ? 0 : idNivel;
+            $.ajax({
+
+                url: "{{url('registro/posiciones_by_nivel/')}}" + "/" + idNivel,
+                type: "get",
+                dataType: "json",
+                success: function (response) {
+
+                    let posiciones = $('#posiciones');
+                    clearSelect(posiciones);
+                    response.posiciones.forEach(function (e) {
+                        addToSelect(e.id_posicion, e.descripcion, posiciones);
+                    })
+                },
+                error: function (e) {
+
+                }
+
+            })
+
+
+
+            
+        }
 
         function clearSelect(select) {
 
