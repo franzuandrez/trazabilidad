@@ -134,4 +134,5 @@ Route::get('registro/racks_by_pasillo/{pasillo}','RackController@racks_by_pasill
 
 Route::get('registro/niveles','NivelController@index')->name('niveles.index');
 Route::get('registro/niveles/create','NivelController@create')->name('niveles.create');
+Route::post('registro/niveles/create','NivelController@store')->name('niveles.store');
 

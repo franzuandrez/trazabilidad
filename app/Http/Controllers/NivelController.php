@@ -50,4 +50,15 @@ class NivelController extends Controller
 
         return view('registro.niveles.create',compact('localidades'));
     }
+
+    public function store(Request $request){
+
+        $nivel = new Nivel();
+        $nivel->codigo_barras = $request->get('codigo_barras');
+        $nivel->descripcion = $request->get('descripcion');
+        $nivel->id_rack = $request->get('id_rack');
+        $nivel->save();
+
+        return redirect()->route('niveles.index')->with('success','Nivel dado de alta correctamente');
+    }
 }
