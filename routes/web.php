@@ -125,4 +125,6 @@ Route::get('registro/pasillos_by_sector/{sector}','PasilloController@pasillos_by
 Route::get('registro/racks','RackController@index')->name('racks.index');
 Route::get('registro/racks/create','RackController@create')->name('racks.create');
 Route::post('registro/racks/create','RackController@store')->name('racks.store');
+Route::get('registro/racks/{id}/edit','RackController@edit')->name('racks.edit');
+Route::patch('registro/racks/{id}','RackController@update')->name('racks.update');
 

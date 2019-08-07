@@ -69,4 +69,49 @@ class RackController extends Controller
 
 
     }
+
+
+    public function edit($id){
+
+        try{
+
+            $rack = Rack::findOrFail($id);
+            $localidades = Localidad::actived()->get();
+
+            $sector = $rack->pasillo->sector;
+            $bodega = $sector->bodega;
+            $localidad = $bodega->localidad;
+
+            return view('registro.racks.edit',
+                compact('rack','localidades','sector','bodega','localidad'));
+
+
+        }catch(\Exception $ex){
+
+            return redirect()->route('racks.index')
+                ->withErrors(['error'=>'Rack no encontrado']);
+
+        }
+
+
+    }
+
+    public  function update( Request $request , $id ){
+
+        try{
+            $rack = Rack::findOrFail($id);
+            $rack->codigo_barras = $request->get('codigo_barras');
+            $rack->descripcion = $request->get('descripcion');
+            $rack->id_pasillo = $request->get('id_pasillo');
+            $rack->lado = $request->get('lado');
+            $rack->update();
+
+            return redirect()->route('racks.index')
+                ->with('success','Rack actualizado correctamente');
+        }catch (\Exception $ex){
+            return redirect()->route('racks.index')
+                ->withErrors(['error'=>'Lo sentimos, no se ha podido completar su petición']);
+        }
+
+    }
 }
