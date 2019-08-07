@@ -42,6 +42,10 @@ class Sector extends Model
     public function bodega(){
         return $this->belongsTo('App\Bodega','id_bodega');
     }
+    public function pasillos(){
+
+        return $this->hasMany('App\Pasillo','id_sector');
+    }
 
 
 }

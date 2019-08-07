@@ -91,6 +91,24 @@
                                 Sectores
                             </a>
                         </li>
+                        <li>
+                            <a href="{{url('registro/pasillos')}}">
+                                <i class="fa fa-pause" aria-hidden="true"></i>
+                                Pasillos
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{url('registro/racks')}}">
+                                <i class="fa fa-tasks" aria-hidden="true"></i>
+                                Racks
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{url('registro/niveles')}}">
+                                <i class="fa fa-sort-numeric-desc" aria-hidden="true"></i>
+                                Niveles
+                            </a>
+                        </li>
                     </ul>
 
                 </li>
