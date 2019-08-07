@@ -66,6 +66,15 @@
                             @endif
                         </td>
                     </tr>
+
+                    @component('componentes.alert-delete',
+                ['model'=>'BIN',
+                'id'=>$bin->id_bin,
+                'method'=>'BinController@destroy',
+                'extras'=>'',
+                'description'=>$bin->descripcion,
+                'url'=>url('registro/bines/')."/".$bin->id_bin])
+                    @endcomponent
                 @endforeach
                 </tbody>
             </table>

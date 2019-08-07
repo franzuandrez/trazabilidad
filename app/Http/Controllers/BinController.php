@@ -151,5 +151,24 @@ class BinController extends Controller
         }
     }
 
+    public function destroy( $id ){
+
+        try{
+
+            $bin = Bin::findOrFail($id);
+            $bin->estado = 0;
+            $bin ->update();
+            return response()->json(['success'=>'Bin dado de baja correctamente']);
+
+        }catch(\Exception $ex){
+            return response()->json(
+                ['error'=>'En este momento no es posible procesar su petición',
+                    'mensaje'=>$ex->getMessage()
+                ]
+            );
+
+        }
+    }
+
 
 }
