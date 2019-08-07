@@ -40,4 +40,9 @@ class Rack extends Model
         return $this->belongsTo('App\Pasillo' ,'id_pasillo');
     }
 
+    public function niveles(){
+
+        return $this->hasMany('App\Nivel','id_rack');
+    }
+
 }
