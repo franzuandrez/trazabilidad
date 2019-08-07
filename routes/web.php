@@ -160,6 +160,7 @@ Route::get('registro/bines/{id}','BinController@show')->name('bines.show');
 Route::post('registro/bines/{id}','BinController@destroy')->name('bines.destroy');
 
 Route::get('registro/productos','ProductoController@index')->name('productos.index');
+Route::get('registro/productos/create','ProductoController@create')->name('productos.create');
 
 
 

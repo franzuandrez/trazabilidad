@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Dimensional;
+use App\Presentacion;
 use App\Producto;
+use App\Proveedor;
 use Illuminate\Http\Request;
 
 class ProductoController extends Controller
@@ -41,6 +44,19 @@ class ProductoController extends Controller
             return view('registro.productos.ajax',
                 compact('search','sort','sortField','productos'));
         }
+
+
+    }
+
+    public function create(){
+
+        $dimensionales = Dimensional::actived()->get();
+        $presentaciones = Presentacion::actived()->get();
+        $proveedores = Proveedor::actived()->get();
+
+
+        return view('registro.productos.create',
+            compact('dimensionales','presentaciones','proveedores'));
 
 
     }
