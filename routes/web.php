@@ -106,4 +106,5 @@ Route::get('registro/sectores/create','SectorController@create')->name('sectores
 Route::post('registro/sectores/create','SectorController@store')->name('sectores.store');
 Route::get('registro/sectores/{id}/edit','SectorController@edit')->name('sectores.edit');
 Route::patch('registro/sectores/{id}','SectorController@update')->name('sectores.update');
+Route::get('registro/sectores/{id}','SectorController@show')->name('sectores.show');
 

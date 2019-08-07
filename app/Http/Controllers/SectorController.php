@@ -121,4 +121,26 @@ class SectorController extends Controller
         }
 
     }
+
+    public function show($id){
+
+        try{
+            $localidades =Localidad::actived()->get();
+            $encargados = User::actived()->get();
+            $sector = Sector::findOrFail($id);
+
+            $idLocalidad = $sector->bodega->localidad->id_localidad;
+            $bodegas = Localidad::findOrFail($idLocalidad)->bodegas()->actived()->get();
+
+
+            return view('registro.sectores.show',
+                compact('localidades','encargados','bodegas','sector','idLocalidad'));
+
+        }catch(\Exception $ex){
+
+            return redirect()->route('sectores.index')
+                ->withErrors(['error'=>'Sector no encontrado']);
+        }
+
+    }
 }
