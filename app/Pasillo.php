@@ -45,4 +45,9 @@ class Pasillo extends Model
 
         return $this->belongsTo('App\User','id_encargado');
     }
+
+    public function racks(){
+
+        return $this->hasMany('App\Rack','id_pasillo');
+    }
 }
