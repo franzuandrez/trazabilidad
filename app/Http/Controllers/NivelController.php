@@ -131,4 +131,24 @@ class NivelController extends Controller
                 ->withErrors(['error'=>'Nivel no encontrado']);
         }
     }
+
+    public  function  destroy($id){
+
+        try{
+            $nivel = Nivel::findOrFail($id);
+            $nivel->estado = 0;
+            $nivel->update();
+            return response()->json(['success'=>'Nivel dado de baja correctamente']);
+
+        }catch(\Exception $ex){
+
+            return response()->json(
+                ['error'=>'En este momento no es posible procesar su petición',
+                    'mensaje'=>$ex->getMessage()
+                ]
+            );
+
+        }
+
+    }
 }

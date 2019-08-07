@@ -138,6 +138,7 @@ Route::post('registro/niveles/create','NivelController@store')->name('niveles.st
 Route::get('registro/niveles/{id}/edit','NivelController@edit')->name('niveles.edit');
 Route::patch('registro/niveles/{id}','NivelController@update')->name('niveles.update');
 Route::get('registro/niveles/{id}','NivelController@show')->name('niveles.show');
+Route::post('registro/niveles/{id}','NivelController@destroy')->name('niveles.destroy');
 
 
 

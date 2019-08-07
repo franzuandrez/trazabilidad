@@ -67,7 +67,14 @@
                             @endif
                         </td>
                     </tr>
-
+                    @component('componentes.alert-delete',
+                     ['model'=>'NIVEL',
+                     'id'=>$nivel->id_nivel,
+                     'method'=>'NivelController@destroy',
+                     'extras'=>'',
+                     'description'=>$nivel->descripcion,
+                     'url'=>url('registro/niveles/')."/".$nivel->id_nivel])
+                    @endcomponent
                 @endforeach
                 </tbody>
             </table>
