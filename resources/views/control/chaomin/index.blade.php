@@ -1,5 +1,5 @@
 @component('componentes.search',
-['search'=>$search,'modulo'=>'registro/sectores'])
+['search'=>$search,'modulo'=>'control/chaomin'])
 @endcomponent
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
@@ -13,8 +13,8 @@
                     @component('componentes.column-sort',['modulo'=>'control/chaomin',
                           'sort'=>$sort,
                           'sortField'=>$sortField,
-                          'field'=>'codigo_barras',
-                          'titulo'=>'codigo barras'])
+                          'field'=>'ID',
+                          'titulo'=>'ID'])
                     @endcomponent
                 </th>
                 <th>

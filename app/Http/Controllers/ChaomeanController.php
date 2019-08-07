@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Presentacion;
 use App\Sector;
 use Illuminate\Http\Request;
 
@@ -57,6 +58,8 @@ class ChaomeanController extends Controller
     public function create()
     {
         //
+        $presentaciones =Presentacion::actived()->get();
+        return view('control.chaomin.create',compact('presentaciones'));
     }
 
     /**
