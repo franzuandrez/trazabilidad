@@ -144,6 +144,8 @@ Route::get('registro/niveles_by_rack/{rack}','NivelController@niveles_by_rack')-
 Route::get('registro/posiciones','PosicionController@index')->name('posiciones.index');
 Route::get('registro/posiciones/create','PosicionController@create')->name('posiciones.create');
 Route::post('registro/posiciones/create','PosicionController@store')->name('posiciones.store');
+Route::get('registro/posiciones/{id}/edit','PosicionController@edit')->name('posiciones.edit');
+Route::patch('registro/posiciones/{id}','PosicionController@update')->name('posiciones.update');
 
 
 
