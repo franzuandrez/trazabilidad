@@ -66,6 +66,15 @@
                             @endif
                         </td>
                     </tr>
+                    @component('componentes.alert-delete',
+            ['model'=>'RACK',
+            'id'=>$rack->id_rack,
+            'method'=>'RackController@destroy',
+            'extras'=>'',
+            'description'=>$rack->descripcion,
+            'url'=>url('registro/racks/')."/".$rack->id_rack])
+                    @endcomponent
+
                 @endforeach
                 </tbody>
             </table>

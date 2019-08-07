@@ -136,4 +136,25 @@ class RackController extends Controller
 
         }
     }
+
+    public function destroy($id){
+
+        try{
+
+            $rack = Rack::findOrFail($id);
+            $rack->estado = 0;
+            $rack->update();
+
+            return response()->json(['success'=>'Rack dado de baja correctamente']);
+
+        }catch(\Exception $ex){
+
+            return response()->json(
+                ['error'=>'En este momento no es posible procesar su petición',
+                    'mensaje'=>$ex->getMessage()
+                ]
+            );
+
+        }
+    }
 }

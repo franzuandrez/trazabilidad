@@ -128,4 +128,5 @@ Route::post('registro/racks/create','RackController@store')->name('racks.store')
 Route::get('registro/racks/{id}/edit','RackController@edit')->name('racks.edit');
 Route::patch('registro/racks/{id}','RackController@update')->name('racks.update');
 Route::get('registro/racks/{id}','RackController@show')->name('racks.show');
+Route::post('registro/racks/{id}','RackController@destroy')->name('racks.destroy');
 
