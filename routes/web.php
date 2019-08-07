@@ -104,4 +104,6 @@ Route::get('registro/bodegas_by_localidad/{localidad}','BodegaController@bodegas
 Route::get('registro/sectores','SectorController@index')->name('sectores.index');
 Route::get('registro/sectores/create','SectorController@create')->name('sectores.create');
 Route::post('registro/sectores/create','SectorController@store')->name('sectores.store');
+Route::get('registro/sectores/{id}/edit','SectorController@edit')->name('sectores.edit');
+Route::patch('registro/sectores/{id}','SectorController@update')->name('sectores.update');
 

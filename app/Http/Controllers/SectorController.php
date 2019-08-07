@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Localidad;
 use App\Sector;
 use App\User;
+use App\Bodega;
 use Illuminate\Http\Request;
 
 class SectorController extends Controller
@@ -75,6 +76,49 @@ class SectorController extends Controller
         return redirect()->route('sectores.index')
             ->with('success','Sector dado de alta correctamente');
 
+
+    }
+
+    public function edit($id){
+
+        try{
+            $localidades =Localidad::actived()->get();
+            $encargados = User::actived()->get();
+            $sector = Sector::findOrFail($id);
+
+            $idLocalidad = $sector->bodega->localidad->id_localidad;
+            $bodegas = Localidad::findOrFail($idLocalidad)->bodegas()->actived()->get();
+
+
+            return view('registro.sectores.edit',
+                compact('localidades','encargados','bodegas','sector','idLocalidad'));
+
+        }catch(\Exception $ex){
+
+            return redirect()->route('sectores.index')
+                ->withErrors(['error'=>'Sector no encontrado']);
+        }
+    }
+
+
+    public function update(Request $request, $id ){
+
+        try{
+
+            $sector = Sector::findOrFail($id);
+            $sector->codigo_barras = $request->get('codigo_barras');
+            $sector->descripcion = $request->get('descripcion');
+            $sector->id_bodega = $request->get('id_bodega');
+            $sector->id_encargado = $request->get('id_encargado');
+            $sector->update();
+
+            return redirect()->route('sectores.index')
+                ->with('success','Sector actualizado correctamente');
+        }catch(\Exception $ex){
+
+            return redirect()->route('sectores.index')
+                ->withErrors(['error'=>'Sector no encontrado']);
+        }
 
     }
 }
