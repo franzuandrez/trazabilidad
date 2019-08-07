@@ -151,6 +151,7 @@ Route::post('registro/posiciones/{id}','PosicionController@destroy')->name('posi
 
 
 Route::get('registro/bines','BinController@index')->name('bines.index');
+Route::get('registro/bines/create','BinController@create')->name('bines.create');
 
 
 

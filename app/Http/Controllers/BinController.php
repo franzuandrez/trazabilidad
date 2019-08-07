@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Bin;
+use App\Localidad;
 use Illuminate\Http\Request;
 
 class BinController extends Controller
@@ -40,6 +41,13 @@ class BinController extends Controller
                 compact('bines','search','sort','sortField'));
 
         }
+
+    }
+
+    public function create(){
+
+        $localidades  = Localidad::actived()->get();
+        return view('registro.bines.create',compact('localidades'));
 
     }
 }
