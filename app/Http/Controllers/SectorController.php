@@ -160,4 +160,19 @@ class SectorController extends Controller
             );
         }
     }
+
+
+    public function sectores_by_bodega($bodega){
+
+
+        try{
+            $sectores = Bodega::findOrFail($bodega)->sectores()->actived()->get();
+        }catch(\Exception $ex){
+
+            $sectores = [];
+        }
+
+
+        return response()->json(['sectores'=>$sectores]);
+    }
 }
