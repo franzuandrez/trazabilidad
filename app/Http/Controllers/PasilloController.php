@@ -132,4 +132,25 @@ class PasilloController extends Controller
                 ->withErrors(['error'=>'Pasillo no encontrado']);
         }
     }
+
+    public function destroy($id){
+
+        try{
+
+            $pasillo = Pasillo::findOrFail($id);
+            $pasillo->estado = 0;
+            $pasillo->update();
+
+            return response()->json(['success'=>'Pasillo dado de baja correctamente']);
+
+        }catch(\Exception $ex){
+
+            return response()->json(
+                ['error'=>'En este momento no es posible procesar su petición',
+                    'mensaje'=>$ex->getMessage()
+                ]
+            );
+
+        }
+    }
 }

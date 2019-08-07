@@ -118,3 +118,4 @@ Route::post('registro/pasillos/create','PasilloController@store')->name('pasillo
 Route::get('registro/pasillos/{id}/edit','PasilloController@edit')->name('pasillos.edit');
 Route::patch('registro/pasillos/{id}','PasilloController@update')->name('pasillos.update');
 Route::get('registro/pasillos/{id}','PasilloController@show')->name('pasillos.show');
+Route::post('registro/pasillos/{id}','PasilloController@destroy')->name('pasillos.destroy');

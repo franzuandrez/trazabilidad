@@ -77,7 +77,14 @@
                             @endif
                         </td>
                     </tr>
-
+                    @component('componentes.alert-delete',
+                                    ['model'=>'PASILLO',
+                                    'id'=>$pasillo->id_pasillo,
+                                    'method'=>'PasilloController@destroy',
+                                    'extras'=>'',
+                                    'description'=>$pasillo->descripcion,
+                                    'url'=>url('registro/pasillos/')."/".$pasillo->id_pasillo])
+                    @endcomponent
 
                 @endforeach
                 </tbody>
