@@ -27,7 +27,7 @@
             <ul class="nav navbar-nav">
                 <li class="dropdown">
                     <a href="#" data-toggle="dropdown" style="background-color: #01579B;  color: #fff;">Registro<b
-                                class="caret"></b></a>
+                            class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
 
@@ -50,7 +50,7 @@
                         <li>
 
                             <a href="{{url('registro/dimensionales')}}">
-                                <i class="fa fa-cubes" ></i>
+                                <i class="fa fa-cubes"></i>
                                 Dimensionales
                             </a>
 
@@ -59,7 +59,7 @@
 
                             <a href="{{url('registro/categoria_clientes')}}">
                                 <i class="fa fa-list-ol"></i>
-                                Categoria de  Clientes
+                                Categoria de Clientes
                             </a>
 
                         </li>
@@ -97,8 +97,12 @@
             </ul>
             <ul class="nav navbar-nav">
                 <li class="dropdown">
-                    <a href="#" data-toggle="dropdown" style="background-color: #01579B;  color: #fff;">Control Chaomin<b
+                    <a href="#" data-toggle="dropdown" style="background-color: #01579B;  color: #fff;">Control
+                        Chaomin<b
                             class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{url('control/chaomin')}}"><i class="fa fa-line-chart"></i>Línea para Chao Men</a></li>
+                    </ul>
                 </li>
             </ul>
             <ul class="nav navbar-nav">
@@ -110,7 +114,7 @@
             <ul class="nav navbar-nav">
                 <li class="dropdown">
                     <a href="#" data-toggle="dropdown" style="background-color: #01579B;  color: #fff;">Usuarios<b
-                                class="caret"></b></a>
+                            class="caret"></b></a>
 
                     <ul class="dropdown-menu">
 
@@ -132,23 +136,23 @@
     </div>
 </div>
 
-    <footer>
-        <center>
-            <strong> &copy; 2019 <a>GRUPO BARCODE, S.A.</a></strong> TODOS LOS DERECHOS RESERVADOS.
-        </center>
-    </footer>
+<footer>
+    <center>
+        <strong> &copy; 2019 <a>GRUPO BARCODE, S.A.</a></strong> TODOS LOS DERECHOS RESERVADOS.
+    </center>
+</footer>
 
 
-    <script src="{{asset('js/jQuery-2.1.4.min.js')}}"></script>
-    <script src="{{asset('js/app.js')}}"></script>
-    <script src="{{asset('js/bootstrap.min.js')}}"></script>
-    <script src="{{asset('js/bootstrap-datepicker.min.js')}}"></script>
-    <script src="{{asset('js/bootstrap-datepicker.es.min.js')}}"></script>
-    <script src="{{asset('js/bootstrap-select.min.js')}}"></script>
-    <script>
-        $(document).ready(function () {
-            $('[data-toggle="tooltip"]').tooltip();
-        });
-    </script>
-    @yield('scripts')
+<script src="{{asset('js/jQuery-2.1.4.min.js')}}"></script>
+<script src="{{asset('js/app.js')}}"></script>
+<script src="{{asset('js/bootstrap.min.js')}}"></script>
+<script src="{{asset('js/bootstrap-datepicker.min.js')}}"></script>
+<script src="{{asset('js/bootstrap-datepicker.es.min.js')}}"></script>
+<script src="{{asset('js/bootstrap-select.min.js')}}"></script>
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
+@yield('scripts')
 </body>

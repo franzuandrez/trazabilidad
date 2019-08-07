@@ -108,3 +108,7 @@ Route::get('registro/sectores/{id}/edit','SectorController@edit')->name('sectore
 Route::patch('registro/sectores/{id}','SectorController@update')->name('sectores.update');
 Route::get('registro/sectores/{id}','SectorController@show')->name('sectores.show');
 Route::post('registro/sectores/{id}','SectorController@destroy')->name('sectores.destroy');
+
+Route::get('control/chaomin','ChaomeanController@index')->name('chaomin.index');
+Route::get('control/chaomin/create','ChaomeanController@create')->name('chaomin.create');
+
