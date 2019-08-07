@@ -47,4 +47,8 @@ class Bodega extends Model
 
         return $this->belongsTo('App\Localidad','id_localidad');
     }
+
+    public function sectores(){
+        return $this->hasMany('App\Sector','id_sector');
+    }
 }
