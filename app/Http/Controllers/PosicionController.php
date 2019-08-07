@@ -50,4 +50,18 @@ class PosicionController extends Controller
         $localidades = Localidad::actived()->get();
         return view('registro.posiciones.create',compact('localidades'));
     }
+
+    public function store(Request $request){
+
+        $posicion = new Posicion();
+        $posicion->codigo_barras = $request->get('codigo_barras');
+        $posicion->descripcion = $request->get('descripcion');
+        $posicion->id_nivel = $request->get('id_nivel');
+        $posicion->save();
+
+        return redirect()->route('posiciones.index')
+            ->with('success','Posicion dada de alta correctamente');
+
+
+    }
 }
