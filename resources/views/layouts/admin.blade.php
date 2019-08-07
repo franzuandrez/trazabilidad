@@ -97,6 +97,12 @@
                                 Pasillos
                             </a>
                         </li>
+                        <li>
+                            <a href="{{url('registro/racks')}}">
+                                <i class="fa fa-tasks" aria-hidden="true"></i>
+                                Racks
+                            </a>
+                        </li>
                     </ul>
 
                 </li>

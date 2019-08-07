@@ -119,3 +119,6 @@ Route::get('registro/pasillos/{id}/edit','PasilloController@edit')->name('pasill
 Route::patch('registro/pasillos/{id}','PasilloController@update')->name('pasillos.update');
 Route::get('registro/pasillos/{id}','PasilloController@show')->name('pasillos.show');
 Route::post('registro/pasillos/{id}','PasilloController@destroy')->name('pasillos.destroy');
+
+
+Route::get('registro/racks','RackController@index')->name('racks.index');
