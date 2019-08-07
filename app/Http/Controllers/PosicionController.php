@@ -146,4 +146,23 @@ class PosicionController extends Controller
 
     }
 
+    public function destroy( $id ){
+
+        try{
+
+            $posicion = Posicion::findOrFail($id);
+            $posicion->estado = 0;
+            $posicion->update();
+            return response()->json(['success'=>'Posicion dada de baja correctamente']);
+
+        }catch(\Exception $ex){
+            return response()->json(
+                ['error'=>'En este momento no es posible procesar su petición',
+                    'mensaje'=>$ex->getMessage()
+                ]
+            );
+
+        }
+    }
+
 }
