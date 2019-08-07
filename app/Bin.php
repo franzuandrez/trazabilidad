@@ -26,7 +26,7 @@ class Bin extends Model
         'estado'
     ];
 
-    protected $logOnlyDirty = true;
+    protected  static $logOnlyDirty = true;
     public function scopeActived($query){
 
         return $query->where('bines.estado',1);
