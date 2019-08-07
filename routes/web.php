@@ -98,6 +98,10 @@ Route::get('registro/bodegas/{id}/edit','BodegaController@edit')->name('bodegas.
 Route::patch('registro/bodegas/{id}','BodegaController@update')->name('bodegas.update');
 Route::get('registro/bodegas/{id}','BodegaController@show')->name('bodegas.show');
 Route::post('registro/bodegas/{id}','BodegaController@destroy')->name('bodegas.destroy');
+Route::get('registro/bodegas_by_localidad/{localidad}','BodegaController@bodegas_by_localidad')->name('bodegas.by_localidad');
 
 
 Route::get('registro/sectores','SectorController@index')->name('sectores.index');
+Route::get('registro/sectores/create','SectorController@create')->name('sectores.create');
+Route::post('registro/sectores/create','SectorController@store')->name('sectores.store');
+

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Localidad;
 use App\Sector;
+use App\User;
 use Illuminate\Http\Request;
 
 class SectorController extends Controller
@@ -34,7 +36,7 @@ class SectorController extends Controller
                     ->orWhere('users.nombre','LIKE','%'.$search.'%');
 
             })
-            ->orderBy($sort,$sortField)
+            ->orderBy($sortField,$sort)
             ->paginate(20);
 
 
@@ -45,6 +47,34 @@ class SectorController extends Controller
         }else{
             return view('registro.sectores.ajax',compact('sectores','search','sort','sortField'));
         }
+
+    }
+
+
+    public function create(){
+
+        $localidades =Localidad::actived()->get();
+        $encargados = User::actived()->get();
+
+
+        return view('registro.sectores.create',compact('localidades','encargados'));
+
+
+
+    }
+
+    public function store(Request $request){
+
+        $sector = new Sector();
+        $sector->codigo_barras = $request->get('codigo_barras');
+        $sector->descripcion = $request->get('descripcion');
+        $sector->id_bodega = $request->get('id_bodega');
+        $sector->id_encargado = $request->get('id_encargado');
+        $sector->save();
+
+        return redirect()->route('sectores.index')
+            ->with('success','Sector dado de alta correctamente');
+
 
     }
 }
