@@ -47,6 +47,14 @@ class Producto extends Model
         return $query->where('productos.estado',1);
 
     }
+    public function scopeEsProductoTerminado( $query ){
+        return $query->where('productos.tipo_producto','PT');
+    }
+
+    public function scopeEsMateriaPrima( $query ){
+
+        return $query->where('productos.tipo_producto','MP');
+    }
 
     public function proveedor(){
 
