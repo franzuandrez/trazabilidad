@@ -67,6 +67,15 @@
 
                         <li>
 
+                            <a href="{{url('registro/actividades')}}">
+                                <i class="fa fa-hand-lizard-o" aria-hidden="true"></i>
+                                Actividades
+                            </a>
+
+                        </li>
+
+                        <li>
+
                             <a href="{{url('registro/categoria_clientes')}}">
                                 <i class="fa fa-list-ol"></i>
                                 Categoria de Clientes

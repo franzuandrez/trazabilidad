@@ -167,6 +167,8 @@ Route::patch('registro/productos/{id}','ProductoController@update')->name('produ
 Route::get('registro/productos/{id}','ProductoController@show')->name('productos.show');
 Route::post('registro/productos/{id}','ProductoController@destroy')->name('productos.destroy');
 
+Route::get('registro/actividades','ActividadController@index')->name('actividades.index');
+
 
 
 Route::get('control/chaomin','ChaomeanController@index')->name('chaomin.index');
