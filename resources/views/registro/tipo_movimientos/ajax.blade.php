@@ -20,7 +20,7 @@
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
-            @component('componentes.btn-create',['url'=>url('registro/proveedores/create')])
+            @component('componentes.btn-create',['url'=>url('registro/tipo_movimientos/create')])
             @endcomponent
             @component('componentes.btn-edit',['url'=>'javascript:editar()'])
             @endcomponent
