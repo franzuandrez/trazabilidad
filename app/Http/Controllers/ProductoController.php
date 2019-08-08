@@ -157,4 +157,23 @@ class ProductoController extends Controller
 
         }
     }
+
+    public function destroy( $id ){
+
+        try{
+            $producto = Producto::findOrFail($id);
+            $producto->estado = 0;
+            $producto->update();
+            return response()->json(['success'=>'Producto dado de baja correctamente']);
+
+        }catch ( \Exception $ex ){
+
+            return response()->json(
+                ['error'=>'En este momento no es posible procesar su petición',
+                    'mensaje'=>$ex->getMessage()
+                ]
+            );
+
+        }
+    }
 }
