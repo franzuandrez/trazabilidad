@@ -93,23 +93,35 @@
                 <div class="tab-pane active" id="tab_1">
                     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="opcion1">
-                            <label class="custom-control-label" for="opcion1">Proveedor aprobado</label>
+                            <input type="checkbox"
+                                   class="custom-control-input"
+                                   id="proveedor_aprobado"
+                                   value="1"
+                                   name="proveedor_aprobado">
+                            <label class="custom-control-label" for="proveedor_aprobado">Proveedor aprobado</label>
                         </div>
                     </div>
 
                     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
 
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="opcion2">
-                            <label class="custom-control-label" for="opcion2">Producto acorde con Orden
+                            <input type="checkbox"
+                                   class="custom-control-input"
+                                   name="producto_acorde_compra"
+                                   value="1"
+                                   id="producto_acorde_compra">
+                            <label class="custom-control-label" for="producto_acorde_compra">Producto acorde con Orden
                                 de Compra</label>
                         </div>
                     </div>
                     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="opcion3">
-                            <label class="custom-control-label" for="opcion3">Cantidad acorde con orden
+                            <input type="checkbox"
+                                   class="custom-control-input"
+                                   value="1"
+                                   name="cantidad_acorde_compra"
+                                   id="cantidad_acorde_compra">
+                            <label class="custom-control-label" for="cantidad_acorde_compra">Cantidad acorde con orden
                                 de Compra</label>
                         </div>
                     </div>
@@ -121,20 +133,35 @@
                     <div class="col-lg-12 col-sm-12 col-md-4 col-xs-12">
 
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="opcion4">
+                            <input type="checkbox"
+                                   class="custom-control-input"
+                                   name="certificado_existente"
+                                   value="1"
+                                   id="certificado_existente">
                             <label class="custom-control-label" style="font-weight: normal"
-                                   for="opcion4">Existente</label>
+                                   for="certificado_existente">Existente</label>
 
                         </div>
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="opcion5">
-                            <label class="custom-control-label" style="font-weight: normal" for="opcion5">Correspondiente
+                            <input type="checkbox"
+                                   class="custom-control-input"
+                                   name="certificado_correspondiente_lote"
+                                   value="1"
+                                   id="certificado_correspondiente_lote">
+                            <label class="custom-control-label" style="font-weight: normal" for="certificado_correspondiente_lote">Correspondiente
                                 a No. Lote</label>
                         </div>
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="opcion6">
-                            <label class="custom-control-label" style="font-weight: normal" for="opcion6">De acuerdo a
-                                especificación</label>
+                            <input type="checkbox"
+                                   class="custom-control-input"
+                                   id="opcion6"
+                                   name="certificado_correspondiente_especificacion"
+                                   value="1"
+                            >
+                            <label class="custom-control-label" style="font-weight: normal"
+                                   for="certificado_correspondiente_especificacion">
+                                De acuerdo a especificación
+                            </label>
                         </div>
 
                     </div>
@@ -144,14 +171,22 @@
                     </div>
                     <div class="col-lg-12 col-sm-12 col-md-4 col-xs-12">
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="opcion7">
-                            <label class="custom-control-label" style="font-weight: normal" for="opcion7">Sin polvo y/o
+                            <input type="checkbox" class="custom-control-input"
+                                   id="sin_polvo"
+                                   name="sin_polvo"
+                                   value="1"
+                            >
+                            <label class="custom-control-label" style="font-weight: normal" for="sin_polvo">Sin polvo y/o
                                 suciedad</label>
 
                         </div>
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="opcion8">
-                            <label class="custom-control-label" style="font-weight: normal" for="opcion8">Sin Material
+                            <input type="checkbox"
+                                   class="custom-control-input"
+                                   id="sin_material_ajeno"
+                                   value="1"
+                                   name="sin_material_ajeno">
+                            <label class="custom-control-label" style="font-weight: normal" for="sin_material_ajeno">Sin Material
                                 Ajeno</label>
 
                         </div>
@@ -163,54 +198,81 @@
                     </div>
                     <div class="col-lg-12 col-sm-12 col-md-4 col-xs-12">
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="opcion9">
-                            <label class="custom-control-label" style="font-weight: normal" for="opcion9">Ausencia de
+                            <input type="checkbox"
+                                   class="custom-control-input"
+                                   value="1"
+                                   name="ausencia_plagas"
+                                   id="ausencia_plagas">
+                            <label class="custom-control-label" style="font-weight: normal" for="ausencia_plagas">Ausencia de
                                 Plagas</label>
 
                         </div>
                         <div class="custom-control custom-checkbox">
 
-                            <input type="checkbox" class="custom-control-input" id="opcion10"> <label
-                                    class="custom-control-label" style="font-weight: normal" for="opcion10">Sin
+                            <input type="checkbox"
+                                   class="custom-control-input"
+                                   value="1"
+                                   id="sin_humedad"
+                                   name="sin_humedad">
+
+                            <label
+                                    class="custom-control-label" style="font-weight: normal" for="sin_humedad">Sin
                                 Humedad</label>
 
                         </div>
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="opcion11">
-                            <label class="custom-control-label" style="font-weight: normal" for="opcion11">Sin
+                            <input type="checkbox" class="custom-control-input"
+                                   name="sin_oxido"
+                                   value="1"
+                                   id="sin_oxido">
+                            <label class="custom-control-label" style="font-weight: normal" for="sin_oxido">Sin
                                 óxido</label>
 
                         </div>
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="opcion12">
-                            <label class="custom-control-label" style="font-weight: normal" for="opcion12">Ausencia de
+                            <input type="checkbox"
+                                   class="custom-control-input"
+                                   name="ausencia_olores_extranios"
+                                   value="1"
+                                   id="ausencia_olores_extranios">
+                            <label class="custom-control-label" style="font-weight: normal" for="ausencia_olores_extranios">Ausencia de
                                 olores extraños</label>
 
                         </div>
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="opcion13">
-                            <label class="custom-control-label" style="font-weight: normal" for="opcion13">Ausencia de
+                            <input type="checkbox"
+                                   class="custom-control-input"
+                                   name="ausencia_material_extranio"
+                                   value="1"
+                                   id="ausencia_material_extranio">
+                            <label class="custom-control-label" style="font-weight: normal" for="ausencia_material_extranio">Ausencia de
                                 material extraño</label>
 
                         </div>
                         <div class="custom-control custom-checkbox">
 
-                            <input type="checkbox" class="custom-control-input" id="opcion14"> <label
-                                    class="custom-control-label" style="font-weight: normal" for="opcion14">Cerrado y
+                            <input type="checkbox" class="custom-control-input"
+                                   name="cerrado"
+                                   value="1"
+                                   id="cerrado"> <label
+                                    class="custom-control-label" style="font-weight: normal" for="cerrado">Cerrado y
                                 con llave</label>
 
                         </div>
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="opcion15">
-                            <label class="custom-control-label" style="font-weight: normal" for="opcion15">Sin
+                            <input type="checkbox" class="custom-control-input"
+                                   name="sin_agujeros"
+                                   value="1"
+                                   id="sin_agujeros">
+                            <label class="custom-control-label" style="font-weight: normal" for="sin_agujeros">Sin
                                 agujeros</label>
 
                         </div>
                     </div>
                     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
                         <div class="form-group">
-                            <label for="nombre">OBSERVACIONES/ACCIONES CORRECTIVAS</label>
-                            <input type="text" name="descripcion" value="{{old('descripcion')}}"
+                            <label for="observaciones_vehiculo">OBSERVACIONES/ACCIONES CORRECTIVAS</label>
+                            <input type="text" name="observaciones_vehiculo" value="{{old('observaciones_vehiculo')}}"
                                    class="form-control">
                         </div>
                     </div>
