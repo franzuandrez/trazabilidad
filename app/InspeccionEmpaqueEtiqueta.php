@@ -19,6 +19,7 @@ class InspeccionEmpaqueEtiqueta extends Model
         'cerrado',
         'seco_limpio',
         'sin_material_extranio',
+        'debidamente_identificado',
         'debidamente_legible',
         'no_lote_presente',
         'no_lote_legible',
