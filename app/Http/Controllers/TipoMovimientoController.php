@@ -39,4 +39,12 @@ class TipoMovimientoController extends Controller
 
 
     }
+
+    public function create(){
+
+
+
+        return view('registro.tipo_movimientos.create');
+
+    }
 }
