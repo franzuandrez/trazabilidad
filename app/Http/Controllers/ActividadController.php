@@ -92,4 +92,22 @@ class ActividadController extends Controller
                 ->withErrors(['error'=>'Actividad no encontrada']);
         }
     }
+
+    public function  show( $id ){
+
+        try {
+
+            $actividad = Actividad::findOrFail($id);
+
+            return view('registro.actividades.show',compact('actividad'));
+
+        } catch (\Exception $e) {
+
+            return redirect()->route('actividades.index')
+                ->withErrors(['error'=>'Actividad no encontrada']);
+
+        }
+
+
+    }
 }

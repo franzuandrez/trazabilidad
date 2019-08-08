@@ -172,6 +172,7 @@ Route::get('registro/actividades/create','ActividadController@create')->name('ac
 Route::post('registro/actividades/create','ActividadController@store')->name('actividades.store');
 Route::get('registro/actividades/{id}/edit','ActividadController@edit')->name('actividades.edit');
 Route::patch('registro/actividades/{id}','ActividadController@update')->name('actividades.update');
+Route::get('registro/actividades/{id}','ActividadController@show')->name('actividades.show');
 
 
 
