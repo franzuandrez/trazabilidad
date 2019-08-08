@@ -140,6 +140,12 @@
                                 Bines
                             </a>
                         </li>
+                        <li>
+                            <a href="{{url('registro/tipo_movimientos')}}">
+                                <i class="fa fa-arrows-h" aria-hidden="true"></i>
+                                Tipo Movimiento
+                            </a>
+                        </li>
                     </ul>
 
                 </li>

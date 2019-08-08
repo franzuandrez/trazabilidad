@@ -176,6 +176,9 @@ Route::get('registro/actividades/{id}','ActividadController@show')->name('activi
 Route::post('registro/actividades/{id}','ActividadController@destroy')->name('actividades.destroy');
 
 
+Route::get('registro/tipo_movimientos','TipoMovimientoController@index')->name('tipo_movimientos.index');
+
+
 
 Route::get('control/chaomin','ChaomeanController@index')->name('chaomin.index');
 Route::get('control/chaomin/create','ChaomeanController@create')->name('chaomin.create');
