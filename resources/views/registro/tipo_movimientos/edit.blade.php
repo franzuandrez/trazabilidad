@@ -2,15 +2,15 @@
 
 @section('contenido')
 
-    @component('componentes.nav',['operation'=>'Crear',
+    @component('componentes.nav',['operation'=>'Editar',
     'menu_icon'=>'fa-file-text',
-    'submenu_icon'=>'fa fa-shopping-cart',
-    'operation_icon'=>'fa-plus',])
+    'submenu_icon'=>'fa fa-arrows-h',
+    'operation_icon'=>'fa-pencil',])
         @slot('menu')
             Registro
         @endslot
         @slot('submenu')
-            Clientes
+            Tipo Movimiento
         @endslot
     @endcomponent
 
