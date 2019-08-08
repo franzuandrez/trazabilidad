@@ -1,9 +1,9 @@
 @extends('layouts.admin')
 @section('contenido')
-    @component('componentes.nav',['operation'=>'Crear',
+    @component('componentes.nav',['operation'=>'Editar',
     'menu_icon'=>'fa-file-text',
     'submenu_icon'=>'fa fa-hand-lizard-o',
-    'operation_icon'=>'fa-plus',])
+    'operation_icon'=>'fa-pencil',])
         @slot('menu')
             Registro
         @endslot
