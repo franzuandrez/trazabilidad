@@ -417,7 +417,7 @@
                         <div class="form-group">
                             <label for="nombre">Cantidad</label>
                             <input id="cantidad" type="text" onkeypress="return justNumbers(event);" name="descripcion"
-                                   value="{{old('descripcion')}}"
+
                                    class="form-control">
                         </div>
                     </div>
@@ -425,7 +425,7 @@
                         <div class="form-group">
                             <label for="nombre">No. de Lote</label>
                             <input id="lote" type="text" onkeypress="return justNumbers(event);" name="descripcion"
-                                   value="{{old('descripcion')}}"
+
                                    class="form-control">
                         </div>
                     </div>
@@ -438,7 +438,6 @@
                                     <i class="fa fa-calendar"></i>
                                 </div>
                                 <input id="vencimiento" type="text" class="form-control pull-right" id="datepicker">
-
                             </div>
 
                         </div>
@@ -498,10 +497,60 @@
             setDate: new Date()
 
         });
+        $(document).ready(function(){
+
+            $("#btnAdd").click(function(){
+                addToTable();
+            });
+
+        });
     </script>
     <script>
         function cargarProveedores() {
             //NOT IMPLEMENTED
+        }
+        function addToTable(){
+            if ($("#cantidad").val()!="" && $("#lote").val()!="" &&$("#vencimiento").val()!="")
+            {
+                let cantidad = $("#cantidad");
+                let lote =  $("#lote");
+                let fecha = $("#vencimiento");
+                //removeFromTareas(tarea);
+                //removeFromSelect(vendedor);
+                let row =
+                    `<tr>
+            <td><button onclick=removeFromTable(this) type="button" class="btn btn-warning">x</button></td>
+            <td><input type="hidden" value='${cantidad.val()}' name=cantidad[]>${cantidad.val()}</td>
+            <td ><input type="hidden" value ='${lote.val()}'  name=lote[] >${lote.val()}</td>
+            <td ><input type="hidden" value ='${fecha.val()}'  name=vencimiento[] >${fecha.val()}</td>
+            </tr>`;
+
+                $("#detalles").append(row);
+                cantidad.val('');
+                lote.val('');
+                fecha.val('');
+            }else{
+                $('#modal-default').modal('show');
+                return false;
+            }
+        }
+        function removeFromTable(element){
+            //Removemos la fila
+            let td = $(element).parent();
+            td.parent().remove();
+
+            let tdNext = td.next();
+            let tdNextNext =tdNext.next();
+            addToSelect(tdNext);
+            addToTarea(tdNextNext);
+        }
+        function justNumbers(e)
+        {
+            var keynum = window.event ? window.event.keyCode : e.which;
+            if ((keynum == 8) || (keynum == 46))
+                return true;
+
+            return /\d/.test(String.fromCharCode(keynum));
         }
     </script>
 @endsection
