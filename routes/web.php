@@ -164,7 +164,7 @@ Route::get('registro/productos/create','ProductoController@create')->name('produ
 Route::post('registro/productos/create','ProductoController@store')->name('productos.store');
 Route::get('registro/productos/{id}/edit','ProductoController@edit')->name('productos.edit');
 Route::patch('registro/productos/{id}','ProductoController@update')->name('productos.update');
-
+Route::get('registro/productos/{id}','ProductoController@show')->name('productos.show');
 
 
 

@@ -134,4 +134,27 @@ class ProductoController extends Controller
 
 
     }
+
+    public function show( $id ){
+
+
+        try{
+            $producto = Producto::findOrFail($id);
+            $dimensionales = Dimensional::actived()->get();
+            $presentaciones = Presentacion::actived()->get();
+            $proveedores = Proveedor::actived()->get();
+
+            return view('registro.productos.show',
+                compact('producto','dimensionales','presentaciones','proveedores'));
+
+
+
+        }catch(\Exception $ex){
+
+            return redirect()->route('productos.index')
+                ->withErrors(['error'=>'Producto no encontrado']);
+
+
+        }
+    }
 }
