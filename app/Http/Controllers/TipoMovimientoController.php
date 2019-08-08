@@ -58,4 +58,37 @@ class TipoMovimientoController extends Controller
         return redirect()->route('tipo_movimientos.index')
             ->with('success','Tipo movimiento creado correctamente');
     }
+
+    public function edit( $id ){
+
+        try {
+            $tipoMovimiento = TipoMovimiento::findOrFail($id);
+
+            return view('registro.tipo_movimientos.edit',compact('tipoMovimiento'));
+
+        } catch (\Exception $e) {
+
+            return redirect()->route('tipo_movimientos.index')
+                ->withErrors(['error','Tipo de movimiento no encontrado']);
+        }
+
+    }
+
+    public function update( Request $request , $id ){
+
+        try {
+            $tipoMovimiento = TipoMovimiento::findOrFail($id);
+            $tipoMovimiento->descripcion = $request->get('descripcion');
+            $tipoMovimiento->factor = $request->get('factor');
+            $tipoMovimiento->update();
+            return redirect()->route('tipo_movimientos.index')
+                ->with('success','Tipo movimiento actualizado correctamente');
+
+        } catch (\Exception $e) {
+
+            return redirect()->route('tipo_movimientos.index')
+                ->withErrors(['error','Tipo de movimiento no encontrado']);
+
+        }
+    }
 }
