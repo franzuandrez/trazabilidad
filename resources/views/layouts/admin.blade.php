@@ -30,16 +30,12 @@
                             class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
-
                             <a href="{{url('registro/proveedores')}}">
                                 <i class="fa fa-users"></i>
                                 Proveedores
                             </a>
-
                         </li>
-
                         <li>
-
                             <a href="{{url('registro/presentaciones')}}">
                                 <i class="fa fa-th-large"></i>
                                 Presentaciones
@@ -213,12 +209,13 @@
 </footer>
 
 
+
 <script src="{{asset('js/jQuery-2.1.4.min.js')}}"></script>
 <script src="{{asset('js/app.js')}}"></script>
 <script src="{{asset('js/bootstrap.min.js')}}"></script>
+<script src="{{asset('js/bootstrap-select.min.js')}}"></script>
 <script src="{{asset('js/bootstrap-datepicker.min.js')}}"></script>
 <script src="{{asset('js/bootstrap-datepicker.es.min.js')}}"></script>
-<script src="{{asset('js/bootstrap-select.min.js')}}"></script>
 <script>
     $(document).ready(function () {
         $('[data-toggle="tooltip"]').tooltip();
