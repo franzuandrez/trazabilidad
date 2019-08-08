@@ -168,6 +168,8 @@ Route::get('registro/productos/{id}','ProductoController@show')->name('productos
 Route::post('registro/productos/{id}','ProductoController@destroy')->name('productos.destroy');
 
 Route::get('registro/actividades','ActividadController@index')->name('actividades.index');
+Route::get('registro/actividades/create','ActividadController@create')->name('actividades.create');
+Route::post('registro/actividades/create','ActividadController@store')->name('actividades.store');
 
 
 

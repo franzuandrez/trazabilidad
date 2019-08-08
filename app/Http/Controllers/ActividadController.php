@@ -49,4 +49,14 @@ class ActividadController extends Controller
 
 
     }
+
+    public function store(Request $request ){
+
+        $actividad = new Actividad();
+        $actividad->descripcion = $request->get('descripcion');
+        $actividad->save();
+
+        return redirect()->route('actividades.index')
+            ->with('success','Actividad dada de alta correctamente');
+    }
 }
