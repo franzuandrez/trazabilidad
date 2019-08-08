@@ -193,3 +193,6 @@ Route::patch('control/chaomin/{id}','ChaomeanController@update')->name('chaomin.
 Route::get('control/chaomin/{id}','ChaomeanController@show')->name('chaomin.show');
 Route::post('control/chaomin/{id}','ChaomeanController@destroy')->name('chaomin.destroy');
 
+
+Route::get('recepcion/materia_prima','RecepcionController@index')->name('recepcion.materia_prima');
+

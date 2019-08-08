@@ -152,6 +152,21 @@
             </ul>
             <ul class="nav navbar-nav">
                 <li class="dropdown">
+                    <a href="#" data-toggle="dropdown" style="background-color: #01579B;  color: #fff;">Recepcion <b
+
+                                class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="{{url('recepcion/materia_prima')}}">
+                                <i class="fa fa-sign-in" aria-hidden="true"></i>
+                                Materia prima
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
                     <a href="#" data-toggle="dropdown" style="background-color: #01579B;  color: #fff;">Control
                         Chaomin<b
                             class="caret"></b></a>
