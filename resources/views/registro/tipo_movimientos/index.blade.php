@@ -44,6 +44,14 @@
                             @endif
                         </td>
                     </tr>
+                    @component('componentes.alert-delete',
+                      ['model'=>'TIPO MOVIMIENTO',
+                      'id'=>$tipo->id_movimiento,
+                      'method'=>'TipoMovimientoController@destroy',
+                      'extras'=>'',
+                      'description'=>$tipo->descripcion,
+                      'url'=>url('registro/tipo_movimientos/')."/".$tipo->id_movimiento])
+                    @endcomponent
                 @endforeach
                 </tbody>
             </table>

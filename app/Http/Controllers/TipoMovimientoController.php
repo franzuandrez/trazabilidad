@@ -14,7 +14,8 @@ class TipoMovimientoController extends Controller
         $this->middleware('auth');
     }
 
-    public function index( Request $request){
+    public function index(Request $request)
+    {
 
 
         $search = $request->get('search') == null ? '' : $request->get('search');
@@ -22,33 +23,34 @@ class TipoMovimientoController extends Controller
         $sortField = $request->get('field') == null ? 'descripcion' : $request->get('field');
 
         $tipos = TipoMovimiento::actived()
-            ->where('descripcion','LIKE','%'.$search.'%')
-            ->orderBy($sortField,$sort)
+            ->where('descripcion', 'LIKE', '%' . $search . '%')
+            ->orderBy($sortField, $sort)
             ->paginate(20);
 
         if ($request->ajax()) {
 
             return view('registro.tipo_movimientos.index',
-                compact('search','sort','sortField','tipos'));
+                compact('search', 'sort', 'sortField', 'tipos'));
 
-        }else{
+        } else {
 
             return view('registro.tipo_movimientos.ajax',
-                compact('search','sort','sortField','tipos'));
+                compact('search', 'sort', 'sortField', 'tipos'));
         }
 
 
     }
 
-    public function create(){
-
+    public function create()
+    {
 
 
         return view('registro.tipo_movimientos.create');
 
     }
 
-    public function store( Request $request){
+    public function store(Request $request)
+    {
 
         $tipoMovimiento = new TipoMovimiento();
         $tipoMovimiento->descripcion = $request->get('descripcion');
@@ -56,25 +58,27 @@ class TipoMovimientoController extends Controller
         $tipoMovimiento->save();
 
         return redirect()->route('tipo_movimientos.index')
-            ->with('success','Tipo movimiento creado correctamente');
+            ->with('success', 'Tipo movimiento creado correctamente');
     }
 
-    public function edit( $id ){
+    public function edit($id)
+    {
 
         try {
             $tipoMovimiento = TipoMovimiento::findOrFail($id);
 
-            return view('registro.tipo_movimientos.edit',compact('tipoMovimiento'));
+            return view('registro.tipo_movimientos.edit', compact('tipoMovimiento'));
 
         } catch (\Exception $e) {
 
             return redirect()->route('tipo_movimientos.index')
-                ->withErrors(['error','Tipo de movimiento no encontrado']);
+                ->withErrors(['error', 'Tipo de movimiento no encontrado']);
         }
 
     }
 
-    public function update( Request $request , $id ){
+    public function update(Request $request, $id)
+    {
 
         try {
             $tipoMovimiento = TipoMovimiento::findOrFail($id);
@@ -82,28 +86,48 @@ class TipoMovimientoController extends Controller
             $tipoMovimiento->factor = $request->get('factor');
             $tipoMovimiento->update();
             return redirect()->route('tipo_movimientos.index')
-                ->with('success','Tipo movimiento actualizado correctamente');
+                ->with('success', 'Tipo movimiento actualizado correctamente');
 
         } catch (\Exception $e) {
 
             return redirect()->route('tipo_movimientos.index')
-                ->withErrors(['error','Tipo de movimiento no encontrado']);
+                ->withErrors(['error', 'Tipo de movimiento no encontrado']);
 
         }
     }
 
-    public function show( $id ){
+    public function show($id)
+    {
 
         try {
             $tipoMovimiento = TipoMovimiento::findOrFail($id);
 
-            return view('registro.tipo_movimientos.show',compact('tipoMovimiento'));
+            return view('registro.tipo_movimientos.show', compact('tipoMovimiento'));
 
         } catch (\Exception $e) {
 
             return redirect()->route('tipo_movimientos.index')
-                ->withErrors(['error','Tipo de movimiento no encontrado']);
+                ->withErrors(['error', 'Tipo de movimiento no encontrado']);
         }
 
+    }
+
+    public function destroy($id)
+    {
+
+        try {
+            $tipoMovimiento = TipoMovimiento::findOrFail($id);
+            $tipoMovimiento->estado = 0;
+            $tipoMovimiento->update();
+            return response()->json(['success' => 'Tipo de movimiento dado de baja correctamente']);
+
+        } catch (\Exception $ex) {
+
+            return response()->json(
+                ['error' => 'En este momento no es posible procesar su petición',
+                    'mensaje' => $ex->getMessage()
+                ]
+            );
+        }
     }
 }
