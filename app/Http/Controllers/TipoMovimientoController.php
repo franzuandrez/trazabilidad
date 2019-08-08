@@ -47,4 +47,15 @@ class TipoMovimientoController extends Controller
         return view('registro.tipo_movimientos.create');
 
     }
+
+    public function store( Request $request){
+
+        $tipoMovimiento = new TipoMovimiento();
+        $tipoMovimiento->descripcion = $request->get('descripcion');
+        $tipoMovimiento->factor = $request->get('factor');
+        $tipoMovimiento->save();
+
+        return redirect()->route('tipo_movimientos.index')
+            ->with('success','Tipo movimiento creado correctamente');
+    }
 }
