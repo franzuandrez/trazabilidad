@@ -91,4 +91,19 @@ class TipoMovimientoController extends Controller
 
         }
     }
+
+    public function show( $id ){
+
+        try {
+            $tipoMovimiento = TipoMovimiento::findOrFail($id);
+
+            return view('registro.tipo_movimientos.show',compact('tipoMovimiento'));
+
+        } catch (\Exception $e) {
+
+            return redirect()->route('tipo_movimientos.index')
+                ->withErrors(['error','Tipo de movimiento no encontrado']);
+        }
+
+    }
 }

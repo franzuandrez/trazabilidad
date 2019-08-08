@@ -181,6 +181,7 @@ Route::get('registro/tipo_movimientos/create','TipoMovimientoController@create')
 Route::post('registro/tipo_movimientos/create','TipoMovimientoController@store')->name('tipo_movimientos.store');
 Route::get('registro/tipo_movimientos/{id}/edit','TipoMovimientoController@edit')->name('tipo_movimientos.edit');
 Route::patch('registro/tipo_movimientos/{id}','TipoMovimientoController@update')->name('tipo_movimientos.update');
+Route::get('registro/tipo_movimientos/{id}','TipoMovimientoController@show')->name('tipo_movimientos.show');
 
 
 Route::get('control/chaomin','ChaomeanController@index')->name('chaomin.index');
