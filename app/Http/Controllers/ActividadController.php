@@ -110,4 +110,22 @@ class ActividadController extends Controller
 
 
     }
+
+    public function destroy( $id ){
+
+        try {
+            $actividad = Actividad::findOrFail($id);
+            $actividad->estado = 0;
+            $actividad->update();
+
+            return response()->json(['success'=>'Actividad dada de baja correctamente']);
+
+        } catch (\Exception $e) {
+            return response()->json(
+                ['error'=>'En este momento no es posible procesar su petición',
+                    'mensaje'=>$e->getMessage()
+                ]
+            );
+        }
+    }
 }

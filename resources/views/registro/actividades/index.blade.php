@@ -54,6 +54,14 @@
                                 <span class="label label-danger">De baja</span>
                             @endif
                         </td>
+                        @component('componentes.alert-delete',
+                           ['model'=>'ACTIVIDAD',
+                           'id'=>$actividad->id_actividad,
+                           'method'=>'RoleController@destroy',
+                           'extras'=>'',
+                           'description'=>$actividad->descripcion,
+                           'url'=>url('registro/actividades/')."/".$actividad->id_actividad])
+                        @endcomponent
                     </tr>
                 @endforeach
                 </tbody>

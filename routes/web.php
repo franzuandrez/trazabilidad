@@ -173,6 +173,7 @@ Route::post('registro/actividades/create','ActividadController@store')->name('ac
 Route::get('registro/actividades/{id}/edit','ActividadController@edit')->name('actividades.edit');
 Route::patch('registro/actividades/{id}','ActividadController@update')->name('actividades.update');
 Route::get('registro/actividades/{id}','ActividadController@show')->name('actividades.show');
+Route::post('registro/actividades/{id}','ActividadController@destroy')->name('actividades.destroy');
 
 
 
