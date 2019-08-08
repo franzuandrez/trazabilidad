@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Producto;
 use App\Recepcion;
 use Illuminate\Http\Request;
 
@@ -47,6 +48,18 @@ class RecepcionController extends Controller
 
 
 
+
+
+    }
+
+    public function create(){
+
+
+
+        $productos = Producto::esMateriaPrima()->get();
+
+        return view('recepcion.materia_prima.create',
+            compact('productos'));
 
 
     }

@@ -195,4 +195,5 @@ Route::post('control/chaomin/{id}','ChaomeanController@destroy')->name('chaomin.
 
 
 Route::get('recepcion/materia_prima','RecepcionController@index')->name('recepcion.materia_prima');
+Route::get('recepcion/materia_prima/create','RecepcionController@create')->name('recepcion.materia_prima.create');
 
