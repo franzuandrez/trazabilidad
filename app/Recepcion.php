@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class RecepcionEncabezado extends Model
+class Recepcion extends Model
 {
     //
     use LogsActivity;
@@ -50,6 +50,21 @@ class RecepcionEncabezado extends Model
     public function producto_materia_prima(){
 
         return $this->belongsTo('App\Producto','id_producto');
+    }
+
+    public function inspeccion_vehiculos(){
+
+        return $this->hasMany('App\InspeccionVehiculo','id_recepcion_enc');
+    }
+
+    public function inspeccion_empaque(){
+
+        return $this->hasMany('App\InspeccionEmpaqueEtiqueta','id_recepcion_enc');
+    }
+
+    public function detalle_lotes(){
+
+        return $this->hasMany('App\DetalleLotes','id_recepcion_enc');
     }
 
 
