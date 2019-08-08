@@ -282,33 +282,52 @@
 
                     <div class="col-lg-12 col-sm-12 col-md-4 col-xs-12">
 
-                        <label for="nombre">Empaque</label>
+                        <label for="empaque">Empaque</label>
 
                     </div>
                     <div class="col-lg-12 col-sm-12 col-md-4 col-xs-12">
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="opcion3">
-                            <label class="custom-control-label" style="font-weight: normal" for="opcion3">No
+                            <input type="checkbox"
+                                   class="custom-control-input"
+                                   name="no_golpeado"
+                                   value="1"
+                                   id="no_golpeado">
+                            <label class="custom-control-label" style="font-weight: normal" for="no_golpeado">No
                                 golpeado</label>
                         </div>
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="opcion3">
-                            <label class="custom-control-label" style="font-weight: normal" for="opcion3">Sin
+                            <input type="checkbox"
+                                   class="custom-control-input"
+                                   name="sin_roturas"
+                                   value="1"
+                                   id="sin_roturas">
+                            <label class="custom-control-label" style="font-weight: normal" for="sin_roturas">Sin
                                 rotulas</label>
                         </div>
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="opcion3">
+                            <input type="checkbox"
+                                   class="custom-control-input"
+                                   name="empaque_cerrado"
+                                   id="empaque_cerrado">
                             <label class="custom-control-label" style="font-weight: normal"
-                                   for="opcion3">Cerrado</label>
+                                   for="empaque_cerrado">Cerrado</label>
                         </div>
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="opcion3">
-                            <label class="custom-control-label" style="font-weight: normal" for="opcion3">Seco y
+                            <input type="checkbox"
+                                   class="custom-control-input"
+                                   name="seco_limpio"
+                                   value="1"
+                                   id="seco_limpio">
+                            <label class="custom-control-label" style="font-weight: normal" for="seco_limpio">Seco y
                                 Limpio</label>
                         </div>
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="opcion3">
-                            <label class="custom-control-label" style="font-weight: normal" for="opcion3">Sin material
+                            <input type="checkbox"
+                                   class="custom-control-input"
+                                   value="1"
+                                   name="sin_material_extranio"
+                                   id="sin_material_extranio">
+                            <label class="custom-control-label" style="font-weight: normal" for="sin_material_extranio">Sin material
                                 extraño</label>
                         </div>
 
@@ -316,49 +335,82 @@
 
                     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="opcion1">
-                            <label class="custom-control-label" for="opcion1">Producto debidamente identificado</label>
+                            <input type="checkbox"
+                                   class="custom-control-input"
+                                   value="1"
+                                   name="debidamente_identificado"
+                                   id="debidamente_identificado">
+                            <label class="custom-control-label" for="debidamente_identificado">Producto debidamente identificado</label>
                         </div>
                     </div>
                     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="opcion1">
-                            <label class="custom-control-label" for="opcion1">Identificación de producto legible</label>
+                            <input type="checkbox"
+                                   class="custom-control-input"
+                                   name="debidamente_legible"
+                                   value="1"
+                                   id="debidamente_legible">
+                            <label class="custom-control-label" for="debidamente_legible">Identificación de producto legible</label>
                         </div>
                     </div>
                     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="opcion1">
-                            <label class="custom-control-label" for="opcion1">No. de lote presente</label>
+                            <input type="checkbox"
+                                   class="custom-control-input"
+                                   value="1"
+                                   name="no_lote_presente"
+                                   id="no_lote_presente">
+                            <label class="custom-control-label" for="no_lote_presente">No. de lote presente</label>
                         </div>
                     </div>
                     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="opcion1">
-                            <label class="custom-control-label" for="opcion1">No. de lote legible</label>
+                            <input type="checkbox"
+                                   class="custom-control-input"
+                                   name="no_lote_legible"
+                                   value="1"
+                                   id="no_lote_legible">
+                            <label class="custom-control-label" for="no_lote_legible">No. de lote legible</label>
                         </div>
                     </div>
                     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="opcion1">
-                            <label class="custom-control-label" for="opcion1">Fecha de vencimiento presente y
+                            <input type="checkbox"
+                                   class="custom-control-input"
+                                   name="fecha_vencimiento_legible"
+                                   value="1"
+                                   id="fecha_vencimiento_legible">
+                            <label class="custom-control-label" for="fecha_vencimiento_legible">Fecha de vencimiento presente y
                                 legible</label>
                         </div>
                     </div>
                     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="opcion1">
-                            <label class="custom-control-label" for="opcion1">Contenido Neto declarado</label>
+                            <input type="checkbox"
+                                   class="custom-control-input"
+                                   name="fecha_vencimiento_vigente"
+                                   value="1"
+                                   id="fecha_vencimiento_vigente">
+                            <label class="custom-control-label" for="fecha_vencimiento_vigente">Fecha de vencimiento vigente</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox"
+                                   class="custom-control-input"
+                                   name="contenido_neto_declarado"
+                                   value="1"
+                                   id="contenido_neto_declarado">
+                            <label class="custom-control-label" for="contenido_neto_declarado">Contenido Neto declarado</label>
                         </div>
                     </div>
                     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
                         <div class="form-group">
-                            <label for="nombre">OBSERVACIONES/ACCIONES CORRECTIVAS</label>
-                            <input type="text" name="descripcion" value="{{old('descripcion')}}"
+                            <label for="observaciones_empaque">OBSERVACIONES/ACCIONES CORRECTIVAS</label>
+                            <input type="text" name="observaciones_empaque" value="{{old('observaciones_empaque')}}"
                                    class="form-control">
                         </div>
                     </div>
-
                 </div>
                 <div class="tab-pane" id="tab_3">
                     <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
