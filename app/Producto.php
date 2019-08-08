@@ -36,7 +36,6 @@ class Producto extends Model
         'id_proveedor',
         'tipo_producto',
         'fecha_creacion',
-        'fecha_actualizacion',
         'estado',
         'creado_por'
     ];
