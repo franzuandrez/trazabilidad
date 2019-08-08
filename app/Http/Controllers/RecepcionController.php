@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\InspeccionEmpaqueEtiqueta;
 use App\InspeccionVehiculo;
 use App\Producto;
 use App\Recepcion;
@@ -87,7 +88,7 @@ class RecepcionController extends Controller
 
             //Insertar inspeccion de empaque.
 
-
+            $this->saveInspeccionEmpaque( $request , $recepcion->id_recepcion_enc );
 
 
             //Insertar detalle de lote.
@@ -153,6 +154,41 @@ class RecepcionController extends Controller
 
     }
 
+    private function saveInspeccionEmpaque( $request , $id_recepcion ) {
 
+
+        $no_golpeado = $this->getValueCheched( $request->get('no_golpeado') );
+        $sin_roturas = $this->getValueCheched( $request->get('sin_roturas') );
+        $cerrado = $this->getValueCheched( $request->get('empaque_cerrado') );
+        $seco_limpio = $this->getValueCheched( $request->get('seco_limpio') );
+        $sin_material_extranio = $this->getValueCheched( $request->get('sin_material_extranio') );
+        $debidamente_identificado = $this->getValueCheched( $request->get('debidamente_identificado') );
+        $debidamente_legible = $this->getValueCheched( $request->get('debidamente_legible') );
+        $no_lote_presente = $this->getValueCheched( $request->get('no_lote_presente'));
+        $no_lote_legible =$this->getValueCheched( $request->get('no_lote_legible ') );
+        $fecha_vencimiento_legible = $this->getValueCheched( $request->get('fecha_vencimiento_legible') );
+        $fecha_vencimiento_vigente = $this->getValueCheched( $request->get('fecha_vencimiento_vigente') );
+        $contenido_neto_declarado = $this->getValueCheched( $request->get('contenido_neto_declarado') );
+        $observaciones = $request->get('observaciones_empaque') ;
+
+        $inspeccionEmpaque = new InspeccionEmpaqueEtiqueta();
+        $inspeccionEmpaque->no_golpeado = $no_golpeado;
+        $inspeccionEmpaque->sin_roturas = $sin_roturas;
+        $inspeccionEmpaque->cerrado = $cerrado;
+        $inspeccionEmpaque->seco_limpio = $seco_limpio;
+        $inspeccionEmpaque->sin_material_extranio = $sin_material_extranio;
+        $inspeccionEmpaque->debidamente_identificado = $debidamente_identificado;
+        $inspeccionEmpaque->debidamente_legible = $debidamente_legible;
+        $inspeccionEmpaque->no_lote_presente = $no_lote_presente;
+        $inspeccionEmpaque->no_lote_legible = $no_lote_legible;
+        $inspeccionEmpaque->fecha_vencimiento_legible = $fecha_vencimiento_legible;
+        $inspeccionEmpaque->fecha_vencimiento_vigente = $fecha_vencimiento_vigente;
+        $inspeccionEmpaque->contenido_neto_declarado = $contenido_neto_declarado;
+        $inspeccionEmpaque->observaciones = $observaciones;
+        $inspeccionEmpaque->id_recepcion_enc = $id_recepcion;
+        $inspeccionEmpaque->save();
+
+
+    }
 
 }
