@@ -30,7 +30,7 @@
                 @foreach($tipos as $tipo)
                     <tr>
                         <td>
-                            <input type="radio" name="id_tipo_movimiento" value="{{$tipo->id_tipo_movimiento}}">
+                            <input type="radio" name="id_tipo_movimiento" value="{{$tipo->id_movimiento}}">
 
                         </td>
                         <td>
