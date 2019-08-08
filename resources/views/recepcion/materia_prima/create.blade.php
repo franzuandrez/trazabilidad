@@ -538,11 +538,8 @@
             //Removemos la fila
             let td = $(element).parent();
             td.parent().remove();
-
             let tdNext = td.next();
             let tdNextNext =tdNext.next();
-            addToSelect(tdNext);
-            addToTarea(tdNextNext);
         }
         function justNumbers(e)
         {
