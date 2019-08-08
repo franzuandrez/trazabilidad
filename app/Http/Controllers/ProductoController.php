@@ -106,4 +106,32 @@ class ProductoController extends Controller
 
         }
     }
+
+    public function update( Request $request , $id ){
+
+        try{
+
+            $producto = Producto::findOrFail($id);
+            //$producto->codigo_barras = $request->get('codigo_barras');
+            //$producto->codigo_interno = $request->get('codigo_interno');
+            $producto->descripcion = $request->get('descripcion');
+            $producto->id_dimensional = $request->get('id_dimensional');
+            $producto->id_presentacion= $request->get('id_presentacion');
+            $producto->id_proveedor = $request->get('id_proveedor');
+            $producto->tipo_producto = $request->get('tipo_producto');
+            $producto->fecha_actualizacion = \Carbon\Carbon::now();
+            $producto->update();
+
+            return redirect()->route('productos.index')
+                ->with('success','Producto actualizado correctamente');
+
+        }catch(\Exception $ex ){
+
+
+            return redirect()->route('productos.index')
+                ->withErrors(['error'=>'Lo sentimos, su peticion no ha sido procesada']);
+        }
+
+
+    }
 }
