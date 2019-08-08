@@ -19,7 +19,8 @@ class Recepcion extends Model
         'id_proveedor',
         'fecha_ingreso',
         'id_producto',
-        'usuario_recepcion'
+        'usuario_recepcion',
+        'documento_proveedor'
     ];
 
     protected $dates = [
