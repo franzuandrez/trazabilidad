@@ -170,6 +170,8 @@ Route::post('registro/productos/{id}','ProductoController@destroy')->name('produ
 Route::get('registro/actividades','ActividadController@index')->name('actividades.index');
 Route::get('registro/actividades/create','ActividadController@create')->name('actividades.create');
 Route::post('registro/actividades/create','ActividadController@store')->name('actividades.store');
+Route::get('registro/actividades/{id}/edit','ActividadController@edit')->name('actividades.edit');
+Route::patch('registro/actividades/{id}','ActividadController@update')->name('actividades.update');
 
 
 

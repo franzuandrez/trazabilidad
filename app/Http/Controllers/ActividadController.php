@@ -59,4 +59,37 @@ class ActividadController extends Controller
         return redirect()->route('actividades.index')
             ->with('success','Actividad dada de alta correctamente');
     }
+
+    public function edit($id){
+
+        try {
+
+            $actividad = Actividad::findOrFail($id);
+
+            return view('registro.actividades.edit',compact('actividad'));
+
+        } catch (\Exception $e) {
+
+            return redirect()->route('actividades.index')
+                ->withErrors(['error'=>'Actividad no encontrada']);
+
+        }
+    }
+
+    public function update( Request $request , $id ){
+
+        try {
+            $actividad = Actividad::findOrFail($id);
+            $actividad->descripcion = $request->get('descripcion');
+            $actividad->update();
+
+            return redirect()->route('actividades.index')
+                ->with('success','Actividad actualizadad correctamente');
+
+        } catch (\Exception $e) {
+
+            return redirect()->route('actividades.index')
+                ->withErrors(['error'=>'Actividad no encontrada']);
+        }
+    }
 }
