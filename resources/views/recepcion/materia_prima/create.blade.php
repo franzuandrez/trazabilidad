@@ -603,17 +603,13 @@
                     } else if (totalProductos == 1) {
 
                         //Cargar un producto
-                        let producto = productos[0];
-                        document.getElementById('id_producto').value = producto.id_producto;
-                        productoElement.value = producto.descripcion;
-                        document.getElementById('proveedor').value = producto.proveedor.razon_social;
-                        document.getElementById('id_proveedor').value = producto.proveedor.id_proveedor;
-                        productoElement.readOnly = true;
-                        document.getElementById('buscar').disabled = true;
+                        cargarProducto( productos[0] );
+
 
                     } else {
                         //Más de uno.
                         cargarProductos(productos);
+
                         setTimeout(function () {
                             $('#modal-productos').modal();
                         },1000);
@@ -656,6 +652,15 @@
             } )
 
             $('#tbody-productos').append(row);
+        }
+
+        function cargarProducto( producto ) {
+            document.getElementById('id_producto').value = producto.id_producto;
+            productoElement.value = producto.descripcion;
+            document.getElementById('proveedor').value = producto.proveedor.razon_social;
+            document.getElementById('id_proveedor').value = producto.proveedor.id_proveedor;
+            productoElement.readOnly = true;
+            document.getElementById('buscar').disabled = true;
         }
 
     </script>
