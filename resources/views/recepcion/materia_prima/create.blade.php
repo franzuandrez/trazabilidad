@@ -609,10 +609,8 @@
                     } else {
                         //Más de uno.
                         cargarProductos(productos);
+                        mostrarProductosCargados();
 
-                        setTimeout(function () {
-                            $('#modal-productos').modal();
-                        },1000);
 
                     }
 
@@ -661,6 +659,13 @@
             document.getElementById('id_proveedor').value = producto.proveedor.id_proveedor;
             productoElement.readOnly = true;
             document.getElementById('buscar').disabled = true;
+        }
+
+        function mostrarProductosCargados() {
+
+            setTimeout(function () {
+                $('#modal-productos').modal();
+            },1000);
         }
 
     </script>
