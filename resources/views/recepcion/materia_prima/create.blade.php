@@ -6,8 +6,8 @@
 @section('contenido')
 
     @component('componentes.nav',['operation'=>'Ingreso',
-    'menu_icon'=>'fa-file-text',
-    'submenu_icon'=>'fa fa-shopping-cart',
+    'menu_icon'=>'fa-arrow-circle-o-right',
+    'submenu_icon'=>'fa fa-sign-in',
     'operation_icon'=>'fa-plus',])
         @slot('menu')
             Recepcion
