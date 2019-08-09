@@ -176,4 +176,21 @@ class ProductoController extends Controller
 
         }
     }
+
+
+    public function search( $search ){
+
+        $productos = Producto::esMateriaPrima()
+            ->where(function ( $query ) use ( $search ){
+                $query->where('productos.codigo_barras','LIKE','%'.$search.'%')
+                    ->orWhere('productos.descripcion','LIKE','%'.$search.'%');
+            })
+            ->with('proveedor')
+            ->get();
+
+        if($productos->isEmpty()){
+            $productos = [];
+        }
+        return response()->json($productos);
+    }
 }
