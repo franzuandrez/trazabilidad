@@ -7,10 +7,12 @@ use App\InspeccionEmpaqueEtiqueta;
 use App\InspeccionVehiculo;
 use App\Producto;
 use App\Recepcion;
+use App\Movimiento;
 use Illuminate\Http\Request;
 use DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Mockery\Instantiator;
 
 class RecepcionController extends Controller
 {
@@ -99,6 +101,8 @@ class RecepcionController extends Controller
 
             $this->saveDetalleLotes( $request, $recepcion->id_recepcion_enc );
 
+
+            $this->saveMovimientos( $request ,$recepcion);
 
             DB::commit();
 
@@ -217,6 +221,33 @@ class RecepcionController extends Controller
             ]);
         }
 
+
+
+
+    }
+
+    private function saveMovimientos( $request , $recepcion  ){
+
+        $lotes = $request->get('no_lote');
+        if( is_iterable( $lotes )  ){
+
+            foreach ( $lotes as $key => $value  ){
+
+                $movimiento = new Movimiento();
+                $movimiento->numero_documento = $recepcion->orden_compra;
+                $movimiento->usuario =Auth::user()->id;
+                $movimiento->tipo_movimiento = 1; //Entrada
+                $movimiento->cantidad = $request->get('cantidad')[$key];
+                $movimiento->id_producto = $recepcion->id_producto;
+                $movimiento->fecha_hora_movimiento = Carbon::now();
+                $movimiento->ubicacion = 'TRANSITO';
+                $movimiento->lote = $value;
+                $movimiento->fecha_vencimiento = $request->get('fecha_vencimiento')[$key];
+                $movimiento->clave_autorizacion = '1234';
+                $movimiento->estado = 1;
+                $movimiento->save();
+            }
+        }
 
 
 

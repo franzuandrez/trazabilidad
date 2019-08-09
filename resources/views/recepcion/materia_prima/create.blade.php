@@ -550,8 +550,8 @@
                 let row =
                     `<tr>
             <td><button onclick=removeFromTable(this) type="button" class="btn btn-warning">x</button></td>
-            <td><input type="hidden" value='${cantidad.val()}' name=no_lote[]>${cantidad.val()}</td>
-            <td ><input type="hidden" value ='${lote.val()}'  name=cantidad[] >${lote.val()}</td>
+            <td><input type="hidden" value='${cantidad.val()}' name=cantidad[]>${cantidad.val()}</td>
+            <td ><input type="hidden" value ='${lote.val()}'  name=no_lote[] >${lote.val()}</td>
             <td ><input type="hidden" value ='${fecha.val()}'  name=fecha_vencimiento[] >${fecha.val()}</td>
             </tr>`;
 
