@@ -22,7 +22,7 @@
     {{Form::token()}}
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <label for="id_producto">MATERIA PRIMA</label>
+        <label for="producto">MATERIA PRIMA</label>
         <div class="input-group">
             <input type="text" id="producto" name="producto" placeholder="BUSCAR..." class="form-control">
             <span class="input-group-btn">
@@ -609,6 +609,7 @@
                         document.getElementById('proveedor').value = producto.proveedor.razon_social;
                         document.getElementById('id_proveedor').value = producto.proveedor.id_proveedor;
                         productoElement.readOnly = true;
+                        document.getElementById('buscar').disabled = true;
 
                     } else {
                         //Más de uno.
@@ -634,6 +635,7 @@
             document.getElementById('proveedor').value="";
             document.getElementById('id_proveedor').value="";
             document.getElementById('producto').readOnly =false;
+            document.getElementById('buscar').disabled = false;
 
 
         }
