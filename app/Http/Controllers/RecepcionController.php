@@ -23,8 +23,8 @@ class RecepcionController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(Request $request){
-
+    public function index(Request $request)
+    {
 
 
         $search = $request->get('search') == null ? '' : $request->get('search');
@@ -32,37 +32,32 @@ class RecepcionController extends Controller
         $sortField = $request->get('field') == null ? 'orden_compra' : $request->get('field');
 
 
-
-        $recepciones = Recepcion::join('proveedores','proveedores.id_proveedor','=','recepcion_encabezado.id_proveedor')
-            ->join('productos','productos.id_producto','=','recepcion_encabezado.id_producto')
-            ->select('recepcion_encabezado.*','productos.descripcion as producto','proveedores.razon_social as proveedor')
-            ->where(function ( $query ) use ( $search ){
-                $query->where('proveedores.razon_social','LIKE','%'.$search.'%')
-                    ->orWhere('productos.descripcion','LIKE','%'.$search.'%')
-                    ->orWhere('recepcion_encabezado.orden_compra','LIKE','%'.$search.'%');
+        $recepciones = Recepcion::join('proveedores', 'proveedores.id_proveedor', '=', 'recepcion_encabezado.id_proveedor')
+            ->join('productos', 'productos.id_producto', '=', 'recepcion_encabezado.id_producto')
+            ->select('recepcion_encabezado.*', 'productos.descripcion as producto', 'proveedores.razon_social as proveedor')
+            ->where(function ($query) use ($search) {
+                $query->where('proveedores.razon_social', 'LIKE', '%' . $search . '%')
+                    ->orWhere('productos.descripcion', 'LIKE', '%' . $search . '%')
+                    ->orWhere('recepcion_encabezado.orden_compra', 'LIKE', '%' . $search . '%');
 
             })
-            ->orderBy($sortField,$sort)
+            ->orderBy($sortField, $sort)
             ->paginate(20);
 
         if ($request->ajax()) {
             return view('recepcion.materia_prima.index',
-                compact('recepciones','sort','sortField','search'));
-        }else{
+                compact('recepciones', 'sort', 'sortField', 'search'));
+        } else {
 
             return view('recepcion.materia_prima.ajax',
-                compact('recepciones','sort','sortField','search'));
+                compact('recepciones', 'sort', 'sortField', 'search'));
         }
-
-
-
-
 
 
     }
 
-    public function create(){
-
+    public function create()
+    {
 
 
         $productos = Producto::esMateriaPrima()->get();
@@ -73,9 +68,8 @@ class RecepcionController extends Controller
 
     }
 
-    public function store( Request $request ){
-
-
+    public function store(Request $request)
+    {
 
 
         try {
@@ -86,28 +80,28 @@ class RecepcionController extends Controller
             $recepcion = new Recepcion();
             $recepcion->id_producto = $request->get('id_producto');
             $recepcion->id_proveedor = $request->get('id_proveedor');
-            $recepcion->fecha_ingreso =Carbon::now();
+            $recepcion->fecha_ingreso = Carbon::now();
             $recepcion->documento_proveedor = $request->get('documento_proveedor');
             $recepcion->orden_compra = $request->get('orden_compra');
-            $recepcion->usuario_recepcion =\Auth::user()->id;
+            $recepcion->usuario_recepcion = \Auth::user()->id;
             $recepcion->save();
 
 
-            $this->saveInspeccionVehiculo( $request , $recepcion->id_recepcion_enc );
+            $this->saveInspeccionVehiculo($request, $recepcion->id_recepcion_enc);
 
 
-            $this->saveInspeccionEmpaque( $request , $recepcion->id_recepcion_enc );
+            $this->saveInspeccionEmpaque($request, $recepcion->id_recepcion_enc);
 
 
-            $this->saveDetalleLotes( $request, $recepcion->id_recepcion_enc );
+            $this->saveDetalleLotes($request, $recepcion->id_recepcion_enc);
 
 
-            $this->saveMovimientos( $request ,$recepcion);
+            $this->saveMovimientos($request, $recepcion);
 
             DB::commit();
 
             return redirect()->route('recepcion.materia_prima.index')
-                ->with('success','Materia prima ingresada corrrectamente');
+                ->with('success', 'Materia prima ingresada corrrectamente');
         } catch (\Exception $e) {
 
             DB::rollback();
@@ -118,17 +112,19 @@ class RecepcionController extends Controller
 
     }
 
-    private function getValueCheched( $value  ){
+    private function getValueCheched($value)
+    {
 
         return $value != 1 ? 0 : 1;
 
     }
 
-    private function saveInspeccionVehiculo( $request , $id_recepcion){
+    private function saveInspeccionVehiculo($request, $id_recepcion)
+    {
 
         $proveedor_aprobado = $this->getValueCheched($request->get('proveedor_aprobado'));
         $producto_acorde_compra = $this->getValueCheched($request->get('producto_acorde_compra'));
-        $cantidad_acorde_compra= $this->getValueCheched($request->get('cantidad_acorde_compra'));
+        $cantidad_acorde_compra = $this->getValueCheched($request->get('cantidad_acorde_compra'));
         $certificado_existente = $this->getValueCheched($request->get('certificado_existente'));
         $certificado_correspondiente_lote = $this->getValueCheched($request->get('certificado_correspondiente_lote'));
         $certificado_correspondiente_especificacion = $this->getValueCheched($request->get('certificado_correspondiente_especificacion'));
@@ -164,26 +160,25 @@ class RecepcionController extends Controller
         $inspeccionVehiculo->save();
 
 
-
-
     }
 
-    private function saveInspeccionEmpaque( $request , $id_recepcion ) {
+    private function saveInspeccionEmpaque($request, $id_recepcion)
+    {
 
 
-        $no_golpeado = $this->getValueCheched( $request->get('no_golpeado') );
-        $sin_roturas = $this->getValueCheched( $request->get('sin_roturas') );
-        $cerrado = $this->getValueCheched( $request->get('empaque_cerrado') );
-        $seco_limpio = $this->getValueCheched( $request->get('seco_limpio') );
-        $sin_material_extranio = $this->getValueCheched( $request->get('sin_material_extranio') );
-        $debidamente_identificado = $this->getValueCheched( $request->get('debidamente_identificado') );
-        $debidamente_legible = $this->getValueCheched( $request->get('debidamente_legible') );
-        $no_lote_presente = $this->getValueCheched( $request->get('no_lote_presente'));
-        $no_lote_legible =$this->getValueCheched( $request->get('no_lote_legible ') );
-        $fecha_vencimiento_legible = $this->getValueCheched( $request->get('fecha_vencimiento_legible') );
-        $fecha_vencimiento_vigente = $this->getValueCheched( $request->get('fecha_vencimiento_vigente') );
-        $contenido_neto_declarado = $this->getValueCheched( $request->get('contenido_neto_declarado') );
-        $observaciones = $request->get('observaciones_empaque') ;
+        $no_golpeado = $this->getValueCheched($request->get('no_golpeado'));
+        $sin_roturas = $this->getValueCheched($request->get('sin_roturas'));
+        $cerrado = $this->getValueCheched($request->get('empaque_cerrado'));
+        $seco_limpio = $this->getValueCheched($request->get('seco_limpio'));
+        $sin_material_extranio = $this->getValueCheched($request->get('sin_material_extranio'));
+        $debidamente_identificado = $this->getValueCheched($request->get('debidamente_identificado'));
+        $debidamente_legible = $this->getValueCheched($request->get('debidamente_legible'));
+        $no_lote_presente = $this->getValueCheched($request->get('no_lote_presente'));
+        $no_lote_legible = $this->getValueCheched($request->get('no_lote_legible '));
+        $fecha_vencimiento_legible = $this->getValueCheched($request->get('fecha_vencimiento_legible'));
+        $fecha_vencimiento_vigente = $this->getValueCheched($request->get('fecha_vencimiento_vigente'));
+        $contenido_neto_declarado = $this->getValueCheched($request->get('contenido_neto_declarado'));
+        $observaciones = $request->get('observaciones_empaque');
 
         $inspeccionEmpaque = new InspeccionEmpaqueEtiqueta();
         $inspeccionEmpaque->no_golpeado = $no_golpeado;
@@ -205,37 +200,36 @@ class RecepcionController extends Controller
 
     }
 
-    private function saveDetalleLotes($request , $id_recepcion  ){
-
+    private function saveDetalleLotes($request, $id_recepcion)
+    {
 
 
         $lotes = $request->get('no_lote');
 
-        foreach ( $lotes as $key => $value ) {
+        foreach ($lotes as $key => $value) {
 
             $detalleLote = DetalleLotes::create([
-                'cantidad'=>$request->get('cantidad')[$key],
-                'no_lote'=>$value,
-                'fecha_vencimiento'=>$request->get('fecha_vencimiento')[$key],
-                'id_recepcion_enc'=>$id_recepcion
+                'cantidad' => $request->get('cantidad')[$key],
+                'no_lote' => $value,
+                'fecha_vencimiento' => $request->get('fecha_vencimiento')[$key],
+                'id_recepcion_enc' => $id_recepcion
             ]);
         }
 
 
-
-
     }
 
-    private function saveMovimientos( $request , $recepcion  ){
+    private function saveMovimientos($request, $recepcion)
+    {
 
         $lotes = $request->get('no_lote');
-        if( is_iterable( $lotes )  ){
+        if (is_iterable($lotes)) {
 
-            foreach ( $lotes as $key => $value  ){
+            foreach ($lotes as $key => $value) {
 
                 $movimiento = new Movimiento();
                 $movimiento->numero_documento = $recepcion->orden_compra;
-                $movimiento->usuario =Auth::user()->id;
+                $movimiento->usuario = Auth::user()->id;
                 $movimiento->tipo_movimiento = 1; //Entrada
                 $movimiento->cantidad = $request->get('cantidad')[$key];
                 $movimiento->id_producto = $recepcion->id_producto;
@@ -249,6 +243,25 @@ class RecepcionController extends Controller
             }
         }
 
+
+    }
+
+
+    public function show($id)
+    {
+
+        try {
+            $recepcion = Recepcion::findOrFail($id);
+
+
+
+            return view('recepcion.materia_prima.show',compact('recepcion'));
+        } catch (\Exception $e) {
+
+            return redirect()->route('recepcion.materia_prima.index')
+                ->withErrors(['errors'=>' Recepcion no encontrada ']);
+
+        }
 
 
     }

@@ -82,7 +82,7 @@ class UserController extends Controller
     public function edit($id){
 
         $user = User::find($id);
-        $roles = Role::active()->get();
+        $roles = Role::where('estado','1')->get();
         $userRole = $user->roles->all();
 
         return view('registro.users.edit',compact('user','roles','userRole'));

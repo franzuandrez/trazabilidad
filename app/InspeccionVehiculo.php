@@ -37,4 +37,7 @@ class InspeccionVehiculo extends Model
         return $this->belongsTo('App\Recepcion','id_recepcion_enc');
     }
 
+
+
+
 }
