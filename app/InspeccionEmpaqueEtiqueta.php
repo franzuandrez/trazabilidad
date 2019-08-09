@@ -20,7 +20,7 @@ class InspeccionEmpaqueEtiqueta extends Model
         'seco_limpio',
         'sin_material_extranio',
         'debidamente_identificado',
-        'debidamente_legible',
+        'identificacion_legible',
         'no_lote_presente',
         'no_lote_legible',
         'fecha_vencimiento_legible',
