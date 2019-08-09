@@ -636,10 +636,10 @@
             productos.forEach( function ( producto ) {
 
                 row +=`<tr>
-                    <td></td>
+                    <td><input  onclick="habilitar()" type='radio' name='id_prod' value='${producto.id_producto}'  ></td>
                     <td> ${producto.codigo_barras} </td>
                     <td> ${producto.descripcion} </td>
-                    <td> ${producto.proveedor.razon_social} </td>
+                    <td><input type='hidden' name="id_prov" value='${producto.proveedor.id_proveedor}'  >  ${producto.proveedor.razon_social} </td>
                 </tr> `;
 
             } )
@@ -648,12 +648,29 @@
         }
 
         function cargarProducto( producto ) {
-            document.getElementById('id_producto').value = producto.id_producto;
-            productoElement.value = producto.descripcion;
-            document.getElementById('proveedor').value = producto.proveedor.razon_social;
-            document.getElementById('id_proveedor').value = producto.proveedor.id_proveedor;
-            productoElement.readOnly = true;
-            document.getElementById('buscar').disabled = true;
+
+            let productoElement = document.getElementById('producto');
+            let idProductoElement = document.getElementById('id_producto');
+            let proveedorElement = document.getElementById('proveedor');
+            let idProveedorElement = document.getElementById('id_proveedor');
+            let btnBuscar = document.getElementById('buscar');
+            if(Array.isArray(producto)){
+                idProductoElement.value = producto[0];
+                productoElement.value=producto[1];
+                idProveedorElement.value=producto[2];
+                proveedorElement.value=producto[3];
+                productoElement.readOnly = true;
+                btnBuscar.disabled = true;
+
+            }else if( typeof producto ==='object'){
+                idProductoElement.value = producto.id_producto;
+                productoElement.value = producto.descripcion;
+                proveedorElement.value = producto.proveedor.razon_social;
+                idProveedorElement.value = producto.proveedor.id_proveedor;
+                productoElement.readOnly = true;
+                btnBuscar.disabled = true;
+            }
+
         }
 
         function mostrarProductosCargados() {
@@ -665,5 +682,49 @@
          function mostrarAlertaNotFound() {
              $('#not_found').modal();
          }
+
+         function habilitar(){
+
+            document.getElementById('aceptar_producto').disabled = false;
+
+         }
+
+         function setProducto(){
+
+            let infoProd = getProductoSelected();
+            if(infoProd.length != 0 ){
+                cargarProducto(infoProd);
+            }else{
+
+
+            }
+
+
+         }
+
+        function getProductoSelected(){
+            var productos = document.getElementsByName('id_prod');
+            var id_prod=null;
+            var descripcion = null;
+            var id_prov = null;
+            var razon_social = null;
+
+            var arrayProductos = Object.keys(productos).map(function(key) {
+                return [Number(key), productos[key]];
+            });
+
+
+            arrayProductos.forEach(function(prod){
+                if(prod[1].checked){
+                    var childrens =prod[1].parentElement.parentElement.children;
+                    id_prod =childrens[0].firstChild.value;
+                    descripcion = childrens[2].innerText;
+                    razon_social = childrens[3].innerText;
+                    id_prov = childrens[3].firstChild.value;
+
+                }
+            });
+            return [id_prod,descripcion,id_prov,razon_social];
+        }
     </script>
 @endsection

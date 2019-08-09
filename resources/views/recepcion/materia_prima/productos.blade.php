@@ -29,10 +29,17 @@
                 </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">
+                <button type="button"
+                        class="btn btn-primary"
+                        data-dismiss="modal">
                     Cerrar
                 </button>
-                <button  type="button" class="btn btn-primary" data-dismiss="modal">
+                <button  type="button"
+                         class="btn btn-primary"
+                         id="aceptar_producto"
+                         disabled
+                         onclick="setProducto()"
+                         data-dismiss="modal">
                     Aceptar
                 </button>
             </div>
