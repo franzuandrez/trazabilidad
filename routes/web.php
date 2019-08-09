@@ -11,13 +11,12 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('users','UserController@index')->name('users.index');
 Route::get('users/create','UserController@create')->name('users.create');
@@ -198,4 +197,4 @@ Route::post('control/chaomin/{id}','ChaomeanController@destroy')->name('chaomin.
 Route::get('recepcion/materia_prima','RecepcionController@index')->name('recepcion.materia_prima.index');
 Route::get('recepcion/materia_prima/create','RecepcionController@create')->name('recepcion.materia_prima.create');
 Route::post('recepcion/materia_prima/create','RecepcionController@store')->name('recepcion.materia_prima.store');
-
+Route::get('recepcion/materia_prima/{id}','RecepcionController@show')->name('recepcion.materia_prima.show');
