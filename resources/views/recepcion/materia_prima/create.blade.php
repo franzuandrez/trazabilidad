@@ -597,21 +597,16 @@
 
                     if (totalProductos == 0) {
 
-                        //Alerta, producto inexistente.
-                        $('#not_found').modal();
+                        mostrarAlertaNotFound();
 
                     } else if (totalProductos == 1) {
 
-                        //Cargar un producto
                         cargarProducto( productos[0] );
 
-
                     } else {
-                        //Más de uno.
+
                         cargarProductos(productos);
                         mostrarProductosCargados();
-
-
                     }
 
 
@@ -667,6 +662,8 @@
                 $('#modal-productos').modal();
             },1000);
         }
-
+         function mostrarAlertaNotFound() {
+             $('#not_found').modal();
+         }
     </script>
 @endsection
