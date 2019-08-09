@@ -34,11 +34,18 @@
                         <i class="fa fa-search"></i>
                     </button>
                 </a>
+                  <a href="javascript:limpiar()">
+                   <button type="button" class="btn btn-default"
+                           id="limpiar" data-placement="top"
+                           title="Limpiar" data-toggle="tooltip">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </a>
             </span>
         </div>
     </div>
 
-    <input type="hidden" id="id_producto" name="id_producto" >
+    <input type="hidden" id="id_producto" name="id_producto">
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
@@ -49,7 +56,7 @@
                    class="form-control">
         </div>
     </div>
-    <input type="hidden" id="id_proveedor" name="id_proveedor" >
+    <input type="hidden" id="id_proveedor" name="id_proveedor">
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="documento_proveedor">DOCUMENTO PROVEEDOR</label>
@@ -499,7 +506,9 @@
                     <h4 class="modal-title" align="center">PRODUCTO NO ENCONTRADO</h4>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal"><span class="fa fa-check"></span> ACEPTAR</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><span class="fa fa-check"></span>
+                        ACEPTAR
+                    </button>
                 </div>
             </div>
         </div>
@@ -572,7 +581,7 @@
             return /\d/.test(String.fromCharCode(keynum));
         }
 
-        function buscar_producto(){
+        function buscar_producto() {
 
             let productoElement = document.getElementById('producto');
 
@@ -583,29 +592,29 @@
                 dataType: "json",
                 success: function (response) {
 
-                   let productos = response;
-                   let totalProductos = productos.length;
+                    let productos = response;
+                    let totalProductos = productos.length;
 
-                   if( totalProductos == 0 ){
+                    if (totalProductos == 0) {
 
-                       //Alerta, producto inexistente.
-                       $('#not_found').modal();
+                        //Alerta, producto inexistente.
+                        $('#not_found').modal();
 
-                   }else if(totalProductos == 1){
+                    } else if (totalProductos == 1) {
 
-                       //Cargar un producto
-                       let producto = productos[0];
-                       document.getElementById('id_producto').value=producto.id_producto;
-                       productoElement.value=producto.descripcion;
-                       document.getElementById('proveedor').value=producto.proveedor.razon_social;
-                       document.getElementById('id_proveedor').value=producto.proveedor.id_proveedor;
-                       productoElement.readOnly = true;
+                        //Cargar un producto
+                        let producto = productos[0];
+                        document.getElementById('id_producto').value = producto.id_producto;
+                        productoElement.value = producto.descripcion;
+                        document.getElementById('proveedor').value = producto.proveedor.razon_social;
+                        document.getElementById('id_proveedor').value = producto.proveedor.id_proveedor;
+                        productoElement.readOnly = true;
 
-                   }else{
-                       //Más de uno.
-                       console.log(2)
+                    } else {
+                        //Más de uno.
+                        console.log(2)
 
-                   }
+                    }
 
 
                 },
@@ -615,6 +624,17 @@
                 }
 
             })
+
+        }
+
+        function limpiar(){
+
+            document.getElementById('id_producto').value="";
+            document.getElementById('producto').value="";
+            document.getElementById('proveedor').value="";
+            document.getElementById('id_proveedor').value="";
+            document.getElementById('producto').readOnly =false;
+
 
         }
 
