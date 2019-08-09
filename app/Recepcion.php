@@ -48,6 +48,11 @@ class Recepcion extends Model
         return $this->belongsTo('App\Proveedor','id_proveedor');
     }
 
+    public function producto(){
+
+        return $this->belongsTo('App\Producto','id_producto');
+    }
+
     public function producto_materia_prima(){
 
         return $this->belongsTo('App\Producto','id_producto');
