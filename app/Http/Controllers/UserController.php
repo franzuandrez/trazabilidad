@@ -60,7 +60,7 @@ class UserController extends Controller
 
     public function create(){
 
-        $roles = Role::active()->get();
+        $roles = Role::where('estado','1')->get();
 
         return view('registro.users.create',compact('roles'));
     }
