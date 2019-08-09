@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\DetalleLotes;
 use App\InspeccionEmpaqueEtiqueta;
 use App\InspeccionVehiculo;
 use App\Producto;
 use App\Recepcion;
 use Illuminate\Http\Request;
 use DB;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+
 class RecepcionController extends Controller
 {
     //
@@ -29,6 +33,7 @@ class RecepcionController extends Controller
 
         $recepciones = Recepcion::join('proveedores','proveedores.id_proveedor','=','recepcion_encabezado.id_proveedor')
             ->join('productos','productos.id_producto','=','recepcion_encabezado.id_producto')
+            ->select('recepcion_encabezado.*','productos.descripcion as producto','proveedores.razon_social as proveedor')
             ->where(function ( $query ) use ( $search ){
                 $query->where('proveedores.razon_social','LIKE','%'.$search.'%')
                     ->orWhere('productos.descripcion','LIKE','%'.$search.'%')
@@ -68,37 +73,42 @@ class RecepcionController extends Controller
 
     public function store( Request $request ){
 
+
+
+
         try {
             DB::beginTransaction();
-
 
             //Insertar recepcion encabezado.
 
             $recepcion = new Recepcion();
             $recepcion->id_producto = $request->get('id_producto');
             $recepcion->id_proveedor = $request->get('id_proveedor');
-            $recepcion->fecha_ingreso = $request->get('fecha_ingreso');
+            $recepcion->fecha_ingreso =Carbon::now();
             $recepcion->documento_proveedor = $request->get('documento_proveedor');
             $recepcion->orden_compra = $request->get('orden_compra');
+            $recepcion->usuario_recepcion =\Auth::user()->id;
             $recepcion->save();
 
-            //Insertar inspeccion de vehiculos.
 
             $this->saveInspeccionVehiculo( $request , $recepcion->id_recepcion_enc );
 
-            //Insertar inspeccion de empaque.
 
             $this->saveInspeccionEmpaque( $request , $recepcion->id_recepcion_enc );
 
 
-            //Insertar detalle de lote.
-
+            $this->saveDetalleLotes( $request, $recepcion->id_recepcion_enc );
 
 
             DB::commit();
+
+            return redirect()->route('recepcion.materia_prima.index')
+                ->with('success','Materia prima ingresada corrrectamente');
         } catch (\Exception $e) {
 
             DB::rollback();
+
+            dd($e);
         }
 
 
@@ -146,7 +156,7 @@ class RecepcionController extends Controller
         $inspeccionVehiculo->ausencia_material_extranio = $ausencia_material_extranio;
         $inspeccionVehiculo->sin_agujeros = $sin_agujeros;
         $inspeccionVehiculo->cerrado = $cerrado;
-        $inspeccionVehiculo->observaciones_vehiculo = $observaciones_vehiculo;
+        $inspeccionVehiculo->observaciones = $observaciones_vehiculo;
         $inspeccionVehiculo->save();
 
 
@@ -178,7 +188,7 @@ class RecepcionController extends Controller
         $inspeccionEmpaque->seco_limpio = $seco_limpio;
         $inspeccionEmpaque->sin_material_extranio = $sin_material_extranio;
         $inspeccionEmpaque->debidamente_identificado = $debidamente_identificado;
-        $inspeccionEmpaque->debidamente_legible = $debidamente_legible;
+        $inspeccionEmpaque->identificacion_legible = $debidamente_legible;
         $inspeccionEmpaque->no_lote_presente = $no_lote_presente;
         $inspeccionEmpaque->no_lote_legible = $no_lote_legible;
         $inspeccionEmpaque->fecha_vencimiento_legible = $fecha_vencimiento_legible;
@@ -187,6 +197,27 @@ class RecepcionController extends Controller
         $inspeccionEmpaque->observaciones = $observaciones;
         $inspeccionEmpaque->id_recepcion_enc = $id_recepcion;
         $inspeccionEmpaque->save();
+
+
+    }
+
+    private function saveDetalleLotes($request , $id_recepcion  ){
+
+
+
+        $lotes = $request->get('no_lote');
+
+        foreach ( $lotes as $key => $value ) {
+
+            $detalleLote = DetalleLotes::create([
+                'cantidad'=>$request->get('cantidad')[$key],
+                'no_lote'=>$value,
+                'fecha_vencimiento'=>$request->get('fecha_vencimiento')[$key],
+                'id_recepcion_enc'=>$id_recepcion
+            ]);
+        }
+
+
 
 
     }
