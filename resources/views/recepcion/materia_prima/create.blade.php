@@ -514,7 +514,7 @@
         </div>
 
     </div>
-
+    @include('recepcion.materia_prima.productos')
     {!!Form::close()!!}
 
 @endsection
@@ -613,7 +613,10 @@
 
                     } else {
                         //Más de uno.
-                        console.log(2)
+                        cargarProductos(productos);
+                        setTimeout(function () {
+                            $('#modal-productos').modal();
+                        },1000);
 
                     }
 
@@ -636,8 +639,23 @@
             document.getElementById('id_proveedor').value="";
             document.getElementById('producto').readOnly =false;
             document.getElementById('buscar').disabled = false;
+        }
+        function cargarProductos( productos ) {
 
+            $("#tbody-productos").empty();
+            let row = "";
+            productos.forEach( function ( producto ) {
 
+                row +=`<tr>
+                    <td></td>
+                    <td> ${producto.codigo_barras} </td>
+                    <td> ${producto.descripcion} </td>
+                    <td> ${producto.proveedor.razon_social} </td>
+                </tr> `;
+
+            } )
+
+            $('#tbody-productos').append(row);
         }
 
     </script>
