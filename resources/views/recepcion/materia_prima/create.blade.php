@@ -22,40 +22,34 @@
     {{Form::token()}}
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="id_producto">MATERIA PRIMA</label>
-            <select name="id_producto"
-                    class="form-control selectpicker"
-                    onchange="cargarProveedores()"
-            >
-                <option value=""> SELECCIONE PRODUCTO</option>
-                @foreach($productos as $producto)
-                    <option value="{{$producto->id_producto}}">{{$producto->descripcion}}</option>
-                @endforeach
-            </select>
+        <label for="id_producto">MATERIA PRIMA</label>
+        <div class="input-group">
+            <input type="text" id="producto" name="producto" placeholder="BUSCAR..." class="form-control">
+            <span class="input-group-btn">
+                <a href="javascript:buscar_producto();">
+                    <button type="button" class="btn btn-default"
+                            id="buscar" data-placement="top"
+                            title="Buscar" data-toggle="tooltip"
+                            data-loading-text="<i class='fa fa-refresh fa-spin '></i>">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </a>
+            </span>
         </div>
     </div>
+
+    <input type="hidden" id="id_producto" name="id_producto" >
+
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="id_proveedor">PROVEEDOR</label>
-            <select name="id_proveedor"
-                    class="form-control selectpicker"
-            >
-                <option value=""> SELECCIONE PROVEEDOR</option>
-            </select>
+            <input type="text" id="proveedor"
+                   name="proveedor"
+                   readonly
+                   class="form-control">
         </div>
     </div>
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label>FECHA INGRESO</label>
-            <div class="input-group date">
-                <div class="input-group-addon">
-                    <i class="fa fa-calendar"></i>
-                </div>
-                <input type="text" class="form-control pull-right" id="datepicker">
-            </div>
-        </div>
-    </div>
+    <input type="hidden" id="id_proveedor" name="id_proveedor" >
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="documento_proveedor">DOCUMENTO PROVEEDOR</label>
@@ -148,7 +142,8 @@
                                    name="certificado_correspondiente_lote"
                                    value="1"
                                    id="certificado_correspondiente_lote">
-                            <label class="custom-control-label" style="font-weight: normal" for="certificado_correspondiente_lote">Correspondiente
+                            <label class="custom-control-label" style="font-weight: normal"
+                                   for="certificado_correspondiente_lote">Correspondiente
                                 a No. Lote</label>
                         </div>
                         <div class="custom-control custom-checkbox">
@@ -176,7 +171,8 @@
                                    name="sin_polvo"
                                    value="1"
                             >
-                            <label class="custom-control-label" style="font-weight: normal" for="sin_polvo">Sin polvo y/o
+                            <label class="custom-control-label" style="font-weight: normal" for="sin_polvo">Sin polvo
+                                y/o
                                 suciedad</label>
 
                         </div>
@@ -186,7 +182,8 @@
                                    id="sin_material_ajeno"
                                    value="1"
                                    name="sin_material_ajeno">
-                            <label class="custom-control-label" style="font-weight: normal" for="sin_material_ajeno">Sin Material
+                            <label class="custom-control-label" style="font-weight: normal" for="sin_material_ajeno">Sin
+                                Material
                                 Ajeno</label>
 
                         </div>
@@ -203,7 +200,8 @@
                                    value="1"
                                    name="ausencia_plagas"
                                    id="ausencia_plagas">
-                            <label class="custom-control-label" style="font-weight: normal" for="ausencia_plagas">Ausencia de
+                            <label class="custom-control-label" style="font-weight: normal" for="ausencia_plagas">Ausencia
+                                de
                                 Plagas</label>
 
                         </div>
@@ -235,7 +233,8 @@
                                    name="ausencia_olores_extranios"
                                    value="1"
                                    id="ausencia_olores_extranios">
-                            <label class="custom-control-label" style="font-weight: normal" for="ausencia_olores_extranios">Ausencia de
+                            <label class="custom-control-label" style="font-weight: normal"
+                                   for="ausencia_olores_extranios">Ausencia de
                                 olores extraños</label>
 
                         </div>
@@ -245,7 +244,8 @@
                                    name="ausencia_material_extranio"
                                    value="1"
                                    id="ausencia_material_extranio">
-                            <label class="custom-control-label" style="font-weight: normal" for="ausencia_material_extranio">Ausencia de
+                            <label class="custom-control-label" style="font-weight: normal"
+                                   for="ausencia_material_extranio">Ausencia de
                                 material extraño</label>
 
                         </div>
@@ -327,7 +327,8 @@
                                    value="1"
                                    name="sin_material_extranio"
                                    id="sin_material_extranio">
-                            <label class="custom-control-label" style="font-weight: normal" for="sin_material_extranio">Sin material
+                            <label class="custom-control-label" style="font-weight: normal" for="sin_material_extranio">Sin
+                                material
                                 extraño</label>
                         </div>
 
@@ -340,7 +341,8 @@
                                    value="1"
                                    name="debidamente_identificado"
                                    id="debidamente_identificado">
-                            <label class="custom-control-label" for="debidamente_identificado">Producto debidamente identificado</label>
+                            <label class="custom-control-label" for="debidamente_identificado">Producto debidamente
+                                identificado</label>
                         </div>
                     </div>
                     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
@@ -350,7 +352,8 @@
                                    name="debidamente_legible"
                                    value="1"
                                    id="debidamente_legible">
-                            <label class="custom-control-label" for="debidamente_legible">Identificación de producto legible</label>
+                            <label class="custom-control-label" for="debidamente_legible">Identificación de producto
+                                legible</label>
                         </div>
                     </div>
                     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
@@ -380,7 +383,8 @@
                                    name="fecha_vencimiento_legible"
                                    value="1"
                                    id="fecha_vencimiento_legible">
-                            <label class="custom-control-label" for="fecha_vencimiento_legible">Fecha de vencimiento presente y
+                            <label class="custom-control-label" for="fecha_vencimiento_legible">Fecha de vencimiento
+                                presente y
                                 legible</label>
                         </div>
                     </div>
@@ -391,7 +395,8 @@
                                    name="fecha_vencimiento_vigente"
                                    value="1"
                                    id="fecha_vencimiento_vigente">
-                            <label class="custom-control-label" for="fecha_vencimiento_vigente">Fecha de vencimiento vigente</label>
+                            <label class="custom-control-label" for="fecha_vencimiento_vigente">Fecha de vencimiento
+                                vigente</label>
                         </div>
                     </div>
                     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
@@ -401,7 +406,8 @@
                                    name="contenido_neto_declarado"
                                    value="1"
                                    id="contenido_neto_declarado">
-                            <label class="custom-control-label" for="contenido_neto_declarado">Contenido Neto declarado</label>
+                            <label class="custom-control-label" for="contenido_neto_declarado">Contenido Neto
+                                declarado</label>
                         </div>
                     </div>
                     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
@@ -484,6 +490,21 @@
 
         </div>
     </div>
+    <div class="modal fade modal-slide-in-right" aria-hidden="true"
+         role="dialog" tabindex="-1" id="not_found">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h4 class="modal-title" align="center">PRODUCTO NO ENCONTRADO</h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><span class="fa fa-check"></span> ACEPTAR</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
 
     {!!Form::close()!!}
 
@@ -497,9 +518,9 @@
             setDate: new Date()
 
         });
-        $(document).ready(function(){
+        $(document).ready(function () {
 
-            $("#btnAdd").click(function(){
+            $("#btnAdd").click(function () {
                 addToTable();
             });
 
@@ -509,45 +530,93 @@
         function cargarProveedores() {
             //NOT IMPLEMENTED
         }
-        function addToTable(){
-            if ($("#cantidad").val()!="" && $("#lote").val()!="" &&$("#vencimiento").val()!="")
-            {
+
+        function addToTable() {
+            if ($("#cantidad").val() != "" && $("#lote").val() != "" && $("#vencimiento").val() != "") {
                 let cantidad = $("#cantidad");
-                let lote =  $("#lote");
+                let lote = $("#lote");
                 let fecha = $("#vencimiento");
                 //removeFromTareas(tarea);
                 //removeFromSelect(vendedor);
                 let row =
                     `<tr>
             <td><button onclick=removeFromTable(this) type="button" class="btn btn-warning">x</button></td>
-            <td><input type="hidden" value='${cantidad.val()}' name=cantidad[]>${cantidad.val()}</td>
-            <td ><input type="hidden" value ='${lote.val()}'  name=lote[] >${lote.val()}</td>
-            <td ><input type="hidden" value ='${fecha.val()}'  name=vencimiento[] >${fecha.val()}</td>
+            <td><input type="hidden" value='${cantidad.val()}' name=no_lote[]>${cantidad.val()}</td>
+            <td ><input type="hidden" value ='${lote.val()}'  name=cantidad[] >${lote.val()}</td>
+            <td ><input type="hidden" value ='${fecha.val()}'  name=fecha_vencimiento[] >${fecha.val()}</td>
             </tr>`;
 
                 $("#detalles").append(row);
                 cantidad.val('');
                 lote.val('');
                 fecha.val('');
-            }else{
+            } else {
                 $('#modal-default').modal('show');
                 return false;
             }
         }
-        function removeFromTable(element){
+
+        function removeFromTable(element) {
             //Removemos la fila
             let td = $(element).parent();
             td.parent().remove();
             let tdNext = td.next();
-            let tdNextNext =tdNext.next();
+            let tdNextNext = tdNext.next();
         }
-        function justNumbers(e)
-        {
+
+        function justNumbers(e) {
             var keynum = window.event ? window.event.keyCode : e.which;
             if ((keynum == 8) || (keynum == 46))
                 return true;
 
             return /\d/.test(String.fromCharCode(keynum));
         }
+
+        function buscar_producto(){
+
+            let productoElement = document.getElementById('producto');
+
+            $.ajax({
+
+                url: "{{url('registro/productos/search')}}" + "/" + productoElement.value,
+                type: "get",
+                dataType: "json",
+                success: function (response) {
+
+                   let productos = response;
+                   let totalProductos = productos.length;
+
+                   if( totalProductos == 0 ){
+
+                       //Alerta, producto inexistente.
+                       $('#not_found').modal();
+
+                   }else if(totalProductos == 1){
+
+                       //Cargar un producto
+                       let producto = productos[0];
+                       document.getElementById('id_producto').value=producto.id_producto;
+                       productoElement.value=producto.descripcion;
+                       document.getElementById('proveedor').value=producto.proveedor.razon_social;
+                       document.getElementById('id_proveedor').value=producto.proveedor.id_proveedor;
+                       productoElement.readOnly = true;
+
+                   }else{
+                       //Más de uno.
+                       console.log(2)
+
+                   }
+
+
+                },
+                error: function (e) {
+
+                    console.error(e);
+                }
+
+            })
+
+        }
+
     </script>
 @endsection
