@@ -560,6 +560,8 @@
                 let cantidad = $("#cantidad");
                 let lote = $("#lote");
                 let fecha = $("#vencimiento");
+                let codigo_producto = $("#codigo_producto");
+
                 //removeFromTareas(tarea);
                 //removeFromSelect(vendedor);
                 let row =
@@ -574,6 +576,8 @@
                 cantidad.val('');
                 lote.val('');
                 fecha.val('');
+                codigo_producto.val('');
+                codigo_producto.focus();
             } else {
                 $('#modal-default').modal('show');
                 return false;
