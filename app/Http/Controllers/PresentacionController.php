@@ -95,7 +95,7 @@ class PresentacionController extends Controller
             $presentacion->update();
 
             return redirect()->route('presentacion.index')
-                ->with('success','Presentacion actulizada correctamente');
+                ->with('success','Presentacion actualizada correctamente');
 
         }catch(\Exception $ex){
 
