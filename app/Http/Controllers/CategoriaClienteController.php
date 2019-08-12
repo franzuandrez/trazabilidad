@@ -82,7 +82,7 @@ class CategoriaClienteController extends Controller
         } catch (\Exception $ex) {
 
             return redirect()->route('categoria_clientes.index')
-                ->withErrors(['error' => 'No se ha encontrado dicha categoria']);
+                ->withErrors(['error' => 'Categoria no encontrada']);
         }
 
     }
