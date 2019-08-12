@@ -107,7 +107,7 @@ class TipoMovimientoController extends Controller
         } catch (\Exception $e) {
 
             return redirect()->route('tipo_movimientos.index')
-                ->withErrors(['error', 'Tipo de movimiento no encontrado']);
+                ->withErrors(['error'=>'Tipo de movimiento no encontrado']);
         }
 
     }
