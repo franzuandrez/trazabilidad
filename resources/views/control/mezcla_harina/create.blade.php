@@ -23,19 +23,6 @@
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label>Fecha</label>
-
-            <div class="input-group date">
-                <div class="input-group-addon">
-                    <i class="fa fa-calendar"></i>
-                </div>
-                <input id="fecha" type="text" class="form-control pull-right" id="datepicker">
-            </div>
-
-        </div>
-    </div>
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
             <label for="presentacion">RESPONSABLES</label>
             <select name="id_presentacion" class="form-control selectpicker" id="presentacion">
                 <option value="">SELECCIONAR RESPONSABLE</option>
@@ -76,11 +63,12 @@
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="hora_carga">HORA CARGA</label>
-                        <input id="hora_carga" type="text" name="descripcion"
-
-                               class="form-control">
+                    <label for="hora_carga">HORA CARGA</label>
+                    <div class="input-group date1" id='datetimepicker3'>
+                        <input id="hora_carga" type="text" name="descripcion" class="form-control">
+                        <span class="input-group-addon">
+                        <i class="fa fa-clock-o"></i>
+                    </span>
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
@@ -132,6 +120,7 @@
 
                         <thead style="background-color: #01579B;  color: #fff;">
                         <th>OPCION</th>
+                        <th>LOTE</th>
                         <th>PRODUCTO</th>
                         <th>HORA CARGA</th>
                         <th>HORA DESCARGA</th>
@@ -227,7 +216,8 @@
         }
 
         function addToTable() {
-            if ($("#producto").val() != "" && $("#hora_carga").val() != "" && $("#hora_descarga").val() != "" && $("#solucion").val() != "" && $("#ph").val() != "" && $("#observacion").val() != "") {
+            if ($("#lote").val() != "" && $("#producto").val() != "" && $("#hora_carga").val() != "" && $("#hora_descarga").val() != "" && $("#solucion").val() != "" && $("#ph").val() != "" && $("#observacion").val() != "") {
+                let lote = $("#lote");
                 let producto = $("#producto");
                 let hora_carga = $("#hora_carga");
                 let hora_descarga = $("#hora_descarga");
@@ -239,6 +229,7 @@
                 let row =
                     `<tr>
             <td><button onclick=removeFromTable(this) type="button" class="btn btn-warning">x</button></td>
+            <td><input type="hidden" value='${lote.val()}' name=lote[]>${lote.val()}</td>
             <td><input type="hidden" value='${producto.val()}' name=producto[]>${producto.val()}</td>
             <td ><input type="hidden" value ='${hora_carga.val()}'  name=hora_carga[] >${hora_carga.val()}</td>
             <td ><input type="hidden" value ='${hora_descarga.val()}'  name=hora_descarga[] >${hora_descarga.val()}</td>
@@ -248,6 +239,7 @@
             </tr>`;
 
                 $("#detalles").append(row);
+                lote.val('');
                 producto.val('');
                 hora_carga.val('');
                 hora_descarga.val('');
