@@ -4,6 +4,9 @@
 @endsection
 
 @section('contenido')
+    @include('componentes.alert-success')
+    @include('componentes.alert-error')
+
 
     @component('componentes.nav',['operation'=>'LIST',
     'menu_icon'=>'fa-file-text',
