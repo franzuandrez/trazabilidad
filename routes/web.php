@@ -202,6 +202,14 @@ Route::patch('control/mezcla_harina/{id}','HarinaController@update')->name('mezc
 Route::get('control/mezcla_harina/{id}','HarinaController@show')->name('mezcla_harina.show');
 Route::post('control/mezcla_harina/{id}','HarinaController@destroy')->name('mezcla_harina.destroy');
 
+Route::get('control/laminado','LaminadoController@index')->name('laminado.index');
+Route::get('control/laminado/create','LaminadoController@create')->name('laminado.create');
+Route::post('control/laminado/create','LaminadoController@store')->name('laminado.store');
+Route::get('control/laminado/{id}/edit','LaminadoController@edit')->name('laminado.edit');
+Route::patch('control/laminado/{id}','LaminadoController@update')->name('laminado.update');
+Route::get('control/laminado/{id}','LaminadoController@show')->name('laminado.show');
+Route::post('control/laminado/{id}','LaminadoController@destroy')->name('laminado.destroy');
+
 Route::get('recepcion/materia_prima','RecepcionController@index')->name('recepcion.materia_prima.index');
 Route::get('recepcion/materia_prima/create','RecepcionController@create')->name('recepcion.materia_prima.create');
 Route::post('recepcion/materia_prima/create','RecepcionController@store')->name('recepcion.materia_prima.store');
