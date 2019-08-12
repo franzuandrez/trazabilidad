@@ -534,42 +534,6 @@
                     </div>
                 </div>
                 <div class="tab-pane" id="tab_3">
-                    <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                        <div class="form-group">
-                            <label for="nombre">Cantidad</label>
-                            <input id="cantidad" type="text" onkeypress="return justNumbers(event);" name="descripcion"
-
-                                   class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                        <div class="form-group">
-                            <label for="nombre">No. de Lote</label>
-                            <input id="lote" type="text" onkeypress="return justNumbers(event);" name="descripcion"
-
-                                   class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-sm-8 col-md-8 col-xs-10">
-                        <div class="form-group">
-                            <label>Fecha de Vendimiento</label>
-
-                            <div class="input-group date">
-                                <div class="input-group-addon">
-                                    <i class="fa fa-calendar"></i>
-                                </div>
-                                <input id="vencimiento" type="text" class="form-control pull-right" id="datepicker">
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-sm-4 col-md-2 col-xs-2">
-                        <br>
-                        <div class="form-group">
-                            <button id="btnAdd" class="btn btn-default block" style="margin-top: 5px;" type="button">
-                                <span class=" fa fa-plus"></span></button>
-                        </div>
-                    </div>
 
 
                     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
@@ -577,12 +541,18 @@
                         <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
 
                             <thead style="background-color: #01579B;  color: #fff;">
-                            <th>OPCION</th>
                             <th>CANTIDAD</th>
                             <th>NO. LOTES</th>
                             <th>FECHA VENCIMIENTO</th>
                             </thead>
                             <tbody>
+                            @foreach( $recepcion->detalle_lotes as $lote )
+                                <tr>
+                                    <td>{{$lote->cantidad}}</td>
+                                    <td>{{$lote->no_lote}}</td>
+                                    <td>{{$lote->fecha_vencimiento->format('d/m/Y')}}</td>
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -593,13 +563,10 @@
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <button class="btn btn-default" type="submit">
-                <span class=" fa fa-check"></span> GUARDAR
-            </button>
             <a href="{{url('recepcion/materia_prima')}}">
                 <button class="btn btn-default" type="button">
-                    <span class="fa fa-remove"></span>
-                    CANCELAR
+                    <span class="fa fa-backward"></span>
+                    REGRESAR
                 </button>
             </a>
 
