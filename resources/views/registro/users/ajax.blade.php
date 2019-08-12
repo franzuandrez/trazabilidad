@@ -6,6 +6,7 @@
 @endsection
 @section('contenido')
     @include('componentes.alert-success')
+    @include('componentes.alert-error')
     @component('componentes.nav',['operation'=>'LIST',
 'menu_icon'=>'fa-cogs',
 'submenu_icon'=>'fa-cog',
@@ -39,15 +40,15 @@
             @endcomponent
         </div>
     </div>
-<div id="content">
-    @include('registro.users.index')
-</div>
-<div class="loading">
-    <i class="fa fa-refresh fa-spin "></i><br/>
-    <span>Cargando</span>
-</div>
+    <div id="content">
+        @include('registro.users.index')
+    </div>
+    <div class="loading">
+        <i class="fa fa-refresh fa-spin "></i><br/>
+        <span>Cargando</span>
+    </div>
 @endsection
 @section('scripts')
-<script src="{{asset('js/ajax-crud.js')}}"></script>
-<script src="{{asset('js-brc/users/index.js')}}"></script>
+    <script src="{{asset('js/ajax-crud.js')}}"></script>
+    <script src="{{asset('js-brc/users/index.js')}}"></script>
 @endsection
