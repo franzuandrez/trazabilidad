@@ -60,12 +60,12 @@ class Recepcion extends Model
 
     public function inspeccion_vehiculos(){
 
-        return $this->hasMany('App\InspeccionVehiculo','id_recepcion_enc');
+        return $this->hasOne('App\InspeccionVehiculo','id_recepcion_enc');
     }
 
     public function inspeccion_empaque(){
 
-        return $this->hasMany('App\InspeccionEmpaqueEtiqueta','id_recepcion_enc');
+        return $this->hasOne('App\InspeccionEmpaqueEtiqueta','id_recepcion_enc');
     }
 
     public function detalle_lotes(){
