@@ -146,8 +146,8 @@ class BinController extends Controller
 
         }catch(\Exception $ex){
 
-            return redirect()->route('posiciones.index')
-                ->withErrors(['error'=>'Posicion no encontrada']);
+            return redirect()->route('bines.index')
+                ->withErrors(['error'=>'Bin no encontrado']);
         }
     }
 
