@@ -84,7 +84,7 @@ class ActividadController extends Controller
             $actividad->update();
 
             return redirect()->route('actividades.index')
-                ->with('success','Actividad actualizadad correctamente');
+                ->with('success','Actividad actualizada correctamente');
 
         } catch (\Exception $e) {
 

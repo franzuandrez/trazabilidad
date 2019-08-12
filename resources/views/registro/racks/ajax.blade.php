@@ -3,6 +3,11 @@
     <link href="{{asset('css/loading.css')}}" rel="stylesheet">
 @endsection
 @section('contenido')
+
+    @include('componentes.alert-success')
+    @include('componentes.alert-error')
+
+
     @component('componentes.nav',['operation'=>'LIST',
     'menu_icon'=>'fa-file-text',
     'submenu_icon'=>'fa fa-tasks',

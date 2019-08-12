@@ -5,6 +5,9 @@
 
 @endsection
 @section('contenido')
+    @include('componentes.alert-success')
+    @include('componentes.alert-error')
+
 
     @component('componentes.nav',['operation'=>'LIST',
     'menu_icon'=>'fa-file-text',
@@ -17,6 +20,8 @@
             Proveedores
         @endslot
     @endcomponent
+
+
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
@@ -34,7 +39,7 @@
     </div>
     @component('componentes.alert-no-selecction')
         @slot('mensaje')
-          SELECCIONE UN PROVEEDOR
+            SELECCIONE UN PROVEEDOR
         @endslot
     @endcomponent
     <div id="content">

@@ -140,7 +140,7 @@ class PosicionController extends Controller
 
 
         }catch(\Exception $ex){
-            dd($ex);
+
             return redirect()->route('posiciones.index')
                 ->withErrors(['error'=>'Posicion no encontrada']);
         }
