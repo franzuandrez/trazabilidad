@@ -92,6 +92,10 @@
                                    class="custom-control-input"
                                    id="proveedor_aprobado"
                                    value="1"
+                                   onclick="return false;"
+                                   @if($recepcion->inspeccion_vehiculos->proveedor_aprobado == 1 )
+                                   checked
+                                   @endif
                                    name="proveedor_aprobado">
                             <label class="custom-control-label" for="proveedor_aprobado">Proveedor aprobado</label>
                         </div>
@@ -103,7 +107,11 @@
                             <input type="checkbox"
                                    class="custom-control-input"
                                    name="producto_acorde_compra"
+                                   onclick="return false;"
                                    value="1"
+                                   @if($recepcion->inspeccion_vehiculos->producto_acorde_compra == 1)
+                                   checked
+                                   @endif
                                    id="producto_acorde_compra">
                             <label class="custom-control-label" for="producto_acorde_compra">Producto acorde con Orden
                                 de Compra</label>
@@ -114,6 +122,10 @@
                             <input type="checkbox"
                                    class="custom-control-input"
                                    value="1"
+                                   onclick="return false"
+                                   @if($recepcion->inspeccion_vehiculos->cantidad_acorde_compra == 1)
+                                   checked
+                                   @endif
                                    name="cantidad_acorde_compra"
                                    id="cantidad_acorde_compra">
                             <label class="custom-control-label" for="cantidad_acorde_compra">Cantidad acorde con orden
@@ -132,6 +144,10 @@
                                    class="custom-control-input"
                                    name="certificado_existente"
                                    value="1"
+                                   onclick="return false"
+                                   @if($recepcion->inspeccion_vehiculos->certificado_existente == 1)
+                                   checked
+                                   @endif
                                    id="certificado_existente">
                             <label class="custom-control-label" style="font-weight: normal"
                                    for="certificado_existente">Existente</label>
@@ -142,6 +158,10 @@
                                    class="custom-control-input"
                                    name="certificado_correspondiente_lote"
                                    value="1"
+                                   onclick="return false"
+                                   @if($recepcion->inspeccion_vehiculos->certificado_correspondiente_lote == 1)
+                                   checked
+                                   @endif
                                    id="certificado_correspondiente_lote">
                             <label class="custom-control-label" style="font-weight: normal"
                                    for="certificado_correspondiente_lote">Correspondiente
@@ -151,6 +171,10 @@
                             <input type="checkbox"
                                    class="custom-control-input"
                                    id="opcion6"
+                                   onclick="return false"
+                                   @if($recepcion->inspeccion_vehiculos->certificado_correspondiente_especificacion == 1)
+                                   checked
+                                   @endif
                                    name="certificado_correspondiente_especificacion"
                                    value="1"
                             >
@@ -169,6 +193,10 @@
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox" class="custom-control-input"
                                    id="sin_polvo"
+                                   onclick="return false"
+                                   @if($recepcion->inspeccion_vehiculos->sin_polvo == 1)
+                                   checked
+                                   @endif
                                    name="sin_polvo"
                                    value="1"
                             >
@@ -182,6 +210,10 @@
                                    class="custom-control-input"
                                    id="sin_material_ajeno"
                                    value="1"
+                                   onclick="return false"
+                                   @if($recepcion->inspeccion_vehiculos->sin_material_ajeno == 1)
+                                   checked
+                                   @endif
                                    name="sin_material_ajeno">
                             <label class="custom-control-label" style="font-weight: normal" for="sin_material_ajeno">Sin
                                 Material
@@ -199,6 +231,10 @@
                             <input type="checkbox"
                                    class="custom-control-input"
                                    value="1"
+                                   onclick="return false"
+                                   @if($recepcion->inspeccion_vehiculos->ausencia_plagas == 1)
+                                   checked
+                                   @endif
                                    name="ausencia_plagas"
                                    id="ausencia_plagas">
                             <label class="custom-control-label" style="font-weight: normal" for="ausencia_plagas">Ausencia
@@ -211,6 +247,10 @@
                             <input type="checkbox"
                                    class="custom-control-input"
                                    value="1"
+                                   onclick="return false"
+                                   @if($recepcion->inspeccion_vehiculos->sin_humedad == 1)
+                                   checked
+                                   @endif
                                    id="sin_humedad"
                                    name="sin_humedad">
 
@@ -223,6 +263,10 @@
                             <input type="checkbox" class="custom-control-input"
                                    name="sin_oxido"
                                    value="1"
+                                   onclick="return false"
+                                   @if($recepcion->inspeccion_vehiculos->sin_oxido == 1)
+                                   checked
+                                   @endif
                                    id="sin_oxido">
                             <label class="custom-control-label" style="font-weight: normal" for="sin_oxido">Sin
                                 óxido</label>
@@ -233,6 +277,10 @@
                                    class="custom-control-input"
                                    name="ausencia_olores_extranios"
                                    value="1"
+                                   onclick="return false"
+                                   @if($recepcion->inspeccion_vehiculos->ausencia_olores_extranios == 1)
+                                   checked
+                                   @endif
                                    id="ausencia_olores_extranios">
                             <label class="custom-control-label" style="font-weight: normal"
                                    for="ausencia_olores_extranios">Ausencia de
@@ -244,6 +292,10 @@
                                    class="custom-control-input"
                                    name="ausencia_material_extranio"
                                    value="1"
+                                   onclick="return false"
+                                   @if($recepcion->inspeccion_vehiculos->ausencia_material_extranio == 1)
+                                   checked
+                                   @endif
                                    id="ausencia_material_extranio">
                             <label class="custom-control-label" style="font-weight: normal"
                                    for="ausencia_material_extranio">Ausencia de
@@ -255,6 +307,10 @@
                             <input type="checkbox" class="custom-control-input"
                                    name="cerrado"
                                    value="1"
+                                   onclick="return false"
+                                   @if($recepcion->inspeccion_vehiculos->cerrado == 1)
+                                   checked
+                                   @endif
                                    id="cerrado"> <label
                                     class="custom-control-label" style="font-weight: normal" for="cerrado">Cerrado y
                                 con llave</label>
@@ -264,6 +320,10 @@
                             <input type="checkbox" class="custom-control-input"
                                    name="sin_agujeros"
                                    value="1"
+                                   onclick="return false"
+                                   @if($recepcion->inspeccion_vehiculos->sin_agujeros == 1)
+                                   checked
+                                   @endif
                                    id="sin_agujeros">
                             <label class="custom-control-label" style="font-weight: normal" for="sin_agujeros">Sin
                                 agujeros</label>
@@ -273,7 +333,10 @@
                     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
                         <div class="form-group">
                             <label for="observaciones_vehiculo">OBSERVACIONES/ACCIONES CORRECTIVAS</label>
-                            <input type="text" name="observaciones_vehiculo" value="{{old('observaciones_vehiculo')}}"
+                            <input type="text"
+                                   readonly
+                                   name="observaciones_vehiculo"
+                                   value="{{$recepcion->inspeccion_vehiculos->observaciones}}"
                                    class="form-control">
                         </div>
                     </div>
