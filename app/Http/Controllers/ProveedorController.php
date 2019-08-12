@@ -123,10 +123,10 @@ class ProveedorController extends Controller
 
 
             DB::rollback();
-            dd($ex);
+
             return redirect()
                 ->route('proveedores.index')
-                ->with('error', 'Error, no se ha podido crear  ');
+                ->withErrors(['error'=>'Lo sentimos, su petición no fue procesada']);
 
         }
 
