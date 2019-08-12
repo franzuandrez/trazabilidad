@@ -7,6 +7,10 @@
 
 @section('contenido')
 
+    @include('componentes.alert-success')
+    @include('componentes.alert-error')
+
+
     @component('componentes.nav',['operation'=>'LIST',
     'menu_icon'=>'fa-arrow-circle-o-right',
     'submenu_icon'=>'fa fa-sign-in',
