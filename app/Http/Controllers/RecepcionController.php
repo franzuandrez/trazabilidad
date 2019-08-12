@@ -266,4 +266,18 @@ class RecepcionController extends Controller
 
     }
 
+    public function edit( $id){
+
+        try {
+            $recepcion = Recepcion::findOrFail($id);
+
+            return view('recepcion.materia_prima.edit',compact('recepcion'));
+        } catch (\Exception $e) {
+            return redirect()->route('recepcion.materia_prima.index')
+                ->withErrors(['errors'=>' Recepcion no encontrada ']);
+        }
+
+
+    }
+
 }
