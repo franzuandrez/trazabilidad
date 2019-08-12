@@ -426,7 +426,15 @@
                     </div>
                 </div>
                 <div class="tab-pane" id="tab_3">
-                    <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+                    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12" >
+                        <div class="form-group">
+                            <label for="codigo_producto">Codigo</label>
+                            <input id="codigo_producto" type="text"
+                                   onkeydown="descomponerInput(this)"
+                                   class="form-control">
+                        </div>
+                    </div>
+                    <div class=" col-lg-3  col-sm-6 col-md-6 col-xs-12">
                         <div class="form-group">
                             <label for="nombre">Cantidad</label>
                             <input id="cantidad" type="text" onkeypress="return justNumbers(event);" name="descripcion"
@@ -531,6 +539,13 @@
 
             $("#btnAdd").click(function () {
                 addToTable();
+            });
+
+            $(window).keydown(function(event){
+                if(event.keyCode == 13) {
+                    event.preventDefault();
+                    return false;
+                }
             });
 
         });
@@ -725,6 +740,38 @@
                 }
             });
             return [id_prod,descripcion,id_prov,razon_social];
+        }
+        function  descomponerInput( input ) {
+            const POSICION_CODIGO = 1;
+            const POSICION_FECHA = 2;
+            const POSICION_LOTE= 3;
+
+            var codigoBarras = input.value;
+            var removerParentesis = codigoBarras.replace(/\([0-9]*\)/g,'-');
+            var codigoSplited = removerParentesis.split('-');
+
+            var codigo = codigoSplited[POSICION_CODIGO];
+            var fecha = codigoSplited[POSICION_FECHA];
+            var lote = codigoSplited[POSICION_LOTE];
+
+           if(event.keyCode == 13){
+               document.getElementById('lote').value=lote;
+               fecha = getDate(fecha);
+               document.getElementById('vencimiento').value=fecha;
+               document.getElementById('cantidad').focus();
+           }
+
+
+        }
+        function getDate( date ){
+
+           var anio ="20"+date.substring(0,2);
+           var mes = date.substring(2,4);
+           var dia = date.substring(4);
+           var newDate = anio+"-"+mes+"-"+dia;
+
+           return newDate
+
         }
     </script>
 @endsection
