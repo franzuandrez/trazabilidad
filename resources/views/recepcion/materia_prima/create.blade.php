@@ -24,11 +24,17 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <label for="producto">MATERIA PRIMA</label>
         <div class="input-group">
-            <input type="text" id="producto" name="producto" placeholder="BUSCAR..." class="form-control">
+            <input type="text" id="producto"
+                   name="producto"
+                   onkeydown="getCodigoProducto()"
+                   placeholder="BUSCAR..."
+                   class="form-control">
             <span class="input-group-btn">
                 <a href="javascript:buscar_producto();">
-                    <button type="button" class="btn btn-default"
-                            id="buscar" data-placement="top"
+                    <button type="button"
+                            class="btn btn-default"
+                            id="buscar"
+                            data-placement="top"
                             title="Buscar" data-toggle="tooltip"
                             data-loading-text="<i class='fa fa-refresh fa-spin '></i>">
                         <i class="fa fa-search"></i>
@@ -426,11 +432,11 @@
                     </div>
                 </div>
                 <div class="tab-pane" id="tab_3">
-                    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12" >
+                    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
                         <div class="form-group">
                             <label for="codigo_producto">Codigo</label>
                             <input id="codigo_producto" type="text"
-                                   onkeydown="descomponerInput(this)"
+                                   onkeydown="cargarInfoCodigoBarras(this)"
                                    class="form-control">
                         </div>
                     </div>
@@ -541,8 +547,8 @@
                 addToTable();
             });
 
-            $(window).keydown(function(event){
-                if(event.keyCode == 13) {
+            $(window).keydown(function (event) {
+                if (event.keyCode == 13) {
                     event.preventDefault();
                     return false;
                 }
@@ -600,13 +606,17 @@
             return /\d/.test(String.fromCharCode(keynum));
         }
 
-        function buscar_producto() {
+        function buscar_producto(searchValue = null) {
 
             let productoElement = document.getElementById('producto');
 
+            if (searchValue == null) {
+                searchValue = productoElement.value;
+            }
+
             $.ajax({
 
-                url: "{{url('registro/productos/search')}}" + "/" + productoElement.value,
+                url: "{{url('registro/productos/search')}}" + "/" + searchValue,
                 type: "get",
                 dataType: "json",
                 success: function (response) {
@@ -620,7 +630,7 @@
 
                     } else if (totalProductos == 1) {
 
-                        cargarProducto( productos[0] );
+                        cargarProducto(productos[0]);
 
                     } else {
 
@@ -639,49 +649,51 @@
 
         }
 
-        function limpiar(){
 
-            document.getElementById('id_producto').value="";
-            document.getElementById('producto').value="";
-            document.getElementById('proveedor').value="";
-            document.getElementById('id_proveedor').value="";
-            document.getElementById('producto').readOnly =false;
+        function limpiar() {
+
+            document.getElementById('id_producto').value = "";
+            document.getElementById('producto').value = "";
+            document.getElementById('proveedor').value = "";
+            document.getElementById('id_proveedor').value = "";
+            document.getElementById('producto').readOnly = false;
             document.getElementById('buscar').disabled = false;
         }
-        function cargarProductos( productos ) {
+
+        function cargarProductos(productos) {
 
             $("#tbody-productos").empty();
             let row = "";
-            productos.forEach( function ( producto ) {
+            productos.forEach(function (producto) {
 
-                row +=`<tr>
+                row += `<tr>
                     <td><input  onclick="habilitar()" type='radio' name='id_prod' value='${producto.id_producto}'  ></td>
                     <td> ${producto.codigo_barras} </td>
                     <td> ${producto.descripcion} </td>
                     <td><input type='hidden' name="id_prov" value='${producto.proveedor.id_proveedor}'  >  ${producto.proveedor.razon_social} </td>
                 </tr> `;
 
-            } )
+            })
 
             $('#tbody-productos').append(row);
         }
 
-        function cargarProducto( producto ) {
+        function cargarProducto(producto) {
 
             let productoElement = document.getElementById('producto');
             let idProductoElement = document.getElementById('id_producto');
             let proveedorElement = document.getElementById('proveedor');
             let idProveedorElement = document.getElementById('id_proveedor');
             let btnBuscar = document.getElementById('buscar');
-            if(Array.isArray(producto)){
+            if (Array.isArray(producto)) {
                 idProductoElement.value = producto[0];
-                productoElement.value=producto[1];
-                idProveedorElement.value=producto[2];
-                proveedorElement.value=producto[3];
+                productoElement.value = producto[1];
+                idProveedorElement.value = producto[2];
+                proveedorElement.value = producto[3];
                 productoElement.readOnly = true;
                 btnBuscar.disabled = true;
 
-            }else if( typeof producto ==='object'){
+            } else if (typeof producto === 'object') {
                 idProductoElement.value = producto.id_producto;
                 productoElement.value = producto.descripcion;
                 proveedorElement.value = producto.proveedor.razon_social;
@@ -696,85 +708,113 @@
 
             setTimeout(function () {
                 $('#modal-productos').modal();
-            },1000);
+            }, 1000);
         }
-         function mostrarAlertaNotFound() {
-             $('#not_found').modal();
-         }
 
-         function habilitar(){
+        function mostrarAlertaNotFound() {
+            $('#not_found').modal();
+        }
+
+        function habilitar() {
 
             document.getElementById('aceptar_producto').disabled = false;
 
-         }
+        }
 
-         function setProducto(){
+        function setProducto() {
 
             let infoProd = getProductoSelected();
-            if(infoProd.length != 0 ){
+            if (infoProd.length != 0) {
                 cargarProducto(infoProd);
-            }else{
+            } else {
 
 
             }
 
 
-         }
+        }
 
-        function getProductoSelected(){
+        function getProductoSelected() {
             var productos = document.getElementsByName('id_prod');
-            var id_prod=null;
+            var id_prod = null;
             var descripcion = null;
             var id_prov = null;
             var razon_social = null;
 
-            var arrayProductos = Object.keys(productos).map(function(key) {
+            var arrayProductos = Object.keys(productos).map(function (key) {
                 return [Number(key), productos[key]];
             });
 
 
-            arrayProductos.forEach(function(prod){
-                if(prod[1].checked){
-                    var childrens =prod[1].parentElement.parentElement.children;
-                    id_prod =childrens[0].firstChild.value;
+            arrayProductos.forEach(function (prod) {
+                if (prod[1].checked) {
+                    var childrens = prod[1].parentElement.parentElement.children;
+                    id_prod = childrens[0].firstChild.value;
                     descripcion = childrens[2].innerText;
                     razon_social = childrens[3].innerText;
                     id_prov = childrens[3].firstChild.value;
 
                 }
             });
-            return [id_prod,descripcion,id_prov,razon_social];
+            return [id_prod, descripcion, id_prov, razon_social];
         }
-        function  descomponerInput( input ) {
-            const POSICION_CODIGO = 1;
-            const POSICION_FECHA = 2;
-            const POSICION_LOTE= 3;
+
+        function descomponerInput(input) {
 
             var codigoBarras = input.value;
-            var removerParentesis = codigoBarras.replace(/\([0-9]*\)/g,'-');
+            var removerParentesis = codigoBarras.replace(/\([0-9]*\)/g, '-');
             var codigoSplited = removerParentesis.split('-');
 
-            var codigo = codigoSplited[POSICION_CODIGO];
-            var fecha = codigoSplited[POSICION_FECHA];
-            var lote = codigoSplited[POSICION_LOTE];
 
-           if(event.keyCode == 13){
-               document.getElementById('lote').value=lote;
-               fecha = getDate(fecha);
-               document.getElementById('vencimiento').value=fecha;
-               document.getElementById('cantidad').focus();
-           }
+            return codigoSplited;
 
 
         }
-        function getDate( date ){
 
-           var anio ="20"+date.substring(0,2);
-           var mes = date.substring(2,4);
-           var dia = date.substring(4);
-           var newDate = anio+"-"+mes+"-"+dia;
+        function cargarInfoCodigoBarras(input) {
 
-           return newDate
+            let infoCodigoBarras = descomponerInput(input);
+
+            if(event.keycode == 13){
+                mostrarInfoCodigoBarras(infoCodigoBarras);
+            }
+
+
+        }
+
+        function mostrarInfoCodigoBarras( infoCodigoBarras ) {
+            const POSICION_FECHA = 2;
+            const POSICION_LOTE = 3;
+
+            let fecha = infoCodigoBarras[POSICION_FECHA];
+            document.getElementById('lote').value = infoCodigoBarras[POSICION_LOTE];
+            fecha = getDate(fecha);
+            document.getElementById('vencimiento').value = fecha;
+            document.getElementById('cantidad').focus();
+        }
+
+        function getDate(date) {
+
+            var anio = "20" + date.substring(0, 2);
+            var mes = date.substring(2, 4);
+            var dia = date.substring(4);
+            var newDate = anio + "-" + mes + "-" + dia;
+
+            return newDate
+
+        }
+
+        function getCodigoProducto() {
+
+            const POSICION_CODIGO = 1;
+            var inputMateriaPrima = document.getElementById('producto');
+
+            var infoCodigoBarras = descomponerInput(inputMateriaPrima);
+
+            const codigo_producto = infoCodigoBarras[POSICION_CODIGO]
+            if (event.keyCode == 13) {
+                buscar_producto(codigo_producto);
+            }
 
         }
     </script>
