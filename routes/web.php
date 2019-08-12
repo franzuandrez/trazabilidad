@@ -27,6 +27,7 @@ Route::post('users/{id}','UserController@destroy')->name('users.destroy');
 Route::get('users/{id}','UserController@show')->name('users.show');
 Route::get('users/{id}/cambio','UserController@editPassword')->name('users.editPassword');
 Route::patch('users/{id}/cambio','UserController@updatePassword')->name('users.updatePass');
+Route::get('logout','UserController@logout')->name('logout');
 
 Route::get('roles','RoleController@index')->name('roles.index');
 Route::get('roles/create','RoleController@create')->name('roles.create');

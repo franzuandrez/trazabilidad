@@ -191,6 +191,23 @@
 
                     </ul>
             </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" data-toggle="dropdown"
+                       style="background-color: #01579B;  color: #fff;">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                        {{Auth::user()->username}}<b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('logout')}}"><i class="fa fa-sign-out"></i>Cerrar
+                                Sesión</a>
+                        </li>
+                    </ul>
+                </li>
+
+            </ul>
         </div>
     </div>
 </div>
