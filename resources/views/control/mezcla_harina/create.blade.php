@@ -48,8 +48,9 @@
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="lotes">LOTES DE LOS PRODUCTOS</label>
-            <input type="text" name="lotes" value="{{old('lotes')}}"
+            <label for="codigo_producto">CODIGO</label>
+            <input id="codigo_producto" type="text"
+                   onkeydown="descomponerInput(this)"
                    class="form-control">
         </div>
     </div>
@@ -60,6 +61,14 @@
             <div class="tab-pane" id="tab_3">
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                     <div class="form-group">
+                        <label for="lote">LOTE</label>
+                        <input id="lote" type="text" name="lote"
+
+                               class="form-control">
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+                    <div class="form-group">
                         <label for="producto">PRODUCTO</label>
                         <input id="producto" type="text" name="producto"
 
@@ -68,7 +77,7 @@
                 </div>
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                     <div class="form-group">
-                        <label for="nombre">HORA CARGA</label>
+                        <label for="hora_carga">HORA CARGA</label>
                         <input id="hora_carga" type="text" name="descripcion"
 
                                class="form-control">
@@ -76,7 +85,7 @@
                 </div>
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                     <div class="form-group">
-                        <label for="nombre">HORA DESCARGA</label>
+                        <label for="hora_descarga">HORA DESCARGA</label>
                         <input id="hora_descarga" type="text" name="descripcion"
 
                                class="form-control">
@@ -84,7 +93,7 @@
                 </div>
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                     <div class="form-group">
-                        <label for="nombre">LBS DE SOLUCIÓN (158.4 A 168.5)</label>
+                        <label for="solucion">LBS DE SOLUCIÓN (158.4 A 168.5)</label>
                         <input id="solucion" type="text" name="descripcion"
 
                                class="form-control">
@@ -92,7 +101,7 @@
                 </div>
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                     <div class="form-group">
-                        <label for="nombre">PH (8-11 PPM)</label>
+                        <label for="ph">PH (8-11 PPM)</label>
                         <input id="ph" type="text" name="descripcion"
 
                                class="form-control">
@@ -101,7 +110,7 @@
 
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                     <div class="form-group">
-                        <label for="nombre">OBSERVACIONES</label>
+                        <label for="observacion">OBSERVACIONES</label>
                         <input id="observacion" type="text" name="descripcion"
 
                                class="form-control">
@@ -205,6 +214,12 @@
             });
 
         });
+        $(window).keydown(function (event) {
+            if (event.keyCode == 13) {
+                event.preventDefault();
+                return false;
+            }
+        });
     </script>
     <script>
         function cargarProveedores() {
@@ -261,45 +276,6 @@
             return /\d/.test(String.fromCharCode(keynum));
         }
 
-        function buscar_producto() {
-
-            let productoElement = document.getElementById('producto');
-
-            $.ajax({
-
-                url: "{{url('registro/productos/search')}}" + "/" + productoElement.value,
-                type: "get",
-                dataType: "json",
-                success: function (response) {
-
-                    let productos = response;
-                    let totalProductos = productos.length;
-
-                    if (totalProductos == 0) {
-
-                        mostrarAlertaNotFound();
-
-                    } else if (totalProductos == 1) {
-
-                        cargarProducto(productos[0]);
-
-                    } else {
-
-                        cargarProductos(productos);
-                        mostrarProductosCargados();
-                    }
-
-
-                },
-                error: function (e) {
-
-                    console.error(e);
-                }
-
-            })
-
-        }
-
         function limpiar() {
 
             document.getElementById('id_producto').value = "";
@@ -308,50 +284,6 @@
             document.getElementById('id_proveedor').value = "";
             document.getElementById('producto').readOnly = false;
             document.getElementById('buscar').disabled = false;
-        }
-
-        function cargarProductos(productos) {
-
-            $("#tbody-productos").empty();
-            let row = "";
-            productos.forEach(function (producto) {
-
-                row += `<tr>
-                    <td><input  onclick="habilitar()" type='radio' name='id_prod' value='${producto.id_producto}'  ></td>
-                    <td> ${producto.codigo_barras} </td>
-                    <td> ${producto.descripcion} </td>
-                    <td><input type='hidden' name="id_prov" value='${producto.proveedor.id_proveedor}'  >  ${producto.proveedor.razon_social} </td>
-                </tr> `;
-
-            })
-
-            $('#tbody-productos').append(row);
-        }
-
-        function cargarProducto(producto) {
-
-            let productoElement = document.getElementById('producto');
-            let idProductoElement = document.getElementById('id_producto');
-            let proveedorElement = document.getElementById('proveedor');
-            let idProveedorElement = document.getElementById('id_proveedor');
-            let btnBuscar = document.getElementById('buscar');
-            if (Array.isArray(producto)) {
-                idProductoElement.value = producto[0];
-                productoElement.value = producto[1];
-                idProveedorElement.value = producto[2];
-                proveedorElement.value = producto[3];
-                productoElement.readOnly = true;
-                btnBuscar.disabled = true;
-
-            } else if (typeof producto === 'object') {
-                idProductoElement.value = producto.id_producto;
-                productoElement.value = producto.descripcion;
-                proveedorElement.value = producto.proveedor.razon_social;
-                idProveedorElement.value = producto.proveedor.id_proveedor;
-                productoElement.readOnly = true;
-                btnBuscar.disabled = true;
-            }
-
         }
 
         function mostrarProductosCargados() {
@@ -382,6 +314,26 @@
             }
 
 
+        }
+
+        function descomponerInput(input) {
+            const POSICION_CODIGO = 1;
+            const POSICION_FECHA = 2;
+            const POSICION_LOTE = 3;
+
+            var codigoBarras = input.value;
+            var removerParentesis = codigoBarras.replace(/\([0-9]*\)/g, '-');
+            var codigoSplited = removerParentesis.split('-');
+
+            var codigo = codigoSplited[POSICION_CODIGO];
+            var fecha = codigoSplited[POSICION_FECHA];
+            var lote = codigoSplited[POSICION_LOTE];
+
+            if (event.keyCode == 13) {
+                document.getElementById('lote').value = lote;
+                document.getElementById('producto').value = codigo;
+                document.getElementById('hora_carga').focus();
+            }
         }
 
         function getProductoSelected() {
