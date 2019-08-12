@@ -1,5 +1,9 @@
 @extends('layouts.admin')
 
+@section('style')
+    <link rel="stylesheet" href="{{asset('css/bootstrap-datepicker.css')}}">
+@endsection
+
 @section('contenido')
 
     @component('componentes.nav',['operation'=>'Crear',
@@ -30,9 +34,13 @@
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="fecha">FECHA</label>
-            <input type="text" name="fecha" value="{{old('fecha')}}"
-                   class="form-control">
+            <label>Fecha</label>
+            <div class="input-group date">
+                <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                </div>
+                <input id="fecha" type="text" class="form-control pull-right" id="datepicker">
+            </div>
         </div>
     </div>
 
@@ -352,7 +360,8 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="verificacion_codificado_observaciones">OBSERVACIONES</label>
-            <input type="text" name="verificacion_codificado_observaciones" value="{{old('verificacion_codificado_observaciones')}}"
+            <input type="text" name="verificacion_codificado_observaciones"
+                   value="{{old('verificacion_codificado_observaciones')}}"
                    class="form-control">
         </div>
     </div>
@@ -428,5 +437,20 @@
             $(select).selectpicker('refresh');
         }
 
+    </script>
+    <script>
+        $('.date').datepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            setDate: new Date()
+
+        });
+        $(document).ready(function () {
+
+            $("#btnAdd").click(function () {
+                addToTable();
+            });
+
+        });
     </script>
 @endsection

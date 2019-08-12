@@ -444,7 +444,7 @@
                     </div>
                     <div class="col-lg-4 col-sm-8 col-md-8 col-xs-10">
                         <div class="form-group">
-                            <label>Fecha de Vendimiento</label>
+                            <label>Fecha de Vencimiento</label>
 
                             <div class="input-group date">
                                 <div class="input-group-addon">
