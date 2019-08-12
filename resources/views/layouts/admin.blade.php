@@ -21,6 +21,14 @@
 <div class="navbar navbar-default" style="background-color: #01579B; border-radius: 0px;">
     <div class="container-fluid">
         <div class="navbar-header">
+            <button type="button"
+                    class="navbar-toggle"
+                    data-toggle="collapse"
+                    data-target="#mynavbar-content">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
             <a class="navbar-brand" href="{{url('/')}}" style="color: #fff">CANTONESA</a>
         </div>
         <div class="collapse navbar-collapse" id="mynavbar-content">
