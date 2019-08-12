@@ -169,7 +169,8 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="temperatura_precocedora_1_observacion">OBSERVACIONES</label>
-            <input type="text" name="temperatura_precocedora_1_observacion" value="{{old('temperatura_precocedora_1_observacion')}}"
+            <input type="text" name="temperatura_precocedora_1_observacion"
+                   value="{{old('temperatura_precocedora_1_observacion')}}"
                    class="form-control">
         </div>
     </div>
@@ -199,7 +200,8 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="temperatura_precocedora_1_observacion">OBSERVACIONES</label>
-            <input type="text" name="temperatura_precocedora_1_observacion" value="{{old('temperatura_precocedora_1_observacion')}}"
+            <input type="text" name="temperatura_precocedora_1_observacion"
+                   value="{{old('temperatura_precocedora_1_observacion')}}"
                    class="form-control">
         </div>
     </div>
@@ -215,6 +217,180 @@
         <div class="form-group">
             <label for="tiempo_precedore_2_observacion">OBSERVACIONES</label>
             <input type="text" name="tiempo_precedore_2_observacion" value="{{old('tiempo_precedore_2_observacion')}}"
+                   class="form-control">
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="temperatura_central">TEMPERATURA CENTRAL DE SECADORA (DE 72 A 80 ºC)</label>
+            <input type="text" name="temperatura_central" value="{{old('temperatura_central')}}"
+                   class="form-control">
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="temperatura_central_observaciones">OBSERVACIONES</label>
+            <input type="text" name="temperatura_central_observaciones"
+                   value="{{old('temperatura_central_observaciones')}}"
+                   class="form-control">
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="velocidad_pass200">VELOCIDAD SECADORA PAS200 (53HRZ)</label>
+            <input type="text" name="velocidad_pass200" value="{{old('velocidad_pass200')}}"
+                   class="form-control">
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="velocidad_pass200_observaciones">OBSERVACIONES</label>
+            <input type="text" name="velocidad_pass200_observaciones" value="{{old('velocidad_pass200_observaciones')}}"
+                   class="form-control">
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="velocidad_pasc180">VELOCIDAD SECADORA PASC180 (58HRZ)</label>
+            <input type="text" name="velocidad_pasc180" value="{{old('velocidad_pasc180')}}"
+                   class="form-control">
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="velocidad_pasc180_observaciones">OBSERVACIONES</label>
+            <input type="text" name="velocidad_pasc180_observaciones" value="{{old('velocidad_pasc180_observaciones')}}"
+                   class="form-control">
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="velocidad_pask180">VELOCIDAD SECADORA PASK180 (60HRZ)</label>
+            <input type="text" name="velocidad_pask180" value="{{old('velocidad_pask180')}}"
+                   class="form-control">
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="velocidad_pask180_observaciones">OBSERVACIONES</label>
+            <input type="text" name="velocidad_pask180_observaciones" value="{{old('velocidad_pask180_observaciones')}}"
+                   class="form-control">
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="velocidad_pasi180">VELOCIDAD SECADORA PASI180 (60HRZ)</label>
+            <input type="text" name="velocidad_pasi180" value="{{old('velocidad_pasi180')}}"
+                   class="form-control">
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="velocidad_pasi180_observaciones">OBSERVACIONES</label>
+            <input type="text" name="velocidad_pasi180_observaciones" value="{{old('velocidad_pasi180_observaciones')}}"
+                   class="form-control">
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="velocidad_pasm160">VELOCIDAD SECADORA PASM160 (60HRZ)</label>
+            <input type="text" name="velocidad_pasm160" value="{{old('velocidad_pasm160')}}"
+                   class="form-control">
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="velocidad_pasm160_observaciones">OBSERVACIONES</label>
+            <input type="text" name="velocidad_pasm160_observaciones" value="{{old('velocidad_pasm160_observaciones')}}"
+                   class="form-control">
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="extractor_activo">EXTRACTOR ACTIVO</label>
+            <input type="text" name="extractor_activo" value="{{old('extractor_activo')}}"
+                   class="form-control">
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="extractor_activo_observaciones">OBSERVACIONES</label>
+            <input type="text" name="extractor_activo_observaciones" value="{{old('extractor_activo_observaciones')}}"
+                   class="form-control">
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="ventilacion_ideal">VENTILACIÓN IDEAL (ACORDE A PRODUCTO) SI</label>
+            <input type="text" name="ventilacion_ideal" value="{{old('ventilacion_ideal')}}"
+                   class="form-control">
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="ventilacion_ideal_observaciones">OBSERVACIONES</label>
+            <input type="text" name="ventilacion_ideal_observaciones" value="{{old('ventilacion_ideal_observaciones')}}"
+                   class="form-control">
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="verificacion_codificado">VERIFICACION CODIFICADO LOTE: CODMMDDAATUR VENCE: DD/MM/AAAA</label>
+            <input type="text" name="verificacion_codificado" value="{{old('verificacion_codificado')}}"
+                   class="form-control">
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="verificacion_codificado_observaciones">OBSERVACIONES</label>
+            <input type="text" name="verificacion_codificado_observaciones" value="{{old('verificacion_codificado_observaciones')}}"
+                   class="form-control">
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="sello_1">SELLOS (CUALITATIVO) MAQ. #1</label>
+            <input type="text" name="sello_1" value="{{old('sello_1')}}"
+                   class="form-control">
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="sellor_1_observaciones">OBSERVACIONES</label>
+            <input type="text" name="sellor_1_observaciones" value="{{old('sellor_1_observaciones')}}"
+                   class="form-control">
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="sello_2">SELLOS (CUALITATIVO) MAQ. #2</label>
+            <input type="text" name="sello_2" value="{{old('sello_2')}}"
+                   class="form-control">
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="sellor_2_observaciones">OBSERVACIONES</label>
+            <input type="text" name="sellor_2_observaciones" value="{{old('sellor_2_observaciones')}}"
+                   class="form-control">
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="observaciones">OBSERVACIONES/ACCIONES CORRECTIVAS</label>
+            <input type="text" name="observaciones" value="{{old('observaciones')}}"
                    class="form-control">
         </div>
     </div>
