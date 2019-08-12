@@ -9,19 +9,19 @@
 
     @component('componentes.nav',['operation'=>'LIST',
     'menu_icon'=>'fa fa-check-square-o',
-    'submenu_icon'=>'fa fa-spoon',
+    'submenu_icon'=>'fa fa-th',
     'operation_icon'=>'',])
         @slot('menu')
             Control
         @endslot
         @slot('submenu')
-            Mezcla de Harina
+            Laminado
         @endslot
     @endcomponent
 
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            @component('componentes.btn-create',['url'=>url('control/mezcla_harina/create')])
+            @component('componentes.btn-create',['url'=>url('control/laminado/create')])
             @endcomponent
             @component('componentes.btn-ver',['url'=>'javascript:ver()'])
             @endcomponent

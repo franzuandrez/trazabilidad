@@ -7,23 +7,23 @@
 
     @component('componentes.nav',['operation'=>'Ingreso',
     'menu_icon'=>'fa fa-check-square-o',
-    'submenu_icon'=>'fa fa-spoon',
+    'submenu_icon'=>'fa fa-th',
     'operation_icon'=>'fa-plus',])
         @slot('menu')
             Control
         @endslot
         @slot('submenu')
-            Mezcla Harina
+            Laminado
         @endslot
     @endcomponent
 
 
-    {!!Form::open(array('url'=>'control/mezcla_harina/create','method'=>'POST','autocomplete'=>'off'))!!}
+    {!!Form::open(array('url'=>'control/laminado/create','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="presentacion">RESPONSABLES</label>
+            <label for="presentacion">RESPONSABLE</label>
             <select name="id_presentacion" class="form-control selectpicker" id="presentacion">
                 <option value="">SELECCIONAR RESPONSABLE</option>
                 @foreach($responsables as $responsable)
@@ -35,8 +35,8 @@
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="codigo_producto">CODIGO</label>
-            <input id="codigo_producto" type="text"
+            <label for="turno">TURNO</label>
+            <input id="turno" type="text"
                    onkeydown="descomponerInput(this)"
                    class="form-control">
         </div>
@@ -48,58 +48,40 @@
             <div class="tab-pane" id="tab_3">
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                     <div class="form-group">
-                        <label for="lote">LOTE</label>
-                        <input id="lote" type="text" name="lote"
+                        <label for="hora">HORA</label>
+                        <input id="hora" type="text" name="lote"
 
                                class="form-control">
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                     <div class="form-group">
-                        <label for="producto">PRODUCTO</label>
-                        <input id="producto" type="text" name="producto"
-
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <label for="hora_carga">HORA CARGA</label>
-                    <div class="input-group date1" id='datetimepicker3'>
-                        <input id="hora_carga" type="text" name="descripcion" class="form-control">
-                        <span class="input-group-addon">
-                        <i class="fa fa-clock-o"></i>
-                    </span>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="hora_descarga">HORA DESCARGA</label>
-                        <input id="hora_descarga" type="text" name="descripcion"
+                        <label for="temperatura">TEMPERATURA REPOSO 34-36 °C</label>
+                        <input id="temperatura" type="text" name="temperatura"
 
                                class="form-control">
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                     <div class="form-group">
-                        <label for="solucion">LBS DE SOLUCIÓN (158.4 A 168.5)</label>
-                        <input id="solucion" type="text" name="descripcion"
+                        <label for="espesor">ESPESOR 1.25 A 1.30 (MILÍMETROS)</label>
+                        <input id="espesor" type="text" name="espesor"
 
                                class="form-control">
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                     <div class="form-group">
-                        <label for="ph">PH (8-11 PPM)</label>
-                        <input id="ph" type="text" name="descripcion"
+                        <label for="lote_producto">LOTE PRODUCTO</label>
+                        <input id="lote_producto" type="text" name="lote_producto"
 
                                class="form-control">
                     </div>
                 </div>
-
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                     <div class="form-group">
-                        <label for="observacion">OBSERVACIONES</label>
-                        <input id="observacion" type="text" name="descripcion"
+                        <label for="observaciones">OBSERVACIONES</label>
+                        <input id="observaciones" type="text" name="observaciones"
 
                                class="form-control">
                     </div>
@@ -120,12 +102,10 @@
 
                         <thead style="background-color: #01579B;  color: #fff;">
                         <th>OPCION</th>
-                        <th>LOTE</th>
-                        <th>PRODUCTO</th>
-                        <th>HORA CARGA</th>
-                        <th>HORA DESCARGA</th>
-                        <th>LBS DE SOLUCION (158.4 A 168.5)</th>
-                        <th>PH 8-11 PPM</th>
+                        <th>HORA</th>
+                        <th>TEMPERATURA REPOSO 34-36 C</th>
+                        <th>ESPESOR 1.25 A 1.30 M</th>
+                        <th>LOTE PRODUCTO</th>
                         <th>OBSERVACIONES</th>
                         </thead>
                         <tbody>
@@ -141,7 +121,7 @@
                 </div>
                 <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
                     <div class="form-group">
-                        <label for="observacion_correctiva">RESPONSABLE:</label>
+                        <label for="observacion_correctiva">RESPONSABLE VERIFICADOR:</label>
                     </div>
                 </div>
                 <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
@@ -216,36 +196,28 @@
         }
 
         function addToTable() {
-            if ($("#lote").val() != "" && $("#producto").val() != "" && $("#hora_carga").val() != "" && $("#hora_descarga").val() != "" && $("#solucion").val() != "" && $("#ph").val() != "" && $("#observacion").val() != "") {
-                let lote = $("#lote");
-                let producto = $("#producto");
-                let hora_carga = $("#hora_carga");
-                let hora_descarga = $("#hora_descarga");
-                let solucion = $("#solucion");
-                let ph = $("#ph");
-                let observacion = $("#observacion");
-                //removeFromTareas(tarea);
-                //removeFromSelect(vendedor);
+            if ($("#hora").val() != "" && $("#temperatura").val() != "" && $("#espesor").val() != "" && $("#lote_producto").val() != "" && $("#observaciones").val() != "") {
+                let hora = $("#hora");
+                let temperatura = $("#temperatura");
+                let espesor = $("#espesor");
+                let lote_producto = $("#lote_producto");
+                let observaciones = $("#observaciones");
                 let row =
                     `<tr>
             <td><button onclick=removeFromTable(this) type="button" class="btn btn-warning">x</button></td>
-            <td><input type="hidden" value='${lote.val()}' name=lote[]>${lote.val()}</td>
-            <td><input type="hidden" value='${producto.val()}' name=producto[]>${producto.val()}</td>
-            <td ><input type="hidden" value ='${hora_carga.val()}'  name=hora_carga[] >${hora_carga.val()}</td>
-            <td ><input type="hidden" value ='${hora_descarga.val()}'  name=hora_descarga[] >${hora_descarga.val()}</td>
-            <td ><input type="hidden" value ='${solucion.val()}'  name=solucion[] >${solucion.val()}</td>
-            <td ><input type="hidden" value ='${ph.val()}'  name=ph[] >${ph.val()}</td>
-            <td ><input type="hidden" value ='${observacion.val()}'  name=observacion[] >${observacion.val()}</td>
+            <td><input type="hidden" value='${hora.val()}' name=hora[]>${hora.val()}</td>
+            <td><input type="hidden" value='${temperatura.val()}' name=temperatura[]>${temperatura.val()}</td>
+            <td ><input type="hidden" value ='${espesor.val()}'  name=espesor[] >${espesor.val()}</td>
+            <td ><input type="hidden" value ='${lote_producto.val()}'  name=lote_producto[] >${lote_producto.val()}</td>
+            <td ><input type="hidden" value ='${observaciones.val()}'  name=observaciones[] >${observaciones.val()}</td>
             </tr>`;
 
                 $("#detalles").append(row);
-                lote.val('');
-                producto.val('');
-                hora_carga.val('');
-                hora_descarga.val('');
-                solucion.val('');
-                ph.val('');
-                observacion.val('');
+                hora.val('');
+                temperatura.val('');
+                espesor.val('');
+                lote_producto.val('');
+                observaciones.val('');
             } else {
                 $('#modal-default').modal('show');
                 return false;
