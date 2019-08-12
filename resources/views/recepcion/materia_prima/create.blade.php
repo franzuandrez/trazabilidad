@@ -471,7 +471,7 @@
                             <thead style="background-color: #01579B;  color: #fff;">
                             <th>OPCION</th>
                             <th>CANTIDAD</th>
-                            <th>NO. LOTES</th>
+                            <th>NO. LOTE</th>
                             <th>FECHA VENCIMIENTO</th>
                             </thead>
                             <tbody>
