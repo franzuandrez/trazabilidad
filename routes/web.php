@@ -27,6 +27,7 @@ Route::post('users/{id}','UserController@destroy')->name('users.destroy');
 Route::get('users/{id}','UserController@show')->name('users.show');
 Route::get('users/{id}/cambio','UserController@editPassword')->name('users.editPassword');
 Route::patch('users/{id}/cambio','UserController@updatePassword')->name('users.updatePass');
+Route::get('logout','UserController@logout')->name('logout');
 
 Route::get('roles','RoleController@index')->name('roles.index');
 Route::get('roles/create','RoleController@create')->name('roles.create');
@@ -205,3 +206,5 @@ Route::get('recepcion/materia_prima','RecepcionController@index')->name('recepci
 Route::get('recepcion/materia_prima/create','RecepcionController@create')->name('recepcion.materia_prima.create');
 Route::post('recepcion/materia_prima/create','RecepcionController@store')->name('recepcion.materia_prima.store');
 Route::get('recepcion/materia_prima/{id}','RecepcionController@show')->name('recepcion.materia_prima.show');
+Route::get('recepcion/materia_prima/{id}/edit','RecepcionController@edit')->name('recepcion.materia_prima.edit');
+Route::patch('recepcion/materia_prima/{id}','RecepcionController@update')->name('recepcion.materia_prima.update');

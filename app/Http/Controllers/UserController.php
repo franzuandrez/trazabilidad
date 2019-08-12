@@ -21,8 +21,11 @@ class UserController extends Controller
         $this->middleware('auth');
     }
 
-    public  function logout(){
-        Auth::logout();
+    public  function logout(Request $request ){
+
+
+        \Auth::logout();
+        return redirect('login');
     }
 
     public function index(Request $request){
@@ -127,7 +130,8 @@ class UserController extends Controller
     public function show($id){
 
         $user = User::find($id);
-        $roles = Role::active()->get();
+        $roles = Role::where('estado','1')->get();
+
         $userRole = $user->roles->all();
 
         return view('registro.users.show',compact('user','roles','userRole'));
@@ -171,4 +175,6 @@ class UserController extends Controller
 
 
     }
+
+
 }
