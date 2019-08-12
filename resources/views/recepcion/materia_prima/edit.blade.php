@@ -588,7 +588,7 @@
                             @foreach( $recepcion->detalle_lotes as $lote )
                                 <tr>
                                     <td>
-                                        <input type="hidden" value="{{$lote->id_detalle}}" name="id_detalle_lotes">
+
                                     </td>
                                     <td>
                                         {{$lote->cantidad}}

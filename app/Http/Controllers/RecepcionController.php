@@ -280,4 +280,30 @@ class RecepcionController extends Controller
 
     }
 
+    public function update( Request $request , $id ){
+
+
+        try {
+
+            DB::beginTransaction();
+            $recepcion = Recepcion::findOrFail($id);
+            $this->saveDetalleLotes($request, $recepcion->id_recepcion_enc);
+            $this->saveMovimientos($request, $recepcion);
+
+            DB::commit();
+
+            return redirect()->route('recepcion.materia_prima.index')
+                ->with('success', 'Materia prima ingresada corrrectamente');
+
+        } catch (\Exception $e) {
+
+            DB::rollback();
+            return redirect()->route('recepcion.materia_prima.index')
+                ->withErrors(['errors'=>'Lo sentimos, su peticion no puede ser procesada en este momento ']);
+
+        }
+
+
+    }
+
 }
