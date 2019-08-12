@@ -355,6 +355,10 @@
                                    class="custom-control-input"
                                    name="no_golpeado"
                                    value="1"
+                                   onclick="return false"
+                                   @if($recepcion->inspeccion_empaque->no_golpeado == 1 )
+                                   checked
+                                   @endif
                                    id="no_golpeado">
                             <label class="custom-control-label" style="font-weight: normal" for="no_golpeado">No
                                 golpeado</label>
@@ -364,6 +368,10 @@
                                    class="custom-control-input"
                                    name="sin_roturas"
                                    value="1"
+                                   onclick="return false"
+                                   @if($recepcion->inspeccion_empaque->sin_roturas == 1 )
+                                   checked
+                                   @endif
                                    id="sin_roturas">
                             <label class="custom-control-label" style="font-weight: normal" for="sin_roturas">Sin
                                 rotulas</label>
@@ -371,6 +379,10 @@
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox"
                                    class="custom-control-input"
+                                   onclick="return false"
+                                   @if($recepcion->inspeccion_empaque->cerrado == 1 )
+                                   checked
+                                   @endif
                                    name="empaque_cerrado"
                                    id="empaque_cerrado">
                             <label class="custom-control-label" style="font-weight: normal"
@@ -381,6 +393,10 @@
                                    class="custom-control-input"
                                    name="seco_limpio"
                                    value="1"
+                                   onclick="return false"
+                                   @if($recepcion->inspeccion_empaque->seco_limpio == 1 )
+                                   checked
+                                   @endif
                                    id="seco_limpio">
                             <label class="custom-control-label" style="font-weight: normal" for="seco_limpio">Seco y
                                 Limpio</label>
@@ -389,6 +405,10 @@
                             <input type="checkbox"
                                    class="custom-control-input"
                                    value="1"
+                                   onclick="return false"
+                                   @if($recepcion->inspeccion_empaque->sin_material_extranio == 1 )
+                                   checked
+                                   @endif
                                    name="sin_material_extranio"
                                    id="sin_material_extranio">
                             <label class="custom-control-label" style="font-weight: normal" for="sin_material_extranio">Sin
@@ -403,6 +423,10 @@
                             <input type="checkbox"
                                    class="custom-control-input"
                                    value="1"
+                                   onclick="return false"
+                                   @if($recepcion->inspeccion_empaque->debidamente_identificado == 1 )
+                                   checked
+                                   @endif
                                    name="debidamente_identificado"
                                    id="debidamente_identificado">
                             <label class="custom-control-label" for="debidamente_identificado">Producto debidamente
@@ -415,6 +439,10 @@
                                    class="custom-control-input"
                                    name="debidamente_legible"
                                    value="1"
+                                   onclick="return false"
+                                   @if($recepcion->inspeccion_empaque->identificacion_legible == 1 )
+                                   checked
+                                   @endif
                                    id="debidamente_legible">
                             <label class="custom-control-label" for="debidamente_legible">Identificación de producto
                                 legible</label>
@@ -425,6 +453,10 @@
                             <input type="checkbox"
                                    class="custom-control-input"
                                    value="1"
+                                   onclick="return false"
+                                   @if($recepcion->inspeccion_empaque->no_lote_presente == 1 )
+                                   checked
+                                   @endif
                                    name="no_lote_presente"
                                    id="no_lote_presente">
                             <label class="custom-control-label" for="no_lote_presente">No. de lote presente</label>
@@ -436,6 +468,10 @@
                                    class="custom-control-input"
                                    name="no_lote_legible"
                                    value="1"
+                                   onclick="return false"
+                                   @if($recepcion->inspeccion_empaque->no_lote_legible == 1 )
+                                   checked
+                                   @endif
                                    id="no_lote_legible">
                             <label class="custom-control-label" for="no_lote_legible">No. de lote legible</label>
                         </div>
@@ -446,6 +482,10 @@
                                    class="custom-control-input"
                                    name="fecha_vencimiento_legible"
                                    value="1"
+                                   onclick="return false"
+                                   @if($recepcion->inspeccion_empaque->fecha_vencimiento_legible == 1 )
+                                   checked
+                                   @endif
                                    id="fecha_vencimiento_legible">
                             <label class="custom-control-label" for="fecha_vencimiento_legible">Fecha de vencimiento
                                 presente y
@@ -456,6 +496,10 @@
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox"
                                    class="custom-control-input"
+                                   onclick="return false"
+                                   @if($recepcion->inspeccion_empaque->fecha_vencimiento_vigente == 1 )
+                                   checked
+                                   @endif
                                    name="fecha_vencimiento_vigente"
                                    value="1"
                                    id="fecha_vencimiento_vigente">
@@ -469,6 +513,10 @@
                                    class="custom-control-input"
                                    name="contenido_neto_declarado"
                                    value="1"
+                                   onclick="return false"
+                                   @if($recepcion->inspeccion_empaque->contenido_neto_declarado == 1 )
+                                   checked
+                                   @endif
                                    id="contenido_neto_declarado">
                             <label class="custom-control-label" for="contenido_neto_declarado">Contenido Neto
                                 declarado</label>
@@ -477,7 +525,10 @@
                     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
                         <div class="form-group">
                             <label for="observaciones_empaque">OBSERVACIONES/ACCIONES CORRECTIVAS</label>
-                            <input type="text" name="observaciones_empaque" value="{{old('observaciones_empaque')}}"
+                            <input type="text"
+                                   readonly
+                                   name="observaciones_empaque"
+                                   value="{{$recepcion->inspeccion_empaque->observaciones}}"
                                    class="form-control">
                         </div>
                     </div>
