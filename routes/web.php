@@ -192,6 +192,8 @@ Route::post('registro/tipo_movimientos/{id}','TipoMovimientoController@destroy')
 
 
 Route::get('registro/colaboradores','ColaboradorController@index')->name('colaboradores.index');
+Route::get('registro/colaboradores/create','ColaboradorController@create')->name('colaboradores.create');
+Route::post('registro/colaboradores/create','ColaboradorController@store')->name('colaboradores.store');
 
 
 Route::get('control/chaomin','ChaomeanController@index')->name('chaomin.index');

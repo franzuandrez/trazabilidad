@@ -14,33 +14,56 @@ class ColaboradorController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(Request $request ){
+    public function index(Request $request)
+    {
 
         $search = $request->get('search') == null ? '' : $request->get('search');
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
         $sortField = $request->get('field') == null ? 'codigo_barras' : $request->get('field');
 
         $colaboradores = Colaborador::actived()
-            ->where(function ( $query ) use ( $search) {
+            ->where(function ($query) use ($search) {
 
-                $query->where('colaboradores.codigo_barras','LIKE','%'.$search.'%')
-                    ->orWhere('colaboradores.nombre','LIKE','%'.$search.'%')
-                    ->orWhere('colaboradores.apellido','LIKE','%'.$search.'%');
+                $query->where('colaboradores.codigo_barras', 'LIKE', '%' . $search . '%')
+                    ->orWhere('colaboradores.nombre', 'LIKE', '%' . $search . '%')
+                    ->orWhere('colaboradores.apellido', 'LIKE', '%' . $search . '%');
 
             })
-            ->orderBy($sortField,$sort)
-        ->paginate(20);
+            ->orderBy($sortField, $sort)
+            ->paginate(20);
 
 
-        if($request->ajax()){
+        if ($request->ajax()) {
 
             return view('registro.colaboradores.index',
-                compact('colaboradores','search','sort','sortField'));
-        }else{
+                compact('colaboradores', 'search', 'sort', 'sortField'));
+        } else {
             return view('registro.colaboradores.ajax',
-                compact('colaboradores','search','sort','sortField'));
+                compact('colaboradores', 'search', 'sort', 'sortField'));
 
         }
+
+    }
+
+
+    public function create(){
+
+
+        return view('registro.colaboradores.create');
+    }
+
+    public function store( Request $request ){
+
+        $colaborador = new Colaborador();
+        $colaborador->codigo_barras = $request->get('codigo_barras');
+        $colaborador->nombre = $request->get('nombre');
+        $colaborador->apellido = $request->get('apellido');
+        $colaborador->telefono = $request->get('telefono');
+        $colaborador->save();
+
+
+        return redirect()->route('colaboradores.index')
+            ->with('success','Colaborador dado de alta correctamente');
 
     }
 }
