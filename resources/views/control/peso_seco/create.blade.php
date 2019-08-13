@@ -8,18 +8,18 @@
 
     @component('componentes.nav',['operation'=>'Ingreso',
     'menu_icon'=>'fa fa-check-square-o',
-    'submenu_icon'=>'fa fa-signal',
+    'submenu_icon'=>'fa fa-bar-chart',
     'operation_icon'=>'fa-plus',])
         @slot('menu')
             Control
         @endslot
         @slot('submenu')
-            Peso Humedo
+            Peso Seco
         @endslot
     @endcomponent
 
 
-    {!!Form::open(array('url'=>'control/laminado/create','method'=>'POST','autocomplete'=>'off'))!!}
+    {!!Form::open(array('url'=>'control/peso_seco/create','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">

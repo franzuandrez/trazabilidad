@@ -9,19 +9,19 @@
 
     @component('componentes.nav',['operation'=>'LIST',
     'menu_icon'=>'fa fa-check-square-o',
-    'submenu_icon'=>'fa fa-signal',
+    'submenu_icon'=>'fa fa-bar-chart',
     'operation_icon'=>'',])
         @slot('menu')
             Control
         @endslot
         @slot('submenu')
-            Peso Humedo
+            Peso Seco
         @endslot
     @endcomponent
 
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            @component('componentes.btn-create',['url'=>url('control/peso_humedo/create')])
+            @component('componentes.btn-create',['url'=>url('control/peso_seco/create')])
             @endcomponent
             @component('componentes.btn-ver',['url'=>'javascript:ver()'])
             @endcomponent

@@ -219,13 +219,13 @@ Route::patch('control/peso_humedo/{id}','PesoHumedoController@update')->name('pe
 Route::get('control/peso_humedo/{id}','PesoHumedoController@show')->name('peso_humedo.show');
 Route::post('control/peso_humedo/{id}','PesoHumedoController@destroy')->name('peso_humedo.destroy');
 
-Route::get('control/peso_seco','PesoHumedoController@index')->name('peso_seco.index');
-Route::get('control/peso_seco/create','PesoHumedoController@create')->name('peso_seco.create');
-Route::post('control/peso_seco/create','PesoHumedoController@store')->name('peso_seco.store');
-Route::get('control/peso_seco/{id}/edit','PesoHumedoController@edit')->name('peso_seco.edit');
-Route::patch('control/peso_seco/{id}','PesoHumedoController@update')->name('peso_seco.update');
-Route::get('control/peso_seco/{id}','PesoHumedoController@show')->name('peso_seco.show');
-Route::post('control/peso_seco/{id}','PesoHumedoController@destroy')->name('peso_seco.destroy');
+Route::get('control/peso_seco','PesoSecoController@index')->name('peso_seco.index');
+Route::get('control/peso_seco/create','PesoSecoController@create')->name('peso_seco.create');
+Route::post('control/peso_seco/create','PesoSecoController@store')->name('peso_seco.store');
+Route::get('control/peso_seco/{id}/edit','PesoSecoController@edit')->name('peso_seco.edit');
+Route::patch('control/peso_seco/{id}','PesoSecoController@update')->name('peso_seco.update');
+Route::get('control/peso_seco/{id}','PesoSecoController@show')->name('peso_seco.show');
+Route::post('control/peso_seco/{id}','PesoSecoController@destroy')->name('peso_seco.destroy');
 
 Route::get('control/precocido','PrecocidoController@index')->name('precocido.index');
 Route::get('control/precocido/create','PrecocidoController@create')->name('precocido.create');
