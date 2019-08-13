@@ -7,21 +7,28 @@
 @section('contenido')
 
     @component('componentes.nav',['operation'=>'Ingreso',
-    'menu_icon'=>'fa fa-check-square-o',
-    'submenu_icon'=>'fa fa-cutlery',
+    'menu_icon'=>'fa fa-cube',
+    'submenu_icon'=>'fa fa-spinner',
     'operation_icon'=>'fa-plus',])
         @slot('menu')
-            Control
+            Produccion
         @endslot
         @slot('submenu')
-            Pre-cocido de Pasta
+            Mezcladora
         @endslot
     @endcomponent
 
 
-    {!!Form::open(array('url'=>'control/laminado/create','method'=>'POST','autocomplete'=>'off'))!!}
+    {!!Form::open(array('url'=>'produccion/mezcladora/create','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
 
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="presentacion">PRESENTACION</label>
+            <input id="presentacion" type="text"
+                   class="form-control">
+        </div>
+    </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="turno">TURNO</label>
@@ -29,91 +36,28 @@
                    class="form-control">
         </div>
     </div>
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="codigo">CODIGO</label>
-            <input id="codigo" type="text"
-                   onkeydown="descomponerInput(this)"
-                   class="form-control">
-        </div>
-    </div>
+
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="">
             <div class="tab-content">
             </div>
             <div class="tab-pane" id="tab_3">
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <label for="hora_inicio">HORA INICIO</label>
-                    <div class="input-group">
-                        <input id="hora_inicio" type="text" class="form-control timepicker" name="hora_inicio">
-
-                        <div class="input-group-addon">
-                            <i class="fa fa-clock-o"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <label for="hora_salida">HORA SALIA</label>
-                    <div class="input-group">
-                        <input id="hora_salida" type="text" class="form-control timepicker" name="hora_salida">
-
-                        <div class="input-group-addon">
-                            <i class="fa fa-clock-o"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                     <div class="form-group">
-                        <label for="tiempo_efectivo">TIEMPO EFECTIVO</label>
-                        <input id="tiempo_efectivo" type="text" name="tiempo_efectivo"
+                        <label for="batch_no">BATCH NO.</label>
+                        <input id="batch_no" type="text" name="batch_no"
 
                                class="form-control">
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                     <div class="form-group">
-                        <label for="alcance_presion">ALCANCE PRESIÓN</label>
-                        <input id="alcance_presion" type="text" name="alcance_presion"
+                        <label for="harina">HARINA (300 LBS)</label>
+                        <input id="harina" type="text" name="harina"
 
                                class="form-control">
                     </div>
                 </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="temperatura">TEMPERATURA A (98-106 C)</label>
-                        <input id="temperatura" type="text" name="temperatura"
-
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="lote">LOTE</label>
-                        <input id="lote" type="text" name="lote"
-
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="producto">PRODUCTO</label>
-                        <input id="producto" type="text" name="producto"
-
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="responsable">RESPONSABLES</label>
-                        <select name="id_responsable" class="form-control selectpicker" id="responsable">
-                            <option value="">SELECCIONAR RESPONSABLE</option>
-                            @foreach($responsables as $responsable)
-                                <option value="{{$responsable->id}}">{{$responsable->nombre}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                     <div class="form-group">
                         <label for="observaciones">OBSERVACIONES</label>
@@ -138,14 +82,8 @@
 
                         <thead style="background-color: #01579B;  color: #fff;">
                         <th>OPCION</th>
-                        <th>HORA INICIO</th>
-                        <th>HORA SALIDA</th>
-                        <th>TIEMPO EFECTIVO</th>
-                        <th>ALCANCE PRESICIÓN</th>
-                        <th>TEMPERATURA</th>
-                        <th>LOTE</th>
-                        <th>PRODUCTO</th>
-                        <th>RESPONSABLE EJECUCIÓN</th>
+                        <th>BATCH NO.</th>
+                        <th>HARINA (300 LBS)</th>
                         <th>OBSERVACIONES</th>
                         </thead>
                         <tbody>
@@ -154,27 +92,8 @@
                 </div>
                 <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
                     <div class="form-group">
-                        <label for="observacion_correctiva">RESPONSABLE:</label>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="puesto">PUESTO</label>
-                        <input type="text" name="puesto" value="{{old('puesto')}}"
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="nombre">NOMBRE</label>
-                        <input type="text" name="nombre" value="{{old('nombre')}}"
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="firma">FIRMA</label>
-                        <input type="text" name="firma" value="{{old('firma')}}"
+                        <label for="acciones">ACCIONES/CORRECTIVAS</label>
+                        <input type="text" name="acciones" value="{{old('acciones')}}"
                                class="form-control">
                     </div>
                 </div>
@@ -188,7 +107,7 @@
             <button class="btn btn-default" type="submit">
                 <span class=" fa fa-check"></span> GUARDAR
             </button>
-            <a href="{{url('control/mezcla_harina')}}">
+            <a href="{{url('produccion/mezcladora')}}">
                 <button class="btn btn-default" type="button">
                     <span class="fa fa-remove"></span>
                     CANCELAR
@@ -238,40 +157,23 @@
         }
 
         function addToTable() {
-            if ($("#hora_inicio").val() != "" && $("#hora_salida").val() != "" && $("#tiempo_efectivo").val() != "" && $("#alcance_presion").val() != "" && $("#temperatura").val() != "" && $("#lote").val() != "" && $("#producto").val() != "" && $("#responsable").val() != "" && $("#observaciones").val() != "") {
-                let hora_inicio = $("#hora_inicio");
-                let hora_salida = $("#hora_salida");
-                let tiempo_efectivo = $("#tiempo_efectivo");
-                let alcance_presion = $("#alcance_presion");
-                let temperatura = $("#temperatura");
-                let nombreResponsable = $("select.selectpicker").children("option:selected").text();
-                let lote = $("#lote");
-                let producto = $("#producto");
-                let responsable = $("#responsable");
+            if ($("#batch_no").val() != "" && $("#harina").val() != "" && $("#observaciones").val() != "") {
+                let batch_no = $("#batch_no");
+                let harina = $("#harina");
                 let observaciones = $("#observaciones");
+
+                let acciones = $("#acciones");
                 let row =
                     `<tr>
             <td><button onclick=removeFromTable(this) type="button" class="btn btn-warning">x</button></td>
-            <td><input type="hidden" value='${hora_inicio.val()}' name=hora_inicio[]>${hora_inicio.val()}</td>
-            <td><input type="hidden" value='${hora_salida.val()}' name=hora_salida[]>${hora_salida.val()}</td>
-            <td ><input type="hidden" value ='${tiempo_efectivo.val()}'  name=tiempo_efectivo[] >${tiempo_efectivo.val()}</td>
-            <td ><input type="hidden" value ='${alcance_presion.val()}'  name=alcance_presion[] >${alcance_presion.val()}</td>
-            <td ><input type="hidden" value ='${temperatura.val()}'  name=temperatura[] >${temperatura.val()}</td>
-            <td ><input type="hidden" value ='${lote.val()}'  name=lote[] >${lote.val()}</td>
-            <td ><input type="hidden" value ='${producto.val()}'  name=producto[] >${producto.val()}</td>
-            <td ><input type="hidden" value ='${responsable.val()}'  name=responsable[] >${nombreResponsable}</td>
+            <td><input type="hidden" value='${batch_no.val()}' name=batch_no[]>${batch_no.val()}</td>
+            <td><input type="hidden" value='${harina.val()}' name=harina[]>${harina.val()}</td>
             <td ><input type="hidden" value ='${observaciones.val()}'  name=observaciones[] >${observaciones.val()}</td>
             </tr>`;
 
                 $("#detalles").append(row);
-                hora_inicio.val('');
-                hora_salida.val('');
-                tiempo_efectivo.val('');
-                alcance_presion.val('');
-                temperatura.val('');
-                lote.val('');
-                producto.val('');
-                responsable.val('');
+                batch_no.val('');
+                harina.val('');
                 observaciones.val('');
             } else {
                 $('#modal-default').modal('show');
