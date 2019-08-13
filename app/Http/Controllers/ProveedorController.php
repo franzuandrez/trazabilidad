@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use DB;
 use App\Proveedor;
 use App\ReferenciasComerciales;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProveedorController extends Controller
 {
@@ -297,6 +298,62 @@ class ProveedorController extends Controller
         } else {
             return $value;
         }
+
+    }
+
+    public function importar(Request $request ){
+
+        $file = $request->file('archivo_importar');
+
+
+        try {
+            Excel::load($file, function ($reader) {
+
+                $results = $reader->get();
+
+                foreach ($results as $key => $value) {
+
+                    $existeProveedor = Proveedor::where('codigo_proveedor', $value->codigo)->exists();
+
+                    if ($existeProveedor) {
+
+                        $proveedor = Proveedor::where('codigo_proveedor', $value->codigo)->first();
+                        $proveedor->razon_social = $value->razon_social;
+                        $proveedor->nombre_comercial = $value->nombre_comercial;
+                        $proveedor->email = $value->correo;
+                        $proveedor->direccion_planta = $value->direccion;
+                        $proveedor->telefono;
+                        $proveedor->update();
+
+                    } else {
+                        $proveedor = new Proveedor();
+                        $proveedor->codigo_proveedor = $value->codigo;
+                        $proveedor->razon_social = $value->razon_social;
+                        $proveedor->nombre_comercial = $value->nombre_comercial;
+                        $proveedor->email = $value->correo;
+                        $proveedor->direccion_planta = $value->direccion;
+                        $proveedor->telefono;
+                        $proveedor->save();
+
+                    }
+
+                }
+
+
+            });
+            return redirect()->route('proveedores.index')
+                ->with('success', 'Proveedores cargados correctamente.');
+        } catch (\PHPExcel_Reader_Exception $e) {
+
+            return redirect()->route('proveedores.index')
+                ->withErrors(['Archivo no valido']);
+
+        }catch (\Exception $e ){
+
+            return redirect()->route('proveedores.index')
+                ->withErrors(['No ha sido posible cargar los clientes']);
+        }
+
 
     }
 }

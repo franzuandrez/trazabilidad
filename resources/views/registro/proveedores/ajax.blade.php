@@ -33,6 +33,8 @@
             @endcomponent
             @component('componentes.btn-eliminar',['url'=>'javascript:eliminar()'])
             @endcomponent
+            @component('componentes.btn-importar',['url'=>'javascript:importar()'])
+            @endcomponent
 
 
         </div>
@@ -40,6 +42,12 @@
     @component('componentes.alert-no-selecction')
         @slot('mensaje')
             SELECCIONE UN PROVEEDOR
+        @endslot
+    @endcomponent
+
+    @component('componentes.modal-importar',['ruta'=>'proveedores.importar'])
+        @slot('mensaje')
+            IMPORTAR PROVEEDORES
         @endslot
     @endcomponent
     <div id="content">
@@ -53,4 +61,5 @@
 @section('scripts')
     <script src="{{asset('js/ajax-crud.js')}}"></script>
     <script src="{{asset('js-brc/proveedores/index.js')}}"></script>
+    <script src="{{asset('js-brc/tools/importar.js')}}"></script>
 @endsection
