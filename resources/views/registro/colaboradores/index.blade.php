@@ -74,6 +74,14 @@
                             @endif
                         </td>
                     </tr>
+                    @component('componentes.alert-delete',
+                      ['model'=>'COLABORADOR',
+                      'id'=>$colaborador->id_colaborador,
+                      'method'=>'ColaboradorController@destroy',
+                      'extras'=>'',
+                      'description'=>$colaborador->nombre,
+                      'url'=>url('registro/colaboradores/')."/".$colaborador->id_colaborador])
+                    @endcomponent
                 @endforeach
 
                 </tbody>

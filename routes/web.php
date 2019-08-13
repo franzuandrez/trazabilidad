@@ -198,6 +198,8 @@ Route::get('registro/colaboradores/{id}/edit','ColaboradorController@edit')->nam
 Route::patch('registro/colaboradores/{id}','ColaboradorController@update')->name('colaboradores.update');
 Route::get('registro/colaboradores/{id}','ColaboradorController@show')->name('colaboradores.show');
 
+Route::post('registro/colaboradores/{id}','ColaboradorController@destroy')->name('colaboradores.destroy');
+
 
 
 

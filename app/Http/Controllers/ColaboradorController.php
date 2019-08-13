@@ -117,4 +117,23 @@ class ColaboradorController extends Controller
 
 
     }
+
+    public function destroy( $id ){
+
+        try{
+
+            $colaborador = Colaborador::findOrFail($id);
+            $colaborador->estado = 0;
+            $colaborador ->update();
+            return response()->json(['success'=>'Colaborador dado de baja correctamente']);
+
+        }catch(\Exception $ex){
+            return response()->json(
+                ['error'=>'En este momento no es posible procesar su petición',
+                    'mensaje'=>$ex->getMessage()
+                ]
+            );
+
+        }
+    }
 }
