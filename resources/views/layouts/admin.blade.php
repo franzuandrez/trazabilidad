@@ -180,6 +180,7 @@
                         <li><a href="{{url('control/mezcla_harina')}}"><i class="fa fa-spoon"></i>Mezcla de Harina</a></li>
                         <li><a href="{{url('control/laminado')}}"><i class="fa fa-th"></i>Laminado</a></li>
                         <li><a href="{{url('control/peso_humedo')}}"><i class="fa fa-signal"></i>Peso Humedo</a></li>
+                        <li><a href="{{url('control/peso_seco')}}"><i class="fa fa-signal"></i>Peso Seco</a></li>
                         <li><a href="{{url('control/precocido')}}"><i class="fa fa-cutlery"></i>Pre-cocido de Pasta</a></li>
                     </ul>
                 </li>
