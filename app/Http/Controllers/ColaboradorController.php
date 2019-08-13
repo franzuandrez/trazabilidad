@@ -102,4 +102,19 @@ class ColaboradorController extends Controller
                 ->withErrors(['Su petición no puede ser procesada en este momento']);
         }
     }
+
+    public function show( $id ){
+
+        try {
+            $colaborador = Colaborador::findOrFail($id);
+            return view('registro.colaboradores.show', compact('colaborador'));
+        } catch (\Exception $e) {
+
+            return redirect()
+                ->route('colaboradores.index')
+                ->withErrors(['Colaborador no encontrado']);
+        }
+
+
+    }
 }
