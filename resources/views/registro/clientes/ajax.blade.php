@@ -30,6 +30,8 @@
             @endcomponent
             @component('componentes.btn-ver',['url'=>'javascript:ver()'])
             @endcomponent
+            @component('componentes.btn-importar',['url'=>'javascript:importar()'])
+            @endcomponent
 
         </div>
     </div>
@@ -37,6 +39,12 @@
     @component('componentes.alert-no-selecction')
         @slot('mensaje')
             SELECCIONE UN CLIENTE
+        @endslot
+    @endcomponent
+
+    @component('componentes.modal-importar',['ruta'=>'clientes.importar'])
+        @slot('mensaje')
+            IMPORTAR CLIENTES
         @endslot
     @endcomponent
     <div id="content">
