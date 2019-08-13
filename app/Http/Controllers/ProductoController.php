@@ -249,7 +249,7 @@ class ProductoController extends Controller
                 ->withErrors(['Archivo no valido']);
 
         }catch (\Exception $e ){
-            dd($e);
+
             return redirect()->route('productos.index')
                 ->withErrors(['No ha sido posible cargar los Productos']);
         }
