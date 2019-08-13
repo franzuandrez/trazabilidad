@@ -187,6 +187,7 @@ class ProductoController extends Controller
                     ->orWhere('productos.descripcion','LIKE','%'.$search.'%');
             })
             ->with('proveedor')
+            ->with('presentacion')
             ->get();
 
         if($productos->isEmpty()){
