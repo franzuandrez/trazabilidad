@@ -46,7 +46,7 @@
         @endslot
     @endcomponent
     <div id="content">
-
+    @include('registro.colaboradores.index')
     </div>
     <div class="loading">
         <i class="fa fa-refresh fa-spin "></i><br/>
