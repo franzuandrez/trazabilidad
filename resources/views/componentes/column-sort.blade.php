@@ -1,5 +1,7 @@
 
-<a href="javascript:ajaxLoad('{{url($modulo.'?field='.$field.'&sort='.($sort=='asc'?'desc':'asc'))}}')">
+<a href="javascript:ajaxLoad('{{
+url($modulo.'?field='.$field.'&sort='.($sort=='asc'?'desc':'asc').'&search='.$search)
+}}')">
     {{strtoupper($titulo)}}
 
 </a>
