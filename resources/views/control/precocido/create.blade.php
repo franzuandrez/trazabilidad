@@ -104,10 +104,13 @@
                 </div>
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                     <div class="form-group">
-                        <label for="responsable">RESPONSABLE EJECUCION</label>
-                        <input id="responsable" type="text" name="responsable"
-
-                               class="form-control">
+                        <label for="responsable">RESPONSABLES</label>
+                        <select name="id_responsable" class="form-control selectpicker" id="responsable">
+                            <option value="">SELECCIONAR RESPONSABLE</option>
+                            @foreach($responsables as $responsable)
+                                <option value="{{$responsable->id}}">{{$responsable->nombre}}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
 
@@ -235,13 +238,13 @@
         }
 
         function addToTable() {
-            if ($("#hora_inicio").val() != "" && $("#hora_salida").val() != "" && $("#tiempo_efectivo").val() != "" && $("#alcance_presion").val() != "" && $("#temperatura").val() != "" &&$("#lote").val() != "" && $("#producto").val() != "" && $("#responsable").val() != "" &&  $("#observaciones").val() != "") {
+            if ($("#hora_inicio").val() != "" && $("#hora_salida").val() != "" && $("#tiempo_efectivo").val() != "" && $("#alcance_presion").val() != "" && $("#temperatura").val() != "" && $("#lote").val() != "" && $("#producto").val() != "" && $("#responsable").val() != "" && $("#observaciones").val() != "") {
                 let hora_inicio = $("#hora_inicio");
                 let hora_salida = $("#hora_salida");
                 let tiempo_efectivo = $("#tiempo_efectivo");
                 let alcance_presion = $("#alcance_presion");
                 let temperatura = $("#temperatura");
-                let no_5 = $("#no_5");
+                let nombreResponsable = $("select.selectpicker").children("option:selected").text();
                 let lote = $("#lote");
                 let producto = $("#producto");
                 let responsable = $("#responsable");
@@ -256,7 +259,7 @@
             <td ><input type="hidden" value ='${temperatura.val()}'  name=temperatura[] >${temperatura.val()}</td>
             <td ><input type="hidden" value ='${lote.val()}'  name=lote[] >${lote.val()}</td>
             <td ><input type="hidden" value ='${producto.val()}'  name=producto[] >${producto.val()}</td>
-            <td ><input type="hidden" value ='${responsable.val()}'  name=responsable[] >${responsable.val()}</td>
+            <td ><input type="hidden" value ='${responsable.val()}'  name=responsable[] >${nombreResponsable}</td>
             <td ><input type="hidden" value ='${observaciones.val()}'  name=observaciones[] >${observaciones.val()}</td>
             </tr>`;
 

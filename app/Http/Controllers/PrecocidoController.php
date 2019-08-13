@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Producto;
 use App\Recepcion;
+use App\User;
 use Illuminate\Http\Request;
 
 class PrecocidoController extends Controller
@@ -58,10 +58,10 @@ class PrecocidoController extends Controller
     public function create()
     {
         //
-        $productos = Producto::esMateriaPrima()->get();
+        $responsables = User::actived()->get();
 
         return view('control.precocido.create',
-            compact('productos'));
+            compact('responsables'));
 
     }
 
