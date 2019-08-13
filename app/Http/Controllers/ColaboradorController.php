@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Colaborador;
 use Illuminate\Http\Request;
-
+use Maatwebsite\Excel\Facades\Excel;
 class ColaboradorController extends Controller
 {
     //
@@ -135,5 +135,62 @@ class ColaboradorController extends Controller
             );
 
         }
+    }
+
+
+    public function importar( Request $request ){
+
+        $file = $request->file('archivo_importar');
+
+
+        try {
+            Excel::load($file, function ($reader) {
+
+                $results = $reader->noHeading()->get();
+                $results = $results->slice(1);
+
+                foreach ($results as $key => $value) {
+
+
+                    $existeColaborador = Colaborador::where('codigo_barras', $value[0])->exists();
+
+                    if ($existeColaborador) {
+
+                        $colaborador = Colaborador::where('codigo_barras', $value[0])->first();
+                        $colaborador->nombre = $value[1];
+                        $colaborador->apellido = $value[2];
+                        $colaborador->telefono = $value[3];
+                        $colaborador->estado = 1;
+                        $colaborador->update();
+
+                    } else {
+                        $colaborador = new Colaborador();
+                        $colaborador->codigo_barras = $value[0];
+                        $colaborador->nombre = $value[1];
+                        $colaborador->apellido = $value[2];
+                        $colaborador->telefono = $value[3];;
+                        $colaborador->save();
+
+                    }
+
+                }
+
+
+            });
+            return redirect()->route('colaboradores.index')
+                ->with('success', 'Colaboradores cargados correctamente.');
+
+        }catch (\PHPExcel_Reader_Exception $e) {
+
+            return redirect()->route('colaboradores.index')
+                ->withErrors(['Archivo no valido']);
+
+        }catch (\Exception $e ){
+
+            return redirect()->route('colaboradores.index')
+                ->withErrors(['No ha sido posible cargar los colaboradores']);
+        }
+
+
     }
 }

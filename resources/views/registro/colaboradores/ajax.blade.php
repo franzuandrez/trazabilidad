@@ -42,7 +42,7 @@
         @endslot
     @endcomponent
 
-    @component('componentes.modal-importar',['ruta'=>'clientes.importar'])
+    @component('componentes.modal-importar',['ruta'=>'colaboradores.importar'])
         @slot('mensaje')
             IMPORTAR COLABORADORES
         @endslot
