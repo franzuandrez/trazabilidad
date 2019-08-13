@@ -151,6 +151,12 @@
                                 Tipo Movimiento
                             </a>
                         </li>
+                        <li>
+                            <a href="{{url('registro/colaboradores')}}">
+                                <i class="fa fa-male" aria-hidden="true"></i>
+                                Colaboradores
+                            </a>
+                        </li>
                     </ul>
 
                 </li>
