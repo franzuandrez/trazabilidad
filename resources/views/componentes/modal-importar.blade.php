@@ -6,19 +6,27 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" align="center">{{$mensaje}}</h4>
+
             </div>
             <div class="modal-body">
-                <input type="file"  class="form-control-file" id="file"  name="archivo_importar" >
+                <span style="display: none;color:red" class="move" id="alert-no-file"> Debe seleccionar un archivo </span>
+                <input type="file"
+                       class="form-control-file"
+                       id="file"
+                       name="archivo_importar">
+
             </div>
             <div class="modal-footer">
-
-                    <button type="submit" id="btn-importar"
-                            onclick="sync_icon()"
-                            class="btn btn-default" >
+                <button type="button" class="btn btn-default" data-dismiss="modal"><span class="fa fa-remove"></span>
+                    CANCELAR
+                </button>
+                <button type="submit" id="btn-importar"
+                        onclick="sync_icon()"
+                        class="btn btn-default">
                         <span class="fa fa-upload"
-                              id="icon-sync" ></span>
-                        IMPORTAR
-                    </button>
+                              id="icon-sync"></span>
+                    IMPORTAR
+                </button>
 
             </div>
         </div>

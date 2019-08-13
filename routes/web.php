@@ -43,7 +43,9 @@ Route::post('registro/proveedores/create','ProveedorController@store')->name('pr
 Route::get('registro/proveedores/{id}/edit','ProveedorController@edit')->name('proveedores.edit');
 Route::patch('registro/proveedores/{id}','ProveedorController@update')->name('proveedores.update');
 Route::get('registro/proveedores/{id}','ProveedorController@show')->name('proveedores.show');
+Route::post('registro/proveedores/importar','ProveedorController@importar')->name('proveedores.importar');
 Route::post('registro/proveedores/{id}','ProveedorController@destroy')->name('proveedores.destroy');
+
 
 
 Route::get('registro/presentaciones','PresentacionController@index')->name('presentacion.index');
@@ -166,8 +168,10 @@ Route::post('registro/productos/create','ProductoController@store')->name('produ
 Route::get('registro/productos/{id}/edit','ProductoController@edit')->name('productos.edit');
 Route::patch('registro/productos/{id}','ProductoController@update')->name('productos.update');
 Route::get('registro/productos/{id}','ProductoController@show')->name('productos.show');
+Route::post('registro/productos/importar','ProductoController@importar')->name('productos.importar');
 Route::post('registro/productos/{id}','ProductoController@destroy')->name('productos.destroy');
 Route::get('registro/productos/search/{value}','ProductoController@search')->name('productos.search');
+
 
 Route::get('registro/actividades','ActividadController@index')->name('actividades.index');
 Route::get('registro/actividades/create','ActividadController@create')->name('actividades.create');
@@ -185,6 +189,18 @@ Route::get('registro/tipo_movimientos/{id}/edit','TipoMovimientoController@edit'
 Route::patch('registro/tipo_movimientos/{id}','TipoMovimientoController@update')->name('tipo_movimientos.update');
 Route::get('registro/tipo_movimientos/{id}','TipoMovimientoController@show')->name('tipo_movimientos.show');
 Route::post('registro/tipo_movimientos/{id}','TipoMovimientoController@destroy')->name('tipo_movimientos.destroy');
+
+
+Route::get('registro/colaboradores','ColaboradorController@index')->name('colaboradores.index');
+Route::get('registro/colaboradores/create','ColaboradorController@create')->name('colaboradores.create');
+Route::post('registro/colaboradores/create','ColaboradorController@store')->name('colaboradores.store');
+Route::get('registro/colaboradores/{id}/edit','ColaboradorController@edit')->name('colaboradores.edit');
+Route::patch('registro/colaboradores/{id}','ColaboradorController@update')->name('colaboradores.update');
+Route::get('registro/colaboradores/{id}','ColaboradorController@show')->name('colaboradores.show');
+Route::post('registro/colaboradores/importar','ColaboradorController@importar')->name('colaboradores.importar');
+Route::post('registro/colaboradores/{id}','ColaboradorController@destroy')->name('colaboradores.destroy');
+
+
 
 
 Route::get('control/chaomin','ChaomeanController@index')->name('chaomin.index');

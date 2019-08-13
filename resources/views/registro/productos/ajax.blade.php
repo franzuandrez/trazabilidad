@@ -30,12 +30,19 @@
             @endcomponent
             @component('componentes.btn-ver',['url'=>'javascript:ver()'])
             @endcomponent
+            @component('componentes.btn-importar',['url'=>'javascript:importar()'])
+            @endcomponent
         </div>
     </div>
 
     @component('componentes.alert-no-selecction')
         @slot('mensaje')
             SELECCIONE UN PRODUCTO
+        @endslot
+    @endcomponent
+    @component('componentes.modal-importar',['ruta'=>'productos.importar'])
+        @slot('mensaje')
+            IMPORTAR PRODUCTOS DE MATERIA PRIMA
         @endslot
     @endcomponent
     <div id="content">
@@ -49,4 +56,5 @@
 @section('scripts')
     <script src="{{asset('js/ajax-crud.js')}}"></script>
     <script src="{{asset('js-brc/productos/index.js')}}"></script>
+    <script src="{{asset('js-brc/tools/importar.js')}}"></script>
 @endsection
