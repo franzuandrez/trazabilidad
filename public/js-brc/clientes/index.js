@@ -28,6 +28,21 @@ function eliminar(){
 
 }
 
+function importar() {
+
+    $('#modal-importar').modal();
+
+}
+
+function sync_icon(){
+
+    var spinner = "<span class='fa  fa-refresh fa-spin'  id='icon-sync'></span> IMPORTANDO ";
+  document.getElementById('btn-importar').innerHTML = spinner;
+
+
+
+}
+
 function getClienteSelected(){
     var clientes = document.getElementsByName('id_cliente');
     var id_cliente=null;
