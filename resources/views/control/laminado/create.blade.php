@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 @section('style')
     <link rel="stylesheet" href="{{asset('css/bootstrap-datepicker.css')}}">
+    <link rel="stylesheet" href="{{asset('css/bootstrap-timepicker.css')}}">
 @endsection
 
 @section('contenido')
@@ -47,11 +48,13 @@
             </div>
             <div class="tab-pane" id="tab_3">
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="hora">HORA</label>
-                        <input id="hora" type="text" name="lote"
+                    <label for="hora">HORA</label>
+                    <div class="input-group">
+                        <input id="hora" type="text" class="form-control timepicker" name="hora">
 
-                               class="form-control">
+                        <div class="input-group-addon">
+                            <i class="fa fa-clock-o"></i>
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
@@ -168,6 +171,15 @@
 
 @endsection
 @section('scripts')
+    <script>
+        $(function () {
+            //Timepicker
+            $('.timepicker').timepicker({
+                showInputs: false
+            });
+        })
+
+    </script>
 
     <script>
         $('.date').datepicker({
