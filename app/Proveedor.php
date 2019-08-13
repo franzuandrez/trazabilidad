@@ -84,4 +84,12 @@ class Proveedor extends Model
 
        return  $this->hasMany('App\ReferenciasComerciales','id_proveedor');
     }
+
+    public function productos(){
+
+        return $this
+            ->belongsToMany('App\Producto',
+                'proveedores_productos',
+                'id_proveedor','id_producto');
+    }
 }
