@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\CategoriaCliente;
 use App\Cliente;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 
 class ClienteController extends Controller
@@ -157,6 +158,50 @@ class ClienteController extends Controller
             return redirect()->route('clientes.index')
                 ->withErrors(['error' => 'Cliente no encontrado']);
         }
+    }
+
+    public function importar(Request $request){
+
+
+        $file = $request->file('archivo_importar');
+
+
+        $data =Excel::load($file)->get();
+
+        if($data->count()){
+
+            foreach ( $data as $key => $value ){
+
+                $isConsumidorFinal = strtoupper($value->nit)!="C/F" || strtoupper($value->nit)!="CF";
+
+                if(Cliente::where('nit',$value->nit)->exists() && !$isConsumidorFinal){
+
+                    $cliente = Cliente::where('nit',$value->nit)->first();
+                    $cliente->razon_social = $value->cliente;
+                    $cliente->direccion = $value->direccion;
+                    $cliente->telefono = $value->telefono;
+                    $cliente->update();
+                }else{
+                    $arr[] = [
+                        'nit'=>$value->nit,
+                        'razon_social'=>$value->cliente,
+                        'direccion'=>$value->direccion,
+                        'telefono'=>$value->telefono,
+                        'id_categoria'=>1
+                    ];
+                }
+            }
+
+            if(!empty($arr)){
+                Cliente::insert($arr);
+            }
+
+
+        }
+
+        return redirect()->route('clientes.index')
+            ->with('success','Clientes cargados correctamente');
+
     }
 
     private function getValueCheched($value)
