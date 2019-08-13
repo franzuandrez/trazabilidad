@@ -28,6 +28,8 @@
             @endcomponent
             @component('componentes.btn-ver',['url'=>'javascript:ver()'])
             @endcomponent
+            @component('componentes.btn-eliminar',['url'=>'javascript:eliminar()'])
+            @endcomponent
             @component('componentes.btn-importar',['url'=>'javascript:importar()'])
             @endcomponent
 
@@ -46,7 +48,7 @@
         @endslot
     @endcomponent
     <div id="content">
-    @include('registro.colaboradores.index')
+        @include('registro.colaboradores.index')
     </div>
     <div class="loading">
         <i class="fa fa-refresh fa-spin "></i><br/>
@@ -56,4 +58,5 @@
 @section('scripts')
     <script src="{{asset('js/ajax-crud.js')}}"></script>
     <script src="{{asset('js-brc/colaboradores/index.js')}}"></script>
+    <script src="{{asset('js-brc/tools/importar.js')}}"></script>
 @endsection
