@@ -9,19 +9,19 @@
 
     @component('componentes.nav',['operation'=>'LIST',
     'menu_icon'=>'fa fa-check-square-o',
-    'submenu_icon'=>'fa fa-th',
+    'submenu_icon'=>'fa fa-signal',
     'operation_icon'=>'',])
         @slot('menu')
             Control
         @endslot
         @slot('submenu')
-            Laminado
+            Peso Humedo
         @endslot
     @endcomponent
 
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            @component('componentes.btn-create',['url'=>url('control/laminado/create')])
+            @component('componentes.btn-create',['url'=>url('control/peso_humedo/create')])
             @endcomponent
             @component('componentes.btn-ver',['url'=>'javascript:ver()'])
             @endcomponent
