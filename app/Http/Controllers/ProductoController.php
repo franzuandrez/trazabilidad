@@ -7,7 +7,8 @@ use App\Presentacion;
 use App\Producto;
 use App\Proveedor;
 use Illuminate\Http\Request;
-
+use Maatwebsite\Excel\Facades\Excel;
+use Carbon\Carbon;
 class ProductoController extends Controller
 {
     //
@@ -24,7 +25,7 @@ class ProductoController extends Controller
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
         $sortField = $request->get('field') == null ? 'codigo_barras' : $request->get('field');
 
-        $productos = Producto::join('dimensionales','dimensionales.id_dimensional','=','productos.id_dimensional')
+        $productos = Producto::leftjoin('dimensionales','dimensionales.id_dimensional','=','productos.id_dimensional')
             ->join('presentaciones','presentaciones.id_presentacion','=','productos.id_presentacion')
             ->select('productos.*','presentaciones.descripcion as presentacion',
                 'dimensionales.descripcion as dimensional')
@@ -192,5 +193,92 @@ class ProductoController extends Controller
             $productos = [];
         }
         return response()->json($productos);
+    }
+
+    public function importar( Request $request ){
+
+
+        $file = $request->file('archivo_importar');
+
+        try {
+            Excel::load($file, function ($reader) {
+
+                $results = $reader->noHeading()->get();
+                $results = $results->slice(1);
+                foreach ($results as $key => $value) {
+
+
+                   $id_presentacion = $this->getIdPresentacion($value[2]);
+                   $existePresentacion = $id_presentacion != null;
+
+                   if(!$existePresentacion){
+                       $id_presentacion = $this->savePresentacion($value[2]);
+                   }
+
+
+                    $existeProducto = Producto::where('codigo_barras', $value[0])->exists();
+
+                    if ($existeProducto) {
+
+                        $producto = Producto::where('codigo_barras', $value[0])->first();
+                        $producto->descripcion =  $value[1];
+                        $producto->update();
+
+                    } else {
+                       $producto = new Producto();
+                       $producto->codigo_barras = $value[0];
+                       $producto->codigo_interno  =$value[0];
+                       $producto->descripcion = $value[1];
+                       $producto->id_presentacion = $id_presentacion;
+                       $producto->tipo_producto = 'MP';
+                       $producto->fecha_creacion =Carbon::now();
+                       $producto->creado_por = \Auth::user()->id;
+                       $producto->save();
+
+                    }
+
+                }
+
+
+            });
+            return redirect()->route('productos.index')
+                ->with('success', 'Productos cargados correctamente.');
+        } catch (\PHPExcel_Reader_Exception $e) {
+
+            return redirect()->route('productos.index')
+                ->withErrors(['Archivo no valido']);
+
+        }catch (\Exception $e ){
+            dd($e);
+            return redirect()->route('productos.index')
+                ->withErrors(['No ha sido posible cargar los Productos']);
+        }
+
+
+
+    }
+
+    private function getIdPresentacion( $descripcion ){
+
+        $id_presentacion = null;
+        $presentacion = Presentacion::where('descripcion',$descripcion)
+            ->first();
+
+        if($presentacion!=null){
+            $id_presentacion = $presentacion->id_presentacion;
+        }
+
+        return $id_presentacion;
+
+    }
+
+    private function savePresentacion( $descripcion ){
+
+        $presentacion  = new Presentacion();
+        $presentacion->descripcion = $descripcion;
+        $presentacion->creado_por = \Auth::user()->id;
+        $presentacion->save();
+
+        return $presentacion->id_presentacion;
     }
 }

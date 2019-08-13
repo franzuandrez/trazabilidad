@@ -168,8 +168,10 @@ Route::post('registro/productos/create','ProductoController@store')->name('produ
 Route::get('registro/productos/{id}/edit','ProductoController@edit')->name('productos.edit');
 Route::patch('registro/productos/{id}','ProductoController@update')->name('productos.update');
 Route::get('registro/productos/{id}','ProductoController@show')->name('productos.show');
+Route::post('registro/productos/importar','ProductoController@importar')->name('productos.importar');
 Route::post('registro/productos/{id}','ProductoController@destroy')->name('productos.destroy');
 Route::get('registro/productos/search/{value}','ProductoController@search')->name('productos.search');
+
 
 Route::get('registro/actividades','ActividadController@index')->name('actividades.index');
 Route::get('registro/actividades/create','ActividadController@create')->name('actividades.create');
