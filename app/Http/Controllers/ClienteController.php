@@ -7,7 +7,6 @@ use App\Cliente;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
-
 class ClienteController extends Controller
 {
     //
@@ -31,7 +30,8 @@ class ClienteController extends Controller
                     ->orWhere('direccion', 'LIKE', '%' . $search . '%');
             })
             ->orderBy($sortField, $sort)
-            ->paginate(20);
+            ->paginate(15);
+
 
 
         if ($request->ajax()) {
@@ -166,37 +166,47 @@ class ClienteController extends Controller
         $file = $request->file('archivo_importar');
 
 
-        $data =Excel::load($file)->get();
+        try {
+            $data = Excel::load($file)->get();
+            if ($data->count()) {
 
-        if($data->count()){
+                foreach ($data as $key => $value) {
 
-            foreach ( $data as $key => $value ){
+                    $isConsumidorFinal = strtoupper($value->nit) != "C/F" || strtoupper($value->nit) != "CF";
 
-                $isConsumidorFinal = strtoupper($value->nit)!="C/F" || strtoupper($value->nit)!="CF";
+                    if (Cliente::where('nit', $value->nit)->exists() && !$isConsumidorFinal) {
 
-                if(Cliente::where('nit',$value->nit)->exists() && !$isConsumidorFinal){
-
-                    $cliente = Cliente::where('nit',$value->nit)->first();
-                    $cliente->razon_social = $value->cliente;
-                    $cliente->direccion = $value->direccion;
-                    $cliente->telefono = $value->telefono;
-                    $cliente->update();
-                }else{
-                    $arr[] = [
-                        'nit'=>$value->nit,
-                        'razon_social'=>$value->cliente,
-                        'direccion'=>$value->direccion,
-                        'telefono'=>$value->telefono,
-                        'id_categoria'=>1
-                    ];
+                        $cliente = Cliente::where('nit', $value->nit)->first();
+                        $cliente->razon_social = $value->cliente;
+                        $cliente->direccion = $value->direccion;
+                        $cliente->telefono = $value->telefono;
+                        $cliente->update();
+                    } else {
+                        $arr[] = [
+                            'nit' => $value->nit,
+                            'razon_social' => $value->cliente,
+                            'direccion' => $value->direccion,
+                            'telefono' => $value->telefono,
+                            'id_categoria' => 1
+                        ];
+                    }
                 }
+
+                if (!empty($arr)) {
+                    Cliente::insert($arr);
+                }
+
+
             }
+        } catch (\PHPExcel_Reader_Exception $e) {
 
-            if(!empty($arr)){
-                Cliente::insert($arr);
-            }
+           return redirect()->route('clientes.index')
+               ->withErrors(['Archivo no valido']);
 
+        }catch (\Exception $e ){
 
+            return redirect()->route('clientes.index')
+                ->withErrors(['No ha sido posible cargar los clientes']);
         }
 
         return redirect()->route('clientes.index')
