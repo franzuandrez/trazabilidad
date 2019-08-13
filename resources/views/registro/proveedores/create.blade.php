@@ -295,7 +295,7 @@
                         <i class="fa fa-search"></i>
                     </button>
                 </a>
-            </span>
+             </span>
             </div>
         </div>
 
