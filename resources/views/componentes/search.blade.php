@@ -3,7 +3,8 @@
         <div class="input-group">
             <input class="form-control" id="search"
                    value="{{ $search }}"
-                   onkeydown="if (event.keyCode == 13) ajaxLoad('{{url($modulo)}}?search='+this.value)"
+                   onkeydown="if (event.keyCode == 13)
+                       ajaxLoad('{{url($modulo)}}?search='+this.value+'&sort={{$sort}}&field={{$sortField}} ')"
                    placeholder="Buscar" name="search"
                    type="text" id="search"/>
             <div class="input-group-btn">
