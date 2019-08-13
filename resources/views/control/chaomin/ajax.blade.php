@@ -1,8 +1,15 @@
 @extends('layouts.admin')
 @section('style')
+
     <link href="{{asset('css/loading.css')}}" rel="stylesheet">
+
 @endsection
+
 @section('contenido')
+
+    @include('componentes.alert-success')
+    @include('componentes.alert-error')
+
 
     @component('componentes.nav',['operation'=>'LIST',
     'menu_icon'=>'fa fa-check-square-o',
@@ -25,10 +32,6 @@
             @endcomponent
             @component('componentes.btn-ver',['url'=>'javascript:ver()'])
             @endcomponent
-            @component('componentes.btn-eliminar',['url'=>'javascript:eliminar()'])
-            @endcomponent
-
-
         </div>
     </div>
 
@@ -47,5 +50,5 @@
 @endsection
 @section('scripts')
     <script src="{{asset('js/ajax-crud.js')}}"></script>
-    <script src="{{asset('js-brc/sectores/index.js')}}"></script>
+    <script src="{{asset('js-brc/recepciones/index.js')}}"></script>
 @endsection

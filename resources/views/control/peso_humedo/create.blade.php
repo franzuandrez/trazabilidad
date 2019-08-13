@@ -8,13 +8,13 @@
 
     @component('componentes.nav',['operation'=>'Ingreso',
     'menu_icon'=>'fa fa-check-square-o',
-    'submenu_icon'=>'fa fa-th',
+    'submenu_icon'=>'fa fa-signal',
     'operation_icon'=>'fa-plus',])
         @slot('menu')
             Control
         @endslot
         @slot('submenu')
-            Laminado
+            Peso Humedo
         @endslot
     @endcomponent
 
@@ -24,13 +24,9 @@
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="presentacion">RESPONSABLE</label>
-            <select name="id_presentacion" class="form-control selectpicker" id="presentacion">
-                <option value="">SELECCIONAR RESPONSABLE</option>
-                @foreach($responsables as $responsable)
-                    <option value="{{$responsable->id}}">{{$responsable->nombre}}</option>
-                @endforeach
-            </select>
+            <label for="cortadora">CORTADORA NO.</label>
+            <input id="cortadora" type="text"
+                   class="form-control">
         </div>
     </div>
 
@@ -38,6 +34,13 @@
         <div class="form-group">
             <label for="turno">TURNO</label>
             <input id="turno" type="text"
+                   class="form-control">
+        </div>
+    </div>
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <div class="form-group">
+            <label for="codigo">CODIGO</label>
+            <input id="codigo" type="text"
                    onkeydown="descomponerInput(this)"
                    class="form-control">
         </div>
@@ -59,28 +62,62 @@
                 </div>
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                     <div class="form-group">
-                        <label for="temperatura">TEMPERATURA REPOSO 34-36 °C</label>
-                        <input id="temperatura" type="text" name="temperatura"
+                        <label for="no_1">NO. 1</label>
+                        <input id="no_1" type="text" name="no_1"
 
                                class="form-control">
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                     <div class="form-group">
-                        <label for="espesor">ESPESOR 1.25 A 1.30 (MILÍMETROS)</label>
-                        <input id="espesor" type="text" name="espesor"
+                        <label for="no_2">NO. 2</label>
+                        <input id="no_2" type="text" name="no_2"
 
                                class="form-control">
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                     <div class="form-group">
-                        <label for="lote_producto">LOTE PRODUCTO</label>
-                        <input id="lote_producto" type="text" name="lote_producto"
+                        <label for="no_3">NO. 3</label>
+                        <input id="no_3" type="text" name="no_3"
 
                                class="form-control">
                     </div>
                 </div>
+                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+                    <div class="form-group">
+                        <label for="no_4">NO. 4</label>
+                        <input id="no_4" type="text" name="no_4"
+
+                               class="form-control">
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+                    <div class="form-group">
+                        <label for="no_5">NO. 5</label>
+                        <input id="no_5" type="text" name="no_5"
+
+                               class="form-control">
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+                    <div class="form-group">
+                        <label for="lote">LOTE</label>
+                        <input id="lote" type="text" name="lote"
+
+                               class="form-control">
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+                    <div class="form-group">
+                        <label for="producto">PRODUCTO</label>
+                        <input id="producto" type="text" name="producto"
+
+                               class="form-control">
+                    </div>
+                </div>
+
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                     <div class="form-group">
                         <label for="observaciones">OBSERVACIONES</label>
@@ -106,9 +143,13 @@
                         <thead style="background-color: #01579B;  color: #fff;">
                         <th>OPCION</th>
                         <th>HORA</th>
-                        <th>TEMPERATURA REPOSO 34-36 C</th>
-                        <th>ESPESOR 1.25 A 1.30 M</th>
-                        <th>LOTE PRODUCTO</th>
+                        <th>NO. 1</th>
+                        <th>NO. 2</th>
+                        <th>NO. 3</th>
+                        <th>NO. 4</th>
+                        <th>NO. 5</th>
+                        <th>LOTE</th>
+                        <th>PRODUCTO</th>
                         <th>OBSERVACIONES</th>
                         </thead>
                         <tbody>
@@ -208,27 +249,39 @@
         }
 
         function addToTable() {
-            if ($("#hora").val() != "" && $("#temperatura").val() != "" && $("#espesor").val() != "" && $("#lote_producto").val() != "" && $("#observaciones").val() != "") {
+            if ($("#hora").val() != "" && $("#no_1").val() != "" && $("#no_2").val() != "" && $("#no_3").val() != "" && $("#no_4").val() != "" && $("#no_5").val() != ""&& $("#lote").val() != ""  && $("#producto").val() != "" && $("#observaciones").val() != "") {
                 let hora = $("#hora");
-                let temperatura = $("#temperatura");
-                let espesor = $("#espesor");
-                let lote_producto = $("#lote_producto");
+                let no_1 = $("#no_1");
+                let no_2 = $("#no_2");
+                let no_3 = $("#no_3");
+                let no_4 = $("#no_4");
+                let no_5 = $("#no_5");
+                let lote = $("#lote");
+                let producto = $("#producto");
                 let observaciones = $("#observaciones");
                 let row =
                     `<tr>
             <td><button onclick=removeFromTable(this) type="button" class="btn btn-warning">x</button></td>
             <td><input type="hidden" value='${hora.val()}' name=hora[]>${hora.val()}</td>
-            <td><input type="hidden" value='${temperatura.val()}' name=temperatura[]>${temperatura.val()}</td>
-            <td ><input type="hidden" value ='${espesor.val()}'  name=espesor[] >${espesor.val()}</td>
-            <td ><input type="hidden" value ='${lote_producto.val()}'  name=lote_producto[] >${lote_producto.val()}</td>
+            <td><input type="hidden" value='${no_1.val()}' name=no_1[]>${no_1.val()}</td>
+            <td ><input type="hidden" value ='${no_2.val()}'  name=no_2[] >${no_2.val()}</td>
+            <td ><input type="hidden" value ='${no_3.val()}'  name=no_3[] >${no_3.val()}</td>
+            <td ><input type="hidden" value ='${no_4.val()}'  name=no_4[] >${no_4.val()}</td>
+            <td ><input type="hidden" value ='${no_5.val()}'  name=no_5[] >${no_5.val()}</td>
+            <td ><input type="hidden" value ='${lote.val()}'  name=lote[] >${lote.val()}</td>
+            <td ><input type="hidden" value ='${producto.val()}'  name=producto[] >${producto.val()}</td>
             <td ><input type="hidden" value ='${observaciones.val()}'  name=observaciones[] >${observaciones.val()}</td>
             </tr>`;
 
                 $("#detalles").append(row);
                 hora.val('');
-                temperatura.val('');
-                espesor.val('');
-                lote_producto.val('');
+                no_1.val('');
+                no_2.val('');
+                no_3.val('');
+                no_4.val('');
+                no_5.val('');
+                lote.val('');
+                producto.val('');
                 observaciones.val('');
             } else {
                 $('#modal-default').modal('show');
@@ -308,7 +361,7 @@
             if (event.keyCode == 13) {
                 document.getElementById('lote').value = lote;
                 document.getElementById('producto').value = codigo;
-                document.getElementById('hora_carga').focus();
+                document.getElementById('no_1').focus();
             }
         }
 

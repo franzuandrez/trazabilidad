@@ -1,5 +1,8 @@
 @component('componentes.search',
-['search'=>$search,'modulo'=>'control/chaomin'])
+['search'=>$search,
+  'sort'=>$sort,
+ 'sortField'=>$sortField,
+'modulo'=>'registro/sectores'])
 @endcomponent
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
@@ -10,15 +13,17 @@
 
                 </th>
                 <th>
-                    @component('componentes.column-sort',['modulo'=>'control/chaomin',
+                    @component('componentes.column-sort',['modulo'=>'registro/sectores',
+                    'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
-                          'field'=>'ID',
-                          'titulo'=>'ID'])
+                          'field'=>'codigo_barras',
+                          'titulo'=>'codigo barras'])
                     @endcomponent
                 </th>
                 <th>
-                    @component('componentes.column-sort',['modulo'=>'control/chaomin',
+                    @component('componentes.column-sort',['modulo'=>'registro/sectores',
+                    'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
                           'field'=>'descripcion',
@@ -26,7 +31,8 @@
                     @endcomponent
                 </th>
                 <th>
-                    @component('componentes.column-sort',['modulo'=>'control/chaomin',
+                    @component('componentes.column-sort',['modulo'=>'registro/sectores',
+                    'search'=>$search,
                         'sort'=>$sort,
                         'sortField'=>$sortField,
                         'field'=>'bodega',
@@ -34,7 +40,8 @@
                     @endcomponent
                 </th>
                 <th>
-                    @component('componentes.column-sort',['modulo'=>'control/chaomin',
+                    @component('componentes.column-sort',['modulo'=>'registro/sectores',
+                    'search'=>$search,
                         'sort'=>$sort,
                         'sortField'=>$sortField,
                         'field'=>'encargado',
@@ -42,7 +49,8 @@
                     @endcomponent
                 </th>
                 <th>
-                    @component('componentes.column-sort',['modulo'=>'control/chaomin',
+                    @component('componentes.column-sort',['modulo'=>'registro/sectores',
+                    'search'=>$search,
                         'sort'=>$sort,
                         'sortField'=>$sortField,
                         'field'=>'estado',
@@ -83,7 +91,7 @@
                 'method'=>'SectorController@destroy',
                 'extras'=>'',
                 'description'=>$sector->descripcion,
-                'url'=>url('control/chaomin/')."/".$sector->id_sector])
+                'url'=>url('registro/sectores/')."/".$sector->id_sector])
                     @endcomponent
 
                 @endforeach
@@ -91,5 +99,13 @@
             </table>
         </div>
     </div>
+    {{
+
+      $sectores->appends([
+    'search' => $search,
+    'sort'=>$sort,
+    'field'=>$sortField
+    ])->links()
+    }}
 </div>
 
