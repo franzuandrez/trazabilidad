@@ -56,10 +56,9 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="id_proveedor">PROVEEDOR</label>
-            <input type="text" id="proveedor"
-                   name="proveedor"
-                   readonly
-                   class="form-control">
+            <select name="id_proveedor" id="proveedores" class="form-control selectpicker">
+                <option value=""> SELECCIONE PROVEEDOR</option>
+            </select>
         </div>
     </div>
     <input type="hidden" id="id_proveedor" name="id_proveedor">
@@ -451,7 +450,7 @@
                     <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                         <div class="form-group">
                             <label for="nombre">No. de Lote</label>
-                            <input id="lote" type="text" onkeypress="return justNumbers(event);" name="descripcion"
+                            <input id="lote" type="text"  name="descripcion"
 
                                    class="form-control">
                         </div>
@@ -557,8 +556,17 @@
         });
     </script>
     <script>
-        function cargarProveedores() {
-            //NOT IMPLEMENTED
+        function cargarProveedores( proveedores ) {
+
+            $('#proveedores').find('option:not(:first)').remove();
+            let option='';
+            proveedores.forEach(function (e) {
+                option  = `<option value='${e.id_proveedor}'>${e.razon_social}</option>`;
+            });
+
+            $('#proveedores').append(option);
+            $('#proveedores').selectpicker('refresh');
+
         }
 
         function addToTable() {
@@ -606,6 +614,9 @@
             return /\d/.test(String.fromCharCode(keynum));
         }
 
+        var allProducts = null;
+
+
         function buscar_producto(searchValue = null) {
 
             let productoElement = document.getElementById('producto');
@@ -633,7 +644,7 @@
                         cargarProducto(productos[0]);
 
                     } else {
-
+                        allProducts = productos;
                         cargarProductos(productos);
                         mostrarProductosCargados();
                     }
@@ -654,52 +665,51 @@
 
             document.getElementById('id_producto').value = "";
             document.getElementById('producto').value = "";
-            document.getElementById('proveedor').value = "";
-            document.getElementById('id_proveedor').value = "";
             document.getElementById('producto').readOnly = false;
             document.getElementById('buscar').disabled = false;
         }
+
 
         function cargarProductos(productos) {
 
             $("#tbody-productos").empty();
             let row = "";
+
             productos.forEach(function (producto) {
 
                 row += `<tr>
                     <td><input  onclick="habilitar()" type='radio' name='id_prod' value='${producto.id_producto}'  ></td>
                     <td> ${producto.codigo_barras} </td>
                     <td> ${producto.descripcion} </td>
-                    <td><input type='hidden' name="id_prov" value='${producto.proveedor.id_proveedor}'  >  ${producto.proveedor.razon_social} </td>
+
                 </tr> `;
 
             })
 
             $('#tbody-productos').append(row);
+
         }
 
         function cargarProducto(producto) {
 
             let productoElement = document.getElementById('producto');
             let idProductoElement = document.getElementById('id_producto');
-            let proveedorElement = document.getElementById('proveedor');
-            let idProveedorElement = document.getElementById('id_proveedor');
+
+
             let btnBuscar = document.getElementById('buscar');
             if (Array.isArray(producto)) {
                 idProductoElement.value = producto[0];
                 productoElement.value = producto[1];
-                idProveedorElement.value = producto[2];
-                proveedorElement.value = producto[3];
                 productoElement.readOnly = true;
                 btnBuscar.disabled = true;
-
+                let proveedores =  allProducts.find(o => o.id_producto == producto[0]).proveedores;
+                cargarProveedores(proveedores);
             } else if (typeof producto === 'object') {
                 idProductoElement.value = producto.id_producto;
                 productoElement.value = producto.descripcion;
-                proveedorElement.value = producto.proveedor.razon_social;
-                idProveedorElement.value = producto.proveedor.id_proveedor;
                 productoElement.readOnly = true;
                 btnBuscar.disabled = true;
+                cargarProveedores(producto.proveedores);
             }
 
         }
@@ -738,8 +748,6 @@
             var productos = document.getElementsByName('id_prod');
             var id_prod = null;
             var descripcion = null;
-            var id_prov = null;
-            var razon_social = null;
 
             var arrayProductos = Object.keys(productos).map(function (key) {
                 return [Number(key), productos[key]];
@@ -751,12 +759,9 @@
                     var childrens = prod[1].parentElement.parentElement.children;
                     id_prod = childrens[0].firstChild.value;
                     descripcion = childrens[2].innerText;
-                    razon_social = childrens[3].innerText;
-                    id_prov = childrens[3].firstChild.value;
-
                 }
             });
-            return [id_prod, descripcion, id_prov, razon_social];
+            return [id_prod, descripcion];
         }
 
         function descomponerInput(input) {

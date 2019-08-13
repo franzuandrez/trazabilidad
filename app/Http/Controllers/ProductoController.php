@@ -186,7 +186,7 @@ class ProductoController extends Controller
                 $query->where('productos.codigo_barras','LIKE','%'.$search.'%')
                     ->orWhere('productos.descripcion','LIKE','%'.$search.'%');
             })
-            ->with('proveedor')
+            ->with('proveedores')
             ->with('presentacion')
             ->get();
 

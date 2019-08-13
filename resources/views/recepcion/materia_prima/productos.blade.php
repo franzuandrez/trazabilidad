@@ -13,14 +13,14 @@
 
                 </h4>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style="height: 50vh;overflow-y: auto">
                 <table id="table-productos" class="table table-bordered">
                     <thead>
                     <tr>
                         <th></th>
                         <th>CODIGO BARRA</th>
                         <th>DESCRIPCION</th>
-                        <th>PROVEEDOR</th>
+
                     </tr>
                     </thead>
                     <tbody id="tbody-productos">
