@@ -66,4 +66,40 @@ class ColaboradorController extends Controller
             ->with('success','Colaborador dado de alta correctamente');
 
     }
+
+    public function edit( $id ){
+
+        try {
+            $colaborador = Colaborador::findOrFail($id);
+            return view('registro.colaboradores.edit', compact('colaborador'));
+        } catch (\Exception $e) {
+
+            return redirect()
+                ->route('colaboradores.index')
+                ->withErrors(['Colaborador no encontrado']);
+        }
+
+    }
+
+    public function update( Request $request , $id){
+
+        try {
+            $colaborador = Colaborador::findOrFail($id);
+            $colaborador->codigo_barras = $request->get('codigo_barras');
+            $colaborador->nombre = $request->get('nombre');
+            $colaborador->apellido = $request->get('apellido');
+            $colaborador->telefono = $request->get('telefono');
+            $colaborador->update();
+
+            return redirect()
+                ->route('colaboradores.index')
+                ->with('success','Colaborador actualizado correctamente');
+
+        } catch (\Exception $e) {
+
+            return redirect()
+                ->route('colaboradores.index')
+                ->withErrors(['Su petición no puede ser procesada en este momento']);
+        }
+    }
 }
