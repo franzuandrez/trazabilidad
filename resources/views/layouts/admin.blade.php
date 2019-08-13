@@ -179,6 +179,7 @@
                         <li><a href="{{url('control/chaomin')}}"><i class="fa fa-line-chart"></i>Línea para ChaoMin</a></li>
                         <li><a href="{{url('control/mezcla_harina')}}"><i class="fa fa-spoon"></i>Mezcla de Harina</a></li>
                         <li><a href="{{url('control/laminado')}}"><i class="fa fa-th"></i>Laminado</a></li>
+                        <li><a href="{{url('control/peso_humedo')}}"><i class="fa fa-signal"></i>Peso Humedo</a></li>
                     </ul>
                 </li>
             </ul>

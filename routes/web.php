@@ -211,6 +211,14 @@ Route::patch('control/laminado/{id}','LaminadoController@update')->name('laminad
 Route::get('control/laminado/{id}','LaminadoController@show')->name('laminado.show');
 Route::post('control/laminado/{id}','LaminadoController@destroy')->name('laminado.destroy');
 
+Route::get('control/peso_humedo','PesoHumedoController@index')->name('peso_humedo.index');
+Route::get('control/peso_humedo/create','PesoHumedoController@create')->name('peso_humedo.create');
+Route::post('control/peso_humedo/create','PesoHumedoController@store')->name('peso_humedo.store');
+Route::get('control/peso_humedo/{id}/edit','PesoHumedoController@edit')->name('peso_humedo.edit');
+Route::patch('control/peso_humedo/{id}','PesoHumedoController@update')->name('peso_humedo.update');
+Route::get('control/peso_humedo/{id}','PesoHumedoController@show')->name('peso_humedo.show');
+Route::post('control/peso_humedo/{id}','PesoHumedoController@destroy')->name('peso_humedo.destroy');
+
 Route::get('recepcion/materia_prima','RecepcionController@index')->name('recepcion.materia_prima.index');
 Route::get('recepcion/materia_prima/create','RecepcionController@create')->name('recepcion.materia_prima.create');
 Route::post('recepcion/materia_prima/create','RecepcionController@store')->name('recepcion.materia_prima.store');
