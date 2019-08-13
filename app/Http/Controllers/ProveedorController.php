@@ -135,6 +135,7 @@ class ProveedorController extends Controller
 
             $proveedor = Proveedor::findOrFail($id);
 
+
             return view('registro.proveedores.edit', compact('proveedor'));
 
 
@@ -196,6 +197,7 @@ class ProveedorController extends Controller
             //Insertar nuevas rerecenias comerciales.
             $this->guardarReferenciasComerciales($proveedor, $request);
 
+            $this->gurdarProductos($proveedor,$request->get('productos'));
 
             DB::commit();
 
