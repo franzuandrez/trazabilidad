@@ -1,5 +1,9 @@
 @component('componentes.search',
-['search'=>$search,'modulo'=>'registro/categoria_clientes'])
+[
+'search'=>$search,
+ 'sort'=>$sort,
+ 'sortField'=>$sortField,
+'modulo'=>'registro/categoria_clientes'])
 @endcomponent
 
 <div class="row">
@@ -12,6 +16,7 @@
                 </th>
                 <th>
                     @component('componentes.column-sort',['modulo'=>'registro/categoria_clientes',
+                          'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
                           'field'=>'id_categoria',
@@ -20,6 +25,7 @@
                 </th>
                 <th>
                     @component('componentes.column-sort',['modulo'=>'registro/categoria_clientes',
+                    'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
                           'field'=>'descripcion',
@@ -29,6 +35,7 @@
 
                 <th>
                     @component('componentes.column-sort',['modulo'=>'registro/categoria_clientes',
+                    'search'=>$search,
                          'sort'=>$sort,
                          'sortField'=>$sortField,
                          'field'=>'estado',
@@ -72,4 +79,11 @@
             </table>
         </div>
     </div>
+    {{
+       $categorias->appends([
+           'search' => $search,
+           'sort'=>$sort,
+           'field'=>$sortField
+       ])->links()
+    }}
 </div>

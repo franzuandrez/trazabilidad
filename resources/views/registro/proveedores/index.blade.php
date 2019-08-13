@@ -1,5 +1,8 @@
 @component('componentes.search',
-['search'=>$search,'modulo'=>'registro/proveedores'])
+['search'=>$search,
+  'sort'=>$sort,
+   'sortField'=>$sortField,
+'modulo'=>'registro/proveedores'])
 
 @endcomponent
 
@@ -17,6 +20,7 @@
                     </th>
                     <th>
                         @component('componentes.column-sort',['modulo'=>'registro/proveedores',
+                        'search'=>$search,
                            'sort'=>$sort,
                            'sortField'=>$sortField,
                            'field'=>'razon_social',
@@ -25,6 +29,7 @@
                     </th>
                     <th>
                         @component('componentes.column-sort',['modulo'=>'registro/proveedores',
+                        'search'=>$search,
                          'sort'=>$sort,
                          'sortField'=>$sortField,
                          'field'=>'nombre_comercial',
@@ -33,6 +38,7 @@
                     </th>
                     <th>
                         @component('componentes.column-sort',['modulo'=>'registro/proveedores',
+                        'search'=>$search,
                        'sort'=>$sort,
                        'sortField'=>$sortField,
                        'field'=>'nit',
@@ -41,6 +47,7 @@
                     </th>
                     <th>
                         @component('componentes.column-sort',['modulo'=>'registro/proveedores',
+                        'search'=>$search,
                      'sort'=>$sort,
                      'sortField'=>$sortField,
                      'field'=>'direccion_planta',
@@ -49,6 +56,7 @@
                     </th>
                     <th>
                         @component('componentes.column-sort',['modulo'=>'registro/proveedores',
+                        'search'=>$search,
                       'sort'=>$sort,
                       'sortField'=>$sortField,
                       'field'=>'estado',
@@ -103,5 +111,10 @@
 
         </div>
     </div>
-
+{{  $proveedores->appends([
+      'search' => $search,
+      'sort'=>$sort,
+      'field'=>$sortField
+   ])->links()
+   }}
 </div>

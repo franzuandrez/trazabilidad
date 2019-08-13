@@ -1,5 +1,10 @@
 @component('componentes.search',
-['search'=>$search,'modulo'=>'registro/dimensionales'])
+[
+'search'=>$search,
+  'sort'=>$sort,
+    'sortField'=>$sortField,
+'modulo'=>'registro/dimensionales'
+])
 @endcomponent
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
@@ -11,6 +16,7 @@
                 </th>
                 <th>
                     @component('componentes.column-sort',['modulo'=>'registro/dimensionales',
+                      'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
                           'field'=>'descripcion',
@@ -19,6 +25,7 @@
                 </th>
                 <th>
                     @component('componentes.column-sort',['modulo'=>'registro/dimensionales',
+                    'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
                           'field'=>'unidad_medida',
@@ -27,6 +34,7 @@
                 </th>
                 <th>
                     @component('componentes.column-sort',['modulo'=>'registro/dimensionales',
+                    'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
                           'field'=>'factor',
@@ -35,6 +43,7 @@
                 </th>
                 <th>
                     @component('componentes.column-sort',['modulo'=>'registro/dimensionales',
+                        'search'=>$search,
                          'sort'=>$sort,
                          'sortField'=>$sortField,
                          'field'=>'estado',
@@ -82,5 +91,12 @@
             </table>
         </div>
     </div>
+    {{
+   $dimensionales->appends([
+       'search' => $search,
+       'sort'=>$sort,
+       'field'=>$sortField
+   ])->links()
+   }}
 </div>
 

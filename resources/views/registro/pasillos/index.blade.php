@@ -1,5 +1,8 @@
 @component('componentes.search',
-['search'=>$search,'modulo'=>'registro/pasillos'])
+['search'=>$search,
+   'sort'=>$sort,
+   'sortField'=>$sortField,
+'modulo'=>'registro/pasillos'])
 @endcomponent
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
@@ -11,6 +14,7 @@
                 </th>
                 <th>
                     @component('componentes.column-sort',['modulo'=>'registro/pasillos',
+                          'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
                           'field'=>'codigo_barras',
@@ -19,6 +23,7 @@
                 </th>
                 <th>
                     @component('componentes.column-sort',['modulo'=>'registro/pasillos',
+                    'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
                           'field'=>'descripcion',
@@ -27,6 +32,7 @@
                 </th>
                 <th>
                     @component('componentes.column-sort',['modulo'=>'registro/pasillos',
+                        'search'=>$search,
                         'sort'=>$sort,
                         'sortField'=>$sortField,
                         'field'=>'sector',
@@ -35,6 +41,7 @@
                 </th>
                 <th>
                     @component('componentes.column-sort',['modulo'=>'registro/pasillos',
+                        'search'=>$search,
                         'sort'=>$sort,
                         'sortField'=>$sortField,
                         'field'=>'encargado',
@@ -43,6 +50,7 @@
                 </th>
                 <th>
                     @component('componentes.column-sort',['modulo'=>'registro/pasillos',
+                        'search'=>$search,
                         'sort'=>$sort,
                         'sortField'=>$sortField,
                         'field'=>'estado',
@@ -91,5 +99,12 @@
             </table>
         </div>
     </div>
+    {{
+   $pasillos->appends([
+      'search' => $search,
+      'sort'=>$sort,
+      'field'=>$sortField
+   ])->links()
+  }}
 </div>
 

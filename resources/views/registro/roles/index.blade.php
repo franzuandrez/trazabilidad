@@ -1,5 +1,9 @@
 
-@component('componentes.search',['search'=>$search])
+@component('componentes.search',[
+'search'=>$search,
+  'sort'=>$sort,
+ 'sortField'=>$sortField,
+])
     @slot('modulo')
         roles
     @endslot
@@ -18,6 +22,7 @@
                     </th>
                     <th>
                         @component('componentes.column-sort',['modulo'=>'roles',
+                        'search'=>$search,
                      'sort'=>$sort,
                      'sortField'=>$sortField,
                      'field'=>'name',
@@ -26,6 +31,7 @@
                     </th>
                     <th>
                         @component('componentes.column-sort',['modulo'=>'roles',
+                        'search'=>$search,
                     'sort'=>$sort,
                     'sortField'=>$sortField,
                     'field'=>'descripcion',
@@ -34,6 +40,7 @@
                     </th>
                     <th>
                         @component('componentes.column-sort',['modulo'=>'roles',
+                        'search'=>$search,
                         'sort'=>$sort,
                         'sortField'=>$sortField,
                         'field'=>'estado',
@@ -75,5 +82,11 @@
         </div>
 
     </div>
-
+{{
+  $roles->appends([
+    'search' => $search,
+    'sort'=>$sort,
+    'field'=>$sortField
+    ])->links()
+}}
 </div>

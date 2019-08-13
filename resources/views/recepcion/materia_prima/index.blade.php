@@ -1,5 +1,8 @@
 @component('componentes.search',
-['search'=>$search,'modulo'=>'recepcion/materia_prima'])
+['search'=>$search,
+  'sort'=>$sort,
+  'sortField'=>$sortField,
+'modulo'=>'recepcion/materia_prima'])
 @endcomponent
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
@@ -11,6 +14,7 @@
                 </th>
                 <th>
                     @component('componentes.column-sort',['modulo'=>'recepcion/materia_prima',
+                        'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
                           'field'=>'orden_compra',
@@ -19,6 +23,7 @@
                 </th>
                 <th>
                     @component('componentes.column-sort',['modulo'=>'recepcion/materia_prima',
+                        'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
                           'field'=>'proveedor',
@@ -27,6 +32,7 @@
                 </th>
                 <th>
                     @component('componentes.column-sort',['modulo'=>'recepcion/materia_prima',
+                        'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
                           'field'=>'producto',
@@ -35,6 +41,7 @@
                 </th>
                 <th>
                     @component('componentes.column-sort',['modulo'=>'recepcion/materia_prima',
+                        'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
                           'field'=>'fecha_ingreso',
@@ -70,5 +77,12 @@
             </table>
         </div>
     </div>
+    {{
+  $recepciones->appends([
+      'search' => $search,
+      'sort'=>$sort,
+      'field'=>$sortField
+  ])->links()
+  }}
 </div>
 
