@@ -7,26 +7,32 @@
 @section('contenido')
 
     @component('componentes.nav',['operation'=>'Ingreso',
-    'menu_icon'=>'fa fa-check-square-o',
-    'submenu_icon'=>'fa fa-signal',
+    'menu_icon'=>'fa fa-dot-circle-o',
+    'submenu_icon'=>'fa fa-industry',
     'operation_icon'=>'fa-plus',])
         @slot('menu')
-            Control
+            Control Sopas
         @endslot
         @slot('submenu')
-            Peso Humedo
+            Peso de Pasta
         @endslot
     @endcomponent
 
 
-    {!!Form::open(array('url'=>'control/laminado/create','method'=>'POST','autocomplete'=>'off'))!!}
+    {!!Form::open(array('url'=>'sopas/peso_pasta/create','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="cortadora">CORTADORA NO.</label>
-            <input id="cortadora" type="text"
-                   class="form-control">
+            <label for="presentacion">PRESENTACIÓN</label>
+            <select class="form-control selectpicker" data-live-search="true" id="presentacion" name="presentacion">
+                <option value="" selected>SELECCIONE UN CODIGO</option>
+                <option value="1" >JUMBO SAMYANG</option>
+                <option value="2" >PAQUETE</option>
+                <option value="3" >VASO 64 g</option>
+                <option value="4" >HAN RAN</option>
+                <option value="5" >SABAROSITA</option>
+            </select>
         </div>
     </div>
 
@@ -50,16 +56,6 @@
             <div class="tab-content">
             </div>
             <div class="tab-pane" id="tab_3">
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <label for="hora">HORA</label>
-                    <div class="input-group">
-                        <input id="hora" type="text" class="form-control timepicker" name="hora">
-
-                        <div class="input-group-addon">
-                            <i class="fa fa-clock-o"></i>
-                        </div>
-                    </div>
-                </div>
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                     <div class="form-group">
                         <label for="no_1">NO. 1</label>
@@ -95,24 +91,8 @@
 
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                     <div class="form-group">
-                        <label for="no_5">NO. 5</label>
-                        <input id="no_5" type="text" name="no_5"
-
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="lote">LOTE</label>
-                        <input id="lote" type="text" name="lote"
-
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="producto">PRODUCTO</label>
-                        <input id="producto" type="text" name="producto"
+                        <label for="largo_fideo">LARGO DE FIDEO</label>
+                        <input id="largo_fideo" type="text" name="largo_fideo"
 
                                class="form-control">
                     </div>
@@ -147,9 +127,7 @@
                         <th>NO. 2</th>
                         <th>NO. 3</th>
                         <th>NO. 4</th>
-                        <th>NO. 5</th>
-                        <th>LOTE</th>
-                        <th>PRODUCTO</th>
+                        <th>LARGO DE FIDEO</th>
                         <th>OBSERVACIONES</th>
                         </thead>
                         <tbody>
@@ -163,32 +141,7 @@
                                class="form-control">
                     </div>
                 </div>
-                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-                    <div class="form-group">
-                        <label for="observacion_correctiva">RESPONSABLE VERIFICADOR:</label>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="puesto">PUESTO</label>
-                        <input type="text" name="puesto" value="{{old('puesto')}}"
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="nombre">NOMBRE</label>
-                        <input type="text" name="nombre" value="{{old('nombre')}}"
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="firma">FIRMA</label>
-                        <input type="text" name="firma" value="{{old('firma')}}"
-                               class="form-control">
-                    </div>
-                </div>
+
             </div>
         </div>
     </div>
@@ -199,7 +152,7 @@
             <button class="btn btn-default" type="submit">
                 <span class=" fa fa-check"></span> GUARDAR
             </button>
-            <a href="{{url('control/peso_humedo')}}">
+            <a href="{{url('sopas/peso_pasta')}}">
                 <button class="btn btn-default" type="button">
                     <span class="fa fa-remove"></span>
                     CANCELAR
@@ -249,38 +202,32 @@
         }
 
         function addToTable() {
-            if ($("#hora").val() != "" && $("#no_1").val() != "" && $("#no_2").val() != "" && $("#no_3").val() != "" && $("#no_4").val() != "" && $("#no_5").val() != ""&& $("#lote").val() != ""  && $("#producto").val() != "" && $("#observaciones").val() != "") {
-                let hora = $("#hora");
+            if ($("#no_1").val() != "" && $("#no_2").val() != "" && $("#no_3").val() != "" && $("#no_4").val() != "" &&$("#largo_fideo").val() != "" && $("#observaciones").val() != "") {
+                let today = new Date();
+                let time = today.getHours()+":"+today.getMinutes()+":"+today.getSeconds();
                 let no_1 = $("#no_1");
                 let no_2 = $("#no_2");
                 let no_3 = $("#no_3");
                 let no_4 = $("#no_4");
-                let no_5 = $("#no_5");
-                let lote = $("#lote");
-                let producto = $("#producto");
+                let producto = $("#largo_fideo");
                 let observaciones = $("#observaciones");
                 let row =
                     `<tr>
             <td><button onclick=removeFromTable(this) type="button" class="btn btn-warning">x</button></td>
-            <td><input type="hidden" value='${hora.val()}' name=hora[]>${hora.val()}</td>
+            <td><input type="hidden" value='${time}' name=time[]>${time}</td>
             <td><input type="hidden" value='${no_1.val()}' name=no_1[]>${no_1.val()}</td>
             <td ><input type="hidden" value ='${no_2.val()}'  name=no_2[] >${no_2.val()}</td>
             <td ><input type="hidden" value ='${no_3.val()}'  name=no_3[] >${no_3.val()}</td>
             <td ><input type="hidden" value ='${no_4.val()}'  name=no_4[] >${no_4.val()}</td>
-            <td ><input type="hidden" value ='${no_5.val()}'  name=no_5[] >${no_5.val()}</td>
-            <td ><input type="hidden" value ='${lote.val()}'  name=lote[] >${lote.val()}</td>
             <td ><input type="hidden" value ='${producto.val()}'  name=producto[] >${producto.val()}</td>
             <td ><input type="hidden" value ='${observaciones.val()}'  name=observaciones[] >${observaciones.val()}</td>
             </tr>`;
 
                 $("#detalles").append(row);
-                hora.val('');
                 no_1.val('');
                 no_2.val('');
                 no_3.val('');
                 no_4.val('');
-                no_5.val('');
-                lote.val('');
                 producto.val('');
                 observaciones.val('');
             } else {
