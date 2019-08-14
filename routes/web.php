@@ -264,10 +264,10 @@ Route::get('produccion/mezcladora/{id}','MezcladoraController@show')->name('mezc
 Route::post('produccion/mezcladora/{id}','MezcladoraController@destroy')->name('mezcladora.destroy');
 
 
-Route::get('control_sopas/mezclado_sopas','MezcladoSopas@index')->name('mezclado_sopas.index');
-Route::get('control_sopas/mezclado_sopas/create','MezcladoSopas@create')->name('mezclado_sopas.create');
-Route::post('control_sopas/mezclado_sopas/create','MezcladoSopas@store')->name('mezclado_sopas.store');
-Route::get('control_sopas/mezclado_sopas/{id}/edit','MezcladoSopas@edit')->name('mezclado_sopas.edit');
-Route::patch('control_sopas/mezclado_sopas/{id}','MezcladoSopas@update')->name('mezclado_sopas.update');
-Route::get('control_sopas/mezclado_sopas/{id}','MezcladoSopas@show')->name('mezclado_sopas.show');
-Route::post('control_sopas/mezclado_sopas/{id}','MezcladoSopas@destroy')->name('mezclado_sopas.destroy');
+Route::get('sopas/mezclado_sopas','MezcladoSopasController@index')->name('mezclado_sopas.index');
+Route::get('sopas/mezclado_sopas/create','MezcladoSopasController@create')->name('mezclado_sopas.create');
+Route::post('sopas/mezclado_sopas/create','MezcladoSopasController@store')->name('mezclado_sopas.store');
+Route::get('sopas/mezclado_sopas/{id}/edit','MezcladoSopasController@edit')->name('mezclado_sopas.edit');
+Route::patch('sopas/mezclado_sopas/{id}','MezcladoSopasController@update')->name('mezclado_sopas.update');
+Route::get('sopas/mezclado_sopas/{id}','MezcladoSopasController@show')->name('mezclado_sopas.show');
+Route::post('sopas/mezclado_sopas/{id}','MezcladoSopasController@destroy')->name('mezclado_sopas.destroy');

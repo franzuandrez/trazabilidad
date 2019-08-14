@@ -205,7 +205,7 @@
                     <a href="#" data-toggle="dropdown" style="background-color: #01579B;  color: #fff;">Control Sopas<b
                             class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{url('control_sopas/mezclado_sopas')}}"><i class="fa fa-spinner"></i>Mezclado de Sopas</a></li>
+                        <li><a href="{{url('sopas/mezclado_sopas')}}"><i class="fa fa-balance-scale"></i>Mezclado de Sopas</a></li>
                     </ul>
                 </li>
             </ul>
