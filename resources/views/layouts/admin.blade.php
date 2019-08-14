@@ -182,6 +182,7 @@
                             class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="{{url('produccion/mezcladora')}}"><i class="fa fa-spinner"></i>Mezcladora</a></li>
+                        <li><a href="{{url('produccion/laminado')}}"><i class="fa fa-tasks"></i>Laminado y Precocción de Sopas</a></li>
                     </ul>
                 </li>
             </ul>

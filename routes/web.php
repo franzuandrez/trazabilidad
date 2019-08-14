@@ -263,6 +263,13 @@ Route::patch('produccion/mezcladora/{id}','MezcladoraController@update')->name('
 Route::get('produccion/mezcladora/{id}','MezcladoraController@show')->name('mezcladora.show');
 Route::post('produccion/mezcladora/{id}','MezcladoraController@destroy')->name('mezcladora.destroy');
 
+Route::get('produccion/laminado','LaminadoSopasController@index')->name('laminado.index');
+Route::get('produccion/laminado/create','LaminadoSopasController@create')->name('laminado.create');
+Route::post('produccion/laminado/create','LaminadoSopasController@store')->name('laminado.store');
+Route::get('produccion/laminado/{id}/edit','LaminadoSopasController@edit')->name('laminado.edit');
+Route::patch('produccion/laminado/{id}','LaminadoSopasController@update')->name('laminado.update');
+Route::get('produccion/laminado/{id}','LaminadoSopasController@show')->name('laminado.show');
+Route::post('produccion/laminado/{id}','LaminadoSopasController@destroy')->name('laminado.destroy');
 
 Route::get('sopas/mezclado_sopas','MezcladoSopasController@index')->name('mezclado_sopas.index');
 Route::get('sopas/mezclado_sopas/create','MezcladoSopasController@create')->name('mezclado_sopas.create');
