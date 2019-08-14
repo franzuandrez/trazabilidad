@@ -158,7 +158,6 @@
                             </a>
                         </li>
                     </ul>
-
                 </li>
             </ul>
             <ul class="nav navbar-nav">
@@ -171,6 +170,12 @@
                             <a href="{{url('recepcion/materia_prima')}}">
                                 <i class="fa fa-sign-in" aria-hidden="true"></i>
                                 Materia prima
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{url('recepcion/transito')}}">
+                                <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                Transito a materia prima
                             </a>
                         </li>
                     </ul>

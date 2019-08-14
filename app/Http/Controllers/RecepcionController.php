@@ -306,4 +306,38 @@ class RecepcionController extends Controller
 
     }
 
+
+    public function transito(Request  $request ){
+
+        $search = $request->get('search') == null ? '' : $request->get('search');
+        $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
+        $sortField = $request->get('field') == null ? 'orden_compra' : $request->get('field');
+
+        $movimientos_en_transito = Recepcion::join('movimientos','movimientos.numero_documento','=','recepcion_encabezado.orden_compra')
+            ->join('productos', 'productos.id_producto', '=', 'recepcion_encabezado.id_producto')
+            ->join('proveedores', 'proveedores.id_proveedor', '=', 'recepcion_encabezado.id_proveedor')
+            ->select('recepcion_encabezado.*',DB::raw('count(movimientos.id_movimiento) as total'))
+            ->where('movimientos.estado',1)
+            ->where(function ($query) use ($search) {
+                $query->where('proveedores.razon_social', 'LIKE', '%' . $search . '%')
+                    ->orWhere('productos.descripcion', 'LIKE', '%' . $search . '%')
+                    ->orWhere('recepcion_encabezado.orden_compra', 'LIKE', '%' . $search . '%');
+            })
+            ->orderBy($sortField,$sort)
+            ->groupBy('recepcion_encabezado.orden_compra')
+            ->having(DB::raw('count(movimientos.id_movimiento)'),'>',0)
+            ->paginate(20);
+
+
+        if($request->ajax()){
+            return view('recepcion.transito.index',
+                compact('movimientos_en_transito','search','sort','sortField'));
+        }else{
+            return view('recepcion.transito.ajax',
+                compact('movimientos_en_transito','search','sort','sortField'));
+        }
+
+
+    }
+
 }
