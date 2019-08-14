@@ -21,14 +21,6 @@
 
     {!!Form::open(array('url'=>'control/laminado/create','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
-
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="turno">TURNO</label>
-            <input id="turno" type="text"
-                   class="form-control">
-        </div>
-    </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="codigo">CODIGO</label>
@@ -37,11 +29,27 @@
                    class="form-control">
         </div>
     </div>
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="turno">TURNO</label>
+            <input id="turno" type="text"
+                   class="form-control">
+        </div>
+    </div>
+
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="">
             <div class="tab-content">
             </div>
             <div class="tab-pane" id="tab_3">
+                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+                    <div class="form-group">
+                        <label for="no_bach">NO. BACH</label>
+                        <input id="no_bach" type="text" name="no_bach"
+
+                               class="form-control">
+                    </div>
+                </div>
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                     <label for="hora_inicio">HORA INICIO</label>
                     <div class="input-group">
@@ -53,9 +61,9 @@
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <label for="hora_salida">HORA SALIA</label>
+                    <label for="hora_finalizo">HORA FINALIZO</label>
                     <div class="input-group">
-                        <input id="hora_salida" type="text" class="form-control timepicker" name="hora_salida">
+                        <input id="hora_finalizo" type="text" class="form-control timepicker" name="hora_finalizo">
 
                         <div class="input-group-addon">
                             <i class="fa fa-clock-o"></i>
@@ -64,56 +72,20 @@
                 </div>
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                     <div class="form-group">
-                        <label for="tiempo_efectivo">TIEMPO EFECTIVO</label>
-                        <input id="tiempo_efectivo" type="text" name="tiempo_efectivo"
+                        <label for="tiempo_alta">TIEMPO DE VELOCIDAD ALTA</label>
+                        <input id="tiempo_alta" type="text" name="tiempo_alta"
 
                                class="form-control">
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                     <div class="form-group">
-                        <label for="alcance_presion">ALCANCE PRESIÓN</label>
-                        <input id="alcance_presion" type="text" name="alcance_presion"
+                        <label for="tiempo_baja">TIEMPO DE VELOCIDAD BAJA</label>
+                        <input id="tiempo_baja" type="text" name="tiempo_baja"
 
                                class="form-control">
                     </div>
                 </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="temperatura">TEMPERATURA A (98-106 C)</label>
-                        <input id="temperatura" type="text" name="temperatura"
-
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="lote">LOTE</label>
-                        <input id="lote" type="text" name="lote"
-
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="producto">PRODUCTO</label>
-                        <input id="producto" type="text" name="producto"
-
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="responsable">RESPONSABLES</label>
-                        <select name="id_responsable" class="form-control selectpicker" id="responsable">
-                            <option value="">SELECCIONAR RESPONSABLE</option>
-                            @foreach($responsables as $responsable)
-                                <option value="{{$responsable->id}}">{{$responsable->nombre}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                     <div class="form-group">
                         <label for="observaciones">OBSERVACIONES</label>
@@ -138,14 +110,11 @@
 
                         <thead style="background-color: #01579B;  color: #fff;">
                         <th>OPCION</th>
+                        <th>NO. BACH</th>
                         <th>HORA INICIO</th>
-                        <th>HORA SALIDA</th>
-                        <th>TIEMPO EFECTIVO</th>
-                        <th>ALCANCE PRESICIÓN</th>
-                        <th>TEMPERATURA</th>
-                        <th>LOTE</th>
-                        <th>PRODUCTO</th>
-                        <th>RESPONSABLE EJECUCIÓN</th>
+                        <th>HORA FINALIZO</th>
+                        <th>TIEMPO VELOCIDAD ALTA</th>
+                        <th>TIEMPO VELOCIDAD BAJA</th>
                         <th>OBSERVACIONES</th>
                         </thead>
                         <tbody>
@@ -154,27 +123,8 @@
                 </div>
                 <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
                     <div class="form-group">
-                        <label for="observacion_correctiva">RESPONSABLE:</label>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="puesto">PUESTO</label>
-                        <input type="text" name="puesto" value="{{old('puesto')}}"
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="nombre">NOMBRE</label>
-                        <input type="text" name="nombre" value="{{old('nombre')}}"
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="firma">FIRMA</label>
-                        <input type="text" name="firma" value="{{old('firma')}}"
+                        <label for="observaciones_generales">OBSERVACIONES</label>
+                        <input type="text" name="observaciones_generales" value="{{old('observaciones_generales')}}"
                                class="form-control">
                     </div>
                 </div>
@@ -238,40 +188,30 @@
         }
 
         function addToTable() {
-            if ($("#hora_inicio").val() != "" && $("#hora_salida").val() != "" && $("#tiempo_efectivo").val() != "" && $("#alcance_presion").val() != "" && $("#temperatura").val() != "" && $("#lote").val() != "" && $("#producto").val() != "" && $("#responsable").val() != "" && $("#observaciones").val() != "") {
+            if ($("#no_bach").val() != "" && $("#hora_inicio").val() != "" && $("#hora_finalizo").val() != "" && $("#tiempo_alta").val() != "" && $("#tiempo_baja").val() != "" && $("#observaciones").val() != "") {
+                let no_bach = $("#no_bach");
                 let hora_inicio = $("#hora_inicio");
-                let hora_salida = $("#hora_salida");
-                let tiempo_efectivo = $("#tiempo_efectivo");
-                let alcance_presion = $("#alcance_presion");
-                let temperatura = $("#temperatura");
-                let nombreResponsable = $("select.selectpicker").children("option:selected").text();
-                let lote = $("#lote");
-                let producto = $("#producto");
-                let responsable = $("#responsable");
+                let hora_finalizo = $("#hora_finalizo");
+                let tiempo_alta = $("#tiempo_alta");
+                let tiempo_baja = $("#tiempo_baja");
                 let observaciones = $("#observaciones");
                 let row =
                     `<tr>
             <td><button onclick=removeFromTable(this) type="button" class="btn btn-warning">x</button></td>
+            <td><input type="hidden" value='${no_bach.val()}' name=no_bach[]>${no_bach.val()}</td>
             <td><input type="hidden" value='${hora_inicio.val()}' name=hora_inicio[]>${hora_inicio.val()}</td>
-            <td><input type="hidden" value='${hora_salida.val()}' name=hora_salida[]>${hora_salida.val()}</td>
-            <td ><input type="hidden" value ='${tiempo_efectivo.val()}'  name=tiempo_efectivo[] >${tiempo_efectivo.val()}</td>
-            <td ><input type="hidden" value ='${alcance_presion.val()}'  name=alcance_presion[] >${alcance_presion.val()}</td>
-            <td ><input type="hidden" value ='${temperatura.val()}'  name=temperatura[] >${temperatura.val()}</td>
-            <td ><input type="hidden" value ='${lote.val()}'  name=lote[] >${lote.val()}</td>
-            <td ><input type="hidden" value ='${producto.val()}'  name=producto[] >${producto.val()}</td>
-            <td ><input type="hidden" value ='${responsable.val()}'  name=responsable[] >${nombreResponsable}</td>
+            <td><input type="hidden" value='${hora_finalizo.val()}' name=hora_finalizo[]>${hora_finalizo.val()}</td>
+            <td ><input type="hidden" value ='${tiempo_alta.val()}'  name=tiempo_alta[] >${tiempo_alta.val()}</td>
+            <td ><input type="hidden" value ='${tiempo_baja.val()}'  name=tiempo_baja[] >${tiempo_baja.val()}</td>
             <td ><input type="hidden" value ='${observaciones.val()}'  name=observaciones[] >${observaciones.val()}</td>
             </tr>`;
 
                 $("#detalles").append(row);
+                no_bach.val('');
                 hora_inicio.val('');
-                hora_salida.val('');
-                tiempo_efectivo.val('');
-                alcance_presion.val('');
-                temperatura.val('');
-                lote.val('');
-                producto.val('');
-                responsable.val('');
+                hora_finalizo.val('');
+                tiempo_alta.val('');
+                tiempo_baja.val('');
                 observaciones.val('');
             } else {
                 $('#modal-default').modal('show');
