@@ -208,6 +208,7 @@
                             class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="{{url('sopas/mezclado_sopas')}}"><i class="fa fa-balance-scale"></i>Mezclado de Sopas</a></li>
+                        <li><a href="{{url('sopas/peso_pasta')}}"><i class="fa fa-industry"></i>Peso de la Pasta</a></li>
                     </ul>
                 </li>
             </ul>

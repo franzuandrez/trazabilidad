@@ -291,3 +291,11 @@ Route::get('sopas/mezclado_sopas/{id}/edit','MezcladoSopasController@edit')->nam
 Route::patch('sopas/mezclado_sopas/{id}','MezcladoSopasController@update')->name('mezclado_sopas.update');
 Route::get('sopas/mezclado_sopas/{id}','MezcladoSopasController@show')->name('mezclado_sopas.show');
 Route::post('sopas/mezclado_sopas/{id}','MezcladoSopasController@destroy')->name('mezclado_sopas.destroy');
+
+Route::get('sopas/peso_pasta','PesoPastaController@index')->name('peso_pasta.index');
+Route::get('sopas/peso_pasta/create','PesoPastaController@create')->name('peso_pasta.create');
+Route::post('sopas/peso_pasta/create','PesoPastaController@store')->name('peso_pasta.store');
+Route::get('sopas/peso_pasta/{id}/edit','PesoPastaController@edit')->name('peso_pasta.edit');
+Route::patch('sopas/peso_pasta/{id}','PesoPastaController@update')->name('peso_pasta.update');
+Route::get('sopas/peso_pasta/{id}','PesoPastaController@show')->name('peso_pasta.show');
+Route::post('sopas/peso_pasta/{id}','PesoPastaController@destroy')->name('peso_pasta.destroy');
