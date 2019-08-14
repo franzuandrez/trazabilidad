@@ -8,13 +8,13 @@
 
     @component('componentes.nav',['operation'=>'Ingreso',
     'menu_icon'=>'fa fa-cube',
-    'submenu_icon'=>'fa fa-tasks',
+    'submenu_icon'=>'fa fa-fire',
     'operation_icon'=>'fa-plus',])
         @slot('menu')
             Produccion
         @endslot
         @slot('submenu')
-            Laminado y Precocción de Sopas
+            Frituras de Sopas
         @endslot
     @endcomponent
 

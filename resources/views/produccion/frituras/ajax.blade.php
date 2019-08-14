@@ -13,19 +13,19 @@
 
     @component('componentes.nav',['operation'=>'LIST',
     'menu_icon'=>'fa fa-cube',
-    'submenu_icon'=>'fa fa-tasks',
+    'submenu_icon'=>'fa fa-fire',
     'operation_icon'=>'',])
         @slot('menu')
             Producción
         @endslot
         @slot('submenu')
-            Laminado y Precocción de Sopas
+            Fritura de Sopas
         @endslot
     @endcomponent
 
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            @component('componentes.btn-create',['url'=>url('produccion/laminado/create')])
+            @component('componentes.btn-create',['url'=>url('produccion/frituras/create')])
             @endcomponent
             @component('componentes.btn-edit',['url'=>'javascript:editar()'])
             @endcomponent

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Recepcion;
+use App\User;
 use Illuminate\Http\Request;
 
 class FrituraSopasController extends Controller
@@ -11,9 +13,38 @@ class FrituraSopasController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    public function index(Request $request)
     {
         //
+        $search = $request->get('search') == null ? '' : $request->get('search');
+        $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
+        $sortField = $request->get('field') == null ? 'orden_compra' : $request->get('field');
+
+
+        $recepciones = Recepcion::join('proveedores', 'proveedores.id_proveedor', '=', 'recepcion_encabezado.id_proveedor')
+            ->join('productos', 'productos.id_producto', '=', 'recepcion_encabezado.id_producto')
+            ->select('recepcion_encabezado.*', 'productos.descripcion as producto', 'proveedores.razon_social as proveedor')
+            ->where(function ($query) use ($search) {
+                $query->where('proveedores.razon_social', 'LIKE', '%' . $search . '%')
+                    ->orWhere('productos.descripcion', 'LIKE', '%' . $search . '%')
+                    ->orWhere('recepcion_encabezado.orden_compra', 'LIKE', '%' . $search . '%');
+
+            })
+            ->orderBy($sortField, $sort)
+            ->paginate(20);
+
+        if ($request->ajax()) {
+            return view('produccion.frituras.index',
+                compact('recepciones', 'sort', 'sortField', 'search'));
+        } else {
+
+            return view('produccion.frituras.ajax',
+                compact('recepciones', 'sort', 'sortField', 'search'));
+        }
     }
 
     /**
@@ -24,6 +55,10 @@ class FrituraSopasController extends Controller
     public function create()
     {
         //
+        $responsables = User::actived()->get();
+
+        return view('produccion.frituras.create',
+            compact('responsables'));
     }
 
     /**
