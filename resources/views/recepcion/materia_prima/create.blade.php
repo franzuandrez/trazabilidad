@@ -226,7 +226,7 @@
                                    name="sin_humedad">
 
                             <label
-                                    class="custom-control-label" style="font-weight: normal" for="sin_humedad">Sin
+                                class="custom-control-label" style="font-weight: normal" for="sin_humedad">Sin
                                 Humedad</label>
 
                         </div>
@@ -267,7 +267,7 @@
                                    name="cerrado"
                                    value="1"
                                    id="cerrado"> <label
-                                    class="custom-control-label" style="font-weight: normal" for="cerrado">Cerrado y
+                                class="custom-control-label" style="font-weight: normal" for="cerrado">Cerrado y
                                 con llave</label>
 
                         </div>
@@ -431,7 +431,7 @@
                     </div>
                 </div>
                 <div class="tab-pane" id="tab_3">
-                    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                    <div class="col-lg-8 col-sm-8 col-md-8 col-xs-12">
                         <div class="form-group">
                             <label for="codigo_producto">Codigo</label>
                             <input id="codigo_producto" type="text"
@@ -439,18 +439,19 @@
                                    class="form-control">
                         </div>
                     </div>
-                    <div class=" col-lg-3  col-sm-6 col-md-6 col-xs-12">
+                    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
                         <div class="form-group">
-                            <label for="nombre">Cantidad</label>
-                            <input id="cantidad" type="text" onkeypress="return justNumbers(event);" name="descripcion"
-
+                            <label for="nombre_producto">Producto</label>
+                            <input id="nombre_producto" type="text"
+                                   readonly
                                    class="form-control">
                         </div>
                     </div>
+
                     <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                         <div class="form-group">
                             <label for="nombre">No. de Lote</label>
-                            <input id="lote" type="text"  name="descripcion"
+                            <input id="lote" type="text" name="descripcion"
 
                                    class="form-control">
                         </div>
@@ -468,6 +469,14 @@
 
                         </div>
                     </div>
+                    <div class=" col-lg-3  col-sm-6 col-md-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="nombre">Cantidad</label>
+                            <input id="cantidad" type="text" onkeypress="return justNumbers(event);" name="descripcion"
+
+                                   class="form-control">
+                        </div>
+                    </div>
                     <div class="col-lg-2 col-sm-4 col-md-2 col-xs-2">
                         <br>
                         <div class="form-group">
@@ -483,6 +492,7 @@
 
                             <thead style="background-color: #01579B;  color: #fff;">
                             <th>OPCION</th>
+                            <th>PRODUCTO</th>
                             <th>CANTIDAD</th>
                             <th>NO. LOTE</th>
                             <th>FECHA VENCIMIENTO</th>
@@ -556,46 +566,49 @@
         });
     </script>
     <script>
-        function cargarProveedores( proveedores ) {
+        function cargarProveedores(proveedores) {
             limpiarSelectProveedores()
 
-            let option='';
+            let option = '';
             proveedores.forEach(function (e) {
-                option  = `<option value='${e.id_proveedor}'>${e.razon_social}</option>`;
+                option = `<option value='${e.id_proveedor}'>${e.razon_social}</option>`;
             });
 
             $('#proveedores').append(option);
             $('#proveedores').selectpicker('refresh');
 
         }
+
         function limpiarSelectProveedores() {
             $('#proveedores').find('option:not(:first)').remove();
             $('#proveedores').selectpicker('refresh');
         }
 
         function addToTable() {
+
             if ($("#cantidad").val() != "" && $("#lote").val() != "" && $("#vencimiento").val() != "") {
                 let cantidad = $("#cantidad");
                 let lote = $("#lote");
                 let fecha = $("#vencimiento");
                 let codigo_producto = $("#codigo_producto");
 
-                //removeFromTareas(tarea);
-                //removeFromSelect(vendedor);
-                let row =
-                    `<tr>
-            <td><button onclick=removeFromTable(this) type="button" class="btn btn-warning">x</button></td>
-            <td><input type="hidden" value='${cantidad.val()}' name=cantidad[]>${cantidad.val()}</td>
-            <td ><input type="hidden" value ='${lote.val()}'  name=no_lote[] >${lote.val()}</td>
-            <td ><input type="hidden" value ='${fecha.val()}'  name=fecha_vencimiento[] >${fecha.val()}</td>
-            </tr>`;
+                if (!findLote( lote.val() , cantidad.val() ) ) {
 
-                $("#detalles").append(row);
+                    let row =
+                        `<tr class="row-producto-added">
+                            <td><button onclick=removeFromTable(this) type="button" class="btn btn-warning">x</button></td>
+                            <td><input type="hidden" value='${cantidad.val()}' name=cantidad[]>${cantidad.val()}</td>
+                            <td ><input type="hidden" value ='${lote.val()}'  name=no_lote[] >${lote.val()}</td>
+                            <td ><input type="hidden" value ='${fecha.val()}'  name=fecha_vencimiento[] >${fecha.val()}</td>
+                            </tr>`;
+                    $("#detalles").append(row);
+
+                }
+
                 cantidad.val('');
                 lote.val('');
                 fecha.val('');
                 codigo_producto.val('');
-                codigo_producto.focus();
             } else {
                 $('#modal-default').modal('show');
                 return false;
@@ -706,7 +719,7 @@
                 productoElement.value = producto[1];
                 productoElement.readOnly = true;
                 btnBuscar.disabled = true;
-                let proveedores =  allProducts.find(p => p.id_producto == producto[0]).proveedores;
+                let proveedores = allProducts.find(p => p.id_producto == producto[0]).proveedores;
                 cargarProveedores(proveedores);
             } else if (typeof producto === 'object') {
                 idProductoElement.value = producto.id_producto;
@@ -783,23 +796,59 @@
         function cargarInfoCodigoBarras(input) {
 
             let infoCodigoBarras = descomponerInput(input);
-            if(event.keyCode == 13){
-                console.log(infoCodigoBarras);
+            if (event.keyCode == 13) {
+
                 mostrarInfoCodigoBarras(infoCodigoBarras);
             }
 
 
         }
 
-        function mostrarInfoCodigoBarras( infoCodigoBarras ) {
+        function mostrarInfoCodigoBarras(infoCodigoBarras) {
+            const POSICION_CODIGO =1;
             const POSICION_FECHA = 2;
             const POSICION_LOTE = 3;
             console.log(infoCodigoBarras);
             let fecha = infoCodigoBarras[POSICION_FECHA];
+
+
+            let codigo = infoCodigoBarras[POSICION_CODIGO];
+            buscar_producto_by_codigo(codigo);
             document.getElementById('lote').value = infoCodigoBarras[POSICION_LOTE];
             fecha = getDate(fecha);
             document.getElementById('vencimiento').value = fecha;
             document.getElementById('cantidad').focus();
+        }
+
+        function buscar_producto_by_codigo( codigo ) {
+            $.ajax({
+
+                url: "{{url('registro/productos/search')}}" + "/" + codigo,
+                type: "get",
+                dataType: "json",
+                success: function (response) {
+
+                    let productos = response;
+                    let totalProductos = productos.length;
+
+                    if(totalProductos == 0){
+                        mostrarAlertaNotFound();
+                    }else{
+                        let producto = productos[0];
+
+                    }
+                    console.log(productos);
+
+
+                },
+                error: function (e) {
+
+                    console.error(e);
+                }
+
+            })
+
+
         }
 
         function getDate(date) {
@@ -825,6 +874,31 @@
                 buscar_producto(codigo_producto);
             }
 
+        }
+
+
+        function findLote(lote, nuevaCantidad) {
+
+            var productosAdded = document.getElementsByName('no_lote[]');
+            var existe = false;
+            for (var i = 0; i < productosAdded.length; i++) {
+
+
+                if (productosAdded[i].value == lote) {
+                    console.log(productosAdded[i].value);
+                    var row = productosAdded[i].parentElement.parentElement;
+                    var inputCantidad = row.children[1].firstChild;
+                    console.log(row);
+                    var cantidad = parseInt(inputCantidad.value);
+                    console.log(cantidad);
+                    cantidad = parseInt(nuevaCantidad) + parseInt(cantidad);
+                    inputCantidad.value = cantidad;
+                    row.children[1].lastChild.textContent = cantidad;
+                    existe = true;
+                }
+            }
+
+            return existe;
         }
     </script>
 @endsection

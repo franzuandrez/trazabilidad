@@ -95,7 +95,7 @@
                 </thead>
                 <tbody>
 
-                @foreach( $recepcion->movimientos->where('estado',1)->where('ubicacion',0) as $mov)
+                @foreach( $movimientos as $mov)
 
                     <tr id="mov-{{$mov->id_movimiento}}">
                         <td>
@@ -109,7 +109,7 @@
                             <input type="hidden" name="cantidad_entrante[]" value="0">
                         </td>
                         <td>
-                            {{$mov->cantidad}}
+                            {{$mov->total}}
                         </td>
                         <td>
                             {{$mov->lote}}
@@ -203,6 +203,7 @@
 
         function checkRow(idMovimiento,cantidad){
 
+            console.log(idMovimiento);
            let row =  document.getElementById('mov-'+idMovimiento);
            let span = row.children[0].children[0];
            span.classList.remove('hidden');
