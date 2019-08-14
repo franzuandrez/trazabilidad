@@ -187,6 +187,8 @@
                             class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="{{url('produccion/mezcladora')}}"><i class="fa fa-spinner"></i>Mezcladora</a></li>
+                        <li><a href="{{url('produccion/laminado')}}"><i class="fa fa-tasks"></i>Laminado y Precocción de Sopas</a></li>
+                        <li><a href="{{url('produccion/frituras')}}"><i class="fa fa-fire"></i>Frituras de Sopas</a></li>
                     </ul>
                 </li>
             </ul>
@@ -209,6 +211,10 @@
                 <li class="dropdown">
                     <a href="#" data-toggle="dropdown" style="background-color: #01579B;  color: #fff;">Control Sopas<b
                             class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{url('sopas/mezclado_sopas')}}"><i class="fa fa-balance-scale"></i>Mezclado de Sopas</a></li>
+                        <li><a href="{{url('sopas/peso_pasta')}}"><i class="fa fa-industry"></i>Peso de la Pasta</a></li>
+                    </ul>
                 </li>
             </ul>
             <ul class="nav navbar-nav">

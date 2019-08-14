@@ -99,7 +99,7 @@
                 </div>
 
 
-                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
 
                     <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
 
@@ -158,7 +158,7 @@
             <button class="btn btn-default" type="submit">
                 <span class=" fa fa-check"></span> GUARDAR
             </button>
-            <a href="{{url('control/mezcla_harina')}}">
+            <a href="{{url('control/laminado')}}">
                 <button class="btn btn-default" type="button">
                     <span class="fa fa-remove"></span>
                     CANCELAR

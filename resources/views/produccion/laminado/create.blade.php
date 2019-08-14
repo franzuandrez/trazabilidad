@@ -1,46 +1,48 @@
 @extends('layouts.admin')
 @section('style')
     <link rel="stylesheet" href="{{asset('css/bootstrap-datepicker.css')}}">
+    <link rel="stylesheet" href="{{asset('css/bootstrap-timepicker.css')}}">
 @endsection
 
 @section('contenido')
 
     @component('componentes.nav',['operation'=>'Ingreso',
-    'menu_icon'=>'fa fa-check-square-o',
-    'submenu_icon'=>'fa fa-spoon',
+    'menu_icon'=>'fa fa-cube',
+    'submenu_icon'=>'fa fa-tasks',
     'operation_icon'=>'fa-plus',])
         @slot('menu')
-            Control
+            Produccion
         @endslot
         @slot('submenu')
-            Mezcla Harina
+            Laminado y Precocción de Sopas
         @endslot
     @endcomponent
 
 
-    {!!Form::open(array('url'=>'control/mezcla_harina/create','method'=>'POST','autocomplete'=>'off'))!!}
+    {!!Form::open(array('url'=>'produccion/laminado/create','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="presentacion">RESPONSABLES</label>
-            <select name="id_presentacion" class="form-control selectpicker" id="presentacion">
-                <option value="">SELECCIONAR RESPONSABLE</option>
-                @foreach($responsables as $responsable)
-                    <option value="{{$responsable->id}}">{{$responsable->nombre}}</option>
-                @endforeach
+            <label for="presentacion">PRESENTACIÓN</label>
+            <select class="form-control selectpicker" data-live-search="true" id="presentacion" name="presentacion">
+                <option value="" selected>SELECCIONE UN CODIGO</option>
+                <option value="1" >JUMBO SAMYANG</option>
+                <option value="2" >PAQUETE</option>
+                <option value="3" >VASO 64 g</option>
+                <option value="4" >HAN RAN</option>
+                <option value="5" >SABAROSITA</option>
             </select>
         </div>
     </div>
-
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="codigo_producto">CODIGO</label>
-            <input id="codigo_producto" type="text"
-                   onkeydown="descomponerInput(this)"
+            <label for="turno">TURNO</label>
+            <input id="turno" type="text"
                    class="form-control">
         </div>
     </div>
+
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="">
             <div class="tab-content">
@@ -48,49 +50,24 @@
             <div class="tab-pane" id="tab_3">
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                     <div class="form-group">
-                        <label for="lote">LOTE</label>
-                        <input id="lote" type="text" name="lote"
+                        <label for="velocidad_laminado">VELOCIDAD DE LAMINADO (RPM)</label>
+                        <input id="velocidad_laminado" type="text" name="velocidad_laminado"
 
                                class="form-control">
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                     <div class="form-group">
-                        <label for="producto">PRODUCTO</label>
-                        <input id="producto" type="text" name="producto"
-
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <label for="hora_carga">HORA CARGA</label>
-                    <div class="input-group date1" id='datetimepicker3'>
-                        <input id="hora_carga" type="text" name="descripcion" class="form-control">
-                        <span class="input-group-addon">
-                        <i class="fa fa-clock-o"></i>
-                    </span>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="hora_descarga">HORA DESCARGA</label>
-                        <input id="hora_descarga" type="text" name="descripcion"
+                        <label for="espesor_lamina">ESPESOR DE LÁMINA 0.98 A 1.03 MM</label>
+                        <input id="espesor_lamina" type="text" name="espesor_lamina"
 
                                class="form-control">
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                     <div class="form-group">
-                        <label for="solucion">LBS DE SOLUCIÓN (158.4 A 168.5)</label>
-                        <input id="solucion" type="text" name="descripcion"
-
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="ph">PH (8-11 PPM)</label>
-                        <input id="ph" type="text" name="descripcion"
+                        <label for="presicion">PRESICIÓN REGULADOR DE VALOR (0.2 A 0.3 MPA)</label>
+                        <input id="presicion" type="text" name="presicion"
 
                                class="form-control">
                     </div>
@@ -98,8 +75,48 @@
 
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                     <div class="form-group">
-                        <label for="observacion">OBSERVACIONES</label>
-                        <input id="observacion" type="text" name="descripcion"
+                        <label for="indice_precoccion">INDICE PRECOCCIÓN (CUALITATIVO)</label>
+                        <input id="indice_precoccion" type="text" name="indice_precoccion"
+
+                               class="form-control">
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+                    <div class="form-group">
+                        <label for="temperatura_inicio">TEMPERATURA DE PRECOCCIÓN MAS DE 90 C INICIO</label>
+                        <input id="temperatura_inicio" type="text" name="temperatura_inicio"
+
+                               class="form-control">
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+                    <div class="form-group">
+                        <label for="temperatura_salida">TEMPERATURA DE PRECOCCIÓN MAS DE 90 C SALIDA</label>
+                        <input id="temperatura_salida" type="text" name="temperatura_salida"
+
+                               class="form-control">
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+                    <div class="form-group">
+                        <label for="tiempo_precoccion">TIEMPO DE PRECOCCIÓN 2:00 A 2:55 MIN. (CADA 30 MIN)</label>
+                        <input id="tiempo_precoccion" type="text" name="tiempo_precoccion"
+
+                               class="form-control">
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+                    <div class="form-group">
+                        <label for="velocidad_cotres">VELOCIDAD (COTRES * MIN)</label>
+                        <input id="velocidad_cotres" type="text" name="velocidad_cotres"
+
+                               class="form-control">
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+                    <div class="form-group">
+                        <label for="observaciones">OBSERVACIONES</label>
+                        <input id="observaciones" type="text" name="observaciones"
 
                                class="form-control">
                     </div>
@@ -116,16 +133,19 @@
 
                 <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
 
-                    <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
+                    <table id="detalles" class=" table-striped table-bordered table-condensed table-hover">
 
                         <thead style="background-color: #01579B;  color: #fff;">
                         <th>OPCION</th>
-                        <th>LOTE</th>
-                        <th>PRODUCTO</th>
-                        <th>HORA CARGA</th>
-                        <th>HORA DESCARGA</th>
-                        <th>LBS DE SOLUCION (158.4 A 168.5)</th>
-                        <th>PH 8-11 PPM</th>
+                        <th>HORA (CADA 15 MIN)</th>
+                        <th>VELOCIDAD DE LAMINADO (RPM)</th>
+                        <th>ESPESOR DE LAMINA 0.98 A 1.03 MM</th>
+                        <th>PRESIÓN REGULADOR DE VAPOR (0.2 A 0.3 MPA)</th>
+                        <th>INDICE PRECOCCIÓN (CUALITATIVO)</th>
+                        <th>TEMPERATURA DE INICIO</th>
+                        <th>TEMPERATURA DE SALIDA</th>
+                        <th>TIEMPO DE PRECOCCIÓN 2:00 A 2:55 MIN</th>
+                        <th>VELOCIDAD (COTRES * MIN)</th>
                         <th>OBSERVACIONES</th>
                         </thead>
                         <tbody>
@@ -134,34 +154,8 @@
                 </div>
                 <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
                     <div class="form-group">
-                        <label for="observacion_correctiva">OBSERVACIONES Y/O ACCION CORRECTIVA</label>
-                        <input type="text" name="observacion_correctiva" value="{{old('observacion_correctiva')}}"
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-                    <div class="form-group">
-                        <label for="observacion_correctiva">RESPONSABLE:</label>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="puesto">PUESTO</label>
-                        <input type="text" name="puesto" value="{{old('puesto')}}"
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="nombre">NOMBRE</label>
-                        <input type="text" name="nombre" value="{{old('nombre')}}"
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="firma">FIRMA</label>
-                        <input type="text" name="firma" value="{{old('firma')}}"
+                        <label for="acciones">ACCIONES/CORRECTIVAS</label>
+                        <input type="text" name="acciones" value="{{old('acciones')}}"
                                class="form-control">
                     </div>
                 </div>
@@ -175,7 +169,7 @@
             <button class="btn btn-default" type="submit">
                 <span class=" fa fa-check"></span> GUARDAR
             </button>
-            <a href="{{url('control/mezcla_harina')}}">
+            <a href="{{url('produccion/laminado')}}">
                 <button class="btn btn-default" type="button">
                     <span class="fa fa-remove"></span>
                     CANCELAR
@@ -188,6 +182,15 @@
 
 @endsection
 @section('scripts')
+    <script>
+        $(function () {
+            //Timepicker
+            $('.timepicker').timepicker({
+                showInputs: false
+            });
+        })
+
+    </script>
 
     <script>
         $('.date').datepicker({
@@ -216,36 +219,44 @@
         }
 
         function addToTable() {
-            if ($("#lote").val() != "" && $("#producto").val() != "" && $("#hora_carga").val() != "" && $("#hora_descarga").val() != "" && $("#solucion").val() != "" && $("#ph").val() != "" && $("#observacion").val() != "") {
-                let lote = $("#lote");
-                let producto = $("#producto");
-                let hora_carga = $("#hora_carga");
-                let hora_descarga = $("#hora_descarga");
-                let solucion = $("#solucion");
-                let ph = $("#ph");
-                let observacion = $("#observacion");
-                //removeFromTareas(tarea);
-                //removeFromSelect(vendedor);
+            if ($("#velocidad_laminado").val() != "" && $("#espesor_lamina").val() != "" && $("#presicion").val() != "") {
+                let today = new Date();
+                let time = today.getHours()+":"+today.getMinutes()+":"+today.getSeconds();
+                let velocidad_laminado = $("#velocidad_laminado");
+                let espesor_lamina = $("#espesor_lamina");
+                let presicion = $("#presicion");
+                let indice_precoccion = $("#indice_precoccion");
+                let temperatura_inicio = $("#temperatura_inicio");
+                let temperatura_salida = $("#temperatura_salida");
+                let tiempo_precoccion = $("#tiempo_precoccion");
+                let velocidad = $("#velocidad_cotres");
+                let observaciones = $("#observaciones");
+
                 let row =
                     `<tr>
             <td><button onclick=removeFromTable(this) type="button" class="btn btn-warning">x</button></td>
-            <td><input type="hidden" value='${lote.val()}' name=lote[]>${lote.val()}</td>
-            <td><input type="hidden" value='${producto.val()}' name=producto[]>${producto.val()}</td>
-            <td ><input type="hidden" value ='${hora_carga.val()}'  name=hora_carga[] >${hora_carga.val()}</td>
-            <td ><input type="hidden" value ='${hora_descarga.val()}'  name=hora_descarga[] >${hora_descarga.val()}</td>
-            <td ><input type="hidden" value ='${solucion.val()}'  name=solucion[] >${solucion.val()}</td>
-            <td ><input type="hidden" value ='${ph.val()}'  name=ph[] >${ph.val()}</td>
-            <td ><input type="hidden" value ='${observacion.val()}'  name=observacion[] >${observacion.val()}</td>
+            <td><input type="hidden" value='${time}' name=time[]>${time}</td>
+            <td><input type="hidden" value='${velocidad_laminado.val()}' name=velocidad_laminado[]>${velocidad_laminado.val()}</td>
+            <td><input type="hidden" value='${espesor_lamina.val()}' name=espesor_lamina[]>${espesor_lamina.val()}</td>
+            <td><input type="hidden" value='${presicion.val()}' name=presicion[]>${presicion.val()}</td>
+            <td><input type="hidden" value='${indice_precoccion.val()}' name=indice_precoccion[]>${indice_precoccion.val()}</td>
+            <td><input type="hidden" value='${temperatura_inicio.val()}' name=temperatura_inicio[]>${temperatura_inicio.val()}</td>
+            <td><input type="hidden" value='${temperatura_salida.val()}' name=temperatura_salida[]>${temperatura_salida.val()}</td>
+            <td><input type="hidden" value='${tiempo_precoccion.val()}' name=tiempo_precoccion[]>${tiempo_precoccion.val()}</td>
+            <td><input type="hidden" value='${velocidad.val()}' name=velocidad[]>${velocidad.val()}</td>
+            <td ><input type="hidden" value ='${observaciones.val()}'  name=observaciones[] >${observaciones.val()}</td>
             </tr>`;
 
                 $("#detalles").append(row);
-                lote.val('');
-                producto.val('');
-                hora_carga.val('');
-                hora_descarga.val('');
-                solucion.val('');
-                ph.val('');
-                observacion.val('');
+                velocidad_laminado.val('');
+                espesor_lamina.val('');
+                presicion.val('');
+                indice_precoccion.val('');
+                temperatura_inicio.val('');
+                temperatura_salida.val('');
+                tiempo_precoccion.val('');
+                velocidad.val('');
+                observaciones.val('');
             } else {
                 $('#modal-default').modal('show');
                 return false;
@@ -324,7 +335,7 @@
             if (event.keyCode == 13) {
                 document.getElementById('lote').value = lote;
                 document.getElementById('producto').value = codigo;
-                document.getElementById('hora_carga').focus();
+                document.getElementById('no_1').focus();
             }
         }
 

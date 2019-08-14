@@ -1,46 +1,47 @@
 @extends('layouts.admin')
 @section('style')
     <link rel="stylesheet" href="{{asset('css/bootstrap-datepicker.css')}}">
+    <link rel="stylesheet" href="{{asset('css/bootstrap-timepicker.css')}}">
 @endsection
 
 @section('contenido')
 
     @component('componentes.nav',['operation'=>'Ingreso',
-    'menu_icon'=>'fa fa-check-square-o',
-    'submenu_icon'=>'fa fa-spoon',
+    'menu_icon'=>'fa fa-dot-circle-o',
+    'submenu_icon'=>'fa fa-balance-scale',
     'operation_icon'=>'fa-plus',])
         @slot('menu')
-            Control
+            Control Sopas
         @endslot
         @slot('submenu')
-            Mezcla Harina
+            Mezclado Sopas
         @endslot
     @endcomponent
 
 
-    {!!Form::open(array('url'=>'control/mezcla_harina/create','method'=>'POST','autocomplete'=>'off'))!!}
+    {!!Form::open(array('url'=>'sopas/mezclado_sopas/create','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
-
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="presentacion">RESPONSABLES</label>
-            <select name="id_presentacion" class="form-control selectpicker" id="presentacion">
-                <option value="">SELECCIONAR RESPONSABLE</option>
-                @foreach($responsables as $responsable)
-                    <option value="{{$responsable->id}}">{{$responsable->nombre}}</option>
-                @endforeach
+            <label for="presentacion">PRESENTACIÓN</label>
+            <select class="form-control selectpicker" data-live-search="true" id="presentacion" name="presentacion">
+                <option value="" selected>SELECCIONE UN CODIGO</option>
+                <option value="1" >JUMBO SAMYANG</option>
+                <option value="2" >PAQUETE</option>
+                <option value="3" >VASO 64 g</option>
+                <option value="4" >HAN RAN</option>
+                <option value="5" >SABAROSITA</option>
             </select>
         </div>
     </div>
-
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="codigo_producto">CODIGO</label>
-            <input id="codigo_producto" type="text"
-                   onkeydown="descomponerInput(this)"
+            <label for="turno">TURNO</label>
+            <input id="turno" type="text"
                    class="form-control">
         </div>
     </div>
+
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="">
             <div class="tab-content">
@@ -48,58 +49,52 @@
             <div class="tab-pane" id="tab_3">
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                     <div class="form-group">
-                        <label for="lote">LOTE</label>
-                        <input id="lote" type="text" name="lote"
+                        <label for="no_bach">NO. BACH</label>
+                        <input id="no_bach" type="text" name="no_bach"
+
+                               class="form-control">
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+                    <label for="hora_inicio">HORA INICIO</label>
+                    <div class="input-group">
+                        <input id="hora_inicio" type="text" class="form-control timepicker" name="hora_inicio">
+
+                        <div class="input-group-addon">
+                            <i class="fa fa-clock-o"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+                    <label for="hora_finalizo">HORA FINALIZO</label>
+                    <div class="input-group">
+                        <input id="hora_finalizo" type="text" class="form-control timepicker" name="hora_finalizo">
+
+                        <div class="input-group-addon">
+                            <i class="fa fa-clock-o"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+                    <div class="form-group">
+                        <label for="tiempo_alta">TIEMPO DE VELOCIDAD ALTA</label>
+                        <input id="tiempo_alta" type="text" name="tiempo_alta"
 
                                class="form-control">
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                     <div class="form-group">
-                        <label for="producto">PRODUCTO</label>
-                        <input id="producto" type="text" name="producto"
-
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <label for="hora_carga">HORA CARGA</label>
-                    <div class="input-group date1" id='datetimepicker3'>
-                        <input id="hora_carga" type="text" name="descripcion" class="form-control">
-                        <span class="input-group-addon">
-                        <i class="fa fa-clock-o"></i>
-                    </span>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="hora_descarga">HORA DESCARGA</label>
-                        <input id="hora_descarga" type="text" name="descripcion"
+                        <label for="tiempo_baja">TIEMPO DE VELOCIDAD BAJA</label>
+                        <input id="tiempo_baja" type="text" name="tiempo_baja"
 
                                class="form-control">
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                     <div class="form-group">
-                        <label for="solucion">LBS DE SOLUCIÓN (158.4 A 168.5)</label>
-                        <input id="solucion" type="text" name="descripcion"
-
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="ph">PH (8-11 PPM)</label>
-                        <input id="ph" type="text" name="descripcion"
-
-                               class="form-control">
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="observacion">OBSERVACIONES</label>
-                        <input id="observacion" type="text" name="descripcion"
+                        <label for="observaciones">OBSERVACIONES</label>
+                        <input id="observaciones" type="text" name="observaciones"
 
                                class="form-control">
                     </div>
@@ -120,12 +115,11 @@
 
                         <thead style="background-color: #01579B;  color: #fff;">
                         <th>OPCION</th>
-                        <th>LOTE</th>
-                        <th>PRODUCTO</th>
-                        <th>HORA CARGA</th>
-                        <th>HORA DESCARGA</th>
-                        <th>LBS DE SOLUCION (158.4 A 168.5)</th>
-                        <th>PH 8-11 PPM</th>
+                        <th>NO. BACH</th>
+                        <th>HORA INICIO</th>
+                        <th>HORA FINALIZO</th>
+                        <th>TIEMPO VELOCIDAD ALTA</th>
+                        <th>TIEMPO VELOCIDAD BAJA</th>
                         <th>OBSERVACIONES</th>
                         </thead>
                         <tbody>
@@ -134,34 +128,8 @@
                 </div>
                 <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
                     <div class="form-group">
-                        <label for="observacion_correctiva">OBSERVACIONES Y/O ACCION CORRECTIVA</label>
-                        <input type="text" name="observacion_correctiva" value="{{old('observacion_correctiva')}}"
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-                    <div class="form-group">
-                        <label for="observacion_correctiva">RESPONSABLE:</label>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="puesto">PUESTO</label>
-                        <input type="text" name="puesto" value="{{old('puesto')}}"
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="nombre">NOMBRE</label>
-                        <input type="text" name="nombre" value="{{old('nombre')}}"
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="firma">FIRMA</label>
-                        <input type="text" name="firma" value="{{old('firma')}}"
+                        <label for="observaciones_generales">OBSERVACIONES</label>
+                        <input type="text" name="observaciones_generales" value="{{old('observaciones_generales')}}"
                                class="form-control">
                     </div>
                 </div>
@@ -175,7 +143,7 @@
             <button class="btn btn-default" type="submit">
                 <span class=" fa fa-check"></span> GUARDAR
             </button>
-            <a href="{{url('control/mezcla_harina')}}">
+            <a href="{{url('sopas/mezclado_sopas')}}">
                 <button class="btn btn-default" type="button">
                     <span class="fa fa-remove"></span>
                     CANCELAR
@@ -188,6 +156,15 @@
 
 @endsection
 @section('scripts')
+    <script>
+        $(function () {
+            //Timepicker
+            $('.timepicker').timepicker({
+                showInputs: false
+            });
+        })
+
+    </script>
 
     <script>
         $('.date').datepicker({
@@ -216,36 +193,31 @@
         }
 
         function addToTable() {
-            if ($("#lote").val() != "" && $("#producto").val() != "" && $("#hora_carga").val() != "" && $("#hora_descarga").val() != "" && $("#solucion").val() != "" && $("#ph").val() != "" && $("#observacion").val() != "") {
-                let lote = $("#lote");
-                let producto = $("#producto");
-                let hora_carga = $("#hora_carga");
-                let hora_descarga = $("#hora_descarga");
-                let solucion = $("#solucion");
-                let ph = $("#ph");
-                let observacion = $("#observacion");
-                //removeFromTareas(tarea);
-                //removeFromSelect(vendedor);
+            if ($("#no_bach").val() != "" && $("#hora_inicio").val() != "" && $("#hora_finalizo").val() != "" && $("#tiempo_alta").val() != "" && $("#tiempo_baja").val() != "" && $("#observaciones").val() != "") {
+                let no_bach = $("#no_bach");
+                let hora_inicio = $("#hora_inicio");
+                let hora_finalizo = $("#hora_finalizo");
+                let tiempo_alta = $("#tiempo_alta");
+                let tiempo_baja = $("#tiempo_baja");
+                let observaciones = $("#observaciones");
                 let row =
                     `<tr>
             <td><button onclick=removeFromTable(this) type="button" class="btn btn-warning">x</button></td>
-            <td><input type="hidden" value='${lote.val()}' name=lote[]>${lote.val()}</td>
-            <td><input type="hidden" value='${producto.val()}' name=producto[]>${producto.val()}</td>
-            <td ><input type="hidden" value ='${hora_carga.val()}'  name=hora_carga[] >${hora_carga.val()}</td>
-            <td ><input type="hidden" value ='${hora_descarga.val()}'  name=hora_descarga[] >${hora_descarga.val()}</td>
-            <td ><input type="hidden" value ='${solucion.val()}'  name=solucion[] >${solucion.val()}</td>
-            <td ><input type="hidden" value ='${ph.val()}'  name=ph[] >${ph.val()}</td>
-            <td ><input type="hidden" value ='${observacion.val()}'  name=observacion[] >${observacion.val()}</td>
+            <td><input type="hidden" value='${no_bach.val()}' name=no_bach[]>${no_bach.val()}</td>
+            <td><input type="hidden" value='${hora_inicio.val()}' name=hora_inicio[]>${hora_inicio.val()}</td>
+            <td><input type="hidden" value='${hora_finalizo.val()}' name=hora_finalizo[]>${hora_finalizo.val()}</td>
+            <td ><input type="hidden" value ='${tiempo_alta.val()}'  name=tiempo_alta[] >${tiempo_alta.val()}</td>
+            <td ><input type="hidden" value ='${tiempo_baja.val()}'  name=tiempo_baja[] >${tiempo_baja.val()}</td>
+            <td ><input type="hidden" value ='${observaciones.val()}'  name=observaciones[] >${observaciones.val()}</td>
             </tr>`;
 
                 $("#detalles").append(row);
-                lote.val('');
-                producto.val('');
-                hora_carga.val('');
-                hora_descarga.val('');
-                solucion.val('');
-                ph.val('');
-                observacion.val('');
+                no_bach.val('');
+                hora_inicio.val('');
+                hora_finalizo.val('');
+                tiempo_alta.val('');
+                tiempo_baja.val('');
+                observaciones.val('');
             } else {
                 $('#modal-default').modal('show');
                 return false;
@@ -324,7 +296,7 @@
             if (event.keyCode == 13) {
                 document.getElementById('lote').value = lote;
                 document.getElementById('producto').value = codigo;
-                document.getElementById('hora_carga').focus();
+                document.getElementById('no_1').focus();
             }
         }
 
