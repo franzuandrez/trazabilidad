@@ -35,4 +35,15 @@ class Movimiento extends Model
 
         return $this->belongsTo('App\User','usuario');
     }
+
+    public function scopeEnTransito( $query ){
+
+        return $query->where('movimientos.ubicacion',0);
+    }
+
+    public function orden_compra(){
+
+        return $this->belongsTo('App\Recepcion','orden_compra','numero_documento');
+
+    }
 }

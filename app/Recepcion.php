@@ -73,5 +73,10 @@ class Recepcion extends Model
         return $this->hasMany('App\DetalleLotes','id_recepcion_enc');
     }
 
+    public function movimientos(){
+
+        return $this->hasMany('App\Movimiento','numero_documento','orden_compra');
+    }
+
 
 }
