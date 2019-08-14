@@ -23,23 +23,67 @@
     {{Form::token()}}
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="custom-control custom-checkbox">
+            <input type="checkbox"
+                   class="custom-control-input"
+                   id="deposito_aceite"
+                   value="1"
+                   name="deposito_aceite">
+            <label class="custom-control-label" for="deposito_aceite">DEPÓSITO DE ACEITE #1</label>
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="custom-control custom-checkbox">
+            <input type="checkbox"
+                   class="custom-control-input"
+                   id="tanque_aceite_nuevo"
+                   value="1"
+                   name="tanque_aceite_nuevo">
+            <label class="custom-control-label" for="tanque_aceite_nuevo">TANQUE ACEITE NUEVO</label>
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="custom-control custom-checkbox">
+            <input type="checkbox"
+                   class="custom-control-input"
+                   id="deposito_aceite_2"
+                   value="1"
+                   name="deposito_aceite_2">
+            <label class="custom-control-label" for="deposito_aceite_2">DEPÓSITO DE ACEITE #2</label>
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="custom-control custom-checkbox">
+            <input type="checkbox"
+                   class="custom-control-input"
+                   id="tanque_aceite_usado"
+                   value="1"
+                   name="tanque_aceite_usado">
+            <label class="custom-control-label" for="tanque_aceite_usado">TANQUE ACEITE USADO</label>
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="presentacion">PRESENTACIÓN</label>
             <select class="form-control selectpicker" data-live-search="true" id="presentacion" name="presentacion">
-                <option value="" selected>SELECCIONE UN CODIGO</option>
-                <option value="1" >JUMBO SAMYANG</option>
-                <option value="2" >PAQUETE</option>
-                <option value="3" >VASO 64 g</option>
-                <option value="4" >HAN RAN</option>
-                <option value="5" >SABAROSITA</option>
+                <option value="" selected>SELECCIONE UNA PRESENTACION</option>
+                <option value="1">JUMBO SAMYANG</option>
+                <option value="2">PAQUETE</option>
+                <option value="3">VASO 64 g</option>
+                <option value="4">HAN RAN</option>
+                <option value="5">SABAROSITA</option>
             </select>
         </div>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="turno">TURNO</label>
-            <input id="turno" type="text"
-                   class="form-control">
+            <select class="form-control selectpicker" data-live-search="true" id="turno" name="turno">
+                <option value="" selected>SELECCIONE UN TURNO</option>
+                <option value="1">TURNO 1</option>
+                <option value="2">TURNO 2</option>
+            </select>
         </div>
     </div>
 
@@ -50,24 +94,26 @@
             <div class="tab-pane" id="tab_3">
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                     <div class="form-group">
-                        <label for="velocidad_laminado">VELOCIDAD DE LAMINADO (RPM)</label>
-                        <input id="velocidad_laminado" type="text" name="velocidad_laminado"
+                        <label for="tipo">TIPO</label>
+                        <select class="form-control selectpicker_tipo" data-live-search="true" id="tipo" name="tipo">
+                            <option value="" selected>SELECCIONE UN TIPO</option>
+                            <option value="1">VASO</option>
+                            <option value="2">PAQUETE</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+                    <div class="form-group">
+                        <label for="inicial">INICIAL 130 A 135 °C</label>
+                        <input id="inicial" type="text" name="inicial"
 
                                class="form-control">
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                     <div class="form-group">
-                        <label for="espesor_lamina">ESPESOR DE LÁMINA 0.98 A 1.03 MM</label>
-                        <input id="espesor_lamina" type="text" name="espesor_lamina"
-
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="presicion">PRESICIÓN REGULADOR DE VALOR (0.2 A 0.3 MPA)</label>
-                        <input id="presicion" type="text" name="presicion"
+                        <label for="final">FINAL 140 A 160 °C</label>
+                        <input id="final" type="text" name="final"
 
                                class="form-control">
                     </div>
@@ -75,40 +121,24 @@
 
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                     <div class="form-group">
-                        <label for="indice_precoccion">INDICE PRECOCCIÓN (CUALITATIVO)</label>
-                        <input id="indice_precoccion" type="text" name="indice_precoccion"
+                        <label for="general">GENERAL 150 A 161 °C</label>
+                        <input id="general" type="text" name="general"
 
                                class="form-control">
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                     <div class="form-group">
-                        <label for="temperatura_inicio">TEMPERATURA DE PRECOCCIÓN MAS DE 90 C INICIO</label>
-                        <input id="temperatura_inicio" type="text" name="temperatura_inicio"
+                        <label for="set">SET 160 A 165 °C</label>
+                        <input id="set" type="text" name="set"
 
                                class="form-control">
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                     <div class="form-group">
-                        <label for="temperatura_salida">TEMPERATURA DE PRECOCCIÓN MAS DE 90 C SALIDA</label>
-                        <input id="temperatura_salida" type="text" name="temperatura_salida"
-
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="tiempo_precoccion">TIEMPO DE PRECOCCIÓN 2:00 A 2:55 MIN. (CADA 30 MIN)</label>
-                        <input id="tiempo_precoccion" type="text" name="tiempo_precoccion"
-
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="velocidad_cotres">VELOCIDAD (COTRES * MIN)</label>
-                        <input id="velocidad_cotres" type="text" name="velocidad_cotres"
+                        <label for="tiempo">TIEMPO DE FRITURA 1:30 A 2:20 MIN</label>
+                        <input id="tiempo" type="text" name="tiempo"
 
                                class="form-control">
                     </div>
@@ -121,7 +151,6 @@
                                class="form-control">
                     </div>
                 </div>
-
                 <div class="col-lg-2 col-sm-4 col-md-2 col-xs-2">
                     <br>
                     <div class="form-group">
@@ -131,21 +160,19 @@
                 </div>
 
 
-                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
+                <div class="table-responsive  col-lg-12 col-sm-12 col-md-12 col-xs-12">
 
                     <table id="detalles" class=" table-striped table-bordered table-condensed table-hover">
 
                         <thead style="background-color: #01579B;  color: #fff;">
                         <th>OPCION</th>
                         <th>HORA (CADA 15 MIN)</th>
-                        <th>VELOCIDAD DE LAMINADO (RPM)</th>
-                        <th>ESPESOR DE LAMINA 0.98 A 1.03 MM</th>
-                        <th>PRESIÓN REGULADOR DE VAPOR (0.2 A 0.3 MPA)</th>
-                        <th>INDICE PRECOCCIÓN (CUALITATIVO)</th>
-                        <th>TEMPERATURA DE INICIO</th>
-                        <th>TEMPERATURA DE SALIDA</th>
-                        <th>TIEMPO DE PRECOCCIÓN 2:00 A 2:55 MIN</th>
-                        <th>VELOCIDAD (COTRES * MIN)</th>
+                        <th>TIPO</th>
+                        <th>INICIAL 130 A 135 °C</th>
+                        <th>FINAL 140 A 160 °C</th>
+                        <th>GENERAL 150 A 160 °C</th>
+                        <th>SET 160 A 161 °C</th>
+                        <th>TIEMPO DE FRITURA 1:30 A 2:20 MIN</th>
                         <th>OBSERVACIONES</th>
                         </thead>
                         <tbody>
@@ -162,7 +189,7 @@
             </div>
         </div>
     </div>
-    </div>
+
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
@@ -219,43 +246,38 @@
         }
 
         function addToTable() {
-            if ($("#velocidad_laminado").val() != "" && $("#espesor_lamina").val() != "" && $("#presicion").val() != "") {
+            if ($("#inicial").val() != "" && $("#final").val() != "" && $("#general").val() != "" && $("#set").val() != "" && $("#tiempo").val() != "" && $("#observaciones").val() != "") {
                 let today = new Date();
-                let time = today.getHours()+":"+today.getMinutes()+":"+today.getSeconds();
-                let velocidad_laminado = $("#velocidad_laminado");
-                let espesor_lamina = $("#espesor_lamina");
-                let presicion = $("#presicion");
-                let indice_precoccion = $("#indice_precoccion");
-                let temperatura_inicio = $("#temperatura_inicio");
-                let temperatura_salida = $("#temperatura_salida");
-                let tiempo_precoccion = $("#tiempo_precoccion");
-                let velocidad = $("#velocidad_cotres");
+                let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                let tipo = $("select.selectpicker_tipo").children("option:selected").text();
+                let tipo_val = $("#tipo");
+                let inicial = $("#inicial");
+                let final = $("#final");
+                let general = $("#general");
+                let set = $("#set");
+                let tiempo = $("#tiempo");
                 let observaciones = $("#observaciones");
+
 
                 let row =
                     `<tr>
             <td><button onclick=removeFromTable(this) type="button" class="btn btn-warning">x</button></td>
             <td><input type="hidden" value='${time}' name=time[]>${time}</td>
-            <td><input type="hidden" value='${velocidad_laminado.val()}' name=velocidad_laminado[]>${velocidad_laminado.val()}</td>
-            <td><input type="hidden" value='${espesor_lamina.val()}' name=espesor_lamina[]>${espesor_lamina.val()}</td>
-            <td><input type="hidden" value='${presicion.val()}' name=presicion[]>${presicion.val()}</td>
-            <td><input type="hidden" value='${indice_precoccion.val()}' name=indice_precoccion[]>${indice_precoccion.val()}</td>
-            <td><input type="hidden" value='${temperatura_inicio.val()}' name=temperatura_inicio[]>${temperatura_inicio.val()}</td>
-            <td><input type="hidden" value='${temperatura_salida.val()}' name=temperatura_salida[]>${temperatura_salida.val()}</td>
-            <td><input type="hidden" value='${tiempo_precoccion.val()}' name=tiempo_precoccion[]>${tiempo_precoccion.val()}</td>
-            <td><input type="hidden" value='${velocidad.val()}' name=velocidad[]>${velocidad.val()}</td>
-            <td ><input type="hidden" value ='${observaciones.val()}'  name=observaciones[] >${observaciones.val()}</td>
+            <td><input type="hidden" value='${tipo_val.val()}' name=tipo_val[]>${tipo}</td>
+            <td><input type="hidden" value='${inicial.val()}' name=inicial[]>${inicial.val()}</td>
+            <td><input type="hidden" value='${final.val()}' name=final[]>${final.val()}</td>
+            <td><input type="hidden" value='${general.val()}' name=general[]>${general.val()}</td>
+            <td><input type="hidden" value='${set.val()}' name=set[]>${set.val()}</td>
+            <td><input type="hidden" value='${tiempo.val()}' name=tiempo[]>${tiempo.val()}</td>
+            <td><input type="hidden" value ='${observaciones.val()}'  name=observaciones[] >${observaciones.val()}</td>
             </tr>`;
 
                 $("#detalles").append(row);
-                velocidad_laminado.val('');
-                espesor_lamina.val('');
-                presicion.val('');
-                indice_precoccion.val('');
-                temperatura_inicio.val('');
-                temperatura_salida.val('');
-                tiempo_precoccion.val('');
-                velocidad.val('');
+                inicial.val('');
+                final.val('');
+                general.val('');
+                set.val('');
+                tiempo.val('');
                 observaciones.val('');
             } else {
                 $('#modal-default').modal('show');
