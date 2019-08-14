@@ -200,8 +200,12 @@ Route::get('registro/colaboradores/{id}','ColaboradorController@show')->name('co
 Route::post('registro/colaboradores/importar','ColaboradorController@importar')->name('colaboradores.importar');
 Route::post('registro/colaboradores/{id}','ColaboradorController@destroy')->name('colaboradores.destroy');
 
-
-
+Route::get('recepcion/materia_prima','RecepcionController@index')->name('recepcion.materia_prima.index');
+Route::get('recepcion/materia_prima/create','RecepcionController@create')->name('recepcion.materia_prima.create');
+Route::post('recepcion/materia_prima/create','RecepcionController@store')->name('recepcion.materia_prima.store');
+Route::get('recepcion/materia_prima/{id}','RecepcionController@show')->name('recepcion.materia_prima.show');
+Route::get('recepcion/materia_prima/{id}/edit','RecepcionController@edit')->name('recepcion.materia_prima.edit');
+Route::patch('recepcion/materia_prima/{id}','RecepcionController@update')->name('recepcion.materia_prima.update');
 
 Route::get('control/chaomin','ChaomeanController@index')->name('chaomin.index');
 Route::get('control/chaomin/create','ChaomeanController@create')->name('chaomin.create');
@@ -235,9 +239,26 @@ Route::patch('control/peso_humedo/{id}','PesoHumedoController@update')->name('pe
 Route::get('control/peso_humedo/{id}','PesoHumedoController@show')->name('peso_humedo.show');
 Route::post('control/peso_humedo/{id}','PesoHumedoController@destroy')->name('peso_humedo.destroy');
 
-Route::get('recepcion/materia_prima','RecepcionController@index')->name('recepcion.materia_prima.index');
-Route::get('recepcion/materia_prima/create','RecepcionController@create')->name('recepcion.materia_prima.create');
-Route::post('recepcion/materia_prima/create','RecepcionController@store')->name('recepcion.materia_prima.store');
-Route::get('recepcion/materia_prima/{id}','RecepcionController@show')->name('recepcion.materia_prima.show');
-Route::get('recepcion/materia_prima/{id}/edit','RecepcionController@edit')->name('recepcion.materia_prima.edit');
-Route::patch('recepcion/materia_prima/{id}','RecepcionController@update')->name('recepcion.materia_prima.update');
+Route::get('control/peso_seco','PesoSecoController@index')->name('peso_seco.index');
+Route::get('control/peso_seco/create','PesoSecoController@create')->name('peso_seco.create');
+Route::post('control/peso_seco/create','PesoSecoController@store')->name('peso_seco.store');
+Route::get('control/peso_seco/{id}/edit','PesoSecoController@edit')->name('peso_seco.edit');
+Route::patch('control/peso_seco/{id}','PesoSecoController@update')->name('peso_seco.update');
+Route::get('control/peso_seco/{id}','PesoSecoController@show')->name('peso_seco.show');
+Route::post('control/peso_seco/{id}','PesoSecoController@destroy')->name('peso_seco.destroy');
+
+Route::get('control/precocido','PrecocidoController@index')->name('precocido.index');
+Route::get('control/precocido/create','PrecocidoController@create')->name('precocido.create');
+Route::post('control/precocido/create','PrecocidoController@store')->name('precocido.store');
+Route::get('control/precocido/{id}/edit','PrecocidoController@edit')->name('precocido.edit');
+Route::patch('control/precocido/{id}','PrecocidoController@update')->name('precocido.update');
+Route::get('control/precocido/{id}','PrecocidoController@show')->name('precocido.show');
+Route::post('control/precocido/{id}','PrecocidoController@destroy')->name('precocido.destroy');
+
+Route::get('produccion/mezcladora','MezcladoraController@index')->name('mezcladora.index');
+Route::get('produccion/mezcladora/create','MezcladoraController@create')->name('mezcladora.create');
+Route::post('produccion/mezcladora/create','MezcladoraController@store')->name('mezcladora.store');
+Route::get('produccion/mezcladora/{id}/edit','MezcladoraController@edit')->name('mezcladora.edit');
+Route::patch('produccion/mezcladora/{id}','MezcladoraController@update')->name('mezcladora.update');
+Route::get('produccion/mezcladora/{id}','MezcladoraController@show')->name('mezcladora.show');
+Route::post('produccion/mezcladora/{id}','MezcladoraController@destroy')->name('mezcladora.destroy');

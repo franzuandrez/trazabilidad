@@ -178,6 +178,15 @@
             </ul>
             <ul class="nav navbar-nav">
                 <li class="dropdown">
+                    <a href="#" data-toggle="dropdown" style="background-color: #01579B;  color: #fff;">Produccion<b
+                            class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{url('produccion/mezcladora')}}"><i class="fa fa-spinner"></i>Mezcladora</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
                     <a href="#" data-toggle="dropdown" style="background-color: #01579B;  color: #fff;">Control
                         Chaomin<b
                             class="caret"></b></a>
@@ -186,6 +195,8 @@
                         <li><a href="{{url('control/mezcla_harina')}}"><i class="fa fa-spoon"></i>Mezcla de Harina</a></li>
                         <li><a href="{{url('control/laminado')}}"><i class="fa fa-th"></i>Laminado</a></li>
                         <li><a href="{{url('control/peso_humedo')}}"><i class="fa fa-signal"></i>Peso Humedo</a></li>
+                        <li><a href="{{url('control/peso_seco')}}"><i class="fa fa-bar-chart"></i>Peso Seco</a></li>
+                        <li><a href="{{url('control/precocido')}}"><i class="fa fa-cutlery"></i>Pre-cocido de Pasta</a></li>
                     </ul>
                 </li>
             </ul>
