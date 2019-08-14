@@ -20,7 +20,7 @@
                         <th></th>
                         <th>CODIGO BARRA</th>
                         <th>DESCRIPCION</th>
-
+                        <th>PRESENTACION</th>
                     </tr>
                     </thead>
                     <tbody id="tbody-productos">

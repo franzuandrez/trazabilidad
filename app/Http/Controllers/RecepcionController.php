@@ -106,7 +106,7 @@ class RecepcionController extends Controller
 
             DB::rollback();
 
-            dd($e);
+
         }
 
 

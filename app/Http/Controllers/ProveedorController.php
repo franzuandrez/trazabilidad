@@ -55,7 +55,6 @@ class ProveedorController extends Controller
     public function store(Request $request)
     {
 
-
         try {
 
             DB::beginTransaction();
@@ -99,19 +98,13 @@ class ProveedorController extends Controller
 
             $id_proveedor = $proveedor->id_proveedor;
 
-            $referencias_comerciales = $request->get('empresa');
 
-            foreach ($referencias_comerciales as $key => $ref) {
 
-                $referencia_comercial = new ReferenciasComerciales();
-                $referencia_comercial->nombre_empresa = $ref;
-                $referencia_comercial->telefono = $request->get('telefono')[$key];
-                $referencia_comercial->direccion = $request->get('direccion')[$key];
-                $referencia_comercial->contacto = $request->get('contacto')[$key];
-                $referencia_comercial->id_proveedor = $id_proveedor;
-                $referencia_comercial->save();
-            }
+            $this->guardarReferenciasComerciales($proveedor,$request);
 
+
+
+            $this->gurdarProductos( $proveedor, $request->get('productos') );
 
             DB::commit();
 
@@ -125,6 +118,7 @@ class ProveedorController extends Controller
 
             DB::rollback();
 
+            dd($ex);
             return redirect()
                 ->route('proveedores.index')
                 ->withErrors(['error'=>'Lo sentimos, su petición no fue procesada']);
@@ -140,6 +134,7 @@ class ProveedorController extends Controller
         try {
 
             $proveedor = Proveedor::findOrFail($id);
+
 
             return view('registro.proveedores.edit', compact('proveedor'));
 
@@ -202,6 +197,7 @@ class ProveedorController extends Controller
             //Insertar nuevas rerecenias comerciales.
             $this->guardarReferenciasComerciales($proveedor, $request);
 
+            $this->gurdarProductos($proveedor,$request->get('productos'));
 
             DB::commit();
 
@@ -243,6 +239,14 @@ class ProveedorController extends Controller
                 $referencia_comercial->save();
             }
         }
+
+
+    }
+
+    private function gurdarProductos( $proveedor ,$productos ){
+
+
+        $proveedor->productos()->attach($productos);
 
 
     }
@@ -354,6 +358,21 @@ class ProveedorController extends Controller
                 ->withErrors(['No ha sido posible cargar los clientes']);
         }
 
+
+    }
+
+    public function productos( $id ){
+
+        try {
+            $proveedor = Proveedor::findOrFail($id);
+
+            return view('registro.proveedores.detalle-productos',compact('proveedor'));
+
+        } catch (\Exception $e) {
+
+            return redirect()->route('proveedores.index')
+                ->withErrors(['Proveedor no encontrado']);
+        }
 
     }
 }

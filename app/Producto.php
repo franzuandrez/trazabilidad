@@ -56,9 +56,12 @@ class Producto extends Model
         return $query->where('productos.tipo_producto','MP');
     }
 
-    public function proveedor(){
+    public function proveedores(){
 
-        return $this->belongsTo('App\Proveedor','id_proveedor');
+        return $this
+            ->belongsToMany('App\Proveedor',
+                'proveedores_productos',
+                'id_producto','id_proveedor');
     }
 
     public function dimensional(){
