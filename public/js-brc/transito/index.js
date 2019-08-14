@@ -9,7 +9,7 @@ function editar(){
     if(id_recepcion_enc ==null){
         $('#errorToEdit').modal();
     }else{
-        window.location.href = "transito"+"/"+id_recepcion_enc+"/edit";
+        window.location.href = "transito"+"/"+id_recepcion_enc+"/ingreso";
     }
 
 }

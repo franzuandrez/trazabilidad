@@ -31,6 +31,7 @@ class Movimiento extends Model
         return $this->belongsTo('App\Producto','id_producto');
     }
 
+
     public function usuario(){
 
         return $this->belongsTo('App\User','usuario');

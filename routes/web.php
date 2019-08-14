@@ -213,6 +213,8 @@ Route::get('recepcion/materia_prima/{id}/edit','RecepcionController@edit')->name
 Route::patch('recepcion/materia_prima/{id}','RecepcionController@update')->name('recepcion.materia_prima.update');
 
 Route::get('recepcion/transito','RecepcionController@transito')->name('recepcion.transito.index');
+Route::get('recepcion/transito/{id}/ingreso','RecepcionController@ingreso_transito')->name('recepcion.transito.ingreso');
+Route::patch('recepcion/transito/{id}','RecepcionController@ingresar')->name('recepcion.transito.ingresar');
 
 Route::get('control/chaomin','ChaomeanController@index')->name('chaomin.index');
 Route::get('control/chaomin/create','ChaomeanController@create')->name('chaomin.create');

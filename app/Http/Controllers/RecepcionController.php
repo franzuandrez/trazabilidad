@@ -234,7 +234,7 @@ class RecepcionController extends Controller
                 $movimiento->cantidad = $request->get('cantidad')[$key];
                 $movimiento->id_producto = $recepcion->id_producto;
                 $movimiento->fecha_hora_movimiento = Carbon::now();
-                $movimiento->ubicacion = 'TRANSITO';
+                $movimiento->ubicacion = 0;
                 $movimiento->lote = $value;
                 $movimiento->fecha_vencimiento = $request->get('fecha_vencimiento')[$key];
                 $movimiento->clave_autorizacion = '1234';
@@ -254,33 +254,34 @@ class RecepcionController extends Controller
             $recepcion = Recepcion::findOrFail($id);
 
 
-
-            return view('recepcion.materia_prima.show',compact('recepcion'));
+            return view('recepcion.materia_prima.show', compact('recepcion'));
         } catch (\Exception $e) {
 
             return redirect()->route('recepcion.materia_prima.index')
-                ->withErrors(['errors'=>' Recepcion no encontrada ']);
+                ->withErrors(['errors' => ' Recepcion no encontrada ']);
 
         }
 
 
     }
 
-    public function edit( $id){
+    public function edit($id)
+    {
 
         try {
             $recepcion = Recepcion::findOrFail($id);
 
-            return view('recepcion.materia_prima.edit',compact('recepcion'));
+            return view('recepcion.materia_prima.edit', compact('recepcion'));
         } catch (\Exception $e) {
             return redirect()->route('recepcion.materia_prima.index')
-                ->withErrors(['errors'=>' Recepcion no encontrada ']);
+                ->withErrors(['errors' => ' Recepcion no encontrada ']);
         }
 
 
     }
 
-    public function update( Request $request , $id ){
+    public function update(Request $request, $id)
+    {
 
 
         try {
@@ -299,7 +300,7 @@ class RecepcionController extends Controller
 
             DB::rollback();
             return redirect()->route('recepcion.materia_prima.index')
-                ->withErrors(['errors'=>'Lo sentimos, su peticion no puede ser procesada en este momento ']);
+                ->withErrors(['errors' => 'Lo sentimos, su peticion no puede ser procesada en este momento ']);
 
         }
 
@@ -307,34 +308,143 @@ class RecepcionController extends Controller
     }
 
 
-    public function transito(Request  $request ){
+    public function transito(Request $request)
+    {
 
         $search = $request->get('search') == null ? '' : $request->get('search');
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
         $sortField = $request->get('field') == null ? 'orden_compra' : $request->get('field');
 
-        $movimientos_en_transito = Recepcion::join('movimientos','movimientos.numero_documento','=','recepcion_encabezado.orden_compra')
+        $movimientos_en_transito = Recepcion::join('movimientos', 'movimientos.numero_documento', '=', 'recepcion_encabezado.orden_compra')
             ->join('productos', 'productos.id_producto', '=', 'recepcion_encabezado.id_producto')
             ->join('proveedores', 'proveedores.id_proveedor', '=', 'recepcion_encabezado.id_proveedor')
-            ->select('recepcion_encabezado.*',DB::raw('count(movimientos.id_movimiento) as total'))
-            ->where('movimientos.estado',1)
+            ->select('recepcion_encabezado.*', DB::raw('count(movimientos.id_movimiento) as total'))
+            ->where('movimientos.estado', 1)
+            ->where('movimientos.ubicacion',0)
             ->where(function ($query) use ($search) {
                 $query->where('proveedores.razon_social', 'LIKE', '%' . $search . '%')
                     ->orWhere('productos.descripcion', 'LIKE', '%' . $search . '%')
                     ->orWhere('recepcion_encabezado.orden_compra', 'LIKE', '%' . $search . '%');
             })
-            ->orderBy($sortField,$sort)
+            ->orderBy($sortField, $sort)
             ->groupBy('recepcion_encabezado.orden_compra')
-            ->having(DB::raw('count(movimientos.id_movimiento)'),'>',0)
+            ->having(DB::raw('count(movimientos.id_movimiento)'), '>', 0)
             ->paginate(20);
 
 
-        if($request->ajax()){
+        if ($request->ajax()) {
             return view('recepcion.transito.index',
-                compact('movimientos_en_transito','search','sort','sortField'));
-        }else{
+                compact('movimientos_en_transito', 'search', 'sort', 'sortField'));
+        } else {
             return view('recepcion.transito.ajax',
-                compact('movimientos_en_transito','search','sort','sortField'));
+                compact('movimientos_en_transito', 'search', 'sort', 'sortField'));
+        }
+
+
+    }
+
+
+    public function ingreso_transito($id)
+    {
+
+        try {
+            $recepcion = Recepcion::findOrFail($id);
+
+
+            return view('recepcion.transito.ingreso', compact('recepcion'));
+        } catch (\Exception $e) {
+
+
+            return redirect()->route('recepcion.transito.index')
+                ->withErrors(['Recepcion no encontrada']);
+        }
+
+
+    }
+
+    public function ingresar(Request $request, $id)
+    {
+
+
+        $recepcion = Recepcion::findOrFail($id);
+
+        $idsMovimiento =$request->get('id_movimiento');
+        $cantidadesEntrantes = $request->get('cantidad_entrante');
+        $numero_documento = $recepcion->orden_compra;
+        $isSaved = $this->guardarMovimientos(1,0,$idsMovimiento,$cantidadesEntrantes,$numero_documento);
+
+        if($isSaved){
+
+          return redirect()->route('recepcion.transito.index')
+              ->with('sucess','Productos ingresados correctamente');
+        }else{
+
+            return redirect()->route('recepcion.transito.index')
+                ->withErrors(['No ha sido posible ingresar el producto']);
+        }
+
+    }
+
+    private function guardarMovimientos($bodega_destino,
+                                        $bodega_origen,
+                                        $ids = [],
+                                        $cantidades = [],
+                                        $numero_documento)
+    {
+
+
+        try {
+            DB::beginTransaction();
+
+            DB::table('movimientos')
+                ->whereIn('id_movimiento', $ids)
+                ->update(['estado'=>2]);
+
+            $movimientos = Movimiento::whereIn('id_movimiento', $ids)
+                ->orderBy('id_movimiento', 'asc')
+                ->get();
+            foreach ($movimientos as $key => $mov) {
+
+                $movimiento = new Movimiento();
+                $movimiento->numero_documento = $numero_documento;
+                $movimiento->usuario = \Auth::user()->id;
+                $movimiento->tipo_movimiento = 2;
+                $movimiento->cantidad = $cantidades[$key];
+                $movimiento->id_producto = $mov->id_producto;
+                $movimiento->fecha_hora_movimiento = Carbon::now();
+                $movimiento->ubicacion = $bodega_origen; //ORIGEN
+                $movimiento->lote = $mov->lote;
+                $movimiento->fecha_vencimiento = $mov->fecha_vencimiento;
+                $movimiento->clave_autorizacion = $mov->clave_autorizacion;
+                $movimiento->estado = 2;
+                $movimiento->save();
+
+
+                $movimiento = new Movimiento();
+                $movimiento->numero_documento = $numero_documento;
+                $movimiento->usuario = \Auth::user()->id;
+                $movimiento->tipo_movimiento = 1;
+                $movimiento->cantidad = $cantidades[$key];
+                $movimiento->id_producto = $mov->id_producto;
+                $movimiento->fecha_hora_movimiento = Carbon::now();
+                $movimiento->ubicacion = $bodega_destino; //DESTINO
+                $movimiento->lote = $mov->lote;
+                $movimiento->fecha_vencimiento = $mov->fecha_vencimiento;
+                $movimiento->clave_autorizacion = $mov->clave_autorizacion;
+                $movimiento->estado = 1;
+                $movimiento->save();
+
+
+            }
+            DB::commit();
+
+            return true;
+
+        } catch (\Exception $e) {
+
+            DB::rollback();
+
+            return false;
         }
 
 

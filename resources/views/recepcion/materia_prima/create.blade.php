@@ -706,7 +706,7 @@
                 productoElement.value = producto[1];
                 productoElement.readOnly = true;
                 btnBuscar.disabled = true;
-                let proveedores =  allProducts.find(o => o.id_producto == producto[0]).proveedores;
+                let proveedores =  allProducts.find(p => p.id_producto == producto[0]).proveedores;
                 cargarProveedores(proveedores);
             } else if (typeof producto === 'object') {
                 idProductoElement.value = producto.id_producto;
