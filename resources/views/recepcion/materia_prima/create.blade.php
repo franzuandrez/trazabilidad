@@ -61,7 +61,7 @@
             </select>
         </div>
     </div>
-    <input type="hidden" id="id_proveedor" name="id_proveedor">
+
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="documento_proveedor">DOCUMENTO PROVEEDOR</label>
@@ -779,8 +779,8 @@
         function cargarInfoCodigoBarras(input) {
 
             let infoCodigoBarras = descomponerInput(input);
-
-            if(event.keycode == 13){
+            if(event.keyCode == 13){
+                console.log(infoCodigoBarras);
                 mostrarInfoCodigoBarras(infoCodigoBarras);
             }
 
@@ -790,7 +790,7 @@
         function mostrarInfoCodigoBarras( infoCodigoBarras ) {
             const POSICION_FECHA = 2;
             const POSICION_LOTE = 3;
-
+            console.log(infoCodigoBarras);
             let fecha = infoCodigoBarras[POSICION_FECHA];
             document.getElementById('lote').value = infoCodigoBarras[POSICION_LOTE];
             fecha = getDate(fecha);

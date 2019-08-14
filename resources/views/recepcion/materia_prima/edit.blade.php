@@ -537,6 +537,14 @@
                 </div>
 
                 <div class="tab-pane active" id="tab_3">
+                    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="codigo_producto">Codigo</label>
+                            <input id="codigo_producto" type="text"
+                                   onkeydown="cargarInfoCodigoBarras(this)"
+                                   class="form-control">
+                        </div>
+                    </div>
                     <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                         <div class="form-group">
                             <label for="nombre">Cantidad</label>
@@ -661,8 +669,17 @@
         });
     </script>
     <script>
-        function cargarProveedores() {
-            //NOT IMPLEMENTED
+        function cargarProveedores( proveedores ) {
+
+            $('#proveedores').find('option:not(:first)').remove();
+            let option='';
+            proveedores.forEach(function (e) {
+                option  = `<option value='${e.id_proveedor}'>${e.razon_social}</option>`;
+            });
+
+            $('#proveedores').append(option);
+            $('#proveedores').selectpicker('refresh');
+
         }
 
         function addToTable() {
@@ -670,6 +687,8 @@
                 let cantidad = $("#cantidad");
                 let lote = $("#lote");
                 let fecha = $("#vencimiento");
+                let codigo_producto = $("#codigo_producto");
+
                 //removeFromTareas(tarea);
                 //removeFromSelect(vendedor);
                 let row =
@@ -684,6 +703,8 @@
                 cantidad.val('');
                 lote.val('');
                 fecha.val('');
+                codigo_producto.val('');
+                codigo_producto.focus();
             } else {
                 $('#modal-default').modal('show');
                 return false;
@@ -706,13 +727,20 @@
             return /\d/.test(String.fromCharCode(keynum));
         }
 
-        function buscar_producto() {
+        var allProducts = null;
+
+
+        function buscar_producto(searchValue = null) {
 
             let productoElement = document.getElementById('producto');
 
+            if (searchValue == null) {
+                searchValue = productoElement.value;
+            }
+
             $.ajax({
 
-                url: "{{url('registro/productos/search')}}" + "/" + productoElement.value,
+                url: "{{url('registro/productos/search')}}" + "/" + searchValue,
                 type: "get",
                 dataType: "json",
                 success: function (response) {
@@ -729,7 +757,7 @@
                         cargarProducto(productos[0]);
 
                     } else {
-
+                        allProducts = productos;
                         cargarProductos(productos);
                         mostrarProductosCargados();
                     }
@@ -745,56 +773,56 @@
 
         }
 
+
         function limpiar() {
 
             document.getElementById('id_producto').value = "";
             document.getElementById('producto').value = "";
-            document.getElementById('proveedor').value = "";
-            document.getElementById('id_proveedor').value = "";
             document.getElementById('producto').readOnly = false;
             document.getElementById('buscar').disabled = false;
         }
+
 
         function cargarProductos(productos) {
 
             $("#tbody-productos").empty();
             let row = "";
+
             productos.forEach(function (producto) {
 
                 row += `<tr>
                     <td><input  onclick="habilitar()" type='radio' name='id_prod' value='${producto.id_producto}'  ></td>
                     <td> ${producto.codigo_barras} </td>
                     <td> ${producto.descripcion} </td>
-                    <td><input type='hidden' name="id_prov" value='${producto.proveedor.id_proveedor}'  >  ${producto.proveedor.razon_social} </td>
+
                 </tr> `;
 
             })
 
             $('#tbody-productos').append(row);
+
         }
 
         function cargarProducto(producto) {
 
             let productoElement = document.getElementById('producto');
             let idProductoElement = document.getElementById('id_producto');
-            let proveedorElement = document.getElementById('proveedor');
-            let idProveedorElement = document.getElementById('id_proveedor');
+
+
             let btnBuscar = document.getElementById('buscar');
             if (Array.isArray(producto)) {
                 idProductoElement.value = producto[0];
                 productoElement.value = producto[1];
-                idProveedorElement.value = producto[2];
-                proveedorElement.value = producto[3];
                 productoElement.readOnly = true;
                 btnBuscar.disabled = true;
-
+                let proveedores =  allProducts.find(o => o.id_producto == producto[0]).proveedores;
+                cargarProveedores(proveedores);
             } else if (typeof producto === 'object') {
                 idProductoElement.value = producto.id_producto;
                 productoElement.value = producto.descripcion;
-                proveedorElement.value = producto.proveedor.razon_social;
-                idProveedorElement.value = producto.proveedor.id_proveedor;
                 productoElement.readOnly = true;
                 btnBuscar.disabled = true;
+                cargarProveedores(producto.proveedores);
             }
 
         }
@@ -833,8 +861,6 @@
             var productos = document.getElementsByName('id_prod');
             var id_prod = null;
             var descripcion = null;
-            var id_prov = null;
-            var razon_social = null;
 
             var arrayProductos = Object.keys(productos).map(function (key) {
                 return [Number(key), productos[key]];
@@ -846,12 +872,68 @@
                     var childrens = prod[1].parentElement.parentElement.children;
                     id_prod = childrens[0].firstChild.value;
                     descripcion = childrens[2].innerText;
-                    razon_social = childrens[3].innerText;
-                    id_prov = childrens[3].firstChild.value;
-
                 }
             });
-            return [id_prod, descripcion, id_prov, razon_social];
+            return [id_prod, descripcion];
+        }
+
+        function descomponerInput(input) {
+
+            var codigoBarras = input.value;
+            var removerParentesis = codigoBarras.replace(/\([0-9]*\)/g, '-');
+            var codigoSplited = removerParentesis.split('-');
+
+
+            return codigoSplited;
+
+
+        }
+
+        function cargarInfoCodigoBarras(input) {
+
+            let infoCodigoBarras = descomponerInput(input);
+            if(event.keyCode == 13){
+                console.log(infoCodigoBarras);
+                mostrarInfoCodigoBarras(infoCodigoBarras);
+            }
+
+
+        }
+
+        function mostrarInfoCodigoBarras( infoCodigoBarras ) {
+            const POSICION_FECHA = 2;
+            const POSICION_LOTE = 3;
+            console.log(infoCodigoBarras);
+            let fecha = infoCodigoBarras[POSICION_FECHA];
+            document.getElementById('lote').value = infoCodigoBarras[POSICION_LOTE];
+            fecha = getDate(fecha);
+            document.getElementById('vencimiento').value = fecha;
+            document.getElementById('cantidad').focus();
+        }
+
+        function getDate(date) {
+
+            var anio = "20" + date.substring(0, 2);
+            var mes = date.substring(2, 4);
+            var dia = date.substring(4);
+            var newDate = anio + "-" + mes + "-" + dia;
+
+            return newDate
+
+        }
+
+        function getCodigoProducto() {
+
+            const POSICION_CODIGO = 1;
+            var inputMateriaPrima = document.getElementById('producto');
+
+            var infoCodigoBarras = descomponerInput(inputMateriaPrima);
+
+            const codigo_producto = infoCodigoBarras[POSICION_CODIGO]
+            if (event.keyCode == 13) {
+                buscar_producto(codigo_producto);
+            }
+
         }
     </script>
 @endsection
