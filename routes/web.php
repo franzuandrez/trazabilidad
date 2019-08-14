@@ -276,6 +276,14 @@ Route::patch('produccion/laminado/{id}','LaminadoSopasController@update')->name(
 Route::get('produccion/laminado/{id}','LaminadoSopasController@show')->name('laminado.show');
 Route::post('produccion/laminado/{id}','LaminadoSopasController@destroy')->name('laminado.destroy');
 
+Route::get('produccion/frituras','FrituraSopasController@index')->name('frituras.index');
+Route::get('produccion/frituras/create','FrituraSopasController@create')->name('frituras.create');
+Route::post('produccion/frituras/create','FrituraSopasController@store')->name('frituras.store');
+Route::get('produccion/frituras/{id}/edit','FrituraSopasController@edit')->name('frituras.edit');
+Route::patch('produccion/frituras/{id}','FrituraSopasController@update')->name('frituras.update');
+Route::get('produccion/frituras/{id}','FrituraSopasController@show')->name('frituras.show');
+Route::post('produccion/frituras/{id}','FrituraSopasController@destroy')->name('frituras.destroy');
+
 Route::get('sopas/mezclado_sopas','MezcladoSopasController@index')->name('mezclado_sopas.index');
 Route::get('sopas/mezclado_sopas/create','MezcladoSopasController@create')->name('mezclado_sopas.create');
 Route::post('sopas/mezclado_sopas/create','MezcladoSopasController@store')->name('mezclado_sopas.store');
