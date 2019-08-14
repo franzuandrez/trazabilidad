@@ -202,7 +202,11 @@ Route::post('registro/colaboradores/importar','ColaboradorController@importar')-
 Route::post('registro/colaboradores/{id}','ColaboradorController@destroy')->name('colaboradores.destroy');
 
 Route::get('recepcion/materia_prima','RecepcionController@index')->name('recepcion.materia_prima.index');
-Route::get('recepcion/materia_prima/create','RecepcionController@create')->name('recepcion.materia_prima.create');
+
+Route::get('recepcion/materia_prima/create','RecepcionController@create')
+    ->middleware('permission:role-create')
+    ->name('recepcion.materia_prima.create');
+
 Route::post('recepcion/materia_prima/create','RecepcionController@store')->name('recepcion.materia_prima.store');
 Route::get('recepcion/materia_prima/{id}','RecepcionController@show')->name('recepcion.materia_prima.show');
 Route::get('recepcion/materia_prima/{id}/edit','RecepcionController@edit')->name('recepcion.materia_prima.edit');
