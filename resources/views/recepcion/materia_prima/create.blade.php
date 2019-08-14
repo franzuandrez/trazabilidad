@@ -557,8 +557,8 @@
     </script>
     <script>
         function cargarProveedores( proveedores ) {
+            limpiarSelectProveedores()
 
-            $('#proveedores').find('option:not(:first)').remove();
             let option='';
             proveedores.forEach(function (e) {
                 option  = `<option value='${e.id_proveedor}'>${e.razon_social}</option>`;
@@ -567,6 +567,10 @@
             $('#proveedores').append(option);
             $('#proveedores').selectpicker('refresh');
 
+        }
+        function limpiarSelectProveedores() {
+            $('#proveedores').find('option:not(:first)').remove();
+            $('#proveedores').selectpicker('refresh');
         }
 
         function addToTable() {
@@ -662,7 +666,7 @@
 
 
         function limpiar() {
-
+            limpiarSelectProveedores();
             document.getElementById('id_producto').value = "";
             document.getElementById('producto').value = "";
             document.getElementById('producto').readOnly = false;
