@@ -14,6 +14,17 @@ function editar(){
 
 }
 
+function ver_detalle_productos(){
+
+    let id_proveedor = getProveedorSelected();
+
+    if(id_proveedor ==null){
+        $('#errorToEdit').modal();
+    }else{
+        window.location.href = "proveedores"+"/"+id_proveedor+"/productos";
+    }
+}
+
 
 function eliminar(){
 

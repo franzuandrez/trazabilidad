@@ -31,10 +31,12 @@
             @endcomponent
             @component('componentes.btn-ver',['url'=>'javascript:ver()'])
             @endcomponent
+            @include('registro.proveedores.btn-ver-productos')
             @component('componentes.btn-eliminar',['url'=>'javascript:eliminar()'])
             @endcomponent
             @component('componentes.btn-importar',['url'=>'javascript:importar()'])
             @endcomponent
+
 
 
         </div>

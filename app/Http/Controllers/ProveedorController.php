@@ -360,4 +360,19 @@ class ProveedorController extends Controller
 
 
     }
+
+    public function productos( $id ){
+
+        try {
+            $proveedor = Proveedor::findOrFail($id);
+
+            return view('registro.proveedores.detalle-productos',compact('proveedor'));
+
+        } catch (\Exception $e) {
+
+            return redirect()->route('proveedores.index')
+                ->withErrors(['Proveedor no encontrado']);
+        }
+
+    }
 }
