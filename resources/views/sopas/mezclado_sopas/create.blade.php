@@ -23,10 +23,15 @@
     {{Form::token()}}
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="codigo">CODIGO</label>
-            <input id="codigo" type="text"
-                   onkeydown="descomponerInput(this)"
-                   class="form-control">
+            <label for="presentacion">PRESENTACIÓN</label>
+            <select class="form-control selectpicker" data-live-search="true" id="presentacion" name="presentacion">
+                <option value="" selected>SELECCIONE UN CODIGO</option>
+                <option value="1" >JUMBO SAMYANG</option>
+                <option value="2" >PAQUETE</option>
+                <option value="3" >VASO 64 g</option>
+                <option value="4" >HAN RAN</option>
+                <option value="5" >SABAROSITA</option>
+            </select>
         </div>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
