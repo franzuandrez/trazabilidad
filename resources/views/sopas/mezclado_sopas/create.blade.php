@@ -19,7 +19,7 @@
     @endcomponent
 
 
-    {!!Form::open(array('url'=>'control/laminado/create','method'=>'POST','autocomplete'=>'off'))!!}
+    {!!Form::open(array('url'=>'sopas/mezclado_sopas/create','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
@@ -138,7 +138,7 @@
             <button class="btn btn-default" type="submit">
                 <span class=" fa fa-check"></span> GUARDAR
             </button>
-            <a href="{{url('control/mezcla_harina')}}">
+            <a href="{{url('sopas/mezclado_sopas')}}">
                 <button class="btn btn-default" type="button">
                     <span class="fa fa-remove"></span>
                     CANCELAR

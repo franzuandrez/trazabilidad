@@ -199,7 +199,7 @@
             <button class="btn btn-default" type="submit">
                 <span class=" fa fa-check"></span> GUARDAR
             </button>
-            <a href="{{url('control/mezcla_harina')}}">
+            <a href="{{url('control/peso_seco')}}">
                 <button class="btn btn-default" type="button">
                     <span class="fa fa-remove"></span>
                     CANCELAR
