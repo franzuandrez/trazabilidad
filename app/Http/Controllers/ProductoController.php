@@ -70,7 +70,6 @@ class ProductoController extends Controller
         $producto->descripcion = $request->get('descripcion');
         $producto->id_dimensional = $request->get('id_dimensional');
         $producto->id_presentacion= $request->get('id_presentacion');
-        $producto->id_proveedor = $request->get('id_proveedor');
         $producto->tipo_producto = $request->get('tipo_producto');
         $producto->fecha_creacion = \Carbon\Carbon::now();
         $producto->estado = 1;
@@ -92,10 +91,9 @@ class ProductoController extends Controller
             $producto = Producto::findOrFail($id);
             $dimensionales = Dimensional::actived()->get();
             $presentaciones = Presentacion::actived()->get();
-            $proveedores = Proveedor::actived()->get();
 
             return view('registro.productos.edit',
-                compact('producto','dimensionales','presentaciones','proveedores'));
+                compact('producto','dimensionales','presentaciones'));
 
 
 
@@ -118,7 +116,6 @@ class ProductoController extends Controller
             $producto->descripcion = $request->get('descripcion');
             $producto->id_dimensional = $request->get('id_dimensional');
             $producto->id_presentacion= $request->get('id_presentacion');
-            $producto->id_proveedor = $request->get('id_proveedor');
             $producto->tipo_producto = $request->get('tipo_producto');
             $producto->fecha_actualizacion = \Carbon\Carbon::now();
             $producto->update();

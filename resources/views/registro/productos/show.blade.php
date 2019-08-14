@@ -75,25 +75,7 @@
             </select>
         </div>
     </div>
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="id_proveedor">PROVEEDOR</label>
-            <select name="id_proveedor"
-                    id="proveedores"
-                    class="form-control selectpicker"
-                    disabled
-            >
-                <option value="">SELECCIONAR PROVEEDOR</option>
-                @foreach( $proveedores as $proveedor)
-                    @if( $proveedor->id_proveedor == $producto->id_proveedor )
-                        <option  selected value="{{$proveedor->id_proveedor}}"> {{$proveedor->razon_social}}  </option>
-                    @else
-                        <option   value="{{$proveedor->id_proveedor}}"> {{$proveedor->razon_social}}  </option>
-                    @endif
-                @endforeach
-            </select>
-        </div>
-    </div>
+  
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="tipo_producto">TIPO PRODUCTO</label>
