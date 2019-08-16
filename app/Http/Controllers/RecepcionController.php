@@ -33,11 +33,9 @@ class RecepcionController extends Controller
 
 
         $recepciones = Recepcion::join('proveedores', 'proveedores.id_proveedor', '=', 'recepcion_encabezado.id_proveedor')
-            ->join('productos', 'productos.id_producto', '=', 'recepcion_encabezado.id_producto')
-            ->select('recepcion_encabezado.*', 'productos.descripcion as producto', 'proveedores.razon_social as proveedor')
+            ->select('recepcion_encabezado.*',  'proveedores.razon_social as proveedor')
             ->where(function ($query) use ($search) {
                 $query->where('proveedores.razon_social', 'LIKE', '%' . $search . '%')
-                    ->orWhere('productos.descripcion', 'LIKE', '%' . $search . '%')
                     ->orWhere('recepcion_encabezado.orden_compra', 'LIKE', '%' . $search . '%');
 
             })
@@ -72,13 +70,13 @@ class RecepcionController extends Controller
     {
 
 
+
         try {
             DB::beginTransaction();
 
             //Insertar recepcion encabezado.
 
             $recepcion = new Recepcion();
-            $recepcion->id_producto = $request->get('id_producto');
             $recepcion->id_proveedor = $request->get('id_proveedor');
             $recepcion->fecha_ingreso = Carbon::now();
             $recepcion->documento_proveedor = $request->get('documento_proveedor');
@@ -106,6 +104,7 @@ class RecepcionController extends Controller
 
             DB::rollback();
 
+            dd($e);
 
         }
 
@@ -204,13 +203,14 @@ class RecepcionController extends Controller
     {
 
 
-        $lotes = $request->get('no_lote');
+        $productos = $request->get('id_producto');
 
-        foreach ($lotes as $key => $value) {
+        foreach ($productos as $key => $value) {
 
             $detalleLote = DetalleLotes::create([
+                'id_producto'=>$value,
                 'cantidad' => $request->get('cantidad')[$key],
-                'no_lote' => $value,
+                'no_lote' => $request->get('no_lote')[$key],
                 'fecha_vencimiento' => $request->get('fecha_vencimiento')[$key],
                 'id_recepcion_enc' => $id_recepcion
             ]);
@@ -222,20 +222,20 @@ class RecepcionController extends Controller
     private function saveMovimientos($request, $recepcion)
     {
 
-        $lotes = $request->get('no_lote');
-        if (is_iterable($lotes)) {
+        $productos = $request->get('id_producto');
+        if (is_iterable($productos)) {
 
-            foreach ($lotes as $key => $value) {
+            foreach ($productos as $key => $value) {
 
                 $movimiento = new Movimiento();
                 $movimiento->numero_documento = $recepcion->orden_compra;
                 $movimiento->usuario = Auth::user()->id;
                 $movimiento->tipo_movimiento = 1; //Entrada
                 $movimiento->cantidad = $request->get('cantidad')[$key];
-                $movimiento->id_producto = $recepcion->id_producto;
+                $movimiento->id_producto = $value;
                 $movimiento->fecha_hora_movimiento = Carbon::now();
                 $movimiento->ubicacion = 0;
-                $movimiento->lote = $value;
+                $movimiento->lote =  $request->get('no_lote')[$key];;
                 $movimiento->fecha_vencimiento = $request->get('fecha_vencimiento')[$key];
                 $movimiento->clave_autorizacion = '1234';
                 $movimiento->estado = 1;
@@ -377,7 +377,6 @@ class RecepcionController extends Controller
 
 
         $recepcion = Recepcion::findOrFail($id);
-
         $idsMovimiento = $request->get('id_movimiento');
         $cantidadesEntrantes = $request->get('cantidad_entrante');
         $numero_documento = $recepcion->orden_compra;
