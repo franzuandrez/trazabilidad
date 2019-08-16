@@ -187,6 +187,7 @@
                         checkRow(mov.id_movimiento,cantidad);
                         document.getElementById('codigo_producto').value = "";
                         document.getElementById('cantidad').value="";
+                        document.getElementById('codigo_producto').focus();
                     }else{
                         alert("Producto no encontrado");
                     }
