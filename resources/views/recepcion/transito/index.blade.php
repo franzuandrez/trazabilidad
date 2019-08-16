@@ -30,15 +30,7 @@
                           'titulo'=>'proveedor'])
                     @endcomponent
                 </th>
-                <th>
-                    @component('componentes.column-sort',['modulo'=>'recepcion/transito',
-                        'search'=>$search,
-                          'sort'=>$sort,
-                          'sortField'=>$sortField,
-                          'field'=>'productos.descripcion',
-                          'titulo'=>'producto'])
-                    @endcomponent
-                </th>
+
                 <th>
                     @component('componentes.column-sort',['modulo'=>'recepcion/transito',
                         'search'=>$search,
@@ -62,9 +54,6 @@
                         </td>
                         <td>
                             {{$recepcion->proveedor->razon_social}}
-                        </td>
-                        <td>
-                            {{$recepcion->producto->descripcion}}
                         </td>
                         <td>
                             {{$recepcion->fecha_ingreso}}

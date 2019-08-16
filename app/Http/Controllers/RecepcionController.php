@@ -33,7 +33,7 @@ class RecepcionController extends Controller
 
 
         $recepciones = Recepcion::join('proveedores', 'proveedores.id_proveedor', '=', 'recepcion_encabezado.id_proveedor')
-            ->select('recepcion_encabezado.*',  'proveedores.razon_social as proveedor')
+            ->select('recepcion_encabezado.*', 'proveedores.razon_social as proveedor')
             ->where(function ($query) use ($search) {
                 $query->where('proveedores.razon_social', 'LIKE', '%' . $search . '%')
                     ->orWhere('recepcion_encabezado.orden_compra', 'LIKE', '%' . $search . '%');
@@ -70,7 +70,6 @@ class RecepcionController extends Controller
     {
 
 
-
         try {
             DB::beginTransaction();
 
@@ -104,7 +103,8 @@ class RecepcionController extends Controller
 
             DB::rollback();
 
-            dd($e);
+            return redirect()->route('recepcion.materia_prima.index')
+                ->withErrors(['Lo sentimos, su peticion no puede ser procesada en este momento ']);
 
         }
 
@@ -208,7 +208,7 @@ class RecepcionController extends Controller
         foreach ($productos as $key => $value) {
 
             $detalleLote = DetalleLotes::create([
-                'id_producto'=>$value,
+                'id_producto' => $value,
                 'cantidad' => $request->get('cantidad')[$key],
                 'no_lote' => $request->get('no_lote')[$key],
                 'fecha_vencimiento' => $request->get('fecha_vencimiento')[$key],
@@ -235,7 +235,7 @@ class RecepcionController extends Controller
                 $movimiento->id_producto = $value;
                 $movimiento->fecha_hora_movimiento = Carbon::now();
                 $movimiento->ubicacion = 0;
-                $movimiento->lote =  $request->get('no_lote')[$key];;
+                $movimiento->lote = $request->get('no_lote')[$key];;
                 $movimiento->fecha_vencimiento = $request->get('fecha_vencimiento')[$key];
                 $movimiento->clave_autorizacion = '1234';
                 $movimiento->estado = 1;
@@ -318,20 +318,16 @@ class RecepcionController extends Controller
         $sortField = $request->get('field') == null ? 'orden_compra' : $request->get('field');
 
         $movimientos_en_transito = Recepcion::join('movimientos', 'movimientos.numero_documento', '=', 'recepcion_encabezado.orden_compra')
-            ->join('productos', 'productos.id_producto', '=', 'recepcion_encabezado.id_producto')
             ->join('proveedores', 'proveedores.id_proveedor', '=', 'recepcion_encabezado.id_proveedor')
-            ->join('tipo_movimiento','tipo_movimiento.id_movimiento','=','movimientos.tipo_movimiento')
-            ->select('recepcion_encabezado.*',DB::raw('sum(cantidad * factor)'))
-            ->where('movimientos.ubicacion', 0)
+            ->join('tipo_movimiento', 'tipo_movimiento.id_movimiento', '=', 'movimientos.tipo_movimiento')
+            ->select('recepcion_encabezado.*')
+            ->transito()
             ->where(function ($query) use ($search) {
                 $query->where('proveedores.razon_social', 'LIKE', '%' . $search . '%')
-                    ->orWhere('productos.descripcion', 'LIKE', '%' . $search . '%')
                     ->orWhere('recepcion_encabezado.orden_compra', 'LIKE', '%' . $search . '%');
             })
+            ->groupBy('recepcion_encabezado.orden_compra')
             ->orderBy($sortField, $sort)
-            ->groupBy('movimientos.id_producto')
-            ->groupBy('movimientos.lote')
-            ->having(DB::raw('sum(cantidad * factor)'),'>',0)
             ->paginate(20);
 
 
@@ -353,15 +349,14 @@ class RecepcionController extends Controller
         try {
             $recepcion = Recepcion::findOrFail($id);
 
-            $movimientos = Movimiento::join('tipo_movimiento','tipo_movimiento.id_movimiento','=','movimientos.tipo_movimiento')
-                ->select('movimientos.*',DB::raw('sum(cantidad * factor) as total'))
+            $movimientos = Movimiento::join('tipo_movimiento', 'tipo_movimiento.id_movimiento', '=', 'movimientos.tipo_movimiento')
+                ->select('movimientos.*', DB::raw('sum(cantidad * factor) as total'))
                 ->where('numero_documento', $recepcion->orden_compra)
-                ->where('id_producto', $recepcion->id_producto)
                 ->where('ubicacion', 0)
-                ->groupBy('lote','id_producto')
-                ->having(DB::raw('sum(cantidad * factor)'),'>',0)
+                ->orderBy('movimientos.id_movimiento','asc')
+                ->groupBy('lote', 'id_producto')
+                ->having(DB::raw('sum(cantidad * factor)'), '>', 0)
                 ->get();
-
 
             return view('recepcion.transito.ingreso', compact('recepcion', 'movimientos'));
         } catch (\Exception $e) {
@@ -378,7 +373,9 @@ class RecepcionController extends Controller
     {
 
 
+
         $recepcion = Recepcion::findOrFail($id);
+
         $idsMovimiento = $request->get('id_movimiento');
         $cantidadesEntrantes = $request->get('cantidad_entrante');
         $numero_documento = $recepcion->orden_compra;
@@ -388,6 +385,12 @@ class RecepcionController extends Controller
             $idsMovimiento,
             $cantidadesEntrantes,
             $numero_documento);
+
+        $noProductoRestante =   $this->totalProductoPorBodega(0,$recepcion->orden_compra) ==0;
+        if($noProductoRestante){
+            $recepcion->estado = 'MP';
+            $recepcion->update();
+        }
 
         if ($isSaved) {
 
@@ -412,13 +415,13 @@ class RecepcionController extends Controller
         try {
             DB::beginTransaction();
 
-            DB::table('movimientos')
-                ->whereIn('id_movimiento', $ids)
-                ->update(['estado' => 2]);
+
 
             $movimientos = Movimiento::whereIn('id_movimiento', $ids)
                 ->orderBy('id_movimiento', 'asc')
                 ->get();
+
+
             foreach ($movimientos as $key => $mov) {
 
                 $movimiento = new Movimiento();
@@ -463,6 +466,22 @@ class RecepcionController extends Controller
             return false;
         }
 
+
+    }
+
+    private function totalProductoPorBodega($id_bodega, $orden)
+    {
+
+        $movimientos = Movimiento::join('tipo_movimiento','tipo_movimiento.id_movimiento','=','movimientos.tipo_movimiento')
+            ->select((DB::raw('sum(factor * cantidad) as total')))
+            ->where('numero_documento', $orden)
+            ->where('ubicacion', $id_bodega)
+            ->groupBy('id_producto')
+            ->groupBy('lote')
+            ->get();
+
+        $movimientos = $movimientos->where('total','<>',0)->count();
+        return $movimientos;
 
     }
 

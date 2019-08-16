@@ -20,17 +20,18 @@
     {!!Form::model($recepcion,['method'=>'PATCH','route'=>['recepcion.transito.ingresar',$recepcion->id_recepcion_enc]])!!}
     {{Form::token()}}
 
+
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <label for="producto">MATERIA PRIMA</label>
         <div class="form-group">
+            <label for="orden_compra">NO. ORDEN DE COMPRA</label>
             <input type="text"
-                   id="producto"
-                   name="producto"
                    readonly
-                   value="{{$recepcion->producto->descripcion}}"
+                   name="orden_compra"
+                   value="{{$recepcion->orden_compra}}"
                    class="form-control">
         </div>
     </div>
+
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="id_proveedor">PROVEEDOR</label>
@@ -48,16 +49,6 @@
                    readonly
                    name="documento_proveedor"
                    value="{{$recepcion->documento_proveedor}}"
-                   class="form-control">
-        </div>
-    </div>
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="orden_compra">NO. ORDEN DE COMPRA</label>
-            <input type="text"
-                   readonly
-                   name="orden_compra"
-                   value="{{$recepcion->orden_compra}}"
                    class="form-control">
         </div>
     </div>
@@ -89,6 +80,7 @@
                     <th>OPCION</th>
                     <th>CANTIDAD ENTRANTE</th>
                     <th>CANTIDAD</th>
+                    <th>PRODUCTO</th>
                     <th>LOTE</th>
                     <th>FECHA VENCIMIENTO</th>
                 </tr>
@@ -110,6 +102,9 @@
                         </td>
                         <td>
                             {{$mov->total}}
+                        </td>
+                        <td>
+                            {{$mov->producto->descripcion}}
                         </td>
                         <td>
                             {{$mov->lote}}
@@ -152,14 +147,15 @@
             });
         })
         function getMovimientos() {
-            var movimientos = @json($recepcion->movimientos()->with('producto')->get());
+            var movimientos = @json($movimientos);
             return movimientos;
         }
 
-        function getMovimientoByLote(lote) {
+        function getMovimientoByLote(codigo_barras,lote) {
             let mov = null;
             let movimientos = getMovimientos();
-            mov = movimientos.find(mov => mov.lote == lote);
+
+            mov = movimientos.filter( mov => mov.producto.codigo_barras ==codigo_barras.trim() ).find(lotes=>lotes.lote==lote.trim());
             return mov;
         }
 
@@ -180,11 +176,12 @@
             if (event.keyCode == 13) {
 
                 let infoProducto = descomponerInput(input);
-                let mov = getMovimientoByLote(infoProducto[POSICION_LOTE]);
-                console.log(mov);
+                let mov = getMovimientoByLote(infoProducto[POSICION_CODIGO],infoProducto[POSICION_LOTE]);
+
                 if (typeof mov != "undefined") {
                     let producto = null;
                     producto = mov.producto;
+                    console.log(producto);
                     if( producto.codigo_barras ==  infoProducto[POSICION_CODIGO]){
                         let cantidad = document.getElementById('cantidad').value;
                         checkRow(mov.id_movimiento,cantidad);
