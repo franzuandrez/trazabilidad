@@ -17,7 +17,7 @@
         @endslot
     @endcomponent
 
-
+    @include('componentes.alert-error')
     {!!Form::open(array('url'=>'recepcion/materia_prima/create','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
 
@@ -57,7 +57,12 @@
         <div class="form-group">
             <label for="id_proveedor">PROVEEDOR</label>
             <select name="id_proveedor" id="proveedores" class="form-control selectpicker">
-                <option value=""> SELECCIONE PROVEEDOR</option>
+
+                @if(old('id_proveedor'))
+                    <option selected value="{{old('id_proveedor')}}">{{$proveedores->where('id_proveedor',old('id_proveedor'))->first()->razon_social}}</option>
+                @else
+                    <option value=""> SELECCIONE PROVEEDOR</option>
+                @endif
             </select>
         </div>
     </div>
@@ -503,6 +508,30 @@
                             <th>FECHA VENCIMIENTO</th>
                             </thead>
                             <tbody id="body-detalles">
+                            @if(old('id_producto'))
+                                @foreach( old('id_producto') as $key => $prod )
+                                    <tr>
+                                        <td><button onclick=removeFromTable(this) type="button" class="btn btn-warning">x</button></td>
+                                        <td>
+                                            <input type="hidden" value="{{old('id_producto')[$key]}}" name="id_producto[]">
+                                            <input type="hidden" value="{{old('descripcion_producto')[$key]}}" name="descripcion_producto[]">
+                                            {{old('descripcion_producto')[$key]}}
+                                        </td>
+                                        <td>
+                                            <input type="hidden" value="{{old('cantidad')[$key]}}" name="cantidad[]">
+                                            {{old('cantidad')[$key]}}
+                                        </td>
+                                        <td>
+                                            <input type="hidden" value="{{old('no_lote')[$key]}}" name="no_lote[]">
+                                            {{old('no_lote')[$key]}}
+                                        </td>
+                                        <td>
+                                            <input type="hidden" value="{{old('fecha_vencimiento')[$key]}}" name="fecha_vencimiento[]" >
+                                            {{old('fecha_vencimiento')[$key]}}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
                             </tbody>
                         </table>
                     </div>
@@ -606,7 +635,7 @@
                     let row =
                         `<tr class="row-producto-added" id='${id_producto.val()}-${lote.val()}'>
                             <td><button onclick=removeFromTable(this) type="button" class="btn btn-warning">x</button></td>
-                            <td><input type="hidden" value='${id_producto.val()}' name=id_producto[]>${nombre_producto.val()}</td>
+                            <td><input type="hidden" name="descripcion_producto[]" value="${nombre_producto.val()}" > <input type="hidden" value='${id_producto.val()}' name=id_producto[]>${nombre_producto.val()}</td>
                             <td><input type="hidden" value='${cantidad.val()}' name=cantidad[]>${cantidad.val()}</td>
                             <td ><input type="hidden" value ='${lote.val()}'  name=no_lote[] >${lote.val()}</td>
                             <td ><input type="hidden" value ='${fecha.val()}'  name=fecha_vencimiento[] >${fecha.val()}</td>
@@ -649,7 +678,7 @@
             let id_producto = row[0].id.split('-')[0];
             let no_lote = row[0].id.split('-')[1];
 
-            let producto =  productosAgregados.find(p => p.id_producto == id_producto);
+            let producto = productosAgregados.find(p => p.id_producto == id_producto);
             let lotes = producto.lotes;
 
             var index = lotes.indexOf(no_lote);

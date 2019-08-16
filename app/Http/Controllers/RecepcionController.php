@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\DetalleLotes;
+use App\Http\Requests\MateriaPrimaRequest;
 use App\InspeccionEmpaqueEtiqueta;
 use App\InspeccionVehiculo;
 use App\Producto;
+use App\Proveedor;
 use App\Recepcion;
 use App\Movimiento;
 use Illuminate\Http\Request;
@@ -59,14 +61,15 @@ class RecepcionController extends Controller
 
 
         $productos = Producto::esMateriaPrima()->get();
+        $proveedores = Proveedor::all();
 
         return view('recepcion.materia_prima.create',
-            compact('productos'));
+            compact('productos','proveedores'));
 
 
     }
 
-    public function store(Request $request)
+    public function store(MateriaPrimaRequest $request)
     {
 
 
