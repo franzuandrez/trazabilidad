@@ -40,11 +40,11 @@
         </div>
     </div>
 
-    <input type="hidden" id="id_producto" name="id_producto">
+    <input type="hidden" id="id_proveedor" name="id_proveedor" value="{{$recepcion->proveedor->id_proveedor}}">
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="id_proveedor">PROVEEDOR</label>
+            <label for="proveedor">PROVEEDOR</label>
             <input type="text" id="proveedor"
                    name="proveedor"
                    readonly
@@ -525,7 +525,7 @@
                 </div>
 
                 <div class="tab-pane active" id="tab_3">
-                    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                    <div class="col-lg-8 col-sm-8 col-md-8 col-xs-12">
                         <div class="form-group">
                             <label for="codigo_producto">Codigo</label>
                             <input id="codigo_producto" type="text"
@@ -533,24 +533,29 @@
                                    class="form-control">
                         </div>
                     </div>
-                    <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+                    <input id="id_producto" type="hidden"
+                           name="id_producto"
+                           class="form-control">
+                    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
                         <div class="form-group">
-                            <label for="nombre">Cantidad</label>
-                            <input id="cantidad" type="text" onkeypress="return justNumbers(event);" name="descripcion"
+                            <label for="nombre_producto">Producto</label>
+                            <input id="nombre_producto" type="text"
+                                   readonly
                                    class="form-control">
                         </div>
                     </div>
+
                     <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                         <div class="form-group">
                             <label for="nombre">No. de Lote</label>
-                            <input id="lote" type="text" onkeypress="return justNumbers(event);" name="descripcion"
+                            <input id="lote" type="text" name="descripcion"
 
                                    class="form-control">
                         </div>
                     </div>
                     <div class="col-lg-4 col-sm-8 col-md-8 col-xs-10">
                         <div class="form-group">
-                            <label>Fecha de Vendimiento</label>
+                            <label>Fecha de Vencimiento</label>
 
                             <div class="input-group date">
                                 <div class="input-group-addon">
@@ -559,6 +564,14 @@
                                 <input id="vencimiento" type="text" class="form-control pull-right" id="datepicker">
                             </div>
 
+                        </div>
+                    </div>
+                    <div class=" col-lg-3  col-sm-6 col-md-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="nombre">Cantidad</label>
+                            <input id="cantidad" type="text" onkeypress="return justNumbers(event);" name="descripcion"
+
+                                   class="form-control">
                         </div>
                     </div>
                     <div class="col-lg-2 col-sm-4 col-md-2 col-xs-2">
@@ -576,6 +589,7 @@
 
                             <thead style="background-color: #01579B;  color: #fff;">
                             <th>OPCION</th>
+                            <th>PRODUCTO</th>
                             <th>CANTIDAD</th>
                             <th>NO. LOTE</th>
                             <th>FECHA VENCIMIENTO</th>
@@ -585,6 +599,9 @@
                                 <tr>
                                     <td>
 
+                                    </td>
+                                    <td>
+                                        {{$lote->producto->descripcion}}
                                     </td>
                                     <td>
                                         {{$lote->cantidad}}
@@ -654,15 +671,22 @@
                 addToTable();
             });
 
+            $(window).keydown(function (event) {
+                if (event.keyCode == 13) {
+                    event.preventDefault();
+                    return false;
+                }
+            });
+
         });
     </script>
     <script>
-        function cargarProveedores( proveedores ) {
-
-            $('#proveedores').find('option:not(:first)').remove();
-            let option='';
+        function cargarProveedores(proveedores) {
+            limpiarSelectProveedores()
+            console.log(proveedores);
+            let option = '';
             proveedores.forEach(function (e) {
-                option  = `<option value='${e.id_proveedor}'>${e.razon_social}</option>`;
+                option += `<option value='${e.id_proveedor}'>${e.razon_social}</option>`;
             });
 
             $('#proveedores').append(option);
@@ -670,29 +694,49 @@
 
         }
 
+        function limpiarSelectProveedores() {
+            $('#proveedores').find('option:not(:first)').remove();
+            $('#proveedores').selectpicker('refresh');
+        }
+
+        let productosAgregados = [];
         function addToTable() {
+
             if ($("#cantidad").val() != "" && $("#lote").val() != "" && $("#vencimiento").val() != "") {
                 let cantidad = $("#cantidad");
                 let lote = $("#lote");
                 let fecha = $("#vencimiento");
                 let codigo_producto = $("#codigo_producto");
+                let nombre_producto = $("#nombre_producto");
+                let id_producto = $("#id_producto");
 
-                //removeFromTareas(tarea);
-                //removeFromSelect(vendedor);
-                let row =
-                    `<tr>
-            <td><button onclick=removeFromTable(this) type="button" class="btn btn-warning">x</button></td>
-            <td><input type="hidden" value='${cantidad.val()}' name=cantidad[]>${cantidad.val()}</td>
-            <td ><input type="hidden" value ='${lote.val()}'  name=no_lote[] >${lote.val()}</td>
-            <td ><input type="hidden" value ='${fecha.val()}'  name=fecha_vencimiento[] >${fecha.val()}</td>
-            </tr>`;
+                if (!findLote(id_producto.val() , lote.val() , cantidad.val() ) ) {
 
-                $("#detalles").append(row);
+                    let row =
+                        `<tr class="row-producto-added" id='${id_producto.val()}-${lote.val()}'>
+                            <td><button onclick=removeFromTable(this) type="button" class="btn btn-warning">x</button></td>
+                            <td><input type="hidden" value='${id_producto.val()}' name=id_producto[]>${nombre_producto.val()}</td>
+                            <td><input type="hidden" value='${cantidad.val()}' name=cantidad[]>${cantidad.val()}</td>
+                            <td ><input type="hidden" value ='${lote.val()}'  name=no_lote[] >${lote.val()}</td>
+                            <td ><input type="hidden" value ='${fecha.val()}'  name=fecha_vencimiento[] >${fecha.val()}</td>
+                            </tr>`;
+                    let producto =  productosAgregados.find( producto => producto.id_producto == id_producto.val() );
+                    if(typeof producto != 'undefined'){
+                        //agrego el lote
+                        producto.lotes.push(lote.val());
+                    }else{
+                        //agrego un nuevo registro
+                        productosAgregados.push( {id_producto: id_producto.val(), lotes:[ lote.val() ] });
+                    }
+                    $("#detalles").append(row);
+
+                }
+
                 cantidad.val('');
                 lote.val('');
                 fecha.val('');
                 codigo_producto.val('');
-                codigo_producto.focus();
+                nombre_producto.val('');
             } else {
                 $('#modal-default').modal('show');
                 return false;
@@ -763,7 +807,7 @@
 
 
         function limpiar() {
-
+            limpiarSelectProveedores();
             document.getElementById('id_producto').value = "";
             document.getElementById('producto').value = "";
             document.getElementById('producto').readOnly = false;
@@ -803,7 +847,7 @@
                 productoElement.value = producto[1];
                 productoElement.readOnly = true;
                 btnBuscar.disabled = true;
-                let proveedores =  allProducts.find(o => o.id_producto == producto[0]).proveedores;
+                let proveedores = allProducts.find(p => p.id_producto == producto[0]).proveedores;
                 cargarProveedores(proveedores);
             } else if (typeof producto === 'object') {
                 idProductoElement.value = producto.id_producto;
@@ -880,23 +924,79 @@
         function cargarInfoCodigoBarras(input) {
 
             let infoCodigoBarras = descomponerInput(input);
-            if(event.keyCode == 13){
-                console.log(infoCodigoBarras);
+            if (event.keyCode == 13) {
+
                 mostrarInfoCodigoBarras(infoCodigoBarras);
             }
 
 
         }
 
-        function mostrarInfoCodigoBarras( infoCodigoBarras ) {
+        function mostrarInfoCodigoBarras(infoCodigoBarras) {
+
+            let producto = buscar_producto_by_codigo(infoCodigoBarras);
+
+
+
+        }
+
+        function buscar_producto_by_codigo( infoCodigoBarras ) {
+            const POSICION_CODIGO =1;
             const POSICION_FECHA = 2;
             const POSICION_LOTE = 3;
-            console.log(infoCodigoBarras);
+
             let fecha = infoCodigoBarras[POSICION_FECHA];
-            document.getElementById('lote').value = infoCodigoBarras[POSICION_LOTE];
-            fecha = getDate(fecha);
-            document.getElementById('vencimiento').value = fecha;
-            document.getElementById('cantidad').focus();
+            let codigo = infoCodigoBarras[POSICION_CODIGO];
+            let lote = infoCodigoBarras[POSICION_LOTE];
+
+            $.ajax({
+
+                url: "{{url('registro/productos/search')}}" + "/" + codigo,
+                type: "get",
+                dataType: "json",
+                success: function (response) {
+
+                    let productos = response;
+                    let totalProductos = productos.length;
+
+                    if(totalProductos == 0){
+                        mostrarAlertaNotFound();
+                    }else{
+
+                        let producto = productos[0];
+
+                        var id_proveedor = $('#id_proveedor').val();
+                        var proveedor =    productos[0].proveedores.find( function (element) {
+                            return element.id_proveedor == id_proveedor
+                        });
+
+                        if(typeof proveedor != 'undefined' ){
+
+                            document.getElementById('nombre_producto').value = producto.descripcion;
+                            document.getElementById('lote').value = lote;
+                            document.getElementById('vencimiento').value = getDate(fecha);
+                            document.getElementById('id_producto').value = producto.id_producto;
+                            document.getElementById('cantidad').focus();
+                        }else{
+                            alert(" El producto no coincide con el proveedor ");
+                        }
+
+
+
+
+                    }
+
+
+
+                },
+                error: function (e) {
+
+                    console.log(e);
+                }
+
+            })
+
+
         }
 
         function getDate(date) {
@@ -923,5 +1023,30 @@
             }
 
         }
+
+
+        function findLote(id_producto, lote , nuevaCantidad) {
+            var existe = false;
+            var producto = productosAgregados.find( p => p.id_producto ==id_producto );
+            const POSICION_CANTIDAD = 2;
+            if(typeof producto != 'undefined'){
+                var no_lote = producto.lotes.find(no_lote =>no_lote ==lote);
+                if( typeof  no_lote != 'undefined' ){
+                    let row = document.getElementById(id_producto+'-'+lote);
+                    var inputCantidad = row.children[POSICION_CANTIDAD].firstChild;
+                    var cantidad = parseInt(inputCantidad.value);
+                    cantidad = parseInt(nuevaCantidad) + parseInt(cantidad);
+                    inputCantidad.value = cantidad;
+                    row.children[POSICION_CANTIDAD].lastChild.textContent = cantidad;
+                    existe = true;
+                }
+
+            }
+
+
+
+            return existe;
+        }
     </script>
 @endsection
+

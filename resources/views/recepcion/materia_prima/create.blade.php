@@ -588,6 +588,7 @@
         }
 
         let productosAgregados = [];
+
         function addToTable() {
 
             if ($("#cantidad").val() != "" && $("#lote").val() != "" && $("#vencimiento").val() != "") {
@@ -598,7 +599,7 @@
                 let nombre_producto = $("#nombre_producto");
                 let id_producto = $("#id_producto");
 
-                if (!findLote(id_producto.val() , lote.val() , cantidad.val() ) ) {
+                if (!findLote(id_producto.val(), lote.val(), cantidad.val())) {
 
                     let row =
                         `<tr class="row-producto-added" id='${id_producto.val()}-${lote.val()}'>
@@ -608,13 +609,13 @@
                             <td ><input type="hidden" value ='${lote.val()}'  name=no_lote[] >${lote.val()}</td>
                             <td ><input type="hidden" value ='${fecha.val()}'  name=fecha_vencimiento[] >${fecha.val()}</td>
                             </tr>`;
-                    let producto =  productosAgregados.find( producto => producto.id_producto == id_producto.val() );
-                    if(typeof producto != 'undefined'){
+                    let producto = productosAgregados.find(producto => producto.id_producto == id_producto.val());
+                    if (typeof producto != 'undefined') {
                         //agrego el lote
                         producto.lotes.push(lote.val());
-                    }else{
+                    } else {
                         //agrego un nuevo registro
-                        productosAgregados.push( {id_producto: id_producto.val(), lotes:[ lote.val() ] });
+                        productosAgregados.push({id_producto: id_producto.val(), lotes: [lote.val()]});
                     }
                     $("#detalles").append(row);
 
@@ -825,11 +826,10 @@
             let producto = buscar_producto_by_codigo(infoCodigoBarras);
 
 
-
         }
 
-        function buscar_producto_by_codigo( infoCodigoBarras ) {
-            const POSICION_CODIGO =1;
+        function buscar_producto_by_codigo(infoCodigoBarras) {
+            const POSICION_CODIGO = 1;
             const POSICION_FECHA = 2;
             const POSICION_LOTE = 3;
 
@@ -847,33 +847,30 @@
                     let productos = response;
                     let totalProductos = productos.length;
 
-                    if(totalProductos == 0){
+                    if (totalProductos == 0) {
                         mostrarAlertaNotFound();
-                    }else{
+                    } else {
 
                         let producto = productos[0];
 
                         var id_proveedor = $('#proveedores').val();
-                        var proveedor =    productos[0].proveedores.find( function (element) {
+                        var proveedor = productos[0].proveedores.find(function (element) {
                             return element.id_proveedor == id_proveedor
                         });
 
-                        if(typeof proveedor != 'undefined' ){
+                        if (typeof proveedor != 'undefined') {
 
                             document.getElementById('nombre_producto').value = producto.descripcion;
                             document.getElementById('lote').value = lote;
                             document.getElementById('vencimiento').value = getDate(fecha);
                             document.getElementById('id_producto').value = producto.id_producto;
                             document.getElementById('cantidad').focus();
-                        }else{
+                        } else {
                             alert(" El producto no coincide con el proveedor ");
                         }
 
 
-
-
                     }
-
 
 
                 },
@@ -913,14 +910,14 @@
         }
 
 
-        function findLote(id_producto, lote , nuevaCantidad) {
+        function findLote(id_producto, lote, nuevaCantidad) {
             var existe = false;
-            var producto = productosAgregados.find( p => p.id_producto ==id_producto );
+            var producto = productosAgregados.find(p => p.id_producto == id_producto);
             const POSICION_CANTIDAD = 2;
-            if(typeof producto != 'undefined'){
-                var no_lote = producto.lotes.find(no_lote =>no_lote ==lote);
-                if( typeof  no_lote != 'undefined' ){
-                    let row = document.getElementById(id_producto+'-'+lote);
+            if (typeof producto != 'undefined') {
+                var no_lote = producto.lotes.find(no_lote => no_lote == lote);
+                if (typeof no_lote != 'undefined') {
+                    let row = document.getElementById(id_producto + '-' + lote);
                     var inputCantidad = row.children[POSICION_CANTIDAD].firstChild;
                     var cantidad = parseInt(inputCantidad.value);
                     cantidad = parseInt(nuevaCantidad) + parseInt(cantidad);
@@ -930,7 +927,6 @@
                 }
 
             }
-
 
 
             return existe;
