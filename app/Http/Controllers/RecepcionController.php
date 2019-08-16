@@ -485,4 +485,26 @@ class RecepcionController extends Controller
 
     }
 
+    public function show_transito( $id ){
+        try {
+            $recepcion = Recepcion::findOrFail($id);
+
+            $movimientos = Movimiento::join('tipo_movimiento', 'tipo_movimiento.id_movimiento', '=', 'movimientos.tipo_movimiento')
+                ->select('movimientos.*', DB::raw('sum(cantidad * factor) as total'))
+                ->where('numero_documento', $recepcion->orden_compra)
+                ->where('ubicacion', 0)
+                ->orderBy('movimientos.id_movimiento','asc')
+                ->groupBy('lote', 'id_producto')
+                ->having(DB::raw('sum(cantidad * factor)'), '>', 0)
+                ->get();
+
+            return view('recepcion.transito.show', compact('recepcion', 'movimientos'));
+        } catch (\Exception $e) {
+
+
+            return redirect()->route('recepcion.transito.index')
+                ->withErrors(['Recepcion no encontrada']);
+        }
+
+    }
 }
