@@ -17,7 +17,8 @@ class DetalleLotes extends Model
         'cantidad',
         'no_lote',
         'fecha_vencimiento',
-        'id_recepcion_enc'
+        'id_recepcion_enc',
+        'id_producto'
     ];
 
     public function recepcion(){
