@@ -25,6 +25,9 @@ class DetalleLotes extends Model
 
         return $this->belongsTo('App\Recepcion','id_recepcion_enc');
     }
+    public function producto(){
+        return $this->belongsTo('App\Producto','id_producto');
+    }
     public $dates= [
         'fecha_vencimiento'
     ];
