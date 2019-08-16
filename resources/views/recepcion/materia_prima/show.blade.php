@@ -526,6 +526,7 @@
                         <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
 
                             <thead style="background-color: #01579B;  color: #fff;">
+                            <th>PRODUCTO</th>
                             <th>CANTIDAD</th>
                             <th>NO. LOTE</th>
                             <th>FECHA VENCIMIENTO</th>
@@ -533,6 +534,7 @@
                             <tbody>
                             @foreach( $recepcion->detalle_lotes as $lote )
                                 <tr>
+                                    <td>{{$lote->producto->descripcion}}</td>
                                     <td>{{$lote->cantidad}}</td>
                                     <td>{{$lote->no_lote}}</td>
                                     <td>{{$lote->fecha_vencimiento->format('d/m/Y')}}</td>
