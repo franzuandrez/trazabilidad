@@ -500,7 +500,7 @@
                             <th>NO. LOTE</th>
                             <th>FECHA VENCIMIENTO</th>
                             </thead>
-                            <tbody>
+                            <tbody id="body-detalles">
                             </tbody>
                         </table>
                     </div>
@@ -619,6 +619,7 @@
                     }
                     $("#detalles").append(row);
 
+
                 }
 
                 cantidad.val('');
@@ -626,6 +627,8 @@
                 fecha.val('');
                 codigo_producto.val('');
                 nombre_producto.val('');
+                document.getElementById('proveedores').disabled = true;
+                $('#proveedores').selectpicker('refresh');
             } else {
                 $('#modal-default').modal('show');
                 return false;
@@ -635,9 +638,23 @@
         function removeFromTable(element) {
             //Removemos la fila
             let td = $(element).parent();
-            td.parent().remove();
+            let row = td.parent();
+            row.remove();
             let tdNext = td.next();
             let tdNextNext = tdNext.next();
+
+            let id_producto = row[0].id.split('-')[0];
+            let no_lote = row[0].id.split('-')[1];
+
+            let producto =  productosAgregados.find(p => p.id_producto == id_producto);
+            let lotes = producto.lotes;
+
+            var index = lotes.indexOf(no_lote);
+            if (index > -1) {
+                lotes.splice(index, 1);
+            }
+
+
         }
 
         function justNumbers(e) {
@@ -701,6 +718,10 @@
             document.getElementById('producto').value = "";
             document.getElementById('producto').readOnly = false;
             document.getElementById('buscar').disabled = false;
+            $("#body-detalles").empty();
+            productosAgregados = [];
+            document.getElementById('proveedores').disabled = false;
+            $('#proveedores').selectpicker('refresh');
         }
 
 
