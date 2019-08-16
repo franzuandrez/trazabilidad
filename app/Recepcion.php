@@ -18,7 +18,7 @@ class Recepcion extends Model
         'id_proveedor',
 
         'fecha_ingreso',
-
+        'estado',
         'usuario_recepcion',
         'documento_proveedor'
     ];
@@ -75,5 +75,13 @@ class Recepcion extends Model
         return $this->hasMany('App\Movimiento','numero_documento','orden_compra');
     }
 
+    public function scopeTransito($query){
+        return $query->where('recepcion_encabezado.estado','T');
+    }
+
+    public function scopeEstaEnBodegaMP($query){
+        return $query->where('recepcion_encabezado.estado','MP');
+
+    }
 
 }
