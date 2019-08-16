@@ -16,9 +16,9 @@ class Recepcion extends Model
     protected $fillable = [
         'orden_compra',
         'id_proveedor',
-        'id_proveedor',
+
         'fecha_ingreso',
-        'id_producto',
+
         'usuario_recepcion',
         'documento_proveedor'
     ];
@@ -48,10 +48,7 @@ class Recepcion extends Model
         return $this->belongsTo('App\Proveedor','id_proveedor');
     }
 
-    public function producto(){
 
-        return $this->belongsTo('App\Producto','id_producto');
-    }
 
     public function producto_materia_prima(){
 
