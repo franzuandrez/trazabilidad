@@ -19,18 +19,24 @@
 
     {!!Form::model($recepcion,['method'=>'PATCH','route'=>['recepcion.materia_prima.update',$recepcion->id_recepcion_enc]])!!}
     {{Form::token()}}
-
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <label for="producto">MATERIA PRIMA</label>
         <div class="form-group">
+            <label for="orden_compra">NO. ORDEN DE COMPRA</label>
             <input type="text"
-                   id="producto"
-                   name="producto"
                    readonly
-                   value="{{$recepcion->producto->descripcion}}"
-                   placeholder="BUSCAR..."
+                   name="orden_compra"
+                   value="{{$recepcion->orden_compra}}"
                    class="form-control">
-
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="documento_proveedor">DOCUMENTO PROVEEDOR</label>
+            <input type="text"
+                   readonly
+                   name="documento_proveedor"
+                   value="{{$recepcion->documento_proveedor}}"
+                   class="form-control">
         </div>
     </div>
 
@@ -47,26 +53,8 @@
         </div>
     </div>
     <input type="hidden" id="id_proveedor" name="id_proveedor">
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="documento_proveedor">DOCUMENTO PROVEEDOR</label>
-            <input type="text"
-                   readonly
-                   name="documento_proveedor"
-                   value="{{$recepcion->documento_proveedor}}"
-                   class="form-control">
-        </div>
-    </div>
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="orden_compra">NO. ORDEN DE COMPRA</label>
-            <input type="text"
-                   readonly
-                   name="orden_compra"
-                   value="{{$recepcion->orden_compra}}"
-                   class="form-control">
-        </div>
-    </div>
+
+
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="">
             <ul class="nav nav-tabs">
