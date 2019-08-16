@@ -17,34 +17,16 @@
         @endslot
     @endcomponent
 
-
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <label for="producto">MATERIA PRIMA</label>
         <div class="form-group">
+            <label for="orden_compra">NO. ORDEN DE COMPRA</label>
             <input type="text"
-                   id="producto"
-                   name="producto"
                    readonly
-                   value="{{$recepcion->producto->descripcion}}"
-                   placeholder="BUSCAR..."
-                   class="form-control">
-
-        </div>
-    </div>
-
-    <input type="hidden" id="id_producto" name="id_producto">
-
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="id_proveedor">PROVEEDOR</label>
-            <input type="text" id="proveedor"
-                   name="proveedor"
-                   readonly
-                   value="{{$recepcion->proveedor->razon_social}}"
+                   name="orden_compra"
+                   value="{{$recepcion->orden_compra}}"
                    class="form-control">
         </div>
     </div>
-    <input type="hidden" id="id_proveedor" name="id_proveedor">
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="documento_proveedor">DOCUMENTO PROVEEDOR</label>
@@ -55,13 +37,16 @@
                    class="form-control">
         </div>
     </div>
+
+    <input type="hidden" id="id_proveedor" name="id_proveedor" value="{{$recepcion->proveedor->id_proveedor}}">
+
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="orden_compra">NO. ORDEN DE COMPRA</label>
-            <input type="text"
+            <label for="proveedor">PROVEEDOR</label>
+            <input type="text" id="proveedor"
+                   name="proveedor"
                    readonly
-                   name="orden_compra"
-                   value="{{$recepcion->orden_compra}}"
+                   value="{{$recepcion->proveedor->razon_social}}"
                    class="form-control">
         </div>
     </div>
