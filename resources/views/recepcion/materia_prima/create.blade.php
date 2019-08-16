@@ -475,7 +475,9 @@
                     <div class=" col-lg-3  col-sm-6 col-md-6 col-xs-12">
                         <div class="form-group">
                             <label for="nombre">Cantidad</label>
-                            <input id="cantidad" type="text" onkeypress="return justNumbers(event);" name="descripcion"
+                            <input id="cantidad" type="text"
+                                   onkeydown="if(event.keyCode==13)addToTable()"
+                                   onkeypress="return justNumbers(event);" name="descripcion"
 
                                    class="form-control">
                         </div>
@@ -627,7 +629,8 @@
                 fecha.val('');
                 codigo_producto.val('');
                 nombre_producto.val('');
-                document.getElementById('proveedores').disabled = true;
+                codigo_producto.focus();
+                $('#proveedores').find('option:not(:selected)').remove();
                 $('#proveedores').selectpicker('refresh');
             } else {
                 $('#modal-default').modal('show');
@@ -720,7 +723,8 @@
             document.getElementById('buscar').disabled = false;
             $("#body-detalles").empty();
             productosAgregados = [];
-            document.getElementById('proveedores').disabled = false;
+            $('#proveedores').find('option').remove();
+            $('#proveedores').append('<option value="">SELECCIONE PROVEEDOR </option>')
             $('#proveedores').selectpicker('refresh');
         }
 
