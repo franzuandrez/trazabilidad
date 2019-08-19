@@ -4,18 +4,41 @@
         <div class="table-responsive">
             <table class="table table-striped table-bordered table-condensed table-hover">
                 <thead style="background-color: #01579B;  color: #fff;">
-
                 <th>
-                    BODEGA
+                    @component('componentes.column-sort',['modulo'=>'movimientos/bodegas',
+                         'search'=>$search,
+                          'sort'=>$sort,
+                          'sortField'=>$sortField,
+                          'field'=>'movimientos.ubicacion',
+                          'titulo'=>'BODEGA'])
+                    @endcomponent
                 </th>
                 <th>
-                    PRODUCTO
+                    @component('componentes.column-sort',['modulo'=>'movimientos/bodegas',
+                        'search'=>$search,
+                         'sort'=>$sort,
+                         'sortField'=>$sortField,
+                         'field'=>'producto',
+                         'titulo'=>'PRODUCTO'])
+                    @endcomponent
                 </th>
                 <th>
-                    LOTE
+                    @component('componentes.column-sort',['modulo'=>'movimientos/bodegas',
+                        'search'=>$search,
+                         'sort'=>$sort,
+                         'sortField'=>$sortField,
+                         'field'=>'lote',
+                         'titulo'=>'LOTE'])
+                    @endcomponent
                 </th>
                 <th>
-                    CANTIDAD
+                    @component('componentes.column-sort',['modulo'=>'movimientos/bodegas',
+                        'search'=>$search,
+                         'sort'=>$sort,
+                         'sortField'=>$sortField,
+                         'field'=>'total',
+                         'titulo'=>'CANTIDAD'])
+                    @endcomponent
                 </th>
                 </thead>
                 <tbody>
@@ -45,7 +68,9 @@
     </div>
     {{
    $productos->appends([
-       'id_bodega'=>$id_bodega
+       'search' => $search,
+       'sort'=>$sort,
+       'field'=>$sortField
    ])->links()
    }}
 </div>
