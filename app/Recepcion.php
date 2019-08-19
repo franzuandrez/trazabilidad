@@ -36,7 +36,7 @@ class Recepcion extends Model
         'usuario_recepcion'
     ];
 
-    public static $logOnlyDirty = true;
+    protected static $logOnlyDirty = true;
 
     public function usuario_recepcion(){
 
