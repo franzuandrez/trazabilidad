@@ -34,6 +34,7 @@ class MovimientoController extends Controller
             ->orderBy($sortField,$sort)
             ->groupBy('movimientos.id_producto')
             ->groupBy('movimientos.lote')
+            ->having( DB::raw('sum( cantidad  * factor )'),'>',0)
             ->paginate(15);
 
         if($request->ajax()){
