@@ -294,7 +294,10 @@ class RecepcionController extends Controller
 
             DB::beginTransaction();
             $recepcion = Recepcion::findOrFail($id);
-            $recepcion->estado = 'T';
+
+            if( is_iterable( $request->get('id_producto'))){
+                $recepcion->estado = 'T';
+            }
             $recepcion->update();
             $this->saveDetalleLotes($request, $recepcion->id_recepcion_enc);
             $this->saveMovimientos($request, $recepcion);
