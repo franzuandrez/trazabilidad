@@ -217,6 +217,9 @@ Route::get('recepcion/transito/{id}/ingreso','RecepcionController@ingreso_transi
 Route::patch('recepcion/transito/{id}','RecepcionController@ingresar')->name('recepcion.transito.ingresar');
 Route::get('recepcion/transito/{id}','RecepcionController@show_transito')->name('recepcion.transito.show_transito');
 
+
+Route::get('movimientos/bodegas','MovimientoController@index')->name('movimientos.bodegas.index');
+
 Route::get('control/chaomin','ChaomeanController@index')->name('chaomin.index');
 Route::get('control/chaomin/create','ChaomeanController@create')->name('chaomin.create');
 Route::post('control/chaomin/create','ChaomeanController@store')->name('chaomin.store');
