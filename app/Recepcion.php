@@ -16,7 +16,7 @@ class Recepcion extends Model
     protected $fillable = [
         'orden_compra',
         'id_proveedor',
-
+        'estado',
         'fecha_ingreso',
         'estado',
         'usuario_recepcion',
@@ -33,7 +33,8 @@ class Recepcion extends Model
         'id_proveedor',
         'fecha_ingreso',
         'id_producto',
-        'usuario_recepcion'
+        'usuario_recepcion',
+        'estado',
     ];
 
     protected static $logOnlyDirty = true;
