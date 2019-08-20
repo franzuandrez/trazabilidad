@@ -443,7 +443,6 @@ class RecepcionController extends Controller
                 $cantidad = $cantidades[$key];
                 $lote = $mov->lote;
                 $fecha_vencimiento =  $mov->fecha_vencimiento;
-
                 $movimiento = new Movimiento();
                 $movimiento->numero_documento = $numero_documento;
                 $movimiento->usuario = \Auth::user()->id;

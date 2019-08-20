@@ -957,7 +957,6 @@
         }
 
         function getDate(date) {
-
             var anio = "20" + date.substring(0, 2);
             var mes = date.substring(2, 4);
             var dia = date.substring(4);
