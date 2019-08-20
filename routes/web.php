@@ -18,14 +18,44 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/', 'HomeController@index')->name('home');
 
-Route::get('users','UserController@index')->name('users.index');
-Route::get('users/create','UserController@create')->name('users.create');
-Route::post('users/create','UserController@store')->name('users.store');
-Route::get('users/{id}/edit','UserController@edit')->name('users.edit');
-Route::patch('users/{id}','UserController@update')->name('users.update');
-Route::post('users/{id}','UserController@destroy')->name('users.destroy');
-Route::get('users/{id}','UserController@show')->name('users.show');
-Route::get('users/{id}/cambio','UserController@editPassword')->name('users.editPassword');
+Route::get('users','UserController@index')
+    ->middleware('permission:administrar')
+    ->name('users.index');
+
+Route::get('users/create','UserController@create')
+    ->middleware('permission:role-create')
+    ->middleware('permission:administrar')
+    ->name('users.create');
+
+Route::post('users/create','UserController@store')
+    ->middleware('permission:role-create')
+    ->middleware('permission:administrar')
+    ->name('users.store');
+
+Route::get('users/{id}/edit','UserController@edit')
+    ->middleware('permission:role-edit')
+    ->middleware('permission:administrar')
+    ->name('users.edit');
+
+Route::patch('users/{id}','UserController@update')
+    ->middleware('permission:role-edit')
+    ->middleware('permission:administrar')
+    ->name('users.update');
+
+
+Route::post('users/{id}','UserController@destroy')
+    ->middleware('permission:role-delete')
+    ->middleware('permission:administrar')
+    ->name('users.destroy');
+
+Route::get('users/{id}','UserController@show')
+    ->middleware('permission:role-list')
+    ->middleware('permission:administrar')
+    ->name('users.show');
+
+
+Route::get('users/{id}/cambio','UserController@editPassword')
+    ->name('users.editPassword');
 Route::patch('users/{id}/cambio','UserController@updatePassword')->name('users.updatePass');
 Route::get('logout','UserController@logout')->name('logout');
 
