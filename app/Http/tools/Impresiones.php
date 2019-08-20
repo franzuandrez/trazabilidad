@@ -22,7 +22,7 @@ class Impresiones
 
         foreach ( $movimientos as $key => $mov){
 
-            if($impresiones[$key] == 1){
+            if($impresiones[$key] > 0){
 
                 $producto = Producto::find($mov->id_producto);
                 $imprimir = new \App\Impresion();
