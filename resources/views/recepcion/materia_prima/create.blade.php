@@ -26,7 +26,7 @@
         <div class="input-group">
             <input type="text" id="producto"
                    name="producto"
-                   onkeydown="if(event.keyCode==13 || event.keyCode==10)getCodigoProducto()"
+                   onkeydown="if(event.keyCode===13 || event.keyCode===10)getCodigoProducto()"
                    placeholder="BUSCAR..."
                    class="form-control">
             <span class="input-group-btn">
@@ -973,8 +973,8 @@
 
             var infoCodigoBarras = descomponerInput(inputMateriaPrima);
 
-            const codigo_producto = infoCodigoBarras[POSICION_CODIGO]
-
+            var codigo_producto = infoCodigoBarras[POSICION_CODIGO]
+            console.log(codigo_producto);
              buscar_producto(codigo_producto);
 
 
