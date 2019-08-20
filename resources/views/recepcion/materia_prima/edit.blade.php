@@ -716,7 +716,7 @@
                     let row =
                         `<tr class="row-producto-added" id='${id_producto.val()}-${lote.val()}'>
                             <td><button onclick=removeFromTable(this) type="button" class="btn btn-warning">x</button></td>
-                            <td><input type="hidden" value='${id_producto.val()}' name=id_producto[]>${nombre_producto.val()}</td>
+                            <td><input type="hidden" name="descripcion_producto[]" value="${nombre_producto.val()}" > <input type="hidden" value='${id_producto.val()}' name=id_producto[]>${nombre_producto.val()}</td>
                             <td><input type="hidden" value='${cantidad.val()}' name=cantidad[]>${cantidad.val()}</td>
                             <td ><input type="hidden" value ='${lote.val()}'  name=no_lote[] >${lote.val()}</td>
                             <td ><input type="hidden" value ='${fecha.val()}'  name=fecha_vencimiento[] >${fecha.val()}</td>
@@ -731,6 +731,7 @@
                     }
                     $("#detalles").append(row);
 
+
                 }
 
                 cantidad.val('');
@@ -738,6 +739,9 @@
                 fecha.val('');
                 codigo_producto.val('');
                 nombre_producto.val('');
+                codigo_producto.focus();
+                $('#proveedores').find('option:not(:selected)').remove();
+                $('#proveedores').selectpicker('refresh');
             } else {
                 $('#modal-default').modal('show');
                 return false;
@@ -762,6 +766,8 @@
             if (index > -1) {
                 lotes.splice(index, 1);
             }
+
+
         }
 
         function justNumbers(e) {
@@ -825,6 +831,11 @@
             document.getElementById('producto').value = "";
             document.getElementById('producto').readOnly = false;
             document.getElementById('buscar').disabled = false;
+            $("#body-detalles").empty();
+            productosAgregados = [];
+            $('#proveedores').find('option').remove();
+            $('#proveedores').append('<option value="">SELECCIONE PROVEEDOR </option>')
+            $('#proveedores').selectpicker('refresh');
         }
 
 
@@ -925,16 +936,26 @@
         function descomponerInput(input) {
 
             var codigoBarras = input.value;
-            var removerParentesis = codigoBarras.replace(/\([0-9]*\)/g, '-');
-            var codigoSplited = removerParentesis.split('-');
+            var codigo,fecha_vencimiento,lote;
+            if(codigoBarras.length == 14){
+                codigo = codigoBarras;
+                fecha_vencimiento = "";
+                lote = "";
+            }else{
+                codigo = codigoBarras.substring(2,16);
+                fecha_vencimiento = codigoBarras.substring(18,24);
+                lote = codigoBarras.substring(26,codigoBarras.length);
+            }
 
 
-            return codigoSplited;
+            return ["",codigo,fecha_vencimiento,lote];
 
 
         }
 
         function cargarInfoCodigoBarras(input) {
+
+
 
             let infoCodigoBarras = descomponerInput(input);
             if (event.keyCode == 13) {
@@ -977,18 +998,25 @@
 
                         let producto = productos[0];
 
-                        var id_proveedor = $('#id_proveedor').val();
+                        var id_proveedor = $('#proveedores').val();
                         var proveedor = productos[0].proveedores.find(function (element) {
                             return element.id_proveedor == id_proveedor
                         });
 
                         if (typeof proveedor != 'undefined') {
 
-                            document.getElementById('nombre_producto').value = producto.descripcion;
-                            document.getElementById('lote').value = lote;
-                            document.getElementById('vencimiento').value = getDate(fecha);
-                            document.getElementById('id_producto').value = producto.id_producto;
-                            document.getElementById('cantidad').focus();
+                            if(lote!="" ){
+                                document.getElementById('nombre_producto').value = producto.descripcion;
+                                document.getElementById('lote').value = lote;
+                                document.getElementById('vencimiento').value = getDate(fecha);
+                                document.getElementById('id_producto').value = producto.id_producto;
+                                document.getElementById('cantidad').focus();
+                            }else{
+                                document.getElementById('nombre_producto').value = producto.descripcion;
+                                document.getElementById('id_producto').value = producto.id_producto;
+                                document.getElementById('lote').focus();
+                            }
+
                         } else {
                             alert(" El producto no coincide con el proveedor ");
                         }

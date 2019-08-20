@@ -855,16 +855,27 @@
         function descomponerInput(input) {
 
             var codigoBarras = input.value;
-            var removerParentesis = codigoBarras.replace(/\([0-9]*\)/g, '-');
-            var codigoSplited = removerParentesis.split('-');
+            var codigo,fecha_vencimiento,lote;
+
+            if(codigoBarras.length <= 14){
+                codigo = codigoBarras;
+                fecha_vencimiento = "";
+                lote = "";
+            }else{
+               codigo = codigoBarras.substring(2,16);
+                fecha_vencimiento = codigoBarras.substring(18,24);
+                lote = codigoBarras.substring(26,codigoBarras.length);
+            }
 
 
-            return codigoSplited;
+            return ["",codigo,fecha_vencimiento,lote];
 
 
         }
 
         function cargarInfoCodigoBarras(input) {
+
+
 
             let infoCodigoBarras = descomponerInput(input);
             if (event.keyCode == 13) {
@@ -914,11 +925,18 @@
 
                         if (typeof proveedor != 'undefined') {
 
-                            document.getElementById('nombre_producto').value = producto.descripcion;
-                            document.getElementById('lote').value = lote;
-                            document.getElementById('vencimiento').value = getDate(fecha);
-                            document.getElementById('id_producto').value = producto.id_producto;
-                            document.getElementById('cantidad').focus();
+                            if(lote!="" ){
+                                document.getElementById('nombre_producto').value = producto.descripcion;
+                                document.getElementById('lote').value = lote;
+                                document.getElementById('vencimiento').value = getDate(fecha);
+                                document.getElementById('id_producto').value = producto.id_producto;
+                                document.getElementById('cantidad').focus();
+                            }else{
+                                document.getElementById('nombre_producto').value = producto.descripcion;
+                                document.getElementById('id_producto').value = producto.id_producto;
+                                document.getElementById('lote').focus();
+                            }
+
                         } else {
                             alert(" El producto no coincide con el proveedor ");
                         }
