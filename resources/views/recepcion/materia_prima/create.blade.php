@@ -26,7 +26,7 @@
         <div class="input-group">
             <input type="text" id="producto"
                    name="producto"
-                   onkeydown="console.log(event.keyCode)"
+                   onkeydown="console.log(event.target.value.charAt(event.target.selectionStart - 1).charCodeAt())"
                    placeholder="BUSCAR..."
                    class="form-control">
             <span class="input-group-btn">
