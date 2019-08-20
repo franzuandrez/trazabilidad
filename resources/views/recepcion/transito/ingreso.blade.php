@@ -96,7 +96,7 @@
         <div class="form-group">
             <input type="text"
                    readonly
-                   onkeydown="addToTable()"
+                   onkeydown="if(event.keyCode==13)addToTable()"
                    id="cantidad"
                    name="cantidad"
                    class="form-control">
@@ -235,7 +235,7 @@
         }
 
         function addToTable() {
-            if (event.keyCode == 13 || event.keyCode == 10) {
+
                 let cantidad = document.getElementById('cantidad').value;
                 let id = document.getElementById('id_movimiento').value;
                 checkRow(id, cantidad);
@@ -245,7 +245,7 @@
                 document.getElementById('lote').value = "";
                 document.getElementById('codigo_producto').focus();
                 document.getElementById('cantidad').readOnly = true;
-            }
+
         }
 
 
