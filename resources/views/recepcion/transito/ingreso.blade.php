@@ -60,7 +60,7 @@
         <div class="form-group">
             <input type="text"
                    id="codigo_producto"
-                   onkeydown="buscarProducto(document.getElementById('codigo_producto'))"
+                   onkeydown="if(event.keyCode==13)buscarProducto(document.getElementById('codigo_producto'))"
                    name="codigo_producto"
                    class="form-control">
         </div>
@@ -91,8 +91,20 @@
                    class="form-control">
         </div>
     </div>
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
-        <label for="cantidad">CANTIDAD</label>
+    <div class="col-lg-3 col-sm-3 col-md-6 col-xs-6">
+        <label for="cantidad_impresion">CANTIDAD IMPRESION</label>
+        <div class="form-group">
+            <input type="text"
+                   readonly
+                   value="1"
+                   onkeydown="if(event.keyCode==13)document.getElementById('cantidad').focus()"
+                   id="cantidad_impresion"
+                   name="cantidad_impresion"
+                   class="form-control">
+        </div>
+    </div>
+    <div class="col-lg-3 col-sm-3 col-md-6 col-xs-6">
+        <label for="cantidad">CANTIDAD ENTRANTE</label>
         <div class="form-group">
             <input type="text"
                    readonly
@@ -238,13 +250,16 @@
 
                 let cantidad = document.getElementById('cantidad').value;
                 let id = document.getElementById('id_movimiento').value;
-                checkRow(id, cantidad);
+                let cantidad_impresiones = document.getElementById('cantidad_impresion').value;
+                checkRow(id, cantidad,cantidad_impresiones);
                 document.getElementById('codigo_producto').value = "";
                 document.getElementById('descripcion').value = "";
                 document.getElementById('cantidad').value = "";
                 document.getElementById('lote').value = "";
                 document.getElementById('codigo_producto').focus();
                 document.getElementById('cantidad').readOnly = true;
+                document.getElementById('cantidad_impresion').value=1;
+                document.getElementById('cantidad_impresion').readOnly=true;
 
         }
 
@@ -261,9 +276,10 @@
                 console.log(producto);
                 if (producto.codigo_barras == codigo) {
                     document.getElementById('descripcion').value = producto.descripcion;
-                    document.getElementById('cantidad').focus();
+                    document.getElementById('cantidad_impresion').focus();
                     document.getElementById('lote').value = lote;
                     document.getElementById('id_movimiento').value = mov.id_movimiento;
+                    document.getElementById('cantidad_impresion').readOnly = false;
                     document.getElementById('cantidad').readOnly = false;
                 } else {
                     document.getElementById('descripcion').value = "";
@@ -280,13 +296,13 @@
 
         }
 
-        function checkRow(idMovimiento, cantidad) {
+        function checkRow(idMovimiento, cantidad,impresiones) {
 
 
             let row = document.getElementById('mov-' + idMovimiento);
             let span = row.children[0].children[0];
             span.classList.remove('hidden');
-            row.children[1].innerHTML =  "<input name='imprimir[]' onclick='activarCheck(this)' type='checkbox' checked value='1' ><input name='imprimir[]' value=0 type='hidden' disabled > ";
+            row.children[1].innerHTML =  "<input name='imprimir[]' value='"+impresiones+"' type='hidden'  >"+impresiones+" ";
             row.children[2].innerHTML = cantidad + "<input name='cantidad_entrante[]' type='hidden' value='" + cantidad + "'> ";
         }
 

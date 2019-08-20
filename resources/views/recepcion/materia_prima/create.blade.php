@@ -26,7 +26,7 @@
         <div class="input-group">
             <input type="text" id="producto"
                    name="producto"
-                   onkeydown="getCodigoProducto()"
+                   onkeydown="if(event.keyCode==13)getCodigoProducto()"
                    placeholder="BUSCAR..."
                    class="form-control">
             <span class="input-group-btn">
@@ -166,7 +166,7 @@
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox"
                                    class="custom-control-input"
-                                   id="opcion6"
+                                   id="certificado_correspondiente_especificacion"
                                    name="certificado_correspondiente_especificacion"
                                    value="1"
                             >
