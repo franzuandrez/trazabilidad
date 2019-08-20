@@ -235,7 +235,7 @@
         }
 
         function addToTable() {
-            if (event.keyCode == 13) {
+            if (event.keyCode == 13 || event.keyCode == 10) {
                 let cantidad = document.getElementById('cantidad').value;
                 let id = document.getElementById('id_movimiento').value;
                 checkRow(id, cantidad);
