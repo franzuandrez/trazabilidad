@@ -26,7 +26,6 @@
         <div class="input-group">
             <input type="text" id="producto"
                    name="producto"
-                   onkeydown="prueba(e)"
                    placeholder="BUSCAR..."
                    class="form-control">
             <span class="input-group-btn">
@@ -596,13 +595,15 @@
                     return false;
                 }
             });
+            $('#producto').keydown(function (event) {
+                   console.log(event);
+            })
 
         });
     </script>
     <script>
         function cargarProveedores(proveedores) {
             limpiarSelectProveedores()
-            console.log(proveedores);
             let option = '';
             proveedores.forEach(function (e) {
                 option += `<option value='${e.id_proveedor}'>${e.razon_social}</option>`;
