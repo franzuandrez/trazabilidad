@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DetalleLotes;
 use App\Http\Requests\MateriaPrimaRequest;
+use App\Impresion;
 use App\InspeccionEmpaqueEtiqueta;
 use App\InspeccionVehiculo;
 use App\Producto;
@@ -15,7 +16,7 @@ use DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Mockery\Instantiator;
-
+use App\Http\Tools\Impresiones;
 class RecepcionController extends Controller
 {
     //
@@ -384,6 +385,7 @@ class RecepcionController extends Controller
 
         $recepcion = Recepcion::findOrFail($id);
 
+
         $idsMovimiento = $request->get('id_movimiento');
         $cantidadesEntrantes = $request->get('cantidad_entrante');
         $numero_documento = $recepcion->orden_compra;
@@ -394,11 +396,17 @@ class RecepcionController extends Controller
             $cantidadesEntrantes,
             $numero_documento);
 
+
         $noProductoRestante = $this->totalProductoPorBodega(0, $recepcion->orden_compra) == 0;
         if ($noProductoRestante) {
             $recepcion->estado = 'MP';
             $recepcion->update();
         }
+
+        $impresiones = $request->get('imprimir');
+
+
+        Impresiones::imprimir($idsMovimiento,'192.168.0.179','D',$cantidadesEntrantes,$impresiones);
 
         if ($isSaved) {
 
@@ -431,16 +439,21 @@ class RecepcionController extends Controller
 
             foreach ($movimientos as $key => $mov) {
 
+
+                $cantidad = $cantidades[$key];
+                $lote = $mov->lote;
+                $fecha_vencimiento =  $mov->fecha_vencimiento;
+
                 $movimiento = new Movimiento();
                 $movimiento->numero_documento = $numero_documento;
                 $movimiento->usuario = \Auth::user()->id;
                 $movimiento->tipo_movimiento = 2;
-                $movimiento->cantidad = $cantidades[$key];
+                $movimiento->cantidad = $cantidad;
                 $movimiento->id_producto = $mov->id_producto;
                 $movimiento->fecha_hora_movimiento = Carbon::now();
                 $movimiento->ubicacion = $bodega_origen; //ORIGEN
-                $movimiento->lote = $mov->lote;
-                $movimiento->fecha_vencimiento = $mov->fecha_vencimiento;
+                $movimiento->lote = $lote;
+                $movimiento->fecha_vencimiento = $fecha_vencimiento;
                 $movimiento->clave_autorizacion = $mov->clave_autorizacion;
                 $movimiento->estado = 2;
                 $movimiento->save();
@@ -450,15 +463,18 @@ class RecepcionController extends Controller
                 $movimiento->numero_documento = $numero_documento;
                 $movimiento->usuario = \Auth::user()->id;
                 $movimiento->tipo_movimiento = 1;
-                $movimiento->cantidad = $cantidades[$key];
+                $movimiento->cantidad = $cantidad;
                 $movimiento->id_producto = $mov->id_producto;
                 $movimiento->fecha_hora_movimiento = Carbon::now();
                 $movimiento->ubicacion = $bodega_destino; //DESTINO
-                $movimiento->lote = $mov->lote;
-                $movimiento->fecha_vencimiento = $mov->fecha_vencimiento;
+                $movimiento->lote = $lote;
+                $movimiento->fecha_vencimiento = $fecha_vencimiento;
                 $movimiento->clave_autorizacion = $mov->clave_autorizacion;
                 $movimiento->estado = 1;
                 $movimiento->save();
+
+
+
 
 
             }
