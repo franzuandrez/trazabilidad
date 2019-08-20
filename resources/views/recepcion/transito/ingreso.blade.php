@@ -202,8 +202,7 @@
             let mov = null;
             let movimientos = getMovimientos();
 
-            mov = movimientos.filter(mov => mov.producto.codigo_barras == codigo_barras.trim()).
-            find(lotes => lotes.lote == lote.trim());
+            mov = movimientos.filter(mov => mov.producto.codigo_barras == codigo_barras.trim()).find(lotes => lotes.lote == lote.trim());
             return mov;
         }
 
@@ -239,7 +238,7 @@
                 } else {
                     let codigo = infoProducto[POSICION_CODIGO];
                     let lote = infoProducto[POSICION_LOTE];
-                    fillProduct(codigo,lote);
+                    fillProduct(codigo, lote);
                 }
 
 
@@ -248,27 +247,47 @@
 
         function addToTable() {
 
-                let cantidad = document.getElementById('cantidad').value;
-                let id = document.getElementById('id_movimiento').value;
-                let cantidad_impresiones = document.getElementById('cantidad_impresion').value;
-                checkRow(id, cantidad,cantidad_impresiones);
+
+            let cantidad = document.getElementById('cantidad').value;
+            let id = document.getElementById('id_movimiento').value;
+            let cantidad_impresiones = document.getElementById('cantidad_impresion').value;
+
+            if (cantidad == "") {
+                document.getElementById('cantidad').focus();
+                alert("Cantidad entrante en blanco");
+                return
+            }
+
+            if (cantidad_impresiones == "") {
+                document.getElementById('cantidad_impresion').focus();
+                alert("Cantidad de impresiones en blanco");
+                return
+            }
+            if (id == "") {
+                alert("Algo salio mal");
+                return
+            }
+
+
+                checkRow(id, cantidad, cantidad_impresiones);
                 document.getElementById('codigo_producto').value = "";
                 document.getElementById('descripcion').value = "";
                 document.getElementById('cantidad').value = "";
                 document.getElementById('lote').value = "";
                 document.getElementById('codigo_producto').focus();
                 document.getElementById('cantidad').readOnly = true;
-                document.getElementById('cantidad_impresion').value=1;
-                document.getElementById('cantidad_impresion').readOnly=true;
+                document.getElementById('cantidad_impresion').value = 1;
+                document.getElementById('cantidad_impresion').readOnly = true;
+
+
 
         }
 
 
+        function fillProduct(codigo, lote) {
 
-        function fillProduct(codigo,lote){
 
-
-            let mov = getMovimientoByLote(codigo,lote);
+            let mov = getMovimientoByLote(codigo, lote);
             if (typeof mov != "undefined") {
                 let producto = null;
                 document.getElementById('lote').readOnly = true;
@@ -296,19 +315,19 @@
 
         }
 
-        function checkRow(idMovimiento, cantidad,impresiones) {
+        function checkRow(idMovimiento, cantidad, impresiones) {
 
 
             let row = document.getElementById('mov-' + idMovimiento);
             let span = row.children[0].children[0];
             span.classList.remove('hidden');
-            row.children[1].innerHTML =  "<input name='imprimir[]' value='"+impresiones+"' type='hidden'  >"+impresiones+" ";
+            row.children[1].innerHTML = "<input name='imprimir[]' value='" + impresiones + "' type='hidden'  >" + impresiones + " ";
             row.children[2].innerHTML = cantidad + "<input name='cantidad_entrante[]' type='hidden' value='" + cantidad + "'> ";
         }
 
-        function activarCheck( input ) {
+        function activarCheck(input) {
 
-         input.nextSibling.disabled = input.checked;
+            input.nextSibling.disabled = input.checked;
 
         }
 
