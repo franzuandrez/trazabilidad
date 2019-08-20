@@ -203,6 +203,11 @@
             let movimientos = getMovimientos();
 
             mov = movimientos.filter(mov => mov.producto.codigo_barras == codigo_barras.trim()).find(lotes => lotes.lote == lote.trim());
+            if (typeof mov == 'undefined') {
+                //buscar por descripcion
+                mov = movimientos.filter(mov => mov.producto.descripcion == codigo_barras.trim()).find(lotes => lotes.lote == lote.trim());
+            }
+
             return mov;
         }
 
@@ -210,7 +215,7 @@
 
             var codigoBarras = input.value;
             var codigo, fecha_vencimiento, lote;
-            if (codigoBarras.length == 14) {
+            if (codigoBarras.length <= 14) {
                 codigo = codigoBarras;
                 fecha_vencimiento = "";
                 lote = "";
@@ -269,16 +274,15 @@
             }
 
 
-                checkRow(id, cantidad, cantidad_impresiones);
-                document.getElementById('codigo_producto').value = "";
-                document.getElementById('descripcion').value = "";
-                document.getElementById('cantidad').value = "";
-                document.getElementById('lote').value = "";
-                document.getElementById('codigo_producto').focus();
-                document.getElementById('cantidad').readOnly = true;
-                document.getElementById('cantidad_impresion').value = 1;
-                document.getElementById('cantidad_impresion').readOnly = true;
-
+            checkRow(id, cantidad, cantidad_impresiones);
+            document.getElementById('codigo_producto').value = "";
+            document.getElementById('descripcion').value = "";
+            document.getElementById('cantidad').value = "";
+            document.getElementById('lote').value = "";
+            document.getElementById('codigo_producto').focus();
+            document.getElementById('cantidad').readOnly = true;
+            document.getElementById('cantidad_impresion').value = 1;
+            document.getElementById('cantidad_impresion').readOnly = true;
 
 
         }
@@ -292,8 +296,8 @@
                 let producto = null;
                 document.getElementById('lote').readOnly = true;
                 producto = mov.producto;
-                console.log(producto);
-                if (producto.codigo_barras == codigo) {
+
+                if (producto.codigo_barras == codigo || producto.descripcion == codigo) {
                     document.getElementById('descripcion').value = producto.descripcion;
                     document.getElementById('cantidad_impresion').focus();
                     document.getElementById('lote').value = lote;
