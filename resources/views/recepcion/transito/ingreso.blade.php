@@ -202,10 +202,10 @@
             let mov = null;
             let movimientos = getMovimientos();
 
-            mov = movimientos.filter(mov => mov.producto.codigo_barras == codigo_barras.trim()).find(lotes => lotes.lote == lote.trim());
+            mov = movimientos.filter(mov => mov.producto.codigo_barras == codigo_barras.trim()).find(lotes => lotes.lote.toUpperCase() == lote.trim().toUpperCase());
             if (typeof mov == 'undefined') {
                 //buscar por descripcion
-                mov = movimientos.filter(mov => mov.producto.descripcion == codigo_barras.trim()).find(lotes => lotes.lote == lote.trim());
+                mov = movimientos.filter(mov => mov.producto.descripcion.toUpperCase() == codigo_barras.trim().toUpperCase()).find(lotes => lotes.lote.toUpperCase() == lote.trim().toUpperCase());
             }
 
             return mov;
