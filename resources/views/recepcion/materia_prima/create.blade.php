@@ -26,7 +26,7 @@
         <div class="input-group">
             <input type="text" id="producto"
                    name="producto"
-                   onkeydown="console.log(event.target.value.charAt(event.target.selectionStart - 1).charCodeAt())"
+                   onkeydown="prueba(e)"
                    placeholder="BUSCAR..."
                    class="form-control">
             <span class="input-group-btn">
@@ -1000,6 +1000,10 @@
 
 
             return existe;
+        }
+
+        function prueba(e){
+            console.log(e);
         }
     </script>
 @endsection
