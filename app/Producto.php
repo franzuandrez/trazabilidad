@@ -53,7 +53,7 @@ class Producto extends Model
 
     public function scopeEsMateriaPrima( $query ){
 
-        return $query->where('productos.tipo_producto','MP');
+        return $query->where('productos.tipo_producto','MP')->orWhere('productos.tipo_producto','ME');
     }
 
     public function proveedores(){
