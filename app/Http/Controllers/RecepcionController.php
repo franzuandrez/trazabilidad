@@ -386,7 +386,10 @@ class RecepcionController extends Controller
         $recepcion = Recepcion::findOrFail($id);
 
 
-        $idsMovimiento = $request->get('id_movimiento');
+        $idsMovimiento =[];
+        if(count($request->get('id_movimiento'))>0){
+            $idsMovimiento = $request->get('id_movimiento');
+        }
         $cantidadesEntrantes = $request->get('cantidad_entrante');
         $numero_documento = $recepcion->orden_compra;
         $isSaved = $this->guardarMovimientos(
@@ -398,6 +401,7 @@ class RecepcionController extends Controller
 
 
         $noProductoRestante = $this->totalProductoPorBodega(0, $recepcion->orden_compra) == 0;
+
         if ($noProductoRestante) {
             $recepcion->estado = 'MP';
             $recepcion->update();
@@ -502,7 +506,9 @@ class RecepcionController extends Controller
             ->groupBy('lote')
             ->get();
 
-        $movimientos = $movimientos->where('total', '<>', 0)->count();
+
+
+        $movimientos = $movimientos->where('total', '>', 0)->count();
         return $movimientos;
 
     }
