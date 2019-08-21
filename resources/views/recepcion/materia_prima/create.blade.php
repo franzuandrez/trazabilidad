@@ -58,7 +58,7 @@
             <select name="id_proveedor" id="proveedores" class="form-control selectpicker">
 
                 @if(old('id_proveedor'))
-                    <option selected value="{{old('id_proveedor')}}">{{$proveedores->where('id_proveedor',old('id_proveedor'))->first()->razon_social}}</option>
+                    <option selected value="{{old('id_proveedor')}}">{{$proveedores->where('id_proveedor',old('id_proveedor'))->first()->nombre_comercial}}</option>
                 @else
                     <option value=""> SELECCIONE PROVEEDOR</option>
                 @endif
@@ -465,7 +465,7 @@
                                    class="form-control">
                         </div>
                     </div>
-                    <div class="col-lg-4 col-sm-8 col-md-8 col-xs-10">
+                    <div class="col-lg-4 col-sm-8 col-md-8 col-xs-12">
                         <div class="form-group">
                             <label>Fecha de Vencimiento</label>
 
@@ -480,7 +480,7 @@
 
                         </div>
                     </div>
-                    <div class=" col-lg-3  col-sm-6 col-md-6 col-xs-12">
+                    <div class=" col-lg-3  col-sm-6 col-md-6 col-xs-10">
                         <div class="form-group">
                             <label for="nombre">Cantidad</label>
                             <input id="cantidad" type="number"
