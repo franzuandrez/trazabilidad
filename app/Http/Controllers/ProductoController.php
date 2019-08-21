@@ -213,19 +213,20 @@ class ProductoController extends Controller
                        $id_presentacion = $this->savePresentacion($value[2]);
                    }
 
+                   $codigo_barras = str_pad($value[0], 14, "0", STR_PAD_LEFT);
 
-                    $existeProducto = Producto::where('codigo_barras', $value[0])->exists();
+                    $existeProducto = Producto::where('codigo_barras', $codigo_barras)->exists();
 
                     if ($existeProducto) {
 
-                        $producto = Producto::where('codigo_barras', $value[0])->first();
+                        $producto = Producto::where('codigo_barras', $codigo_barras)->first();
                         $producto->descripcion =  $value[1];
                         $producto->update();
 
                     } else {
                        $producto = new Producto();
-                       $producto->codigo_barras = $value[0];
-                       $producto->codigo_interno  =$value[0];
+                       $producto->codigo_barras = $codigo_barras;
+                       $producto->codigo_interno  =$codigo_barras;
                        $producto->descripcion = $value[1];
                        $producto->id_presentacion = $id_presentacion;
                        $producto->tipo_producto = 'MP';
