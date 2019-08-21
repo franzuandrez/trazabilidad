@@ -36,7 +36,7 @@ class RecepcionController extends Controller
 
 
         $recepciones = Recepcion::join('proveedores', 'proveedores.id_proveedor', '=', 'recepcion_encabezado.id_proveedor')
-            ->select('recepcion_encabezado.*', 'proveedores.razon_social as proveedor')
+            ->select('recepcion_encabezado.*', 'proveedores.nombre_comercial as proveedor')
             ->where(function ($query) use ($search) {
                 $query->where('proveedores.razon_social', 'LIKE', '%' . $search . '%')
                     ->orWhere('recepcion_encabezado.orden_compra', 'LIKE', '%' . $search . '%');

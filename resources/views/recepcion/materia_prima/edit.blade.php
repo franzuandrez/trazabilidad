@@ -48,7 +48,7 @@
             <input type="text" id="proveedor"
                    name="proveedor"
                    readonly
-                   value="{{$recepcion->proveedor->razon_social}}"
+                   value="{{$recepcion->proveedor->nombre_comercial}}"
                    class="form-control">
         </div>
     </div>

@@ -611,7 +611,7 @@
             limpiarSelectProveedores()
             let option = '';
             proveedores.forEach(function (e) {
-                option += `<option value='${e.id_proveedor}'>${e.razon_social}</option>`;
+                option += `<option value='${e.id_proveedor}'>${e.nombre_comercial}</option>`;
             });
 
             $('#proveedores').append(option);
