@@ -27,7 +27,7 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
             @can('role-create')
-                @component('componentes.btn-create',['url'=>url('produccion/operaciones')])
+                @component('componentes.btn-create',['url'=>url('produccion/operaciones/create')])
                 @endcomponent
             @endcan
         </div>

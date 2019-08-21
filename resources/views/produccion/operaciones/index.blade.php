@@ -50,14 +50,14 @@
 
                         </td>
                         <td>
-                            {{$recepcion->no_orden_produccion}}
+                            {{$operacion->no_orden_produccion}}
                         </td>
                         <td>
-                            {{$recepcion->no_requision}}
+                            {{$operacion->no_requision}}
                         </td>
 
                         <td>
-                            {{$recepcion->fecha_ingreso}}
+                            {{$operacion->usuario_ingreso->nombre}}
                         </td>
                     </tr>
 
