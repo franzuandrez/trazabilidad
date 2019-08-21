@@ -246,7 +246,7 @@ class ProveedorController extends Controller
     private function gurdarProductos( $proveedor ,$productos ){
 
 
-        $proveedor->productos()->attach($productos);
+        $proveedor->productos()->syncWithoutDetaching($productos);
 
 
     }
