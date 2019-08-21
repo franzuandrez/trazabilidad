@@ -192,28 +192,33 @@
                     </li>
                 </ul>
             @endcan
+            @can('recepcion')
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" style="background-color: #01579B;  color: #fff;">Recepcion <b
 
-            <ul class="nav navbar-nav">
-                <li class="dropdown">
-                    <a href="#" data-toggle="dropdown" style="background-color: #01579B;  color: #fff;">Recepcion <b
-
-                            class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="{{url('recepcion/materia_prima')}}">
-                                <i class="fa fa-sign-in" aria-hidden="true"></i>
-                                Materia prima
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{url('recepcion/transito')}}">
-                                <i class="fa fa-arrow-right" aria-hidden="true"></i>
-                                Transito a materia prima
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
+                                class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            @can('materia_prima')
+                                <li>
+                                    <a href="{{url('recepcion/materia_prima')}}">
+                                        <i class="fa fa-sign-in" aria-hidden="true"></i>
+                                        Materia prima
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('transito')
+                                <li>
+                                    <a href="{{url('recepcion/transito')}}">
+                                        <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                        Transito a materia prima
+                                    </a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                </ul>
+            @endcan
             <ul class="nav navbar-nav">
                 <li class="dropdown">
                     <a href="#" data-toggle="dropdown" style="background-color: #01579B;  color: #fff;">Produccion<b
@@ -257,20 +262,22 @@
                     </ul>
                 </li>
             </ul>
-            <ul class="nav navbar-nav">
-                <li class="dropdown">
-                    <a href="#" data-toggle="dropdown" style="background-color: #01579B;  color: #fff;">Usuarios<b
-                            class="caret"></b></a>
+            @can('usuarios')
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" style="background-color: #01579B;  color: #fff;">Usuarios<b
+                                class="caret"></b></a>
 
-                    <ul class="dropdown-menu">
+                        <ul class="dropdown-menu">
+                            @can('administrar')
+                                <li><a href="{{url('users')}}"><i class="fa fa-cog"></i>Administrar</a></li>
+                            @endcan
 
-                        <li><a href="{{url('users')}}"><i class="fa fa-cog"></i>Administrar</a></li>
+                            <li><a href="{{url('roles')}}"><i class=" fa fa-wrench"></i>Roles</a></li>
 
-
-                        <li><a href="{{url('roles')}}"><i class=" fa fa-wrench"></i>Roles</a></li>
-
-                    </ul>
-            </ul>
+                        </ul>
+                </ul>
+            @endcan
 
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
