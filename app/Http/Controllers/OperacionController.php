@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Bodega;
 use App\Operacion;
 use Illuminate\Http\Request;
 use DB;
@@ -45,7 +46,10 @@ class OperacionController extends Controller
 
     public function create(){
 
-        return view('produccion.operaciones.create');
+        $bodegas = Bodega::actived()
+            ->get();
+
+        return view('produccion.operaciones.create',compact('bodegas'));
     }
 
     public function store(Request $request){
