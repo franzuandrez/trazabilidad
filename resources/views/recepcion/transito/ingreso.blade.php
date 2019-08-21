@@ -245,9 +245,7 @@
                     let infoProducto = descomponerInput(input);
 
                     if (infoProducto[POSICION_LOTE] == "") {
-                        document.getElementById('lote').readOnly = false;
-                        document.getElementById('lote').value = "";
-                        document.getElementById('lote').focus();
+                        alert("Producto no encontrado");
                     } else {
                         let codigo = infoProducto[POSICION_CODIGO];
                         let lote = infoProducto[POSICION_LOTE];
@@ -300,7 +298,7 @@
                 return
             }
 
-            if (cantidad_impresiones == "") {
+            if (cantidad_impresiones == "" ) {
                 document.getElementById('cantidad_impresion').focus();
                 alert("Cantidad de impresiones en blanco");
                 return
