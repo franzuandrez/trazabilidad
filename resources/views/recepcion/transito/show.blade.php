@@ -59,8 +59,6 @@
             <table class="table table-striped table-bordered table-condensed table-hover">
                 <thead style="background-color: #01579B;  color: #fff;">
                 <tr>
-                    <th>OPCION</th>
-                    <th>CANTIDAD ENTRANTE</th>
                     <th>CANTIDAD</th>
                     <th>PRODUCTO</th>
                     <th>LOTE</th>
@@ -72,16 +70,6 @@
                 @foreach( $movimientos as $mov)
 
                     <tr id="mov-{{$mov->id_movimiento}}">
-                        <td>
-                            <span class="label label-success hidden">
-                                <i class="fa fa-check" aria-hidden="true"></i>
-                            </span>
-                            <input type="hidden" name="codigo_barra[]" value="{{$mov->producto->codigo_barras}}">
-                            <input type="hidden" name="id_movimiento[]" value="{{$mov->id_movimiento}}" >
-                        </td>
-                        <td>
-                            <input type="hidden" name="cantidad_entrante[]" value="0">
-                        </td>
                         <td>
                             {{$mov->total}}
                         </td>
