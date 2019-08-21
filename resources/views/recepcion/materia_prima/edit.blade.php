@@ -695,6 +695,7 @@
                 document.getElementById('lote').value="";
                 document.getElementById('vencimiento').value="";
                 document.getElementById('cantidad').value="";
+                document.getElementById('codigo_producto').focus();
             });
             $('#producto').keydown(function (event) {
                 if(event.keyCode==13){
