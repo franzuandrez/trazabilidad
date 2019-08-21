@@ -29,6 +29,7 @@ class OperacionController extends Controller
                     ->orWhere('produccion_encabezado.no_requision','LIKE','%'.$search.'%')
                     ->orWhere('users.nombre','LIKE','%'.$search.'%');
             })
+            ->orderBy($sortField,$sort)
             ->paginate(15);
 
 
