@@ -71,6 +71,7 @@
                 <option selected value="">SELECCIONAR TIPO PRODUCTO</option>
                 <option value="MP"> MATERIA PRIMA</option>
                 <option value="PT">PRODUCTO TERMINADO</option>
+                <option value="ME">MATERIAL EMPAQUE</option>
             </select>
         </div>
     </div>

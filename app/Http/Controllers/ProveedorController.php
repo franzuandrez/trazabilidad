@@ -246,7 +246,7 @@ class ProveedorController extends Controller
     private function gurdarProductos( $proveedor ,$productos ){
 
 
-        $proveedor->productos()->attach($productos);
+        $proveedor->productos()->syncWithoutDetaching($productos);
 
 
     }
@@ -313,31 +313,35 @@ class ProveedorController extends Controller
         try {
             Excel::load($file, function ($reader) {
 
-                $results = $reader->get();
+                $results = $reader->noHeading()->get();
+                $results = $results->slice(1);
 
                 foreach ($results as $key => $value) {
 
-                    $existeProveedor = Proveedor::where('codigo_proveedor', $value->codigo)->exists();
+                    $existeProveedor = Proveedor::where('codigo_proveedor', $value[0])->exists();
 
                     if ($existeProveedor) {
 
-                        $proveedor = Proveedor::where('codigo_proveedor', $value->codigo)->first();
-                        $proveedor->razon_social = $value->razon_social;
-                        $proveedor->nombre_comercial = $value->nombre_comercial;
-                        $proveedor->email = $value->correo;
-                        $proveedor->direccion_planta = $value->direccion;
-                        $proveedor->telefono;
+                        $proveedor = Proveedor::where('codigo_proveedor',  $value[0])->first();
+                        $proveedor->razon_social =  $value[1];
+                        $proveedor->nombre_comercial = $value[2];
+                        $proveedor->email =  $value[3];
+                        $proveedor->direccion_planta =  $value[4];
+                        $proveedor->telefono_contacto = $value[5];
                         $proveedor->update();
 
                     } else {
-                        $proveedor = new Proveedor();
-                        $proveedor->codigo_proveedor = $value->codigo;
-                        $proveedor->razon_social = $value->razon_social;
-                        $proveedor->nombre_comercial = $value->nombre_comercial;
-                        $proveedor->email = $value->correo;
-                        $proveedor->direccion_planta = $value->direccion;
-                        $proveedor->telefono;
-                        $proveedor->save();
+                        if($value[1]!=null && $value[2]!=null){
+                            $proveedor = new Proveedor();
+                            $proveedor->codigo_proveedor = $value[0];
+                            $proveedor->razon_social =  $value[1];
+                            $proveedor->nombre_comercial = $value[2];
+                            $proveedor->email =  $value[3];
+                            $proveedor->direccion_planta =  $value[4];
+                            $proveedor->telefono_contacto = $value[5];
+                            $proveedor->save();
+                        }
+
 
                     }
 
@@ -353,9 +357,9 @@ class ProveedorController extends Controller
                 ->withErrors(['Archivo no valido']);
 
         }catch (\Exception $e ){
-
+            dd($e);
             return redirect()->route('proveedores.index')
-                ->withErrors(['No ha sido posible cargar los clientes']);
+                ->withErrors(['No ha sido posible cargar los Proveedores']);
         }
 
 

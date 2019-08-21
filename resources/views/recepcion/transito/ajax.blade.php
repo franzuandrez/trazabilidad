@@ -6,50 +6,41 @@
 @endsection
 
 @section('contenido')
+
     @include('componentes.alert-success')
     @include('componentes.alert-error')
 
 
     @component('componentes.nav',['operation'=>'LIST',
-    'menu_icon'=>'fa-file-text',
-    'submenu_icon'=>'fa fa-tags',
+    'menu_icon'=>'fa-arrow-circle-o-right',
+    'submenu_icon'=>'fa fa-arrow-right',
     'operation_icon'=>'',])
         @slot('menu')
-            Registro
+            Recepcion
         @endslot
         @slot('submenu')
-            Productos
+            Transito
         @endslot
     @endcomponent
 
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            @component('componentes.btn-create',['url'=>url('registro/productos/create')])
-            @endcomponent
+
+
             @component('componentes.btn-edit',['url'=>'javascript:editar()'])
             @endcomponent
             @component('componentes.btn-ver',['url'=>'javascript:ver()'])
-            @endcomponent
-            @component('componentes.btn-importar',['url'=>'javascript:importar()'])
             @endcomponent
         </div>
     </div>
 
     @component('componentes.alert-no-selecction')
         @slot('mensaje')
-            SELECCIONE UN PRODUCTO
-        @endslot
-    @endcomponent
-    @component('componentes.modal-importar-options',
-    ['ruta'=>'productos.importar',
-     'opciones'=>$tipos_productos
-    ])
-        @slot('mensaje')
-            IMPORTAR PRODUCTOS
+            SELECCIONAR RECEPCION
         @endslot
     @endcomponent
     <div id="content">
-        @include('registro.productos.index')
+        @include('recepcion.transito.index')
     </div>
     <div class="loading">
         <i class="fa fa-refresh fa-spin "></i><br/>
@@ -58,6 +49,5 @@
 @endsection
 @section('scripts')
     <script src="{{asset('js/ajax-crud.js')}}"></script>
-    <script src="{{asset('js-brc/productos/index.js')}}"></script>
-    <script src="{{asset('js-brc/tools/importar.js')}}"></script>
+    <script src="{{asset('js-brc/transito/index.js')}}"></script>
 @endsection

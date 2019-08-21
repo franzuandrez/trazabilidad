@@ -29,6 +29,7 @@
 
                     <thead style="background-color: #01579B;  color: #fff;">
                     <tr>
+                        <th>CODIGO</th>
                         <th>PRODUCTO</th>
                         <th>PRESENTACON</th>
                     </tr>
@@ -36,6 +37,7 @@
                     <tbody>
                     @foreach( $proveedor->productos as $producto )
                         <tr>
+                            <td>{{$producto->codigo_barras}}</td>
                             <td>{{$producto->descripcion}}</td>
                             <td>{{$producto->presentacion->descripcion}}</td>
                         </tr>

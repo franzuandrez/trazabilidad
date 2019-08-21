@@ -17,12 +17,16 @@ class DetalleLotes extends Model
         'cantidad',
         'no_lote',
         'fecha_vencimiento',
-        'id_recepcion_enc'
+        'id_recepcion_enc',
+        'id_producto'
     ];
 
     public function recepcion(){
 
         return $this->belongsTo('App\Recepcion','id_recepcion_enc');
+    }
+    public function producto(){
+        return $this->belongsTo('App\Producto','id_producto');
     }
     public $dates= [
         'fecha_vencimiento'

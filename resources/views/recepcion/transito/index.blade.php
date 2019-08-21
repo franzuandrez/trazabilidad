@@ -2,7 +2,7 @@
 ['search'=>$search,
   'sort'=>$sort,
   'sortField'=>$sortField,
-'modulo'=>'recepcion/materia_prima'])
+'modulo'=>'recepcion/transito'])
 @endcomponent
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
@@ -13,7 +13,7 @@
 
                 </th>
                 <th>
-                    @component('componentes.column-sort',['modulo'=>'recepcion/materia_prima',
+                    @component('componentes.column-sort',['modulo'=>'recepcion/transito',
                         'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
@@ -22,17 +22,17 @@
                     @endcomponent
                 </th>
                 <th>
-                    @component('componentes.column-sort',['modulo'=>'recepcion/materia_prima',
+                    @component('componentes.column-sort',['modulo'=>'recepcion/transito',
                         'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
-                          'field'=>'proveedor',
+                          'field'=>'proveedores.nombre_comercial',
                           'titulo'=>'proveedor'])
                     @endcomponent
                 </th>
 
                 <th>
-                    @component('componentes.column-sort',['modulo'=>'recepcion/materia_prima',
+                    @component('componentes.column-sort',['modulo'=>'recepcion/transito',
                         'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
@@ -43,7 +43,7 @@
 
                 </thead>
                 <tbody>
-                @foreach($recepciones as $recepcion)
+                @foreach($movimientos_en_transito as $recepcion)
                     <tr>
                         <td>
                             <input type="radio" name="id_recepcion_enc" value="{{$recepcion->id_recepcion_enc}}">
@@ -53,9 +53,8 @@
                             {{$recepcion->orden_compra}}
                         </td>
                         <td>
-                            {{$recepcion->proveedor}}
+                            {{$recepcion->proveedor->nombre_comercial}}
                         </td>
-
                         <td>
                             {{$recepcion->fecha_ingreso}}
                         </td>
@@ -68,11 +67,11 @@
         </div>
     </div>
     {{
-  $recepciones->appends([
-      'search' => $search,
-      'sort'=>$sort,
-      'field'=>$sortField
-  ])->links()
-  }}
+      $movimientos_en_transito->appends([
+          'search' => $search,
+          'sort'=>$sort,
+          'field'=>$sortField
+      ])->links()
+    }}
 </div>
 

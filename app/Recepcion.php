@@ -16,9 +16,9 @@ class Recepcion extends Model
     protected $fillable = [
         'orden_compra',
         'id_proveedor',
-        'id_proveedor',
+        'estado',
         'fecha_ingreso',
-        'id_producto',
+        'estado',
         'usuario_recepcion',
         'documento_proveedor'
     ];
@@ -33,10 +33,11 @@ class Recepcion extends Model
         'id_proveedor',
         'fecha_ingreso',
         'id_producto',
-        'usuario_recepcion'
+        'usuario_recepcion',
+        'estado',
     ];
 
-    public static $logOnlyDirty = true;
+    protected static $logOnlyDirty = true;
 
     public function usuario_recepcion(){
 
@@ -48,10 +49,7 @@ class Recepcion extends Model
         return $this->belongsTo('App\Proveedor','id_proveedor');
     }
 
-    public function producto(){
 
-        return $this->belongsTo('App\Producto','id_producto');
-    }
 
     public function producto_materia_prima(){
 
@@ -73,5 +71,18 @@ class Recepcion extends Model
         return $this->hasMany('App\DetalleLotes','id_recepcion_enc');
     }
 
+    public function movimientos(){
+
+        return $this->hasMany('App\Movimiento','numero_documento','orden_compra');
+    }
+
+    public function scopeTransito($query){
+        return $query->where('recepcion_encabezado.estado','T');
+    }
+
+    public function scopeEstaEnBodegaMP($query){
+        return $query->where('recepcion_encabezado.estado','MP');
+
+    }
 
 }

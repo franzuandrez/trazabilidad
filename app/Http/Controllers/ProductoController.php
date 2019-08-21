@@ -38,12 +38,18 @@ class ProductoController extends Controller
             ->orderBy($sortField,$sort)
             ->paginate(20);
 
+        $tipos_productos = [
+            'MP'=>'MATERIA PRIMA',
+            'ME'=>'MATERIAL EMPAQUE'
+        ];
+
+
         if($request->ajax()){
             return view('registro.productos.index',
-                compact('search','sort','sortField','productos'));
+                compact('search','sort','sortField','productos','tipos_productos'));
         }else{
             return view('registro.productos.ajax',
-                compact('search','sort','sortField','productos'));
+                compact('search','sort','sortField','productos','tipos_productos'));
         }
 
 
@@ -195,11 +201,11 @@ class ProductoController extends Controller
 
     public function importar( Request $request ){
 
-
+        $tipo_producto = $request->get('opcion');
         $file = $request->file('archivo_importar');
 
         try {
-            Excel::load($file, function ($reader) {
+            Excel::load($file, function ($reader) use($tipo_producto) {
 
                 $results = $reader->noHeading()->get();
                 $results = $results->slice(1);
@@ -213,22 +219,23 @@ class ProductoController extends Controller
                        $id_presentacion = $this->savePresentacion($value[2]);
                    }
 
+                   $codigo_barras = str_pad($value[0], 14, "0", STR_PAD_LEFT);
 
-                    $existeProducto = Producto::where('codigo_barras', $value[0])->exists();
+                    $existeProducto = Producto::where('codigo_barras', $codigo_barras)->exists();
 
                     if ($existeProducto) {
 
-                        $producto = Producto::where('codigo_barras', $value[0])->first();
+                        $producto = Producto::where('codigo_barras', $codigo_barras)->first();
                         $producto->descripcion =  $value[1];
                         $producto->update();
 
                     } else {
                        $producto = new Producto();
-                       $producto->codigo_barras = $value[0];
-                       $producto->codigo_interno  =$value[0];
+                       $producto->codigo_barras = $codigo_barras;
+                       $producto->codigo_interno  =$codigo_barras;
                        $producto->descripcion = $value[1];
                        $producto->id_presentacion = $id_presentacion;
-                       $producto->tipo_producto = 'MP';
+                       $producto->tipo_producto = $tipo_producto;
                        $producto->fecha_creacion =Carbon::now();
                        $producto->creado_por = \Auth::user()->id;
                        $producto->save();

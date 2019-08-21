@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\DetalleLotes;
+use App\Http\Requests\MateriaPrimaRequest;
+use App\Impresion;
 use App\InspeccionEmpaqueEtiqueta;
 use App\InspeccionVehiculo;
 use App\Producto;
+use App\Proveedor;
 use App\Recepcion;
 use App\Movimiento;
 use Illuminate\Http\Request;
@@ -13,7 +16,7 @@ use DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Mockery\Instantiator;
-
+use App\Http\Tools\Impresiones;
 class RecepcionController extends Controller
 {
     //
@@ -33,11 +36,9 @@ class RecepcionController extends Controller
 
 
         $recepciones = Recepcion::join('proveedores', 'proveedores.id_proveedor', '=', 'recepcion_encabezado.id_proveedor')
-            ->join('productos', 'productos.id_producto', '=', 'recepcion_encabezado.id_producto')
-            ->select('recepcion_encabezado.*', 'productos.descripcion as producto', 'proveedores.razon_social as proveedor')
+            ->select('recepcion_encabezado.*', 'proveedores.nombre_comercial as proveedor')
             ->where(function ($query) use ($search) {
-                $query->where('proveedores.razon_social', 'LIKE', '%' . $search . '%')
-                    ->orWhere('productos.descripcion', 'LIKE', '%' . $search . '%')
+                $query->where('proveedores.nombre_comercial', 'LIKE', '%' . $search . '%')
                     ->orWhere('recepcion_encabezado.orden_compra', 'LIKE', '%' . $search . '%');
 
             })
@@ -61,14 +62,15 @@ class RecepcionController extends Controller
 
 
         $productos = Producto::esMateriaPrima()->get();
+        $proveedores = Proveedor::all();
 
         return view('recepcion.materia_prima.create',
-            compact('productos'));
+            compact('productos', 'proveedores'));
 
 
     }
 
-    public function store(Request $request)
+    public function store(MateriaPrimaRequest $request)
     {
 
 
@@ -78,7 +80,6 @@ class RecepcionController extends Controller
             //Insertar recepcion encabezado.
 
             $recepcion = new Recepcion();
-            $recepcion->id_producto = $request->get('id_producto');
             $recepcion->id_proveedor = $request->get('id_proveedor');
             $recepcion->fecha_ingreso = Carbon::now();
             $recepcion->documento_proveedor = $request->get('documento_proveedor');
@@ -106,6 +107,8 @@ class RecepcionController extends Controller
 
             DB::rollback();
 
+            return redirect()->route('recepcion.materia_prima.index')
+                ->withErrors(['Lo sentimos, su peticion no puede ser procesada en este momento ']);
 
         }
 
@@ -204,38 +207,42 @@ class RecepcionController extends Controller
     {
 
 
-        $lotes = $request->get('no_lote');
+        $productos = $request->get('id_producto');
 
-        foreach ($lotes as $key => $value) {
+        if (is_iterable($productos)) {
 
-            $detalleLote = DetalleLotes::create([
-                'cantidad' => $request->get('cantidad')[$key],
-                'no_lote' => $value,
-                'fecha_vencimiento' => $request->get('fecha_vencimiento')[$key],
-                'id_recepcion_enc' => $id_recepcion
-            ]);
+
+            foreach ($productos as $key => $value) {
+
+                $detalleLote = DetalleLotes::create([
+                    'id_producto' => $value,
+                    'cantidad' => $request->get('cantidad')[$key],
+                    'no_lote' => $request->get('no_lote')[$key],
+                    'fecha_vencimiento' => $request->get('fecha_vencimiento')[$key],
+                    'id_recepcion_enc' => $id_recepcion
+                ]);
+            }
         }
-
 
     }
 
     private function saveMovimientos($request, $recepcion)
     {
 
-        $lotes = $request->get('no_lote');
-        if (is_iterable($lotes)) {
+        $productos = $request->get('id_producto');
+        if (is_iterable($productos)) {
 
-            foreach ($lotes as $key => $value) {
+            foreach ($productos as $key => $value) {
 
                 $movimiento = new Movimiento();
                 $movimiento->numero_documento = $recepcion->orden_compra;
                 $movimiento->usuario = Auth::user()->id;
                 $movimiento->tipo_movimiento = 1; //Entrada
                 $movimiento->cantidad = $request->get('cantidad')[$key];
-                $movimiento->id_producto = $recepcion->id_producto;
+                $movimiento->id_producto = $value;
                 $movimiento->fecha_hora_movimiento = Carbon::now();
-                $movimiento->ubicacion = 'TRANSITO';
-                $movimiento->lote = $value;
+                $movimiento->ubicacion = 0;
+                $movimiento->lote = $request->get('no_lote')[$key];;
                 $movimiento->fecha_vencimiento = $request->get('fecha_vencimiento')[$key];
                 $movimiento->clave_autorizacion = '1234';
                 $movimiento->estado = 1;
@@ -254,39 +261,45 @@ class RecepcionController extends Controller
             $recepcion = Recepcion::findOrFail($id);
 
 
-
-            return view('recepcion.materia_prima.show',compact('recepcion'));
+            return view('recepcion.materia_prima.show', compact('recepcion'));
         } catch (\Exception $e) {
 
             return redirect()->route('recepcion.materia_prima.index')
-                ->withErrors(['errors'=>' Recepcion no encontrada ']);
+                ->withErrors(['errors' => ' Recepcion no encontrada ']);
 
         }
 
 
     }
 
-    public function edit( $id){
+    public function edit($id)
+    {
 
         try {
             $recepcion = Recepcion::findOrFail($id);
 
-            return view('recepcion.materia_prima.edit',compact('recepcion'));
+            return view('recepcion.materia_prima.edit', compact('recepcion'));
         } catch (\Exception $e) {
             return redirect()->route('recepcion.materia_prima.index')
-                ->withErrors(['errors'=>' Recepcion no encontrada ']);
+                ->withErrors(['errors' => ' Recepcion no encontrada ']);
         }
 
 
     }
 
-    public function update( Request $request , $id ){
+    public function update(Request $request, $id)
+    {
 
 
         try {
 
             DB::beginTransaction();
             $recepcion = Recepcion::findOrFail($id);
+
+            if( is_iterable( $request->get('id_producto'))){
+                $recepcion->estado = 'T';
+            }
+            $recepcion->update();
             $this->saveDetalleLotes($request, $recepcion->id_recepcion_enc);
             $this->saveMovimientos($request, $recepcion);
 
@@ -299,11 +312,229 @@ class RecepcionController extends Controller
 
             DB::rollback();
             return redirect()->route('recepcion.materia_prima.index')
-                ->withErrors(['errors'=>'Lo sentimos, su peticion no puede ser procesada en este momento ']);
+                ->withErrors(['errors' => 'Lo sentimos, su peticion no puede ser procesada en este momento ']);
 
         }
 
 
     }
 
+
+    public function transito(Request $request)
+    {
+
+        $search = $request->get('search') == null ? '' : $request->get('search');
+        $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
+        $sortField = $request->get('field') == null ? 'orden_compra' : $request->get('field');
+
+        $movimientos_en_transito = Recepcion::join('movimientos', 'movimientos.numero_documento', '=', 'recepcion_encabezado.orden_compra')
+            ->join('proveedores', 'proveedores.id_proveedor', '=', 'recepcion_encabezado.id_proveedor')
+            ->join('tipo_movimiento', 'tipo_movimiento.id_movimiento', '=', 'movimientos.tipo_movimiento')
+            ->select('recepcion_encabezado.*')
+            ->transito()
+            ->where(function ($query) use ($search) {
+                $query->where('proveedores.nombre_comercial', 'LIKE', '%' . $search . '%')
+                    ->orWhere('recepcion_encabezado.orden_compra', 'LIKE', '%' . $search . '%');
+            })
+            ->groupBy('recepcion_encabezado.orden_compra')
+            ->orderBy($sortField, $sort)
+            ->paginate(20);
+
+
+        if ($request->ajax()) {
+            return view('recepcion.transito.index',
+                compact('movimientos_en_transito', 'search', 'sort', 'sortField'));
+        } else {
+            return view('recepcion.transito.ajax',
+                compact('movimientos_en_transito', 'search', 'sort', 'sortField'));
+        }
+
+
+    }
+
+
+    public function ingreso_transito($id)
+    {
+
+        try {
+            $recepcion = Recepcion::findOrFail($id);
+
+            $movimientos = Movimiento::join('tipo_movimiento', 'tipo_movimiento.id_movimiento', '=', 'movimientos.tipo_movimiento')
+                ->select('movimientos.*', DB::raw('sum(cantidad * factor) as total'))
+                ->where('numero_documento', $recepcion->orden_compra)
+                ->where('ubicacion', 0)
+                ->orderBy('movimientos.id_movimiento', 'asc')
+                ->groupBy('lote', 'id_producto')
+                ->having(DB::raw('sum(cantidad * factor)'), '>', 0)
+                ->get();
+
+
+            return view('recepcion.transito.ingreso', compact('recepcion', 'movimientos'));
+        } catch (\Exception $e) {
+
+
+            return redirect()->route('recepcion.transito.index')
+                ->withErrors(['Recepcion no encontrada']);
+        }
+
+
+    }
+
+    public function ingresar(Request $request, $id)
+    {
+
+
+        $recepcion = Recepcion::findOrFail($id);
+
+
+        $idsMovimiento =[];
+        if(count($request->get('id_movimiento'))>0){
+            $idsMovimiento = $request->get('id_movimiento');
+        }
+        $cantidadesEntrantes = $request->get('cantidad_entrante');
+        $numero_documento = $recepcion->orden_compra;
+        $isSaved = $this->guardarMovimientos(
+            1,
+            0,
+            $idsMovimiento,
+            $cantidadesEntrantes,
+            $numero_documento);
+
+
+        $noProductoRestante = $this->totalProductoPorBodega(0, $recepcion->orden_compra) == 0;
+
+        if ($noProductoRestante) {
+            $recepcion->estado = 'MP';
+            $recepcion->update();
+        }
+
+        $impresiones = $request->get('imprimir');
+
+
+        Impresiones::imprimir($idsMovimiento,'192.168.0.179','D',$impresiones);
+
+        if ($isSaved) {
+
+            return redirect()->route('recepcion.transito.index')
+                ->with('success', 'Productos ingresados correctamente');
+        } else {
+
+            return redirect()->route('recepcion.transito.index')
+                ->withErrors(['No ha sido posible ingresar el producto']);
+        }
+
+    }
+
+    private function guardarMovimientos($bodega_destino,
+                                        $bodega_origen,
+                                        $ids = [],
+                                        $cantidades = [],
+                                        $numero_documento)
+    {
+
+
+        try {
+            DB::beginTransaction();
+
+
+            $movimientos = Movimiento::whereIn('id_movimiento', $ids)
+                ->orderBy('id_movimiento', 'asc')
+                ->get();
+
+
+            foreach ($movimientos as $key => $mov) {
+
+
+                $cantidad = $cantidades[$key];
+                $lote = $mov->lote;
+                $fecha_vencimiento =  $mov->fecha_vencimiento;
+                $movimiento = new Movimiento();
+                $movimiento->numero_documento = $numero_documento;
+                $movimiento->usuario = \Auth::user()->id;
+                $movimiento->tipo_movimiento = 2;
+                $movimiento->cantidad = $cantidad;
+                $movimiento->id_producto = $mov->id_producto;
+                $movimiento->fecha_hora_movimiento = Carbon::now();
+                $movimiento->ubicacion = $bodega_origen; //ORIGEN
+                $movimiento->lote = $lote;
+                $movimiento->fecha_vencimiento = $fecha_vencimiento;
+                $movimiento->clave_autorizacion = $mov->clave_autorizacion;
+                $movimiento->estado = 2;
+                $movimiento->save();
+
+
+                $movimiento = new Movimiento();
+                $movimiento->numero_documento = $numero_documento;
+                $movimiento->usuario = \Auth::user()->id;
+                $movimiento->tipo_movimiento = 1;
+                $movimiento->cantidad = $cantidad;
+                $movimiento->id_producto = $mov->id_producto;
+                $movimiento->fecha_hora_movimiento = Carbon::now();
+                $movimiento->ubicacion = $bodega_destino; //DESTINO
+                $movimiento->lote = $lote;
+                $movimiento->fecha_vencimiento = $fecha_vencimiento;
+                $movimiento->clave_autorizacion = $mov->clave_autorizacion;
+                $movimiento->estado = 1;
+                $movimiento->save();
+
+
+
+
+
+            }
+            DB::commit();
+
+            return true;
+
+        } catch (\Exception $e) {
+
+            DB::rollback();
+
+            return false;
+        }
+
+
+    }
+
+    private function totalProductoPorBodega($id_bodega, $orden)
+    {
+
+        $movimientos = Movimiento::join('tipo_movimiento', 'tipo_movimiento.id_movimiento', '=', 'movimientos.tipo_movimiento')
+            ->select((DB::raw('sum(factor * cantidad) as total')))
+            ->where('numero_documento', $orden)
+            ->where('ubicacion', $id_bodega)
+            ->groupBy('id_producto')
+            ->groupBy('lote')
+            ->get();
+
+
+
+        $movimientos = $movimientos->where('total', '>', 0)->count();
+        return $movimientos;
+
+    }
+
+    public function show_transito($id)
+    {
+        try {
+            $recepcion = Recepcion::findOrFail($id);
+
+            $movimientos = Movimiento::join('tipo_movimiento', 'tipo_movimiento.id_movimiento', '=', 'movimientos.tipo_movimiento')
+                ->select('movimientos.*', DB::raw('sum(cantidad * factor) as total'))
+                ->where('numero_documento', $recepcion->orden_compra)
+                ->where('ubicacion', 0)
+                ->orderBy('movimientos.id_movimiento', 'asc')
+                ->groupBy('lote', 'id_producto')
+                ->having(DB::raw('sum(cantidad * factor)'), '>', 0)
+                ->get();
+
+            return view('recepcion.transito.show', compact('recepcion', 'movimientos'));
+        } catch (\Exception $e) {
+
+
+            return redirect()->route('recepcion.transito.index')
+                ->withErrors(['Recepcion no encontrada']);
+        }
+
+    }
 }

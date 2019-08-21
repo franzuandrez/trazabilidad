@@ -46,6 +46,10 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof \Spatie\Permission\Exceptions\UnauthorizedException) {
+            // Code here ...
+            return redirect('/')->with('unautorized','Usuario no autorizado');
+        }
         return parent::render($request, $exception);
     }
 }
