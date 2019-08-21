@@ -167,37 +167,36 @@ class ClienteController extends Controller
 
 
         try {
-            $data = Excel::load($file)->get();
-            if ($data->count()) {
+            Excel::load($file, function ($reader) {
+                $results = $reader->noHeading()->get();
+                $results = $results->slice(1);
+                foreach ($results as $key => $value) {
+                    $isConsumidorFinal = strtoupper($value[0]) != "C/F" || strtoupper($value[0]) != "CF";
 
-                foreach ($data as $key => $value) {
+                    if (Cliente::where('nit', $value[0])->exists() && !$isConsumidorFinal) {
 
-                    $isConsumidorFinal = strtoupper($value->nit) != "C/F" || strtoupper($value->nit) != "CF";
-
-                    if (Cliente::where('nit', $value->nit)->exists() && !$isConsumidorFinal) {
-
-                        $cliente = Cliente::where('nit', $value->nit)->first();
-                        $cliente->razon_social = $value->cliente;
-                        $cliente->direccion = $value->direccion;
-                        $cliente->telefono = $value->telefono;
+                        $cliente = Cliente::where('nit', $value[0])->first();
+                        $cliente->razon_social =$value[1];
+                        $cliente->direccion = $value[2];
+                        $cliente->telefono = $value[3];
                         $cliente->update();
                     } else {
                         $arr[] = [
-                            'nit' => $value->nit,
-                            'razon_social' => $value->cliente,
-                            'direccion' => $value->direccion,
-                            'telefono' => $value->telefono,
+                            'nit' => $value[0],
+                            'razon_social' => $value[1],
+                            'direccion' => $value[2],
+                            'telefono' => $value[3],
                             'id_categoria' => 1
                         ];
                     }
                 }
-
                 if (!empty($arr)) {
                     Cliente::insert($arr);
                 }
 
+            });
 
-            }
+
         } catch (\PHPExcel_Reader_Exception $e) {
 
            return redirect()->route('clientes.index')
