@@ -368,6 +368,7 @@ class RecepcionController extends Controller
                 ->having(DB::raw('sum(cantidad * factor)'), '>', 0)
                 ->get();
 
+
             return view('recepcion.transito.ingreso', compact('recepcion', 'movimientos'));
         } catch (\Exception $e) {
 
@@ -410,7 +411,7 @@ class RecepcionController extends Controller
         $impresiones = $request->get('imprimir');
 
 
-        Impresiones::imprimir($idsMovimiento,'192.168.0.179','D',$cantidadesEntrantes,$impresiones);
+        Impresiones::imprimir($idsMovimiento,'192.168.0.179','D',$impresiones);
 
         if ($isSaved) {
 

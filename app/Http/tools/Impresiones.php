@@ -11,7 +11,7 @@ class Impresiones
 {
     private static $file =  "C:\\ImpresionRed\\imprimir.txt";
 
-    public static function imprimir( $ids ,$ip, $tipo,$cantidades,$impresiones){
+    public static function imprimir( $ids ,$ip, $tipo,$impresiones){
 
         $movimientos = Movimiento::whereIn('id_movimiento', $ids)
             ->orderBy('id_movimiento', 'asc')
@@ -31,7 +31,7 @@ class Impresiones
                 $imprimir->DESCRIPCION_PRODUCTO = $producto->descripcion;
                 $imprimir->LOTE = $mov->lote;
                 $imprimir->FECHA_VENCIMIENTO = $mov->fecha_vencimiento;
-                $imprimir->COPIAS = $cantidades[$key];
+                $imprimir->COPIAS = $impresiones[$key];
                 $imprimir->TIPO = $tipo;
                 $imprimir->save();
             }
