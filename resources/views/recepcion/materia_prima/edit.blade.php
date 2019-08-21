@@ -544,11 +544,12 @@
                                    class="form-control">
                         </div>
                     </div>
-
                     <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                         <div class="form-group">
                             <label for="nombre">No. de Lote</label>
-                            <input id="lote" type="text" name="descripcion"
+                            <input id="lote" type="text"
+                                   onkeydown="if(event.keyCode==13)document.getElementById('vencimiento').focus()"
+                                   name="descripcion"
 
                                    class="form-control">
                         </div>
@@ -561,7 +562,9 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input id="vencimiento" type="text" class="form-control pull-right" id="datepicker">
+                                <input id="vencimiento"
+                                       onkeydown="if(event.keyCode==13)document.getElementById('cantidad').focus()"
+                                       type="text" class="form-control pull-right" id="datepicker">
                             </div>
 
                         </div>
@@ -569,7 +572,9 @@
                     <div class=" col-lg-3  col-sm-6 col-md-6 col-xs-12">
                         <div class="form-group">
                             <label for="nombre">Cantidad</label>
-                            <input id="cantidad" type="text" onkeypress="return justNumbers(event);" name="descripcion"
+                            <input id="cantidad" type="text"
+                                   onkeydown="if(event.keyCode==13)addToTable()"
+                                   onkeypress="return justNumbers(event);" name="descripcion"
 
                                    class="form-control">
                         </div>
@@ -677,13 +682,17 @@
                     return false;
                 }
             });
+            $('#producto').keydown(function (event) {
+                if(event.keyCode==13){
+                    getCodigoProducto();
+                }
+            })
 
         });
     </script>
     <script>
         function cargarProveedores(proveedores) {
             limpiarSelectProveedores()
-            console.log(proveedores);
             let option = '';
             proveedores.forEach(function (e) {
                 option += `<option value='${e.id_proveedor}'>${e.razon_social}</option>`;
@@ -937,7 +946,8 @@
 
             var codigoBarras = input.value;
             var codigo,fecha_vencimiento,lote;
-            if(codigoBarras.length == 14){
+
+            if(codigoBarras.length <= 14){
                 codigo = codigoBarras;
                 fecha_vencimiento = "";
                 lote = "";
@@ -1037,7 +1047,6 @@
         }
 
         function getDate(date) {
-
             var anio = "20" + date.substring(0, 2);
             var mes = date.substring(2, 4);
             var dia = date.substring(4);
@@ -1048,16 +1057,15 @@
         }
 
         function getCodigoProducto() {
-
             const POSICION_CODIGO = 1;
             var inputMateriaPrima = document.getElementById('producto');
 
             var infoCodigoBarras = descomponerInput(inputMateriaPrima);
 
-            const codigo_producto = infoCodigoBarras[POSICION_CODIGO]
-            if (event.keyCode == 13) {
-                buscar_producto(codigo_producto);
-            }
+            var codigo_producto = infoCodigoBarras[POSICION_CODIGO]
+            console.log(codigo_producto);
+            buscar_producto(codigo_producto);
+
 
         }
 
@@ -1082,6 +1090,10 @@
 
 
             return existe;
+        }
+
+        function prueba(e){
+            console.log(e);
         }
     </script>
 @endsection

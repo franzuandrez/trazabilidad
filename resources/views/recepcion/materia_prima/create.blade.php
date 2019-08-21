@@ -458,7 +458,9 @@
                     <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                         <div class="form-group">
                             <label for="nombre">No. de Lote</label>
-                            <input id="lote" type="text" name="descripcion"
+                            <input id="lote" type="text"
+                                   onkeydown="if(event.keyCode==13)document.getElementById('vencimiento').focus()"
+                                   name="descripcion"
 
                                    class="form-control">
                         </div>
@@ -471,7 +473,9 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input id="vencimiento" type="text" class="form-control pull-right" id="datepicker">
+                                <input id="vencimiento"
+                                       onkeydown="if(event.keyCode==13)document.getElementById('cantidad').focus()"
+                                       type="text" class="form-control pull-right" id="datepicker">
                             </div>
 
                         </div>
