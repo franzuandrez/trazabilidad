@@ -40,9 +40,12 @@
             SELECCIONE UN PRODUCTO
         @endslot
     @endcomponent
-    @component('componentes.modal-importar',['ruta'=>'productos.importar'])
+    @component('componentes.modal-importar-options',
+    ['ruta'=>'productos.importar',
+     'opciones'=>$tipos_productos
+    ])
         @slot('mensaje')
-            IMPORTAR PRODUCTOS DE MATERIA PRIMA
+            IMPORTAR PRODUCTOS
         @endslot
     @endcomponent
     <div id="content">

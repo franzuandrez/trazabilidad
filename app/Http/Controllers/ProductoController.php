@@ -38,12 +38,18 @@ class ProductoController extends Controller
             ->orderBy($sortField,$sort)
             ->paginate(20);
 
+        $tipos_productos = [
+            'MP'=>'MATERIA PRIMA',
+            'ME'=>'MATERIAL EMPAQUE'
+        ];
+
+
         if($request->ajax()){
             return view('registro.productos.index',
-                compact('search','sort','sortField','productos'));
+                compact('search','sort','sortField','productos','tipos_productos'));
         }else{
             return view('registro.productos.ajax',
-                compact('search','sort','sortField','productos'));
+                compact('search','sort','sortField','productos','tipos_productos'));
         }
 
 
@@ -195,11 +201,11 @@ class ProductoController extends Controller
 
     public function importar( Request $request ){
 
-
+        $tipo_producto = $request->get('opcion');
         $file = $request->file('archivo_importar');
 
         try {
-            Excel::load($file, function ($reader) {
+            Excel::load($file, function ($reader) use($tipo_producto) {
 
                 $results = $reader->noHeading()->get();
                 $results = $results->slice(1);
@@ -229,7 +235,7 @@ class ProductoController extends Controller
                        $producto->codigo_interno  =$codigo_barras;
                        $producto->descripcion = $value[1];
                        $producto->id_presentacion = $id_presentacion;
-                       $producto->tipo_producto = 'MP';
+                       $producto->tipo_producto = $tipo_producto;
                        $producto->fecha_creacion =Carbon::now();
                        $producto->creado_por = \Auth::user()->id;
                        $producto->save();
