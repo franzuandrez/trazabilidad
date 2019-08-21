@@ -235,9 +235,10 @@
         function buscarProducto(input) {
 
             if (event.keyCode == 13) {
-                var regexp = new RegExp(input.value,'i');
+
+                var regexp = new RegExp(input.value.trim(),'i');
                 var noexisteproducto = getMovimientos()
-                    .filter(mov => mov.producto.descripcion.match(regexp) || mov.producto.codigo_barras == input.value)
+                    .filter(mov => mov.producto.descripcion.trim().match(regexp) || mov.producto.codigo_barras.trim() == input.value.trim())
                     .length == 0;
 
                 if (input.value != "" && noexisteproducto) {
@@ -267,8 +268,8 @@
             if (search == null || search == "") {
                 movimientos = getMovimientos();
             } else {
-                var regexp = new RegExp(search,'i');
-                movimientos = getMovimientos().filter(mov => mov.producto.descripcion.match(regexp) || mov.producto.codigo_barras == search);
+                var regexp = new RegExp(search.trim(),'i');
+                movimientos = getMovimientos().filter(mov => mov.producto.descripcion.trim().match(regexp) || mov.producto.codigo_barras.trim() == search.trim());
             }
 
             let row = '';
