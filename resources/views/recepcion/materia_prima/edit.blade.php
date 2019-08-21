@@ -525,7 +525,7 @@
                 </div>
 
                 <div class="tab-pane active" id="tab_3">
-                    <div class="col-lg-8 col-sm-8 col-md-8 col-xs-12">
+                    <div class="col-lg-7 col-sm-10 col-md-10 col-xs-10">
                         <div class="form-group">
                             <label for="codigo_producto">Codigo</label>
                             <input id="codigo_producto" type="text"
@@ -533,10 +533,17 @@
                                    class="form-control">
                         </div>
                     </div>
+                    <div class="col-lg-1 col-sm-2 col-md-2 col-xs-2">
+                        <br>
+                        <div class="form-group">
+                            <button id="btnLimpiar" class="btn btn-default block" style="margin-top: 5px;" type="button">
+                                <span class=" fa fa-trash"></span></button>
+                        </div>
+                    </div>
                     <input id="id_producto" type="hidden"
                            name="id_producto"
                            class="form-control">
-                    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
+                    <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
                         <div class="form-group">
                             <label for="nombre_producto">Producto</label>
                             <input id="nombre_producto" type="text"
@@ -544,7 +551,8 @@
                                    class="form-control">
                         </div>
                     </div>
-                    <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+
+                    <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
                         <div class="form-group">
                             <label for="nombre">No. de Lote</label>
                             <input id="lote" type="text"
@@ -554,7 +562,7 @@
                                    class="form-control">
                         </div>
                     </div>
-                    <div class="col-lg-4 col-sm-8 col-md-8 col-xs-10">
+                    <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
                         <div class="form-group">
                             <label>Fecha de Vencimiento</label>
 
@@ -569,24 +577,22 @@
 
                         </div>
                     </div>
-                    <div class=" col-lg-3  col-sm-6 col-md-6 col-xs-12">
+                    <div class=" col-lg-3  col-sm-4 col-md-4 col-xs-10">
                         <div class="form-group">
                             <label for="nombre">Cantidad</label>
                             <input id="cantidad" type="number"
                                    onkeydown="if(event.keyCode==13)addToTable()"
                                    onkeypress="return justNumbers(event);" name="descripcion"
-
                                    class="form-control">
                         </div>
                     </div>
-                    <div class="col-lg-2 col-sm-4 col-md-2 col-xs-2">
+                    <div class="col-lg-1 col-sm-2 col-md-2 col-xs-2">
                         <br>
                         <div class="form-group">
                             <button id="btnAdd" class="btn btn-default block" style="margin-top: 5px;" type="button">
                                 <span class=" fa fa-plus"></span></button>
                         </div>
                     </div>
-
 
                     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
 
@@ -681,6 +687,14 @@
                     event.preventDefault();
                     return false;
                 }
+            });
+            $("#btnLimpiar").click(function () {
+                document.getElementById('id_producto').value="";
+                document.getElementById('codigo_producto').value="";
+                document.getElementById('nombre_producto').value="";
+                document.getElementById('lote').value="";
+                document.getElementById('vencimiento').value="";
+                document.getElementById('cantidad').value="";
             });
             $('#producto').keydown(function (event) {
                 if(event.keyCode==13){
