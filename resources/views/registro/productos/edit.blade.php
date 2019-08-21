@@ -48,9 +48,10 @@
                 <option value="">SELECCIONAR DIMENSIONAL</option>
                 @foreach( $dimensionales as $dimensional )
                     @if( $dimensional->id_dimensional == $producto->id_dimensional )
-                        <option selected  value="{{$dimensional->id_dimensional}}"> {{$dimensional->descripcion}}  </option>
+                        <option selected
+                                value="{{$dimensional->id_dimensional}}"> {{$dimensional->descripcion}}  </option>
                     @else
-                        <option   value="{{$dimensional->id_dimensional}}"> {{$dimensional->descripcion}}  </option>
+                        <option value="{{$dimensional->id_dimensional}}"> {{$dimensional->descripcion}}  </option>
                     @endif
                 @endforeach
             </select>
@@ -63,9 +64,10 @@
                 <option value="">SELECCIONAR PRESENTACION</option>
                 @foreach( $presentaciones as $presentacion)
                     @if( $presentacion->id_presentacion == $producto->id_presentacion  )
-                        <option  selected  value="{{$presentacion->id_presentacion}}"> {{$presentacion->descripcion}}  </option>
+                        <option selected
+                                value="{{$presentacion->id_presentacion}}"> {{$presentacion->descripcion}}  </option>
                     @else
-                        <option    value="{{$presentacion->id_presentacion}}"> {{$presentacion->descripcion}}  </option>
+                        <option value="{{$presentacion->id_presentacion}}"> {{$presentacion->descripcion}}  </option>
                     @endif
                 @endforeach
             </select>
@@ -79,9 +81,15 @@
                 @if(  $producto->tipo_documento == "MP"  )
                     <option value="MP" selected> MATERIA PRIMA</option>
                     <option value="PT">PRODUCTO TERMINADO</option>
-                @else
+                    <option value="ME">MATERIAL EMPAQUE</option>
+                @elseif($producto->tipo_documento == "PT"  )
                     <option value="MP"> MATERIA PRIMA</option>
                     <option value="PT" selected>PRODUCTO TERMINADO</option>
+                    <option value="ME">MATERIAL EMPAQUE</option>
+                @else
+                    <option value="MP"> MATERIA PRIMA</option>
+                    <option value="PT" >PRODUCTO TERMINADO</option>
+                    <option value="ME" selected>MATERIAL EMPAQUE</option>
                 @endif
             </select>
         </div>

@@ -75,7 +75,7 @@
             </select>
         </div>
     </div>
-  
+
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="tipo_producto">TIPO PRODUCTO</label>
@@ -87,9 +87,15 @@
                 @if(  $producto->tipo_documento == "MP"  )
                     <option value="MP" selected> MATERIA PRIMA</option>
                     <option value="PT">PRODUCTO TERMINADO</option>
-                @else
+                    <option value="ME">MATERIAL EMPAQUE</option>
+                @elseif($producto->tipo_documento == "PT"  )
                     <option value="MP"> MATERIA PRIMA</option>
                     <option value="PT" selected>PRODUCTO TERMINADO</option>
+                    <option value="ME">MATERIAL EMPAQUE</option>
+                @else
+                    <option value="MP"> MATERIA PRIMA</option>
+                    <option value="PT" >PRODUCTO TERMINADO</option>
+                    <option value="ME" selected>MATERIAL EMPAQUE</option>
                 @endif
             </select>
         </div>
