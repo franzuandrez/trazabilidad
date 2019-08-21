@@ -298,6 +298,8 @@ Route::patch('control/precocido/{id}','PrecocidoController@update')->name('preco
 Route::get('control/precocido/{id}','PrecocidoController@show')->name('precocido.show');
 Route::post('control/precocido/{id}','PrecocidoController@destroy')->name('precocido.destroy');
 
+Route::get('produccion/operaciones','OperacionController@index')->name('produccion.operaciones');
+
 Route::get('produccion/mezcladora','MezcladoraController@index')->name('mezcladora.index');
 Route::get('produccion/mezcladora/create','MezcladoraController@create')->name('mezcladora.create');
 Route::post('produccion/mezcladora/create','MezcladoraController@store')->name('mezcladora.store');
