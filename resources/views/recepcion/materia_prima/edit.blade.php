@@ -1008,7 +1008,7 @@
 
                         let producto = productos[0];
 
-                        var id_proveedor = $('#proveedores').val();
+                        var id_proveedor = $('#id_proveedor').val();
                         var proveedor = productos[0].proveedores.find(function (element) {
                             return element.id_proveedor == id_proveedor
                         });
