@@ -22,6 +22,10 @@ class Operacion extends Model
 
     ];
 
+    protected $dates =[
+        'fecha_ingreso'
+    ];
+
     public function usuario_ingreso() {
 
         return $this->belongsTo('App\User','id_usuario_ingreso');
