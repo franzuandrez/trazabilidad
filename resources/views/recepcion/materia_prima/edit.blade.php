@@ -572,7 +572,7 @@
                     <div class=" col-lg-3  col-sm-6 col-md-6 col-xs-12">
                         <div class="form-group">
                             <label for="nombre">Cantidad</label>
-                            <input id="cantidad" type="text"
+                            <input id="cantidad" type="number"
                                    onkeydown="if(event.keyCode==13)addToTable()"
                                    onkeypress="return justNumbers(event);" name="descripcion"
 
