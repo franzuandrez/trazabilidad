@@ -94,7 +94,7 @@
     <div class="col-lg-3 col-sm-3 col-md-6 col-xs-6">
         <label for="cantidad_impresion">CANTIDAD IMPRESION</label>
         <div class="form-group">
-            <input type="text"
+            <input type="number"
                    readonly
                    value="1"
                    onkeydown="if(event.keyCode==13)document.getElementById('cantidad').focus()"
@@ -103,10 +103,11 @@
                    class="form-control">
         </div>
     </div>
+    @include('recepcion.transito.productos')
     <div class="col-lg-3 col-sm-3 col-md-6 col-xs-6">
         <label for="cantidad">CANTIDAD ENTRANTE</label>
         <div class="form-group">
-            <input type="text"
+            <input type="number"
                    readonly
                    onkeydown="if(event.keyCode==13)addToTable()"
                    id="cantidad"
@@ -234,20 +235,55 @@
         function buscarProducto(input) {
 
             if (event.keyCode == 13) {
+                var regexp = new RegExp(input.value,'i');
+                var noexisteproducto = getMovimientos()
+                    .filter(mov => mov.producto.descripcion.match(regexp) || mov.producto.codigo_barras == input.value)
+                    .length == 0;
 
-                let infoProducto = descomponerInput(input);
+                if (input.value != "" && noexisteproducto) {
+                    let infoProducto = descomponerInput(input);
 
-                if (infoProducto[POSICION_LOTE] == "") {
-                    document.getElementById('lote').readOnly = false;
-                    document.getElementById('lote').focus();
+                    if (infoProducto[POSICION_LOTE] == "") {
+                        document.getElementById('lote').readOnly = false;
+                        document.getElementById('lote').value = "";
+                        document.getElementById('lote').focus();
+                    } else {
+                        let codigo = infoProducto[POSICION_CODIGO];
+                        let lote = infoProducto[POSICION_LOTE];
+                        fillProduct(codigo, lote);
+                    }
                 } else {
-                    let codigo = infoProducto[POSICION_CODIGO];
-                    let lote = infoProducto[POSICION_LOTE];
-                    fillProduct(codigo, lote);
+                    cargarProductos(input.value);
                 }
 
 
             }
+        }
+
+        function cargarProductos(search = null) {
+            $('#tbody-productos').empty();
+            let movimientos = null;
+
+            if (search == null || search == "") {
+                movimientos = getMovimientos();
+            } else {
+                var regexp = new RegExp(search,'i');
+                movimientos = getMovimientos().filter(mov => mov.producto.descripcion.match(regexp) || mov.producto.codigo_barras == search);
+            }
+
+            let row = '';
+            movimientos.forEach(function (e) {
+                row += `<tr>
+                         <td><input type="radio" name="movimientos" onclick="document.getElementById('aceptar_producto').disabled=false"></td>
+                         <td>${e.producto.codigo_barras}</td>
+                         <td>${e.producto.descripcion}</td>
+                         <td>${e.lote}</td>
+                         <td>${e.fecha_vencimiento}</td>
+                        </tr>`
+            })
+
+            $('#tbody-productos').append(row);
+            $('#modal-productos').modal();
         }
 
         function addToTable() {
@@ -297,13 +333,13 @@
                 document.getElementById('lote').readOnly = true;
                 producto = mov.producto;
 
-                if (producto.codigo_barras == codigo || producto.descripcion == codigo) {
+                if (producto.codigo_barras.toUpperCase() == codigo.toUpperCase() || producto.descripcion.toUpperCase() == codigo.toUpperCase()) {
                     document.getElementById('descripcion').value = producto.descripcion;
-                    document.getElementById('cantidad_impresion').focus();
                     document.getElementById('lote').value = lote;
                     document.getElementById('id_movimiento').value = mov.id_movimiento;
                     document.getElementById('cantidad_impresion').readOnly = false;
                     document.getElementById('cantidad').readOnly = false;
+                    document.getElementById('cantidad_impresion').focus();
                 } else {
                     document.getElementById('descripcion').value = "";
                     document.getElementById('lote').value = "";
@@ -314,9 +350,41 @@
                 document.getElementById('descripcion').value = "";
                 document.getElementById('lote').value = "";
                 document.getElementById('id_movimiento').value = "";
-                alert("Lote no encontrado");
+                alert("Producto con lote no encontrado");
             }
 
+        }
+
+        function setProducto() {
+
+            let producto = getProductoSelected();
+            setTimeout(function () {
+                fillProduct(producto[1], producto[2])
+            }, 500)
+
+        }
+
+        function getProductoSelected() {
+            var productos = document.getElementsByName('movimientos');
+            var id_prod = null;
+            var descripcion = null;
+            var codigo = null, lote = null;
+
+            var arrayProductos = Object.keys(productos).map(function (key) {
+                return [Number(key), productos[key]];
+            });
+
+
+            arrayProductos.forEach(function (prod) {
+                if (prod[1].checked) {
+                    var childrens = prod[1].parentElement.parentElement.children;
+                    id_prod = childrens[0].firstChild.value;
+                    descripcion = childrens[2].innerText;
+                    codigo = childrens[1].innerText;
+                    lote = childrens[3].innerText;
+                }
+            });
+            return [id_prod, codigo, lote, descripcion];
         }
 
         function checkRow(idMovimiento, cantidad, impresiones) {
