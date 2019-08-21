@@ -26,7 +26,7 @@
                         'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
-                          'field'=>'proveedores.razon_social',
+                          'field'=>'proveedores.nombre_comercial',
                           'titulo'=>'proveedor'])
                     @endcomponent
                 </th>
@@ -53,7 +53,7 @@
                             {{$recepcion->orden_compra}}
                         </td>
                         <td>
-                            {{$recepcion->proveedor->razon_social}}
+                            {{$recepcion->proveedor->nombre_comercial}}
                         </td>
                         <td>
                             {{$recepcion->fecha_ingreso}}

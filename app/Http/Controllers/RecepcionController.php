@@ -333,7 +333,7 @@ class RecepcionController extends Controller
             ->select('recepcion_encabezado.*')
             ->transito()
             ->where(function ($query) use ($search) {
-                $query->where('proveedores.razon_social', 'LIKE', '%' . $search . '%')
+                $query->where('proveedores.nombre_comercial', 'LIKE', '%' . $search . '%')
                     ->orWhere('recepcion_encabezado.orden_compra', 'LIKE', '%' . $search . '%');
             })
             ->groupBy('recepcion_encabezado.orden_compra')
