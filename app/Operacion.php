@@ -8,7 +8,7 @@ class Operacion extends Model
 {
     //
 
-    protected $table = 'produccion_encabezado';
+    protected $table = 'requisicion_encabezado';
     protected $primaryKey = 'id';
     public $timestamps = false;
 

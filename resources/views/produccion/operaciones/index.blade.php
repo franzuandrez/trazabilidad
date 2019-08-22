@@ -17,7 +17,7 @@
                         'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
-                          'field'=>'produccion_encabezado.no_orden_produccion',
+                          'field'=>'requisicion_encabezado.no_orden_produccion',
                           'titulo'=>'NO. ORDEN'])
                     @endcomponent
                 </th>
@@ -26,7 +26,7 @@
                         'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
-                          'field'=>'produccion_encabezado.no_requision',
+                          'field'=>'requisicion_encabezado.no_requision',
                           'titulo'=>'NO. REQUISION'])
                     @endcomponent
                 </th>

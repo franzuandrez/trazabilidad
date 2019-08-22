@@ -23,11 +23,11 @@ class OperacionController extends Controller
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
         $sortField = $request->get('field') == null ? 'fecha_ingreso' : $request->get('field');
 
-        $operaciones = Operacion::select('produccion_encabezado.*')
-            ->join('users','users.id','=','produccion_encabezado.id_usuario_ingreso')
+        $operaciones = Operacion::select('requisicion_encabezado.*')
+            ->join('users','users.id','=','requisicion_encabezado.id_usuario_ingreso')
             ->where(function ( $query ) use ($search){
-                $query->where('produccion_encabezado.no_orden_produccion','LIKE','%'.$search.'%')
-                    ->orWhere('produccion_encabezado.no_requision','LIKE','%'.$search.'%')
+                $query->where('requisicion_encabezado.no_orden_produccion','LIKE','%'.$search.'%')
+                    ->orWhere('requisicion_encabezado.no_requision','LIKE','%'.$search.'%')
                     ->orWhere('users.nombre','LIKE','%'.$search.'%');
             })
             ->orderBy($sortField,$sort)
