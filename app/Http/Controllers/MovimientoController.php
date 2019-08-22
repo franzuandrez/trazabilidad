@@ -84,18 +84,10 @@ class MovimientoController extends Controller
             ->get();
 
 
-        $response = [$existencias,$this->getTotalEnRequisiciones($productos)];
+        $response = $existencias;
         return response()->json($response);
 
     }
 
-    private function getTotalEnRequisiciones( $productos ){
 
-        $totalEnRequisiciones = RequisicionDetalle::reservado()
-            ->whereIn('id_producto',$productos)
-            ->sum('cantidad');
-
-        return $totalEnRequisiciones;
-
-    }
 }
