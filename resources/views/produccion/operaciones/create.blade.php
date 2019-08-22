@@ -144,7 +144,6 @@
                 dataType: "json",
                 success: function (response) {
 
-                    console.log(response);
                     if (response.length == 0) {
 
                         alertInexitencia();
@@ -152,10 +151,9 @@
                         document.getElementById('cantidad').readOnly = true;
 
                     } else {
-                        existencia = response[0];
-                        totalEnReserva = response[1];
-                        document.getElementById('descripcion').value = response[0][0].producto.descripcion;
-                        document.getElementById('id_producto').value = response[0][0].producto.id_producto;
+                        existencia = response;
+                        document.getElementById('descripcion').value = response[0].producto.descripcion;
+                        document.getElementById('id_producto').value = response[0].producto.id_producto;
                         document.getElementById('cantidad').readOnly = false;
                         document.getElementById('cantidad').focus();
 
@@ -205,7 +203,7 @@
             return total;
         }
 
-        function agregarProducto() {
+        async function agregarProducto() {
             let id_producto = document.getElementById('id_producto').value;
             let id_requisicion = document.getElementById('id_requisicion').value;
             let cantidad = document.getElementById('cantidad').value;
@@ -213,16 +211,21 @@
                 alert("Cantidad invalida");
                 return;
             }
-            let cantidadAgregada = totalEnReserva;
-            cantidad = parseInt(cantidad) + cantidadAgregada;
-            console.log(cantidad);
-            if (cantidad > getTotalExistencia()) {
-                alert("Cantidad insuficiente");
-                document.getElementById('cantidad').value = "";
-            } else {
-                insertarProducto(id_producto, cantidad, id_requisicion);
 
-            }
+
+               let cantidadAgregada = await getTotalEnReserva(id_producto);
+
+
+                cantidad = parseInt(cantidad) ;
+
+                if (cantidad + cantidadAgregada > getTotalExistencia()) {
+                    alert("Cantidad insuficiente");
+                    document.getElementById('cantidad').value = "";
+                } else {
+                    insertarProducto(id_producto, cantidad, id_requisicion);
+                }
+
+
 
 
         }
@@ -395,6 +398,21 @@
 
         }
 
+         function getTotalEnReserva(id_producto){
+
+           return  $.ajax({
+                url:"{{url('produccion/requisiciones/en_reserva')}}"+"/"+id_producto,
+                type: "get",
+                dataType: "json",
+                success:function (response) {
+
+
+                },error:function (e) {
+
+                }
+            })
+
+        }
 
     </script>
 @endsection
