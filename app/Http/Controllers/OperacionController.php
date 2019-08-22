@@ -92,11 +92,29 @@ class OperacionController extends Controller
         }else{
             $requisicion = new Requisicion();
             $requisicion->no_requision = $orden_requisicion;
+            $requisicion->id_usuario_ingreso = Auth::user()->id;
             $requisicion->fecha_ingreso = Carbon::now();
             $requisicion->save();
             $response = [self::ESTADO_ORDEN_NUEVA,$requisicion->id];
         }
         return $response;
 
+    }
+
+    public function verificarOrdenProduccion( $orden_produccion,$id){
+        $response = [];
+        $orden = Requisicion::where('no_orden_produccion',$orden_produccion)
+            ->first();
+
+        if($orden != null){
+
+            $response = [ self::ESTADO_ORDEN_EXISTENTE , $orden->estado ];
+        }else{
+            $requisicion = Requisicion::findOrFail($id);
+            $requisicion->no_orden_produccion = $orden_produccion;
+            $requisicion->update();
+            $response = [self::ESTADO_ORDEN_NUEVA,$requisicion->id];
+        }
+        return $response;
     }
 }

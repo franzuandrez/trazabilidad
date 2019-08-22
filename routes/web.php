@@ -304,6 +304,8 @@ Route::get('produccion/requisiciones/create','OperacionController@create')->name
 Route::post('produccion/requisiciones/create','OperacionController@store')->name('produccion.requisiciones.store');
 Route::get('produccion/requisiciones/validar_requisicion/{no_requisicion}','OperacionController@verificarOrdenRequisicion')
     ->name('produccion.requisiciones.validar_requisicion');
+Route::get('produccion/requisiciones/validar_orden_produccion/{no_orden}/{id}','OperacionController@verificarOrdenProduccion')
+    ->name('produccion.requisiciones.validar_orden_produccion');
 
 Route::get('produccion/mezcladora','MezcladoraController@index')->name('mezcladora.index');
 Route::get('produccion/mezcladora/create','MezcladoraController@create')->name('mezcladora.create');

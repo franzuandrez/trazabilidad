@@ -16,7 +16,7 @@
     {{Form::token()}}
 
 
-
+    <input name="id_requisicion" type="hidden" id="id_requisicion">
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="no_requision">NO.REQUISION</label>
@@ -34,6 +34,7 @@
             <input type="text"
                    name="no_orden_produccion"
                    readonly
+                   onkeydown="if(event.keyCode==13)validarOrdenProduccion()"
                    id="no_orden_produccion"
                    value="{{old('no_orden_produccion')}}"
                    class="form-control">
@@ -137,7 +138,7 @@
                 dataType: "json",
                 success: function (response) {
 
-
+                    console.log(response);
                     if (response.length == 0) {
 
                         alertInexitencia();
@@ -147,8 +148,8 @@
                     } else {
                         existencia = response[0];
                         totalEnReserva= response[1];
-                        document.getElementById('descripcion').value = response[0].producto.descripcion;
-                        document.getElementById('id_producto').value = response[0].producto.id_producto;
+                        document.getElementById('descripcion').value = response[0][0].producto.descripcion;
+                        document.getElementById('id_producto').value = response[0][0].producto.id_producto;
                         document.getElementById('cantidad').readOnly = false;
                         document.getElementById('cantidad').focus();
 
@@ -205,8 +206,9 @@
                 alert("Cantidad invalida");
                 return;
             }
-            let cantidadAgregada = getCantidadAgregada(id_producto);
+            let cantidadAgregada = totalEnReserva;
             cantidad = parseInt(cantidad) + cantidadAgregada;
+            console.log(cantidad);
             if (cantidad > getTotalExistencia()) {
                 alert("Cantidad insuficiente");
                 document.getElementById('cantidad').value = "";
@@ -300,6 +302,7 @@
                     let isNew = response[0]==1;
 
                     if(isNew){
+                        document.getElementById('id_requisicion').value = response[1];
                         document.getElementById('no_orden_produccion').focus();
                         document.getElementById('no_orden_produccion').readOnly=false;
                         document.getElementById('no_requisicion').readOnly=true;
@@ -316,6 +319,33 @@
             })
 
 
+        }
+
+        function validarOrdenProduccion(){
+            let no_orden_produccion = document.getElementById('no_orden_produccion').value;
+            let id_requision = document.getElementById('id_requisicion').value;
+            $.ajax({
+                url:"{{url('produccion/requisiciones/validar_orden_produccion/')}}"+"/"+no_orden_produccion+"/"+id_requision,
+                type: "get",
+                dataType: "json",
+                success:function (response) {
+                    let isNew = response[0]==1;
+
+                    if(isNew){
+                        document.getElementById('codigo_producto').focus();
+                        document.getElementById('codigo_producto').readOnly=false;
+                        document.getElementById('no_orden_produccion').readOnly=true;
+                    }else{
+                        let estaEnProceso = response[1].toUpperCase()=="P";
+                        if(estaEnProceso){
+                            alert("Orden de Produccion en proceso");
+                        }else{
+                            alert("Orden de Produccion existente");
+                        }
+                    }
+                }
+
+            })
         }
     </script>
 @endsection
