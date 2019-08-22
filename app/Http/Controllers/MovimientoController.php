@@ -57,6 +57,7 @@ class MovimientoController extends Controller
 
 
         $productos = Producto::where('descripcion','LIKE','%'.$search.'%')
+            ->orWhere('codigo_interno','LIKE','%'.$search.'%')
             ->orWhere('codigo_barras','LIKE','%'.$search.'%')
             ->pluck('id_producto');
 
@@ -65,11 +66,16 @@ class MovimientoController extends Controller
 
 
         $existencias = Movimiento::join('tipo_movimiento','tipo_movimiento.id_movimiento','=','movimientos.tipo_movimiento')
-            ->select('movimientos.*',DB::raw('sum(cantidad * factor) as total'))
+            ->select('movimientos.id_movimiento',
+                'movimientos.lote',
+                'movimientos.id_producto',
+                'movimientos.ubicacion',
+                DB::raw('sum(cantidad * factor) as total'))
             ->whereIn('id_producto', $productos)
             ->where('ubicacion', $ubicacion)
             ->groupBy('id_producto')
             ->groupBy('lote')
+            ->orderBy('movimientos.fecha_vencimiento','asc')
             ->with('producto')
             ->with('bodega')
             ->get();
