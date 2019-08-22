@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Auth;
 class OperacionController extends Controller
 {
     //
-
+    const ESTADO_ORDEN_EXISTENTE = 0;
+    const ESTADO_ORDEN_NUEVA = 1;
     public function __construct()
     {
         $this->middleware('auth');
@@ -77,5 +78,25 @@ class OperacionController extends Controller
             return redirect()->route('produccion.operaciones.index')
                 ->withErrors(['Algo salio mal, intentelo más tarde']);
         }
+    }
+
+    public function verificarOrdenRequisicion( $orden_requisicion ){
+
+        $response = [];
+        $orden = Requisicion::where('no_requision',$orden_requisicion)
+            ->first();
+
+        if($orden != null){
+
+            $response = [ self::ESTADO_ORDEN_EXISTENTE , $orden->estado ];
+        }else{
+            $requisicion = new Requisicion();
+            $requisicion->no_requision = $orden_requisicion;
+            $requisicion->fecha_ingreso = Carbon::now();
+            $requisicion->save();
+            $response = [self::ESTADO_ORDEN_NUEVA,$requisicion->id];
+        }
+        return $response;
+
     }
 }

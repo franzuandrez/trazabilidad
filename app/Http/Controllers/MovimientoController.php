@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Bodega;
 use App\Movimiento;
 use App\Producto;
+use App\RequisicionDetalle;
 use Illuminate\Http\Request;
 use DB;
 
@@ -56,9 +57,8 @@ class MovimientoController extends Controller
         $search = $request->get('search');
 
 
-        $productos = Producto::where('descripcion','LIKE','%'.$search.'%')
-            ->orWhere('codigo_interno','LIKE','%'.$search.'%')
-            ->orWhere('codigo_barras','LIKE','%'.$search.'%')
+        $productos = Producto::where('codigo_interno','=',$search)
+            ->orWhere('codigo_barras','=',$search)
             ->pluck('id_producto');
 
 
@@ -79,16 +79,23 @@ class MovimientoController extends Controller
             ->orderBy('movimientos.fecha_vencimiento','asc')
             ->with('producto')
             ->with('bodega')
+            ->with('producto.presentacion')
+            ->with('producto.dimensional')
             ->get();
 
 
-        return response()->json($existencias);
+        $response = [$existencias,$this->getTotalEnRequisiciones($productos)];
+        return response()->json($response);
 
     }
 
-    public function getTotalEnRequisiciones( $id_producto ){
+    private function getTotalEnRequisiciones( $productos ){
 
+        $totalEnRequisiciones = RequisicionDetalle::reservado()
+            ->whereIn('id_producto',$productos)
+            ->sum('cantidad');
 
+        return $totalEnRequisiciones;
 
     }
 }

@@ -19,7 +19,7 @@ class Requisicion extends Model
         'fecha_ingreso',
         'id_usuario_ingreso',
         'id_usuario_aprobo',
-
+        'estado',
     ];
 
     protected $dates =[
@@ -34,5 +34,9 @@ class Requisicion extends Model
     public function usuario_aprobo(){
 
         return $this->belongsTo('App\User','id_usuario_aprobo');
+    }
+
+    public function scopeProceso( $query){
+        return $query->where('estado','P');
     }
 }

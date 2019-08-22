@@ -16,27 +16,36 @@
     {{Form::token()}}
 
 
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="no_orden_produccion">NO.ORDEN PRODUCCION</label>
-            <input type="text" name="no_orden_produccion" value="{{old('no_orden_produccion')}}"
-                   class="form-control">
-        </div>
-    </div>
+
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="no_requision">NO.REQUISION</label>
-            <input type="text" name="no_requision" value="{{old('no_requision')}}"
+            <input type="text"
+                   name="no_requisicion"
+                   id="no_requisicion"
+                   onkeydown="if(event.keyCode==13)validarRequisicion()"
+                   value="{{old('no_requision')}}"
                    class="form-control">
         </div>
     </div>
-
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="no_orden_produccion">NO.ORDEN PRODUCCION</label>
+            <input type="text"
+                   name="no_orden_produccion"
+                   readonly
+                   id="no_orden_produccion"
+                   value="{{old('no_orden_produccion')}}"
+                   class="form-control">
+        </div>
+    </div>
 
     <div class="col-lg-5 col-sm-5 col-md-5 col-xs-8">
         <div class="form-group">
             <label for="codigo_producto">CODIGO PRODUCTO</label>
             <input type="text"
                    name="codigo_producto"
+                   readonly
                    id="codigo_producto"
                    onkeydown="if(event.keyCode==13)buscar_existencia()"
                    value="{{old('codigo_producto')}}"
@@ -78,9 +87,11 @@
         <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
 
             <thead style="background-color: #01579B;  color: #fff;">
+            <th>OPCION</th>
             <th>CANTIDAD</th>
+            <th>CODIGO PRODUCTO</th>
             <th>PRODUCTO</th>
-            <th>LOTE</th>
+            <th>PRESENTACION</th>
             </thead>
             <tbody id="body-detalles">
             </tbody>
@@ -116,7 +127,7 @@
         }
 
         var existencia = [];
-
+        var totalEnReserva = 0;
         function getExistencias(search) {
 
 
@@ -134,7 +145,8 @@
                         document.getElementById('cantidad').readOnly = true;
 
                     } else {
-                        existencia = response;
+                        existencia = response[0];
+                        totalEnReserva= response[1];
                         document.getElementById('descripcion').value = response[0].producto.descripcion;
                         document.getElementById('id_producto').value = response[0].producto.id_producto;
                         document.getElementById('cantidad').readOnly = false;
@@ -200,9 +212,9 @@
                 document.getElementById('cantidad').value = "";
             } else {
                 limpiarProductoAgregados(id_producto);
-                let cantidadesEntrantes = getTotalPorLote(cantidad);
-                cargarLotes(existencia, cantidadesEntrantes);
+                cargarProducto(existencia[0].producto,cantidad);
                 document.getElementById('cantidad').value = "";
+                document.getElementById('descripcion').value = "";
                 document.getElementById('cantidad').readOnly = true;
                 document.getElementById('codigo_producto').value = "";
                 existencia.splice(0, existencia.length);
@@ -258,6 +270,52 @@
             let td = $(element).parent();
             let row = td.parent();
             row.remove();
+        }
+
+        function cargarProducto( producto , cantidad){
+
+                    let row = ` <tr>
+                    <td>
+                       <button onclick=removeFromTable(this) type="button" class="btn btn-warning">x</button>
+                        <input type="hidden" name="id_producto[]"   value="${producto.id_producto}">
+                        <input type="hidden" name="cantidad[]"   value="${cantidad}">
+                    </td>
+                    <td>${cantidad}</td>
+                    <td>${producto.codigo_barras}</td>
+                    <td>${producto.descripcion}</td>
+                    <td>${producto.presentacion.descripcion}</td>
+                    </tr>    `;
+
+            $('#body-detalles').append(row);
+        }
+
+        function validarRequisicion(){
+
+            let no_requisicion = document.getElementById('no_requisicion').value;
+            $.ajax({
+                url:"{{url('produccion/requisiciones/validar_requisicion/')}}"+"/"+no_requisicion,
+                type: "get",
+                dataType: "json",
+                success:function (response) {
+                    let isNew = response[0]==1;
+
+                    if(isNew){
+                        document.getElementById('no_orden_produccion').focus();
+                        document.getElementById('no_orden_produccion').readOnly=false;
+                        document.getElementById('no_requisicion').readOnly=true;
+                    }else{
+                        let estaEnProceso = response[1].toUpperCase()=="P";
+                        if(estaEnProceso){
+                            alert("Orden de requisicion en proceso");
+                        }else{
+                            alert("Orden de requisicion existente");
+                        }
+                    }
+                }
+
+            })
+
+
         }
     </script>
 @endsection

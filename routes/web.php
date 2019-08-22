@@ -302,7 +302,8 @@ Route::post('control/precocido/{id}','PrecocidoController@destroy')->name('preco
 Route::get('produccion/requisiciones','OperacionController@index')->name('produccion.requisiciones.index');
 Route::get('produccion/requisiciones/create','OperacionController@create')->name('produccion.requisiciones.create');
 Route::post('produccion/requisiciones/create','OperacionController@store')->name('produccion.requisiciones.store');
-
+Route::get('produccion/requisiciones/validar_requisicion/{no_requisicion}','OperacionController@verificarOrdenRequisicion')
+    ->name('produccion.requisiciones.validar_requisicion');
 
 Route::get('produccion/mezcladora','MezcladoraController@index')->name('mezcladora.index');
 Route::get('produccion/mezcladora/create','MezcladoraController@create')->name('mezcladora.create');
