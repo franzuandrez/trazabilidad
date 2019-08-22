@@ -47,4 +47,10 @@ class Movimiento extends Model
         return $this->belongsTo('App\Recepcion','orden_compra','numero_documento');
 
     }
+
+    public function bodega(){
+
+        return $this->belongsTo('App\Bodega','ubicacion');
+
+    }
 }
