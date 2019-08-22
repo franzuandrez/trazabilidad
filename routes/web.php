@@ -249,6 +249,7 @@ Route::get('recepcion/transito/{id}','RecepcionController@show_transito')->name(
 
 
 Route::get('movimientos/bodegas','MovimientoController@index')->name('movimientos.bodegas.index');
+Route::get('movimientos/existencia/productos','MovimientoController@existencia')->name('movimientos.existencia.productos');
 
 Route::get('control/chaomin','ChaomeanController@index')->name('chaomin.index');
 Route::get('control/chaomin/create','ChaomeanController@create')->name('chaomin.create');
