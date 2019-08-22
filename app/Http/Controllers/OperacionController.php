@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Bodega;
 use App\Requisicion;
+use App\RequisicionDetalle;
 use Illuminate\Http\Request;
 use DB;
 use Carbon\Carbon;
@@ -116,5 +117,31 @@ class OperacionController extends Controller
             $response = [self::ESTADO_ORDEN_NUEVA,$requisicion->id];
         }
         return $response;
+    }
+
+    public function reservar( Request $request ){
+
+
+        try{
+            $requisicion = Requisicion::findOrFail($request->get('id'));
+
+            $requisicion_detalle = new RequisicionDetalle();
+            $requisicion_detalle->id_requisicion_encabezado = $requisicion->id;
+            $requisicion_detalle->orden_requisicion = $requisicion->no_requision;
+            $requisicion_detalle->orden_produccion = $requisicion->no_orden_produccion;
+            $requisicion_detalle->id_producto = $request->get('id_producto');
+            $requisicion_detalle->cantidad = $request->get('cantidad');
+            $requisicion_detalle->estado = 'P';
+            $requisicion_detalle->save();
+            $response = [ 1 , $requisicion_detalle->id  ];
+        }catch(\Exception $ex){
+            $response = [0 , $ex->getMessage() ];
+        }
+
+
+
+        return $response;
+
+
     }
 }

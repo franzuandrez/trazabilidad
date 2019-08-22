@@ -115,6 +115,11 @@
 @endsection
 @section('scripts')
     <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
         $(window).keydown(function (event) {
             if (event.keyCode == 13) {
                 event.preventDefault();
@@ -201,6 +206,7 @@
 
         function agregarProducto() {
             let id_producto = document.getElementById('id_producto').value;
+            let id_requisicion = document.getElementById('id_requisicion').value;
             let cantidad = document.getElementById('cantidad').value;
             if(cantidad==""){
                 alert("Cantidad invalida");
@@ -213,13 +219,8 @@
                 alert("Cantidad insuficiente");
                 document.getElementById('cantidad').value = "";
             } else {
-                limpiarProductoAgregados(id_producto);
-                cargarProducto(existencia[0].producto,cantidad);
-                document.getElementById('cantidad').value = "";
-                document.getElementById('descripcion').value = "";
-                document.getElementById('cantidad').readOnly = true;
-                document.getElementById('codigo_producto').value = "";
-                existencia.splice(0, existencia.length);
+                insertarProducto(id_producto,cantidad,id_requisicion);
+
             }
 
 
@@ -268,17 +269,18 @@
 
         }
 
-        function removeFromTable(element){
-            let td = $(element).parent();
-            let row = td.parent();
+        function removeFromTable(id){
+
+
+            let row = $('#prod-'+id).parent();
             row.remove();
         }
 
-        function cargarProducto( producto , cantidad){
+        function cargarProducto( producto , cantidad,id){
 
-                    let row = ` <tr>
+                    let row = ` <tr id=prod-"${id}">
                     <td>
-                       <button onclick=removeFromTable(this) type="button" class="btn btn-warning">x</button>
+                       <button onclick=removeFromTable(id) type="button" class="btn btn-warning">x</button>
                         <input type="hidden" name="id_producto[]"   value="${producto.id_producto}">
                         <input type="hidden" name="cantidad[]"   value="${cantidad}">
                     </td>
@@ -347,5 +349,34 @@
 
             })
         }
+
+        function insertarProducto( id_producto , cantidad , id_requisicion){
+            $.ajax({
+                url: "{{url('produccion/requisiciones/reservar')}}",
+                type: "post",
+                dataType: "json",
+                data:{ id:id_requisicion,cantidad:cantidad,id_producto:id_producto },
+                success:function (response) {
+
+                    let inserted = response[0]==1;
+                    if(inserted){
+                        let id = response[1];
+                        cargarProducto(existencia[0].producto,cantidad,id);
+                        document.getElementById('cantidad').value = "";
+                        document.getElementById('descripcion').value = "";
+                        document.getElementById('cantidad').readOnly = true;
+                        document.getElementById('codigo_producto').value = "";
+                        existencia.splice(0, existencia.length);
+                    }else{
+                        alert("Algo salió mal");
+                    }
+
+                }
+
+            })
+
+        }
+
+
     </script>
 @endsection
