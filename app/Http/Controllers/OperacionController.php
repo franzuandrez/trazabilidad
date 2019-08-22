@@ -60,23 +60,26 @@ class OperacionController extends Controller
         try{
 
             DB::beginTransaction();
+            $id = $request->get('id_requisicion');
 
-            $operacion =new Requisicion();
-            $operacion->no_requision = $request->get('no_requision');
-            $operacion->no_orden_produccion = $request->get('no_orden_produccion');
-            $operacion->fecha_ingreso =Carbon::now();
-            $operacion->id_usuario_ingreso = Auth::user()->id;
-            $operacion->save();
+            $operacion = Requisicion::findOrFail($id);
+            $operacion->estado = 'R';
+            $operacion->fecha_actualizacion = Carbon::now();
+            $operacion->update();
+
+            DB::table('requisicion_detalle')->where('id_requisicion_encabezado',$operacion->id)
+               ->update(['estado' => 'R']);
+
 
             DB::commit();
-            return redirect()->route('produccion.operaciones.index')
+            return redirect()->route('produccion.requisiciones.index')
                 ->with('success','Operacion realizada correctamente');
 
         }catch (\Exception $ex ){
 
             DB::rollback();
-            dd($ex);
-            return redirect()->route('produccion.operaciones.index')
+
+            return redirect()->route('produccion.requisiciones.index')
                 ->withErrors(['Algo salio mal, intentelo más tarde']);
         }
     }
@@ -131,7 +134,7 @@ class OperacionController extends Controller
             $requisicion_detalle->orden_produccion = $requisicion->no_orden_produccion;
             $requisicion_detalle->id_producto = $request->get('id_producto');
             $requisicion_detalle->cantidad = $request->get('cantidad');
-            $requisicion_detalle->estado = 'P';
+            $requisicion_detalle->estado = 'R';
             $requisicion_detalle->save();
             $response = [ 1 , $requisicion_detalle->id  ];
         }catch(\Exception $ex){
@@ -159,5 +162,20 @@ class OperacionController extends Controller
         }
 
         return $response;
+    }
+
+
+    public function en_reserva( $id ){
+
+        $productos = [$id];
+        $totalEnRequisiciones = RequisicionDetalle::whereIn('id_producto',$productos)
+            ->where( function ($query ) {
+                $query->where('estado','P')
+                    ->orWhere('estado','R');
+            })
+            ->sum('cantidad');
+
+        return $totalEnRequisiciones;
+
     }
 }
