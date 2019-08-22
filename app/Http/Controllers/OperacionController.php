@@ -144,4 +144,20 @@ class OperacionController extends Controller
 
 
     }
+
+
+    public function borrar_de_reserva(Request $request){
+
+        $id = $request->get('id');
+
+        try {
+            $requisicion_detalle = RequisicionDetalle::destroy($id);
+            $response = [1];
+        } catch (\Exception $e) {
+
+            $response = [0];
+        }
+
+        return $response;
+    }
 }

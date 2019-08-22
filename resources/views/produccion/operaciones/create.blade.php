@@ -134,6 +134,7 @@
 
         var existencia = [];
         var totalEnReserva = 0;
+
         function getExistencias(search) {
 
 
@@ -152,7 +153,7 @@
 
                     } else {
                         existencia = response[0];
-                        totalEnReserva= response[1];
+                        totalEnReserva = response[1];
                         document.getElementById('descripcion').value = response[0][0].producto.descripcion;
                         document.getElementById('id_producto').value = response[0][0].producto.id_producto;
                         document.getElementById('cantidad').readOnly = false;
@@ -208,7 +209,7 @@
             let id_producto = document.getElementById('id_producto').value;
             let id_requisicion = document.getElementById('id_requisicion').value;
             let cantidad = document.getElementById('cantidad').value;
-            if(cantidad==""){
+            if (cantidad == "") {
                 alert("Cantidad invalida");
                 return;
             }
@@ -219,7 +220,7 @@
                 alert("Cantidad insuficiente");
                 document.getElementById('cantidad').value = "";
             } else {
-                insertarProducto(id_producto,cantidad,id_requisicion);
+                insertarProducto(id_producto, cantidad, id_requisicion);
 
             }
 
@@ -260,27 +261,44 @@
             return sum;
         }
 
-        function limpiarProductoAgregados( id_producto ){
+        function limpiarProductoAgregados(id_producto) {
             Array.prototype.slice.call(document.getElementsByName('id_producto[]')).forEach(function (e) {
-                if(e.value == id_producto){
+                if (e.value == id_producto) {
                     e.parentNode.parentNode.remove();
                 }
             })
 
         }
 
-        function removeFromTable(id){
+        function removeFromTable(id) {
+
+            $.ajax({
+                    url: "{{url('produccion/requisiciones/borrar_de_reserva')}}",
+                    type: "post",
+                    dataType: "json",
+                    data: {id: id},
+                    success: function (response) {
+                        let destroyed = response[0]==1;
+                        if(destroyed){
+                            let row = $('#prod-' + id).remove();
+                            console.log(id);
+                        }else{
+                            alert("Algo salió mal");
+                        }
+
+                    }
+                }
+            )
 
 
-            let row = $('#prod-'+id).parent();
-            row.remove();
+
         }
 
-        function cargarProducto( producto , cantidad,id){
+        function cargarProducto(producto, cantidad, id) {
 
-                    let row = ` <tr id=prod-"${id}">
+            let row = ` <tr id="prod-${id}">
                     <td>
-                       <button onclick=removeFromTable(id) type="button" class="btn btn-warning">x</button>
+                       <button onclick=removeFromTable(${id}) type="button" class="btn btn-warning">x</button>
                         <input type="hidden" name="id_producto[]"   value="${producto.id_producto}">
                         <input type="hidden" name="cantidad[]"   value="${cantidad}">
                     </td>
@@ -293,26 +311,26 @@
             $('#body-detalles').append(row);
         }
 
-        function validarRequisicion(){
+        function validarRequisicion() {
 
             let no_requisicion = document.getElementById('no_requisicion').value;
             $.ajax({
-                url:"{{url('produccion/requisiciones/validar_requisicion/')}}"+"/"+no_requisicion,
+                url: "{{url('produccion/requisiciones/validar_requisicion/')}}" + "/" + no_requisicion,
                 type: "get",
                 dataType: "json",
-                success:function (response) {
-                    let isNew = response[0]==1;
+                success: function (response) {
+                    let isNew = response[0] == 1;
 
-                    if(isNew){
+                    if (isNew) {
                         document.getElementById('id_requisicion').value = response[1];
                         document.getElementById('no_orden_produccion').focus();
-                        document.getElementById('no_orden_produccion').readOnly=false;
-                        document.getElementById('no_requisicion').readOnly=true;
-                    }else{
-                        let estaEnProceso = response[1].toUpperCase()=="P";
-                        if(estaEnProceso){
+                        document.getElementById('no_orden_produccion').readOnly = false;
+                        document.getElementById('no_requisicion').readOnly = true;
+                    } else {
+                        let estaEnProceso = response[1].toUpperCase() == "P";
+                        if (estaEnProceso) {
                             alert("Orden de requisicion en proceso");
-                        }else{
+                        } else {
                             alert("Orden de requisicion existente");
                         }
                     }
@@ -323,25 +341,25 @@
 
         }
 
-        function validarOrdenProduccion(){
+        function validarOrdenProduccion() {
             let no_orden_produccion = document.getElementById('no_orden_produccion').value;
             let id_requision = document.getElementById('id_requisicion').value;
             $.ajax({
-                url:"{{url('produccion/requisiciones/validar_orden_produccion/')}}"+"/"+no_orden_produccion+"/"+id_requision,
+                url: "{{url('produccion/requisiciones/validar_orden_produccion/')}}" + "/" + no_orden_produccion + "/" + id_requision,
                 type: "get",
                 dataType: "json",
-                success:function (response) {
-                    let isNew = response[0]==1;
+                success: function (response) {
+                    let isNew = response[0] == 1;
 
-                    if(isNew){
+                    if (isNew) {
                         document.getElementById('codigo_producto').focus();
-                        document.getElementById('codigo_producto').readOnly=false;
-                        document.getElementById('no_orden_produccion').readOnly=true;
-                    }else{
-                        let estaEnProceso = response[1].toUpperCase()=="P";
-                        if(estaEnProceso){
+                        document.getElementById('codigo_producto').readOnly = false;
+                        document.getElementById('no_orden_produccion').readOnly = true;
+                    } else {
+                        let estaEnProceso = response[1].toUpperCase() == "P";
+                        if (estaEnProceso) {
                             alert("Orden de Produccion en proceso");
-                        }else{
+                        } else {
                             alert("Orden de Produccion existente");
                         }
                     }
@@ -350,24 +368,24 @@
             })
         }
 
-        function insertarProducto( id_producto , cantidad , id_requisicion){
+        function insertarProducto(id_producto, cantidad, id_requisicion) {
             $.ajax({
                 url: "{{url('produccion/requisiciones/reservar')}}",
                 type: "post",
                 dataType: "json",
-                data:{ id:id_requisicion,cantidad:cantidad,id_producto:id_producto },
-                success:function (response) {
+                data: {id: id_requisicion, cantidad: cantidad, id_producto: id_producto},
+                success: function (response) {
 
-                    let inserted = response[0]==1;
-                    if(inserted){
+                    let inserted = response[0] == 1;
+                    if (inserted) {
                         let id = response[1];
-                        cargarProducto(existencia[0].producto,cantidad,id);
+                        cargarProducto(existencia[0].producto, cantidad, id);
                         document.getElementById('cantidad').value = "";
                         document.getElementById('descripcion').value = "";
                         document.getElementById('cantidad').readOnly = true;
                         document.getElementById('codigo_producto').value = "";
                         existencia.splice(0, existencia.length);
-                    }else{
+                    } else {
                         alert("Algo salió mal");
                     }
 
