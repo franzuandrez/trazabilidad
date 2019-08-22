@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Operacion extends Model
+class Requisicion extends Model
 {
     //
 

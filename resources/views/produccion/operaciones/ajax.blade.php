@@ -19,7 +19,7 @@
             Produccion
         @endslot
         @slot('submenu')
-            Operaciones
+            Requisiciones
         @endslot
     @endcomponent
 
@@ -27,7 +27,7 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
             @can('role-create')
-                @component('componentes.btn-create',['url'=>url('produccion/operaciones/create')])
+                @component('componentes.btn-create',['url'=>url('produccion/requisiciones/create')])
                 @endcomponent
             @endcan
         </div>

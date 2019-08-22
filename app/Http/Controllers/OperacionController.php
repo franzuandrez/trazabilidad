@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Bodega;
-use App\Operacion;
+use App\Requisicion;
 use Illuminate\Http\Request;
 use DB;
 use Carbon\Carbon;
@@ -23,7 +23,7 @@ class OperacionController extends Controller
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
         $sortField = $request->get('field') == null ? 'fecha_ingreso' : $request->get('field');
 
-        $operaciones = Operacion::select('requisicion_encabezado.*')
+        $operaciones = Requisicion::select('requisicion_encabezado.*')
             ->join('users','users.id','=','requisicion_encabezado.id_usuario_ingreso')
             ->where(function ( $query ) use ($search){
                 $query->where('requisicion_encabezado.no_orden_produccion','LIKE','%'.$search.'%')
@@ -59,7 +59,7 @@ class OperacionController extends Controller
 
             DB::beginTransaction();
 
-            $operacion =new Operacion();
+            $operacion =new Requisicion();
             $operacion->no_requision = $request->get('no_requision');
             $operacion->no_orden_produccion = $request->get('no_orden_produccion');
             $operacion->fecha_ingreso =Carbon::now();

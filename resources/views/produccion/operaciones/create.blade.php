@@ -8,11 +8,11 @@
             Produccion
         @endslot
         @slot('submenu')
-            Operaciones
+            Requisiciones
         @endslot
     @endcomponent
 
-    {!!Form::open(array('url'=>'produccion/operaciones/create','method'=>'POST','autocomplete'=>'off'))!!}
+    {!!Form::open(array('url'=>'produccion/requisiciones/create','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
 
 
@@ -91,7 +91,7 @@
             <button class="btn btn-default" type="submit">
                 <span class=" fa fa-check"></span> GUARDAR
             </button>
-            <a href="{{url('produccion/operaciones')}}">
+            <a href="{{url('produccion/requisiciones')}}">
                 <button class="btn btn-default" type="button">
                     <span class="fa fa-remove"></span>
                     CANCELAR

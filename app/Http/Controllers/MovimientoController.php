@@ -85,4 +85,10 @@ class MovimientoController extends Controller
         return response()->json($existencias);
 
     }
+
+    public function getTotalEnRequisiciones( $id_producto ){
+
+
+
+    }
 }
