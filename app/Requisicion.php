@@ -36,6 +36,10 @@ class Requisicion extends Model
         return $this->belongsTo('App\User','id_usuario_aprobo');
     }
 
+    public function detalle(){
+        return $this->hasMany('App\RequisicionDetllae','id_requisicion_encabezado');
+    }
+
     public function scopeProceso( $query){
         return $query->where('estado','P');
     }
