@@ -232,7 +232,7 @@ class ProductoController extends Controller
                     } else {
                        $producto = new Producto();
                        $producto->codigo_barras = $codigo_barras;
-                       $producto->codigo_interno  =$codigo_barras;
+                       //$producto->codigo_interno  =$codigo_barras;
                        $producto->descripcion = $value[1];
                        $producto->id_presentacion = $id_presentacion;
                        $producto->tipo_producto = $tipo_producto;
