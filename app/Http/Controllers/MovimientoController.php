@@ -70,6 +70,7 @@ class MovimientoController extends Controller
                 'movimientos.lote',
                 'movimientos.id_producto',
                 'movimientos.ubicacion',
+                'movimientos.fecha_vencimiento',
                 DB::raw('sum(cantidad * factor) as total'))
             ->whereIn('id_producto', $productos)
             ->where('ubicacion', $ubicacion)
