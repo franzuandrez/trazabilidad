@@ -58,17 +58,35 @@
             <label for="descripcion">DESCRIPCION</label>
             <input type="text" name="descripcion" id="descripcion" readonly value="{{old('descripcion')}}"
                    class="form-control">
+            <input type="hidden" name="id_producto" id="id_producto" readonly value="{{old('id_producto')}}"
+                   class="form-control">
         </div>
     </div>
 
     <div class="col-lg-4 col-md-4 col-sm-6  col-xs-12">
         <div class="form-group">
             <label for="descripcion">CANTIDAD</label>
-            <input type="text" name="cantidad" id="cantidad" readonly value="{{old('cantidad')}}"
+            <input type="number" name="cantidad" id="cantidad"
+                   onkeydown="if(event.keyCode==13)agregarProducto()"
+                   readonly
+                   value="{{old('cantidad')}}"
                    class="form-control">
         </div>
     </div>
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
 
+        <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
+
+            <thead style="background-color: #01579B;  color: #fff;">
+            <th>OPCION</th>
+            <th>CANTIDAD</th>
+            <th>PRODUCTO</th>
+            <th>LOTE</th>
+            </thead>
+            <tbody id="body-detalles">
+            </tbody>
+        </table>
+    </div>
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
             <button class="btn btn-default" type="submit">
@@ -113,12 +131,13 @@
                     if (response.length == 0) {
 
                         alertInexitencia();
-                        document.getElementById('descripcion').value ="";
+                        document.getElementById('descripcion').value = "";
                         document.getElementById('cantidad').readOnly = true;
 
                     } else {
                         existencia = response;
                         document.getElementById('descripcion').value = response[0].producto.descripcion;
+                        document.getElementById('id_producto').value = response[0].producto.id_producto;
                         document.getElementById('cantidad').readOnly = false;
                         document.getElementById('cantidad').focus();
 
@@ -131,17 +150,26 @@
             })
         }
 
-        function cargarExistencia(existencias) {
+        function cargarLotes(existencias, lotesEntrantes) {
 
-            let row = "";
-            existencias.forEach(function (e) {
-                row += `<tr>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            `;
-            });
+            let row = '';
+
+            for (var i = 0; i < existencias.length; i++) {
+
+                if (lotesEntrantes[i] > 0) {
+                    row += ` <tr>
+                    <td>
+                        <input type="hidden" name="id_producto[]"   value="${existencias[i].producto.id_producto}">
+                        <input type="hidden" name="cantidad_entrante[]"  value="${lotesEntrantes[i]}" >
+                        <input type="hidden" name="no_lote[]"   value="${existencias[i].lote}">
+                    </td>
+                     <td> ${lotesEntrantes[i]}</td>
+                    <td>${existencias[i].producto.descripcion}</td>
+                    <td>${existencias[i].lote}</td>
+                    </tr>    `;
+                }
+            }
+            $('#body-detalles').append(row);
 
         }
 
@@ -159,5 +187,72 @@
             return total;
         }
 
+        function agregarProducto() {
+            let id_producto = document.getElementById('id_producto').value;
+            let cantidad = document.getElementById('cantidad').value;
+            if(cantidad==""){
+                alert("Cantidad invalida");
+                return;
+            }
+            let cantidadAgregada = getCantidadAgregada(id_producto);
+            cantidad = parseInt(cantidad) + cantidadAgregada;
+            if (cantidad > getTotalExistencia()) {
+                alert("Cantidad insuficiente");
+                document.getElementById('cantidad').value = "";
+            } else {
+                limpiarProductoAgregados(id_producto);
+                let cantidadesEntrantes = getTotalPorLote(cantidad);
+                cargarLotes(existencia, cantidadesEntrantes);
+                document.getElementById('cantidad').value = "";
+                document.getElementById('cantidad').readOnly = true;
+                document.getElementById('codigo_producto').value = "";
+                existencia.splice(0, existencia.length);
+            }
+
+
+        }
+
+        function getTotalPorLote(total) {
+
+            let lotes = existencia.map(prod => parseInt(prod.total));
+            let entrante = [];
+            let nuevoTotal = parseInt(total);
+            for (var i = 0; i < lotes.length; i++) {
+
+                if (lotes[i] <= nuevoTotal) {
+                    entrante.push(lotes[i]);
+                    nuevoTotal = nuevoTotal - lotes[i];
+                } else {
+                    entrante.push(nuevoTotal);
+                    nuevoTotal = 0;
+                }
+
+            }
+
+            return entrante;
+
+        }
+
+        function getCantidadAgregada(id_producto) {
+            let productos = document.getElementsByName('id_producto[]');
+            let sum = 0;
+            for (var i = 0; i < productos.length; i++) {
+
+                if (productos[i].value == id_producto) {
+                    sum = sum + parseInt(document.getElementsByName('id_producto[]')[i].nextSibling.nextSibling.value);
+                }
+            }
+
+            return sum;
+        }
+
+        function limpiarProductoAgregados( id_producto ){
+            Array.prototype.slice.call(document.getElementsByName('id_producto[]')).forEach(function (e) {
+                if(e.value == id_producto){
+                    e.parentNode.parentNode.remove();
+                }
+            })
+
+        }
     </script>
 @endsection
