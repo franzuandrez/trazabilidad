@@ -78,7 +78,6 @@
         <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
 
             <thead style="background-color: #01579B;  color: #fff;">
-            <th>OPCION</th>
             <th>CANTIDAD</th>
             <th>PRODUCTO</th>
             <th>LOTE</th>
@@ -163,7 +162,7 @@
                         <input type="hidden" name="cantidad_entrante[]"  value="${lotesEntrantes[i]}" >
                         <input type="hidden" name="no_lote[]"   value="${existencias[i].lote}">
                     </td>
-                     <td> ${lotesEntrantes[i]}</td>
+                    <td> ${lotesEntrantes[i]}</td>
                     <td>${existencias[i].producto.descripcion}</td>
                     <td>${existencias[i].lote}</td>
                     </tr>    `;
@@ -253,6 +252,12 @@
                 }
             })
 
+        }
+
+        function removeFromTable(element){
+            let td = $(element).parent();
+            let row = td.parent();
+            row.remove();
         }
     </script>
 @endsection
