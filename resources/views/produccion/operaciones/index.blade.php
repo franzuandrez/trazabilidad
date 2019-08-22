@@ -2,7 +2,7 @@
 ['search'=>$search,
   'sort'=>$sort,
   'sortField'=>$sortField,
-'modulo'=>'produccion/operaciones'])
+'modulo'=>'produccion/requisiciones'])
 @endcomponent
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
@@ -13,7 +13,7 @@
 
                 </th>
                 <th>
-                    @component('componentes.column-sort',['modulo'=>'produccion/operaciones',
+                    @component('componentes.column-sort',['modulo'=>'produccion/requisiciones',
                         'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
@@ -22,7 +22,7 @@
                     @endcomponent
                 </th>
                 <th>
-                    @component('componentes.column-sort',['modulo'=>'produccion/operaciones',
+                    @component('componentes.column-sort',['modulo'=>'produccion/requisiciones',
                         'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
@@ -32,7 +32,7 @@
                 </th>
 
                 <th>
-                    @component('componentes.column-sort',['modulo'=>'produccion/operaciones',
+                    @component('componentes.column-sort',['modulo'=>'produccion/requisiciones',
                         'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
