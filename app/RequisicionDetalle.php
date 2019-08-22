@@ -31,16 +31,16 @@ class RequisicionDetalle extends Model
 
     public function scopeProceso($query){
 
-        return $query->where('estado',0);
+        return $query->where('estado','P');
     }
 
     public function scopeReservado( $query ){
-        return $query->where('estado',1);
+        return $query->where('estado','R');
     }
 
     public function scopeDespachado($query){
 
-        return $query->where('estado',2);
+        return $query->where('estado','D');
 
     }
 
