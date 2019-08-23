@@ -12,6 +12,7 @@ class Requisicion extends Model
     protected $primaryKey = 'id';
     public $timestamps = false;
 
+    public $with = ['detalle'];
     protected $fillable = [
 
         'no_requision',
@@ -37,10 +38,10 @@ class Requisicion extends Model
     }
 
     public function detalle(){
-        return $this->hasMany('App\RequisicionDetllae','id_requisicion_encabezado');
+        return $this->hasMany('App\RequisicionDetalle','id_requisicion_encabezado');
     }
 
-    public function scopeProceso( $query){
+    public function scopeEnProceso( $query){
         return $query->where('estado','P');
     }
 }
