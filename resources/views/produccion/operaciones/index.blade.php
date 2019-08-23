@@ -40,6 +40,15 @@
                           'titulo'=>'Elaborador'])
                     @endcomponent
                 </th>
+                <th>
+                    @component('componentes.column-sort',['modulo'=>'produccion/requisiciones',
+                        'search'=>$search,
+                          'sort'=>$sort,
+                          'sortField'=>$sortField,
+                          'field'=>'requisicion_encabezado.estado',
+                          'titulo'=>'Estado'])
+                    @endcomponent
+                </th>
 
                 </thead>
                 <tbody>
@@ -58,6 +67,22 @@
 
                         <td>
                             {{$operacion->usuario_ingreso->nombre}}
+                        </td>
+                        <td>
+                            @if($operacion->estado == "P")
+                                <span class="label label-warning">
+                                      Proceso
+                                </span>
+                            @elseif($operacion->estado=="R")
+                                <span class="label label-default">
+                                      Reserva
+                                </span>
+                            @else
+                                <span class="label label-success">
+                                      Despachada
+                                </span>
+                            @endif
+
                         </td>
                     </tr>
 
