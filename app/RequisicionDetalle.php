@@ -11,6 +11,7 @@ class RequisicionDetalle extends Model
     protected  $table = 'requisicion_detalle';
     protected $primaryKey = 'id';
     public $timestamps = false;
+    public $with = ['producto'];
 
     protected $fillable = [
         'id_requisicion_encabezado',
