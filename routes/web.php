@@ -309,7 +309,7 @@ Route::get('produccion/requisiciones/validar_orden_produccion/{no_orden}/{id}','
 Route::post('produccion/requisiciones/reservar','OperacionController@reservar')->name('produccion.requisiciones.reservar');
 Route::post('produccion/requisiciones/borrar_de_reserva','OperacionController@borrar_de_reserva')->name('produccion.requisiciones.borrar_de_reserva');
 Route::get('produccion/requisiciones/en_reserva/{id_producto}','OperacionController@en_reserva')->name('produccion.requisiciones.en_reserva');
-
+Route::get('produccion/requisiciones/borrar_reservas','OperacionController@borrar_reservas')->name('produccion.requisiciones.borras_reservas');
 
 Route::get('produccion/mezcladora','MezcladoraController@index')->name('mezcladora.index');
 Route::get('produccion/mezcladora/create','MezcladoraController@create')->name('mezcladora.create');

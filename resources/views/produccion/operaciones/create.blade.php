@@ -1,4 +1,7 @@
 @extends('layouts.admin')
+@section('style')
+    <link href="{{asset('css/loading.css')}}" rel="stylesheet">
+@endsection
 @section('contenido')
     @component('componentes.nav',['operation'=>'Crear',
     'menu_icon'=>' fa fa fa-cube ',
@@ -14,6 +17,34 @@
 
     {!!Form::open(array('url'=>'produccion/requisiciones/create','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
+
+    @if(!$requisicion->isEmpty())
+        <div class="modal fade modal-slide-in-right in" aria-hidden="false" role="dialog" tabindex="-1"
+             onclick="eliminarRequisicionPendiente(event)"
+             id="requision_pendiente" style="display: block; padding-right: 17px;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" align="center">REQUISICION NO. {{$requisicion[0]->no_requision}} PENDIENTE</h4>
+                        <div class="modal-body" align="center">
+                            ¿DESEA CONTINUAR?
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnCargarRequisicionPendiente" onclick="javascrip:cargarRequisicionPendiente()" class="btn btn-default">
+                            <span class=" fa fa-check" id="spanCargarRequisicionPendiente"></span> SI
+                        </button>
+                        <button type="button" class="btn btn-default"
+                                id="btnEliminarRequisionPendiente"
+                                data-dismiss="modal"><span
+                                id="spanEliminarRequisicionPendiente"
+                                class="fa fa-remove"></span> NO
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 
 
     <input name="id_requisicion" type="hidden" id="id_requisicion">
@@ -83,6 +114,10 @@
                    class="form-control">
         </div>
     </div>
+    <div class="loading">
+        <i class="fa fa-refresh fa-spin "></i><br/>
+        <span>Cargando</span>
+    </div>
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
 
         <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
@@ -126,6 +161,8 @@
                 return false;
             }
         });
+        $('#requision_pendiente').modal('toggle');
+
 
         function buscar_existencia() {
             let search = document.getElementById('codigo_producto').value;
@@ -137,7 +174,7 @@
 
         function getExistencias(search) {
 
-
+            $('.loading').show();
             $.ajax({
                 url: "{{url('movimientos/existencia/productos')}}" + "?search=" + search + "&ubicacion=1",
                 type: "get",
@@ -158,7 +195,7 @@
                         document.getElementById('cantidad').focus();
 
                     }
-
+                    $('.loading').hide();
                 },
                 error: function (e) {
                     console.error(e);
@@ -213,19 +250,17 @@
             }
 
 
-               let cantidadAgregada = await getTotalEnReserva(id_producto);
+            let cantidadAgregada = await getTotalEnReserva(id_producto);
 
 
-                cantidad = parseInt(cantidad) ;
+            cantidad = parseInt(cantidad);
 
-                if (cantidad + cantidadAgregada > getTotalExistencia()) {
-                    alert("Cantidad insuficiente");
-                    document.getElementById('cantidad').value = "";
-                } else {
-                    insertarProducto(id_producto, cantidad, id_requisicion);
-                }
-
-
+            if (cantidad + cantidadAgregada > getTotalExistencia()) {
+                alert("Cantidad insuficiente");
+                document.getElementById('cantidad').value = "";
+            } else {
+                insertarProducto(id_producto, cantidad, id_requisicion);
+            }
 
 
         }
@@ -281,18 +316,17 @@
                     dataType: "json",
                     data: {id: id},
                     success: function (response) {
-                        let destroyed = response[0]==1;
-                        if(destroyed){
+                        let destroyed = response[0] == 1;
+                        if (destroyed) {
                             let row = $('#prod-' + id).remove();
                             console.log(id);
-                        }else{
+                        } else {
                             alert("Algo salió mal");
                         }
 
                     }
                 }
             )
-
 
 
         }
@@ -315,7 +349,7 @@
         }
 
         function validarRequisicion() {
-
+            $('.loading').show();
             let no_requisicion = document.getElementById('no_requisicion').value;
             $.ajax({
                 url: "{{url('produccion/requisiciones/validar_requisicion/')}}" + "/" + no_requisicion,
@@ -337,6 +371,7 @@
                             alert("Orden de requisicion existente");
                         }
                     }
+                    $('.loading').hide();
                 }
 
             })
@@ -345,6 +380,7 @@
         }
 
         function validarOrdenProduccion() {
+            $('.loading').show();
             let no_orden_produccion = document.getElementById('no_orden_produccion').value;
             let id_requision = document.getElementById('id_requisicion').value;
             $.ajax({
@@ -366,12 +402,14 @@
                             alert("Orden de Produccion existente");
                         }
                     }
+                    $('.loading').hide();
                 }
 
             })
         }
 
         function insertarProducto(id_producto, cantidad, id_requisicion) {
+            $('.loading').show();
             $.ajax({
                 url: "{{url('produccion/requisiciones/reservar')}}",
                 type: "post",
@@ -391,6 +429,7 @@
                     } else {
                         alert("Algo salió mal");
                     }
+                    $('.loading').hide();
 
                 }
 
@@ -398,21 +437,82 @@
 
         }
 
-         function getTotalEnReserva(id_producto){
+        function getTotalEnReserva(id_producto) {
 
-           return  $.ajax({
-                url:"{{url('produccion/requisiciones/en_reserva')}}"+"/"+id_producto,
+            return $.ajax({
+                url: "{{url('produccion/requisiciones/en_reserva')}}" + "/" + id_producto,
                 type: "get",
                 dataType: "json",
-                success:function (response) {
+                success: function (response) {
 
 
-                },error:function (e) {
+                }, error: function (e) {
 
                 }
             })
 
         }
 
+        function setRequisicionPendiente() {
+            let req = [];
+            req = @json($requisicion);
+            if (req.length != 0) {
+                document.getElementById('id_requisicion').value=req[0].id;
+                if (req[0].no_orden_produccion == null) {
+                    document.getElementById('no_requisicion').readOnly = true;
+                    document.getElementById('no_requisicion').value = req[0].no_requision;
+                    document.getElementById('no_orden_produccion').readOnly = false;
+                    document.getElementById('no_orden_produccion').focus();
+                } else {
+                    document.getElementById('no_orden_produccion').readOnly = true;
+                    document.getElementById('no_orden_produccion').value = req[0].no_orden_produccion;
+                    document.getElementById('no_requisicion').readOnly = true;
+                    document.getElementById('no_requisicion').value = req[0].no_requision;
+                    document.getElementById('codigo_producto').readOnly = false;
+                    document.getElementById('codigo_producto').focus();
+                    req[0].detalle.forEach(function (e) {
+                        cargarProducto(e.producto, e.cantidad, e.id);
+                    });
+                }
+            }
+
+
+        }
+
+        function cargarRequisicionPendiente() {
+            $('#requision_pendiente').modal('hide');
+            $('.loading').show();
+            setTimeout(function () {
+                $('.loading').hide();
+                setRequisicionPendiente();
+            }, 1000)
+        }
+
+        function eliminarRequisicionPendiente(event){
+
+            let id =$(event.originalTarget).attr('id');
+
+            if( id=="requision_pendiente" || id=="spanEliminarRequisicionPendiente" || id=="btnEliminarRequisionPendiente" ){
+                $('.loading').show();
+                $.ajax({
+                    url:"{{url('produccion/requisiciones/borrar_reservas')}}",
+                    type:"get",
+                    dataType:"JSON",
+                    success:function(response){
+
+                        $('.loading').hide();
+                        if(response[0] == 0 ){
+                            alert("Algo salio mal");
+                        }else{
+                            document.getElementById('no_requisicion').focus();
+                        }
+
+                    },
+                    error:function (e) {
+                        $('.loading').hide();
+                    }
+                })
+            }
+        }
     </script>
 @endsection
