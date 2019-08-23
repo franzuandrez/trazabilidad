@@ -492,6 +492,9 @@
 
             let id =$(event.originalTarget).attr('id');
 
+            if( typeof id =='undefined'){
+                id =$(event.target).attr('id');
+            }
             if( id=="requision_pendiente" || id=="spanEliminarRequisicionPendiente" || id=="btnEliminarRequisionPendiente" ){
                 $('.loading').show();
                 $.ajax({
