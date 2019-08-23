@@ -72,7 +72,7 @@
         </div>
     </div>
 
-    <div class="col-lg-5 col-sm-5 col-md-5 col-xs-8">
+    <div class="col-lg-5 col-sm-4 col-md-5 col-xs-8">
         <div class="form-group">
             <label for="codigo_producto">CODIGO PRODUCTO</label>
             <input type="text"
@@ -85,7 +85,7 @@
 
         </div>
     </div>
-    <div class="col-lg-1 col-md-1 col-sm-1  col-xs-4">
+    <div class="col-lg-1 col-md-2 col-sm-2  col-xs-4">
         <br>
         <div class="form-group">
             <button id="btnBuscar" class="btn btn-default block" style="margin-top: 5px;" type="button">
@@ -94,7 +94,7 @@
                 <span class=" fa fa-trash"></span></button>
         </div>
     </div>
-    <div class="col-lg-4 col-md-4 col-sm-6  col-xs-12">
+    <div class="col-lg-6 col-md-6 col-sm-6  col-xs-12">
         <div class="form-group">
             <label for="descripcion">DESCRIPCION</label>
             <input type="text" name="descripcion" id="descripcion" readonly value="{{old('descripcion')}}"
@@ -104,7 +104,7 @@
         </div>
     </div>
 
-    <div class="col-lg-4 col-md-4 col-sm-6  col-xs-12">
+    <div class="col-lg-6 col-md-6 col-sm-6  col-xs-12">
         <div class="form-group">
             <label for="descripcion">CANTIDAD</label>
             <input type="number" name="cantidad" id="cantidad"
