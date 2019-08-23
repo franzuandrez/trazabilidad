@@ -30,12 +30,16 @@
                 @component('componentes.btn-create',['url'=>url('produccion/requisiciones/create')])
                 @endcomponent
             @endcan
+            @can('role-list')
+                @component('componentes.btn-ver',['url'=>'javascript:ver()'])
+                @endcomponent
+            @endcan
         </div>
     </div>
 
     @component('componentes.alert-no-selecction')
         @slot('mensaje')
-            SELECCIONAR ORDEN PRODUCCION
+            SELECCIONAR REQUISICION
         @endslot
     @endcomponent
     <div id="content">
@@ -48,4 +52,5 @@
 @endsection
 @section('scripts')
     <script src="{{asset('js/ajax-crud.js')}}"></script>
+    <script src="{{asset('js-brc/requisiciones/index.js')}}"></script>
 @endsection

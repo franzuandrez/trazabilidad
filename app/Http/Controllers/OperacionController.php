@@ -94,6 +94,15 @@ class OperacionController extends Controller
         }
     }
 
+    public function show($id){
+
+        $requisicion = Requisicion::findOrFail($id);
+
+        return view('produccion.operaciones.show',compact('requisicion'));
+
+
+    }
+
     public function verificarOrdenRequisicion($orden_requisicion)
     {
 
