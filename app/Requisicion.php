@@ -44,4 +44,9 @@ class Requisicion extends Model
     public function scopeEnProceso( $query){
         return $query->where('estado','P');
     }
+
+    public function scopeEnReserva( $query ){
+
+        return $query->where('requisicion_encabezado.estado','R');
+    }
 }
