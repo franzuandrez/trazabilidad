@@ -109,6 +109,27 @@ class PickingController extends Controller
 
     }
 
+
+
+    public function leer( $id_reserva ){
+
+
+        try {
+            $reserva = ReservaPicking::findOrFail($id_reserva);
+            $reserva->leido = 'S';
+            $reserva->fecha_lectura = \Carbon\Carbon::now();
+            $reserva->update();
+
+            $response = 1;
+        } catch (\Exception $e) {
+
+            $response = 0;
+        }
+
+        return $response;
+
+    }
+
     private function getLotesDisponibles($lotes , $id_producto){
 
         $lotesDisponibles = [];
