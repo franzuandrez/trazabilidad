@@ -313,6 +313,7 @@ Route::get('produccion/requisiciones/borrar_reservas','OperacionController@borra
 Route::get('produccion/requisiciones/{id}','OperacionController@show')->name('produccion.requisiciones.show');
 
 Route::get('produccion/picking/','PickingController@index')->name('produccion.picking.index');
+Route::get('produccion/picking/{id}/despachar','PickingController@despachar')->name('produccion.picking.despachar');
 
 Route::get('produccion/mezcladora','MezcladoraController@index')->name('mezcladora.index');
 Route::get('produccion/mezcladora/create','MezcladoraController@create')->name('mezcladora.create');

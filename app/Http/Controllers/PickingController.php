@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\tools\Existencias;
 use App\Requisicion;
+use App\ReservaPicking;
 use Illuminate\Http\Request;
+use function foo\func;
 
 class PickingController extends Controller
 {
     //
-
-    public function __construct()
+    protected $productos;
+    public function __construct( Existencias $exitencias )
     {
+        $this->productos = $exitencias;
         $this->middleware('auth');
     }
 
@@ -44,5 +48,86 @@ class PickingController extends Controller
         }
 
 
+    }
+
+
+    public function despachar($id){
+
+
+        $requisicion = Requisicion::findOrFail($id);
+
+        if($requisicion->reservas->isEmpty()){
+
+            $productos = $requisicion->detalle->groupBy('id_producto');
+
+
+            foreach ( $productos as $producto  ){
+
+
+                $cantidadEntrante = $producto->sum('cantidad');
+
+                $prod = $this->productos->existencia($producto[0]->producto->codigo_barras);
+
+
+                $lotes = $prod->pluck('total','lote');
+
+                $lotesDisponibles =$this->getLotesDisponibles($lotes,$producto[0]->id_producto);
+
+
+                foreach ($lotesDisponibles as $lote=>$cantidad ){
+
+                    $reserva = new ReservaPicking();
+                    $reserva->id_producto = $producto[0]->id_producto;
+                    $reserva->lote = $lote;
+                    $reserva->id_requisicion = $requisicion->id;
+                    $reserva->id_bodega = $prod->where('lote',$lote)->first()->ubicacion;
+
+                    if($cantidadEntrante >= $cantidad ){
+                        $reserva->cantidad = $cantidad;
+                        $reserva->save();
+                        $cantidadEntrante = $cantidadEntrante - $cantidad;
+                    }else{
+
+                        $reserva->cantidad = $cantidadEntrante;
+
+                        if($cantidadEntrante != 0){
+                            $reserva->save();
+                        }
+                        $cantidadEntrante = 0;
+                    }
+
+
+                }
+
+            }
+
+        }
+
+
+        return view('produccion.picking.despacho',compact('requisicion'));
+
+
+    }
+
+    private function getLotesDisponibles($lotes , $id_producto){
+
+        $lotesDisponibles = [];
+
+        foreach ( $lotes as $lote=>$cantidad ){
+
+            $total_en_reserva = ReservaPicking::where('lote',$lote)
+                ->where('id_producto',$id_producto)
+                ->enReserva()
+                ->sum('cantidad');
+
+            if($cantidad-$total_en_reserva != 0){
+                $lotesDisponibles[$lote]=$cantidad-$total_en_reserva;
+            }
+
+
+        }
+
+
+        return $lotesDisponibles;
     }
 }
