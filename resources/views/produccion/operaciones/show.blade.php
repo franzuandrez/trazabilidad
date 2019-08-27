@@ -1,0 +1,87 @@
+@extends('layouts.admin')
+@section('style')
+    <link href="{{asset('css/loading.css')}}" rel="stylesheet">
+@endsection
+@section('contenido')
+    @component('componentes.nav',['operation'=>'Ver',
+    'menu_icon'=>' fa fa fa-cube ',
+    'submenu_icon'=>' fa fa fa-hand-rock-o  ',
+    'operation_icon'=>'fa-eye',])
+        @slot('menu')
+            Produccion
+        @endslot
+        @slot('submenu')
+            Requisiciones
+        @endslot
+    @endcomponent
+
+    <input name="id_requisicion" type="hidden" id="id_requisicion">
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="no_requision">NO.REQUISION</label>
+            <input type="text"
+                   readonly
+                   name="no_requisicion"
+                   id="no_requisicion"
+                   onkeydown="if(event.keyCode==13)validarRequisicion()"
+                   value="{{$requisicion->no_requision}}"
+                   class="form-control">
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="no_orden_produccion">NO.ORDEN PRODUCCION</label>
+            <input type="text"
+                   name="no_orden_produccion"
+                   readonly
+                   onkeydown="if(event.keyCode==13)validarOrdenProduccion()"
+                   id="no_orden_produccion"
+                   value="{{$requisicion->no_orden_produccion}}"
+                   class="form-control">
+        </div>
+    </div>
+
+
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
+
+        <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
+
+            <thead style="background-color: #01579B;  color: #fff;">
+            <th>CANTIDAD</th>
+            <th>CODIGO PRODUCTO</th>
+            <th>PRODUCTO</th>
+            <th>PRESENTACION</th>
+            </thead>
+            <tbody id="body-detalles">
+            @foreach( $requisicion->detalle as $detalle )
+                <tr>
+                    <td>
+                        {{$detalle->cantidad}}
+                    </td>
+                    <td>
+                        {{$detalle->producto->codigo_barras}}
+                    </td>
+                    <td>
+                        {{$detalle->producto->descripcion}}
+                    </td>
+                    <td>
+                        {{$detalle->producto->presentacion->descripcion}}
+                    </td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
+    </div>
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <div class="form-group">
+            <a href="{{url('produccion/requisiciones')}}">
+                <button class="btn btn-default" type="button">
+                    <span class="fa fa-backward"></span>
+                    REGRESAR
+                </button>
+            </a>
+        </div>
+    </div>
+    {!!Form::close()!!}
+@endsection
+

@@ -249,6 +249,7 @@ Route::get('recepcion/transito/{id}','RecepcionController@show_transito')->name(
 
 
 Route::get('movimientos/bodegas','MovimientoController@index')->name('movimientos.bodegas.index');
+Route::get('movimientos/existencia/productos','MovimientoController@existencia')->name('movimientos.existencia.productos');
 
 Route::get('control/chaomin','ChaomeanController@index')->name('chaomin.index');
 Route::get('control/chaomin/create','ChaomeanController@create')->name('chaomin.create');
@@ -299,6 +300,21 @@ Route::get('control/precocido/{id}/edit','PrecocidoController@edit')->name('prec
 Route::patch('control/precocido/{id}','PrecocidoController@update')->name('precocido.update');
 Route::get('control/precocido/{id}','PrecocidoController@show')->name('precocido.show');
 Route::post('control/precocido/{id}','PrecocidoController@destroy')->name('precocido.destroy');
+
+Route::get('produccion/requisiciones','OperacionController@index')->name('produccion.requisiciones.index');
+Route::get('produccion/requisiciones/create','OperacionController@create')->name('produccion.requisiciones.create');
+Route::post('produccion/requisiciones/create','OperacionController@store')->name('produccion.requisiciones.store');
+Route::get('produccion/requisiciones/validar_requisicion/{no_requisicion}','OperacionController@verificarOrdenRequisicion')
+    ->name('produccion.requisiciones.validar_requisicion');
+Route::get('produccion/requisiciones/validar_orden_produccion/{no_orden}/{id}','OperacionController@verificarOrdenProduccion')
+    ->name('produccion.requisiciones.validar_orden_produccion');
+Route::post('produccion/requisiciones/reservar','OperacionController@reservar')->name('produccion.requisiciones.reservar');
+Route::post('produccion/requisiciones/borrar_de_reserva','OperacionController@borrar_de_reserva')->name('produccion.requisiciones.borrar_de_reserva');
+Route::get('produccion/requisiciones/en_reserva/{id_producto}','OperacionController@en_reserva')->name('produccion.requisiciones.en_reserva');
+Route::get('produccion/requisiciones/borrar_reservas','OperacionController@borrar_reservas')->name('produccion.requisiciones.borras_reservas');
+Route::get('produccion/requisiciones/{id}','OperacionController@show')->name('produccion.requisiciones.show');
+
+Route::get('produccion/picking/','PickingController@index')->name('produccion.picking.index');
 
 Route::get('produccion/mezcladora','MezcladoraController@index')->name('mezcladora.index');
 Route::get('produccion/mezcladora/create','MezcladoraController@create')->name('mezcladora.create');

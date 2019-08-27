@@ -1,4 +1,3 @@
-
 <a href="javascript:ajaxLoad('{{
 url($modulo.'?field='.$field.'&sort='.($sort=='asc'?'desc':'asc').'&search='.$search)
 }}')">
@@ -12,4 +11,6 @@ url($modulo.'?field='.$field.'&sort='.($sort=='asc'?'desc':'asc').'&search='.$se
     @else
         <i class="fa fa-sort-desc" aria-hidden="true"></i>
     @endif
+@else
+    <i class="fa fa-sort" aria-hidden="true"></i>
 @endif
