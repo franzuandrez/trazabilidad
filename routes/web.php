@@ -258,14 +258,16 @@ Route::get('control/chaomin/{id}/edit','ChaomeanController@edit')->name('chaomin
 Route::patch('control/chaomin/{id}','ChaomeanController@update')->name('chaomin.update');
 Route::get('control/chaomin/{id}','ChaomeanController@show')->name('chaomin.show');
 Route::post('control/chaomin/{id}','ChaomeanController@destroy')->name('chaomin.destroy');
+Route::get('control/chaomin','ChaomeanController@index')->name('chaomin.index');
+
 
 Route::get('control/mezcla_harina','HarinaController@index')->name('mezcla_harina.index');
-Route::get('control/mezcla_harina/create','HarinaController@create')->name('mezcla_harina.create');
-Route::post('control/mezcla_harina/create','HarinaController@store')->name('mezcla_harina.store');
-Route::get('control/mezcla_harina/{id}/edit','HarinaController@edit')->name('mezcla_harina.edit');
-Route::patch('control/mezcla_harina/{id}','HarinaController@update')->name('mezcla_harina.update');
-Route::get('control/mezcla_harina/{id}','HarinaController@show')->name('mezcla_harina.show');
-Route::post('control/mezcla_harina/{id}','HarinaController@destroy')->name('mezcla_harina.destroy');
+Route::get('control/mezcla_harina/create','MezclaHarinaController@create')->name('mezcla_harina.create');
+Route::post('control/mezcla_harina/create','MezclaHarinaController@store')->name('mezcla_harina.store');
+Route::get('control/mezcla_harina/{id}/edit','MezclaHarinaController@edit')->name('mezcla_harina.edit');
+Route::patch('control/mezcla_harina/{id}','MezclaHarinaController@update')->name('mezcla_harina.update');
+Route::get('control/mezcla_harina/{id}','MezclaHarinaController@show')->name('mezcla_harina.show');
+Route::post('control/mezcla_harina/{id}','MezclaHarinaController@destroy')->name('mezcla_harina.destroy');
 
 Route::get('control/laminado','LaminadoController@index')->name('laminado.index');
 Route::get('control/laminado/create','LaminadoController@create')->name('laminado.create');

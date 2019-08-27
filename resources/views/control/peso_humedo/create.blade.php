@@ -22,6 +22,18 @@
     {!!Form::open(array('url'=>'control/laminado/create','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
 
+
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <div class="form-group">
+            <label for="turno">NO ORDEN DE PRODUCCION</label>
+            <input type="text" name="NO_ORDEN_PRODUCCION" value="{{old('NO_ORDEN_PRODUCCION')}}"
+                   class="form-control">
+
+        </div>
+    </div>
+
+
+
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="cortadora">CORTADORA NO.</label>

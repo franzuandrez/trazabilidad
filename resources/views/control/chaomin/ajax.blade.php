@@ -28,8 +28,7 @@
 
             @component('componentes.btn-create',['url'=>url('control/chaomin/create')])
             @endcomponent
-            @component('componentes.btn-edit',['url'=>'javascript:editar()'])
-            @endcomponent
+
             @component('componentes.btn-ver',['url'=>'javascript:ver()'])
             @endcomponent
         </div>
@@ -37,7 +36,7 @@
 
     @component('componentes.alert-no-selecction')
         @slot('mensaje')
-            SELECCIONE UNA LINEA
+            SELECCIONE UNA ORDEN
         @endslot
     @endcomponent
     <div id="content">
@@ -50,5 +49,5 @@
 @endsection
 @section('scripts')
     <script src="{{asset('js/ajax-crud.js')}}"></script>
-    <script src="{{asset('js-brc/recepciones/index.js')}}"></script>
+    <script src="{{asset('js-brc/chaomin/index.js')}}"></script>
 @endsection

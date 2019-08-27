@@ -22,10 +22,19 @@
     {!!Form::open(array('url'=>'control/laminado/create','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
 
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <div class="form-group">
+            <label for="turno">NO ORDEN DE PRODUCCION</label>
+            <input type="text" name="NO_ORDEN_PRODUCCION" id = "NO_ORDEN_PRODUCCION" value="{{old('NO_ORDEN_PRODUCCION')}}"
+                   class="form-control">
+
+        </div>
+    </div>
+
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="presentacion">RESPONSABLE</label>
-            <select name="id_presentacion" class="form-control selectpicker" id="presentacion">
+            <select name="id_responsable" class="form-control selectpicker" id="id_responsable">
                 <option value="">SELECCIONAR RESPONSABLE</option>
                 @foreach($responsables as $responsable)
                     <option value="{{$responsable->id}}">{{$responsable->nombre}}</option>
@@ -37,122 +46,140 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="turno">TURNO</label>
-            <input id="turno" type="text"
-                   onkeydown="descomponerInput(this)"
+            <input id="turno" name="turno" type="text"
                    class="form-control">
         </div>
     </div>
-    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-        <div class="">
-            <div class="tab-content">
-            </div>
-            <div class="tab-pane" id="tab_3">
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <label for="hora">HORA</label>
-                    <div class="input-group">
-                        <input id="hora" type="text" class="form-control timepicker" name="hora">
-
-                        <div class="input-group-addon">
-                            <i class="fa fa-clock-o"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="temperatura">TEMPERATURA REPOSO 34-36 °C</label>
-                        <input id="temperatura" type="text" name="temperatura"
-
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="espesor">ESPESOR 1.25 A 1.30 (MILÍMETROS)</label>
-                        <input id="espesor" type="text" name="espesor"
-
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="lote_producto">LOTE PRODUCTO</label>
-                        <input id="lote_producto" type="text" name="lote_producto"
-
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="observaciones">OBSERVACIONES</label>
-                        <input id="observaciones" type="text" name="observaciones"
-
-                               class="form-control">
-                    </div>
-                </div>
-
-                <div class="col-lg-2 col-sm-4 col-md-2 col-xs-2">
-                    <br>
-                    <div class="form-group">
-                        <button id="btnAdd" class="btn btn-default block" style="margin-top: 5px;" type="button">
-                            <span class=" fa fa-plus"></span></button>
-                    </div>
-                </div>
 
 
-                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
 
-                    <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
+    {{-- FUERA DEL PANEL--}}
 
-                        <thead style="background-color: #01579B;  color: #fff;">
-                        <th>OPCION</th>
-                        <th>HORA</th>
-                        <th>TEMPERATURA REPOSO 34-36 C</th>
-                        <th>ESPESOR 1.25 A 1.30 M</th>
-                        <th>LOTE PRODUCTO</th>
-                        <th>OBSERVACIONES</th>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-                    <div class="form-group">
-                        <label for="observacion_correctiva">OBSERVACIONES Y/O ACCION CORRECTIVA</label>
-                        <input type="text" name="observacion_correctiva" value="{{old('observacion_correctiva')}}"
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-                    <div class="form-group">
-                        <label for="observacion_correctiva">RESPONSABLE VERIFICADOR:</label>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="puesto">PUESTO</label>
-                        <input type="text" name="puesto" value="{{old('puesto')}}"
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="nombre">NOMBRE</label>
-                        <input type="text" name="nombre" value="{{old('nombre')}}"
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="firma">FIRMA</label>
-                        <input type="text" name="firma" value="{{old('firma')}}"
-                               class="form-control">
-                    </div>
-                </div>
+    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-3">
+        <label for="hora">HORA</label>
+        <div class="input-group">
+            <input id="hora" type="text" class="form-control timepicker" name="hora" value="{{old('hora')}}" >
+            <div class="input-group-addon">
+                <i class="fa fa-clock-o"></i>
             </div>
         </div>
     </div>
+    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+        <div class="form-group">
+            <label for="descripcion">LOTE DE PRODUCTO</label>
+            <input id="LOTE" type="text" name="LOTE" value="{{old('LOTE')}}"
+                   class="form-control">
+        </div>
     </div>
 
+
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <div class="form-group">
+            <label for="temperatura">TEMPERATURA REPOSO 34-36 °C</label>
+
+        </div>
+    </div>
+        <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+            <div class="form-group">
+                <label for="temperatura">DATO INICIAL</label>
+                <input id="temperatura_inicial" type="text" name="temperatura_inicial"
+                       onkeydown="if(event.keyCode==13)validacion(this,34,36,document.getElementById('temperatura_final'),document.getElementById('temperatura_observaciones'))"
+                       class="form-control">
+
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+            <div class="form-group">
+                <label for="temperatura">DATO FINAL</label>
+                <input id="temperatura_final" type="text" name="temperatura_final" readonly value="{{old('temperatura_final')}}"
+                       class="form-control">
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-3col-md-3 col-xs-12">
+            <div class="form-group">
+                <label for="temperatura">OBSERVACIONES</label>
+                <input id="temperatura_observaciones" type="text" name="temperatura_observaciones" value="{{old('temperatura_observaciones')}}"
+                       class="form-control">
+            </div>
+        </div>
+
+
+
+
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <div class="form-group">
+            <label for="temperatura">ESPESOR 1.25 A 1.30 (milimetros)</label>
+
+        </div>
+    </div>
+    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+        <div class="form-group">
+            <label for="temperatura">DATO INICIAL</label>
+            <input id="espesor_inicial" type="text" name="espesor_inicial"
+                   onkeydown="if(event.keyCode==13)validacion(this,1.25,1.30,document.getElementById('espesor_final'),document.getElementById('espesor_observaciones'))"
+                   class="form-control">
+        </div>
+    </div>
+    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+        <div class="form-group">
+            <label for="temperatura">DATO FINAL</label>
+            <input id="espesor_final" type="text" name="espesor_final" readonly value="{{old('espesor_final')}}"
+                   class="form-control">
+        </div>
+    </div>
+    <div class="col-lg-3 col-sm-3col-md-3 col-xs-12">
+        <div class="form-group">
+            <label for="temperatura">OBSERVACIONES</label>
+            <input id="espesor_observaciones" type="text" name="espesor_observaciones" value="{{old('espesor_observaciones')}}"
+                   class="form-control">
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-3  col-xs-4">
+        <br>
+        <div class="form-group">
+            <button id="btnAdd" class="btn btn-default block" style="margin-top: 5px;" type="button">
+                <span class=" fa fa-plus"></span></button>
+            <button id="btnLimpiar" class="btn btn-default block" style="margin-top: 5px;" type="button">
+                <span class=" fa fa-trash"></span></button>
+        </div>
+
+
+    </div>
+
+
+    {{--   FUERA PANEL FIN---}}
+
+
+    {{--- TABLA---}}
+    <div class="tab-pane" id="tab_3">
+
+        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
+
+            <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
+
+                <thead style="background-color: #01579B;  color: #fff;">
+                <th>OPCION</th>
+                <th>HORA</th>
+                <th>LOTE</th>
+                <th>TEMPERATURA INICIAL</th>
+                <th>TEMPERATURA FINAL</th>
+                <th>ESPESOR INICIAL</th>
+                <th>ESPESOR FINAL</th>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <div class="form-group">
+            <label for="observacion_correctiva">OBSERVACIONES Y/O ACCION CORRECTIVA</label>
+            <input type="text" name="observacion_correctiva" value="{{old('observacion_correctiva')}}"
+                   class="form-control">
+        </div>
+    </div>
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
             <button class="btn btn-default" type="submit">
@@ -193,6 +220,10 @@
             $("#btnAdd").click(function () {
                 addToTable();
             });
+            $("#btnLimpiar").click(function () {
+                limpiar();
+            });
+
 
         });
         $(window).keydown(function (event) {
@@ -208,28 +239,32 @@
         }
 
         function addToTable() {
-            if ($("#hora").val() != "" && $("#temperatura").val() != "" && $("#espesor").val() != "" && $("#lote_producto").val() != "" && $("#observaciones").val() != "") {
+            if ($("#hora").val() != "" && $("#temperatura_inicial").val() != "" && $("#espesor_inicial").val() != "" && $("#LOTE").val() != "" ) {
                 let hora = $("#hora");
-                let temperatura = $("#temperatura");
-                let espesor = $("#espesor");
-                let lote_producto = $("#lote_producto");
-                let observaciones = $("#observaciones");
+                let temperatura_inicial = $("#temperatura_inicial");
+                let temperatura_final = $("#temperatura_final");
+                let temperatura_observaciones = $("#temperatura_observaciones");
+                let espesor_inicial = $("#espesor_inicial");
+                let espesor_final = $("#espesor_final");
+                let espesor_observaciones = $("#espesor_observaciones");
+                let LOTE = $("#LOTE");
                 let row =
+
                     `<tr>
-            <td><button onclick=removeFromTable(this) type="button" class="btn btn-warning">x</button></td>
-            <td><input type="hidden" value='${hora.val()}' name=hora[]>${hora.val()}</td>
-            <td><input type="hidden" value='${temperatura.val()}' name=temperatura[]>${temperatura.val()}</td>
-            <td ><input type="hidden" value ='${espesor.val()}'  name=espesor[] >${espesor.val()}</td>
-            <td ><input type="hidden" value ='${lote_producto.val()}'  name=lote_producto[] >${lote_producto.val()}</td>
-            <td ><input type="hidden" value ='${observaciones.val()}'  name=observaciones[] >${observaciones.val()}</td>
-            </tr>`;
+                    <td><button onclick=removeFromTable(this) type="button" class="btn btn-warning">x</button>
+                    <input type="hidden" value ='${espesor_observaciones.val()}'  name=espesor_observaciones[] >
+                    <input type="hidden" value ='${temperatura_observaciones.val()}'  name=temperatura_observaciones[] >
+                    </td>
+                    <td><input type="hidden" value='${hora.val()}' name=hora[]>${hora.val()}</td>
+                    <td ><input type="hidden" value ='${LOTE.val()}'  name=LOTE[] >${LOTE.val()}</td>
+                    <td><input type="hidden" value='${temperatura_inicial.val()}' name=temperatura_inicial[]>${temperatura_inicial.val()}</td>
+                    <td ><input type="hidden" value ='${temperatura_final.val()}'  name=temperatura_final[] >${temperatura_final.val()}</td>
+                    <td ><input type="hidden" value ='${espesor_inicial.val()}'  name=espesor_inicial[] >${espesor_inicial.val()}</td>
+                    <td ><input type="hidden" value ='${espesor_final.val()}'  name=espesor_final[] >${espesor_final.val()}</td>
+                    </tr>`;
 
                 $("#detalles").append(row);
-                hora.val('');
-                temperatura.val('');
-                espesor.val('');
-                lote_producto.val('');
-                observaciones.val('');
+                limpiar();
             } else {
                 $('#modal-default').modal('show');
                 return false;
@@ -253,13 +288,16 @@
         }
 
         function limpiar() {
-
-            document.getElementById('id_producto').value = "";
-            document.getElementById('producto').value = "";
-            document.getElementById('proveedor').value = "";
-            document.getElementById('id_proveedor').value = "";
-            document.getElementById('producto').readOnly = false;
-            document.getElementById('buscar').disabled = false;
+            document.getElementById('hora').value = "";
+            document.getElementById('temperatura_inicial').value = "";
+            document.getElementById('temperatura_final').value = "";
+            document.getElementById('temperatura_observaciones').value = "";
+            document.getElementById('espesor_inicial').value = "";
+            document.getElementById('espesor_final').value = "";
+            document.getElementById('espesor_observaciones').value = "";
+            document.getElementById('LOTE').value = "";
+            $('#temperatura_final').attr('readonly', true);
+            $('#espesor_final').attr('readonly', true);
         }
 
         function mostrarProductosCargados() {
@@ -279,62 +317,24 @@
 
         }
 
-        function setProducto() {
+        function validacion(input, rango_inicial, rango_final, final, next) {
+            let  actual = parseFloat(input.value);
+            rango_inicial = parseFloat(rango_inicial);
+            rango_final = parseFloat(rango_final);
 
-            let infoProd = getProductoSelected();
-            if (infoProd.length != 0) {
-                cargarProducto(infoProd);
-            } else {
+            final.readOnly = true;
+            final.value = "";
+            next.value = "";
 
-
+            if ((actual >= rango_inicial) && ( actual <= rango_final ) ){
+                final.readOnly = true;
+                next.focus ();
+                return true;
+            }else{
+                final.readOnly = false;
+                final.focus();
+                return false;
             }
-
-
-        }
-
-        function descomponerInput(input) {
-            const POSICION_CODIGO = 1;
-            const POSICION_FECHA = 2;
-            const POSICION_LOTE = 3;
-
-            var codigoBarras = input.value;
-            var removerParentesis = codigoBarras.replace(/\([0-9]*\)/g, '-');
-            var codigoSplited = removerParentesis.split('-');
-
-            var codigo = codigoSplited[POSICION_CODIGO];
-            var fecha = codigoSplited[POSICION_FECHA];
-            var lote = codigoSplited[POSICION_LOTE];
-
-            if (event.keyCode == 13) {
-                document.getElementById('lote').value = lote;
-                document.getElementById('producto').value = codigo;
-                document.getElementById('hora_carga').focus();
-            }
-        }
-
-        function getProductoSelected() {
-            var productos = document.getElementsByName('id_prod');
-            var id_prod = null;
-            var descripcion = null;
-            var id_prov = null;
-            var razon_social = null;
-
-            var arrayProductos = Object.keys(productos).map(function (key) {
-                return [Number(key), productos[key]];
-            });
-
-
-            arrayProductos.forEach(function (prod) {
-                if (prod[1].checked) {
-                    var childrens = prod[1].parentElement.parentElement.children;
-                    id_prod = childrens[0].firstChild.value;
-                    descripcion = childrens[2].innerText;
-                    razon_social = childrens[3].innerText;
-                    id_prov = childrens[3].firstChild.value;
-
-                }
-            });
-            return [id_prod, descripcion, id_prov, razon_social];
         }
     </script>
 @endsection

@@ -13,12 +13,21 @@
 
                 </th>
                 <th>
+                    @component('componentes.column-sort',['modulo'=>'control/chaomin',
+                    'search'=>$search,
+                          'sort'=>$sort,
+                          'sortField'=>$sortField,
+                          'field'=>'no_orden_produccion',
+                          'titulo'=>'NO ORDEN'])
+                    @endcomponent
+                </th>
+                <th>
                     @component('componentes.column-sort',['modulo'=>'registro/sectores',
                     'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
-                          'field'=>'codigo_barras',
-                          'titulo'=>'codigo barras'])
+                          'field'=>'id_turno',
+                          'titulo'=>'TURNO'])
                     @endcomponent
                 </th>
                 <th>
@@ -26,73 +35,52 @@
                     'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
-                          'field'=>'descripcion',
-                          'titulo'=>'descripcion'])
+                          'field'=>'id_presentacion',
+                          'titulo'=>'PRESENTACION'])
                     @endcomponent
                 </th>
                 <th>
                     @component('componentes.column-sort',['modulo'=>'registro/sectores',
                     'search'=>$search,
-                        'sort'=>$sort,
-                        'sortField'=>$sortField,
-                        'field'=>'bodega',
-                        'titulo'=>'bodega'])
+                          'sort'=>$sort,
+                          'sortField'=>$sortField,
+                          'field'=>'fecha',
+                          'titulo'=>'FECHA'])
                     @endcomponent
                 </th>
                 <th>
                     @component('componentes.column-sort',['modulo'=>'registro/sectores',
                     'search'=>$search,
-                        'sort'=>$sort,
-                        'sortField'=>$sortField,
-                        'field'=>'encargado',
-                        'titulo'=>'encargado'])
-                    @endcomponent
-                </th>
-                <th>
-                    @component('componentes.column-sort',['modulo'=>'registro/sectores',
-                    'search'=>$search,
-                        'sort'=>$sort,
-                        'sortField'=>$sortField,
-                        'field'=>'estado',
-                        'titulo'=>'estado'])
+                          'sort'=>$sort,
+                          'sortField'=>$sortField,
+                          'field'=>'responsable',
+                          'titulo'=>'RESPONSABLE'])
                     @endcomponent
                 </th>
                 </thead>
                 <tbody>
-                @foreach($sectores as $sector)
+                @foreach($lineas as $linea)
                     <tr>
                         <td>
-                            <input type="radio" name="id_sector" value="{{$sector->id_sector}}">
+                            <input type="radio" name="id_chaomin" value="{{$linea->id_chaomin}}">
 
                         </td>
                         <td>
-                            {{$sector->codigo_barras}}
+                            {{$linea->no_orden_produccion}}
                         </td>
                         <td>
-                            {{$sector->descripcion}}
+                            {{$linea->id_turno}}
                         </td>
                         <td>
-                            {{$sector->bodega}}
+                            {{$linea->id_presentacion}}
                         </td>
                         <td>
-                            {{$sector->encargado}}
+                            {{$linea->fecha}}
                         </td>
                         <td>
-                            @if($sector->estado == 1)
-                                <span class="label label-success">Activo</span>
-                            @else
-                                <span class="label label-danger">De baja</span>
-                            @endif
+                            {{$linea->responsable}}
                         </td>
                     </tr>
-                    @component('componentes.alert-delete',
-                ['model'=>'SECTOR',
-                'id'=>$sector->id_sector,
-                'method'=>'SectorController@destroy',
-                'extras'=>'',
-                'description'=>$sector->descripcion,
-                'url'=>url('registro/sectores/')."/".$sector->id_sector])
-                    @endcomponent
 
                 @endforeach
                 </tbody>
@@ -101,7 +89,7 @@
     </div>
     {{
 
-      $sectores->appends([
+      $lineas->appends([
     'search' => $search,
     'sort'=>$sort,
     'field'=>$sortField
