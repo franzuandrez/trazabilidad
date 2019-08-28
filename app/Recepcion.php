@@ -85,4 +85,9 @@ class Recepcion extends Model
 
     }
 
+    public function scopeListaParaUbicacar( $query ){
+
+       return $query->where('recepcion_encabezado.estado','U');
+    }
+
 }
