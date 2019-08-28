@@ -13,6 +13,7 @@ class RMIEncabezado extends Model
 
     protected $fillable = [
         'tipo_docoumento',
+        'documento',
         'fecha_ingreso',
         'usuario_ingreso',
         'estado'
