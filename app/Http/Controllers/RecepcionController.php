@@ -11,12 +11,14 @@ use App\Producto;
 use App\Proveedor;
 use App\Recepcion;
 use App\Movimiento;
+use App\RMIEncabezado;
 use Illuminate\Http\Request;
 use DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Mockery\Instantiator;
 use App\Http\Tools\Impresiones;
+
 class RecepcionController extends Controller
 {
     //
@@ -96,8 +98,9 @@ class RecepcionController extends Controller
 
             $this->saveDetalleLotes($request, $recepcion->id_recepcion_enc);
 
+            $id_rmi_encabezado = $this->saveRMIEncabezado( $recepcion->orden_compra,'MP');
 
-            $this->saveMovimientos($request, $recepcion);
+
 
             DB::commit();
 
@@ -253,6 +256,19 @@ class RecepcionController extends Controller
 
     }
 
+    private function saveRMIEncabezado( $documento  ,$tipo_documento){
+
+        $rmi_encabezado = new RMIEncabezado();
+        $rmi_encabezado->fecha_ingreso = \Carbon\Carbon::now();
+        $rmi_encabezado->usuario_ingreso = Auth::user()->id;
+        $rmi_encabezado->documento = $documento;
+        $rmi_encabezado->tipo_documento = $tipo_documento;
+        $rmi_encabezado->estado = 'R';
+        $rmi_encabezado->save();
+
+        return $rmi_encabezado->id_rmi_encabezado;
+
+    }
 
     public function show($id)
     {
