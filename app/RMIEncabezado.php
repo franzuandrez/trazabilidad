@@ -22,4 +22,14 @@ class RMIEncabezado extends Model
     public $dates = [
         'fecha_ingreso'
     ];
+
+
+    /**
+     * ----------------------------------------RELATIONSHIPS-------------------------
+     */
+
+    public function rmi_detalle(){
+
+        $this->hasMany('App\RMIDetalle','id_rmi_encabezado');
+    }
 }

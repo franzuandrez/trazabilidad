@@ -27,4 +27,15 @@ class RMIDetalle extends Model
     protected $dates = [
         'fecha_vencimiento'
     ];
+
+
+    /**
+     * ----------------------------------------RELATIONSHIPS-------------------------
+     */
+
+    public function rmi_encabezado(){
+
+        return $this->belongsTo('App\RMIEncabezado','id_rmi_encabezado');
+    }
+
 }
