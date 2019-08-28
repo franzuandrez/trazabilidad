@@ -10,7 +10,7 @@ class DetalleLotes extends Model
 
     protected  $table = 'detalle_lotes';
     protected $primaryKey = 'id_detalle';
-    public $timestamps = false;
+    public $timestamps = true;
 
 
     protected $fillable = [
