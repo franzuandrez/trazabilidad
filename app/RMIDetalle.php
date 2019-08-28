@@ -45,5 +45,13 @@ class RMIDetalle extends Model
 
         return $this->belongsTo('App\Producto','id_producto');
     }
+    /**
+     * -----------------------------SCOPES---------------------------------
+     */
 
+    public function scopeEstaEnRampa( $query ){
+
+        return $query->where($this->table."rampa",1);
+
+    }
 }
