@@ -26,7 +26,7 @@
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             @can('role-edit')
-                @component('componentes.btn-edit',['url'=>'javascript:editar()'])
+                @component('componentes.btn-edit',['url'=>'javascript:despachar()'])
                 @endcomponent
             @endcan
             @can('role-list')
@@ -51,4 +51,5 @@
 @endsection
 @section('scripts')
     <script src="{{asset('js/ajax-crud.js')}}"></script>
+    <script src="{{asset('js-brc/picking/index.js')}}" ></script>
 @endsection

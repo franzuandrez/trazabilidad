@@ -41,6 +41,11 @@ class Requisicion extends Model
         return $this->hasMany('App\RequisicionDetalle','id_requisicion_encabezado');
     }
 
+    public function reservas(){
+        return $this->hasMany('App\ReservaPicking','id_requisicion')
+            ->orderBy('id_bodega','desc');
+    }
+
     public function scopeEnProceso( $query){
         return $query->where('estado','P');
     }
