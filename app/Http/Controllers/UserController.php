@@ -209,5 +209,42 @@ class UserController extends Controller
 
     }
 
+    public function verificar(Request $request){
+
+        $user = $request->get('usuario');
+        $pass = $request->get('pass');
+        $usuario = User::where('username',$user)
+            ->first();
+
+        if(Hash::check($pass, $usuario->password)){
+            $rolePermissions = DB::table("role_has_permissions")
+                ->where("role_has_permissions.role_id",$usuario->roles[0]->id)
+                ->get();
+
+
+            $estaAutorizado =  $rolePermissions->search(function ($item,$key){
+                    return $item->permission_id == 47;
+                }) != false;
+
+
+            if($estaAutorizado){
+                $response = 1;
+            }else{
+                $response = 0;
+            }
+        }else{
+            $response = 0;
+        }
+
+
+
+        return $response ;
+
+
+
+
+
+
+    }
 
 }
