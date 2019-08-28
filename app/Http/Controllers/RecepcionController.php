@@ -11,6 +11,7 @@ use App\Producto;
 use App\Proveedor;
 use App\Recepcion;
 use App\Movimiento;
+use App\RMIDetalle;
 use App\RMIEncabezado;
 use Illuminate\Http\Request;
 use DB;
@@ -98,9 +99,9 @@ class RecepcionController extends Controller
 
             $this->saveDetalleLotes($request, $recepcion->id_recepcion_enc);
 
-            $id_rmi_encabezado = $this->saveRMIEncabezado( $recepcion->orden_compra,'MP');
+            $id_rmi_encabezado = $this->saveRMIEncabezado($recepcion->orden_compra, 'MP');
 
-
+            $this->saveRMIDetalle($request,$id_rmi_encabezado,'RAMPA');
 
             DB::commit();
 
@@ -256,7 +257,8 @@ class RecepcionController extends Controller
 
     }
 
-    private function saveRMIEncabezado( $documento  ,$tipo_documento){
+    private function saveRMIEncabezado($documento, $tipo_documento)
+    {
 
         $rmi_encabezado = new RMIEncabezado();
         $rmi_encabezado->fecha_ingreso = \Carbon\Carbon::now();
@@ -267,6 +269,45 @@ class RecepcionController extends Controller
         $rmi_encabezado->save();
 
         return $rmi_encabezado->id_rmi_encabezado;
+
+    }
+
+    private function saveRMIDetalle($request, $id_rmi_encabezado,$ubicacion)
+    {
+        $productos = $request->get('id_producto');
+
+        if (is_iterable($productos)) {
+
+            $valueUbicacion = $this->getValueEstado($ubicacion);
+            foreach ($productos as $key => $value) {
+
+                $detalleLote = RMIDetalle::create([
+                    'id_producto' => $value,
+                    'cantidad' => $request->get('cantidad')[$key],
+                    'lote' => $request->get('no_lote')[$key],
+                    'fecha_vencimiento' => $request->get('fecha_vencimiento')[$key],
+                    'id_rmi_encabezado' => $id_rmi_encabezado,
+                    'rampa'=>$valueUbicacion[0],
+                    'control'=>$valueUbicacion[1],
+                    'mp'=>$valueUbicacion[2]
+                ]);
+            }
+
+        }
+
+
+    }
+
+    private function getValueEstado( $ubicacion = 'RAMPA' ){
+
+
+        if($ubicacion == 'RAMPA' ){
+            return  [1,0,0];
+        }else if($ubicacion =='CONTROL'){
+            return  [0,1,0];
+        }else if($ubicacion =='MP'){
+            return [0,0,1];
+        }
 
     }
 
@@ -312,7 +353,7 @@ class RecepcionController extends Controller
             DB::beginTransaction();
             $recepcion = Recepcion::findOrFail($id);
 
-            if( is_iterable( $request->get('id_producto'))){
+            if (is_iterable($request->get('id_producto'))) {
                 $recepcion->estado = 'T';
             }
             $recepcion->update();
@@ -403,8 +444,8 @@ class RecepcionController extends Controller
         $recepcion = Recepcion::findOrFail($id);
 
 
-        $idsMovimiento =[];
-        if(count($request->get('id_movimiento'))>0){
+        $idsMovimiento = [];
+        if (count($request->get('id_movimiento')) > 0) {
             $idsMovimiento = $request->get('id_movimiento');
         }
         $cantidadesEntrantes = $request->get('cantidad_entrante');
@@ -427,7 +468,7 @@ class RecepcionController extends Controller
         $impresiones = $request->get('imprimir');
 
 
-        Impresiones::imprimir($idsMovimiento,'192.168.0.179','D',$impresiones);
+        Impresiones::imprimir($idsMovimiento, '192.168.0.179', 'D', $impresiones);
 
         if ($isSaved) {
 
@@ -463,7 +504,7 @@ class RecepcionController extends Controller
 
                 $cantidad = $cantidades[$key];
                 $lote = $mov->lote;
-                $fecha_vencimiento =  $mov->fecha_vencimiento;
+                $fecha_vencimiento = $mov->fecha_vencimiento;
                 $movimiento = new Movimiento();
                 $movimiento->numero_documento = $numero_documento;
                 $movimiento->usuario = \Auth::user()->id;
@@ -494,9 +535,6 @@ class RecepcionController extends Controller
                 $movimiento->save();
 
 
-
-
-
             }
             DB::commit();
 
@@ -522,7 +560,6 @@ class RecepcionController extends Controller
             ->groupBy('id_producto')
             ->groupBy('lote')
             ->get();
-
 
 
         $movimientos = $movimientos->where('total', '>', 0)->count();
