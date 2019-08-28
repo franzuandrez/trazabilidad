@@ -146,4 +146,9 @@ class Recepcion extends Model
         return $query->where('rmi_encabezado.rampa',1);
     }
 
+    public function scopeEstaEnControl( $query ){
+
+        return $query->where('rmi_encabezado.control',1);
+    }
+
 }
