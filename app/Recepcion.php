@@ -90,4 +90,17 @@ class Recepcion extends Model
        return $query->where('recepcion_encabezado.estado','U');
     }
 
+    public function scopeEnRampa($query){
+        return $query->where('recepcion_encabezado.rampa',1);
+    }
+    public function scopeEnControlCalidad( $query ){
+
+        return $query->where('recepcion_encabezado.control',1);
+    }
+
+    public function scopeEnMateriaPrima($query ){
+
+        return $query->where('recepcion_encabezado.mp',1);
+    }
+
 }
