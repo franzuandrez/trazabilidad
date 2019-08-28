@@ -6,6 +6,7 @@ namespace App\Http\tools;
 
 use App\Movimiento;
 use App\Producto;
+use App\RMIDetalle;
 
 class Impresiones
 {
@@ -13,8 +14,8 @@ class Impresiones
 
     public static function imprimir( $ids ,$ip, $tipo,$impresiones){
 
-        $movimientos = Movimiento::whereIn('id_movimiento', $ids)
-            ->orderBy('id_movimiento', 'asc')
+        $movimientos = RMIDetalle::whereIn('id_rmi_detalle', $ids)
+            ->orderBy('id_rmi_detalle', 'asc')
             ->get();
 
 
