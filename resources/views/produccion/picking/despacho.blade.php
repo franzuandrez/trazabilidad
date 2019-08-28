@@ -139,7 +139,6 @@
     </div>
 
 
-
 @endsection
 @section('scripts')
     <script>
@@ -315,27 +314,27 @@
                 dataType: "json",
                 success: function (response) {
 
-                    if(response == 1){
+                    if (response == 1) {
                         checkRow(id_reserva);
-                    }else{
+                    } else {
                         alert("Algo salió mal, por favor vuelva a intentarlo");
                     }
                     $('.loading').hide();
 
                 },
                 error: function (e) {
-                   $('.loading').hide();
+                    $('.loading').hide();
                     console.error(e);
                 }
             })
         }
 
-        function checkRow(id){
+        function checkRow(id) {
 
-            let span = document.getElementById('span-'+id);
+            let span = document.getElementById('span-' + id);
             span.classList.remove('label-warning');
             span.classList.add('label-success');
-            span.innerHTML  = "<i class='fa fa-check'></i>";
+            span.innerHTML = "<i class='fa fa-check'></i>";
 
         }
     </script>
