@@ -39,68 +39,94 @@ class Recepcion extends Model
 
     protected static $logOnlyDirty = true;
 
-    public function usuario_recepcion(){
+    /**
+     *
+     * ------------------------------------------RELATIONSHIPS ---------------------------------------
+     *
+     */
+    public function usuario_recepcion()
+    {
 
-        return $this->belongsTo('App\User','usuario_recepcion');
+        return $this->belongsTo('App\User', 'usuario_recepcion');
     }
 
-    public function proveedor(){
+    public function proveedor()
+    {
 
-        return $this->belongsTo('App\Proveedor','id_proveedor');
+        return $this->belongsTo('App\Proveedor', 'id_proveedor');
     }
 
 
+    public function producto_materia_prima()
+    {
 
-    public function producto_materia_prima(){
-
-        return $this->belongsTo('App\Producto','id_producto');
+        return $this->belongsTo('App\Producto', 'id_producto');
     }
 
-    public function inspeccion_vehiculos(){
+    public function inspeccion_vehiculos()
+    {
 
-        return $this->hasOne('App\InspeccionVehiculo','id_recepcion_enc');
+        return $this->hasOne('App\InspeccionVehiculo', 'id_recepcion_enc');
     }
 
-    public function inspeccion_empaque(){
+    public function inspeccion_empaque()
+    {
 
-        return $this->hasOne('App\InspeccionEmpaqueEtiqueta','id_recepcion_enc');
+        return $this->hasOne('App\InspeccionEmpaqueEtiqueta', 'id_recepcion_enc');
     }
 
-    public function detalle_lotes(){
+    public function detalle_lotes()
+    {
 
-        return $this->hasMany('App\DetalleLotes','id_recepcion_enc');
+        return $this->hasMany('App\DetalleLotes', 'id_recepcion_enc');
     }
 
-    public function movimientos(){
+    public function movimientos()
+    {
 
-        return $this->hasMany('App\Movimiento','numero_documento','orden_compra');
+        return $this->hasMany('App\Movimiento', 'numero_documento', 'orden_compra');
     }
 
-    public function scopeTransito($query){
-        return $query->where('recepcion_encabezado.estado','T');
+    public function rmi_encabezado(){
+
+        return $this->hasOne('App\RMIEncabezado','documento','orden_compra');
+    }
+    /**
+     * ------------------------------------------SCOPES -----------------------------------------------
+     *
+     */
+    public function scopeTransito($query)
+    {
+        return $query->where('recepcion_encabezado.estado', 'T');
     }
 
-    public function scopeEstaEnBodegaMP($query){
-        return $query->where('recepcion_encabezado.estado','MP');
+    public function scopeEstaEnBodegaMP($query)
+    {
+        return $query->where('recepcion_encabezado.estado', 'MP');
 
     }
 
-    public function scopeListaParaUbicacar( $query ){
+    public function scopeListaParaUbicacar($query)
+    {
 
-       return $query->where('recepcion_encabezado.estado','U');
+        return $query->where('recepcion_encabezado.estado', 'U');
     }
 
-    public function scopeEnRampa($query){
-        return $query->where('recepcion_encabezado.rampa',1);
-    }
-    public function scopeEnControlCalidad( $query ){
-
-        return $query->where('recepcion_encabezado.control',1);
+    public function scopeEnRampa($query)
+    {
+        return $query->where('recepcion_encabezado.rampa', 1);
     }
 
-    public function scopeEnMateriaPrima($query ){
+    public function scopeEnControlCalidad($query)
+    {
 
-        return $query->where('recepcion_encabezado.mp',1);
+        return $query->where('recepcion_encabezado.control', 1);
+    }
+
+    public function scopeEnMateriaPrima($query)
+    {
+
+        return $query->where('recepcion_encabezado.mp', 1);
     }
 
 }
