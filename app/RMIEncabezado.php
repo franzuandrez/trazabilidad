@@ -23,6 +23,9 @@ class RMIEncabezado extends Model
         'fecha_ingreso'
     ];
 
+    public $with = [
+        'rmi_detalle'
+    ];
 
     /**
      * ----------------------------------------RELATIONSHIPS-------------------------
@@ -30,6 +33,6 @@ class RMIEncabezado extends Model
 
     public function rmi_detalle(){
 
-        $this->hasMany('App\RMIDetalle','id_rmi_encabezado');
+       return  $this->hasMany('App\RMIDetalle','id_rmi_encabezado');
     }
 }
