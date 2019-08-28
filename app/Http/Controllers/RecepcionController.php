@@ -610,4 +610,36 @@ class RecepcionController extends Controller
         }
 
     }
+
+
+    public function recepcion_ubicacion( Request $request){
+
+        $search = $request->get('search') == null ? '' : $request->get('search');
+        $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
+        $sortField = $request->get('field') == null ? 'orden_compra' : $request->get('field');
+
+        $ordenes_en_control = Recepcion::join('proveedores', 'proveedores.id_proveedor', '=', 'recepcion_encabezado.id_proveedor')
+            ->esDocumentoMateriaPrima()
+            ->estaEnControl()
+            ->select('recepcion_encabezado.*')
+            ->where(function ($query) use ($search) {
+                $query->where('proveedores.nombre_comercial', 'LIKE', '%' . $search . '%')
+                    ->orWhere('recepcion_encabezado.orden_compra', 'LIKE', '%' . $search . '%');
+            })
+            ->groupBy('recepcion_encabezado.orden_compra')
+            ->orderBy($sortField, $sort)
+            ->paginate(20);
+
+
+        if( $request->ajax() ){
+            return view('recepcion.ubicacion.index',
+            compact('sort','sortField','search','ordenes_en_control'));
+        }else{
+            return view('recepcion.ubicacion.ajax',
+                compact('sort','sortField','search','ordenes_en_control'));
+        }
+
+
+
+    }
 }

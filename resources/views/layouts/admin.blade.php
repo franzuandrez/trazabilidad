@@ -211,10 +211,17 @@
                                 <li>
                                     <a href="{{url('recepcion/transito')}}">
                                         <i class="fa fa-arrow-right" aria-hidden="true"></i>
-                                        Transito a materia prima
+                                       Control Calidad
                                     </a>
                                 </li>
                             @endcan
+                            <li>
+                                <a href="{{url('recepcion/ubicacion')}}">
+                                    <i class="fa fa-building-o" aria-hidden="true"></i>
+                                    Ubicacion
+                                </a>
+                            </li>
+
                         </ul>
                     </li>
                 </ul>

@@ -252,6 +252,7 @@ Route::get('recepcion/transito/{id}/ingreso','RecepcionController@ingreso_transi
 Route::patch('recepcion/transito/{id}','RecepcionController@ingresar')->name('recepcion.transito.ingresar');
 Route::get('recepcion/transito/{id}','RecepcionController@show_transito')->name('recepcion.transito.show_transito');
 
+Route::get('recepcion/ubicacion','RecepcionController@recepcion_ubicacion')->name('recepcion.ubicacion.index');
 
 Route::get('movimientos/bodegas','MovimientoController@index')->name('movimientos.bodegas.index');
 Route::get('movimientos/existencia/productos','MovimientoController@existencia')->name('movimientos.existencia.productos');
