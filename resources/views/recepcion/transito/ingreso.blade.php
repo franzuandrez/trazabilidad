@@ -131,7 +131,7 @@
                 </thead>
                 <tbody>
 
-                @foreach( $movimientos as $mov)
+                @foreach( $movimientos as $key => $mov)
 
                     <tr id="mov-{{$mov->id_rmi_detalle}}">
                         <td>
@@ -148,7 +148,7 @@
                             <input type="hidden" name="cantidad_entrante[]" value="0">
                         </td>
                         <td>
-                            {{$mov->cantidad}}
+                            {{$mov->total }}
                         </td>
                         <td>
                             {{$mov->producto->descripcion}}
@@ -158,8 +158,8 @@
                             <input type="hidden" name="lote[]" value="{{$mov->lote}}">
                         </td>
                         <td>
-                            {{$mov->fecha_vencimiento}}
-                            <input type="hidden" name="fecha_vencimiento[]" value="{{$mov->fecha_vencimiento}}">
+                            {{$mov->fecha_vencimiento->format('Y-m-d')}}
+                            <input type="hidden" name="fecha_vencimiento[]" value="{{$mov->fecha_vencimiento->format('Y-m-d')}}">
                         </td>
                     </tr>
                 @endforeach

@@ -418,11 +418,18 @@ class RecepcionController extends Controller
         try {
             $recepcion = Recepcion::findOrFail($id);
 
-            $movimientos = $recepcion->rmi_encabezado->rmi_detalle;
+            $id_rmi = $recepcion
+                ->rmi_encabezado->id_rmi_encabezado;
+
+            $movimientos = RMIDetalle::select('*', DB::raw('sum(cantidad) as total'))
+                ->where('id_rmi_encabezado', $id_rmi)
+                ->estaEnRampa()
+                ->groupBy('id_producto')
+                ->groupBy('lote')
+                ->get();
 
 
-
-            return view('recepcion.transito.ingreso', compact('recepcion','movimientos'));
+            return view('recepcion.transito.ingreso', compact('recepcion', 'movimientos'));
         } catch (\Exception $e) {
 
 
@@ -437,39 +444,61 @@ class RecepcionController extends Controller
     {
 
 
-        $recepcion = Recepcion::findOrFail($id);
-
-        dd($recepcion,$request->all());
-        $idsMovimiento = [];
-        if (count($request->get('id_movimiento')) > 0) {
-            $idsMovimiento = $request->get('id_movimiento');
-        }
-        $cantidadesEntrantes = $request->get('cantidad_entrante');
-        $numero_documento = $recepcion->orden_compra;
+        try {
+            DB::beginTransaction();
+            $recepcion = Recepcion::findOrFail($id);
 
 
+            //INGRESO DEL PRODUCTO CHEQUEADO POR CONTROL DE CALIDAD
+            $idsMovimiento = [];
+            if (count($request->get('id_movimiento')) > 0) {
+                $idsMovimiento = $request->get('id_movimiento');
+            }
+            $cantidadesEntrantes = $request->get('cantidad_entrante');
+            $i = 0;
+            foreach ($idsMovimiento as $key => $mov) {
+                if ($cantidadesEntrantes[$key] > 0) {
+                    $this->ingresoCalidad($mov, $cantidadesEntrantes[$key]);
+                } else {
+                    $i++;
+                }
+            }
 
-        $noProductoRestante = $this->totalProductoPorBodega(0, $recepcion->orden_compra) == 0;
+            $isOrdenCompleta = $i == 0;
+            if ($isOrdenCompleta) {
+                $rmi_encabezado = $recepcion->rmi_encabezado;
+                $rmi_encabezado->rampa = 0;
+                $rmi_encabezado->control = 1;
+                $rmi_encabezado->update();
+            }
 
-        if ($noProductoRestante) {
-            $recepcion->estado = 'MP';
-            $recepcion->update();
-        }
 
-        $impresiones = $request->get('imprimir');
+            //MANEJO DE ETIQUETAS DE IMPRESION.
+            $impresiones = $request->get('imprimir');
+            Impresiones::imprimir($idsMovimiento, '192.168.0.179', 'R', $impresiones);
 
-
-        Impresiones::imprimir($idsMovimiento, '192.168.0.179', 'D', $impresiones);
-
-        if ($isSaved) {
-
+            DB::commit();
             return redirect()->route('recepcion.transito.index')
-                ->with('success', 'Productos ingresados correctamente');
-        } else {
+                ->with('success', 'Orden preparada');
+        } catch (\Exception $e) {
 
+            DB::rollback();
             return redirect()->route('recepcion.transito.index')
-                ->withErrors(['No ha sido posible ingresar el producto']);
+                ->withErrors(['No ha sido posible procesar su transaccion']);
         }
+
+    }
+
+    private function ingresoCalidad($id_rmi_detalle, $cantidad)
+    {
+
+
+        $rmi_detalle = RMIDetalle::find($id_rmi_detalle);
+        $rmi_detalle->control = 1;
+        $rmi_detalle->cantidad_entrante = $rmi_detalle->cantidad_entrante + $cantidad;
+        $rmi_detalle->rampa = 0;
+        $rmi_detalle->update();
+
 
     }
 
