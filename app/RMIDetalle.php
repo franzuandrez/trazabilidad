@@ -18,7 +18,10 @@ class RMIDetalle extends Model
         'lote',
         'fecha_vencimiento',
         'cantidad',
-        'estado'
+        'estado',
+        'rampa',
+        'control',
+        'mp',
     ];
 
     protected $dates = [
