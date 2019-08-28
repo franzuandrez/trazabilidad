@@ -31,9 +31,9 @@
                 @endcomponent
             @endcan
 
+            {{--@component('componentes.btn-edit',['url'=>'javascript:editar()'])
+            @endcomponent--}}
 
-            @component('componentes.btn-edit',['url'=>'javascript:editar()'])
-            @endcomponent
             @component('componentes.btn-ver',['url'=>'javascript:ver()'])
             @endcomponent
         </div>
