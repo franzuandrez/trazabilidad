@@ -37,6 +37,11 @@ class Recepcion extends Model
         'estado',
     ];
 
+    public $with = [
+        'proveedor',
+        'rmi_encabezado'
+    ];
+
     protected static $logOnlyDirty = true;
 
     /**
