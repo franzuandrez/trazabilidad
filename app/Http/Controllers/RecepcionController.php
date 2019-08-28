@@ -335,6 +335,7 @@ class RecepcionController extends Controller
         try {
             $recepcion = Recepcion::findOrFail($id);
 
+
             return view('recepcion.materia_prima.edit', compact('recepcion'));
         } catch (\Exception $e) {
             return redirect()->route('recepcion.materia_prima.index')
@@ -358,7 +359,8 @@ class RecepcionController extends Controller
             }
             $recepcion->update();
             $this->saveDetalleLotes($request, $recepcion->id_recepcion_enc);
-            $this->saveMovimientos($request, $recepcion);
+            $this->saveRMIDetalle($request,$recepcion->rmi_encabezado->id_rmi_encabezado,'RAMPA');
+
 
             DB::commit();
 
