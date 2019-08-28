@@ -28,6 +28,9 @@ class RMIDetalle extends Model
         'fecha_vencimiento'
     ];
 
+    public $with = [
+        'producto'
+    ];
 
     /**
      * ----------------------------------------RELATIONSHIPS-------------------------
@@ -36,6 +39,11 @@ class RMIDetalle extends Model
     public function rmi_encabezado(){
 
         return $this->belongsTo('App\RMIEncabezado','id_rmi_encabezado');
+    }
+
+    public function producto(){
+
+        return $this->belongsTo('App\Producto','id_producto');
     }
 
 }
