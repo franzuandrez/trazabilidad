@@ -129,4 +129,11 @@ class Recepcion extends Model
         return $query->where('recepcion_encabezado.mp', 1);
     }
 
+    public function scopeDocumentoMateriaPrima( $query ){
+        return $query->join('rmi_encabezado',function ($join){
+            $join->on('recepcion_encabezado.orden_compra','=','rmi_encabezado.documento')
+                ->where('rmi_encabezado.tipo_documento','MP');
+        });
+    }
+
 }
