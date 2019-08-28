@@ -101,7 +101,7 @@ class RecepcionController extends Controller
 
             $id_rmi_encabezado = $this->saveRMIEncabezado($recepcion->orden_compra, 'MP');
 
-            $this->saveRMIDetalle($request,$id_rmi_encabezado,'RAMPA');
+            $this->saveRMIDetalle($request, $id_rmi_encabezado, 'RAMPA');
 
             DB::commit();
 
@@ -272,7 +272,7 @@ class RecepcionController extends Controller
 
     }
 
-    private function saveRMIDetalle($request, $id_rmi_encabezado,$ubicacion)
+    private function saveRMIDetalle($request, $id_rmi_encabezado, $ubicacion)
     {
         $productos = $request->get('id_producto');
 
@@ -287,9 +287,9 @@ class RecepcionController extends Controller
                     'lote' => $request->get('no_lote')[$key],
                     'fecha_vencimiento' => $request->get('fecha_vencimiento')[$key],
                     'id_rmi_encabezado' => $id_rmi_encabezado,
-                    'rampa'=>$valueUbicacion[0],
-                    'control'=>$valueUbicacion[1],
-                    'mp'=>$valueUbicacion[2]
+                    'rampa' => $valueUbicacion[0],
+                    'control' => $valueUbicacion[1],
+                    'mp' => $valueUbicacion[2]
                 ]);
             }
 
@@ -298,15 +298,16 @@ class RecepcionController extends Controller
 
     }
 
-    private function getValueEstado( $ubicacion = 'RAMPA' ){
+    private function getValueEstado($ubicacion = 'RAMPA')
+    {
 
 
-        if($ubicacion == 'RAMPA' ){
-            return  [1,0,0];
-        }else if($ubicacion =='CONTROL'){
-            return  [0,1,0];
-        }else if($ubicacion =='MP'){
-            return [0,0,1];
+        if ($ubicacion == 'RAMPA') {
+            return [1, 0, 0];
+        } else if ($ubicacion == 'CONTROL') {
+            return [0, 1, 0];
+        } else if ($ubicacion == 'MP') {
+            return [0, 0, 1];
         }
 
     }
@@ -359,7 +360,7 @@ class RecepcionController extends Controller
             }
             $recepcion->update();
             $this->saveDetalleLotes($request, $recepcion->id_recepcion_enc);
-            $this->saveRMIDetalle($request,$recepcion->rmi_encabezado->id_rmi_encabezado,'RAMPA');
+            $this->saveRMIDetalle($request, $recepcion->rmi_encabezado->id_rmi_encabezado, 'RAMPA');
 
 
             DB::commit();
@@ -386,11 +387,10 @@ class RecepcionController extends Controller
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
         $sortField = $request->get('field') == null ? 'orden_compra' : $request->get('field');
 
-        $movimientos_en_transito = Recepcion::join('movimientos', 'movimientos.numero_documento', '=', 'recepcion_encabezado.orden_compra')
-            ->join('proveedores', 'proveedores.id_proveedor', '=', 'recepcion_encabezado.id_proveedor')
-            ->join('tipo_movimiento', 'tipo_movimiento.id_movimiento', '=', 'movimientos.tipo_movimiento')
+        $movimientos_en_transito = Recepcion::join('proveedores', 'proveedores.id_proveedor', '=', 'recepcion_encabezado.id_proveedor')
+            ->esDocumentoMateriaPrima()
+            ->estaEnRampa()
             ->select('recepcion_encabezado.*')
-            ->transito()
             ->where(function ($query) use ($search) {
                 $query->where('proveedores.nombre_comercial', 'LIKE', '%' . $search . '%')
                     ->orWhere('recepcion_encabezado.orden_compra', 'LIKE', '%' . $search . '%');
@@ -418,17 +418,11 @@ class RecepcionController extends Controller
         try {
             $recepcion = Recepcion::findOrFail($id);
 
-            $movimientos = Movimiento::join('tipo_movimiento', 'tipo_movimiento.id_movimiento', '=', 'movimientos.tipo_movimiento')
-                ->select('movimientos.*', DB::raw('sum(cantidad * factor) as total'))
-                ->where('numero_documento', $recepcion->orden_compra)
-                ->where('ubicacion', 0)
-                ->orderBy('movimientos.id_movimiento', 'asc')
-                ->groupBy('lote', 'id_producto')
-                ->having(DB::raw('sum(cantidad * factor)'), '>', 0)
-                ->get();
+            $movimientos = $recepcion->rmi_encabezado->rmi_detalle;
 
 
-            return view('recepcion.transito.ingreso', compact('recepcion', 'movimientos'));
+
+            return view('recepcion.transito.ingreso', compact('recepcion','movimientos'));
         } catch (\Exception $e) {
 
 
@@ -445,19 +439,14 @@ class RecepcionController extends Controller
 
         $recepcion = Recepcion::findOrFail($id);
 
-
+        dd($recepcion,$request->all());
         $idsMovimiento = [];
         if (count($request->get('id_movimiento')) > 0) {
             $idsMovimiento = $request->get('id_movimiento');
         }
         $cantidadesEntrantes = $request->get('cantidad_entrante');
         $numero_documento = $recepcion->orden_compra;
-        $isSaved = $this->guardarMovimientos(
-            1,
-            0,
-            $idsMovimiento,
-            $cantidadesEntrantes,
-            $numero_documento);
+
 
 
         $noProductoRestante = $this->totalProductoPorBodega(0, $recepcion->orden_compra) == 0;

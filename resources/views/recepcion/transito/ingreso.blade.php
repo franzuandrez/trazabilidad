@@ -133,13 +133,13 @@
 
                 @foreach( $movimientos as $mov)
 
-                    <tr id="mov-{{$mov->id_movimiento}}">
+                    <tr id="mov-{{$mov->id_rmi_detalle}}">
                         <td>
                             <span class="label label-success hidden">
                                 <i class="fa fa-check" aria-hidden="true"></i>
                             </span>
                             <input type="hidden" name="codigo_barra[]" value="{{$mov->producto->codigo_barras}}">
-                            <input type="hidden" name="id_movimiento[]" value="{{$mov->id_movimiento}}">
+                            <input type="hidden" name="id_movimiento[]" value="{{$mov->id_rmi_detalle}}">
                         </td>
                         <td>
                             <input type="hidden" value="0" name="imprimir[]">
@@ -148,7 +148,7 @@
                             <input type="hidden" name="cantidad_entrante[]" value="0">
                         </td>
                         <td>
-                            {{$mov->total}}
+                            {{$mov->cantidad}}
                         </td>
                         <td>
                             {{$mov->producto->descripcion}}
@@ -335,7 +335,7 @@
                 if (producto.codigo_barras.toUpperCase() == codigo.toUpperCase() || producto.descripcion.toUpperCase() == codigo.toUpperCase()) {
                     document.getElementById('descripcion').value = producto.descripcion;
                     document.getElementById('lote').value = lote;
-                    document.getElementById('id_movimiento').value = mov.id_movimiento;
+                    document.getElementById('id_movimiento').value = mov.id_rmi_detalle;
                     document.getElementById('cantidad_impresion').readOnly = false;
                     document.getElementById('cantidad').readOnly = false;
                     document.getElementById('cantidad_impresion').focus();
