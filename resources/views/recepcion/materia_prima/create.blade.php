@@ -89,25 +89,29 @@
                     </a>
                 </li>
                 <li class="">
-                    <a href="#tab_2" data-toggle="tab" aria-expanded="false">
-                        Empaque y Etiqueta
+                    <a href="#tab_2"   data-toggle="tab" aria-expanded="false" onclick="validacion_checks()">
+                        Empaque y Etiqueta - GEOVANY
+
                     </a>
                 </li>
+
                 <li class="">
-                    <a href="#tab_3" data-toggle="tab" aria-expanded="true">
+                    <a href="#tab_3" data-toggle="tab" aria-expanded="true" onclick="validacion_checks()">
                         Detalles de lotes
                     </a>
                 </li>
             </ul>
             <div class="tab-content">
-                <div class="tab-pane active" id="tab_1">
+                <div class="tab-pane active" id="tab_1"  >
+
+
                     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox"
-                                   class="custom-control-input"
+                                   class="custom-control-input validacion" onclick="validacion_checks()"
                                    id="proveedor_aprobado"
                                    value="1"
-                                   name="proveedor_aprobado">
+                                   name="proveedor_aprobado" >
                             <label class="custom-control-label" for="proveedor_aprobado">Proveedor aprobado</label>
                         </div>
                     </div>
@@ -116,10 +120,12 @@
 
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox"
-                                   class="custom-control-input"
+                                   class="custom-control-input validacion"
                                    name="producto_acorde_compra"
                                    value="1"
-                                   id="producto_acorde_compra">
+                                   id="producto_acorde_compra"
+                                   onclick="validacion_checks()"
+                            >
                             <label class="custom-control-label" for="producto_acorde_compra">Producto acorde con Orden
                                 de Compra</label>
                         </div>
@@ -127,10 +133,12 @@
                     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox"
-                                   class="custom-control-input"
+                                   class="custom-control-input validacion"
                                    value="1"
                                    name="cantidad_acorde_compra"
-                                   id="cantidad_acorde_compra">
+                                   id="cantidad_acorde_compra"
+                                   onclick="validacion_checks()"
+                            >
                             <label class="custom-control-label" for="cantidad_acorde_compra">Cantidad acorde con orden
                                 de Compra</label>
                         </div>
@@ -144,7 +152,7 @@
 
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox"
-                                   class="custom-control-input"
+                                   class="custom-control-input validacion" onclick="validacion_checks()"
                                    name="certificado_existente"
                                    value="1"
                                    id="certificado_existente">
@@ -154,7 +162,7 @@
                         </div>
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox"
-                                   class="custom-control-input"
+                                   class="custom-control-input validacion" onclick="validacion_checks()"
                                    name="certificado_correspondiente_lote"
                                    value="1"
                                    id="certificado_correspondiente_lote">
@@ -164,7 +172,7 @@
                         </div>
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox"
-                                   class="custom-control-input"
+                                   class="custom-control-input validacion" onclick="validacion_checks()"
                                    id="certificado_correspondiente_especificacion"
                                    name="certificado_correspondiente_especificacion"
                                    value="1"
@@ -182,7 +190,7 @@
                     </div>
                     <div class="col-lg-12 col-sm-12 col-md-4 col-xs-12">
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input"
+                            <input type="checkbox" class="custom-control-input validacion" onclick="validacion_checks()"
                                    id="sin_polvo"
                                    name="sin_polvo"
                                    value="1"
@@ -194,7 +202,7 @@
                         </div>
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox"
-                                   class="custom-control-input"
+                                   class="custom-control-input  validacion" onclick="validacion_checks()"
                                    id="sin_material_ajeno"
                                    value="1"
                                    name="sin_material_ajeno">
@@ -212,7 +220,7 @@
                     <div class="col-lg-12 col-sm-12 col-md-4 col-xs-12">
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox"
-                                   class="custom-control-input"
+                                   class="custom-control-input validacion" onclick="validacion_checks()"
                                    value="1"
                                    name="ausencia_plagas"
                                    id="ausencia_plagas">
@@ -224,7 +232,7 @@
                         <div class="custom-control custom-checkbox">
 
                             <input type="checkbox"
-                                   class="custom-control-input"
+                                   class="custom-control-input validacion" onclick="validacion_checks()"
                                    value="1"
                                    id="sin_humedad"
                                    name="sin_humedad">
@@ -235,7 +243,7 @@
 
                         </div>
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input"
+                            <input type="checkbox" class="custom-control-input validacion" onclick="validacion_checks()"
                                    name="sin_oxido"
                                    value="1"
                                    id="sin_oxido">
@@ -245,7 +253,7 @@
                         </div>
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox"
-                                   class="custom-control-input"
+                                   class="custom-control-input validacion" onclick="validacion_checks()"
                                    name="ausencia_olores_extranios"
                                    value="1"
                                    id="ausencia_olores_extranios">
@@ -256,7 +264,7 @@
                         </div>
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox"
-                                   class="custom-control-input"
+                                   class="custom-control-input validacion" onclick="validacion_checks()"
                                    name="ausencia_material_extranio"
                                    value="1"
                                    id="ausencia_material_extranio">
@@ -267,7 +275,7 @@
                         </div>
                         <div class="custom-control custom-checkbox">
 
-                            <input type="checkbox" class="custom-control-input"
+                            <input type="checkbox" class="custom-control-input validacion" onclick="validacion_checks()"
                                    name="cerrado"
                                    value="1"
                                    id="cerrado"> <label
@@ -276,7 +284,7 @@
 
                         </div>
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input"
+                            <input type="checkbox" class="custom-control-input validacion" onclick="validacion_checks()"
                                    name="sin_agujeros"
                                    value="1"
                                    id="sin_agujeros">
@@ -293,7 +301,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane" id="tab_2">
+                <div class="tab-pane" id="tab_2" >
 
 
                     <div class="col-lg-12 col-sm-12 col-md-4 col-xs-12">
@@ -304,7 +312,7 @@
                     <div class="col-lg-12 col-sm-12 col-md-4 col-xs-12">
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox"
-                                   class="custom-control-input"
+                                   class="custom-control-input  validacion" onclick="validacion_checks()"
                                    name="no_golpeado"
                                    value="1"
                                    id="no_golpeado">
@@ -313,7 +321,7 @@
                         </div>
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox"
-                                   class="custom-control-input"
+                                   class="custom-control-input  validacion" onclick="validacion_checks()"
                                    name="sin_roturas"
                                    value="1"
                                    id="sin_roturas">
@@ -322,7 +330,7 @@
                         </div>
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox"
-                                   class="custom-control-input"
+                                   class="custom-control-input  validacion" onclick="validacion_checks()"
                                    name="empaque_cerrado"
                                    id="empaque_cerrado">
                             <label class="custom-control-label" style="font-weight: normal"
@@ -330,7 +338,7 @@
                         </div>
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox"
-                                   class="custom-control-input"
+                                   class="custom-control-input  validacion" onclick="validacion_checks()"
                                    name="seco_limpio"
                                    value="1"
                                    id="seco_limpio">
@@ -339,7 +347,7 @@
                         </div>
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox"
-                                   class="custom-control-input"
+                                   class="custom-control-input  validacion" onclick="validacion_checks()"
                                    value="1"
                                    name="sin_material_extranio"
                                    id="sin_material_extranio">
@@ -353,7 +361,7 @@
                     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox"
-                                   class="custom-control-input"
+                                   class="custom-control-input  validacion" onclick="validacion_checks()"
                                    value="1"
                                    name="debidamente_identificado"
                                    id="debidamente_identificado">
@@ -364,7 +372,7 @@
                     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox"
-                                   class="custom-control-input"
+                                   class="custom-control-input  validacion" onclick="validacion_checks()"
                                    name="debidamente_legible"
                                    value="1"
                                    id="debidamente_legible">
@@ -375,7 +383,7 @@
                     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox"
-                                   class="custom-control-input"
+                                   class="custom-control-input  validacion" onclick="validacion_checks()"
                                    value="1"
                                    name="no_lote_presente"
                                    id="no_lote_presente">
@@ -385,7 +393,7 @@
                     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox"
-                                   class="custom-control-input"
+                                   class="custom-control-input  validacion" onclick="validacion_checks()"
                                    name="no_lote_legible"
                                    value="1"
                                    id="no_lote_legible">
@@ -395,7 +403,7 @@
                     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox"
-                                   class="custom-control-input"
+                                   class="custom-control-input  validacion" onclick="validacion_checks()"
                                    name="fecha_vencimiento_legible"
                                    value="1"
                                    id="fecha_vencimiento_legible">
@@ -407,7 +415,7 @@
                     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox"
-                                   class="custom-control-input"
+                                   class="custom-control-input  validacion" onclick="validacion_checks()"
                                    name="fecha_vencimiento_vigente"
                                    value="1"
                                    id="fecha_vencimiento_vigente">
@@ -418,7 +426,7 @@
                     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox"
-                                   class="custom-control-input"
+                                   class="custom-control-input  validacion" onclick="validacion_checks()"
                                    name="contenido_neto_declarado"
                                    value="1"
                                    id="contenido_neto_declarado">
@@ -551,7 +559,7 @@
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <button class="btn btn-default" type="submit">
+            <button class="btn btn-default" name="Bt_guardar"  id= "Bt_guardar" type="submit">
                 <span class=" fa fa-check"></span> GUARDAR
             </button>
             <a href="{{url('recepcion/materia_prima')}}">
@@ -1027,6 +1035,28 @@
 
         function prueba(e){
             console.log(e);
+        }
+        function validacion_checks() {
+            var i;
+            for (i = 0; i < 27; i++) {
+
+
+                var estado =document.getElementsByClassName('validacion')[i].checked;
+                //console.log(i);
+                //console.log(estado);
+                if (estado== true)
+                {
+                    $("#Bt_guardar").attr('disabled', false);
+
+                }
+                else
+                {
+                    $("#Bt_guardar").attr('disabled', true);
+                    break;
+                }
+            }
+
+            return true;
         }
     </script>
 @endsection
