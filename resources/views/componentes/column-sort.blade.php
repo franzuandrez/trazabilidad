@@ -1,5 +1,5 @@
 <a href="javascript:ajaxLoad('{{
-url($modulo.'?field='.$field.'&sort='.($sort=='asc'?'desc':'asc').'&search='.$search)
+Request::url().'?field='.$field.'&sort='.($sort=='asc'?'desc':'asc').'&search='.$search
 }}')">
     {{strtoupper($titulo)}}
 
