@@ -27,9 +27,9 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
 
-            @component('componentes.btn-edit',['url'=>'javascript:editar()'])
+            @component('componentes.btn-edit',['url'=>'javascript:editar("ubicacion")'])
             @endcomponent
-            @component('componentes.btn-ver',['url'=>'javascript:ver()'])
+            @component('componentes.btn-ver',['url'=>'javascript:ver("ubicacion")'])
             @endcomponent
         </div>
     </div>
@@ -49,5 +49,5 @@
 @endsection
 @section('scripts')
     <script src="{{asset('js/ajax-crud.js')}}"></script>
-
+    <script src="{{asset('js-brc/generico/index.js')}}"></script>
 @endsection
