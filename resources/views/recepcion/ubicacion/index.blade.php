@@ -1,9 +1,4 @@
-@component('componentes.search',
-['search'=>$search,
-  'sort'=>$sort,
-  'sortField'=>$sortField,
-'modulo'=>'recepcion/ubicacion'])
-@endcomponent
+@include('componentes.search')
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
         <div class="table-responsive">
@@ -13,7 +8,7 @@
 
                 </th>
                 <th>
-                    @component('componentes.column-sort',['modulo'=>'recepcion/ubicacion',
+                    @component('componentes.column-sort',[
                         'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
@@ -22,7 +17,7 @@
                     @endcomponent
                 </th>
                 <th>
-                    @component('componentes.column-sort',['modulo'=>'recepcion/ubicacion',
+                    @component('componentes.column-sort',[
                         'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
@@ -32,7 +27,7 @@
                 </th>
 
                 <th>
-                    @component('componentes.column-sort',['modulo'=>'recepcion/ubicacion',
+                    @component('componentes.column-sort',[
                         'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
@@ -66,12 +61,7 @@
             </table>
         </div>
     </div>
-    {{
-      $ordenes_en_control->appends([
-          'search' => $search,
-          'sort'=>$sort,
-          'field'=>$sortField
-      ])->links()
-    }}
+
+    @include('componentes.pagination',['pagination'=>$ordenes_en_control])
 </div>
 
