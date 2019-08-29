@@ -36,9 +36,9 @@ function getItemSelected(){
 
 
 function ver(modulo){
-    let item = getRecepcionSelected();
+    let item = getItemSelected();
 
-    if(id_recepcion_enc==null){
+    if(item==null){
         $('#errorToEdit').modal();
     }else{
         window.location.href = modulo+"/"+item+"";
