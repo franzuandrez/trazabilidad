@@ -4,18 +4,18 @@
             <input class="form-control" id="search"
                    value="{{ $search }}"
                    onkeydown="if (event.keyCode == 13)
-                       ajaxLoad('{{url($modulo)}}?search='+this.value+'&sort={{$sort}}&field={{$sortField}} ')"
+                       ajaxLoad('{{Request::url()}}?search='+this.value+'&sort={{$sort}}&field={{$sortField}} ')"
                    placeholder="Buscar" name="search"
                    type="text" id="search"/>
             <div class="input-group-btn">
                 <button type="submit" class="btn btn-default"
-                        onclick="ajaxLoad('{{url($modulo)}}?search='+$('#search').val())"
+                        onclick="ajaxLoad('{{Request::url()}}?search='+$('#search').val())"
                 >
                     <i class="fa fa-search" aria-hidden="true"></i>
 
                 </button>
                 <button type="submit" class="btn btn-default"
-                        onclick="ajaxLoad('{{url($modulo)}}?search=')"
+                        onclick="ajaxLoad('{{Request::url()}}?search=')"
                 >
                     <i class="fa fa-trash" aria-hidden="true"></i>
 
