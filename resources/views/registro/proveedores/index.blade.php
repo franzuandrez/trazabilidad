@@ -1,10 +1,4 @@
-@component('componentes.search',
-['search'=>$search,
-  'sort'=>$sort,
-   'sortField'=>$sortField,
-'modulo'=>'registro/proveedores'])
-
-@endcomponent
+@include('componentes.search')
 
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
@@ -111,10 +105,5 @@
 
         </div>
     </div>
-{{  $proveedores->appends([
-      'search' => $search,
-      'sort'=>$sort,
-      'field'=>$sortField
-   ])->links()
-   }}
+    @include('componentes.pagination',['pagination'=>$proveedores])
 </div>
