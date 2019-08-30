@@ -17,14 +17,16 @@ class Sector extends Model
         'codigo_barras',
         'descripcion',
         'id_encargado',
-        'estado'
+        'estado',
+        'codigo_interno'
     ];
 
     public static $logAttributes = [
         'codigo_barras',
         'descripcion',
         'id_encargado',
-        'estado'
+        'estado',
+        'codigo_interno'
     ];
     protected $with = [
         'pasillos'
