@@ -6,7 +6,7 @@ use App\Localidad;
 use App\Rack;
 use App\Pasillo;
 use Illuminate\Http\Request;
-use League\Flysystem\ConfigAwareTrait;
+use DB;
 
 class RackController extends Controller
 {
@@ -55,12 +55,15 @@ class RackController extends Controller
 
     public function store(Request $request){
 
+        $max = DB::table('racks')->where('id_pasillo',$request->get('id_pasillo'))->count();
+
 
         $rack = new Rack();
         $rack->codigo_barras = $request->get('codigo_barras');
         $rack->descripcion = $request->get('descripcion');
         $rack->id_pasillo = $request->get('id_pasillo');
         $rack->lado = $request->get('lado');
+        $rack->codigo_interno = $max + 1;
         $rack->save();
 
         return redirect()

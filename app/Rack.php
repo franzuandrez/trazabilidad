@@ -18,6 +18,7 @@ class Rack extends Model
         'descripcion',
         'lado',
         'estado',
+        'codigo_interno'
     ];
     protected $with = [
         'niveles'
@@ -28,6 +29,7 @@ class Rack extends Model
         'descripcion',
         'lado',
         'estado',
+        'codigo_interno'
     ];
 
     protected static $logOnlyDirty =true;
