@@ -21,7 +21,8 @@ class Bodega extends Model
         'ancho',
         'alto',
         'telefono',
-        'estado'
+        'estado',
+        'codigo_interno'
     ];
     public static $logAttributes = [
         'id_localidad',
@@ -32,7 +33,8 @@ class Bodega extends Model
         'ancho',
         'alto',
         'telefono',
-        'estado'
+        'estado',
+        'codigo_interno'
     ];
 
     protected $with = [
