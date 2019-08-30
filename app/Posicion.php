@@ -19,14 +19,16 @@ class Posicion extends Model
         'id_nivel',
         'codigo_barras',
         'descripcion',
-        'estado'
+        'estado',
+        'codigo_interno'
     ];
 
     public static $logAttributes = [
         'id_nivel',
         'codigo_barras',
         'descripcion',
-        'estado'
+        'estado',
+        'codigo_interno'
     ];
 
     public static $logOnlyDirty = true;
