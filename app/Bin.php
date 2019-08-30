@@ -16,14 +16,16 @@ class Bin extends Model
         'id_posicion',
         'codigo_barras',
         'descripcion',
-        'estado'
+        'estado',
+        'codigo_interno'
     ];
 
     public static $logAttributes = [
         'id_posicion',
         'codigo_barras',
         'descripcion',
-        'estado'
+        'estado',
+        'codigo_interno'
     ];
 
     protected  static $logOnlyDirty = true;

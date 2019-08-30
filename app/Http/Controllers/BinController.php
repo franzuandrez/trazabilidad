@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Bin;
 use App\Localidad;
 use Illuminate\Http\Request;
+use DB;
 
 class BinController extends Controller
 {
@@ -53,10 +54,13 @@ class BinController extends Controller
 
     public function store(Request $request){
 
+        $max = DB::table('bines')->where('id_posicion',$request->get('id_posicion'))->count();
+
         $bin = new Bin();
         $bin->codigo_barras = $request->get('codigo_barras');
         $bin->descripcion = $request->get('descripcion');
         $bin->id_posicion = $request->get('id_posicion');
+        $bin->codigo_interno = $max + 1;
         $bin->save();
 
         return redirect()->route('bines.index')
