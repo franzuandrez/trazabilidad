@@ -1,6 +1,6 @@
 
 
-function editar(modulo){
+function editar(modulo,opcion="edit"){
 
 
     let item = getItemSelected();
@@ -9,7 +9,7 @@ function editar(modulo){
     if(item ==null){
         $('#errorToEdit').modal();
     }else{
-        window.location.href = modulo+"/"+item+"/edit";
+        window.location.href = modulo+"/"+item+"/"+opcion;
     }
 
 }
@@ -19,7 +19,7 @@ function editar(modulo){
 
 function getItemSelected(){
 
-    var items = document.getElementsByName('id_recepcion_enc');
+    var items = document.getElementsByName('id_item');
     var item=null;
     var arrayItems = Object.keys(items).map(function(key) {
         return [Number(key), items[key]];
