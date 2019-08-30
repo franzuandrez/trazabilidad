@@ -32,6 +32,7 @@ class Posicion extends Model
     public static $logOnlyDirty = true;
 
 
+
     public function scopeActived($query)
     {
         return $query->where('posiciones.estado', 1);
@@ -42,5 +43,10 @@ class Posicion extends Model
     {
 
         return $this->belongsTo('App\Nivel', 'id_nivel');
+    }
+
+    public function bines(){
+
+        return $this->hasMany('App\Posicion','id_posicion');
     }
 }

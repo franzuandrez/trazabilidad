@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
+
 class Nivel extends Model
 {
     //
@@ -27,22 +28,29 @@ class Nivel extends Model
         'estado'
     ];
 
+    protected $with = [
+        'posiciones'
+    ];
+
     protected $logOnlyDirty = true;
 
-    public function scopeActived($query){
+    public function scopeActived($query)
+    {
 
-        return $query->where('nivel.estado',1);
-
-    }
-
-    public  function rack(){
-
-        return $this->belongsTo('App\Rack','id_rack');
+        return $query->where('nivel.estado', 1);
 
     }
 
-    public function posiciones(){
+    public function rack()
+    {
 
-        return $this->hasMany('App\Posicion','id_nivel');
+        return $this->belongsTo('App\Rack', 'id_rack');
+
+    }
+
+    public function posiciones()
+    {
+
+        return $this->hasMany('App\Posicion', 'id_nivel');
     }
 }

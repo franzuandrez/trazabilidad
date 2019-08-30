@@ -19,7 +19,9 @@ class Rack extends Model
         'lado',
         'estado',
     ];
-
+    protected $with = [
+        'niveles'
+    ];
     public static $logAttributes = [
         'id_pasillo',
         'codigo_barras',

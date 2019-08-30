@@ -35,6 +35,10 @@ class Bodega extends Model
         'estado'
     ];
 
+    protected $with = [
+        'sectores'
+    ];
+
     protected static $logOnlyDirty = true;
 
     public function scopeActived($query){
@@ -45,7 +49,8 @@ class Bodega extends Model
 
     public function localidad(){
 
-        return $this->belongsTo('App\Localidad','id_localidad');
+        return $this->belongsTo('App\Localidad','id_localidad')
+            ->withDefault();
     }
 
     public function sectores(){

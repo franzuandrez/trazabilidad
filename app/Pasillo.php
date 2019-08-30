@@ -28,6 +28,10 @@ class Pasillo extends Model
         'estado',
         'id_encargado'
     ];
+
+    protected $with = [
+        'racks'
+    ];
     protected static $logOnlyDirty = true;
 
     public function scopeActived($query){

@@ -29,6 +29,10 @@ class Localidad extends Model
         'id_encargado',
         'estado'
     ];
+
+    protected $with = [
+        'bodegas'
+    ];
     protected static $logOnlyDirty = true;
 
     public function scopeActived($query){

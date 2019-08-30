@@ -26,7 +26,9 @@ class Sector extends Model
         'id_encargado',
         'estado'
     ];
-
+    protected $with = [
+        'pasillos'
+    ];
     protected static $logOnlyDirty = true;
 
     public function scopeActived($query){
