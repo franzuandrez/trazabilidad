@@ -7,7 +7,7 @@ use App\Pasillo;
 use App\Sector;
 use App\User;
 use Illuminate\Http\Request;
-
+use DB;
 class PasilloController extends Controller
 {
     //
@@ -58,11 +58,14 @@ class PasilloController extends Controller
     public function store(Request $request){
 
 
+        $max = DB::table('pasillos')->where('id_sector',$request->get('id_sector'))->count();
+
         $pasillo = new Pasillo();
         $pasillo->id_sector = $request->get('id_sector');
         $pasillo->codigo_barras = $request->get('codigo_barras');
         $pasillo->descripcion = $request->get('descripcion');
         $pasillo->id_encargado = $request->get('id_encargado');
+        $pasillo->codigo_interno = $max + 1;
         $pasillo->save();
 
         return redirect()->route('pasillos.index')

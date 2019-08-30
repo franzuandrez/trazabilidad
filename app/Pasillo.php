@@ -18,7 +18,8 @@ class Pasillo extends Model
         'codigo_barras',
         'descripcion',
         'estado',
-        'id_encargado'
+        'id_encargado',
+        'codigo_interno'
     ];
 
     public static $logAttributes = [
@@ -26,7 +27,8 @@ class Pasillo extends Model
         'codigo_barras',
         'descripcion',
         'estado',
-        'id_encargado'
+        'id_encargado',
+        'codigo_interno'
     ];
 
     protected $with = [
