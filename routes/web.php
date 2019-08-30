@@ -198,6 +198,10 @@ Route::patch('registro/bines/{id}','BinController@update')->name('bines.update')
 Route::get('registro/bines/{id}','BinController@show')->name('bines.show');
 Route::post('registro/bines/{id}','BinController@destroy')->name('bines.destroy');
 
+Route::get('registro/ubicaciones','UbicacionController@index')->name('ubicaciones.index');
+
+
+
 Route::get('registro/productos','ProductoController@index')->name('productos.index');
 Route::get('registro/productos/create','ProductoController@create')->name('productos.create');
 Route::post('registro/productos/create','ProductoController@store')->name('productos.store');
@@ -253,6 +257,9 @@ Route::patch('recepcion/transito/{id}','RecepcionController@ingresar')->name('re
 Route::get('recepcion/transito/{id}','RecepcionController@show_transito')->name('recepcion.transito.show_transito');
 
 Route::get('recepcion/ubicacion','RecepcionController@recepcion_ubicacion')->name('recepcion.ubicacion.index');
+Route::get('recepcion/ubicacion/{id}/ubicar','RecepcionController@ubicacion')->name('recepcion.ubicacion.ubicar');
+Route::patch('recepcion/ubicacion/{id}','RecepcionController@ubicar')->name('recepcion.ubicacion.ubicar');
+
 
 Route::get('movimientos/bodegas','MovimientoController@index')->name('movimientos.bodegas.index');
 Route::get('movimientos/existencia/productos','MovimientoController@existencia')->name('movimientos.existencia.productos');
