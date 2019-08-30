@@ -6,6 +6,7 @@ use App\Nivel;
 use App\Localidad;
 use App\Rack;
 use Illuminate\Http\Request;
+use DB;
 
 class NivelController extends Controller
 {
@@ -37,35 +38,41 @@ class NivelController extends Controller
             ->paginate(20);
 
         if ($request->ajax()) {
-            return view('registro.niveles.index',compact('search','sort','sortField','niveles'));
+            return view('registro.niveles.index', compact('search', 'sort', 'sortField', 'niveles'));
 
         } else {
-            return view('registro.niveles.ajax',compact('search','sort','sortField','niveles'));
+            return view('registro.niveles.ajax', compact('search', 'sort', 'sortField', 'niveles'));
 
         }
     }
 
-    public function create(){
+    public function create()
+    {
 
         $localidades = Localidad::actived()->get();
 
-        return view('registro.niveles.create',compact('localidades'));
+        return view('registro.niveles.create', compact('localidades'));
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
+
+        $max = DB::table('nivel')->where('id_rack', $request->get('id_rack'))->count();
 
         $nivel = new Nivel();
         $nivel->codigo_barras = $request->get('codigo_barras');
         $nivel->descripcion = $request->get('descripcion');
         $nivel->id_rack = $request->get('id_rack');
+        $nivel->codigo_interno = $max + 1;
         $nivel->save();
 
-        return redirect()->route('niveles.index')->with('success','Nivel dado de alta correctamente');
+        return redirect()->route('niveles.index')->with('success', 'Nivel dado de alta correctamente');
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
 
-        try{
+        try {
 
             $nivel = Nivel::findOrFail($id);
 
@@ -79,18 +86,19 @@ class NivelController extends Controller
 
 
             return view('registro.niveles.edit',
-                compact('pasillo','bodega','sector','nivel','localidades','localidad'));
+                compact('pasillo', 'bodega', 'sector', 'nivel', 'localidades', 'localidad'));
 
 
-        }catch(\Exception $ex){
+        } catch (\Exception $ex) {
 
             return redirect()->route('niveles.index')
-                ->withErrors(['error'=>'Nivel no encontrado']);
+                ->withErrors(['error' => 'Nivel no encontrado']);
         }
     }
 
-    public function update( Request $request , $id) {
-        try{
+    public function update(Request $request, $id)
+    {
+        try {
 
             $nivel = Nivel::findOrFail($id);
             $nivel->codigo_barras = $request->get('codigo_barras');
@@ -99,19 +107,20 @@ class NivelController extends Controller
             $nivel->update();
 
             return redirect()->route('niveles.index')
-                ->with('success','Nivel actualizado correctamente');
+                ->with('success', 'Nivel actualizado correctamente');
 
-        }catch(\Exception $ex){
+        } catch (\Exception $ex) {
 
             return redirect()->route('niveles.index')
-                ->withErrors(['error'=>'Lo sentimos, no se ha podido completar su petición']);
+                ->withErrors(['error' => 'Lo sentimos, no se ha podido completar su petición']);
 
         }
 
     }
 
-    public function  show($id){
-        try{
+    public function show($id)
+    {
+        try {
 
             $nivel = Nivel::findOrFail($id);
 
@@ -123,29 +132,30 @@ class NivelController extends Controller
             $localidades = Localidad::actived()->get();
 
             return view('registro.niveles.show',
-                compact('pasillo','bodega','sector','nivel','localidades','localidad'));
+                compact('pasillo', 'bodega', 'sector', 'nivel', 'localidades', 'localidad'));
 
 
-        }catch(\Exception $ex){
+        } catch (\Exception $ex) {
 
             return redirect()->route('niveles.index')
-                ->withErrors(['error'=>'Nivel no encontrado']);
+                ->withErrors(['error' => 'Nivel no encontrado']);
         }
     }
 
-    public  function  destroy($id){
+    public function destroy($id)
+    {
 
-        try{
+        try {
             $nivel = Nivel::findOrFail($id);
             $nivel->estado = 0;
             $nivel->update();
-            return response()->json(['success'=>'Nivel dado de baja correctamente']);
+            return response()->json(['success' => 'Nivel dado de baja correctamente']);
 
-        }catch(\Exception $ex){
+        } catch (\Exception $ex) {
 
             return response()->json(
-                ['error'=>'En este momento no es posible procesar su petición',
-                    'mensaje'=>$ex->getMessage()
+                ['error' => 'En este momento no es posible procesar su petición',
+                    'mensaje' => $ex->getMessage()
                 ]
             );
 
@@ -155,17 +165,15 @@ class NivelController extends Controller
 
     public function niveles_by_rack($rack)
     {
-        try{
+        try {
             $niveles = Rack::findOrFail($rack)->niveles()->actived()->get();
 
-        }catch(\Exception $ex){
+        } catch (\Exception $ex) {
 
             $niveles = [];
         }
 
-        return response()->json(['niveles'=>$niveles]);
-
-
+        return response()->json(['niveles' => $niveles]);
 
 
     }

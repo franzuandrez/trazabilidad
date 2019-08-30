@@ -18,14 +18,16 @@ class Nivel extends Model
         'codigo_barras',
         'id_rack',
         'descripcion',
-        'estado'
+        'estado',
+        'codigo_interno'
     ];
 
     public static $logAttributes = [
         'codigo_barras',
         'id_rack',
         'descripcion',
-        'estado'
+        'estado',
+        'codigo_interno'
     ];
 
     protected $with = [
