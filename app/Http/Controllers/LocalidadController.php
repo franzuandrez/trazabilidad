@@ -65,6 +65,9 @@ class LocalidadController extends Controller
         $localidad->id_encargado = $request->get('id_encargado');
         $localidad->save();
 
+        $localidad->codigo_interno = $localidad->id_localidad;
+        $localidad->update();
+
         return redirect()->route('localidades.index')
             ->with('success','Localidad dada de alta correctamente');
 

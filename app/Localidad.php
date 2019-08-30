@@ -27,7 +27,8 @@ class Localidad extends Model
         'descripcion',
         'direccion',
         'id_encargado',
-        'estado'
+        'estado',
+        'codigo_interno'
     ];
 
     protected $with = [
