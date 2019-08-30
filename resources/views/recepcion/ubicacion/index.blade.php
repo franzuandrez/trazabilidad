@@ -41,7 +41,7 @@
                 @foreach($ordenes_en_control as $recepcion)
                     <tr>
                         <td>
-                            <input type="radio" name="id_recepcion_enc" value="{{$recepcion->id_recepcion_enc}}">
+                            <input type="radio" name="id_item" value="{{$recepcion->id_recepcion_enc}}">
 
                         </td>
                         <td>
