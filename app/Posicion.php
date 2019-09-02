@@ -49,6 +49,6 @@ class Posicion extends Model
 
     public function bines(){
 
-        return $this->hasMany('App\Posicion','id_posicion');
+        return $this->hasMany('App\Bin','id_posicion');
     }
 }
