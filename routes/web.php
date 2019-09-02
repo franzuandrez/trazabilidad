@@ -200,7 +200,8 @@ Route::post('registro/bines/{id}','BinController@destroy')->name('bines.destroy'
 Route::get('registro/bines_by_posicion/{id}','BinController@bines_by_posicion')->name('bines.by_posicion');
 
 Route::get('registro/ubicaciones','UbicacionController@index')->name('ubicaciones.index');
-
+Route::get('registro/ubicaciones/create','UbicacionController@create')->name('ubicaciones.create');
+Route::post('registro/ubicaciones/create','UbicacionController@store')->name('ubicaciones.store');
 
 
 Route::get('registro/productos','ProductoController@index')->name('productos.index');

@@ -68,6 +68,52 @@ class UbicacionController extends Controller
 
     }
 
+    public function create()
+    {
+
+        $localidades = Localidad::actived()->get();
+        return view('registro.ubicaciones.create', compact('localidades'));
+    }
+
+
+    public function store(UbicacionRequest $request)
+    {
+
+
+
+
+        try {
+            $ubicacion = new Ubicacion;
+            $ubicacion->id_localidad = $request->id_localidad;
+            $ubicacion->id_bodega = $request->id_bodega;
+            $ubicacion->id_sector = $request->id_sector;
+            $ubicacion->id_pasillo = $request->id_pasillo;
+            $ubicacion->id_rack = $request->id_rack;
+            $ubicacion->id_nivel = $request->id_nivel;
+            $ubicacion->id_posicion = $request->id_posicion;
+            $ubicacion->id_bin = $request->id_bin;
+            $codigo_barras = $this->getCodigoBarras($ubicacion);
+
+            $existeCodigoBarras = Ubicacion::where('codigo_barras',$codigo_barras)->exists();
+
+            if($existeCodigoBarras){
+                return Redirect::back()->withErrors(['Ubicacion existente']);
+            }
+
+            $ubicacion->codigo_barras = $codigo_barras;
+            $ubicacion->save();
+
+            return redirect()->route('ubicaciones.index')
+                ->with('success','Ubicacion dada de alta correctamente');
+        } catch (\Exception $e) {
+
+            return redirect()->route('ubicaciones.index')
+                ->withErrors(['error'=>'Su petición no pudo ser procesada']);
+
+        }
+
+    }
+
     private function getCodigoBarras($ubicacion)
     {
 
