@@ -33,12 +33,12 @@ class UbicacionController extends Controller
 
         $ubicaciones = Ubicacion::leftJoin('bodegas', 'bodegas.id_bodega', '=', 'ubicaciones.id_bodega')
             ->leftJoin('localidades', 'localidades.id_localidad', '=', 'ubicaciones.id_localidad')
-            ->leftJoin('sectores','sectores.id_sector','=','ubicaciones.id_sector')
-            ->leftJoin('pasillos','pasillos.id_pasillo','=','ubicaciones.id_pasillo')
-            ->leftJoin('racks','racks.id_rack','=','ubicaciones.id_rack')
-            ->leftJoin('nivel','nivel.id_nivel','=','ubicaciones.id_nivel')
-            ->leftJoin('posiciones','posiciones.id_posicion','=','ubicaciones.id_posicion')
-            ->leftJoin('bines','bines.id_bin','=','ubicaciones.id_posicion')
+            ->leftJoin('sectores', 'sectores.id_sector', '=', 'ubicaciones.id_sector')
+            ->leftJoin('pasillos', 'pasillos.id_pasillo', '=', 'ubicaciones.id_pasillo')
+            ->leftJoin('racks', 'racks.id_rack', '=', 'ubicaciones.id_rack')
+            ->leftJoin('nivel', 'nivel.id_nivel', '=', 'ubicaciones.id_nivel')
+            ->leftJoin('posiciones', 'posiciones.id_posicion', '=', 'ubicaciones.id_posicion')
+            ->leftJoin('bines', 'bines.id_bin', '=', 'ubicaciones.id_posicion')
             ->select('localidades.descripcion as localidad',
                 'bodegas.descripcion as bodega', 'ubicaciones.*'
             )
@@ -46,12 +46,12 @@ class UbicacionController extends Controller
                 $query->where('localidades.descripcion', 'LIKE', '%' . $search . '%')
                     ->orWhere('ubicaciones.codigo_barras', 'LIKE', '%' . $search . '%')
                     ->orWhere('bodegas.descripcion', 'LIKE', '%' . $search . '%')
-                    ->orWhere('sectores.descripcion','LIKE','%'.$search.'%')
-                    ->orWhere('pasillos.descripcion','LIKE','%'.$search.'%')
-                    ->orWhere('racks.descripcion','LIKE','%'.$search.'%')
-                    ->orWhere('nivel.descripcion','LIKE','%'.$search.'%')
-                    ->orWhere('posiciones.descripcion','LIKE','%'.$search.'%')
-                    ->orWhere('bines.descripcion','LIKE','%'.$search.'%');
+                    ->orWhere('sectores.descripcion', 'LIKE', '%' . $search . '%')
+                    ->orWhere('pasillos.descripcion', 'LIKE', '%' . $search . '%')
+                    ->orWhere('racks.descripcion', 'LIKE', '%' . $search . '%')
+                    ->orWhere('nivel.descripcion', 'LIKE', '%' . $search . '%')
+                    ->orWhere('posiciones.descripcion', 'LIKE', '%' . $search . '%')
+                    ->orWhere('bines.descripcion', 'LIKE', '%' . $search . '%');
 
             })
             ->orderBy($sortField, $sort)
@@ -80,8 +80,6 @@ class UbicacionController extends Controller
     {
 
 
-
-
         try {
             $ubicacion = new Ubicacion;
             $ubicacion->id_localidad = $request->id_localidad;
@@ -94,9 +92,9 @@ class UbicacionController extends Controller
             $ubicacion->id_bin = $request->id_bin;
             $codigo_barras = $this->getCodigoBarras($ubicacion);
 
-            $existeCodigoBarras = Ubicacion::where('codigo_barras',$codigo_barras)->exists();
+            $existeCodigoBarras = Ubicacion::where('codigo_barras', $codigo_barras)->exists();
 
-            if($existeCodigoBarras){
+            if ($existeCodigoBarras) {
                 return Redirect::back()->withErrors(['Ubicacion existente']);
             }
 
@@ -104,28 +102,41 @@ class UbicacionController extends Controller
             $ubicacion->save();
 
             return redirect()->route('ubicaciones.index')
-                ->with('success','Ubicacion dada de alta correctamente');
+                ->with('success', 'Ubicacion dada de alta correctamente');
         } catch (\Exception $e) {
 
             return redirect()->route('ubicaciones.index')
-                ->withErrors(['error'=>'Su petición no pudo ser procesada']);
+                ->withErrors(['error' => 'Su petición no pudo ser procesada']);
 
         }
 
     }
 
+    public function show($id)
+    {
+        try {
+
+            $ubicacion = Ubicacion::findOrFail($id);
+
+
+            return view('registro.ubicaciones.show',compact('ubicacion'));
+        }catch (\Exception $exception){
+
+        }
+    }
+
     private function getCodigoBarras($ubicacion)
     {
 
-        $localidad = str_pad($ubicacion->localidad->codigo_interno,2,"0",STR_PAD_LEFT);
-        $bodega=str_pad($ubicacion->bodega->codigo_interno,2,"0",STR_PAD_LEFT);
-        $sector = str_pad($ubicacion->sector->codigo_interno,2,"0",STR_PAD_LEFT);
-        $pasillo = str_pad($ubicacion->pasillo->codigo_interno,2,"0",STR_PAD_LEFT);
-        $rack = str_pad($ubicacion->rack->codigo_interno,2,"0");
-        $nivel = str_pad($ubicacion->nivel->codigo_interno,1,"0",STR_PAD_LEFT);
-        $posicion = str_pad($ubicacion->posicion->codigo_interno,1,"0",STR_PAD_LEFT);
-        $bin = str_pad($ubicacion->bin->codigo_interno,1,"0",STR_PAD_LEFT);
-        $codigo_barras = $localidad.$bodega.$sector.$pasillo.$rack.$nivel.$posicion.$bin;
+        $localidad = str_pad($ubicacion->localidad->codigo_interno, 2, "0", STR_PAD_LEFT);
+        $bodega = str_pad($ubicacion->bodega->codigo_interno, 2, "0", STR_PAD_LEFT);
+        $sector = str_pad($ubicacion->sector->codigo_interno, 2, "0", STR_PAD_LEFT);
+        $pasillo = str_pad($ubicacion->pasillo->codigo_interno, 2, "0", STR_PAD_LEFT);
+        $rack = str_pad($ubicacion->rack->codigo_interno, 2, "0");
+        $nivel = str_pad($ubicacion->nivel->codigo_interno, 1, "0", STR_PAD_LEFT);
+        $posicion = str_pad($ubicacion->posicion->codigo_interno, 1, "0", STR_PAD_LEFT);
+        $bin = str_pad($ubicacion->bin->codigo_interno, 1, "0", STR_PAD_LEFT);
+        $codigo_barras = $localidad . $bodega . $sector . $pasillo . $rack . $nivel . $posicion . $bin;
 
         return $codigo_barras;
 
