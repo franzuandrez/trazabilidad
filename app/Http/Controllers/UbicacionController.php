@@ -42,6 +42,7 @@ class UbicacionController extends Controller
             ->select('localidades.descripcion as localidad',
                 'bodegas.descripcion as bodega', 'ubicaciones.*'
             )
+            ->actived()
             ->where(function ($query) use ($search) {
                 $query->where('localidades.descripcion', 'LIKE', '%' . $search . '%')
                     ->orWhere('ubicaciones.codigo_barras', 'LIKE', '%' . $search . '%')
@@ -169,6 +170,21 @@ class UbicacionController extends Controller
         }catch (\Exception $ex){
             return redirect()->route('ubicaciones.index')
                 ->withErrors(['error' => 'Su petición no pudo ser procesada']);
+        }
+    }
+
+    public function destroy($id){
+        try{
+            $ubicacion = Ubicacion::findOrFail($id);
+            $ubicacion->estado = 0;
+            $ubicacion->update();
+            return response()->json(['success' => 'Ubicacion dada de baja correctamente']);
+        }catch(\Exception $ex){
+            return response()->json(
+                ['error' => 'En este momento no es posible procesar su petición',
+                    'mensaje' => $ex->getMessage()
+                ]
+            );
         }
     }
 

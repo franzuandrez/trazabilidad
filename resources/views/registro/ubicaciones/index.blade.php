@@ -128,6 +128,14 @@
                             {{$ubicacion->bin->descripcion}}
                         </td>
                     </tr>
+                    @component('componentes.alert-delete',
+                    ['model'=>'UBICACION',
+                    'id'=>$ubicacion->id_ubicacion,
+                    'method'=>'UbicacionController@destroy',
+                    'extras'=>'',
+                    'description'=>$ubicacion->codigo_barras,
+                    'url'=>url('registro/ubicaciones')."/".$ubicacion->id_ubicacion])
+                    @endcomponent
                 @endforeach
                 </tbody>
             </table>

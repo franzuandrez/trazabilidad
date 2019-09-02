@@ -205,6 +205,8 @@ Route::post('registro/ubicaciones/create','UbicacionController@store')->name('ub
 Route::get('registro/ubicaciones/{id}/edit','UbicacionController@edit')->name('ubicaciones.edit');
 Route::patch('registro/ubicaciones/{id}','UbicacionController@update')->name('ubicaciones.update');
 Route::get('registro/ubicaciones/{id}','UbicacionController@show')->name('ubicaciones.show');
+Route::post('registro/ubicaciones/{id}','UbicacionController@destroy')->name('ubicaciones.destroy');
+
 
 Route::get('registro/productos','ProductoController@index')->name('productos.index');
 Route::get('registro/productos/create','ProductoController@create')->name('productos.create');

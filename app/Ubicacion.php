@@ -74,4 +74,13 @@ class Ubicacion extends Model
         return $this->belongsTo('App\Bin', 'id_bin');
     }
 
+
+    /*
+     *
+     */
+
+    public function scopeActived($query)
+    {
+        return $query->where('ubicaciones.estado', 1);
+    }
 }
