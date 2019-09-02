@@ -22,6 +22,16 @@ class Ubicacion extends Model
         'estado',
     ];
 
+    public $with = [
+        'localidad',
+        'bodega',
+        'sector',
+        'pasillo',
+        'rack',
+        'nivel',
+        'posicion',
+        'bin'
+    ];
 
     public function localidad()
     {

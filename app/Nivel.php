@@ -53,6 +53,6 @@ class Nivel extends Model
     public function posiciones()
     {
 
-        return $this->hasMany('App\Posicion', 'id_nivel');
+        return $this->hasMany('App\Posicion', 'id_nivel')->actived();
     }
 }

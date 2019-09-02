@@ -54,6 +54,6 @@ class Pasillo extends Model
 
     public function racks(){
 
-        return $this->hasMany('App\Rack','id_pasillo');
+        return $this->hasMany('App\Rack','id_pasillo')->actived();
     }
 }

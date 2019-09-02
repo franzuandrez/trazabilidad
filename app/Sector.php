@@ -48,7 +48,7 @@ class Sector extends Model
     }
     public function pasillos(){
 
-        return $this->hasMany('App\Pasillo','id_sector');
+        return $this->hasMany('App\Pasillo','id_sector')->actived();
     }
 
 

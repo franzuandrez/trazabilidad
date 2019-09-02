@@ -48,7 +48,7 @@ class Localidad extends Model
 
     public function bodegas(){
 
-        return $this->hasMany('App\Bodega','id_localidad');
+        return $this->hasMany('App\Bodega','id_localidad')->actived();
     }
 
 }

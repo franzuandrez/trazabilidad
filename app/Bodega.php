@@ -56,6 +56,6 @@ class Bodega extends Model
     }
 
     public function sectores(){
-        return $this->hasMany('App\Sector','id_bodega');
+        return $this->hasMany('App\Sector','id_bodega')->actived();
     }
 }

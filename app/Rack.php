@@ -46,7 +46,7 @@ class Rack extends Model
 
     public function niveles(){
 
-        return $this->hasMany('App\Nivel','id_rack');
+        return $this->hasMany('App\Nivel','id_rack')->actived();
     }
 
 }
