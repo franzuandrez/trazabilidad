@@ -197,6 +197,7 @@ Route::get('registro/bines/{id}/edit','BinController@edit')->name('bines.edit');
 Route::patch('registro/bines/{id}','BinController@update')->name('bines.update');
 Route::get('registro/bines/{id}','BinController@show')->name('bines.show');
 Route::post('registro/bines/{id}','BinController@destroy')->name('bines.destroy');
+Route::get('registro/bines_by_posicion/{id}','BinController@bines_by_posicion')->name('bines.by_posicion');
 
 Route::get('registro/ubicaciones','UbicacionController@index')->name('ubicaciones.index');
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Bin;
 use App\Localidad;
+use App\Posicion;
 use Illuminate\Http\Request;
 use DB;
 
@@ -17,44 +18,47 @@ class BinController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(Request $request){
+    public function index(Request $request)
+    {
 
         $search = $request->get('search') == null ? '' : $request->get('search');
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
         $sortField = $request->get('field') == null ? 'codigo_barras' : $request->get('field');
 
-        $bines  = Bin::join('posiciones','posiciones.id_posicion','=','bines.id_posicion')
-            ->select('bines.*','posiciones.descripcion as posicion')
+        $bines = Bin::join('posiciones', 'posiciones.id_posicion', '=', 'bines.id_posicion')
+            ->select('bines.*', 'posiciones.descripcion as posicion')
             ->actived()
-            ->where(function ( $query )  use  ( $search ){
-                $query->where('bines.codigo_barras','LIKE','%'.$search.'%')
-                    ->orwhere('bines.descripcion','LIKE','%'.$search.'%')
-                    ->orwhere('posiciones.descripcion','LIKE','%'.$search.'%');
+            ->where(function ($query) use ($search) {
+                $query->where('bines.codigo_barras', 'LIKE', '%' . $search . '%')
+                    ->orwhere('bines.descripcion', 'LIKE', '%' . $search . '%')
+                    ->orwhere('posiciones.descripcion', 'LIKE', '%' . $search . '%');
             })
-            ->orderBy($sortField,$sort)
+            ->orderBy($sortField, $sort)
             ->paginate(20);
 
-        if($request->ajax()){
+        if ($request->ajax()) {
             return view('registro.bines.index',
-                compact('bines','search','sort','sortField'));
-        }else{
+                compact('bines', 'search', 'sort', 'sortField'));
+        } else {
             return view('registro.bines.ajax',
-                compact('bines','search','sort','sortField'));
+                compact('bines', 'search', 'sort', 'sortField'));
 
         }
 
     }
 
-    public function create(){
+    public function create()
+    {
 
-        $localidades  = Localidad::actived()->get();
-        return view('registro.bines.create',compact('localidades'));
+        $localidades = Localidad::actived()->get();
+        return view('registro.bines.create', compact('localidades'));
 
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
 
-        $max = DB::table('bines')->where('id_posicion',$request->get('id_posicion'))->count();
+        $max = DB::table('bines')->where('id_posicion', $request->get('id_posicion'))->count();
 
         $bin = new Bin();
         $bin->codigo_barras = $request->get('codigo_barras');
@@ -64,14 +68,15 @@ class BinController extends Controller
         $bin->save();
 
         return redirect()->route('bines.index')
-            ->with('success','Bin dado de alta corretamente');
+            ->with('success', 'Bin dado de alta corretamente');
 
 
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
 
-        try{
+        try {
 
             $bin = Bin::findOrFail($id);
 
@@ -88,21 +93,22 @@ class BinController extends Controller
 
 
             return view('registro.bines.edit',
-                compact('pasillo','bodega','sector',
-                    'nivel','localidades','localidad','posicion','rack','bin'));
+                compact('pasillo', 'bodega', 'sector',
+                    'nivel', 'localidades', 'localidad', 'posicion', 'rack', 'bin'));
 
 
-        }catch(\Exception $ex){
+        } catch (\Exception $ex) {
 
             return redirect()->route('posiciones.index')
-                ->withErrors(['error'=>'Posicion no encontrada']);
+                ->withErrors(['error' => 'Posicion no encontrada']);
         }
     }
 
 
-    public function update(Request $request , $id){
+    public function update(Request $request, $id)
+    {
 
-        try{
+        try {
             $bin = Bin::findOrFail($id);
             $bin->codigo_barras = $request->get('codigo_barras');
             $bin->descripcion = $request->get('descripcion');
@@ -110,14 +116,13 @@ class BinController extends Controller
             $bin->update();
 
             return redirect()->route('bines.index')
-                ->with('success','Bin actualizado corretamente');
+                ->with('success', 'Bin actualizado corretamente');
 
 
-
-        }catch (\Exception $ex){
+        } catch (\Exception $ex) {
 
             return redirect()->route('bines.index')
-                ->withErrors(['error'=>'No ha sido posible procesar su petición']);
+                ->withErrors(['error' => 'No ha sido posible procesar su petición']);
 
 
         }
@@ -125,9 +130,10 @@ class BinController extends Controller
 
     }
 
-    public function show($id){
+    public function show($id)
+    {
 
-        try{
+        try {
 
             $bin = Bin::findOrFail($id);
 
@@ -144,35 +150,50 @@ class BinController extends Controller
 
 
             return view('registro.bines.show',
-                compact('pasillo','bodega','sector',
-                    'nivel','localidades','localidad','posicion','rack','bin'));
+                compact('pasillo', 'bodega', 'sector',
+                    'nivel', 'localidades', 'localidad', 'posicion', 'rack', 'bin'));
 
 
-        }catch(\Exception $ex){
+        } catch (\Exception $ex) {
 
             return redirect()->route('bines.index')
-                ->withErrors(['error'=>'Bin no encontrado']);
+                ->withErrors(['error' => 'Bin no encontrado']);
         }
     }
 
-    public function destroy( $id ){
+    public function destroy($id)
+    {
 
-        try{
+        try {
 
             $bin = Bin::findOrFail($id);
             $bin->estado = 0;
-            $bin ->update();
-            return response()->json(['success'=>'Bin dado de baja correctamente']);
+            $bin->update();
+            return response()->json(['success' => 'Bin dado de baja correctamente']);
 
-        }catch(\Exception $ex){
+        } catch (\Exception $ex) {
             return response()->json(
-                ['error'=>'En este momento no es posible procesar su petición',
-                    'mensaje'=>$ex->getMessage()
+                ['error' => 'En este momento no es posible procesar su petición',
+                    'mensaje' => $ex->getMessage()
                 ]
             );
 
         }
     }
 
+
+    public function bines_by_posicion($posicion)
+    {
+
+        try {
+            $bines = Posicion::findOrFail($posicion)->bines()->actived()->get();
+
+        } catch (\Exception $ex) {
+
+            $bines = [];
+        }
+
+        return response()->json(['bines' => $bines]);
+    }
 
 }
