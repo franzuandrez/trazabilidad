@@ -14,7 +14,18 @@ function editar(modulo,opcion="edit"){
 
 }
 
+function eliminar(){
 
+    item = getItemSelected();
+
+    if(item==null){
+        $('#errorToEdit').modal();
+    }else{
+
+        $('#modal-delete-'+item).modal();
+    }
+
+}
 
 
 function getItemSelected(){
