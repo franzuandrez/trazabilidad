@@ -35,6 +35,60 @@
                     @endcomponent
                 </th>
 
+                <th>
+                    @component('componentes.column-sort',[
+                   'search'=>$search,
+                       'sort'=>$sort,
+                       'sortField'=>$sortField,
+                       'field'=>'sectores.descripcion',
+                       'titulo'=>'SECTOR'])
+                    @endcomponent
+                </th>
+                <th>
+                    @component('componentes.column-sort',[
+                   'search'=>$search,
+                       'sort'=>$sort,
+                       'sortField'=>$sortField,
+                       'field'=>'pasillos.descripcion',
+                       'titulo'=>'PASILLO'])
+                    @endcomponent
+                </th>
+                <th>
+                    @component('componentes.column-sort',[
+                   'search'=>$search,
+                       'sort'=>$sort,
+                       'sortField'=>$sortField,
+                       'field'=>'racks.descripcion',
+                       'titulo'=>'RACK'])
+                    @endcomponent
+                </th>
+                <th>
+                    @component('componentes.column-sort',[
+                   'search'=>$search,
+                       'sort'=>$sort,
+                       'sortField'=>$sortField,
+                       'field'=>'nivel.descripcion',
+                       'titulo'=>'NIVEL'])
+                    @endcomponent
+                </th>
+                <th>
+                    @component('componentes.column-sort',[
+                   'search'=>$search,
+                       'sort'=>$sort,
+                       'sortField'=>$sortField,
+                       'field'=>'posiciones.descripcion',
+                       'titulo'=>'POSICION'])
+                    @endcomponent
+                </th>
+                <th>
+                    @component('componentes.column-sort',[
+                   'search'=>$search,
+                       'sort'=>$sort,
+                       'sortField'=>$sortField,
+                       'field'=>'bines.descripcion',
+                       'titulo'=>'BIN'])
+                    @endcomponent
+                </th>
 
                 </thead>
                 <tbody>
@@ -54,6 +108,24 @@
                         </td>
                         <td>
                             {{$ubicacion->bodega}}
+                        </td>
+                        <td>
+                            {{$ubicacion->sector->descripcion}}
+                        </td>
+                        <td>
+                            {{$ubicacion->pasillo->descripcion}}
+                        </td>
+                        <td>
+                            {{$ubicacion->rack->descripcion}}
+                        </td>
+                        <td>
+                            {{$ubicacion->nivel->descripcion}}
+                        </td>
+                        <td>
+                            {{$ubicacion->posicion->descripcion}}
+                        </td>
+                        <td>
+                            {{$ubicacion->bin->descripcion}}
                         </td>
                     </tr>
                 @endforeach
