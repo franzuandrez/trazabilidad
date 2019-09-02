@@ -26,7 +26,7 @@
             @endcomponent
             @component('componentes.btn-edit',['url'=>'javascript:editar("ubicaciones")'])
             @endcomponent
-            @component('componentes.btn-ver',['url'=>'javascript:ver()'])
+            @component('componentes.btn-ver',['url'=>'javascript:ver("ubicaciones")'])
             @endcomponent
             @component('componentes.btn-eliminar',['url'=>'javascript:eliminar()'])
             @endcomponent
