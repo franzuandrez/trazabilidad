@@ -7,12 +7,14 @@ use App\Http\Requests\MateriaPrimaRequest;
 use App\Impresion;
 use App\InspeccionEmpaqueEtiqueta;
 use App\InspeccionVehiculo;
+use App\Localidad;
 use App\Producto;
 use App\Proveedor;
 use App\Recepcion;
 use App\Movimiento;
 use App\RMIDetalle;
 use App\RMIEncabezado;
+use http\Env\Response;
 use Illuminate\Http\Request;
 use DB;
 use Carbon\Carbon;
@@ -418,8 +420,10 @@ class RecepcionController extends Controller
         try {
             $recepcion = Recepcion::findOrFail($id);
 
+
             $id_rmi = $recepcion
                 ->rmi_encabezado->id_rmi_encabezado;
+
 
             $movimientos = RMIDetalle::select('*', DB::raw('sum(cantidad) as total'))
                 ->where('id_rmi_encabezado', $id_rmi)
@@ -589,6 +593,7 @@ class RecepcionController extends Controller
 
     public function show_transito($id)
     {
+
         try {
             $recepcion = Recepcion::findOrFail($id);
 
@@ -612,7 +617,8 @@ class RecepcionController extends Controller
     }
 
 
-    public function recepcion_ubicacion( Request $request){
+    public function recepcion_ubicacion(Request $request)
+    {
 
         $search = $request->get('search') == null ? '' : $request->get('search');
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
@@ -631,15 +637,45 @@ class RecepcionController extends Controller
             ->paginate(20);
 
 
-        if( $request->ajax() ){
+        if ($request->ajax()) {
             return view('recepcion.ubicacion.index',
-            compact('sort','sortField','search','ordenes_en_control'));
-        }else{
+                compact('sort', 'sortField', 'search', 'ordenes_en_control'));
+        } else {
             return view('recepcion.ubicacion.ajax',
-                compact('sort','sortField','search','ordenes_en_control'));
+                compact('sort', 'sortField', 'search', 'ordenes_en_control'));
         }
 
 
+    }
+
+
+    public function ubicacion($id)
+    {
+
+
+        try {
+            $orden = Recepcion::findOrFail($id);
+
+            $rmi_detalle = RMIDetalle::where('id_rmi_encabezado', $orden->rmi_encabezado->id_rmi_encabezado)
+                ->select(DB::raw('sum(cantidad_entrante) as total'),'rmi_detalle.*')
+                ->groupBy('id_producto')
+                ->groupBy('lote')
+                ->get();
+
+            return view('recepcion.ubicacion.ubicar', compact('orden','rmi_detalle'));
+
+        } catch (\Exception $e) {
+
+            return redirect()->route('recepcion.ubicacion.index')
+                ->withErrors(['Recepcion no encontrada']);
+        }
+
+
+    }
+
+
+    public function ubicar(Request $request, $id)
+    {
 
     }
 }
