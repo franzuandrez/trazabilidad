@@ -51,7 +51,7 @@ class RMIDetalle extends Model
 
     public function scopeEstaEnRampa( $query ){
 
-        return $query->where($this->table."rampa",1);
+        return $query->where("rmi_detalle.rampa",1);
 
     }
 }
