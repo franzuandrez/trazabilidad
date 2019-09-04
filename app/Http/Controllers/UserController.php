@@ -223,7 +223,7 @@ class UserController extends Controller
 
 
             $estaAutorizado =  $rolePermissions->search(function ($item,$key){
-                    return $item->permission_id == 47;
+                    return $item->permission_id == 48;
                 }) != false;
 
 
