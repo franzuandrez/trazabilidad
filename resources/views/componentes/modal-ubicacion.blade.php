@@ -14,35 +14,43 @@
 
                             <th><i class="fa fa-building"></i> LOCALIDAD</th>
                             <td id="td-localidad"></td>
+                            <input type="hidden" id="td-id_localidad">
                         </tr>
                         <tr>
                             <th><i class="fa fa-building-o"></i> BODEGA</th>
                             <td id="td-bodega"></td>
+                            <input type="hidden" id="td-id_bodega">
                         </tr>
                         <tr>
 
                             <th><i class="fa  fa-square-o"></i> SECTOR</th>
                             <td id="td-sector"></td>
+                            <input type="hidden" id="td-id_sector">
                         </tr>
                         <tr>
                             <th><i class="fa  fa-pause"></i> PASILLO</th>
                             <td id="td-pasillo"></td>
+                            <input type="hidden" id="td-id_pasillo">
                         </tr>
                         <tr>
                             <th><i class="fa fa-tasks"></i> RACK</th>
                             <td id="td-rack"></td>
+                            <input type="hidden" id="td-id_rack">
                         </tr>
                         <tr>
                             <th><i class="fa fa-sort-numeric-desc"></i> NIVEL</th>
                             <td id="td-nivel"></td>
+                            <input type="hidden" id="td-id_nivel">
                         </tr>
                         <tr>
                             <th><i class="fa fa-ellipsis-v"></i> POSICION</th>
                             <td id="td-posicion"></td>
+                            <input type="hidden" id="td-id_posicion">
                         </tr>
                         <tr>
                             <th><i class="fa fa-inbox"></i> BIN</th>
-                            <td id="td-bin">CANTONESA</td>
+                            <td id="td-bin"></td>
+                            <input type="hidden" id="td-id_bin">
                         </tr>
 
                         </tbody>
