@@ -120,20 +120,21 @@ class UbicacionController extends Controller
             $ubicacion = Ubicacion::findOrFail($id);
 
 
-            return view('registro.ubicaciones.show',compact('ubicacion'));
-        }catch (\Exception $exception){
+            return view('registro.ubicaciones.show', compact('ubicacion'));
+        } catch (\Exception $exception) {
 
         }
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
         try {
 
             $ubicacion = Ubicacion::findOrFail($id);
             $localidades = Localidad::actived()->get();
 
-            return view('registro.ubicaciones.edit',compact('ubicacion','localidades'));
-        }catch (\Exception $exception){
+            return view('registro.ubicaciones.edit', compact('ubicacion', 'localidades'));
+        } catch (\Exception $exception) {
 
             return redirect()->route('ubicaciones.index')
                 ->withErrors(['error' => 'Ubicacion no encontrada']);
@@ -141,9 +142,10 @@ class UbicacionController extends Controller
     }
 
 
-    public function update(UbicacionRequest $request , $id){
+    public function update(UbicacionRequest $request, $id)
+    {
 
-        try{
+        try {
             $ubicacion = Ubicacion::findOrFail($id);
             $ubicacion->id_localidad = $request->id_localidad;
             $ubicacion->id_bodega = $request->id_bodega;
@@ -156,8 +158,8 @@ class UbicacionController extends Controller
             $codigo_barras = $this->getCodigoBarras($ubicacion);
 
             $existeCodigoBarras = Ubicacion::where('codigo_barras', $codigo_barras)
-                ->where('id_ubicacion','<>',$id)
-                ->where('estado',1)
+                ->where('id_ubicacion', '<>', $id)
+                ->where('estado', 1)
                 ->exists();
 
             if ($existeCodigoBarras) {
@@ -167,19 +169,20 @@ class UbicacionController extends Controller
             $ubicacion->update();
             return redirect()->route('ubicaciones.index')
                 ->with('success', 'Ubicacion actualizada correctamente');
-        }catch (\Exception $ex){
+        } catch (\Exception $ex) {
             return redirect()->route('ubicaciones.index')
                 ->withErrors(['error' => 'Su petición no pudo ser procesada']);
         }
     }
 
-    public function destroy($id){
-        try{
+    public function destroy($id)
+    {
+        try {
             $ubicacion = Ubicacion::findOrFail($id);
             $ubicacion->estado = 0;
             $ubicacion->update();
             return response()->json(['success' => 'Ubicacion dada de baja correctamente']);
-        }catch(\Exception $ex){
+        } catch (\Exception $ex) {
             return response()->json(
                 ['error' => 'En este momento no es posible procesar su petición',
                     'mensaje' => $ex->getMessage()
@@ -202,6 +205,17 @@ class UbicacionController extends Controller
         $codigo_barras = $localidad . $bodega . $sector . $pasillo . $rack . $nivel . $posicion . $bin;
 
         return $codigo_barras;
+
+    }
+
+
+    public function buscar_by_codigo($codigo)
+    {
+        $ubicacion = Ubicacion::where('codigo_barras','=',$codigo)
+            ->get();
+
+        return response()->json($ubicacion);
+
 
     }
 }
