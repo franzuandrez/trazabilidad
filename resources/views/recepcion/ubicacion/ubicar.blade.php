@@ -41,12 +41,25 @@
     </div>
     <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
         <label for="codigo_producto">CODIGO PRODUCTO</label>
-        <div class="form-group">
+        <div class="input-group">
             <input type="text"
                    id="codigo_producto"
                    onkeydown="if(event.keyCode==13)buscar_producto(document.getElementById('codigo_producto'))"
                    name="codigo_producto"
                    class="form-control">
+            <div class="input-group-btn">
+                <a href="javascript:buscar_producto(document.getElementById('codigo_producto'))"
+                >
+                    <button type="button" class="btn btn-default">
+                        <i class="fa fa-search " aria-hidden="true"></i>
+                    </button>
+                </a>
+                <a href="javascript:limpiar_producto()">
+                    <button type="button" class="btn btn-default">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                    </button>
+                </a>
+            </div>
         </div>
     </div>
     <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
