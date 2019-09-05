@@ -33,9 +33,10 @@
 
             {{--@component('componentes.btn-edit',['url'=>'javascript:editar()'])
             @endcomponent--}}
-
-            @component('componentes.btn-ver',['url'=>'javascript:ver()'])
-            @endcomponent
+            @can('role-list')
+                @component('componentes.btn-ver',['url'=>'javascript:ver()'])
+                @endcomponent
+            @endcan
         </div>
     </div>
 

@@ -27,10 +27,14 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
 
-            @component('componentes.btn-edit',['url'=>'javascript:editar()'])
-            @endcomponent
-            @component('componentes.btn-ver',['url'=>'javascript:ver()'])
-            @endcomponent
+            @can('role-edit')
+                @component('componentes.btn-edit',['url'=>'javascript:editar()'])
+                @endcomponent
+            @endcan
+            @can('role-list')
+                @component('componentes.btn-ver',['url'=>'javascript:ver()'])
+                @endcomponent
+            @endcan
         </div>
     </div>
 
