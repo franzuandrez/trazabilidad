@@ -8,7 +8,7 @@ class Movimientos
 {
 
 
-    public static function ingresar_producto( $ubicacion , $producto ,$lote ,$fecha_vencimiento ,$cantidad, $orden){
+    public static function ingresar_producto( $ubicacion , $producto ,$lote ,$fecha_vencimiento ,$cantidad, $orden,$usuario_autoriza){
 
 
         $movimiento = new Movimiento();
@@ -31,6 +31,7 @@ class Movimientos
         $movimiento->id_nivel = $ubicacion->id_nivel;
         $movimiento->id_posicion = $ubicacion->id_posicion;
         $movimiento->id_bin = $ubicacion->id_bin;
+        $movimiento->usuario_autorizo = $usuario_autoriza->id;
         $movimiento->save();
 
 

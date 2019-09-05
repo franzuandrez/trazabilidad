@@ -22,6 +22,7 @@ class Movimiento extends Model
         'ubicacion',
         'lote',
         'fecha_vencimiento',
+        'usuario_autorizo',
         'clave_autorizacion',
         'estado',
         'id_localidad',

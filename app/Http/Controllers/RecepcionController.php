@@ -16,6 +16,7 @@ use App\Movimiento;
 use App\RMIDetalle;
 use App\RMIEncabezado;
 use App\Ubicacion;
+use App\User;
 use http\Env\Response;
 use Illuminate\Http\Request;
 use DB;
@@ -659,12 +660,12 @@ class RecepcionController extends Controller
             $orden = Recepcion::findOrFail($id);
 
             $rmi_detalle = RMIDetalle::where('id_rmi_encabezado', $orden->rmi_encabezado->id_rmi_encabezado)
-                ->select(DB::raw('sum(cantidad_entrante) as total'),'rmi_detalle.*')
+                ->select(DB::raw('sum(cantidad_entrante) as total'), 'rmi_detalle.*')
                 ->groupBy('id_producto')
                 ->groupBy('lote')
                 ->get();
 
-            return view('recepcion.ubicacion.ubicar', compact('orden','rmi_detalle'));
+            return view('recepcion.ubicacion.ubicar', compact('orden', 'rmi_detalle'));
 
         } catch (\Exception $e) {
 
@@ -681,6 +682,7 @@ class RecepcionController extends Controller
         $orden = Recepcion::findOrFail($id);
         $rmi_encabezado = $orden->rmi_encabezado;
 
+         $usuario_autoriza =  User::where('username',$request->get('user_acepted'))->first();
         $productos = $request->get('id_producto');
 
         DB::beginTransaction();
@@ -702,18 +704,15 @@ class RecepcionController extends Controller
                     ->first()
                     ->fecha_vencimiento;
 
-                Movimientos::ingresar_producto($ubicacion, $producto, $lote, $fecha_vencimiento, $cantidad, $rmi_encabezado);
-
-                $rmi_encabezado->mp =1;
+                Movimientos::ingresar_producto($ubicacion, $producto, $lote, $fecha_vencimiento, $cantidad, $rmi_encabezado,$usuario_autoriza);
+                $rmi_encabezado->mp = 1;
                 $rmi_encabezado->control = 0;
                 $rmi_encabezado->update();
 
-
-                DB::commit();
-
-                return redirect()->route('recepcion.ubicacion.index')
-                    ->with('success','Producto ubicado correctamente');
             }
+            DB::commit();
+            return redirect()->route('recepcion.ubicacion.index')
+                ->with('success', 'Producto ubicado correctamente');
         } catch (\Exception $e) {
 
             DB::rollback();
@@ -721,10 +720,6 @@ class RecepcionController extends Controller
                 ->withErrors(['Su peticion no ha podido ser procesada']);
 
         }
-
-
-
-
 
 
     }

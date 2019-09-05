@@ -24,6 +24,7 @@
                                 <span class="input-group-addon"><i class="fa fa-lock"></i></span>
                                 <input type="password" class="form-control"
                                        id="password"
+                                       onkeydown="if(event.keyCode==13)verificar()"
                                        placeholder="Contraseña"
                                        required="required">
                             </div>
@@ -66,6 +67,8 @@
             success: function (response) {
 
                 if (response == 1) {
+
+                    document.getElementById('user_acepted').value = usuario;
                     $("#{{$id_form}}").submit();
                 } else {
                     alert("Usuario incorrecto");
