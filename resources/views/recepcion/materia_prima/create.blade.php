@@ -90,7 +90,7 @@
                 </li>
                 <li class="">
                     <a href="#tab_2"   data-toggle="tab" aria-expanded="false" onclick="validacion_checks()">
-                        Empaque y Etiqueta - GEOVANY
+                        Empaque y Etiqueta
 
                     </a>
                 </li>
@@ -111,6 +111,7 @@
                                    class="custom-control-input validacion" onclick="validacion_checks()"
                                    id="proveedor_aprobado"
                                    value="1"
+                                   required
                                    name="proveedor_aprobado" >
                             <label class="custom-control-label" for="proveedor_aprobado">Proveedor aprobado</label>
                         </div>
@@ -315,6 +316,7 @@
                                    class="custom-control-input  validacion" onclick="validacion_checks()"
                                    name="no_golpeado"
                                    value="1"
+                                   required
                                    id="no_golpeado">
                             <label class="custom-control-label" style="font-weight: normal" for="no_golpeado">No
                                 golpeado</label>
@@ -324,14 +326,17 @@
                                    class="custom-control-input  validacion" onclick="validacion_checks()"
                                    name="sin_roturas"
                                    value="1"
+                                   required
                                    id="sin_roturas">
                             <label class="custom-control-label" style="font-weight: normal" for="sin_roturas">Sin
                                 rotulas</label>
                         </div>
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox"
+                                   required
                                    class="custom-control-input  validacion" onclick="validacion_checks()"
                                    name="empaque_cerrado"
+                                   value="1"
                                    id="empaque_cerrado">
                             <label class="custom-control-label" style="font-weight: normal"
                                    for="empaque_cerrado">Cerrado</label>
@@ -559,7 +564,7 @@
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <button class="btn btn-default" name="Bt_guardar"  id= "Bt_guardar" type="submit">
+            <button class="btn btn-default" name="Bt_guardar"  disabled id= "Bt_guardar" type="submit">
                 <span class=" fa fa-check"></span> GUARDAR
             </button>
             <a href="{{url('recepcion/materia_prima')}}">
@@ -580,7 +585,8 @@
                     <h4 class="modal-title" align="center">PRODUCTO NO ENCONTRADO</h4>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal"><span class="fa fa-check"></span>
+                    <button type="button"
+                            class="btn btn-default" data-dismiss="modal"><span class="fa fa-check"></span>
                         ACEPTAR
                     </button>
                 </div>
