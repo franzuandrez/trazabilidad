@@ -23,7 +23,15 @@ class Movimiento extends Model
         'lote',
         'fecha_vencimiento',
         'clave_autorizacion',
-        'estado'
+        'estado',
+        'id_localidad',
+        'id_bodega',
+        'id_sector',
+        'id_pasillo',
+        'id_rack',
+        'id_nivel',
+        'id_posicion',
+        'id_bin'
     ];
 
     /**
