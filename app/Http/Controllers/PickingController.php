@@ -56,6 +56,8 @@ class PickingController extends Controller
 
         $requisicion = Requisicion::findOrFail($id);
 
+
+
         if($requisicion->reservas->isEmpty()){
 
             $productos = $requisicion->detalle->groupBy('id_producto');
@@ -74,13 +76,14 @@ class PickingController extends Controller
                 $lotesDisponibles =$this->getLotesDisponibles($lotes,$producto[0]->id_producto);
 
 
+
                 foreach ($lotesDisponibles as $lote=>$cantidad ){
 
                     $reserva = new ReservaPicking();
                     $reserva->id_producto = $producto[0]->id_producto;
                     $reserva->lote = $lote;
                     $reserva->id_requisicion = $requisicion->id;
-                    $reserva->id_bodega = $prod->where('lote',$lote)->first()->ubicacion;
+                    $reserva->id_bodega = $prod->where('lote',$lote)->first()->id_bodega;
 
                     if($cantidadEntrante >= $cantidad ){
                         $reserva->cantidad = $cantidad;
