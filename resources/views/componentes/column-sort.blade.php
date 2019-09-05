@@ -3,7 +3,7 @@ Request::url().'?field='.$field.'&sort='.($sort=='asc'?'desc':'asc').'&search='.
 }}')">
     {{strtoupper($titulo)}}
 
-</a>
+
 
 @if($sortField==$field)
     @if($sort=='asc')
@@ -14,3 +14,4 @@ Request::url().'?field='.$field.'&sort='.($sort=='asc'?'desc':'asc').'&search='.
 @else
     <i class="fa fa-sort" aria-hidden="true"></i>
 @endif
+</a>
