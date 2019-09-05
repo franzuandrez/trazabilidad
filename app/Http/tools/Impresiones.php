@@ -19,8 +19,6 @@ class Impresiones
             ->get();
 
 
-        self::crearArchivo();
-
         foreach ( $movimientos as $key => $mov){
 
             if($impresiones[$key] > 0){
@@ -38,6 +36,7 @@ class Impresiones
             }
 
         }
+        self::crearArchivo();
 
     }
 
