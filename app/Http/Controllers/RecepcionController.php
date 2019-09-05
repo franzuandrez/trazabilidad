@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DetalleLotes;
 use App\Http\Requests\MateriaPrimaRequest;
+use App\Http\tools\Movimientos;
 use App\Impresion;
 use App\InspeccionEmpaqueEtiqueta;
 use App\InspeccionVehiculo;
@@ -14,6 +15,7 @@ use App\Recepcion;
 use App\Movimiento;
 use App\RMIDetalle;
 use App\RMIEncabezado;
+use App\Ubicacion;
 use http\Env\Response;
 use Illuminate\Http\Request;
 use DB;
@@ -676,6 +678,54 @@ class RecepcionController extends Controller
 
     public function ubicar(Request $request, $id)
     {
+        $orden = Recepcion::findOrFail($id);
+        $rmi_encabezado = $orden->rmi_encabezado;
+
+        $productos = $request->get('id_producto');
+
+        DB::beginTransaction();
+
+        try {
+            foreach ($productos as $key => $id_producto) {
+
+                $producto = Producto::findOrFail($id_producto);
+                $ubicacion = Ubicacion::where('codigo_barras', $request->get('ubicacion')[$key])->first();
+
+                $lote = $request->get('lote')[$key];
+
+                $cantidad = $request->get('cantidad')[$key];
+
+                $fecha_vencimiento = $rmi_encabezado
+                    ->rmi_detalle
+                    ->where('lote', $lote)
+                    ->where('id_producto', $id_producto)
+                    ->first()
+                    ->fecha_vencimiento;
+
+                Movimientos::ingresar_producto($ubicacion, $producto, $lote, $fecha_vencimiento, $cantidad, $rmi_encabezado);
+
+                $rmi_encabezado->mp =1;
+                $rmi_encabezado->control = 0;
+                $rmi_encabezado->update();
+
+
+                DB::commit();
+
+                return redirect()->route('recepcion.ubicacion.index')
+                    ->with('success','Producto ubicado correctamente');
+            }
+        } catch (\Exception $e) {
+
+            DB::rollback();
+            return redirect()->route('recepcion.ubicacion.index')
+                ->withErrors(['Su peticion no ha podido ser procesada']);
+
+        }
+
+
+
+
+
 
     }
 }

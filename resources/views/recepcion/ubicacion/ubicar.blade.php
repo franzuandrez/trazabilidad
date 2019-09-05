@@ -21,7 +21,7 @@
         @endslot
     @endcomponent
 
-    {!!Form::model($orden,['method'=>'PATCH','route'=>['recepcion.ubicacion.ubicar',$orden->id_recepcion_enc]])!!}
+    {!!Form::model($orden,['method'=>'PATCH','id'=>'frm_ubicar','route'=>['recepcion.ubicacion.ubicar',$orden->id_recepcion_enc]])!!}
     {{Form::token()}}
 
 
@@ -90,6 +90,7 @@
         <label for="ubicacion">UBICACION</label>
         <div class="input-group">
             <input type="text"
+                   readonly
                    id="ubicacion"
                    onkeydown="if(event.keyCode==13)buscar_ubicacion(document.getElementById('ubicacion').value,document.getElementById('icon-search'))"
                    name="ubicacion"
@@ -143,7 +144,9 @@
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <button class="btn btn-default" type="submit">
+            <button class="btn btn-default"
+                    onclick="solicitar_credenciales()"
+                    type="button">
                 <span class=" fa fa-check"></span> GUARDAR
             </button>
             <a href="{{url('recepcion/ubicacion')}}">
@@ -155,6 +158,11 @@
         </div>
     </div>
     @include('componentes.modal-ubicacion')
+    @component('componentes.modal-verificacion',
+        ['ruta'=>route('users.verificar'),
+        'id_form'=>'frm_ubicar'
+        ])
+    @endcomponent
 @endsection
 
 @section('scripts')
@@ -166,9 +174,43 @@
                     event.preventDefault();
                     return false;
                 }
-            })
+            });
+
         });
 
+        function solicitar_credenciales() {
+
+            if(existe_producto_pendiente()){
+                alert("Orden incompleta, aún falta producto por ubicar");
+            }else{
+                $('#autorizacion').modal();
+            }
+
+        }
+
+        function existe_producto_pendiente() {
+
+            let cantidades =Array.prototype.slice.call(document.getElementsByName('cantidad[]'));
+
+
+
+            let existeProductoPendiente = false;
+            let cantidad = 0;
+
+            let producto_lote = "";
+            getRmiDetalle().forEach(function (prod) {
+                producto_lote = prod.id_producto+"-"+prod.lote;
+                cantidad = Array.prototype.slice.call(cantidades).filter(x => x.className==producto_lote).map(e=>parseFloat(e.value)).reduce((x,y)=> x+y,0);
+                if(parseFloat(prod.total) - cantidad > 0 ){
+                    existeProductoPendiente = true;
+                }
+            });
+
+
+
+            return existeProductoPendiente;
+
+        }
 
         function buscar_ubicacion(input, element = 0) {
 
@@ -193,10 +235,6 @@
                             stop_spinner("fa-search");
                         } else {
                             mostrar_ubicacion(ubicacion[0]);
-                            if (element == 0) {
-                                $('#modal-ubicacion').modal();
-                            }
-
                         }
 
                     },
@@ -214,10 +252,10 @@
 
         function mostrar_ubicacion(ubicacion) {
 
-            setTimeout(function () {
+            var tmr =  setTimeout(function () {
 
                 stop_spinner("fa-eye");
-                setTimeout(function () {
+               var tmr_ =  setTimeout(function () {
 
                     document.getElementById('ubicacion').readOnly = true;
                     document.getElementById('td-localidad').innerText = ubicacion.localidad.descripcion;
@@ -237,17 +275,18 @@
                     document.getElementById('td-bin').innerText = ubicacion.bin.descripcion;
                     document.getElementById('td-id_bin').value = ubicacion.bin.id_bin;
 
-
                     document.getElementById('cantidad').readOnly = false;
                     document.getElementById('cantidad').focus();
+                    clearTimeout(tmr_);
                 }, 0);
-
+                clearTimeout(tmr);
             }, 500);
 
 
         }
 
         function stop_spinner(icon) {
+
             document.getElementById("icon-search").classList.remove("fa-spin");
             document.getElementById("icon-search").classList.remove("fa-refresh");
             document.getElementById("icon-search").classList.remove("fa-eye");
@@ -262,9 +301,11 @@
         }
 
         function cantidad_focus() {
-            setTimeout(function () {
+            var tmr =setTimeout(function () {
                 document.getElementById('cantidad').focus();
-            }, 350)
+                clearTimeout(tmr)
+            }, 350);
+
         }
 
         function limpiar_ubicacion() {
@@ -293,6 +334,9 @@
                 document.getElementById('ubicacion').focus();
                 gl_cantidad_disponible = parseFloat(producto.total);
                 gl_id_producto = producto.id_producto;
+
+                document.getElementById('ubicacion').readOnly = false;
+                document.getElementById('ubicacion').focus();
             } else {
                 alert("Producto no encontrado");
             }
@@ -336,9 +380,6 @@
 
             let cantidad_agregada = Array.prototype.slice.call(document.getElementsByClassName(gl_id_producto + "-" + lote)).map(e => e.value).reduce((x, y) => parseFloat(x) + parseFloat(y), 0)
 
-            console.log(cantidad);
-            console.log(cantidad_agregada);
-            console.log(gl_cantidad_disponible);
             if (gl_id_producto == 0) {
                 alert("producto no valido");
                 return;
@@ -377,7 +418,9 @@
                  <tr class="row-producto-added" id='${gl_id_producto}-${lote}-${codigo_ubicacion}'>
                             <td><button onclick=removeFromTable(this) type="button" class="btn btn-warning">x</button></td>
                             <td><input type="hidden" name="descripcion_producto[]" value="${descripcion_producto}" > ${descripcion_producto}</td>
-                            <td><input type="hidden" value='${lote}' name=lote[]>${lote}</td>
+                            <td>
+                                <input type="hidden" value='${lote}' name=lote[]>${lote}</td>
+                                <input type="hidden" value='${gl_id_producto}' name=id_producto[]>${lote}</td>
                             <td >
                                 <input type="hidden" value ='${cantidad}'  class="${gl_id_producto}-${lote}"  name=cantidad[] >${cantidad}
                                 <input type="hidden" value ='${codigo_ubicacion}'  name=ubicacion[] >
@@ -390,7 +433,7 @@
                  </tr>`;
             if (document.getElementById(ubicacion) == null) {
                 row += `
-                <tr id="${ubicacion}"  class="">
+                <tr id="${ubicacion}"  class="titulo-ubicacion">
                     <td colspan="5">
                         <span class="label label-primary"><i class="fa fa-building-o"></i> ${nombre_bodega}</span>
                         <strong>/</strong>
@@ -419,6 +462,18 @@
             document.getElementById('codigo_producto').value = "";
             document.getElementById('lote').value = "";
             document.getElementById('descripcion').value = "";
+            document.getElementById('ubicacion').readOnly  = true;
+            document.getElementById('codigo_producto').focus();
+        }
+        function removeFromTable(element) {
+
+            let td = $(element).parent();
+            let row = td.parent();
+
+            if(row.prev().hasClass('titulo-ubicacion')){
+                row.prev().remove();
+            }
+            row.remove();
         }
     </script>
 @endsection

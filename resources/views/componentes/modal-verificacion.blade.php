@@ -5,10 +5,11 @@
                 <h2 class="modal-title" align="center">Autorización</h2>
 
             </div>
-            <div class="modal-body">
-                <form action="" method="post" class="form-horizontal" role="form">
-                    <div class="form-group">
-                        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+
+            <form action="" method="post" class="form-horizontal" role="form">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 ">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-user"></i></span>
                                 <input type="text"
@@ -17,8 +18,7 @@
                                        required="required">
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group">
+                    <hr>
                         <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-lock"></i></span>
@@ -29,23 +29,25 @@
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" id="btn-verificar"
-                                onclick="verificar()"
-                                class="btn btn-default">
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" id="btn-verificar"
+                            onclick="verificar()"
+                            class="btn btn-default">
                         <span class="fa fa-check"
                               id="icon-sync"></span>
-                            VERIFICAR
-                        </button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">
-                            <span class="fa fa-remove"></span>
-                            CANCELAR
-                        </button>
+                        VERIFICAR
+                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        <span class="fa fa-remove"></span>
+                        CANCELAR
+                    </button>
 
 
-                    </div>
-                </form>
-            </div>
+                </div>
+            </form>
+
 
         </div>
     </div>
@@ -56,31 +58,31 @@
 
         let usuario = document.getElementById('user').value;
         let pass = document.getElementById('password').value;
-           $.ajax({
-               url:"{{$ruta}}",
-               type:'post',
-               dataType: "json",
-               data:{ _token:$('meta[name="csrf-token"]').attr('content'),usuario:usuario,pass:pass },
-               success:function (response) {
+        $.ajax({
+            url: "{{$ruta}}",
+            type: 'post',
+            dataType: "json",
+            data: {_token: $('meta[name="csrf-token"]').attr('content'), usuario: usuario, pass: pass},
+            success: function (response) {
 
-                   if(response == 1){
-                       $( "#{{$id_form}}" ).submit();
-                   }else{
-                       alert("Usuario incorrecto");
-                   }
-                   document.getElementById('user').value="";
-                   document.getElementById('password').value="";
-                   $('#autorizacion').modal('hide');
+                if (response == 1) {
+                    $("#{{$id_form}}").submit();
+                } else {
+                    alert("Usuario incorrecto");
+                }
+                document.getElementById('user').value = "";
+                document.getElementById('password').value = "";
+                $('#autorizacion').modal('hide');
 
 
-               },
-               error:function (e) {
+            },
+            error: function (e) {
 
-                   console.error(e);
-                   alert("Algo salio mal, por favor vuelva a intentarlo");
+                console.error(e);
+                alert("Algo salio mal, por favor vuelva a intentarlo");
 
-               }
-           })
+            }
+        })
     }
 </script>
 
