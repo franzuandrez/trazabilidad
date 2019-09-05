@@ -272,7 +272,7 @@
 
             let row = '';
             movimientos.forEach(function (e) {
-                row += `<tr>
+                row += `<tr onclick="seleccionarProducto(this)">
                          <td><input type="radio" name="movimientos" onclick="document.getElementById('aceptar_producto').disabled=false"></td>
                          <td>${e.producto.codigo_barras}</td>
                          <td>${e.producto.descripcion}</td>
@@ -285,6 +285,10 @@
             $('#modal-productos').modal();
         }
 
+        function seleccionarProducto(element) {
+            element.children[0].children[0].checked = true;
+            document.getElementById('aceptar_producto').disabled=false;
+        }
         function addToTable() {
 
 
