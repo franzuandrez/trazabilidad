@@ -9,7 +9,7 @@ use App\Producto;
 use DB;
 class Existencias
 {
-    public function existencia($codigo_producto, $id_ubicacion = 1)
+    public function existencia($codigo_producto)
     {
 
 
@@ -26,11 +26,10 @@ class Existencias
             ->select('movimientos.id_movimiento',
                 'movimientos.lote',
                 'movimientos.id_producto',
-                'movimientos.ubicacion',
+                'movimientos.id_bodega',
                 'movimientos.fecha_vencimiento',
                 DB::raw('sum(cantidad * factor) as total'))
             ->whereIn('id_producto', $productos)
-            ->where('ubicacion', $id_ubicacion)
             ->groupBy('id_producto')
             ->groupBy('lote')
             ->orderBy('movimientos.fecha_vencimiento','asc')
