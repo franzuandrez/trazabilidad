@@ -171,7 +171,7 @@
     </div>
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <button class="btn btn-default" type="submit">
+            <button class="btn btn-default" onclick="confirmar()" type="button">
                 <span class=" fa fa-check"></span> GUARDAR
             </button>
             <a href="{{url('recepcion/transito')}}">
@@ -192,7 +192,14 @@
                     return false;
                 }
             });
-        })
+        });
+
+        function confirmar(){
+            if (window.confirm("¿Está seguro que desea continuar?")) {
+                $('form').submit();
+            }
+        }
+
 
         function getMovimientos() {
             var movimientos = @json($movimientos);
