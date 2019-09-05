@@ -208,6 +208,10 @@ Route::get('registro/ubicaciones/{id}','UbicacionController@show')->name('ubicac
 Route::post('registro/ubicaciones/{id}','UbicacionController@destroy')->name('ubicaciones.destroy');
 Route::get('registro/ubicaciones/search/{id}','UbicacionController@buscar_by_codigo')->name('ubicaciones.search');
 
+Route::get('registro/ubicaciones','UbicacionController@index')->name('ubicaciones.index');
+
+
+
 Route::get('registro/productos','ProductoController@index')->name('productos.index');
 Route::get('registro/productos/create','ProductoController@create')->name('productos.create');
 Route::post('registro/productos/create','ProductoController@store')->name('productos.store');
