@@ -598,15 +598,17 @@ class RecepcionController extends Controller
     {
 
         try {
+
             $recepcion = Recepcion::findOrFail($id);
 
-            $movimientos = Movimiento::join('tipo_movimiento', 'tipo_movimiento.id_movimiento', '=', 'movimientos.tipo_movimiento')
-                ->select('movimientos.*', DB::raw('sum(cantidad * factor) as total'))
-                ->where('numero_documento', $recepcion->orden_compra)
-                ->where('ubicacion', 0)
-                ->orderBy('movimientos.id_movimiento', 'asc')
-                ->groupBy('lote', 'id_producto')
-                ->having(DB::raw('sum(cantidad * factor)'), '>', 0)
+            $id_rmi = $recepcion
+                ->rmi_encabezado->id_rmi_encabezado;
+
+            $movimientos = RMIDetalle::select('*', DB::raw('sum(cantidad) as total'))
+                ->where('id_rmi_encabezado', $id_rmi)
+                ->estaEnRampa()
+                ->groupBy('id_producto')
+                ->groupBy('lote')
                 ->get();
 
             return view('recepcion.transito.show', compact('recepcion', 'movimientos'));
