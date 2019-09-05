@@ -31,13 +31,13 @@ class MovimientoController extends Controller
         $bodegas = Bodega::select('id_bodega as id', 'descripcion as descripcion')->get();
         $productos = Movimiento::join('productos', 'movimientos.id_producto', '=', 'productos.id_producto')
             ->join('tipo_movimiento', 'tipo_movimiento.id_movimiento', '=', 'movimientos.tipo_movimiento')
-            ->leftJoin('bodegas', 'movimientos.ubicacion', '=', 'bodegas.id_bodega')
+            ->leftJoin('bodegas', 'movimientos.id_bodega', '=', 'bodegas.id_bodega')
             ->select('movimientos.*',
                 'productos.descripcion as producto',
                 DB::raw('sum( cantidad  * factor ) as total'),
                 'bodegas.descripcion as bodega')
             ->where(function ($query) use ($search) {
-                $query->where('ubicacion', $search);
+                $query->where('movimientos.id_bodega', $search);
             })
             ->orderBy($sortField, $sort)
             ->groupBy('movimientos.id_producto')
@@ -78,7 +78,6 @@ class MovimientoController extends Controller
                 'movimientos.fecha_vencimiento',
                 DB::raw('sum(cantidad * factor) as total'))
             ->whereIn('id_producto', $productos)
-            ->where('ubicacion', $ubicacion)
             ->groupBy('id_producto')
             ->groupBy('lote')
             ->orderBy('movimientos.fecha_vencimiento','asc')
