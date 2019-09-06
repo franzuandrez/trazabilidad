@@ -725,4 +725,18 @@ class RecepcionController extends Controller
 
 
     }
+
+
+    public function show_producto_a_ubicar($id){
+
+
+        $recepcion = Recepcion::findOrFail($id);
+
+        $movimientos =  $recepcion->rmi_encabezado->rmi_detalle;
+
+
+        return view('recepcion.ubicacion.show',compact('recepcion','movimientos'));
+
+
+    }
 }
