@@ -94,7 +94,7 @@
     </div>
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <a href="{{url('recepcion/transito')}}">
+            <a href="{{url('recepcion/ubicacion')}}">
                 <button class="btn btn-default" type="button">
                     <span class="fa fa-backward"></span>
                     REGRESAR
