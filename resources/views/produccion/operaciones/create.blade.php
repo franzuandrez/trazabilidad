@@ -25,13 +25,15 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title" align="center">REQUISICION NO. {{$requisicion[0]->no_requision}} PENDIENTE</h4>
+                        <h4 class="modal-title" align="center">REQUISICION NO. {{$requisicion[0]->no_requision}}
+                            PENDIENTE</h4>
                         <div class="modal-body" align="center">
                             ¿DESEA CONTINUAR?
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" id="btnCargarRequisicionPendiente" onclick="javascrip:cargarRequisicionPendiente()" class="btn btn-default">
+                        <button type="button" id="btnCargarRequisicionPendiente"
+                                onclick="javascrip:cargarRequisicionPendiente()" class="btn btn-default">
                             <span class=" fa fa-check" id="spanCargarRequisicionPendiente"></span> SI
                         </button>
                         <button type="button" class="btn btn-default"
@@ -133,6 +135,10 @@
             </tbody>
         </table>
     </div>
+    @component('componentes.alert-no-selecction',
+    ['mensaje'=>'Producto no encontrado'])
+
+    @endcomponent
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
             <button class="btn btn-default" type="submit">
@@ -227,7 +233,7 @@
         }
 
         function alertInexitencia() {
-
+            $('#errorToEdit').modal();
         }
 
         function getTotalExistencia() {
@@ -457,7 +463,7 @@
             let req = [];
             req = @json($requisicion);
             if (req.length != 0) {
-                document.getElementById('id_requisicion').value=req[0].id;
+                document.getElementById('id_requisicion').value = req[0].id;
                 if (req[0].no_orden_produccion == null) {
                     document.getElementById('no_requisicion').readOnly = true;
                     document.getElementById('no_requisicion').value = req[0].no_requision;
@@ -488,30 +494,30 @@
             }, 1000)
         }
 
-        function eliminarRequisicionPendiente(event){
+        function eliminarRequisicionPendiente(event) {
 
-            let id =$(event.originalTarget).attr('id');
+            let id = $(event.originalTarget).attr('id');
 
-            if( typeof id =='undefined'){
-                id =$(event.target).attr('id');
+            if (typeof id == 'undefined') {
+                id = $(event.target).attr('id');
             }
-            if( id=="requision_pendiente" || id=="spanEliminarRequisicionPendiente" || id=="btnEliminarRequisionPendiente" ){
+            if (id == "requision_pendiente" || id == "spanEliminarRequisicionPendiente" || id == "btnEliminarRequisionPendiente") {
                 $('.loading').show();
                 $.ajax({
-                    url:"{{url('produccion/requisiciones/borrar_reservas')}}",
-                    type:"get",
-                    dataType:"JSON",
-                    success:function(response){
+                    url: "{{url('produccion/requisiciones/borrar_reservas')}}",
+                    type: "get",
+                    dataType: "JSON",
+                    success: function (response) {
 
                         $('.loading').hide();
-                        if(response[0] == 0 ){
+                        if (response[0] == 0) {
                             alert("Algo salio mal");
-                        }else{
+                        } else {
                             document.getElementById('no_requisicion').focus();
                         }
 
                     },
-                    error:function (e) {
+                    error: function (e) {
                         $('.loading').hide();
                     }
                 })
