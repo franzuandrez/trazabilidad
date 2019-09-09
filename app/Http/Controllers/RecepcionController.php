@@ -186,7 +186,7 @@ class RecepcionController extends Controller
         $debidamente_identificado = $this->getValueCheched($request->get('debidamente_identificado'));
         $debidamente_legible = $this->getValueCheched($request->get('debidamente_legible'));
         $no_lote_presente = $this->getValueCheched($request->get('no_lote_presente'));
-        $no_lote_legible = $this->getValueCheched($request->get('no_lote_legible '));
+        $no_lote_legible = $this->getValueCheched($request->get('no_lote_legible'));
         $fecha_vencimiento_legible = $this->getValueCheched($request->get('fecha_vencimiento_legible'));
         $fecha_vencimiento_vigente = $this->getValueCheched($request->get('fecha_vencimiento_vigente'));
         $contenido_neto_declarado = $this->getValueCheched($request->get('contenido_neto_declarado'));
