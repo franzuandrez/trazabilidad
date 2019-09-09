@@ -20,28 +20,28 @@
             <label for=codigo_barras"">
                 CODIGO
             </label>
-            <input type="text" name="codigo_barras" value="{{$colaborador->codigo_barras}}"
+            <input type="text" name="codigo_barras" value="{{$colaborador->codigo_barras}}" required
                    class="form-control">
         </div>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="nombre">NOMBRE</label>
-            <input type="text" name="nombre" value="{{$colaborador->nombre}}"
+            <input type="text" name="nombre" value="{{$colaborador->nombre}}" required
                    class="form-control">
         </div>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="apellido">APELLIDO</label>
-            <input type="text" name="apellido" value="{{$colaborador->apellido}}"
+            <input type="text" name="apellido" value="{{$colaborador->apellido}}" required
                    class="form-control">
         </div>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="telefono">TELEFONO</label>
-            <input type="text" name="telefono" value="{{$colaborador->telefono}}"
+            <input type="text" name="telefono" value="{{$colaborador->telefono}}" required
                    class="form-control">
         </div>
     </div>
