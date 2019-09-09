@@ -201,7 +201,7 @@
             @endcan
             @can('recepcion')
                 <ul class="nav navbar-nav">
-                    <li class="dropdown">
+                    <li class="dropdown ">
                         <a href="#" data-toggle="dropdown" style="background-color: #01579B;  color: #fff;">Recepcion <b
 
                                 class="caret"></b></a>
@@ -320,15 +320,23 @@
             @endcan
 
             <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
+                <li class="dropdown menu">
                     <a href="#" data-toggle="dropdown"
-                       style="background-color: #01579B;  color: #fff;">
+                       id="lnk_username"
+                       style="background-color: #01579B;  color: #fff;"
+                       aria-expanded="true">
                         <i class="fa fa-user" aria-hidden="true"></i>
                         {{Auth::user()->username}}<b class="caret"></b>
+                        <a class="nav-link"
+                           id="lnk_logout"
+                           style="background-color: #01579B;  color: #fff;display: none"
+                           href="{{route('logout')}}"><i class="fa fa-sign-out"></i>Cerrar
+                            Sesión</a>
                     </a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu" id="menu_username">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{route('logout')}}"><i class="fa fa-sign-out"></i>Cerrar
+                            <a class="nav-link"
+                               href="{{route('logout')}}"><i class="fa fa-sign-out"></i>Cerrar
                                 Sesión</a>
                         </li>
                     </ul>
@@ -367,9 +375,36 @@
 <script src="{{asset('js/bootstrap-timepicker.min.js')}}"></script>
 <script src="{{asset('js/bootstrap-datepicker.es.min.js')}}"></script>
 <script>
+
+    var height = 0;
+    var width = 0;
     $(document).ready(function () {
         $('[data-toggle="tooltip"]').tooltip();
+
+        height = window.screen.availHeight;
+        width = window.screen.availWidth;
+        if(height < 740 || width < 400){
+           document.getElementById('lnk_username').style.display = "none";
+           document.getElementById('lnk_logout').style.display = "block";
+        }
+
+
+
     });
+    $(window).resize(function () {
+        height = window.screen.availHeight;
+        width = window.screen.availWidth;
+
+        if(height < 740 || width < 380){
+            document.getElementById('lnk_username').style.display = "none";
+            document.getElementById('lnk_logout').style.display = "block";
+        }else{
+            document.getElementById('lnk_username').style.display = "block";
+            document.getElementById('lnk_logout').style.display = "none";
+        }
+
+    });
+
 </script>
 @yield('scripts')
 </body>
