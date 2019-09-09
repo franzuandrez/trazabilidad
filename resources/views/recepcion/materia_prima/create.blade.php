@@ -58,7 +58,8 @@
             <select name="id_proveedor" id="proveedores" class="form-control selectpicker">
 
                 @if(old('id_proveedor'))
-                    <option selected value="{{old('id_proveedor')}}">{{$proveedores->where('id_proveedor',old('id_proveedor'))->first()->nombre_comercial}}</option>
+                    <option selected
+                            value="{{old('id_proveedor')}}">{{$proveedores->where('id_proveedor',old('id_proveedor'))->first()->nombre_comercial}}</option>
                 @else
                     <option value=""> SELECCIONE PROVEEDOR</option>
                 @endif
@@ -89,7 +90,7 @@
                     </a>
                 </li>
                 <li class="">
-                    <a href="#tab_2"   data-toggle="tab" aria-expanded="false" onclick="validacion_checks()">
+                    <a href="#tab_2" data-toggle="tab" aria-expanded="false" onclick="validacion_checks()">
                         Empaque y Etiqueta
 
                     </a>
@@ -102,7 +103,7 @@
                 </li>
             </ul>
             <div class="tab-content">
-                <div class="tab-pane active" id="tab_1"  >
+                <div class="tab-pane active" id="tab_1">
 
 
                     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
@@ -112,7 +113,7 @@
                                    id="proveedor_aprobado"
                                    value="1"
                                    required
-                                   name="proveedor_aprobado" >
+                                   name="proveedor_aprobado">
                             <label class="custom-control-label" for="proveedor_aprobado">Proveedor aprobado</label>
                         </div>
                     </div>
@@ -302,7 +303,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane" id="tab_2" >
+                <div class="tab-pane" id="tab_2">
 
 
                     <div class="col-lg-12 col-sm-12 col-md-4 col-xs-12">
@@ -459,7 +460,8 @@
                     <div class="col-lg-1 col-sm-2 col-md-2 col-xs-2">
                         <br>
                         <div class="form-group">
-                            <button id="btnLimpiar" class="btn btn-default block" style="margin-top: 5px;" type="button">
+                            <button id="btnLimpiar" class="btn btn-default block" style="margin-top: 5px;"
+                                    type="button">
                                 <span class=" fa fa-trash"></span></button>
                         </div>
                     </div>
@@ -533,10 +535,16 @@
                             @if(old('id_producto'))
                                 @foreach( old('id_producto') as $key => $prod )
                                     <tr>
-                                        <td><button onclick=removeFromTable(this) type="button" class="btn btn-warning">x</button></td>
                                         <td>
-                                            <input type="hidden" value="{{old('id_producto')[$key]}}" name="id_producto[]">
-                                            <input type="hidden" value="{{old('descripcion_producto')[$key]}}" name="descripcion_producto[]">
+                                            <button onclick=removeFromTable(this) type="button" class="btn btn-warning">
+                                                x
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <input type="hidden" value="{{old('id_producto')[$key]}}"
+                                                   name="id_producto[]">
+                                            <input type="hidden" value="{{old('descripcion_producto')[$key]}}"
+                                                   name="descripcion_producto[]">
                                             {{old('descripcion_producto')[$key]}}
                                         </td>
                                         <td>
@@ -548,7 +556,8 @@
                                             {{old('no_lote')[$key]}}
                                         </td>
                                         <td>
-                                            <input type="hidden" value="{{old('fecha_vencimiento')[$key]}}" name="fecha_vencimiento[]" >
+                                            <input type="hidden" value="{{old('fecha_vencimiento')[$key]}}"
+                                                   name="fecha_vencimiento[]">
                                             {{old('fecha_vencimiento')[$key]}}
                                         </td>
                                     </tr>
@@ -564,7 +573,7 @@
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <button class="btn btn-default" name="Bt_guardar"  disabled id= "Bt_guardar" type="submit">
+            <button class="btn btn-default" name="Bt_guardar" disabled id="Bt_guardar" type="submit">
                 <span class=" fa fa-check"></span> GUARDAR
             </button>
             <a href="{{url('recepcion/materia_prima')}}">
@@ -599,7 +608,8 @@
 
 @endsection
 @section('scripts')
-
+    <script src="{{asset('js/moment.min.js')}}"></script>
+    <script src="{{asset('js/moment-with-locales.js')}}"></script>
     <script>
         $('.date').datepicker({
             format: 'yyyy-mm-dd',
@@ -614,14 +624,10 @@
             });
 
             $("#btnLimpiar").click(function () {
-                document.getElementById('id_producto').value="";
-                document.getElementById('codigo_producto').value="";
-                document.getElementById('nombre_producto').value="";
-                document.getElementById('lote').value="";
-                document.getElementById('vencimiento').value="";
-                document.getElementById('cantidad').value="";
-                document.getElementById('codigo_producto').focus();
-            })
+                limpiarProducto();
+            });
+
+
 
             $(window).keydown(function (event) {
                 if (event.keyCode == 13) {
@@ -630,21 +636,29 @@
                 }
             });
             $('#producto').keydown(function (event) {
-                   if(event.keyCode==13){
-                       getCodigoProducto();
-                   }
+                if (event.keyCode == 13) {
+                    getCodigoProducto();
+                }
             })
 
         });
     </script>
     <script>
+        function limpiarProducto(){
+            document.getElementById('id_producto').value = "";
+            document.getElementById('codigo_producto').value = "";
+            document.getElementById('nombre_producto').value = "";
+            document.getElementById('lote').value = "";
+            document.getElementById('vencimiento').value = "";
+            document.getElementById('cantidad').value = "";
+            document.getElementById('codigo_producto').focus();
+        }
         function cargarProveedores(proveedores) {
             limpiarSelectProveedores()
             let option = '';
             proveedores.forEach(function (e) {
                 option += `<option value='${e.id_proveedor}'>${e.nombre_comercial}</option>`;
             });
-
             $('#proveedores').append(option);
             $('#proveedores').selectpicker('refresh');
 
@@ -659,6 +673,7 @@
 
         function addToTable() {
 
+
             if ($("#cantidad").val() != "" && $("#lote").val() != "" && $("#vencimiento").val() != "") {
                 let cantidad = $("#cantidad");
                 let lote = $("#lote");
@@ -667,37 +682,43 @@
                 let nombre_producto = $("#nombre_producto");
                 let id_producto = $("#id_producto");
 
-                if (!findLote(id_producto.val(), lote.val(), cantidad.val())) {
+                let isFechaVencimientoValida = moment(fecha.val()).isValid() && moment(fecha.val()).isAfter(moment());
+
+                if (!isFechaVencimientoValida) {
+                    alert("La fecha de vencimiento no es válida.");
+                    return;
+                }
+
+                let existeLoteValido = findLote(id_producto.val(), lote.val().toUpperCase(), cantidad.val(),fecha.val());
+                if (existeLoteValido==0) { //No existe, lo agrego
 
                     let row =
-                        `<tr class="row-producto-added" id='${id_producto.val()}-${lote.val()}'>
+                        `<tr class="row-producto-added" id='${id_producto.val()}-${lote.val().toUpperCase()}'>
                             <td><button onclick=removeFromTable(this) type="button" class="btn btn-warning">x</button></td>
                             <td><input type="hidden" name="descripcion_producto[]" value="${nombre_producto.val()}" > <input type="hidden" value='${id_producto.val()}' name=id_producto[]>${nombre_producto.val()}</td>
                             <td><input type="hidden" value='${cantidad.val()}' name=cantidad[]>${cantidad.val()}</td>
-                            <td ><input type="hidden" value ='${lote.val()}'  name=no_lote[] >${lote.val()}</td>
+                            <td ><input type="hidden" value ='${lote.val().toUpperCase()}'  name=no_lote[] >${lote.val().toUpperCase()}</td>
                             <td ><input type="hidden" value ='${fecha.val()}'  name=fecha_vencimiento[] >${fecha.val()}</td>
                             </tr>`;
                     let producto = productosAgregados.find(producto => producto.id_producto == id_producto.val());
                     if (typeof producto != 'undefined') {
                         //agrego el lote
-                        producto.lotes.push(lote.val());
+                        producto.lotes.push(lote.val().toUpperCase());
                     } else {
                         //agrego un nuevo registro
-                        productosAgregados.push({id_producto: id_producto.val(), lotes: [lote.val()]});
+                        productosAgregados.push({id_producto: id_producto.val(), lotes: [lote.val().toUpperCase()]});
                     }
                     $("#detalles").append(row);
 
-
+                    limpiarProducto();
+                }else if(existeLoteValido == 1){ //Existe y tiene la fecha valida.
+                    limpiarProducto();
+                }else{//Existe y la fecha es invalida
+                    fecha.focus();
                 }
-
-                cantidad.val('');
-                lote.val('');
-                fecha.val('');
-                codigo_producto.val('');
-                nombre_producto.val('');
-                codigo_producto.focus();
                 $('#proveedores').find('option:not(:selected)').remove();
                 $('#proveedores').selectpicker('refresh');
+
             } else {
                 $('#modal-default').modal('show');
                 return false;
@@ -892,26 +913,25 @@
         function descomponerInput(input) {
 
             var codigoBarras = input.value;
-            var codigo,fecha_vencimiento,lote;
+            var codigo, fecha_vencimiento, lote;
 
-            if(codigoBarras.length <= 14){
+            if (codigoBarras.length <= 14) {
                 codigo = codigoBarras;
                 fecha_vencimiento = "";
                 lote = "";
-            }else{
-               codigo = codigoBarras.substring(2,16);
-                fecha_vencimiento = codigoBarras.substring(18,24);
-                lote = codigoBarras.substring(26,codigoBarras.length);
+            } else {
+                codigo = codigoBarras.substring(2, 16);
+                fecha_vencimiento = codigoBarras.substring(18, 24);
+                lote = codigoBarras.substring(26, codigoBarras.length);
             }
 
 
-            return ["",codigo,fecha_vencimiento,lote];
+            return ["", codigo, fecha_vencimiento, lote];
 
 
         }
 
         function cargarInfoCodigoBarras(input) {
-
 
 
             let infoCodigoBarras = descomponerInput(input);
@@ -962,13 +982,13 @@
 
                         if (typeof proveedor != 'undefined') {
 
-                            if(lote!="" ){
+                            if (lote != "") {
                                 document.getElementById('nombre_producto').value = producto.descripcion;
                                 document.getElementById('lote').value = lote;
                                 document.getElementById('vencimiento').value = getDate(fecha);
                                 document.getElementById('id_producto').value = producto.id_producto;
                                 document.getElementById('cantidad').focus();
-                            }else{
+                            } else {
                                 document.getElementById('nombre_producto').value = producto.descripcion;
                                 document.getElementById('id_producto').value = producto.id_producto;
                                 document.getElementById('lote').focus();
@@ -1011,26 +1031,53 @@
 
             var codigo_producto = infoCodigoBarras[POSICION_CODIGO]
             console.log(codigo_producto);
-             buscar_producto(codigo_producto);
+            buscar_producto(codigo_producto);
 
 
         }
 
+        /**
+         *
+         * @param id_producto
+         * @param lote
+         * @param nuevaCantidad
+         *
+         *
+         *
+         * Acumula la cantidad en caso de existir ya un producto con su lote
+         */
 
-        function findLote(id_producto, lote, nuevaCantidad) {
-            var existe = false;
+        function findLote(id_producto, lote, nuevaCantidad , fecha_vencimiento) {
+            var existe = 0;
             var producto = productosAgregados.find(p => p.id_producto == id_producto);
             const POSICION_CANTIDAD = 2;
+            const POSICION_FECHA = 4;
+
+
+
             if (typeof producto != 'undefined') {
-                var no_lote = producto.lotes.find(no_lote => no_lote == lote);
+
+                var no_lote = producto.lotes.find(no_lote => no_lote == lote.toUpperCase());
+                //Verifico si existe el producto con el lote.
                 if (typeof no_lote != 'undefined') {
-                    let row = document.getElementById(id_producto + '-' + lote);
+
+                    let row = document.getElementById(id_producto + '-' + lote.toUpperCase());
+
+
                     var inputCantidad = row.children[POSICION_CANTIDAD].firstChild;
-                    var cantidad = parseInt(inputCantidad.value);
-                    cantidad = parseInt(nuevaCantidad) + parseInt(cantidad);
-                    inputCantidad.value = cantidad;
-                    row.children[POSICION_CANTIDAD].lastChild.textContent = cantidad;
-                    existe = true;
+                    var inputFechaVencimiento = row.children[POSICION_FECHA].firstChild;
+
+                    if(inputFechaVencimiento.value == fecha_vencimiento ){
+                        var cantidad = parseInt(inputCantidad.value);
+                        cantidad = parseInt(nuevaCantidad) + parseInt(cantidad);
+                        inputCantidad.value = cantidad;
+                        row.children[POSICION_CANTIDAD].lastChild.textContent = cantidad;
+                        existe = 1;
+                    }else{
+                        alert("La fecha de vencimiento no corresponde con el lote.");
+                        existe = 2;
+                    }
+
                 }
 
             }
@@ -1039,24 +1086,22 @@
             return existe;
         }
 
-        function prueba(e){
+        function prueba(e) {
             console.log(e);
         }
+
         function validacion_checks() {
             var i;
             for (i = 0; i < 27; i++) {
 
 
-                var estado =document.getElementsByClassName('validacion')[i].checked;
+                var estado = document.getElementsByClassName('validacion')[i].checked;
                 //console.log(i);
                 //console.log(estado);
-                if (estado== true)
-                {
+                if (estado == true) {
                     $("#Bt_guardar").attr('disabled', false);
 
-                }
-                else
-                {
+                } else {
                     $("#Bt_guardar").attr('disabled', true);
                     break;
                 }
