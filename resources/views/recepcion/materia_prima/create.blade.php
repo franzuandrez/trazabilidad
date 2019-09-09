@@ -708,7 +708,9 @@
                         //agrego un nuevo registro
                         productosAgregados.push({id_producto: id_producto.val(), lotes: [lote.val().toUpperCase()]});
                     }
+
                     $("#detalles").append(row);
+                    validacion_checks();
 
                     limpiarProducto();
                 }else if(existeLoteValido == 1){ //Existe y tiene la fecha valida.
@@ -743,7 +745,7 @@
             if (index > -1) {
                 lotes.splice(index, 1);
             }
-
+            validacion_checks();
 
         }
 
@@ -1096,9 +1098,10 @@
 
 
                 var estado = document.getElementsByClassName('validacion')[i].checked;
-                //console.log(i);
-                //console.log(estado);
-                if (estado == true) {
+
+                var detalleNoVacio = document.getElementById('body-detalles').children.length !=0;
+
+                if (estado == true && detalleNoVacio==true) {
                     $("#Bt_guardar").attr('disabled', false);
 
                 } else {
