@@ -59,6 +59,18 @@
 
         let usuario = document.getElementById('user').value;
         let pass = document.getElementById('password').value;
+
+        if(usuario == ""){
+            alert("Usuario en blanco");
+            document.getElementById('user').focus();
+            return;
+        }
+
+        if(pass==""){
+            alert("Contraseña en blanco");
+            document.getElementById('password').focus();
+            return;
+        }
         $.ajax({
             url: "{{$ruta}}",
             type: 'post',
@@ -75,14 +87,14 @@
                 }
                 document.getElementById('user').value = "";
                 document.getElementById('password').value = "";
-                $('#autorizacion').modal('hide');
+
 
 
             },
             error: function (e) {
 
                 console.error(e);
-                alert("Algo salio mal, por favor vuelva a intentarlo");
+                alert("Usuario incorrecto");
 
             }
         })
