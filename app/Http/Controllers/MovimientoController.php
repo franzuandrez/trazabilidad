@@ -46,10 +46,10 @@ class MovimientoController extends Controller
             ->paginate(15);
 
         if ($request->ajax()) {
-            return view('movimientos.bodegas.index',
+            return view('recepcion.kardex.index',
                 compact('productos', 'bodegas', 'sort', 'sortField', 'search'));
         } else {
-            return view('movimientos.bodegas.ajax',
+            return view('recepcion.kardex.ajax',
                 compact('productos', 'bodegas', 'sort', 'sortField', 'search'));
         }
 

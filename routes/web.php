@@ -272,7 +272,7 @@ Route::patch('recepcion/ubicacion/{id}','RecepcionController@ubicar')->name('rec
 Route::get('recepcion/ubicacion/{id}','RecepcionController@show_producto_a_ubicar')->name('recepcion.ubicacion.show');
 
 
-Route::get('movimientos/bodegas','MovimientoController@index')->name('movimientos.bodegas.index');
+Route::get('recepcion/kardex','MovimientoController@index')->name('movimientos.bodegas.index');
 Route::get('movimientos/existencia/productos','MovimientoController@existencia')->name('movimientos.existencia.productos');
 
 Route::get('control/chaomin','ChaomeanController@index')->name('chaomin.index');

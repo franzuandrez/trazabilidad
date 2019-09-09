@@ -230,6 +230,14 @@
                                     </a>
                                 </li>
                             @endcan
+                            @can('kardex')
+                                <li>
+                                    <a href="{{url('recepcion/kardex')}}">
+                                        <i class="fa fa-th-list" aria-hidden="true"></i>
+                                        Kardex
+                                    </a>
+                                </li>
+                            @endcan
                         </ul>
                     </li>
                 </ul>
