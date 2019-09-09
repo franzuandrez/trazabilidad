@@ -36,77 +36,77 @@
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="nombre">RAZON SOCIAL</label>
-                <input type="text" name="razon_social" value="{{old('razon_social')}}"
+                <input type="text" name="razon_social" required value="{{old('razon_social')}}"
                        class="form-control">
             </div>
         </div>
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="nombre">NOMBRE COMERCIAL</label>
-                <input type="text" name="nombre_comercial" value="{{old('nombre_comercial')}}"
+                <input type="text" name="nombre_comercial" required value="{{old('nombre_comercial')}}"
                        class="form-control">
             </div>
         </div>
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="nombre">NIT</label>
-                <input type="text" name="nit" value="{{old('nit')}}"
+                <input type="text" name="nit" required value="{{old('nit')}}"
                        class="form-control">
             </div>
         </div>
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="nombre">DIRECCION FISCAL</label>
-                <input type="text" name="direccion_fiscal" value="{{old('direccion_fiscal')}}"
+                <input type="text" name="direccion_fiscal" required value="{{old('direccion_fiscal')}}"
                        class="form-control">
             </div>
         </div>
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="nombre">DIRECCION PLANTA</label>
-                <input type="text" name="direccion_planta" value="{{old('direccion_planta')}}"
+                <input type="text" name="direccion_planta" required value="{{old('direccion_planta')}}"
                        class="form-control">
             </div>
         </div>
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="nombre">NOMBRE CONTACTO</label>
-                <input type="text" name="nombre_contacto" value="{{old('nombre_contacto')}}"
+                <input type="text" name="nombre_contacto" required value="{{old('nombre_contacto')}}"
                        class="form-control">
             </div>
         </div>
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="nombre">TELEFONO DE CONTACTO</label>
-                <input type="text" name="telefono_contacto" value="{{old('telefono_contacto')}}"
+                <input type="text" name="telefono_contacto" required value="{{old('telefono_contacto')}}"
                        class="form-control">
             </div>
         </div>
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="nombre">E-MAIL</label>
-                <input type="text" name="email" value="{{old('email')}}"
+                <input type="text" name="email" required value="{{old('email')}}"
                        class="form-control">
             </div>
         </div>
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="nombre">REGIMEN TRIBUTARIO</label>
-                <input type="text" name="regimen_tributario" value="{{old('regimen_tributario')}}"
+                <input type="text" name="regimen_tributario" required value="{{old('regimen_tributario')}}"
                        class="form-control">
             </div>
         </div>
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="nombre">PATENTE DE COMERCIO</label>
-                <input type="text" name="patente_comercio" value="{{old('patente_comercio')}}"
+                <input type="text" name="patente_comercio" required value="{{old('patente_comercio')}}"
                        class="form-control">
             </div>
         </div>
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="nombre">PATENTE DE SOCIEDAD</label>
-                <input type="text" name="patente_sociedad" value="{{old('patente_sociedad')}}"
+                <input type="text" name="patente_sociedad" required value="{{old('patente_sociedad')}}"
                        class="form-control">
             </div>
         </div>
@@ -430,7 +430,7 @@
 
 
         }
-        
+
         function getCodigoProducto(){
 
             var producto = document.getElementById('producto').value;
