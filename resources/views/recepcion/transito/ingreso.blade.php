@@ -133,7 +133,7 @@
 
                 @foreach( $movimientos as $key => $mov)
 
-                    <tr id="mov-{{$mov->id_rmi_detalle}}">
+                    <tr id="mov-{{$mov->id_rmi_detalle}}" class="row-producto">
                         <td>
                             <span class="label label-success hidden">
                                 <i class="fa fa-check" aria-hidden="true"></i>
@@ -171,7 +171,10 @@
     </div>
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <button class="btn btn-default" onclick="confirmar()" type="button">
+            <button class="btn btn-default" id="btnGuardar"
+                    onclick="confirmar()"
+                    disabled
+                    type="button">
                 <span class=" fa fa-check"></span> GUARDAR
             </button>
             <a href="{{url('recepcion/transito')}}">
@@ -319,6 +322,11 @@
                 return
             }
 
+            if(cantidadMinima < cantidad){
+                alert("La cantidad entrante no puede ser mayor");
+                document.getElementById('cantidad').focus();
+                return;
+            }
 
             checkRow(id, cantidad, cantidad_impresiones);
             document.getElementById('codigo_producto').value = "";
@@ -329,10 +337,16 @@
             document.getElementById('cantidad').readOnly = true;
             document.getElementById('cantidad_impresion').value = 1;
             document.getElementById('cantidad_impresion').readOnly = true;
+            cantidadMinima = 0;
+
+            if(document.getElementsByClassName('hidden').length == 0){
+                document.getElementById('btnGuardar').disabled = false;
+            }
 
 
         }
 
+        var cantidadMinima = 0;
 
         function fillProduct(codigo, lote) {
 
@@ -350,6 +364,7 @@
                     document.getElementById('cantidad_impresion').readOnly = false;
                     document.getElementById('cantidad').readOnly = false;
                     document.getElementById('cantidad_impresion').focus();
+                    cantidadMinima = parseFloat(mov.cantidad);
                 } else {
                     document.getElementById('descripcion').value = "";
                     document.getElementById('lote').value = "";
