@@ -27,7 +27,8 @@
     @endcomponent
     <div id="content">
 
-        @include('movimientos.bodegas.index')
+        @include('recepcion.kardex.index')
+
     </div>
     <div class="loading">
         <i class="fa fa-refresh fa-spin "></i><br/>

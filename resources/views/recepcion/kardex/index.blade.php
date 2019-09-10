@@ -9,7 +9,7 @@
                          'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
-                          'field'=>'movimientos.ubicacion',
+                          'field'=>'bodega',
                           'titulo'=>'BODEGA'])
                     @endcomponent
                 </th>
