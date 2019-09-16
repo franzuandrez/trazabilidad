@@ -70,9 +70,13 @@
                    class="form-control">
         </div>
     </div>
-    <div class="loading">
+    <div class="loading" id="spiner-buscando">
         <i class="fa fa-refresh fa-spin "></i><br/>
         <span>Cargando</span>
+    </div>
+    <div class="loading" id="spiner-calculando">
+        <i class="fa fa-refresh fa-spin "></i><br/>
+        <span>Recalculando</span>
     </div>
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 ">
         <div class="table-responsive">
@@ -83,11 +87,11 @@
                 <th>PRODUCTO</th>
                 <th>LOTE</th>
                 <th>CANTIDAD</th>
-                <th>BODEGA</th>
+                <th>UBICACION</th>
                 </thead>
                 <tbody>
                 @foreach( $requisicion->reservas as $reserva  )
-                    <tr id="{{$reserva->id_producto}}-{{$reserva->lote}}-{{$reserva->id_bodega}}">
+                    <tr id="{{$reserva->id_producto}}-{{$reserva->lote}}-{{$reserva->ubicacion}}">
                         <td>
                             @if($reserva->leido == 'N')
                                 <span class="label label-warning"
@@ -100,7 +104,6 @@
                                 <span class="label label-success"
                                       title="Leido"
                                       data-toggle="tooltip">
-
                                  <i class="fa fa-check" aria-hidden="true"></i>
                                 </span>
                             @endif
@@ -116,7 +119,7 @@
                             {{$reserva->cantidad}}
                         </td>
                         <td>
-                            {{$reserva->bodega->descripcion}}
+                            {{$reserva->ubicacion}}
                         </td>
                     </tr>
                 @endforeach
@@ -144,9 +147,9 @@
     <script>
         @if($requisicion->reservas->isEmpty())
 
-        $('.loading').show();
+        $('#spiner-calculando').show();
         setTimeout(function () {
-            $('.loading').hide();
+            $('#spiner-calculando').hide();
             window.location.reload();
         }, 1500)
 
@@ -216,7 +219,7 @@
             let fecha = infoCodigoBarras[POSICION_FECHA];
             let codigo = infoCodigoBarras[POSICION_CODIGO];
             let lote = infoCodigoBarras[POSICION_LOTE];
-            $('.loading').show();
+            $('#spiner-buscando').show();
             $.ajax({
 
                 url: "{{url('registro/productos/search')}}" + "/" + codigo,
@@ -228,22 +231,50 @@
                     let totalProductos = productos.length;
 
                     if (totalProductos == 0) {
-
+                        alert("Producto no encontrado");
                     } else {
-
                         let producto = productos[0];
-                        document.getElementById('descripcion').value = producto.descripcion;
-                        document.getElementById('id_producto').value = producto.id_producto;
-                        document.getElementById('lote').value = infoCodigoBarras[POSICION_LOTE];
-                        document.getElementById('cantidad').readOnly = false;
-                        document.getElementById('cantidad').focus();
+
+                        let id_producto = producto.id_producto;
+                        let lote = infoCodigoBarras[POSICION_LOTE];
+
+                        let existeProducto = getProducto(id_producto, lote).length != 0;
+
+                        if (existeProducto) {
+                            let producto_a_leer = getProximoLeer();
+                            let id_producto_a_leer = producto_a_leer[0];
+                            let lote_a_leer = producto_a_leer[1];
+                            let es_proximo_a_leer = id_producto == id_producto_a_leer && lote == lote_a_leer;
+
+                            @if($validarOrdenProductos)
+                            if (es_proximo_a_leer) {
+                                document.getElementById('descripcion').value = producto.descripcion;
+                                document.getElementById('id_producto').value = producto.id_producto;
+                                document.getElementById('lote').value = infoCodigoBarras[POSICION_LOTE];
+                                document.getElementById('cantidad').readOnly = false;
+                                document.getElementById('cantidad').focus();
+                            } else {
+                                alert("El producto no es el siguiente a leer ");
+                            }
+                            @else
+                            document.getElementById('descripcion').value = producto.descripcion;
+                            document.getElementById('id_producto').value = producto.id_producto;
+                            document.getElementById('lote').value = infoCodigoBarras[POSICION_LOTE];
+                            document.getElementById('cantidad').readOnly = false;
+                            document.getElementById('cantidad').focus();
+                            @endif
+
+
+                        } else {
+                            alert("Producto y lote no válido");
+                        }
 
                     }
-                    $('.loading').hide();
+                    $('#spiner-buscando').hide();
 
                 },
                 error: function (e) {
-                    $('.loading').hide();
+                    $('#spiner-buscando').hide();
                     console.log(e);
                 }
 
@@ -264,7 +295,7 @@
                 alert("Producto y lote incorrecto");
             } else {
 
-                if (estaLeido(id_producto, lote, 1)) {
+                if (estaLeido(id_producto, lote, '0101010110112')) {
                     alert("Producto ya leido");
                 } else {
 
@@ -307,34 +338,69 @@
         }
 
         function leer(id_reserva) {
-            $('.loading').show();
+            $('#spiner-buscando').show();
             $.ajax({
                 url: "{{url('produccion/picking/leer')}}" + "/" + id_reserva,
                 type: "post",
                 dataType: "json",
                 success: function (response) {
 
-                    if (response == 1) {
+
+                    if (response.status == 1) {
                         checkRow(id_reserva);
+                    } else if (response.status == 2) {
+                        recalcular();
                     } else {
                         alert("Algo salió mal, por favor vuelva a intentarlo");
                     }
-                    $('.loading').hide();
+                    $('#spiner-buscando').hide();
 
                 },
                 error: function (e) {
-                    $('.loading').hide();
+                    alert("Algo salió mal, por favor vuelva a intentarlo");
+                    $('#spiner-buscando').hide();
                     console.error(e);
                 }
             })
         }
 
+
+        function recalcular(){
+
+            $('#spiner-calculando').show();
+            setTimeout(function () {
+                $('#spiner-calculando').hide();
+                window.location = "{{route('produccion.picking.despachar',['id'=>$requisicion->id])}}";
+            }, 1500)
+
+
+
+        }
         function checkRow(id) {
 
             let span = document.getElementById('span-' + id);
             span.classList.remove('label-warning');
             span.classList.add('label-success');
+            span.originalTitle = "Leido";
+            span.title = "Leido";
             span.innerHTML = "<i class='fa fa-check'></i>";
+            span.nextElementSibling.value = "S";
+
+        }
+
+
+        function getProximoLeer() {
+
+            let productosNoLeidos = Array.prototype.slice.call(document.getElementsByName('leido[]')).filter(x => x.value == "N");
+            let existeProximoLeer = productosNoLeidos.length != 0;
+
+            let productoProximoLeer = [0, 0, 0];// Id_produdcto , lote , bodega
+            if (existeProximoLeer) {
+                let row = $(productosNoLeidos[0]).closest('tr').attr('id');
+                productoProximoLeer = row.split('-');
+            }
+
+            return productoProximoLeer;
 
         }
     </script>
