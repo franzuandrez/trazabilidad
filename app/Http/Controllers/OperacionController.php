@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Bodega;
 use App\Requisicion;
 use App\RequisicionDetalle;
-use Illuminate\Http\Request;
-use DB;
 use Carbon\Carbon;
+use DB;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class OperacionController extends Controller
@@ -94,11 +94,12 @@ class OperacionController extends Controller
         }
     }
 
-    public function show($id){
+    public function show($id)
+    {
 
         $requisicion = Requisicion::findOrFail($id);
 
-        return view('produccion.operaciones.show',compact('requisicion'));
+        return view('produccion.operaciones.show', compact('requisicion'));
 
 
     }
@@ -156,7 +157,7 @@ class OperacionController extends Controller
             $requisicion_detalle->orden_produccion = $requisicion->no_orden_produccion;
             $requisicion_detalle->id_producto = $request->get('id_producto');
             $requisicion_detalle->cantidad = $request->get('cantidad');
-            $requisicion_detalle->estado = 'R';
+            $requisicion_detalle->estado = 'P';
             $requisicion_detalle->save();
             $response = [1, $requisicion_detalle->id];
         } catch (\Exception $ex) {
@@ -193,8 +194,9 @@ class OperacionController extends Controller
         $productos = [$id];
         $totalEnRequisiciones = RequisicionDetalle::whereIn('id_producto', $productos)
             ->where(function ($query) {
-                $query->where('estado', 'P')
-                    ->orWhere('estado', 'R');
+                $query->reservado()
+                    ->orWhere
+                    ->proceso();
             })
             ->sum('cantidad');
 
