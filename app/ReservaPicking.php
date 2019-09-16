@@ -10,7 +10,7 @@ class ReservaPicking extends Model
 
     protected $table = 'reserva_lotes';
     protected $primaryKey = 'id_reserva';
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $fillable = [
         'id_producto',
@@ -54,6 +54,12 @@ class ReservaPicking extends Model
     public function scopeEnReserva($query)
     {
         return $query->where('reserva_lotes.estado', 'R');
+    }
+
+    public function scopeEnProceso( $query ){
+
+        return $query->where('reserva_lotes.estado','P');
+
     }
 
     public function usuario_picking()
