@@ -33,7 +33,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" id="btnCargarRequisicionPendiente"
-                                onclick="javascrip:cargarRequisicionPendiente()" class="btn btn-default">
+                                onclick="cargarRequisicionPendiente()" class="btn btn-default">
                             <span class=" fa fa-check" id="spanCargarRequisicionPendiente"></span> SI
                         </button>
                         <button type="button" class="btn btn-default"
@@ -52,7 +52,7 @@
     <input name="id_requisicion" type="hidden" id="id_requisicion">
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="no_requision">NO.REQUISION</label>
+            <label for="no_requisicion">NO.REQUISION</label>
             <input type="text"
                    name="no_requisicion"
                    id="no_requisicion"
@@ -90,7 +90,9 @@
     <div class="col-lg-1 col-md-2 col-sm-2  col-xs-4">
         <br>
         <div class="form-group">
-            <button id="btnBuscar" class="btn btn-default block" style="margin-top: 5px;" type="button">
+            <button id="btnBuscar"
+                    onclick="buscar_existencia()"
+                    class="btn btn-default block" style="margin-top: 5px;" type="button">
                 <span class=" fa fa-search"></span></button>
             <button id="btnLimpiar"
                     onclick="limpiar()"
@@ -110,7 +112,7 @@
 
     <div class="col-lg-6 col-md-6 col-sm-6  col-xs-12">
         <div class="form-group">
-            <label for="descripcion">CANTIDAD</label>
+            <label for="cantidad">CANTIDAD</label>
             <input type="number" name="cantidad" id="cantidad"
                    onkeydown="if(event.keyCode==13)agregarProducto()"
                    readonly
@@ -346,7 +348,7 @@
                     success: function (response) {
                         let destroyed = response[0] == 1;
                         if (destroyed) {
-                            let row = $('#prod-' + id).remove();
+                            $('#prod-' + id).remove();
                             console.log(id);
                         } else {
                             alert("Algo salió mal");
