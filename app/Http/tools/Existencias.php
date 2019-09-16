@@ -9,6 +9,13 @@ use App\Producto;
 use DB;
 class Existencias
 {
+    /**
+     * @param $codigo_producto
+     * @return mixed
+     *  Devuelve la existencia del producto solicitado ordenado
+     * por el lote proximo a vencer, agrupado por bodegas.
+     */
+
     public function existencia($codigo_producto)
     {
 
@@ -28,10 +35,12 @@ class Existencias
                 'movimientos.id_producto',
                 'movimientos.id_bodega',
                 'movimientos.fecha_vencimiento',
+                'movimientos.ubicacion',
                 DB::raw('sum(cantidad * factor) as total'))
             ->whereIn('id_producto', $productos)
             ->groupBy('id_producto')
             ->groupBy('lote')
+            ->groupBy('ubicacion')
             ->orderBy('movimientos.fecha_vencimiento','asc')
             ->with('producto')
             ->with('bodega')
