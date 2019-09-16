@@ -178,4 +178,17 @@ class PickingController extends Controller
 
         return $lotesDisponibles;
     }
+
+
+    public function debeRecalcular( $id_producto , $lote ){
+
+        $debeRecalcular = ReservaPicking::where('id_producto',$id_producto)
+            ->where('lote',$lote)
+            ->EnReserva()
+            ->exists();
+
+        return $debeRecalcular;
+
+
+    }
 }
