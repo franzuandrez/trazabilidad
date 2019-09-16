@@ -75,7 +75,7 @@
                                 </span>
                             @elseif($operacion->estado=="R")
                                 <span class="label label-default">
-                                      Reserva
+                                      Pendiente
                                 </span>
                             @else
                                 <span class="label label-success">
