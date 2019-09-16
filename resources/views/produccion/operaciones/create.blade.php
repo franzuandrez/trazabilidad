@@ -92,7 +92,9 @@
         <div class="form-group">
             <button id="btnBuscar" class="btn btn-default block" style="margin-top: 5px;" type="button">
                 <span class=" fa fa-search"></span></button>
-            <button id="btnLimpiar" class="btn btn-default block" style="margin-top: 5px;" type="button">
+            <button id="btnLimpiar"
+                    onclick="limpiar()"
+                    class="btn btn-default block" style="margin-top: 5px;" type="button">
                 <span class=" fa fa-trash"></span></button>
         </div>
     </div>
@@ -169,6 +171,14 @@
         });
         $('#requision_pendiente').modal('toggle');
 
+
+        function limpiar() {
+            document.getElementById('codigo_producto').value = "";
+            document.getElementById('descripcion').value = "";
+            document.getElementById('id_producto').value = "";
+            document.getElementById('cantidad').value = "";
+            document.getElementById('cantidad').readOnly = true;
+        }
 
         function buscar_existencia() {
             let search = document.getElementById('codigo_producto').value;
