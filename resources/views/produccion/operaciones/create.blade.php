@@ -136,7 +136,7 @@
         </table>
     </div>
     @component('componentes.alert-no-selecction',
-    ['mensaje'=>'Producto no encontrado'])
+    ['mensaje'=>'Producto sin existencias'])
 
     @endcomponent
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
@@ -187,18 +187,30 @@
                 dataType: "json",
                 success: function (response) {
 
-                    if (response.length == 0) {
+                    let noEncontrado = response.length == 0;
 
+                    if (noEncontrado) {
+                        document.getElementById('no_selecction_mensaje').innerText = 'Producto no encontrado';
                         alertInexitencia();
                         document.getElementById('descripcion').value = "";
                         document.getElementById('cantidad').readOnly = true;
 
                     } else {
-                        existencia = response;
-                        document.getElementById('descripcion').value = response[0].producto.descripcion;
-                        document.getElementById('id_producto').value = response[0].producto.id_producto;
-                        document.getElementById('cantidad').readOnly = false;
-                        document.getElementById('cantidad').focus();
+                        let sinExistencias = response[0].total == 0;
+                        if (sinExistencias) {
+                            document.getElementById('no_selecction_mensaje').innerText = 'Producto sin existencias';
+                            alertInexitencia();
+                            document.getElementById('descripcion').value = "";
+                            document.getElementById('cantidad').readOnly = true;
+                        } else {
+                            existencia = response;
+                            document.getElementById('descripcion').value = response[0].producto.descripcion;
+                            document.getElementById('id_producto').value = response[0].producto.id_producto;
+                            document.getElementById('cantidad').readOnly = false;
+                            document.getElementById('cantidad').focus();
+
+                        }
+
 
                     }
                     $('.loading').hide();
