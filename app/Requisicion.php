@@ -56,4 +56,9 @@ class Requisicion extends Model
 
         return $query->where('requisicion_encabezado.estado','R');
     }
+
+    public function scopeDeUsuarioRecepcion($query,$type){
+
+        return $query->where('id_usuario_ingreso',$type);
+    }
 }

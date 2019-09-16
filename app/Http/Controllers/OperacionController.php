@@ -207,7 +207,7 @@ class OperacionController extends Controller
 
         try {
             DB::beginTransaction();
-            $requisicion = Requisicion::where('id_usuario_ingreso', Auth::user()->id)
+            $requisicion = Requisicion::deUsuarioRecepcion(Auth::user()->id)
                 ->enProceso()
                 ->first();
             $id_requisicion = $requisicion->id;
