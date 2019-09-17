@@ -43,8 +43,9 @@ class Requisicion extends Model
 
     public function reservas(){
         return $this->hasMany('App\ReservaPicking','id_requisicion')
-            ->orderBy('id_bodega','desc')
-            ->orderBy('ubicacion','desc')
+            ->orderBy('id_producto','asc')
+            ->orderBy('fecha_vencimiento','asc')
+            ->orderBy('id_ubicacion','asc')
             ;
     }
 
