@@ -39,7 +39,7 @@
         </div>
     </div>
     <input type="hidden" name="id_producto" id="id_producto">
-    <div class="col-lg-4 col-sm-4 col-md-6 col-xs-12">
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="descripcion">DESCRIPCION</label>
             <input type="text"
@@ -49,7 +49,7 @@
                    class="form-control">
         </div>
     </div>
-    <div class="col-lg-4 col-sm-4 col-md-6 col-xs-12">
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="lote">LOTE</label>
             <input type="text"
@@ -59,7 +59,18 @@
                    class="form-control">
         </div>
     </div>
-    <div class="col-lg-4 col-sm-4 col-md-6 col-xs-12">
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="ubicacion">UBICACION</label>
+            <input type="text"
+                   readonly
+                   onkeydown="if(event.keyCode==13)buscar_ubicacion()"
+                   name="ubicacion"
+                   id="ubicacion"
+                   class="form-control">
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="cantidad">CANTIDAD</label>
             <input type="text"
@@ -80,11 +91,17 @@
     </div>
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 ">
         <div class="table-responsive">
+            <h3 class="box-title">PRODUCTOS
+                <a  onclick="recalcular()"
+                    class="btn  btn-lg" style="border: none;color: #1b1e21">
+                    <i class="fa fa-refresh" id="icon-recalcular" aria-hidden="true"></i>  </a>
+            </h3>
+
             <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
 
                 <thead style="background-color: #01579B;  color: #fff">
                 <th></th>
-                <th>PRODUCTO</th>
+                <th>DESCRIPCION</th>
                 <th>LOTE</th>
                 <th>CANTIDAD</th>
                 <th>UBICACION</th>
@@ -260,8 +277,8 @@
                                 document.getElementById('descripcion').value = producto.descripcion;
                                 document.getElementById('id_producto').value = producto.id_producto;
                                 document.getElementById('lote').value = infoCodigoBarras[POSICION_LOTE];
-                                document.getElementById('cantidad').readOnly = false;
-                                document.getElementById('cantidad').focus();
+                                document.getElementById('ubicacion').readOnly = false;
+                                document.getElementById('ubicacion').focus();
                             } else {
                                 alert("El producto no es el siguiente a leer ");
                             }
@@ -269,8 +286,8 @@
                             document.getElementById('descripcion').value = producto.descripcion;
                             document.getElementById('id_producto').value = producto.id_producto;
                             document.getElementById('lote').value = infoCodigoBarras[POSICION_LOTE];
-                            document.getElementById('cantidad').readOnly = false;
-                            document.getElementById('cantidad').focus();
+                            document.getElementById('ubicacion').readOnly = false;
+                            document.getElementById('ubicacion').focus();
                             @endif
 
 
@@ -298,13 +315,13 @@
             let lote = document.getElementById('lote').value;
             let cantidad = parseFloat(document.getElementById('cantidad').value);
             let producto = getProducto(id_producto, lote);
-
+            let ubicacion = document.getElementById('ubicacion').value;
 
             if (producto.length == 0) {
                 alert("Producto y lote incorrecto");
             } else {
 
-                if (estaLeido(id_producto, lote, '0101010110112')) {
+                if (estaLeido(id_producto, lote, ubicacion)) {
                     alert("Producto ya leido");
                 } else {
 
@@ -329,11 +346,13 @@
             document.getElementById('codigo_producto').value = "";
             document.getElementById('codigo_producto').focus();
             document.getElementById('id_producto').value = "";
+            document.getElementById('ubicacion').value = "";
 
         }
 
         function estaLeido(id_producto, lote, bodega) {
-            let estaLeido = document.getElementById(id_producto + "-" + lote + "-" + bodega).children[0].children[1].value == "S";
+            let row = document.getElementById(id_producto + "-" + lote + "-" + bodega);
+            let estaLeido = row.children[0].children[1].value == "S";
             return estaLeido;
         }
 
@@ -378,6 +397,7 @@
         function recalcular() {
 
             $('#spiner-calculando').show();
+            $('#icon-recalcular').addClass('fa-spin');
             setTimeout(function () {
                 $('#spiner-calculando').hide();
                 window.location = "{{route('produccion.picking.despachar',['id'=>$requisicion->id])}}";
@@ -423,6 +443,47 @@
 
             return productoProximoLeer;
 
+        }
+
+        function buscar_ubicacion() {
+
+            let codigo_barras = document.getElementById('ubicacion').value;
+            let lote = document.getElementById('lote').value;
+            let id_producto = document.getElementById('id_producto').value;
+            if (codigo_barras !== "") {
+                $.ajax({
+                    url: "{{url('registro/ubicaciones/search')}}" + "/" + codigo_barras,
+                    type: "get",
+                    dataType: "json",
+                    success: function (response) {
+
+                        let ubicacion = response;
+                        if (ubicacion.length == 0) {
+                            alert("Ubicacion no encontrada");
+                        } else if (ubicacion[0].estado == 0) {
+                            alert("Ubicacion no disponible");
+                        } else {
+                            let posicion_valida = document.getElementById(id_producto + "-" + lote + "-" + codigo_barras);
+
+                            if (posicion_valida == null) {
+                                alert("El producto no se encuentra en esta ubicacion");
+                                return;
+                            }
+                            document.getElementById('cantidad').readOnly = false;
+                            document.getElementById('cantidad').value = "";
+                            document.getElementById('cantidad').focus();
+                            document.getElementById('ubicacion').readOnly = true;
+                        }
+
+                    },
+                    error: function (e) {
+                        alert("Algo salió mal");
+                        console.log(e);
+                    }
+                })
+            } else {
+
+            }
         }
     </script>
 @endsection
