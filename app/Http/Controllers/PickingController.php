@@ -95,7 +95,10 @@ class PickingController extends Controller
 
         try {
 
-            $reserva = ReservaPicking::findOrFail($id_reserva);
+            $reserva = ReservaPicking::without('bodega')
+                ->findOrFail($id_reserva);
+
+
 
             $debeRecalcular = $this->debeRecalcular($reserva->requisicion);
             if ($debeRecalcular) {
@@ -109,9 +112,11 @@ class PickingController extends Controller
                 $reserva->id_usuario_picking = Auth::user()->id;
                 $reserva->fecha_lectura = \Carbon\Carbon::now();
                 $reserva->update();
+
                 $response = [
                     'status' => 1,
-                    'message' => 'Leido correctamente'
+                    'message' => 'Leido correctamente',
+                    'reserva'=>[$reserva,Auth::user()->nombre]
                 ];
             }
 
@@ -120,7 +125,7 @@ class PickingController extends Controller
 
             $response = [
                 'status' => 0,
-                'message' => $e,
+                'message' => $e->getMessage(),
             ];
         }
 

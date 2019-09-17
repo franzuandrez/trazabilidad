@@ -82,7 +82,7 @@
         <div class="table-responsive">
             <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
 
-                <thead style="background-color: #01579B;  color: #fff;">
+                <thead style="background-color: #01579B;  color: #fff">
                 <th></th>
                 <th>PRODUCTO</th>
                 <th>LOTE</th>
@@ -96,13 +96,22 @@
                             @if($reserva->leido == 'N')
                                 <span class="label label-warning"
                                       id="span-{{$reserva->id_reserva}}"
-                                      title="Pendiente"
+                                      data-html="true"
+                                      title="
+                                      <strong>Estado :</strong> Pendiente
+                                                "
                                       data-toggle="tooltip">
                                  <i class="fa fa-exclamation" aria-hidden="true"></i>
                                 </span>
                             @else
                                 <span class="label label-success"
-                                      title="Leido"
+                                      data-html="true"
+                                      title="
+                                      <strong>Estado :</strong> Leido<br>
+                                      <strong>Por : </strong>{{$reserva->usuario_picking->nombre}}<br>
+                                      <strong>Fecha : </strong>{{$reserva->fecha_lectura->format('d/m/Y')}}<br>
+                                      <strong>Hora: </strong>{{$reserva->fecha_lectura->format('H:i:s')}}
+                                          "
                                       data-toggle="tooltip">
                                  <i class="fa fa-check" aria-hidden="true"></i>
                                 </span>
@@ -144,9 +153,9 @@
 
 @endsection
 @section('scripts')
+    <script src="{{asset('js/moment.min.js')}}"></script>
     <script>
         @if($requisicion->reservas->isEmpty())
-
         $('#spiner-calculando').show();
         setTimeout(function () {
             $('#spiner-calculando').hide();
@@ -347,7 +356,8 @@
 
 
                     if (response.status == 1) {
-                        checkRow(id_reserva);
+
+                        checkRow(id_reserva, response.reserva);
                     } else if (response.status == 2) {
                         recalcular();
                     } else {
@@ -365,7 +375,7 @@
         }
 
 
-        function recalcular(){
+        function recalcular() {
 
             $('#spiner-calculando').show();
             setTimeout(function () {
@@ -374,17 +384,28 @@
             }, 1500)
 
 
-
         }
-        function checkRow(id) {
+
+        function checkRow(id, reserva) {
+
+
+            let tooltip = `
+             <strong>Estado :</strong> Leido<br>
+             <strong>Por : </strong>${reserva[1]}<br>
+             <strong>Fecha : </strong>${moment(reserva[0].fecha_lectura).format('DD/MM/Y')}<br>
+             <strong>Hora: </strong>${moment(reserva[0].fecha_lectura).format('HH:mm:ss')}
+                `;
+
 
             let span = document.getElementById('span-' + id);
             span.classList.remove('label-warning');
             span.classList.add('label-success');
             span.originalTitle = "Leido";
             span.title = "Leido";
+            span.dataset.originalTitle = tooltip;
             span.innerHTML = "<i class='fa fa-check'></i>";
             span.nextElementSibling.value = "S";
+
 
         }
 
