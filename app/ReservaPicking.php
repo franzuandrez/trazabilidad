@@ -26,11 +26,12 @@ class ReservaPicking extends Model
     protected $dates = [
         'fecha_lectura',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'fecha_vencimiento'
     ];
 
     public $with = [
-        'producto', 'bodega','usuario_picking'
+        'producto', 'bodega', 'usuario_picking'
     ];
 
     public function requisicion()
@@ -62,9 +63,10 @@ class ReservaPicking extends Model
         return $query->where('reserva_lotes.estado', 'R');
     }
 
-    public function scopeEnProceso( $query ){
+    public function scopeEnProceso($query)
+    {
 
-        return $query->where('reserva_lotes.estado','P');
+        return $query->where('reserva_lotes.estado', 'P');
 
     }
 

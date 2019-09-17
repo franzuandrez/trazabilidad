@@ -147,15 +147,19 @@ class PickingController extends Controller
 
         $lotesDisponibles = [];
 
-        foreach ($lotes as $lote => $cantidadEnExistencia) {
+        foreach ($lotes as $key => $lote) {
 
-            $total_reservado = ReservaPicking::where('lote', $lote)
+
+            $total_reservado = ReservaPicking::where('lote', $lote['lote'])
                 ->where('id_producto', $id_producto)
                 ->enReserva()
                 ->sum('cantidad');
 
-            if ($cantidadEnExistencia - $total_reservado != 0) {
-                $lotesDisponibles[$lote] = $cantidadEnExistencia - $total_reservado;
+            if ($lote['total'] - $total_reservado != 0) {
+                $lotesDisponibles[$lote['lote']] = [
+                   'total'=>  $lote['total'] - $total_reservado,
+                    'fecha_vencimiento'=>$lote['fecha_vencimiento']
+                ];
             }
 
 
@@ -246,6 +250,7 @@ class PickingController extends Controller
             ->groupBy('id_producto')
             ->get();
 
+
         $detalles_requisicion = $requisicion->detalle()->groupBy('id_producto')->get();
 
         foreach ($detalles_requisicion as $detalle_requisicion) {
@@ -254,6 +259,7 @@ class PickingController extends Controller
             $producto = $reservas
                 ->where('id_producto', $detalle_requisicion->id_producto)
                 ->first();
+
 
 
             //SI TIENE RESERVA, obtengo el total.
@@ -268,8 +274,9 @@ class PickingController extends Controller
             // EXISTENCIA DE UN PRODUCTO
             $existencia = $this->productos->existencia($detalle_requisicion->producto->codigo_barras);
 
+
             //LOS LOTES Y LAS CANTIDAD DE LA EXISTENCIA DEVUELTA
-            $lotes = $existencia->pluck('total', 'lote');
+            $lotes = $existencia->map->only(['total', 'lote','fecha_vencimiento']);
 
             //LOS LOTES QUE SI PODES UTILIZAR PORQUE NO HA SIDO RESERVADOS.
             $lotesDisponibles = $this->getLotesDisponibles($lotes, $detalle_requisicion->id_producto);
@@ -277,20 +284,24 @@ class PickingController extends Controller
             if (!empty($lotesDisponibles)) {
 
                 foreach ($lotesDisponibles as $lote => $cantidadDisponible) {
+
+
+
                     $ubicacion = Ubicacion::where('codigo_barras', $existencia->where('lote', $lote)->first()->ubicacion)->first();
                     $reserva = new ReservaPicking();
-                    $reserva->id_producto = $detalle_requisicion->first()->id_producto;
+                    $reserva->id_producto = $detalle_requisicion->id_producto;
                     $reserva->lote = $lote;
+                    $reserva->fecha_vencimiento = $cantidadDisponible['fecha_vencimiento'];
                     $reserva->id_requisicion = $detalle_requisicion->requision_encabezado->id;
                     $reserva->id_bodega = $ubicacion->id_bodega;
                     $reserva->id_ubicacion = $ubicacion->id_ubicacion;
                     $reserva->ubicacion = $ubicacion->codigo_barras;
                     $reserva->estado = 'P';
 
-                    if ($cantidadEntrante >= $cantidadDisponible) {
-                        $reserva->cantidad = $cantidadDisponible;
+                    if ($cantidadEntrante >= $cantidadDisponible['total']) {
+                        $reserva->cantidad = $cantidadDisponible['total'];
                         $reserva->save();
-                        $cantidadEntrante = $cantidadEntrante - $cantidadDisponible;
+                        $cantidadEntrante = $cantidadEntrante - $cantidadDisponible['total'];
                     } else {
 
                         $reserva->cantidad = $cantidadEntrante;
