@@ -54,7 +54,7 @@ class PickingController extends Controller
     }
 
 
-    public function despachar($id)
+    public function despachar($id, Request $request)
     {
 
 
@@ -68,22 +68,24 @@ class PickingController extends Controller
         if ($requisicion->reservas->isEmpty() || $debeRecalcular) {
 
             $this->recalcular($requisicion);
-
-            return redirect()
-                ->route('produccion.picking.despachar',
-                    [
-                        'id' => $id
-                    ]
-                );
-
-
+            return $this->despachar($id,$request);
         }
-        return view
-        ('produccion.picking.despacho',
-            compact(
-                'requisicion', 'validarOrdenProductos'
-            )
-        );
+
+        if ($request->ajax()) {
+
+            return view('produccion.picking.listado_productos',
+                compact(
+                    'requisicion'
+                ));
+
+        } else {
+            return view
+            ('produccion.picking.despacho',
+                compact(
+                    'requisicion', 'validarOrdenProductos'
+                )
+            );
+        }
 
 
     }
@@ -97,7 +99,6 @@ class PickingController extends Controller
 
             $reserva = ReservaPicking::without('bodega')
                 ->findOrFail($id_reserva);
-
 
 
             $debeRecalcular = $this->debeRecalcular($reserva->requisicion);
@@ -116,7 +117,7 @@ class PickingController extends Controller
                 $response = [
                     'status' => 1,
                     'message' => 'Leido correctamente',
-                    'reserva'=>[$reserva,Auth::user()->nombre]
+                    'reserva' => [$reserva, Auth::user()->nombre]
                 ];
             }
 
@@ -157,8 +158,8 @@ class PickingController extends Controller
 
             if ($lote['total'] - $total_reservado != 0) {
                 $lotesDisponibles[$lote['lote']] = [
-                   'total'=>  $lote['total'] - $total_reservado,
-                    'fecha_vencimiento'=>$lote['fecha_vencimiento']
+                    'total' => $lote['total'] - $total_reservado,
+                    'fecha_vencimiento' => $lote['fecha_vencimiento']
                 ];
             }
 
@@ -215,7 +216,8 @@ class PickingController extends Controller
 
 
         } catch (\Exception $ex) {
-            dd($ex);
+
+            return $ex;
             //DB::rollback();
         }
 
@@ -261,7 +263,6 @@ class PickingController extends Controller
                 ->first();
 
 
-
             //SI TIENE RESERVA, obtengo el total.
             if ($producto != null) {
                 $cantidadReserva = $producto->total;
@@ -276,7 +277,7 @@ class PickingController extends Controller
 
 
             //LOS LOTES Y LAS CANTIDAD DE LA EXISTENCIA DEVUELTA
-            $lotes = $existencia->map->only(['total', 'lote','fecha_vencimiento']);
+            $lotes = $existencia->map->only(['total', 'lote', 'fecha_vencimiento']);
 
             //LOS LOTES QUE SI PODES UTILIZAR PORQUE NO HA SIDO RESERVADOS.
             $lotesDisponibles = $this->getLotesDisponibles($lotes, $detalle_requisicion->id_producto);
@@ -284,7 +285,6 @@ class PickingController extends Controller
             if (!empty($lotesDisponibles)) {
 
                 foreach ($lotesDisponibles as $lote => $cantidadDisponible) {
-
 
 
                     $ubicacion = Ubicacion::where('codigo_barras', $existencia->where('lote', $lote)->first()->ubicacion)->first();
