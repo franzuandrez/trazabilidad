@@ -23,8 +23,14 @@ class ReservaPicking extends Model
         'id_usuario_picking'
     ];
 
+    protected $dates = [
+        'fecha_lectura',
+        'created_at',
+        'updated_at'
+    ];
+
     public $with = [
-        'producto', 'bodega'
+        'producto', 'bodega','usuario_picking'
     ];
 
     public function requisicion()
