@@ -208,7 +208,7 @@
                         document.getElementById('cantidad').readOnly = true;
 
                     } else {
-                        let sinExistencias = response[0].total == 0;
+                        let sinExistencias = response.map(e=>e.total).reduce((x,y)=>parseFloat(x)+parseFloat(y),0) === 0;
                         if (sinExistencias) {
                             document.getElementById('no_selecction_mensaje').innerText = 'Producto sin existencias';
                             alertInexitencia();
