@@ -41,37 +41,89 @@
         </div>
     </div>
 
+    @if($requisicion->estado == "D")
+        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
 
-    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
+            <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
 
-        <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
+                <thead style="background-color: #01579B;  color: #fff;">
+                <th>CANTIDAD</th>
+                <th>CODIGO PRODUCTO</th>
+                <th>PRODUCTO</th>
+                <th>PRESENTACION</th>
+                <th>DETALLE</th>
+                </thead>
+                <tbody id="body-detalles">
+                @foreach( $requisicion->detalle as $detalle )
+                    <tr>
+                        <td>
+                            {{$detalle->cantidad}}
+                        </td>
+                        <td>
+                            {{$detalle->producto->codigo_barras}}
+                        </td>
+                        <td>
+                            {{$detalle->producto->descripcion}}
+                        </td>
+                        <td>
+                            {{$detalle->producto->presentacion->descripcion}}
+                        </td>
+                        <td>
+                            <table class="table">
+                                <tr>
+                                    <th>LOTE</th>
+                                    <th>CANTIDAD</th>
+                                </tr>
+                                @foreach( $requisicion->reservas->where('id_producto',$detalle->producto->id_producto) as $lote  )
 
-            <thead style="background-color: #01579B;  color: #fff;">
-            <th>CANTIDAD</th>
-            <th>CODIGO PRODUCTO</th>
-            <th>PRODUCTO</th>
-            <th>PRESENTACION</th>
-            </thead>
-            <tbody id="body-detalles">
-            @foreach( $requisicion->detalle as $detalle )
-                <tr>
-                    <td>
-                        {{$detalle->cantidad}}
-                    </td>
-                    <td>
-                        {{$detalle->producto->codigo_barras}}
-                    </td>
-                    <td>
-                        {{$detalle->producto->descripcion}}
-                    </td>
-                    <td>
-                        {{$detalle->producto->presentacion->descripcion}}
-                    </td>
-                </tr>
-            @endforeach
-            </tbody>
-        </table>
-    </div>
+                                <tr>
+                                    <td>{{$lote->lote}}</td>
+                                    <td>{{$lote->cantidad}}</td>
+                                </tr>
+                                @endforeach
+                            </table>
+
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
+    @else
+        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
+
+            <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
+
+                <thead style="background-color: #01579B;  color: #fff;">
+                <th>CANTIDAD</th>
+                <th>CODIGO PRODUCTO</th>
+                <th>PRODUCTO</th>
+                <th>PRESENTACION</th>
+                </thead>
+                <tbody id="body-detalles">
+                @foreach( $requisicion->detalle as $detalle )
+                    <tr>
+                        <td>
+                            {{$detalle->cantidad}}
+                        </td>
+                        <td>
+                            {{$detalle->producto->codigo_barras}}
+                        </td>
+                        <td>
+                            {{$detalle->producto->descripcion}}
+                        </td>
+                        <td>
+                            {{$detalle->producto->presentacion->descripcion}}
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
+    @endif
+
+
+
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
             <a href="{{url('produccion/requisiciones')}}">
