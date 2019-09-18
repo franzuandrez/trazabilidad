@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\tools\Existencias;
+use App\Http\tools\Movimientos;
 use App\Picking;
 use App\Requisicion;
 use App\ReservaPicking;
@@ -11,6 +12,7 @@ use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Mockery\Exception;
 
 class PickingController extends Controller
 {
@@ -181,7 +183,7 @@ class PickingController extends Controller
 
             $picking = Picking::where('id_requisicion', $requisicion->id)->first();
             if ($picking->enProceso()) {
-
+                DB::beginTransaction();
                 //LA RESERVAS PASAN A SER DESPACHADAS
                 $requisicion
                     ->reservas()
@@ -205,12 +207,27 @@ class PickingController extends Controller
                 $picking->estado = 'D';
                 $picking->update();
 
-            }
+                foreach ($requisicion->reservas as $reserva) {
 
+                    $movimientos = new Movimientos();
+                    $movimientos->salida_producto(
+                        $reserva->ubicacion()->first(),
+                        $reserva->producto,
+                        $reserva->lote,
+                        $reserva->fecha_vencimiento,
+                        $reserva->cantidad,
+                        $requisicion->no_orden_produccion,
+                        Auth::user()
+                    );
+
+                }
+                DB::commit();
+            }
             return redirect()
                 ->route('produccion.picking.index')
                 ->with('success', 'Requisicion despachada');
         } catch (\Exception $ex) {
+            DB::rollback();
 
             return redirect()->back()->withErrors(['Algo salió mal']);
         }
