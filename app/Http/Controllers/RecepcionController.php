@@ -4,26 +4,22 @@ namespace App\Http\Controllers;
 
 use App\DetalleLotes;
 use App\Http\Requests\MateriaPrimaRequest;
+use App\Http\Tools\Impresiones;
 use App\Http\tools\Movimientos;
-use App\Impresion;
 use App\InspeccionEmpaqueEtiqueta;
 use App\InspeccionVehiculo;
-use App\Localidad;
+use App\Movimiento;
 use App\Producto;
 use App\Proveedor;
 use App\Recepcion;
-use App\Movimiento;
 use App\RMIDetalle;
 use App\RMIEncabezado;
 use App\Ubicacion;
 use App\User;
-use http\Env\Response;
-use Illuminate\Http\Request;
-use DB;
 use Carbon\Carbon;
+use DB;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Mockery\Instantiator;
-use App\Http\Tools\Impresiones;
 
 class RecepcionController extends Controller
 {
@@ -684,7 +680,7 @@ class RecepcionController extends Controller
         $orden = Recepcion::findOrFail($id);
         $rmi_encabezado = $orden->rmi_encabezado;
 
-         $usuario_autoriza =  User::where('username',$request->get('user_acepted'))->first();
+        $usuario_autoriza = User::where('username', $request->get('user_acepted'))->first();
         $productos = $request->get('id_producto');
 
         DB::beginTransaction();
@@ -706,7 +702,12 @@ class RecepcionController extends Controller
                     ->first()
                     ->fecha_vencimiento;
 
-                Movimientos::ingresar_producto($ubicacion, $producto, $lote, $fecha_vencimiento, $cantidad, $rmi_encabezado,$usuario_autoriza);
+                $movimiento = new Movimientos();
+                $movimiento
+                    ->ingreso_producto(
+                        $ubicacion, $producto, $lote, $fecha_vencimiento, $cantidad, $rmi_encabezado->documento, $usuario_autoriza
+                    );
+
                 $rmi_encabezado->mp = 1;
                 $rmi_encabezado->control = 0;
                 $rmi_encabezado->update();
@@ -727,15 +728,16 @@ class RecepcionController extends Controller
     }
 
 
-    public function show_producto_a_ubicar($id){
+    public function show_producto_a_ubicar($id)
+    {
 
 
         $recepcion = Recepcion::findOrFail($id);
 
-        $movimientos =  $recepcion->rmi_encabezado->rmi_detalle;
+        $movimientos = $recepcion->rmi_encabezado->rmi_detalle;
 
 
-        return view('recepcion.ubicacion.show',compact('recepcion','movimientos'));
+        return view('recepcion.ubicacion.show', compact('recepcion', 'movimientos'));
 
 
     }
