@@ -118,8 +118,8 @@
                         @endforeach
                     @else
                         <tr>
-                            <td colspan="5">
-                                PENDIENTE
+                            <td colspan="5" align="center">
+                                <b>-- PENDIENTE --</b>
                             </td>
                         </tr>
                     @endif
