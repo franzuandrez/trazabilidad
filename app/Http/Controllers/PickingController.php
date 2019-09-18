@@ -12,7 +12,6 @@ use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Mockery\Exception;
 
 class PickingController extends Controller
 {
@@ -31,8 +30,7 @@ class PickingController extends Controller
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
         $sortField = $request->get('field') == null ? 'fecha_ingreso' : $request->get('field');
 
-        $requisiciones_pendientes = Requisicion::enReserva()
-            ->select('requisicion_encabezado.*')
+        $requisiciones_pendientes = Requisicion::select('requisicion_encabezado.*')
             ->join('users', 'users.id', '=', 'requisicion_encabezado.id_usuario_ingreso')
             ->where(function ($query) use ($search) {
                 $query->where('requisicion_encabezado.no_orden_produccion', 'LIKE', '%' . $search . '%')
@@ -62,37 +60,54 @@ class PickingController extends Controller
 
 
         $requisicion = Requisicion::findOrFail($id);
-        $validarOrdenProductos = false;
-        $this->crearOrdenPicking($requisicion);
+        if ($requisicion->estado !== "D") {
+            $validarOrdenProductos = false;
+            $this->crearOrdenPicking($requisicion);
 
-        $debeRecalcular = $this->debeRecalcular($requisicion);
+            $debeRecalcular = $this->debeRecalcular($requisicion);
 
 
-        if ($requisicion->reservas->isEmpty() || $debeRecalcular) {
+            if ($requisicion->reservas->isEmpty() || $debeRecalcular) {
 
-            $this->recalcular($requisicion);
-            return $this->despachar($id, $request);
-        }
+                $this->recalcular($requisicion);
+                return $this->despachar($id, $request);
+            }
 
-        if ($request->ajax()) {
+            if ($request->ajax()) {
 
-            return view('produccion.picking.listado_productos',
-                compact(
-                    'requisicion'
-                ));
+                return view('produccion.picking.listado_productos',
+                    compact(
+                        'requisicion'
+                    ));
 
+            } else {
+                return view
+                ('produccion.picking.despacho',
+                    compact(
+                        'requisicion', 'validarOrdenProductos'
+                    )
+                );
+            }
         } else {
-            return view
-            ('produccion.picking.despacho',
-                compact(
-                    'requisicion', 'validarOrdenProductos'
-                )
-            );
+
+            $productos = $requisicion->reservas->groupBy('id_producto')->keys();
+
+
+            return view('produccion.picking.show',compact('requisicion','productos'));
         }
 
 
     }
 
+    public function show($id){
+
+        $requisicion = Requisicion::findOrFail($id);
+
+        $productos = $requisicion->reservas->groupBy('id_producto')->keys();
+
+        return view('produccion.picking.show',compact('requisicion','productos'));
+
+    }
 
     public function leer($id_reserva)
     {
