@@ -341,6 +341,7 @@ Route::get('produccion/requisiciones/{id}','OperacionController@show')->name('pr
 Route::get('produccion/picking/','PickingController@index')->name('produccion.picking.index');
 Route::get('produccion/picking/{id}/despachar','PickingController@despachar')->name('produccion.picking.despachar');
 Route::post('produccion/picking/leer/{id_reserva}','PickingController@leer')->name('produccion.picking.leer');
+Route::post('produccion/picking/create','PickingController@store')->name('produccion.picking.store');
 
 Route::get('produccion/mezcladora','MezcladoraController@index')->name('mezcladora.index');
 Route::get('produccion/mezcladora/create','MezcladoraController@create')->name('mezcladora.create');

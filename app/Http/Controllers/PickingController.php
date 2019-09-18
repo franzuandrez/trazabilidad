@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\tools\Existencias;
+use App\Picking;
 use App\Requisicion;
 use App\ReservaPicking;
 use App\Ubicacion;
@@ -60,7 +61,7 @@ class PickingController extends Controller
 
         $requisicion = Requisicion::findOrFail($id);
         $validarOrdenProductos = false;
-
+        $this->crearOrdenPicking($requisicion);
 
         $debeRecalcular = $this->debeRecalcular($requisicion);
 
@@ -68,7 +69,7 @@ class PickingController extends Controller
         if ($requisicion->reservas->isEmpty() || $debeRecalcular) {
 
             $this->recalcular($requisicion);
-            return $this->despachar($id,$request);
+            return $this->despachar($id, $request);
         }
 
         if ($request->ajax()) {
@@ -170,6 +171,65 @@ class PickingController extends Controller
         return $lotesDisponibles;
     }
 
+
+    public function store(Request $request)
+    {
+
+
+        try {
+            $requisicion = Requisicion::where('no_requision', $request->no_requisicion)->first();
+
+            $picking = Picking::where('id_requisicion', $requisicion->id)->first();
+            if ($picking->enProceso()) {
+
+                //LA RESERVAS PASAN A SER DESPACHADAS
+                $requisicion
+                    ->reservas()
+                    ->update
+                    (
+                        ['estado' => 'D']
+                    );
+                //EL DETALLE DE REQUISICION PASA A SER DESPACHADO
+                $requisicion
+                    ->detalle()
+                    ->update(
+                        ['estado' => 'D']
+                    );
+                //LA REQUISICION SE DESPACHA.
+                $requisicion->estado = 'D';
+                $requisicion->update();
+
+                //EL PICKING SE DESPACHA.
+                $picking->fecha_fin = Carbon::now();
+                $picking->id_usuario = Auth::user()->id;
+                $picking->estado = 'D';
+                $picking->update();
+
+            }
+
+            return redirect()
+                ->route('produccion.picking.index')
+                ->with('success', 'Requisicion despachada');
+        } catch (\Exception $ex) {
+
+            return redirect()->back()->withErrors(['Algo salió mal']);
+        }
+
+
+    }
+
+    public function crearOrdenPicking($requisicion)
+    {
+
+        $existeOrden = Picking::where('id_requisicion', $requisicion->id)->exists();
+        if (!$existeOrden) {
+            $picking = new Picking();
+            $picking->id_requisicion = $requisicion->id;
+            $picking->fecha_inicio = Carbon::now();
+            $picking->estado = 'P';
+            $picking->save();
+        }
+    }
 
     private function debeRecalcular($requisicion)
     {

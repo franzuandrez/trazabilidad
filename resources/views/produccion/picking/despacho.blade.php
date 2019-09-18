@@ -11,104 +11,108 @@
     'submenu_icon'=>'fa fa-sign-in',
     'operation_icon'=>'fa-eye',])
         @slot('menu')
-            Recepcion
+            Produccion
         @endslot
         @slot('submenu')
             Materia Prima
         @endslot
     @endcomponent
 
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="orden_compra">NO. REQUISICION</label>
-            <input type="text"
-                   readonly
-                   name="no_requisicion"
-                   value="{{$requisicion->no_requision}}"
-                   class="form-control">
+    <form method="post" action="{{route('produccion.picking.store')}}"  >
+        @csrf
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="orden_compra">NO. REQUISICION</label>
+                <input type="text"
+                       readonly
+                       name="no_requisicion"
+                       value="{{$requisicion->no_requision}}"
+                       class="form-control">
+            </div>
         </div>
-    </div>
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="codigo_producto">CODIGO PRODUCTO</label>
-            <input type="text"
-                   id="codigo_producto"
-                   onkeydown="if(event.keyCode==13)cargarInfoCodigoBarras(this)"
-                   name="codigo_producto"
-                   class="form-control">
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="codigo_producto">CODIGO PRODUCTO</label>
+                <input type="text"
+                       id="codigo_producto"
+                       onkeydown="if(event.keyCode==13)cargarInfoCodigoBarras(this)"
+                       name="codigo_producto"
+                       class="form-control">
+            </div>
         </div>
-    </div>
-    <input type="hidden" name="id_producto" id="id_producto">
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="descripcion">DESCRIPCION</label>
-            <input type="text"
-                   readonly
-                   name="descripcion"
-                   id="descripcion"
-                   class="form-control">
+        <input type="hidden" name="id_producto" id="id_producto">
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="descripcion">DESCRIPCION</label>
+                <input type="text"
+                       readonly
+                       name="descripcion"
+                       id="descripcion"
+                       class="form-control">
+            </div>
         </div>
-    </div>
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="lote">LOTE</label>
-            <input type="text"
-                   readonly
-                   name="lote"
-                   id="lote"
-                   class="form-control">
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="lote">LOTE</label>
+                <input type="text"
+                       readonly
+                       name="lote"
+                       id="lote"
+                       class="form-control">
+            </div>
         </div>
-    </div>
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="ubicacion">UBICACION</label>
-            <input type="text"
-                   readonly
-                   onkeydown="if(event.keyCode==13)buscar_ubicacion()"
-                   name="ubicacion"
-                   id="ubicacion"
-                   class="form-control">
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="ubicacion">UBICACION</label>
+                <input type="text"
+                       readonly
+                       onkeydown="if(event.keyCode==13)buscar_ubicacion()"
+                       name="ubicacion"
+                       id="ubicacion"
+                       class="form-control">
+            </div>
         </div>
-    </div>
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="cantidad">CANTIDAD</label>
-            <input type="text"
-                   readonly
-                   id="cantidad"
-                   name="cantidad"
-                   onkeydown="if(event.keyCode==13)agregar()"
-                   class="form-control">
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="cantidad">CANTIDAD</label>
+                <input type="text"
+                       readonly
+                       id="cantidad"
+                       name="cantidad"
+                       onkeydown="if(event.keyCode==13)agregar()"
+                       class="form-control">
+            </div>
         </div>
-    </div>
-    <div class="loading" id="spiner-buscando">
-        <i class="fa fa-refresh fa-spin "></i><br/>
-        <span>Cargando</span>
-    </div>
-    <div class="loading" id="spiner-calculando">
-        <i class="fa fa-refresh fa-spin "></i><br/>
-        <span>Recalculando</span>
-    </div>
+        <div class="loading" id="spiner-buscando">
+            <i class="fa fa-refresh fa-spin "></i><br/>
+            <span>Cargando</span>
+        </div>
+        <div class="loading" id="spiner-calculando">
+            <i class="fa fa-refresh fa-spin "></i><br/>
+            <span>Recalculando</span>
+        </div>
 
-    <div id="content">
-        @include('produccion.picking.listado_productos')
-    </div>
-    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-        <div class="form-group">
-            <button class="btn btn-default" disabled type="submit">
-                <span class=" fa fa-check"></span> GUARDAR
-            </button>
-            <a href="{{url('produccion/picking')}}">
-                <button class="btn btn-default" type="button">
-                    <span class="fa fa-backward"></span>
-                    REGRESAR
+        <div id="content">
+            @include('produccion.picking.listado_productos')
+        </div>
+        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+            <div class="form-group">
+                <button class="btn btn-default"
+                        onclick="guardar()"
+                        type="button">
+                    <span class=" fa fa-check"></span> GUARDAR
                 </button>
-            </a>
+                <a href="{{url('produccion/picking')}}">
+                    <button class="btn btn-default" type="button">
+                        <span class="fa fa-backward"></span>
+                        REGRESAR
+                    </button>
+                </a>
 
+            </div>
         </div>
-    </div>
 
-
+    </form>
 @endsection
 @section('scripts')
     <script src="{{asset('js/moment.min.js')}}"></script>
@@ -417,13 +421,25 @@
             }
         }
 
-          function recargarListadoProductos() {
+        function recargarListadoProductos() {
             $('#spiner-calculando').show();
             $('#icon-recalcular').addClass('fa-spin');
             setTimeout(async function () {
                 let ruta = "{{route('produccion.picking.despachar',['id'=>$requisicion->id])}}";
                 await ajaxLoad(ruta);
-            },1000);
+            }, 1000);
+
+        }
+
+        async function guardar() {
+
+
+            let todoLeido = Array.prototype.slice.call(document.getElementsByName('leido[]')).filter(x => x.value === "N").length === 0;
+            if (todoLeido) {
+                $('form').submit();
+            } else {
+                alert("Falta producto por recoger");
+            }
 
         }
     </script>
