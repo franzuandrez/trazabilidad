@@ -17,6 +17,7 @@ class Picking extends Model
         'fecha_inicio',
         'fecha_fin',
         'estado',
+        'id_requisicion',
     ];
 
     protected $dates = [
@@ -27,5 +28,13 @@ class Picking extends Model
     public function bodeguero(){
 
         return $this->belongsTo('App\User','id_usuario');
+    }
+
+    public function enProceso(){
+        return $this->estado == 'P';
+    }
+
+    public function despachado(){
+        return $this->estado == 'D';
     }
 }
