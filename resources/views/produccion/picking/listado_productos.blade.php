@@ -42,18 +42,23 @@
                                  <i class="fa fa-check" aria-hidden="true"></i>
                                 </span>
                         @endif
+                        <input type="hidden" name="id_reserva[]" value="{{$reserva->id_reserva}}">
                         <input type="hidden" name="leido[]" value="{{$reserva->leido}}">
                     </td>
                     <td>
+                        <input type="hidden" name="id_producto[]" value="{{$reserva->producto->id_producto}}">
                         {{$reserva->producto->descripcion}}
                     </td>
                     <td>
+                        <input type="hidden" name="lote[]" value="{{$reserva->lote}}">
                         {{$reserva->lote}}
                     </td>
                     <td>
+                        <input type="hidden" name="cantidad[]" value="{{$reserva->cantidad}}">
                         {{$reserva->cantidad}}
                     </td>
                     <td>
+                        <input type="hidden" name="ubicacion[]" value="{{$reserva->ubicacion}}">
                         {{$reserva->ubicacion}}
                     </td>
                 </tr>
