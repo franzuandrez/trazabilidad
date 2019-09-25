@@ -15,48 +15,58 @@ class LocalidadController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(Request $request){
+    public function index(Request $request)
+    {
 
         $search = $request->get('search') == null ? '' : $request->get('search');
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
         $sortField = $request->get('field') == null ? 'codigo_barras' : $request->get('field');
 
 
-        $localidades = Localidad::join('users','users.id','=','localidades.id_encargado')
-            ->select('localidades.*','users.nombre as encargado')
+        $localidades = Localidad::join('users', 'users.id', '=', 'localidades.id_encargado')
+            ->select('localidades.*', 'users.nombre as encargado')
             ->actived()
-            ->where(function ($query)use($search){
-                $query->where('codigo_barras','LIKE','%'.$search.'%')
-                ->orWhere('descripcion','LIKE','%'.$search.'%')
-                ->orWhere('direccion','LIKE','%'.$search.'%')
-                ->orWhere('username','LIKE','%'.$search.'%');
+            ->where(function ($query) use ($search) {
+                $query->where('codigo_barras', 'LIKE', '%' . $search . '%')
+                    ->orWhere('descripcion', 'LIKE', '%' . $search . '%')
+                    ->orWhere('direccion', 'LIKE', '%' . $search . '%')
+                    ->orWhere('username', 'LIKE', '%' . $search . '%');
             })
-            ->orderBy($sortField,$sort)
+            ->orderBy($sortField, $sort)
             ->paginate(20);
 
-        if($request->ajax()){
-            return view('registro.localidades.index',compact('search','sort','sortField','localidades'));
-        }else{
-            return view('registro.localidades.ajax',compact('search','sort','sortField','localidades'));
+        if ($request->ajax()) {
+            return view('registro.localidades.index', compact('search', 'sort', 'sortField', 'localidades'));
+        } else {
+            return view('registro.localidades.ajax', compact('search', 'sort', 'sortField', 'localidades'));
         }
-
-
-
 
 
     }
 
-    public function create(){
+    public function create()
+    {
 
         $encargados = User::actived()->get();
 
 
-        return view('registro.localidades.create',compact('encargados'));
+        return view('registro.localidades.create', compact('encargados'));
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
 
 
+        $existeCodigoBarras = Localidad::actived()
+            ->where('codigo_barras', $request->get('codigo_barras'))
+            ->exists();
+
+        if ($existeCodigoBarras) {
+            return redirect()
+                ->back()
+                ->withErrors(['El codigo de barras ya existe'])
+                ->withInput();
+        }
 
         $localidad = new Localidad();
         $localidad->codigo_barras = $request->get('codigo_barras');
@@ -69,30 +79,42 @@ class LocalidadController extends Controller
         $localidad->update();
 
         return redirect()->route('localidades.index')
-            ->with('success','Localidad dada de alta correctamente');
+            ->with('success', 'Localidad dada de alta correctamente');
 
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
 
-        try{
+        try {
 
             $localidad = Localidad::findOrFail($id);
             $encargados = User::actived()->get();
 
-            return view('registro.localidades.edit',compact('localidad','encargados'));
+            return view('registro.localidades.edit', compact('localidad', 'encargados'));
 
-        }catch (\Exception $ex){
+        } catch (\Exception $ex) {
 
             return redirect()->route('localidades.index')
-                ->withErrors(['error'=>'Localidad no encontrada']);
+                ->withErrors(['error' => 'Localidad no encontrada']);
         }
 
     }
 
-    public function update( Request $request ,$id){
-        try{
+    public function update(Request $request, $id)
+    {
+        try {
+            $existeCodigoBarras = Localidad::actived()
+                ->where('codigo_barras', $request->get('codigo_barras'))
+                ->where('id_localidad', '<>', $id)
+                ->exists();
 
+            if ($existeCodigoBarras) {
+                return redirect()
+                    ->back()
+                    ->withErrors(['El codigo de barras ya existe'])
+                    ->withInput();
+            }
             $localidad = Localidad::findOrFail($id);
             $localidad->codigo_barras = $request->get('codigo_barras');
             $localidad->descripcion = $request->get('descripcion');
@@ -101,47 +123,49 @@ class LocalidadController extends Controller
             $localidad->update();
 
             return redirect()->route('localidades.index')
-            ->with('success','Localidad actualizada correctamente');
+                ->with('success', 'Localidad actualizada correctamente');
 
 
-        }catch (\Exception $ex){
+        } catch (\Exception $ex) {
 
             return redirect()->route('localidades.index')
-                ->withErrors(['error'=>'Localidad no encontrada']);
+                ->withErrors(['error' => 'Localidad no encontrada']);
         }
 
     }
 
-    public function show($id){
-        try{
+    public function show($id)
+    {
+        try {
 
             $localidad = Localidad::findOrFail($id);
             $encargados = User::actived()->get();
 
-            return view('registro.localidades.show',compact('localidad','encargados'));
+            return view('registro.localidades.show', compact('localidad', 'encargados'));
 
-        }catch (\Exception $ex){
+        } catch (\Exception $ex) {
 
             return redirect()->route('localidades.index')
-                ->withErrors(['error'=>'Localidad no encontrada']);
+                ->withErrors(['error' => 'Localidad no encontrada']);
         }
     }
 
-    public function destroy($id){
+    public function destroy($id)
+    {
 
-        try{
+        try {
 
             $localidad = Localidad::findOrFail($id);
             $localidad->estado = 0;
             $localidad->update();
 
-            return response()->json(['success'=>'Localidad dada de baja exitosamente']);
+            return response()->json(['success' => 'Localidad dada de baja exitosamente']);
 
-        }catch (\Exception $ex){
+        } catch (\Exception $ex) {
 
             return response()->json(
-                ['error'=>'En este momento no es posible procesar su petición',
-                    'mensaje'=>$ex->getMessage()
+                ['error' => 'En este momento no es posible procesar su petición',
+                    'mensaje' => $ex->getMessage()
                 ]
             );
 

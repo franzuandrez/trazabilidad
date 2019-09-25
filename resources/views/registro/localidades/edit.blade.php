@@ -14,7 +14,7 @@
         @endslot
     @endcomponent
 
-
+    @include('componentes.alert-error')
     {!!Form::model($localidad,['method'=>'PATCH','route'=>['localidades.update',$localidad->id_localidad]])!!}
     {{Form::token()}}
 

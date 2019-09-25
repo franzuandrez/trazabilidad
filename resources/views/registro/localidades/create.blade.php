@@ -14,6 +14,7 @@
         @endslot
     @endcomponent
 
+    @include('componentes.alert-error')
 
     {!!Form::open(array('url'=>'registro/localidades/create','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
