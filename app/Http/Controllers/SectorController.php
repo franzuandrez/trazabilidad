@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SectorRequest;
 use App\Localidad;
 use App\Sector;
 use App\User;
@@ -66,7 +67,7 @@ class SectorController extends Controller
 
     }
 
-    public function store(Request $request)
+    public function store(SectorRequest $request)
     {
 
 
@@ -109,7 +110,7 @@ class SectorController extends Controller
     }
 
 
-    public function update(Request $request, $id)
+    public function update(SectorRequest $request, $id)
     {
 
         try {

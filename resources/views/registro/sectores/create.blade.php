@@ -14,7 +14,7 @@
         @endslot
     @endcomponent
 
-
+    @include('componentes.alert-error')
     {!!Form::open(array('url'=>'registro/sectores/create','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
@@ -23,7 +23,11 @@
             <select name="id_localidad" class="form-control selectpicker" id="localidades" onchange="cargarBodegas()">
                 <option value="">SELECCIONAR LOCALIDAD</option>
                 @foreach($localidades as $localidad)
-                    <option value="{{$localidad->id_localidad}}">{{$localidad->descripcion}}</option>
+                    @if(old('id_localidad') == $localidad->id_localidad )
+                        <option selected value="{{$localidad->id_localidad}}">{{$localidad->descripcion}}</option>
+                    @else
+                        <option value="{{$localidad->id_localidad}}">{{$localidad->descripcion}}</option>
+                    @endif
                 @endforeach
             </select>
         </div>
@@ -86,24 +90,24 @@
 
 @section('scripts')
     <script>
-        function cargarBodegas(){
+        function cargarBodegas() {
 
 
             let idLocalidad = $('#localidades option:selected').val();
             $.ajax({
 
-                url :   "{{url('registro/bodegas_by_localidad/')}}" +"/"+idLocalidad ,
-                type:   "get",
-                dataType:  "json",
-                success : function(response){
+                url: "{{url('registro/bodegas_by_localidad/')}}" + "/" + idLocalidad,
+                type: "get",
+                dataType: "json",
+                success: function (response) {
 
                     let bodegas = $('#bodegas');
                     clearSelect(bodegas);
-                    response.bodegas.forEach(function(e){
-                        addToSelect(e.id_bodega,e.descripcion,bodegas);
+                    response.bodegas.forEach(function (e) {
+                        addToSelect(e.id_bodega, e.descripcion, bodegas);
                     })
                 },
-                error: function(e){
+                error: function (e) {
 
                 }
 
@@ -111,12 +115,14 @@
 
 
         }
-        function clearSelect(select){
+
+        function clearSelect(select) {
 
             $(select).find('option:not(:first)').remove();
             $(select).selectpicker('refresh');
         }
-        function addToSelect(value,txt,select){
+
+        function addToSelect(value, txt, select) {
 
             let option = `<option value='${value}'>${txt}</option>`;
             $(select).append(option);
