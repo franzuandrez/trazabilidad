@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Bodega;
 use App\Http\Requests\SectorRequest;
 use App\Localidad;
 use App\Sector;
 use App\User;
-use App\Bodega;
-use Illuminate\Http\Request;
 use DB;
+use Illuminate\Http\Request;
 
 class SectorController extends Controller
 {
@@ -73,6 +73,18 @@ class SectorController extends Controller
 
         $max = DB::table('sectores')->where('id_bodega', $request->get('id_bodega'))->count();
 
+        $existeCodigo = Sector::actived()
+            ->where('codigo_barras', $request->get('codigo_barras'))
+            ->exists();
+
+        if ($existeCodigo) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->withErrors(['El codigo de barras ya existe']);
+        }
+
+
         $sector = new Sector();
         $sector->codigo_barras = $request->get('codigo_barras');
         $sector->descripcion = $request->get('descripcion');
@@ -114,6 +126,17 @@ class SectorController extends Controller
     {
 
         try {
+            $existeCodigo = Sector::actived()
+                ->where('codigo_barras', $request->get('codigo_barras'))
+                ->where('id_sector', '<>', $id)
+                ->exists();
+
+            if ($existeCodigo) {
+                return redirect()
+                    ->back()
+                    ->withInput()
+                    ->withErrors(['El codigo de barras ya existe']);
+            }
 
             $sector = Sector::findOrFail($id);
             $sector->codigo_barras = $request->get('codigo_barras');
@@ -124,7 +147,8 @@ class SectorController extends Controller
 
             return redirect()->route('sectores.index')
                 ->with('success', 'Sector actualizado correctamente');
-        } catch (\Exception $ex) {
+        } catch
+        (\Exception $ex) {
 
             return redirect()->route('sectores.index')
                 ->withErrors(['error' => 'Sector no encontrado']);
