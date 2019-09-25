@@ -123,6 +123,7 @@
             <select name="id_posicion"
                     id="posiciones"
                     class="form-control selectpicker"
+                    required
             >
                 <option value="">SELECCIONAR POSICION</option>
                 @foreach( $nivel->posiciones as $pos )
@@ -138,14 +139,14 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="codigo_barras">CODIGO BARRAS</label>
-            <input type="text" name="codigo_barras" value="{{$bin->codigo_barras}}"
+            <input type="text" name="codigo_barras" value="{{$bin->codigo_barras}}" required
                    class="form-control">
         </div>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="descripcion">DESCRIPCION</label>
-            <input type="text" name="descripcion" value="{{$bin->descripcion}}"
+            <input type="text" name="descripcion" value="{{$bin->descripcion}}" required
                    class="form-control">
         </div>
     </div>

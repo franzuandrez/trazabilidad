@@ -82,6 +82,7 @@
             <select name="id_posicion"
                     id="posiciones"
                     class="form-control selectpicker"
+                    required
             >
                 <option value="">SELECCIONAR POSICION</option>
             </select>
@@ -91,6 +92,7 @@
         <div class="form-group">
             <label for="codigo_barras">CODIGO BARRAS</label>
             <input type="text" name="codigo_barras" value="{{old('codigo_barras')}}"
+                   required
                    class="form-control">
         </div>
     </div>
@@ -98,6 +100,7 @@
         <div class="form-group">
             <label for="descripcion">DESCRIPCION</label>
             <input type="text" name="descripcion" value="{{old('descripcion')}}"
+                   required
                    class="form-control">
         </div>
     </div>
@@ -283,7 +286,7 @@
 
 
         }
-        
+
         function cargarPosiciones() {
 
 
@@ -310,7 +313,7 @@
 
 
 
-            
+
         }
 
         function clearSelect(select) {
