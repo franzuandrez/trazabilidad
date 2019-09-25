@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RackRequest;
 use App\Localidad;
 use App\Rack;
 use App\Pasillo;
@@ -53,7 +54,7 @@ class RackController extends Controller
         return view('registro.racks.create',compact('localidades'));
     }
 
-    public function store(Request $request){
+    public function store(RackRequest $request){
 
         $max = DB::table('racks')->where('id_pasillo',$request->get('id_pasillo'))->count();
 
@@ -100,7 +101,7 @@ class RackController extends Controller
 
     }
 
-    public  function update( Request $request , $id ){
+    public  function update( RackRequest $request , $id ){
 
         try{
             $rack = Rack::findOrFail($id);

@@ -14,7 +14,7 @@
         @endslot
     @endcomponent
 
-
+    @include('componentes.alert-error')
     {!!Form::model($rack,['method'=>'PATCH','route'=>['racks.update',$rack->id_rack]])!!}
     {{Form::token()}}
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
