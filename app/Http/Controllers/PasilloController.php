@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PasilloRequest;
 use App\Localidad;
 use App\Pasillo;
 use App\Sector;
@@ -55,7 +56,7 @@ class PasilloController extends Controller
         return view('registro.pasillos.create',compact('localidades','encargados'));
     }
 
-    public function store(Request $request){
+    public function store(PasilloRequest $request){
 
 
         $max = DB::table('pasillos')->where('id_sector',$request->get('id_sector'))->count();
@@ -96,7 +97,7 @@ class PasilloController extends Controller
     }
 
 
-    public function update(Request $request,$id){
+    public function update(PasilloRequest $request,$id){
 
         try{
 

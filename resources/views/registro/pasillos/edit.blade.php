@@ -14,7 +14,7 @@
         @endslot
     @endcomponent
 
-
+    @include('componentes.alert-error')
     {!!Form::model($pasillo,['method'=>'PATCH','route'=>['pasillos.update',$pasillo->id_pasillo]])!!}
     {{Form::token()}}
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
@@ -88,7 +88,7 @@
                     @if($encargado->id == $pasillo->id_encargado )
                         <option selected value="{{$encargado->id}}">{{$encargado->nombre}}</option>
                     @else
-                        <option  value="{{$encargado->id}}">{{$encargado->nombre}}</option>
+                        <option value="{{$encargado->id}}">{{$encargado->nombre}}</option>
                     @endif
                 @endforeach
             </select>
