@@ -36,7 +36,9 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="id_encargado">BODEGA</label>
-            <select name="id_bodega" id="bodegas" class="form-control selectpicker" onchange="cargarSectores()">
+            <select name="id_bodega" id="bodegas" class="form-control selectpicker"
+                    required
+                    onchange="cargarSectores()">
                 <option value="">SELECCIONAR BODEGA</option>
                 @foreach( $localidad->bodegas as $bod )
 
@@ -53,7 +55,9 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="id_encargado">SECTOR</label>
-            <select name="id_sector" id="sectores" class="form-control selectpicker" onchange="cargarPasillos()">
+            <select name="id_sector" id="sectores" class="form-control selectpicker"
+                    required
+                    onchange="cargarPasillos()">
                 <option value="">SELECCIONAR SECTOR</option>
                 @foreach( $bodega->sectores as $sec)
                     @if($sec->id_sector = $sector->id_sector)
@@ -83,7 +87,9 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="id_rack">RACKS</label>
-            <select name="id_rack" id="racks" class="form-control selectpicker">
+            <select name="id_rack" id="racks"
+                    required
+                    class="form-control selectpicker">
                 <option value="">SELECCIONAR RACK</option>
                 @foreach( $pasillo->racks as $rc )
                     @if($rc->id_rack == $nivel->id_rack)
@@ -100,14 +106,14 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="codigo_barras">CODIGO BARRAS</label>
-            <input type="text" name="codigo_barras" value="{{$nivel->codigo_barras}}"
+            <input type="text" name="codigo_barras" value="{{$nivel->codigo_barras}}" required
                    class="form-control">
         </div>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="descripcion">DESCRIPCION</label>
-            <input type="text" name="descripcion" value="{{$nivel->descripcion}}"
+            <input type="text" name="descripcion" value="{{$nivel->descripcion}}" required
                    class="form-control">
         </div>
     </div>
