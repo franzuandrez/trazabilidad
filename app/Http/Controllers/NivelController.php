@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\NivelRequest;
 use App\Nivel;
 use App\Localidad;
 use App\Rack;
@@ -54,7 +55,7 @@ class NivelController extends Controller
         return view('registro.niveles.create', compact('localidades'));
     }
 
-    public function store(Request $request)
+    public function store(NivelRequest $request)
     {
 
         $max = DB::table('nivel')->where('id_rack', $request->get('id_rack'))->count();
@@ -96,7 +97,7 @@ class NivelController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(NivelRequest $request, $id)
     {
         try {
 
