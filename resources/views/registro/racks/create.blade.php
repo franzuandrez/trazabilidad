@@ -49,7 +49,9 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="id_encargado">PASILLOS</label>
-            <select name="id_pasillo" id="pasillos" class="form-control selectpicker">
+            <select name="id_pasillo"
+                    required
+                    id="pasillos" class="form-control selectpicker">
                 <option value="">SELECCIONAR PASILLO</option>
             </select>
         </div>
@@ -58,21 +60,27 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="codigo_barras">CODIGO BARRAS</label>
-            <input type="text" name="codigo_barras" value="{{old('codigo_barras')}}"
+            <input type="text" name="codigo_barras"
+                   required
+                   value="{{old('codigo_barras')}}"
                    class="form-control">
         </div>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="descripcion">DESCRIPCION</label>
-            <input type="text" name="descripcion" value="{{old('descripcion')}}"
+            <input type="text" name="descripcion"
+                   required
+                   value="{{old('descripcion')}}"
                    class="form-control">
         </div>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="id_encargado">LADO</label>
-            <select name="lado" id="lado" class="form-control selectpicker">
+            <select name="lado"
+                    required
+                    id="lado" class="form-control selectpicker">
                 <option value="">SELECCIONAR LADO</option>
                 <option value="A" >A</option>
                 <option value="B" >B</option>
