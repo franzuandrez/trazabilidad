@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Bin;
+use App\Http\Requests\BinRequest;
 use App\Localidad;
 use App\Posicion;
-use Illuminate\Http\Request;
 use DB;
+use Illuminate\Http\Request;
 
 class BinController extends Controller
 {
@@ -55,7 +56,7 @@ class BinController extends Controller
 
     }
 
-    public function store(Request $request)
+    public function store(BinRequest $request)
     {
 
         $max = DB::table('bines')->where('id_posicion', $request->get('id_posicion'))->count();
@@ -105,7 +106,7 @@ class BinController extends Controller
     }
 
 
-    public function update(Request $request, $id)
+    public function update(BinRequest $request, $id)
     {
 
         try {

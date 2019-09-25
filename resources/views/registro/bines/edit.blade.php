@@ -14,6 +14,7 @@
         @endslot
     @endcomponent
 
+    @include('componentes.alert-error')
     {!!Form::model($bin,['method'=>'PATCH','route'=>['bines.update',$bin->id_bin]])!!}
     {{Form::token()}}
 
