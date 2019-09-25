@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RackRequest;
 use App\Localidad;
-use App\Rack;
 use App\Pasillo;
-use Illuminate\Http\Request;
+use App\Rack;
 use DB;
+use Illuminate\Http\Request;
 
 class RackController extends Controller
 {
@@ -18,46 +18,58 @@ class RackController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(Request $request){
+    public function index(Request $request)
+    {
 
         $search = $request->get('search') == null ? '' : $request->get('search');
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
         $sortField = $request->get('field') == null ? 'codigo_barras' : $request->get('field');
 
-        $racks = Rack::join('pasillos','pasillos.id_pasillo','=','racks.id_pasillo')
-            ->select('racks.*','pasillos.descripcion as pasillo')
+        $racks = Rack::join('pasillos', 'pasillos.id_pasillo', '=', 'racks.id_pasillo')
+            ->select('racks.*', 'pasillos.descripcion as pasillo')
             ->actived()
-            ->where( function ( $query ) use  ( $search ) {
-                $query->where('racks.codigo_barras','LIKE','%'.$search.'%')
-                    ->orwhere('racks.descripcion','LIKE','%'.$search.'%')
-                    ->orwhere('pasillos.descripcion','LIKE','%'.$search.'%');
+            ->where(function ($query) use ($search) {
+                $query->where('racks.codigo_barras', 'LIKE', '%' . $search . '%')
+                    ->orwhere('racks.descripcion', 'LIKE', '%' . $search . '%')
+                    ->orwhere('pasillos.descripcion', 'LIKE', '%' . $search . '%');
             })
-            ->orderBy($sortField,$sort)
+            ->orderBy($sortField, $sort)
             ->paginate(20);
 
 
-        if($request->ajax()){
-            return view('registro.racks.index',compact('search','sort','sortField','racks'));
-        }else{
-            return view('registro.racks.ajax',compact('search','sort','sortField','racks'));
+        if ($request->ajax()) {
+            return view('registro.racks.index', compact('search', 'sort', 'sortField', 'racks'));
+        } else {
+            return view('registro.racks.ajax', compact('search', 'sort', 'sortField', 'racks'));
         }
 
 
     }
 
 
-    public function create(){
+    public function create()
+    {
 
         $localidades = Localidad::actived()->get();
 
 
-        return view('registro.racks.create',compact('localidades'));
+        return view('registro.racks.create', compact('localidades'));
     }
 
-    public function store(RackRequest $request){
+    public function store(RackRequest $request)
+    {
 
-        $max = DB::table('racks')->where('id_pasillo',$request->get('id_pasillo'))->count();
+        $max = DB::table('racks')->where('id_pasillo', $request->get('id_pasillo'))->count();
 
+        $existeCodigo = Rack::actived()
+            ->where('codigo_barras', $request->get('codigo_barras'))
+            ->exists();
+        if ($existeCodigo) {
+            return redirect()
+                ->back()
+                ->withErrors(['El codigo de barras ya existe'])
+                ->withInput();
+        }
 
         $rack = new Rack();
         $rack->codigo_barras = $request->get('codigo_barras');
@@ -69,16 +81,16 @@ class RackController extends Controller
 
         return redirect()
             ->route('racks.index')
-            ->with('success','Rack dado de alta correctamente');
-
+            ->with('success', 'Rack dado de alta correctamente');
 
 
     }
 
 
-    public function edit($id){
+    public function edit($id)
+    {
 
-        try{
+        try {
 
             $rack = Rack::findOrFail($id);
             $localidades = Localidad::actived()->get();
@@ -88,22 +100,34 @@ class RackController extends Controller
             $localidad = $bodega->localidad;
 
             return view('registro.racks.edit',
-                compact('rack','localidades','sector','bodega','localidad'));
+                compact('rack', 'localidades', 'sector', 'bodega', 'localidad'));
 
 
-        }catch(\Exception $ex){
+        } catch (\Exception $ex) {
 
             return redirect()->route('racks.index')
-                ->withErrors(['error'=>'Rack no encontrado']);
+                ->withErrors(['error' => 'Rack no encontrado']);
 
         }
 
 
     }
 
-    public  function update( RackRequest $request , $id ){
+    public function update(RackRequest $request, $id)
+    {
 
-        try{
+        try {
+            $existeCodigo = Rack::actived()
+                ->where('codigo_barras', $request->get('codigo_barras'))
+                ->where('id_rack', '<>', $id)
+                ->exists();
+            if ($existeCodigo) {
+                return redirect()
+                    ->back()
+                    ->withErrors(['El codigo de barras ya existe'])
+                    ->withInput();
+            }
+
             $rack = Rack::findOrFail($id);
             $rack->codigo_barras = $request->get('codigo_barras');
             $rack->descripcion = $request->get('descripcion');
@@ -112,16 +136,17 @@ class RackController extends Controller
             $rack->update();
 
             return redirect()->route('racks.index')
-                ->with('success','Rack actualizado correctamente');
-        }catch (\Exception $ex){
+                ->with('success', 'Rack actualizado correctamente');
+        } catch (\Exception $ex) {
             return redirect()->route('racks.index')
-                ->withErrors(['error'=>'Lo sentimos, no se ha podido completar su petición']);
+                ->withErrors(['error' => 'Lo sentimos, no se ha podido completar su petición']);
         }
 
     }
 
-    public function show($id){
-        try{
+    public function show($id)
+    {
+        try {
 
             $rack = Rack::findOrFail($id);
             $localidades = Localidad::actived()->get();
@@ -131,48 +156,50 @@ class RackController extends Controller
             $localidad = $bodega->localidad;
 
             return view('registro.racks.show',
-                compact('rack','localidades','sector','bodega','localidad'));
+                compact('rack', 'localidades', 'sector', 'bodega', 'localidad'));
 
 
-        }catch(\Exception $ex){
+        } catch (\Exception $ex) {
 
             return redirect()->route('racks.index')
-                ->withErrors(['error'=>'Rack no encontrado']);
+                ->withErrors(['error' => 'Rack no encontrado']);
 
         }
     }
 
-    public function destroy($id){
+    public function destroy($id)
+    {
 
-        try{
+        try {
 
             $rack = Rack::findOrFail($id);
             $rack->estado = 0;
             $rack->update();
 
-            return response()->json(['success'=>'Rack dado de baja correctamente']);
+            return response()->json(['success' => 'Rack dado de baja correctamente']);
 
-        }catch(\Exception $ex){
+        } catch (\Exception $ex) {
 
             return response()->json(
-                ['error'=>'En este momento no es posible procesar su petición',
-                    'mensaje'=>$ex->getMessage()
+                ['error' => 'En este momento no es posible procesar su petición',
+                    'mensaje' => $ex->getMessage()
                 ]
             );
 
         }
     }
 
-    public function racks_by_pasillo($pasillo){
+    public function racks_by_pasillo($pasillo)
+    {
 
-        try{
+        try {
             $racks = Pasillo::findOrFail($pasillo)->racks()->actived()->get();
-        }catch(\Exception $ex){
+        } catch (\Exception $ex) {
 
             $racks = [];
         }
 
 
-        return response()->json(['racks'=>$racks]);
+        return response()->json(['racks' => $racks]);
     }
 }
