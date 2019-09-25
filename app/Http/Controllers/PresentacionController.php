@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 
-use Illuminate\Auth\Passwords\PasswordResetServiceProvider;
-use Illuminate\Http\Request;
 use App\Presentacion;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
 class PresentacionController extends Controller
 {
     //
@@ -17,41 +17,54 @@ class PresentacionController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(Request $request){
+    public function index(Request $request)
+    {
 
         $search = $request->get('search') == null ? '' : $request->get('search');
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
         $sortField = $request->get('field') == null ? 'codigo_barras' : $request->get('field');
 
-        $presentaciones = Presentacion::select('id_presentacion','codigo_barras','descripcion','estado')
+        $presentaciones = Presentacion::select('id_presentacion', 'codigo_barras', 'descripcion', 'estado')
             ->actived()
-            ->where(function ($query) use ($search){
+            ->where(function ($query) use ($search) {
 
-                $query->where('codigo_barras','LIKE','%'.$search.'%')
-                    ->orwhere('descripcion','LIKE','%'.$search.'%');
+                $query->where('codigo_barras', 'LIKE', '%' . $search . '%')
+                    ->orwhere('descripcion', 'LIKE', '%' . $search . '%');
             })
-            ->orderBy($sortField,$sort)
+            ->orderBy($sortField, $sort)
             ->paginate(20);
 
 
-        if($request->ajax()){
+        if ($request->ajax()) {
 
             return view('registro.presentaciones.index',
-                compact('presentaciones','sort','sortField','search'));
-        }else{
+                compact('presentaciones', 'sort', 'sortField', 'search'));
+        } else {
             return view('registro.presentaciones.ajax',
-                compact('presentaciones','sort','sortField','search'));
+                compact('presentaciones', 'sort', 'sortField', 'search'));
         }
     }
 
 
-    public function create(){
+    public function create()
+    {
 
         return view('registro.presentaciones.create');
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
 
+
+        $existePresentacion = Presentacion::actived()
+            ->where('codigo_barras', $request->get('codigo_barras'))
+            ->exists();
+        if ($existePresentacion) {
+            return redirect()
+                ->back()
+                ->withErrors(['El codigo de barras ya existe'])
+                ->withInput();
+        }
 
         $presentacion = new Presentacion();
         $presentacion->codigo_barras = $request->get('codigo_barras');
@@ -61,33 +74,45 @@ class PresentacionController extends Controller
 
 
         return redirect()->route('presentacion.index')
-            ->with('success','Presentacion creada correctamente');
+            ->with('success', 'Presentacion creada correctamente');
 
 
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
 
 
-        try{
+        try {
             $presentacion = Presentacion::findOrFail($id);
 
-            return view('registro.presentaciones.edit',compact('presentacion'));
+            return view('registro.presentaciones.edit', compact('presentacion'));
 
-        }catch(\Exception $ex){
+        } catch (\Exception $ex) {
 
             return redirect()->route('presentacion.index')
-                ->with('error','Presentacion no encontrada');
+                ->with('error', 'Presentacion no encontrada');
 
         }
 
 
-
     }
 
-    public function update(Request $request,$id){
+    public function update(Request $request, $id)
+    {
 
-        try{
+        try {
+
+            $existePresentacion = Presentacion::actived()
+                ->where('codigo_barras', $request->get('codigo_barras'))
+                ->where('id_presentacion', '<>', $id)
+                ->exists();
+            if ($existePresentacion) {
+                return redirect()
+                    ->back()
+                    ->withErrors(['El codigo de barras ya existe'])
+                    ->withInput();
+            }
 
             $presentacion = Presentacion::findOrFail($id);
             $presentacion->codigo_barras = $request->get('codigo_barras');
@@ -95,45 +120,47 @@ class PresentacionController extends Controller
             $presentacion->update();
 
             return redirect()->route('presentacion.index')
-                ->with('success','Presentacion actualizada correctamente');
+                ->with('success', 'Presentacion actualizada correctamente');
 
-        }catch(\Exception $ex){
+        } catch (\Exception $ex) {
 
             return redirect()->route('presentacion.index')
-                ->with('error','Presentacion no encontrada');
+                ->with('error', 'Presentacion no encontrada');
         }
 
     }
 
 
-    public function show($id){
+    public function show($id)
+    {
 
-        try{
+        try {
             $presentacion = Presentacion::findOrFail($id);
 
-            return view('registro.presentaciones.show',compact('presentacion'));
+            return view('registro.presentaciones.show', compact('presentacion'));
 
-        }catch(\Exception $ex){
+        } catch (\Exception $ex) {
 
             return redirect()->route('presentacion.index')
-                ->with('error','Presentación no encontrada');
+                ->with('error', 'Presentación no encontrada');
 
         }
     }
 
-    public function destroy($id){
+    public function destroy($id)
+    {
 
-        try{
+        try {
             $presentacion = Presentacion::findOrFail($id);
             $presentacion->estado = 0;
             $presentacion->update();
 
-            return response()->json(['success'=>'Presentación dada de baja exitosamente']);
-        }catch(\Exception $ex){
+            return response()->json(['success' => 'Presentación dada de baja exitosamente']);
+        } catch (\Exception $ex) {
 
             return response()->json(
-                ['error'=>'En este momento no es posible procesar su petición',
-                    'mensaje'=>$ex->getMessage()
+                ['error' => 'En este momento no es posible procesar su petición',
+                    'mensaje' => $ex->getMessage()
                 ]
             );
 

@@ -12,7 +12,7 @@
         @endslot
     @endcomponent
 
-
+    @include('componentes.alert-error')
     {!!Form::model($presentacion,['method'=>'PATCH','route'=>['presentacion.update',$presentacion->id_presentacion]])!!}
     {{Form::token()}}
 

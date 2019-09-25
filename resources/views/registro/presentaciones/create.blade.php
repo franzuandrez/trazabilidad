@@ -14,7 +14,7 @@
         @endslot
     @endcomponent
 
-
+@include('componentes.alert-error')
 {!!Form::open(array('url'=>'registro/presentaciones/create','method'=>'POST','autocomplete'=>'off'))!!}
 {{Form::token()}}
 
