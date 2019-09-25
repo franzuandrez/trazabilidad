@@ -7,8 +7,9 @@ use App\Localidad;
 use App\Pasillo;
 use App\Sector;
 use App\User;
-use Illuminate\Http\Request;
 use DB;
+use Illuminate\Http\Request;
+
 class PasilloController extends Controller
 {
     //
@@ -19,48 +20,60 @@ class PasilloController extends Controller
     }
 
 
-    public function index(Request $request){
+    public function index(Request $request)
+    {
 
         $search = $request->get('search') == null ? '' : $request->get('search');
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
         $sortField = $request->get('field') == null ? 'codigo_barras' : $request->get('field');
 
 
-        $pasillos = Pasillo::join('sectores','sectores.id_sector','=','pasillos.id_sector')
-            ->join('users','users.id','=','pasillos.id_encargado')
-            ->select('pasillos.*','users.nombre as encargado','sectores.descripcion as sector')
+        $pasillos = Pasillo::join('sectores', 'sectores.id_sector', '=', 'pasillos.id_sector')
+            ->join('users', 'users.id', '=', 'pasillos.id_encargado')
+            ->select('pasillos.*', 'users.nombre as encargado', 'sectores.descripcion as sector')
             ->actived()
-            ->where(function ($query) use ($search){
-                $query->where('pasillos.codigo_barras','LIKE','%'.$search.'%')
-                    ->orWhere('pasillos.descripcion','LIKE','%'.$search.'%')
-                    ->orWhere('users.nombre','LIKE','%'.$search.'%')
-                    ->orWhere('sectores.descripcion','LIKE','%'.$search.'%');
+            ->where(function ($query) use ($search) {
+                $query->where('pasillos.codigo_barras', 'LIKE', '%' . $search . '%')
+                    ->orWhere('pasillos.descripcion', 'LIKE', '%' . $search . '%')
+                    ->orWhere('users.nombre', 'LIKE', '%' . $search . '%')
+                    ->orWhere('sectores.descripcion', 'LIKE', '%' . $search . '%');
             })
-            ->orderBy($sortField,$sort)
+            ->orderBy($sortField, $sort)
             ->paginate(20);
 
 
-        if($request->ajax()){
-            return view('registro.pasillos.index',compact('search','sortField','sort','pasillos'));
-        }else{
-            return view('registro.pasillos.ajax',compact('search','sortField','sort','pasillos'));
+        if ($request->ajax()) {
+            return view('registro.pasillos.index', compact('search', 'sortField', 'sort', 'pasillos'));
+        } else {
+            return view('registro.pasillos.ajax', compact('search', 'sortField', 'sort', 'pasillos'));
 
         }
     }
 
-    public function create(){
+    public function create()
+    {
 
 
         $localidades = Localidad::actived()->get();
         $encargados = User::actived()->get();
-        return view('registro.pasillos.create',compact('localidades','encargados'));
+        return view('registro.pasillos.create', compact('localidades', 'encargados'));
     }
 
-    public function store(PasilloRequest $request){
+    public function store(PasilloRequest $request)
+    {
 
 
-        $max = DB::table('pasillos')->where('id_sector',$request->get('id_sector'))->count();
+        $max = DB::table('pasillos')->where('id_sector', $request->get('id_sector'))->count();
+        $existeCodigo = Pasillo::actived()
+            ->where('codigo_barras', $request->get('codigo_barras'))
+            ->exists();
 
+        if ($existeCodigo) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->withErrors(['El codigo de barras ya existe']);
+        }
         $pasillo = new Pasillo();
         $pasillo->id_sector = $request->get('id_sector');
         $pasillo->codigo_barras = $request->get('codigo_barras');
@@ -70,14 +83,15 @@ class PasilloController extends Controller
         $pasillo->save();
 
         return redirect()->route('pasillos.index')
-            ->with('success','Pasillo dado de alta correctamente');
+            ->with('success', 'Pasillo dado de alta correctamente');
 
     }
 
 
-    public function edit($id){
+    public function edit($id)
+    {
 
-        try{
+        try {
 
             $pasillo = Pasillo::findOrFail($id);
             $localidades = Localidad::actived()->get();
@@ -87,20 +101,31 @@ class PasilloController extends Controller
             $bodega = $pasillo->sector->bodega;
 
             return view('registro.pasillos.edit',
-                compact('pasillo','localidad','bodega','localidades','encargados'));
+                compact('pasillo', 'localidad', 'bodega', 'localidades', 'encargados'));
 
-        }catch(\Exception $ex){
+        } catch (\Exception $ex) {
             return redirect()->route('pasillos.index')
-                ->withErrors(['error'=>'Pasillo no encontrado']);
+                ->withErrors(['error' => 'Pasillo no encontrado']);
 
         }
     }
 
 
-    public function update(PasilloRequest $request,$id){
+    public function update(PasilloRequest $request, $id)
+    {
 
-        try{
+        try {
+            $existeCodigo = Pasillo::actived()
+                ->where('codigo_barras', $request->get('codigo_barras'))
+                ->where('id_pasillo', '<>', $id)
+                ->exists();
 
+            if ($existeCodigo) {
+                return redirect()
+                    ->back()
+                    ->withInput()
+                    ->withErrors(['El codigo de barras ya existe']);
+            }
             $pasillo = Pasillo::findOrFail($id);
             $pasillo->codigo_barras = $request->get('codigo_barras');
             $pasillo->descripcion = $request->get('descripcion');
@@ -109,18 +134,19 @@ class PasilloController extends Controller
             $pasillo->update();
 
             return redirect()->route('pasillos.index')
-                ->with('success','Pasillo actualizado correctamente');
+                ->with('success', 'Pasillo actualizado correctamente');
 
-        }catch(\Exception $ex){
+        } catch (\Exception $ex) {
             return redirect()->route('pasillos.index')
-                ->withErrors(['error'=>'No se ha completar su petición']);
+                ->withErrors(['error' => 'No se ha completar su petición']);
         }
 
     }
 
-    public function show($id){
+    public function show($id)
+    {
 
-        try{
+        try {
 
             $pasillo = Pasillo::findOrFail($id);
             $localidades = Localidad::actived()->get();
@@ -130,47 +156,49 @@ class PasilloController extends Controller
             $bodega = $pasillo->sector->bodega;
 
             return view('registro.pasillos.show',
-                compact('pasillo','localidad','bodega','localidades','encargados'));
+                compact('pasillo', 'localidad', 'bodega', 'localidades', 'encargados'));
 
-        }catch(\Exception $ex){
+        } catch (\Exception $ex) {
             return redirect()->route('pasillos.index')
-                ->withErrors(['error'=>'Pasillo no encontrado']);
+                ->withErrors(['error' => 'Pasillo no encontrado']);
         }
     }
 
-    public function destroy($id){
+    public function destroy($id)
+    {
 
-        try{
+        try {
 
             $pasillo = Pasillo::findOrFail($id);
             $pasillo->estado = 0;
             $pasillo->update();
 
-            return response()->json(['success'=>'Pasillo dado de baja correctamente']);
+            return response()->json(['success' => 'Pasillo dado de baja correctamente']);
 
-        }catch(\Exception $ex){
+        } catch (\Exception $ex) {
 
             return response()->json(
-                ['error'=>'En este momento no es posible procesar su petición',
-                    'mensaje'=>$ex->getMessage()
+                ['error' => 'En este momento no es posible procesar su petición',
+                    'mensaje' => $ex->getMessage()
                 ]
             );
 
         }
     }
 
-    public function pasillos_by_sector($sector){
+    public function pasillos_by_sector($sector)
+    {
 
 
-        try{
+        try {
             $pasillos = Sector::findOrFail($sector)->pasillos()->actived()->get();
 
-        }catch(\Exception $ex){
+        } catch (\Exception $ex) {
 
             $pasillos = [];
         }
 
-        return response()->json(['pasillos'=>$pasillos]);
+        return response()->json(['pasillos' => $pasillos]);
 
     }
 }
