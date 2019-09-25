@@ -99,6 +99,17 @@ class ColaboradorController extends Controller
     {
 
         try {
+            $existeColaborador = Colaborador::actived()
+                ->where('codigo_barras', $request->get('codigo_barras'))
+                ->where('id_colaborador', '<>', $id)
+                ->exists();
+             if($existeColaborador){
+                 return redirect()
+                     ->back()
+                     ->withErrors(['El codigo de barras ya existe'])
+                     ->withInput();
+             }
+
             $colaborador = Colaborador::findOrFail($id);
             $colaborador->codigo_barras = $request->get('codigo_barras');
             $colaborador->nombre = $request->get('nombre');
