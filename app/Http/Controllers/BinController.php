@@ -60,6 +60,16 @@ class BinController extends Controller
     {
 
         $max = DB::table('bines')->where('id_posicion', $request->get('id_posicion'))->count();
+        $existeCodigo = Bin::actived()
+            ->where('codigo_barras', $request->get('codigo_barras'))
+            ->exists();
+
+        if ($existeCodigo) {
+            return redirect()
+                ->back()
+                ->withErrors(['El codigo de barras ya existe'])
+                ->withInput();
+        }
 
         $bin = new Bin();
         $bin->codigo_barras = $request->get('codigo_barras');
@@ -110,6 +120,18 @@ class BinController extends Controller
     {
 
         try {
+            $existeCodigo = Bin::actived()
+                ->where('codigo_barras', $request->get('codigo_barras'))
+                ->where('id_bin', '<>', $id)
+                ->exists();
+
+            if ($existeCodigo) {
+                return redirect()
+                    ->back()
+                    ->withErrors(['El codigo de barras ya existe'])
+                    ->withInput();
+            }
+
             $bin = Bin::findOrFail($id);
             $bin->codigo_barras = $request->get('codigo_barras');
             $bin->descripcion = $request->get('descripcion');
