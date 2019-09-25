@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Bodega;
 use App\Localidad;
 use App\User;
-use Illuminate\Http\Request;
 use DB;
+use Illuminate\Http\Request;
 
 class BodegaController extends Controller
 {
@@ -63,6 +63,16 @@ class BodegaController extends Controller
     public function store(Request $request)
     {
 
+        $existeCodigo = Bodega::actived()
+            ->where('codigo_barras', $request->get('codigo_barras'))
+            ->exists();
+
+        if ($existeCodigo) {
+            return redirect()
+                ->back()
+                ->withErrors(['El codigo de barras ya existe'])
+                ->withInput();
+        }
 
         $max = DB::table('bodegas')->where('id_localidad', $request->get('id_localidad'))->count();
 
@@ -107,6 +117,17 @@ class BodegaController extends Controller
 
         try {
 
+            $existeCodigo = Bodega::actived()
+                ->where('codigo_barras', $request->get('codigo_barras'))
+                ->where('id_bodega','<>',$id)
+                ->exists();
+
+            if ($existeCodigo) {
+                return redirect()
+                    ->back()
+                    ->withErrors(['El codigo de barras ya existe'])
+                    ->withInput();
+            }
             $bodega = Bodega::findOrFail($id);
             $bodega->codigo_barras = $request->get('codigo_barras');
             $bodega->descripcion = $request->get('descripcion');

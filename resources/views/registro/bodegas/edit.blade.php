@@ -15,7 +15,7 @@
     @endcomponent
 
 
-
+    @include('componentes.alert-error')
 
     {!!Form::model($bodega,['method'=>'PATCH','route'=>['bodegas.update',$bodega->id_bodega]])!!}
     {{Form::token()}}
