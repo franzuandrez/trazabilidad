@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\NivelRequest;
-use App\Nivel;
 use App\Localidad;
+use App\Nivel;
 use App\Rack;
-use Illuminate\Http\Request;
 use DB;
+use Illuminate\Http\Request;
 
 class NivelController extends Controller
 {
@@ -59,6 +59,15 @@ class NivelController extends Controller
     {
 
         $max = DB::table('nivel')->where('id_rack', $request->get('id_rack'))->count();
+        $existeCodigo = Nivel::actived()
+            ->where('codigo_barras', $request->get('codigo_barras'))
+            ->exists();
+        if ($existeCodigo) {
+            return redirect()
+                ->back()
+                ->withErrors(['El codigo de barras ya existe'])
+                ->withInput();
+        }
 
         $nivel = new Nivel();
         $nivel->codigo_barras = $request->get('codigo_barras');
@@ -100,7 +109,16 @@ class NivelController extends Controller
     public function update(NivelRequest $request, $id)
     {
         try {
-
+            $existeCodigo = Nivel::actived()
+                ->where('codigo_barras', $request->get('codigo_barras'))
+                ->where('id_nivel', $id)
+                ->exists();
+            if ($existeCodigo) {
+                return redirect()
+                    ->back()
+                    ->withErrors(['El codigo de barras ya existe'])
+                    ->withInput();
+            }
             $nivel = Nivel::findOrFail($id);
             $nivel->codigo_barras = $request->get('codigo_barras');
             $nivel->descripcion = $request->get('descripcion');
