@@ -14,7 +14,7 @@
         @endslot
     @endcomponent
 
-
+    @include('componentes.alert-error')
     {!!Form::model($posicion,['method'=>'PATCH','route'=>['posiciones.update',$posicion->id_posicion]])!!}
     {{Form::token()}}
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
@@ -111,7 +111,7 @@
                     @if($nivel->id_nivel  == $nv->id_nivel)
                         <option selected value="{{$nv->id_nivel}}">{{$nv->descripcion}}</option>
                     @else
-                        <option  value="{{$nv->id_nivel}}">{{$nv->descripcion}}</option>
+                        <option value="{{$nv->id_nivel}}">{{$nv->descripcion}}</option>
                     @endif
                 @endforeach
             </select>

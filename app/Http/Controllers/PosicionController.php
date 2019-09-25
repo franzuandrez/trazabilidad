@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PosicionRequest;
 use App\Nivel;
 use App\Posicion;
 use App\Localidad;
@@ -54,7 +55,7 @@ class PosicionController extends Controller
         return view('registro.posiciones.create', compact('localidades'));
     }
 
-    public function store(Request $request)
+    public function store(PosicionRequest $request)
     {
 
         $max = DB::table('posiciones')->where('id_nivel', $request->get('id_nivel'))->count();
@@ -104,7 +105,7 @@ class PosicionController extends Controller
 
     }
 
-    public function update(Request $request, $id)
+    public function update(PosicionRequest $request, $id)
     {
 
         try {
