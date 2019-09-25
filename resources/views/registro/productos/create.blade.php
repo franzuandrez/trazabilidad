@@ -14,7 +14,7 @@
         @endslot
     @endcomponent
 
-
+    @include('componentes.alert-error')
     {!!Form::open(array('url'=>'registro/productos/create','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
 
@@ -47,7 +47,7 @@
             <select name="id_dimensional" id="dimensionales" class="form-control selectpicker">
                 <option value="">SELECCIONAR DIMENSIONAL</option>
                 @foreach( $dimensionales as $dimensional )
-                <option  value="{{$dimensional->id_dimensional}}"> {{$dimensional->descripcion}}  </option>
+                    <option value="{{$dimensional->id_dimensional}}"> {{$dimensional->descripcion}}  </option>
                 @endforeach
             </select>
         </div>
@@ -58,7 +58,7 @@
             <select name="id_presentacion" id="presentaciones" class="form-control selectpicker">
                 <option value="">SELECCIONAR PRESENTACION</option>
                 @foreach( $presentaciones as $presentacion)
-                    <option  value="{{$presentacion->id_presentacion}}"> {{$presentacion->descripcion}}  </option>
+                    <option value="{{$presentacion->id_presentacion}}"> {{$presentacion->descripcion}}  </option>
                 @endforeach
             </select>
         </div>

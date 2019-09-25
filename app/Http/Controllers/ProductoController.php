@@ -6,9 +6,10 @@ use App\Dimensional;
 use App\Presentacion;
 use App\Producto;
 use App\Proveedor;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
-use Carbon\Carbon;
+
 class ProductoController extends Controller
 {
     //
@@ -19,43 +20,45 @@ class ProductoController extends Controller
         $this->middleware('auth');
     }
 
-    public function index( Request $request){
+    public function index(Request $request)
+    {
 
         $search = $request->get('search') == null ? '' : $request->get('search');
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
         $sortField = $request->get('field') == null ? 'codigo_barras' : $request->get('field');
 
-        $productos = Producto::leftjoin('dimensionales','dimensionales.id_dimensional','=','productos.id_dimensional')
-            ->join('presentaciones','presentaciones.id_presentacion','=','productos.id_presentacion')
-            ->select('productos.*','presentaciones.descripcion as presentacion',
+        $productos = Producto::leftjoin('dimensionales', 'dimensionales.id_dimensional', '=', 'productos.id_dimensional')
+            ->join('presentaciones', 'presentaciones.id_presentacion', '=', 'productos.id_presentacion')
+            ->select('productos.*', 'presentaciones.descripcion as presentacion',
                 'dimensionales.descripcion as dimensional')
-            ->where(function ( $query ) use ( $search ){
-                $query->where('productos.codigo_barras','LIKE','%'.$search.'%')
-                    ->orwhere('productos.descripcion','LIKE','%'.$search.'%')
-                    ->orwhere('presentaciones.descripcion','LIKE','%'.$search.'%')
-                    ->orwhere('dimensionales.descripcion','LIKE','%'.$search.'%');
+            ->where(function ($query) use ($search) {
+                $query->where('productos.codigo_barras', 'LIKE', '%' . $search . '%')
+                    ->orwhere('productos.descripcion', 'LIKE', '%' . $search . '%')
+                    ->orwhere('presentaciones.descripcion', 'LIKE', '%' . $search . '%')
+                    ->orwhere('dimensionales.descripcion', 'LIKE', '%' . $search . '%');
             })
-            ->orderBy($sortField,$sort)
+            ->orderBy($sortField, $sort)
             ->paginate(20);
 
         $tipos_productos = [
-            'MP'=>'MATERIA PRIMA',
-            'ME'=>'MATERIAL EMPAQUE'
+            'MP' => 'MATERIA PRIMA',
+            'ME' => 'MATERIAL EMPAQUE'
         ];
 
 
-        if($request->ajax()){
+        if ($request->ajax()) {
             return view('registro.productos.index',
-                compact('search','sort','sortField','productos','tipos_productos'));
-        }else{
+                compact('search', 'sort', 'sortField', 'productos', 'tipos_productos'));
+        } else {
             return view('registro.productos.ajax',
-                compact('search','sort','sortField','productos','tipos_productos'));
+                compact('search', 'sort', 'sortField', 'productos', 'tipos_productos'));
         }
 
 
     }
 
-    public function create(){
+    public function create()
+    {
 
         $dimensionales = Dimensional::actived()->get();
         $presentaciones = Presentacion::actived()->get();
@@ -63,118 +66,147 @@ class ProductoController extends Controller
 
 
         return view('registro.productos.create',
-            compact('dimensionales','presentaciones','proveedores'));
+            compact('dimensionales', 'presentaciones', 'proveedores'));
 
 
     }
 
-    public function store( Request $request ){
+    public function store(Request $request)
+    {
+
+        $existeCodigoBarras = Producto::actived()
+            ->where('codigo_barras', $request->get('codigo_barras'))
+            ->exists();
+
+        if ($existeCodigoBarras) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->withErrors(['El codigo de barras ya existe']);
+        }
+
+        $existeCodigoInterno = Producto::actived()
+            ->where('codigo_interno', $request->get('codigo_interno'))
+            ->exists();
+
+        if ($existeCodigoInterno) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->withErrors(['El codigo Interno ya existe']);
+        }
+
 
         $producto = new Producto();
         $producto->codigo_barras = $request->get('codigo_barras');
         $producto->codigo_interno = $request->get('codigo_interno');
         $producto->descripcion = $request->get('descripcion');
         $producto->id_dimensional = $request->get('id_dimensional');
-        $producto->id_presentacion= $request->get('id_presentacion');
+        $producto->id_presentacion = $request->get('id_presentacion');
         $producto->tipo_producto = $request->get('tipo_producto');
         $producto->fecha_creacion = \Carbon\Carbon::now();
         $producto->estado = 1;
-        $producto->creado_por= \Auth::user()->id;
+        $producto->creado_por = \Auth::user()->id;
         $producto->save();
 
         return redirect()->route('productos.index')
-            ->with('success','Producto dado de alta correctamente');
-
+            ->with('success', 'Producto dado de alta correctamente');
 
 
     }
 
 
-    public function edit( $id ){
+    public
+    function edit($id)
+    {
 
 
-        try{
+        try {
             $producto = Producto::findOrFail($id);
             $dimensionales = Dimensional::actived()->get();
             $presentaciones = Presentacion::actived()->get();
 
             return view('registro.productos.edit',
-                compact('producto','dimensionales','presentaciones'));
+                compact('producto', 'dimensionales', 'presentaciones'));
 
 
-
-        }catch(\Exception $ex){
+        } catch (\Exception $ex) {
 
             return redirect()->route('productos.index')
-                ->withErrors(['error'=>'Producto no encontrado']);
+                ->withErrors(['error' => 'Producto no encontrado']);
 
 
         }
     }
 
-    public function update( Request $request , $id ){
+    public
+    function update(Request $request, $id)
+    {
 
-        try{
+        try {
 
             $producto = Producto::findOrFail($id);
             //$producto->codigo_barras = $request->get('codigo_barras');
             //$producto->codigo_interno = $request->get('codigo_interno');
             $producto->descripcion = $request->get('descripcion');
             $producto->id_dimensional = $request->get('id_dimensional');
-            $producto->id_presentacion= $request->get('id_presentacion');
+            $producto->id_presentacion = $request->get('id_presentacion');
             $producto->tipo_producto = $request->get('tipo_producto');
             $producto->fecha_actualizacion = \Carbon\Carbon::now();
             $producto->update();
 
             return redirect()->route('productos.index')
-                ->with('success','Producto actualizado correctamente');
+                ->with('success', 'Producto actualizado correctamente');
 
-        }catch(\Exception $ex ){
+        } catch (\Exception $ex) {
 
 
             return redirect()->route('productos.index')
-                ->withErrors(['error'=>'Lo sentimos, su peticion no ha sido procesada']);
+                ->withErrors(['error' => 'Lo sentimos, su peticion no ha sido procesada']);
         }
 
 
     }
 
-    public function show( $id ){
+    public
+    function show($id)
+    {
 
 
-        try{
+        try {
             $producto = Producto::findOrFail($id);
             $dimensionales = Dimensional::actived()->get();
             $presentaciones = Presentacion::actived()->get();
             $proveedores = Proveedor::actived()->get();
 
             return view('registro.productos.show',
-                compact('producto','dimensionales','presentaciones','proveedores'));
+                compact('producto', 'dimensionales', 'presentaciones', 'proveedores'));
 
 
-
-        }catch(\Exception $ex){
+        } catch (\Exception $ex) {
 
             return redirect()->route('productos.index')
-                ->withErrors(['error'=>'Producto no encontrado']);
+                ->withErrors(['error' => 'Producto no encontrado']);
 
 
         }
     }
 
-    public function destroy( $id ){
+    public
+    function destroy($id)
+    {
 
-        try{
+        try {
             $producto = Producto::findOrFail($id);
             $producto->estado = 0;
             $producto->update();
-            return response()->json(['success'=>'Producto dado de baja correctamente']);
+            return response()->json(['success' => 'Producto dado de baja correctamente']);
 
-        }catch ( \Exception $ex ){
+        } catch (\Exception $ex) {
 
             return response()->json(
-                ['error'=>'En este momento no es posible procesar su petición',
-                    'mensaje'=>$ex->getMessage()
+                ['error' => 'En este momento no es posible procesar su petición',
+                    'mensaje' => $ex->getMessage()
                 ]
             );
 
@@ -182,63 +214,67 @@ class ProductoController extends Controller
     }
 
 
-    public function search( $search ){
+    public
+    function search($search)
+    {
 
         $productos = Producto::esMateriaPrima()
-            ->where(function ( $query ) use ( $search ){
-                $query->where('productos.codigo_barras','LIKE','%'.$search.'%')
-                    ->orWhere('productos.descripcion','LIKE','%'.$search.'%');
+            ->where(function ($query) use ($search) {
+                $query->where('productos.codigo_barras', 'LIKE', '%' . $search . '%')
+                    ->orWhere('productos.descripcion', 'LIKE', '%' . $search . '%');
             })
             ->with('proveedores')
             ->with('presentacion')
             ->get();
 
-        if($productos->isEmpty()){
+        if ($productos->isEmpty()) {
             $productos = [];
         }
         return response()->json($productos);
     }
 
-    public function importar( Request $request ){
+    public
+    function importar(Request $request)
+    {
 
         $tipo_producto = $request->get('opcion');
         $file = $request->file('archivo_importar');
 
         try {
-            Excel::load($file, function ($reader) use($tipo_producto) {
+            Excel::load($file, function ($reader) use ($tipo_producto) {
 
                 $results = $reader->noHeading()->get();
                 $results = $results->slice(1);
                 foreach ($results as $key => $value) {
 
 
-                   $id_presentacion = $this->getIdPresentacion($value[2]);
-                   $existePresentacion = $id_presentacion != null;
+                    $id_presentacion = $this->getIdPresentacion($value[2]);
+                    $existePresentacion = $id_presentacion != null;
 
-                   if(!$existePresentacion){
-                       $id_presentacion = $this->savePresentacion($value[2]);
-                   }
+                    if (!$existePresentacion) {
+                        $id_presentacion = $this->savePresentacion($value[2]);
+                    }
 
-                   $codigo_barras = str_pad($value[0], 14, "0", STR_PAD_LEFT);
+                    $codigo_barras = str_pad($value[0], 14, "0", STR_PAD_LEFT);
 
                     $existeProducto = Producto::where('codigo_barras', $codigo_barras)->exists();
 
                     if ($existeProducto) {
 
                         $producto = Producto::where('codigo_barras', $codigo_barras)->first();
-                        $producto->descripcion =  $value[1];
+                        $producto->descripcion = $value[1];
                         $producto->update();
 
                     } else {
-                       $producto = new Producto();
-                       $producto->codigo_barras = $codigo_barras;
-                       //$producto->codigo_interno  =$codigo_barras;
-                       $producto->descripcion = $value[1];
-                       $producto->id_presentacion = $id_presentacion;
-                       $producto->tipo_producto = $tipo_producto;
-                       $producto->fecha_creacion =Carbon::now();
-                       $producto->creado_por = \Auth::user()->id;
-                       $producto->save();
+                        $producto = new Producto();
+                        $producto->codigo_barras = $codigo_barras;
+                        //$producto->codigo_interno  =$codigo_barras;
+                        $producto->descripcion = $value[1];
+                        $producto->id_presentacion = $id_presentacion;
+                        $producto->tipo_producto = $tipo_producto;
+                        $producto->fecha_creacion = Carbon::now();
+                        $producto->creado_por = \Auth::user()->id;
+                        $producto->save();
 
                     }
 
@@ -253,23 +289,24 @@ class ProductoController extends Controller
             return redirect()->route('productos.index')
                 ->withErrors(['Archivo no valido']);
 
-        }catch (\Exception $e ){
+        } catch (\Exception $e) {
 
             return redirect()->route('productos.index')
                 ->withErrors(['No ha sido posible cargar los Productos']);
         }
 
 
-
     }
 
-    private function getIdPresentacion( $descripcion ){
+    private
+    function getIdPresentacion($descripcion)
+    {
 
         $id_presentacion = null;
-        $presentacion = Presentacion::where('descripcion',$descripcion)
+        $presentacion = Presentacion::where('descripcion', $descripcion)
             ->first();
 
-        if($presentacion!=null){
+        if ($presentacion != null) {
             $id_presentacion = $presentacion->id_presentacion;
         }
 
@@ -277,9 +314,11 @@ class ProductoController extends Controller
 
     }
 
-    private function savePresentacion( $descripcion ){
+    private
+    function savePresentacion($descripcion)
+    {
 
-        $presentacion  = new Presentacion();
+        $presentacion = new Presentacion();
         $presentacion->descripcion = $descripcion;
         $presentacion->creado_por = \Auth::user()->id;
         $presentacion->save();
