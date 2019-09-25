@@ -28,6 +28,7 @@ class SectorRequest extends FormRequest
             'id_bodega' => 'required',
             'id_localidad' => 'required',
             'codigo_barras' => 'required',
+            'id_encargado' => 'required'
         ];
     }
 
@@ -36,6 +37,8 @@ class SectorRequest extends FormRequest
         return [
             'id_bodega.required' => 'Debe seleccionar una bodega',
             'id_localidad.required' => 'Debe seleccionar una localidad',
-            'codigo_barras.required' => 'El codigo de barras es requerido'];
+            'codigo_barras.required' => 'El codigo de barras es requerido',
+            'id_encargado.required' => 'Debe seleccionar un encargado'
+        ];
     }
 }
