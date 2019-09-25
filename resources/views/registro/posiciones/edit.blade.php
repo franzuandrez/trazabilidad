@@ -103,6 +103,7 @@
             <label for="id_nivel">NIVELES</label>
             <select name="id_nivel"
                     id="niveles"
+                    reuired
                     class="form-control selectpicker"
             >
                 <option value="">SELECCIONAR NIVEL</option>
@@ -121,14 +122,14 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="codigo_barras">CODIGO BARRAS</label>
-            <input type="text" name="codigo_barras" value="{{$posicion->codigo_barras}}"
+            <input type="text" name="codigo_barras" value="{{$posicion->codigo_barras}}" reuired
                    class="form-control">
         </div>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="descripcion">DESCRIPCION</label>
-            <input type="text" name="descripcion" value="{{$posicion->descripcion}}"
+            <input type="text" name="descripcion" value="{{$posicion->descripcion}}" reuired
                    class="form-control">
         </div>
     </div>
