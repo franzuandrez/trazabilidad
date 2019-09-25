@@ -12,7 +12,7 @@
         @endslot
     @endcomponent
 
-
+    @include('componentes.alert-error')
     {!!Form::open(array('url'=>'registro/colaboradores/create','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
@@ -20,7 +20,7 @@
             <label for=codigo_barras"">
                 CODIGO
             </label>
-            <input type="text" name="codigo_barras" value="{{old('codigo')}}" required
+            <input type="text" name="codigo_barras" value="{{old('codigo_barras')}}" required
                    class="form-control">
         </div>
     </div>

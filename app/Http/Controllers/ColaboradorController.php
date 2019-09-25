@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Colaborador;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+
 class ColaboradorController extends Controller
 {
     //
@@ -46,13 +47,25 @@ class ColaboradorController extends Controller
     }
 
 
-    public function create(){
+    public function create()
+    {
 
 
         return view('registro.colaboradores.create');
     }
 
-    public function store( Request $request ){
+    public function store(Request $request)
+    {
+
+        $existeColaborador = Colaborador::where('codigo_barras', $request->get('codigo_barras'))
+            ->where('estado', 1)
+            ->exists();
+
+        if ($existeColaborador) {
+            return redirect()
+                ->back()
+                ->withErrors(['El codigo de barras ya existe'])->withInput();
+        }
 
         $colaborador = new Colaborador();
         $colaborador->codigo_barras = $request->get('codigo_barras');
@@ -63,11 +76,12 @@ class ColaboradorController extends Controller
 
 
         return redirect()->route('colaboradores.index')
-            ->with('success','Colaborador dado de alta correctamente');
+            ->with('success', 'Colaborador dado de alta correctamente');
 
     }
 
-    public function edit( $id ){
+    public function edit($id)
+    {
 
         try {
             $colaborador = Colaborador::findOrFail($id);
@@ -81,7 +95,8 @@ class ColaboradorController extends Controller
 
     }
 
-    public function update( Request $request , $id){
+    public function update(Request $request, $id)
+    {
 
         try {
             $colaborador = Colaborador::findOrFail($id);
@@ -93,7 +108,7 @@ class ColaboradorController extends Controller
 
             return redirect()
                 ->route('colaboradores.index')
-                ->with('success','Colaborador actualizado correctamente');
+                ->with('success', 'Colaborador actualizado correctamente');
 
         } catch (\Exception $e) {
 
@@ -103,7 +118,8 @@ class ColaboradorController extends Controller
         }
     }
 
-    public function show( $id ){
+    public function show($id)
+    {
 
         try {
             $colaborador = Colaborador::findOrFail($id);
@@ -118,19 +134,20 @@ class ColaboradorController extends Controller
 
     }
 
-    public function destroy( $id ){
+    public function destroy($id)
+    {
 
-        try{
+        try {
 
             $colaborador = Colaborador::findOrFail($id);
             $colaborador->estado = 0;
-            $colaborador ->update();
-            return response()->json(['success'=>'Colaborador dado de baja correctamente']);
+            $colaborador->update();
+            return response()->json(['success' => 'Colaborador dado de baja correctamente']);
 
-        }catch(\Exception $ex){
+        } catch (\Exception $ex) {
             return response()->json(
-                ['error'=>'En este momento no es posible procesar su petición',
-                    'mensaje'=>$ex->getMessage()
+                ['error' => 'En este momento no es posible procesar su petición',
+                    'mensaje' => $ex->getMessage()
                 ]
             );
 
@@ -138,7 +155,8 @@ class ColaboradorController extends Controller
     }
 
 
-    public function importar( Request $request ){
+    public function importar(Request $request)
+    {
 
         $file = $request->file('archivo_importar');
 
@@ -180,12 +198,12 @@ class ColaboradorController extends Controller
             return redirect()->route('colaboradores.index')
                 ->with('success', 'Colaboradores cargados correctamente.');
 
-        }catch (\PHPExcel_Reader_Exception $e) {
+        } catch (\PHPExcel_Reader_Exception $e) {
 
             return redirect()->route('colaboradores.index')
                 ->withErrors(['Archivo no valido']);
 
-        }catch (\Exception $e ){
+        } catch (\Exception $e) {
 
             return redirect()->route('colaboradores.index')
                 ->withErrors(['No ha sido posible cargar los colaboradores']);
