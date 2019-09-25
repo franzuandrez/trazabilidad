@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PosicionRequest;
+use App\Localidad;
 use App\Nivel;
 use App\Posicion;
-use App\Localidad;
-use Illuminate\Http\Request;
 use DB;
+use Illuminate\Http\Request;
+
 class PosicionController extends Controller
 {
     //
@@ -59,7 +60,15 @@ class PosicionController extends Controller
     {
 
         $max = DB::table('posiciones')->where('id_nivel', $request->get('id_nivel'))->count();
-
+        $existeCodigo = Posicion::actived()
+            ->where('codigo_barras', $request->get('codigo_barras'))
+            ->exists();
+        if ($existeCodigo) {
+            return redirect()
+                ->back()
+                ->withErrors(['El codigo de barras ya existe'])
+                ->withInput();
+        }
 
         $posicion = new Posicion();
         $posicion->codigo_barras = $request->get('codigo_barras');
@@ -109,7 +118,16 @@ class PosicionController extends Controller
     {
 
         try {
-
+            $existeCodigo = Posicion::actived()
+                ->where('codigo_barras', $request->get('codigo_barras'))
+                ->where('id_posicion','<>',$request->get('id_posicion'))
+                ->exists();
+            if ($existeCodigo) {
+                return redirect()
+                    ->back()
+                    ->withErrors(['El codigo de barras ya existe'])
+                    ->withInput();
+            }
             $posicion = Posicion::findOrFail($id);
             $posicion->codigo_barras = $request->get('codigo_barras');
             $posicion->descripcion = $request->get('descripcion');
