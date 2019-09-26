@@ -1,4 +1,4 @@
-<table class='table'>
+<table class='table table-responsive'>
     <tr>
         @foreach( $headers as $header )
             <th>{{$header}}</th>
