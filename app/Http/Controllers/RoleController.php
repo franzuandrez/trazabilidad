@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RolRequest;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -59,7 +60,7 @@ class RoleController extends Controller
 
     }
 
-    public function store(Request $request){
+    public function store(RolRequest $request){
 
         $role = Role::create([
             'name'=>$request->input('name'),
@@ -97,7 +98,7 @@ class RoleController extends Controller
 
     }
 
-    public function update($id, Request $request){
+    public function update($id, RolRequest $request){
 
         $role = Role::find($id);
 

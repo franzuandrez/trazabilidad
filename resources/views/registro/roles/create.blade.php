@@ -13,6 +13,8 @@
             Roles
         @endslot
     @endcomponent
+
+    @include('componentes.alert-error')
     <div class="panel-body">
         {!!Form::open(array('url'=>'roles/create','method'=>'POST','autocomplete'=>'off'))!!}
         {{Form::token()}}

@@ -14,7 +14,7 @@
             Roles
         @endslot
     @endcomponent
-
+    @include('componentes.alert-error')
     <div class="panel-body">
         {!!Form::model($role,['method'=>'PATCH','route'=>['roles.update',$role->id]])!!}
         {{Form::token()}}
