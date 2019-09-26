@@ -15,6 +15,11 @@
     <link rel="stylesheet" href="{{asset('css/font-awesome.css')}}">
     <link rel="stylesheet" href="{{asset('css/bootstrap-select.min.css')}}">
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
+    <style>
+        .popover{
+            max-width: none;
+        }
+    </style>
     @yield('style')
 
 </head>
@@ -380,7 +385,9 @@
     var width = 0;
     $(document).ready(function () {
         $('[data-toggle="tooltip"]').tooltip();
-
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+        });
         height = window.screen.availHeight;
         width = window.screen.availWidth;
         if(height < 740 || width < 400){
