@@ -23,31 +23,39 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="codigo_barras">CODIGO BARRAS</label>
-            <input type="text" name="codigo_barras" value="{{old('codigo_barras')}}"
+            <input type="text" name="codigo_barras" value="{{old('codigo_barras')}}" required
                    class="form-control">
         </div>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="codigo_barras">CODIGO INTERNO</label>
-            <input type="text" name="codigo_interno" value="{{old('codigo_interno')}}"
+            <input type="text" name="codigo_interno" value="{{old('codigo_interno')}}" required
                    class="form-control">
         </div>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="descripcion">DESCRIPCION</label>
-            <input type="text" name="descripcion" value="{{old('descripcion')}}"
+            <input type="text" name="descripcion" value="{{old('descripcion')}}" required
                    class="form-control">
         </div>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="id_dimensional">DIMENSIONAL</label>
-            <select name="id_dimensional" id="dimensionales" class="form-control selectpicker">
+            <select name="id_dimensional"
+                    required
+                    id="dimensionales" class="form-control selectpicker">
                 <option value="">SELECCIONAR DIMENSIONAL</option>
                 @foreach( $dimensionales as $dimensional )
-                    <option value="{{$dimensional->id_dimensional}}"> {{$dimensional->descripcion}}  </option>
+                    @if(old('id_dimensional') == $dimensional->id_dimensional)
+                        <option selected
+                                value="{{$dimensional->id_dimensional}}"> {{$dimensional->descripcion}}  </option>
+                    @else
+                        <option value="{{$dimensional->id_dimensional}}"> {{$dimensional->descripcion}}  </option>
+                    @endif
+
                 @endforeach
             </select>
         </div>
@@ -55,10 +63,17 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="id_presentacion">PRESENTACIONES</label>
-            <select name="id_presentacion" id="presentaciones" class="form-control selectpicker">
+            <select name="id_presentacion" id="presentaciones"
+                    required
+                    class="form-control selectpicker">
                 <option value="">SELECCIONAR PRESENTACION</option>
                 @foreach( $presentaciones as $presentacion)
-                    <option value="{{$presentacion->id_presentacion}}"> {{$presentacion->descripcion}}  </option>
+                    @if(old('id_presentacion') ==$presentacion->id_presentacion)
+                        <option selected
+                                value="{{$presentacion->id_presentacion}}"> {{$presentacion->descripcion}}  </option>
+                    @else
+                        <option value="{{$presentacion->id_presentacion}}"> {{$presentacion->descripcion}}  </option>
+                    @endif
                 @endforeach
             </select>
         </div>
@@ -67,7 +82,7 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="tipo_producto">TIPO PRODUCTO</label>
-            <select name="tipo_producto" id="tipo_producto" class="form-control selectpicker">
+            <select name="tipo_producto" required id="tipo_producto" class="form-control selectpicker">
                 <option selected value="">SELECCIONAR TIPO PRODUCTO</option>
                 <option value="MP"> MATERIA PRIMA</option>
                 <option value="PT">PRODUCTO TERMINADO</option>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Dimensional;
+use App\Http\Requests\ProductoRequest;
 use App\Presentacion;
 use App\Producto;
 use App\Proveedor;
@@ -71,7 +72,7 @@ class ProductoController extends Controller
 
     }
 
-    public function store(Request $request)
+    public function store(ProductoRequest $request)
     {
 
         $existeCodigoBarras = Producto::actived()
@@ -116,8 +117,7 @@ class ProductoController extends Controller
     }
 
 
-    public
-    function edit($id)
+    public function edit($id)
     {
 
 
@@ -139,8 +139,7 @@ class ProductoController extends Controller
         }
     }
 
-    public
-    function update(Request $request, $id)
+    public function update(ProductoRequest $request, $id)
     {
 
         try {
@@ -160,7 +159,7 @@ class ProductoController extends Controller
 
         } catch (\Exception $ex) {
 
-
+            dd($ex);
             return redirect()->route('productos.index')
                 ->withErrors(['error' => 'Lo sentimos, su peticion no ha sido procesada']);
         }
@@ -168,8 +167,7 @@ class ProductoController extends Controller
 
     }
 
-    public
-    function show($id)
+    public function show($id)
     {
 
 
@@ -192,8 +190,7 @@ class ProductoController extends Controller
         }
     }
 
-    public
-    function destroy($id)
+    public function destroy($id)
     {
 
         try {
@@ -214,8 +211,7 @@ class ProductoController extends Controller
     }
 
 
-    public
-    function search($search)
+    public function search($search)
     {
 
         $productos = Producto::esMateriaPrima()
@@ -233,8 +229,7 @@ class ProductoController extends Controller
         return response()->json($productos);
     }
 
-    public
-    function importar(Request $request)
+    public function importar(Request $request)
     {
 
         $tipo_producto = $request->get('opcion');
@@ -298,8 +293,7 @@ class ProductoController extends Controller
 
     }
 
-    private
-    function getIdPresentacion($descripcion)
+    private function getIdPresentacion($descripcion)
     {
 
         $id_presentacion = null;
@@ -314,8 +308,7 @@ class ProductoController extends Controller
 
     }
 
-    private
-    function savePresentacion($descripcion)
+    private function savePresentacion($descripcion)
     {
 
         $presentacion = new Presentacion();

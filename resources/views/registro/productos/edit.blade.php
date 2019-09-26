@@ -44,7 +44,9 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="id_dimensional">DIMENSIONAL</label>
-            <select name="id_dimensional" id="dimensionales" class="form-control selectpicker">
+            <select name="id_dimensional" id="dimensionales"
+                    required
+                    class="form-control selectpicker">
                 <option value="">SELECCIONAR DIMENSIONAL</option>
                 @foreach( $dimensionales as $dimensional )
                     @if( $dimensional->id_dimensional == $producto->id_dimensional )
@@ -60,7 +62,9 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="id_presentacion">PRESENTACIONES</label>
-            <select name="id_presentacion" id="presentaciones" class="form-control selectpicker">
+            <select name="id_presentacion" id="presentaciones"
+                    required
+                    class="form-control selectpicker">
                 <option value="">SELECCIONAR PRESENTACION</option>
                 @foreach( $presentaciones as $presentacion)
                     @if( $presentacion->id_presentacion == $producto->id_presentacion  )
@@ -76,7 +80,9 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="tipo_producto">TIPO PRODUCTO</label>
-            <select name="tipo_producto" id="tipo_producto" class="form-control selectpicker">
+            <select name="tipo_producto"
+                    required
+                    id="tipo_producto" class="form-control selectpicker">
                 <option selected value="">SELECCIONAR TIPO PRODUCTO</option>
                 @if(  $producto->tipo_documento == "MP"  )
                     <option value="MP" selected> MATERIA PRIMA</option>
