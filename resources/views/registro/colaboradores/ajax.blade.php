@@ -46,6 +46,12 @@
         @slot('mensaje')
             IMPORTAR COLABORADORES
         @endslot
+        @slot('formatoCarga')
+            @include('componentes.formato-carga',[
+                'headers'=>$headers,
+                'examples'=>$examples
+            ])
+        @endslot
     @endcomponent
     <div id="content">
         @include('registro.colaboradores.index')
