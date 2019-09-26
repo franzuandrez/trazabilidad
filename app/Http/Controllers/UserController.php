@@ -37,9 +37,11 @@ class UserController extends Controller
             ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
             ->select('users.*', 'roles.name as rol')
             ->actived()
-            ->where('email', 'LIKE', '%' . $search . '%')
-            ->orwhere('nombre', 'LIKE', '%' . $search . '%')
-            ->orwhere('username', 'LIKE', '%' . $search . '%')
+            ->where(function ($query) use ($search) {
+                $query->where('email', 'LIKE', '%' . $search . '%')
+                    ->orwhere('nombre', 'LIKE', '%' . $search . '%')
+                    ->orwhere('username', 'LIKE', '%' . $search . '%');
+            })
             ->orderBy($sortField, $sort)
             ->paginate(20);
 
