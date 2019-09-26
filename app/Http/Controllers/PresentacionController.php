@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Http\Requests\PresentacionRequest;
 use App\Presentacion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -52,7 +53,7 @@ class PresentacionController extends Controller
         return view('registro.presentaciones.create');
     }
 
-    public function store(Request $request)
+    public function store(PresentacionRequest $request)
     {
 
 
@@ -98,7 +99,7 @@ class PresentacionController extends Controller
 
     }
 
-    public function update(Request $request, $id)
+    public function update(PresentacionRequest $request, $id)
     {
 
         try {
