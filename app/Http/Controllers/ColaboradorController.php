@@ -103,12 +103,12 @@ class ColaboradorController extends Controller
                 ->where('codigo_barras', $request->get('codigo_barras'))
                 ->where('id_colaborador', '<>', $id)
                 ->exists();
-             if($existeColaborador){
-                 return redirect()
-                     ->back()
-                     ->withErrors(['El codigo de barras ya existe'])
-                     ->withInput();
-             }
+            if ($existeColaborador) {
+                return redirect()
+                    ->back()
+                    ->withErrors(['El codigo de barras ya existe'])
+                    ->withInput();
+            }
 
             $colaborador = Colaborador::findOrFail($id);
             $colaborador->codigo_barras = $request->get('codigo_barras');
@@ -169,8 +169,14 @@ class ColaboradorController extends Controller
     public function importar(Request $request)
     {
 
+        $extensionesValidas = ['xlsx', 'xls'];
         $file = $request->file('archivo_importar');
 
+        if (!in_array($file->extension(), $extensionesValidas)) {
+            return redirect()
+                ->back()
+                ->withErrors(['El archivo debe ser formato Excel']);
+        }
 
         try {
             Excel::load($file, function ($reader) {
@@ -180,24 +186,29 @@ class ColaboradorController extends Controller
 
                 foreach ($results as $key => $value) {
 
+                    $codigo = $value[0];
+                    $nombre = $value[1];
+                    $apellido = $value[2];
+                    $telefono = empty($value[3]) ? "" : $value[3];
 
-                    $existeColaborador = Colaborador::where('codigo_barras', $value[0])->exists();
+                    $existeColaborador = Colaborador::where('codigo_barras', $codigo)->exists();
+
 
                     if ($existeColaborador) {
 
-                        $colaborador = Colaborador::where('codigo_barras', $value[0])->first();
-                        $colaborador->nombre = $value[1];
-                        $colaborador->apellido = $value[2];
-                        $colaborador->telefono = $value[3];
+                        $colaborador = Colaborador::where('codigo_barras', $codigo)->first();
+                        $colaborador->nombre = $nombre;
+                        $colaborador->apellido = $apellido;
+                        $colaborador->telefono = $telefono;
                         $colaborador->estado = 1;
                         $colaborador->update();
 
                     } else {
                         $colaborador = new Colaborador();
-                        $colaborador->codigo_barras = $value[0];
-                        $colaborador->nombre = $value[1];
-                        $colaborador->apellido = $value[2];
-                        $colaborador->telefono = $value[3];;
+                        $colaborador->codigo_barras = $codigo;
+                        $colaborador->nombre = $nombre;
+                        $colaborador->apellido = $apellido;
+                        $colaborador->telefono = $telefono;
                         $colaborador->save();
 
                     }
