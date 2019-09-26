@@ -40,14 +40,16 @@
             SELECCIONE UN PRODUCTO
         @endslot
     @endcomponent
-    @component('componentes.modal-importar-options',
-    ['ruta'=>'productos.importar',
-     'opciones'=>$tipos_productos
-    ])
-        @slot('mensaje')
-            IMPORTAR PRODUCTOS
-        @endslot
-    @endcomponent
+
+
+    @include('componentes.modal-importar-options',
+[
+    'ruta'=>'clientes.importar',
+    'opciones'=>$tipos_productos,
+    'mensaje'=>'IMPORTAR PRODUCTOS'
+])
+
+
     <div id="content">
         @include('registro.productos.index')
     </div>

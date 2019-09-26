@@ -51,8 +51,11 @@ class ProductoController extends Controller
             return view('registro.productos.index',
                 compact('search', 'sort', 'sortField', 'productos', 'tipos_productos'));
         } else {
+            $headers = $this->getHeaders();
+            $examples = $this->getExamples();
+
             return view('registro.productos.ajax',
-                compact('search', 'sort', 'sortField', 'productos', 'tipos_productos'));
+                compact('search', 'sort', 'sortField', 'productos', 'tipos_productos', 'headers', 'examples'));
         }
 
 
@@ -210,6 +213,20 @@ class ProductoController extends Controller
         }
     }
 
+    private function getHeaders()
+    {
+        $headers = ['Codigo ', ' Descripcion', 'Presentacion'];
+
+        return $headers;
+
+    }
+
+    private function getExamples()
+    {
+        $examples = ['754842100014', 'AJO DESHIDRATADO EN POLVO', 'Saco'];
+
+        return $examples;
+    }
 
     public function search($search)
     {
@@ -233,8 +250,14 @@ class ProductoController extends Controller
     {
 
         $tipo_producto = $request->get('opcion');
+        $extensionesValidas = ['xlsx', 'xls'];
         $file = $request->file('archivo_importar');
 
+        if (!in_array($file->extension(), $extensionesValidas)) {
+            return redirect()
+                ->back()
+                ->withErrors(['El archivo debe ser formato Excel']);
+        }
         try {
             Excel::load($file, function ($reader) use ($tipo_producto) {
 
@@ -259,6 +282,7 @@ class ProductoController extends Controller
                         $producto = Producto::where('codigo_barras', $codigo_barras)->first();
                         $producto->descripcion = $value[1];
                         $producto->update();
+
 
                     } else {
                         $producto = new Producto();
