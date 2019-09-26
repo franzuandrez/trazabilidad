@@ -2,14 +2,23 @@
      role="dialog" tabindex="-1" id="modal-importar">
     {!!Form::open(array('route'=>$ruta, 'method'=>'POST','files'=> true))!!}
     {{Form::token()}}
-    <div class="modal-dialog">
+    <div class="modal-dialog ">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" align="center">{{$mensaje}}</h4>
+                <h4 class="modal-title" align="center">{{$mensaje}}
+                    <i data-toggle="popover" class="fa fa-info-circle"
+                       data-html="true"
+                       title="Formato Carga <i class='fa fa-upload' ></i>"
+                       data-placement="bottom"
+                       trigger="hover"
+                       data-content="{{$formatoCarga}}" >
+                    </i>
+                </h4>
 
             </div>
             <div class="modal-body">
-                <span style="display: none;color:red" class="move" id="alert-no-file"> Debe seleccionar un archivo </span>
+                <span style="display: none;color:red" class="move"
+                      id="alert-no-file"> Debe seleccionar un archivo </span>
                 <input type="file"
                        class="form-control-file"
                        id="file"
@@ -33,4 +42,3 @@
     </div>
     {{Form::close()}}
 </div>
-
