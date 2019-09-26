@@ -24,19 +24,25 @@
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="nombre">USUARIO</label>
-                <input type="text" name="username" value="{{$user->username}}"  class="form-control" >
+                <input type="text" name="username"
+                       required
+                       value="{{$user->username}}"  class="form-control" >
             </div>
         </div>
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="apellido">NOMBRE</label>
-                <input type="text" name="nombre" value="{{$user->nombre}}"  class="form-control" >
+                <input type="text" name="nombre"
+                       required
+                       value="{{$user->nombre}}"  class="form-control" >
             </div>
         </div>
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="email">EMAIL</label>
-                <input type="text" name="email" value="{{$user->email}}"  class="form-control" >
+                <input type="text" name="email"
+                       required
+                       value="{{$user->email}}"  class="form-control" >
             </div>
         </div>
 
@@ -44,7 +50,9 @@
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="roles">ROLES</label>
-                <select  name="id_rol" id= "roles" class="form-control select2" style="width: 100%;">
+                <select  name="id_rol" id= "roles"
+                         required
+                         class="form-control select2" style="width: 100%;">
 
                     @foreach($roles as $rol)
                         @if($userRole[0]->id == $rol->id)
