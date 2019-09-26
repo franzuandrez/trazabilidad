@@ -10,7 +10,7 @@
                        data-html="true"
                        title="Formato Carga <i class='fa fa-upload' ></i>"
                        data-placement="bottom"
-                       trigger="hover"
+                       data-trigger="hover"
                        data-content="@include('componentes.formato-carga')" >
                     </i>
                 </h4>
