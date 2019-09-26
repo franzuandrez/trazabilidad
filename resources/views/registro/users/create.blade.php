@@ -13,7 +13,7 @@
             Administrar
         @endslot
     @endcomponent
-
+    @include('componentes.alert-error')
     <div class="panel-body">
         {!!Form::open(array('url'=>'users/create','method'=>'POST','autocomplete'=>'off'))!!}
         {{Form::token()}}
@@ -47,8 +47,8 @@
         </div>
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
-                <label for="email">CONFIRMAR CONTRASEÑA</label>
-                <input type="password" name="confirm_password" value=""  class="form-control" >
+                <label for="password_confirmation">CONFIRMAR CONTRASEÑA</label>
+                <input type="password" name="password_confirmation" value=""  class="form-control" >
             </div>
         </div>
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">

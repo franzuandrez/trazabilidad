@@ -12,6 +12,8 @@
             Administrar
         @endslot
     @endcomponent
+
+    @include('componentes.alert-error')
     <div class="panel-body">
         {!!Form::model($user,['method'=>'PATCH','route'=>['users.update',$user->id],'files'=> true])!!}
         {{Form::token()}}

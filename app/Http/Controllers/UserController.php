@@ -2,15 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Proveedor;
-use http\Exception\UnexpectedValueException;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\UserRequest;
 use App\User;
 use DB;
-use Spatie\Activitylog\Models\Activity;
-use Spatie\Permission\Models\Role;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -65,8 +62,19 @@ class UserController extends Controller
         return view('registro.users.create', compact('roles'));
     }
 
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
+
+        $existeUsuario = User::where('username', $request->get('username'))
+            ->actived()
+            ->exists();
+
+        if ($existeUsuario) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->withErrors(['Usuario ya existente']);
+        }
 
         $input = $request->all();
 
@@ -101,6 +109,18 @@ class UserController extends Controller
     public function update($id, Request $request)
     {
 
+        $existeUsuario = User::where('username', $request->get('username'))
+            ->where('id', '<>', $id)
+            ->actived()
+            ->exists();
+
+        if ($existeUsuario) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->withErrors(['Usuario ya existente']);
+        }
+
         $input = $request->all();
         if (!empty($input['password'])) {
 
@@ -121,7 +141,7 @@ class UserController extends Controller
         } catch (\Exception $e) {
 
             return redirect()->route('users.index')
-                ->withErrors(['error'=>'Su petición no puede ser procesada en este momento']);
+                ->withErrors(['error' => 'Su petición no puede ser procesada en este momento']);
         }
 
     }
@@ -168,7 +188,7 @@ class UserController extends Controller
         } catch (\Exception $e) {
 
             return redirect()->route('users.index')
-                ->withErrors(['error'=>'Usuario no encontrado']);
+                ->withErrors(['error' => 'Usuario no encontrado']);
         }
 
     }
@@ -191,7 +211,7 @@ class UserController extends Controller
             } catch (\Exception $e) {
 
                 return redirect()->route('users.index')
-                    ->withErrors(['error'=>'Su petición no puede ser procesada en este momento']);
+                    ->withErrors(['error' => 'Su petición no puede ser procesada en este momento']);
 
             }
         } else {
@@ -209,40 +229,36 @@ class UserController extends Controller
 
     }
 
-    public function verificar(Request $request){
+    public function verificar(Request $request)
+    {
 
         $user = $request->get('usuario');
         $pass = $request->get('pass');
-        $usuario = User::where('username',$user)
+        $usuario = User::where('username', $user)
             ->first();
 
-        if(Hash::check($pass, $usuario->password)){
+        if (Hash::check($pass, $usuario->password)) {
             $rolePermissions = DB::table("role_has_permissions")
-                ->where("role_has_permissions.role_id",$usuario->roles[0]->id)
+                ->where("role_has_permissions.role_id", $usuario->roles[0]->id)
                 ->get();
 
 
-            $estaAutorizado =  $rolePermissions->search(function ($item,$key){
+            $estaAutorizado = $rolePermissions->search(function ($item, $key) {
                     return $item->permission_id == 48;
                 }) != false;
 
 
-            if($estaAutorizado){
+            if ($estaAutorizado) {
                 $response = 1;
-            }else{
+            } else {
                 $response = 0;
             }
-        }else{
+        } else {
             $response = 0;
         }
 
 
-
-        return $response ;
-
-
-
-
+        return $response;
 
 
     }
