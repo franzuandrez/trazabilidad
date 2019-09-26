@@ -16,6 +16,18 @@ class ClienteController extends Controller
         $this->middleware('auth');
     }
 
+    private function getHeaders()
+    {
+        $headers = ['NIT', 'Nombre', 'Direccion', 'Telefono'];
+        return $headers;
+    }
+
+    public function getExamples()
+    {
+        $examples = ['8760547-9', 'ER CORP. SA', 'Ciudad', '47809050'];
+        return $examples;
+    }
+
     public function index(Request $request)
     {
 
@@ -33,14 +45,15 @@ class ClienteController extends Controller
             ->paginate(15);
 
 
-
         if ($request->ajax()) {
             return view('registro.clientes.index',
                 compact('search', 'sort', 'sortField', 'clientes'));
         } else {
 
+            $headers = $this->getHeaders();
+            $examples = $this->getExamples();
             return view('registro.clientes.ajax',
-                compact('search', 'sort', 'sortField', 'clientes'));
+                compact('search', 'sort', 'sortField', 'clientes', 'headers', 'examples'));
         }
 
     }
@@ -133,7 +146,7 @@ class ClienteController extends Controller
             $cliente->domingo = $domingo;
             $cliente->update();
             return redirect()->route('clientes.index')
-                ->with('success','Cliente actualizado correctamente');
+                ->with('success', 'Cliente actualizado correctamente');
 
         } catch (\Exception $ex) {
 
@@ -144,7 +157,8 @@ class ClienteController extends Controller
 
     }
 
-    public function show($id){
+    public function show($id)
+    {
 
         try {
 
@@ -160,7 +174,8 @@ class ClienteController extends Controller
         }
     }
 
-    public function importar(Request $request){
+    public function importar(Request $request)
+    {
 
 
         $file = $request->file('archivo_importar');
@@ -176,7 +191,7 @@ class ClienteController extends Controller
                     if (Cliente::where('nit', $value[0])->exists() && !$isConsumidorFinal) {
 
                         $cliente = Cliente::where('nit', $value[0])->first();
-                        $cliente->razon_social =$value[1];
+                        $cliente->razon_social = $value[1];
                         $cliente->direccion = $value[2];
                         $cliente->telefono = $value[3];
                         $cliente->update();
@@ -199,17 +214,17 @@ class ClienteController extends Controller
 
         } catch (\PHPExcel_Reader_Exception $e) {
 
-           return redirect()->route('clientes.index')
-               ->withErrors(['Archivo no valido']);
+            return redirect()->route('clientes.index')
+                ->withErrors(['Archivo no valido']);
 
-        }catch (\Exception $e ){
+        } catch (\Exception $e) {
 
             return redirect()->route('clientes.index')
                 ->withErrors(['No ha sido posible cargar los clientes']);
         }
 
         return redirect()->route('clientes.index')
-            ->with('success','Clientes cargados correctamente');
+            ->with('success', 'Clientes cargados correctamente');
 
     }
 

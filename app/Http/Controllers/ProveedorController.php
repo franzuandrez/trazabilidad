@@ -2,16 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use http\Env\Response;
-use Illuminate\Http\Request;
-use DB;
 use App\Proveedor;
 use App\ReferenciasComerciales;
+use DB;
+use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ProveedorController extends Controller
 {
     //
+
+
+    private function getHeaders()
+    {
+
+        $headers = ['Codigo', 'Razon Social', 'Nombre Comercial', 'Correo', 'Direccion', 'Telefono'];
+        return $headers;
+
+    }
+
+    private function getExamples()
+    {
+
+        $examples = ['116316416146464', 'FLEXAPRINT, S.A. ', 'FLEXAPRINT, S.A.', 'silvia@flexaprint.com', 'Ciudad', '12345678'];
+        return $examples;
+    }
+
 
     public function index(Request $request)
     {
@@ -38,8 +54,11 @@ class ProveedorController extends Controller
                 compact('search', 'sort', 'sortField', 'proveedores'));
 
         } else {
+            $headers = $this->getHeaders();
+            $examples = $this->getExamples();
+
             return view('registro.proveedores.ajax',
-                compact('search', 'sort', 'sortField', 'proveedores'));
+                compact('search', 'sort', 'sortField', 'proveedores','headers','examples'));
 
         }
 
@@ -99,12 +118,10 @@ class ProveedorController extends Controller
             $id_proveedor = $proveedor->id_proveedor;
 
 
-
-            $this->guardarReferenciasComerciales($proveedor,$request);
-
+            $this->guardarReferenciasComerciales($proveedor, $request);
 
 
-            $this->gurdarProductos( $proveedor, $request->get('productos') );
+            $this->gurdarProductos($proveedor, $request->get('productos'));
 
             DB::commit();
 
@@ -121,7 +138,7 @@ class ProveedorController extends Controller
             dd($ex);
             return redirect()
                 ->route('proveedores.index')
-                ->withErrors(['error'=>'Lo sentimos, su petición no fue procesada']);
+                ->withErrors(['error' => 'Lo sentimos, su petición no fue procesada']);
 
         }
 
@@ -197,7 +214,7 @@ class ProveedorController extends Controller
             //Insertar nuevas rerecenias comerciales.
             $this->guardarReferenciasComerciales($proveedor, $request);
 
-            $this->gurdarProductos($proveedor,$request->get('productos'));
+            $this->gurdarProductos($proveedor, $request->get('productos'));
 
             DB::commit();
 
@@ -243,7 +260,8 @@ class ProveedorController extends Controller
 
     }
 
-    private function gurdarProductos( $proveedor ,$productos ){
+    private function gurdarProductos($proveedor, $productos)
+    {
 
 
         $proveedor->productos()->syncWithoutDetaching($productos);
@@ -280,13 +298,13 @@ class ProveedorController extends Controller
             $proveedor = Proveedor::findOrFail($id);
             $proveedor->estado = 0;
             $proveedor->update();
-            return response()->json(['success'=>'Proveedor dado de baja exitosamente']);
+            return response()->json(['success' => 'Proveedor dado de baja exitosamente']);
 
         } catch (\Exception $ex) {
 
             return response()->json(
-                ['error'=>'En este momento no es posible procesar su petición',
-                    'mensaje'=>$ex->getMessage()
+                ['error' => 'En este momento no es posible procesar su petición',
+                    'mensaje' => $ex->getMessage()
                 ]
             );
 
@@ -305,7 +323,8 @@ class ProveedorController extends Controller
 
     }
 
-    public function importar(Request $request ){
+    public function importar(Request $request)
+    {
 
         $file = $request->file('archivo_importar');
 
@@ -322,22 +341,22 @@ class ProveedorController extends Controller
 
                     if ($existeProveedor) {
 
-                        $proveedor = Proveedor::where('codigo_proveedor',  $value[0])->first();
-                        $proveedor->razon_social =  $value[1];
+                        $proveedor = Proveedor::where('codigo_proveedor', $value[0])->first();
+                        $proveedor->razon_social = $value[1];
                         $proveedor->nombre_comercial = $value[2];
-                        $proveedor->email =  $value[3];
-                        $proveedor->direccion_planta =  $value[4];
+                        $proveedor->email = $value[3];
+                        $proveedor->direccion_planta = $value[4];
                         $proveedor->telefono_contacto = $value[5];
                         $proveedor->update();
 
                     } else {
-                        if($value[1]!=null && $value[2]!=null){
+                        if ($value[1] != null && $value[2] != null) {
                             $proveedor = new Proveedor();
                             $proveedor->codigo_proveedor = $value[0];
-                            $proveedor->razon_social =  $value[1];
+                            $proveedor->razon_social = $value[1];
                             $proveedor->nombre_comercial = $value[2];
-                            $proveedor->email =  $value[3];
-                            $proveedor->direccion_planta =  $value[4];
+                            $proveedor->email = $value[3];
+                            $proveedor->direccion_planta = $value[4];
                             $proveedor->telefono_contacto = $value[5];
                             $proveedor->save();
                         }
@@ -356,7 +375,7 @@ class ProveedorController extends Controller
             return redirect()->route('proveedores.index')
                 ->withErrors(['Archivo no valido']);
 
-        }catch (\Exception $e ){
+        } catch (\Exception $e) {
             dd($e);
             return redirect()->route('proveedores.index')
                 ->withErrors(['No ha sido posible cargar los Proveedores']);
@@ -365,12 +384,13 @@ class ProveedorController extends Controller
 
     }
 
-    public function productos( $id ){
+    public function productos($id)
+    {
 
         try {
             $proveedor = Proveedor::findOrFail($id);
 
-            return view('registro.proveedores.detalle-productos',compact('proveedor'));
+            return view('registro.proveedores.detalle-productos', compact('proveedor'));
 
         } catch (\Exception $e) {
 

@@ -10,13 +10,25 @@ class ColaboradorController extends Controller
 {
     //
 
-    private $headers  = ['Codigo','Nombre','Apellido','Telefono'];
-    private $examples = ['8018075484200000000024','Pedro','Perez','12345678'];
-
 
     public function __construct()
     {
         $this->middleware('auth');
+    }
+
+    private function getHeaders()
+    {
+        $headers = ['Codigo', 'Nombre', 'Apellido', 'Telefono'];
+
+        return $headers;
+
+    }
+
+    private function getExamples()
+    {
+        $examples = ['8018075484200000000024', 'Pedro', 'Perez', '12345678'];
+
+        return $examples;
     }
 
     public function index(Request $request)
@@ -44,10 +56,10 @@ class ColaboradorController extends Controller
                 compact('colaboradores', 'search', 'sort', 'sortField'));
         } else {
 
-            $headers = $this->headers;
-            $examples = $this->examples;
+            $headers = $this->getHeaders();
+            $examples = $this->getExamples();
             return view('registro.colaboradores.ajax',
-                compact('colaboradores', 'search', 'sort', 'sortField','headers','examples'));
+                compact('colaboradores', 'search', 'sort', 'sortField', 'headers', 'examples'));
 
         }
 

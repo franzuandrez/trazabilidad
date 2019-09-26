@@ -42,11 +42,10 @@
         @endslot
     @endcomponent
 
-    @component('componentes.modal-importar',['ruta'=>'clientes.importar'])
-        @slot('mensaje')
-            IMPORTAR CLIENTES
-        @endslot
-    @endcomponent
+    @include('componentes.modal-importar',
+  ['ruta'=>'clientes.importar',
+  'mensaje'=>'  IMPORTAR CLIENTES'])
+
     <div id="content">
         @include('registro.clientes.index')
     </div>

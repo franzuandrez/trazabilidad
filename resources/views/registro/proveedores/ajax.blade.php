@@ -38,7 +38,6 @@
             @endcomponent
 
 
-
         </div>
     </div>
     @component('componentes.alert-no-selecction')
@@ -47,11 +46,13 @@
         @endslot
     @endcomponent
 
-    @component('componentes.modal-importar',['ruta'=>'proveedores.importar'])
-        @slot('mensaje')
-            IMPORTAR PROVEEDORES
-        @endslot
-    @endcomponent
+
+    @include('componentes.modal-importar',
+    [
+    'ruta'=>'proveedores.importar',
+    'mensaje'=>'  IMPORTAR PROVEEDORES'
+    ])
+
     <div id="content">
         @include('registro.proveedores.index')
     </div>

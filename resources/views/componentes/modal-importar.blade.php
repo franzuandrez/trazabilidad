@@ -11,7 +11,7 @@
                        title="Formato Carga <i class='fa fa-upload' ></i>"
                        data-placement="bottom"
                        trigger="hover"
-                       data-content="{{$formatoCarga}}" >
+                       data-content="@include('componentes.formato-carga')" >
                     </i>
                 </h4>
 

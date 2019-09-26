@@ -42,17 +42,10 @@
         @endslot
     @endcomponent
 
-    @component('componentes.modal-importar',['ruta'=>'colaboradores.importar'])
-        @slot('mensaje')
-            IMPORTAR COLABORADORES
-        @endslot
-        @slot('formatoCarga')
-            @include('componentes.formato-carga',[
-                'headers'=>$headers,
-                'examples'=>$examples
-            ])
-        @endslot
-    @endcomponent
+    @include('componentes.modal-importar',
+    ['ruta'=>'colaboradores.importar',
+    'mensaje'=>'  IMPORTAR COLABORADORES'])
+
     <div id="content">
         @include('registro.colaboradores.index')
     </div>
