@@ -14,7 +14,7 @@
         @endslot
     @endcomponent
 
-
+    @include('componentes.alert-error')
     {!!Form::model($dimensional,['method'=>'PATCH','route'=>['dimensionales.update',$dimensional->id_dimensional]])!!}
     {{Form::token()}}
 

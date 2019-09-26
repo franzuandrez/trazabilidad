@@ -14,7 +14,7 @@
         @endslot
     @endcomponent
 
-
+    @include('componentes.alert-error')
     {!!Form::open(array('url'=>'registro/dimensionales/create','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
     <div class="col-lg-4 col-sm-4 col-md-6 col-xs-12">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Dimensional;
+use App\Http\Requests\DimensionalRequest;
 use Illuminate\Http\Request;
 
 class DimensionalController extends Controller
@@ -53,7 +54,7 @@ class DimensionalController extends Controller
 
     }
 
-    public function store(Request $request){
+    public function store(DimensionalRequest $request){
 
         $dimensional = new Dimensional();
         $dimensional->descripcion = $request->get('descripcion');
@@ -82,7 +83,7 @@ class DimensionalController extends Controller
         }
     }
 
-    public function update(Request $request, $id){
+    public function update(DimensionalRequest $request, $id){
 
         try{
 
