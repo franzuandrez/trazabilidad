@@ -14,6 +14,7 @@
         @endslot
     @endcomponent
 
+    @include('componentes.alert-error')
 
     {!!Form::model($producto,['method'=>'PATCH','route'=>['productos.update',$producto->id_producto]])!!}
     {{Form::token()}}
@@ -30,7 +31,7 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="codigo_barras">CODIGO INTERNO</label>
-            <input type="text" name="codigo_interno" value="{{$producto->codigo_interno}}" readonly
+            <input type="text" name="codigo_interno" value="{{$producto->codigo_interno}}"
                    class="form-control">
         </div>
     </div>

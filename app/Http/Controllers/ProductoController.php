@@ -144,12 +144,22 @@ class ProductoController extends Controller
 
     public function update(ProductoRequest $request, $id)
     {
+        $existeCodigoInterno = Producto::actived()
+            ->where('codigo_interno', $request->get('codigo_interno'))
+            ->where('id_producto','<>',$id)
+            ->exists();
+
+        if ($existeCodigoInterno) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->withErrors(['El codigo Interno ya existe']);
+        }
 
         try {
 
             $producto = Producto::findOrFail($id);
-            //$producto->codigo_barras = $request->get('codigo_barras');
-            //$producto->codigo_interno = $request->get('codigo_interno');
+            $producto->codigo_interno = $request->get('codigo_interno');
             $producto->descripcion = $request->get('descripcion');
             $producto->id_dimensional = $request->get('id_dimensional');
             $producto->id_presentacion = $request->get('id_presentacion');
@@ -162,7 +172,7 @@ class ProductoController extends Controller
 
         } catch (\Exception $ex) {
 
-            dd($ex);
+
             return redirect()->route('productos.index')
                 ->withErrors(['error' => 'Lo sentimos, su peticion no ha sido procesada']);
         }
