@@ -178,13 +178,18 @@ class ClienteController extends Controller
     {
 
 
+        $total = 0;
         $file = $request->file('archivo_importar');
 
 
         try {
-            Excel::load($file, function ($reader) {
+           $cargar =  Excel::load($file, function ($reader)   {
                 $results = $reader->noHeading()->get();
                 $results = $results->slice(1);
+
+
+
+
                 foreach ($results as $key => $value) {
                     $isConsumidorFinal = strtoupper($value[0]) != "C/F" || strtoupper($value[0]) != "CF";
 
@@ -211,6 +216,7 @@ class ClienteController extends Controller
 
             });
 
+           $total = $cargar->parsed->count() - 1;
 
         } catch (\PHPExcel_Reader_Exception $e) {
 
@@ -224,7 +230,7 @@ class ClienteController extends Controller
         }
 
         return redirect()->route('clientes.index')
-            ->with('success', 'Clientes cargados correctamente');
+            ->with('success', 'Un total de '.$total . ' clientes cargados correctamente');
 
     }
 
