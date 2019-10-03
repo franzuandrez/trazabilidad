@@ -22,6 +22,15 @@
                     @endcomponent
                 </th>
                 <th>
+                    @component('componentes.column-sort',[
+                           'search'=>$search,
+                          'sort'=>$sort,
+                          'sortField'=>$sortField,
+                     'field'=>'codigo_interno',
+                     'titulo'=>'codigo interno'])
+                    @endcomponent
+                </th>
+                <th>
                     @component('componentes.column-sort',['modulo'=>'registro/productos',
                         'search'=>$search,
                           'sort'=>$sort,
@@ -58,6 +67,9 @@
                         </td>
                         <td>
                             {{$producto->codigo_barras}}
+                        </td>
+                        <td>
+                            {{$producto->codigo_interno}}
                         </td>
                         <td>
                             {{$producto->descripcion}}
