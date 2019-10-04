@@ -13,10 +13,19 @@
             Clientes
         @endslot
     @endcomponent
-
+    @include('componentes.alert-error')
 
     {!!Form::open(array('url'=>'registro/clientes/create','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for=codigo"">
+             CODIGO
+            </label>
+            <input type="text" name="codigo" value="{{old('codigo')}}"
+                   class="form-control">
+        </div>
+    </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for=razon_social"">
@@ -37,6 +46,15 @@
         <div class="form-group">
             <label for="telefono">TELEFONO</label>
             <input type="text" name="telefono" value="{{old('telefono')}}"
+                   class="form-control">
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for=email"">
+                EMAIL
+            </label>
+            <input type="text" name="email" value="{{old('email')}}"
                    class="form-control">
         </div>
     </div>

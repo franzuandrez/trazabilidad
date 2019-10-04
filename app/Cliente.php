@@ -28,8 +28,9 @@ class Cliente extends Model
         'domingo',
         'latitud',
         'longitud',
-        'id_categoria'
-
+        'id_categoria',
+        'Codigo',
+        'email',
     ];
 
     public static $logAttributes =[
@@ -48,8 +49,9 @@ class Cliente extends Model
         'domingo',
         'latitud',
         'longitud',
-        'id_categoria'
-
+        'id_categoria',
+        'Codigo',
+        'email',
     ];
 
     protected static $logOnlyDirty = true;

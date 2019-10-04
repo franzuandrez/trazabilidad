@@ -17,6 +17,15 @@
                           'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
+                          'field'=>'Codigo',
+                          'titulo'=>'codigo'])
+                    @endcomponent
+                </th>
+                <th>
+                    @component('componentes.column-sort',['modulo'=>'registro/clientes',
+                          'search'=>$search,
+                          'sort'=>$sort,
+                          'sortField'=>$sortField,
                           'field'=>'razon_social',
                           'titulo'=>'RAZON SOCIAL'])
                     @endcomponent
@@ -47,6 +56,9 @@
                         <td>
                             <input type="radio" name="id_cliente" value="{{$cliente->id_cliente}}">
 
+                        </td>
+                        <td>
+                            {{$cliente->Codigo}}
                         </td>
                         <td>
                             {{$cliente->razon_social}}

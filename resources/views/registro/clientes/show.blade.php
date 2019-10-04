@@ -17,6 +17,18 @@
 
     {!!Form::model($cliente,['method'=>'PATCH','route'=>['clientes.update',$cliente->id_cliente]])!!}
     {{Form::token()}}
+
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for=codigo"">
+                CODIGO
+            </label>
+            <input type="text"
+                   readonly
+                   name="codigo" value="{{$cliente->Codigo}}"
+                   class="form-control">
+        </div>
+    </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for=razon_social"">
@@ -36,7 +48,18 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="telefono">TELEFONO</label>
-            <input type="text" name="telefono"  readonly  value="{{$cliente->telefono}}"
+            <input type="text" name="telefono" readonly value="{{$cliente->telefono}}"
+                   class="form-control">
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for=email"">
+                EMAIL
+            </label>
+            <input type="text"
+                   readonly
+                   name="email" value="{{$cliente->email}}"
                    class="form-control">
         </div>
     </div>
@@ -52,7 +75,7 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="id_categoria_cliente">CATEGORIA CLIENTE</label>
-            <select name="id_categoria_cliente"  disabled class="form-control selectpicker">
+            <select name="id_categoria_cliente" disabled class="form-control selectpicker">
                 @foreach($categorias as $categoria)
                     @if($categoria->id_categoria == $cliente->id_categoria)
                         <option selected value="{{$categoria->id_categoria}}">{{$categoria->descripcion}}</option>
@@ -68,50 +91,73 @@
         <label for="dias">DIAS DE VISITA</label>
         <ul class="list-group" style="height: 25vh; overflow: scroll">
             @if($cliente->lunes == 1 )
-                <li class="list-group-item"><input type="checkbox" onclick="return false;" value="1" checked name="lunes"> LUNES</li>
+                <li class="list-group-item"><input type="checkbox" onclick="return false;" value="1" checked
+                                                   name="lunes"> LUNES
+                </li>
             @else
-                <li class="list-group-item"><input type="checkbox"onclick="return false;"  value="1" name="lunes"> LUNES</li>
+                <li class="list-group-item"><input type="checkbox" onclick="return false;" value="1" name="lunes"> LUNES
+                </li>
             @endif
 
             @if($cliente->martes == 1 )
-                <li class="list-group-item"><input type="checkbox" onclick="return false;" value="1" checked name="martes"> MARTES</li>
+                <li class="list-group-item"><input type="checkbox" onclick="return false;" value="1" checked
+                                                   name="martes"> MARTES
+                </li>
             @else
-                <li class="list-group-item"><input type="checkbox" onclick="return false;" value="1" name="martes"> MARTES</li>
+                <li class="list-group-item"><input type="checkbox" onclick="return false;" value="1" name="martes">
+                    MARTES
+                </li>
             @endif
 
             @if($cliente->miercoles == 1 )
-                <li class="list-group-item"><input type="checkbox" onclick="return false;" value="1" checked name="miercoles"> MIERCOLES</li>
+                <li class="list-group-item"><input type="checkbox" onclick="return false;" value="1" checked
+                                                   name="miercoles"> MIERCOLES
+                </li>
             @else
-                <li class="list-group-item"><input type="checkbox"onclick="return false;"  value="1" name="miercoles"> MIERCOLES</li>
+                <li class="list-group-item"><input type="checkbox" onclick="return false;" value="1" name="miercoles">
+                    MIERCOLES
+                </li>
             @endif
 
             @if($cliente->jueves == 1 )
-                <li class="list-group-item"><input type="checkbox" onclick="return false;" value="1" checked name="jueves"> JUEVES</li>
+                <li class="list-group-item"><input type="checkbox" onclick="return false;" value="1" checked
+                                                   name="jueves"> JUEVES
+                </li>
             @else
-                <li class="list-group-item"><input type="checkbox" onclick="return false;" value="1" name="jueves"> JUEVES</li>
+                <li class="list-group-item"><input type="checkbox" onclick="return false;" value="1" name="jueves">
+                    JUEVES
+                </li>
             @endif
 
             @if($cliente->viernes == 1 )
-                <li class="list-group-item"><input type="checkbox" onclick="return false;" value="1" checked name="viernes"> VIERNES</li>
+                <li class="list-group-item"><input type="checkbox" onclick="return false;" value="1" checked
+                                                   name="viernes"> VIERNES
+                </li>
             @else
-                <li class="list-group-item"><input type="checkbox"onclick="return false;"  value="1" name="viernes"> VIERNES</li>
+                <li class="list-group-item"><input type="checkbox" onclick="return false;" value="1" name="viernes">
+                    VIERNES
+                </li>
             @endif
 
             @if($cliente->sabado == 1 )
-                <li class="list-group-item"><input type="checkbox"onclick="return false;"  value="1"  checked name="sabado"> SABADO</li>
+                <li class="list-group-item"><input type="checkbox" onclick="return false;" value="1" checked
+                                                   name="sabado"> SABADO
+                </li>
             @else
-                <li class="list-group-item"><input type="checkbox"onclick="return false;"  value="1" name="sabado"> SABADO</li>
+                <li class="list-group-item"><input type="checkbox" onclick="return false;" value="1" name="sabado">
+                    SABADO
+                </li>
             @endif
 
             @if($cliente->domingo == 1 )
-                <li class="list-group-item"><input type="checkbox" onclick="return false;" value="1" checked name="domingo"> DOMINGO</li>
+                <li class="list-group-item"><input type="checkbox" onclick="return false;" value="1" checked
+                                                   name="domingo"> DOMINGO
+                </li>
             @else
-                <li class="list-group-item"><input type="checkbox" onclick="return false;" value="1" name="domingo"> DOMINGO</li>
+                <li class="list-group-item"><input type="checkbox" onclick="return false;" value="1" name="domingo">
+                    DOMINGO
+                </li>
             @endif
-
-
-
-
 
 
         </ul>

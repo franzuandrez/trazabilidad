@@ -35,10 +35,11 @@ class ClienteController extends Controller
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
         $sortField = $request->get('field') == null ? 'razon_social' : $request->get('field');
 
-        $clientes = Cliente::select('id_cliente', 'razon_social', 'nit', 'direccion', 'telefono')
+        $clientes = Cliente::select('id_cliente','Codigo', 'razon_social', 'nit', 'direccion', 'telefono')
             ->where(function ($query) use ($search) {
                 $query->where('razon_social', 'LIKE', '%' . $search . '%')
                     ->orWhere('nit', 'LIKE', '%' . $search . '%')
+                    ->orWhere('codigo', 'LIKE', '%' . $search . '%')
                     ->orWhere('direccion', 'LIKE', '%' . $search . '%');
             })
             ->orderBy($sortField, $sort)
@@ -77,12 +78,25 @@ class ClienteController extends Controller
         $sabado = $this->getValueCheched($request->get('sabado'));
         $domingo = $this->getValueCheched($request->get('domingo'));
 
+        $existeCliente = Cliente::where('codigo', $request->get('codigo'))
+            ->exists();
+
+        if ($existeCliente) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->withErrors(['Codigo ya existente']);
+        }
+
+
         $cliente = new Cliente();
+        $cliente->Codigo = $request->get('codigo');
         $cliente->razon_social = $request->get('razon_social');
         $cliente->nit = $request->get('nit');
         $cliente->telefono = $request->get('telefono');
         $cliente->direccion = $request->get('direccion');
         $cliente->id_categoria = $request->get('id_categoria_cliente');
+        $cliente->email = $request->get('email');
         $cliente->lunes = $lunes;
         $cliente->martes = $martes;
         $cliente->miercoles = $miercoles;
@@ -131,12 +145,23 @@ class ClienteController extends Controller
             $sabado = $this->getValueCheched($request->get('sabado'));
             $domingo = $this->getValueCheched($request->get('domingo'));
 
+            $existeCliente = Cliente::where('codigo', $request->get('codigo'))
+                ->where('id_cliente','<>',$id)
+                ->exists();
+
+            if ($existeCliente) {
+                return redirect()
+                    ->back()
+                    ->withInput()
+                    ->withErrors(['Codigo ya existente']);
+            }
             $cliente = Cliente::findOrFail($id);
             $cliente->razon_social = $request->get('razon_social');
             $cliente->nit = $request->get('nit');
             $cliente->telefono = $request->get('telefono');
             $cliente->direccion = $request->get('direccion');
             $cliente->id_categoria = $request->get('id_categoria_cliente');
+            $cliente->email = $request->get('email');
             $cliente->lunes = $lunes;
             $cliente->martes = $martes;
             $cliente->miercoles = $miercoles;
@@ -183,29 +208,31 @@ class ClienteController extends Controller
 
 
         try {
-           $cargar =  Excel::load($file, function ($reader)   {
+            $cargar = Excel::load($file, function ($reader) {
                 $results = $reader->noHeading()->get();
                 $results = $results->slice(1);
 
 
-
-
                 foreach ($results as $key => $value) {
-                    $isConsumidorFinal = strtoupper($value[0]) != "C/F" || strtoupper($value[0]) != "CF";
 
-                    if (Cliente::where('nit', $value[0])->exists() && !$isConsumidorFinal) {
 
-                        $cliente = Cliente::where('nit', $value[0])->first();
-                        $cliente->razon_social = $value[1];
-                        $cliente->direccion = $value[2];
-                        $cliente->telefono = $value[3];
+                    if (Cliente::where('codigo', $value[0])->exists() ) {
+
+                        $cliente = Cliente::where('codigo', $value[0])->first();
+                        $cliente->nit = $value[1];
+                        $cliente->razon_social = $value[2];
+                        $cliente->direccion = $value[3];
+                        $cliente->telefono = $value[4];
+                        $cliente->email = $value[5];
                         $cliente->update();
                     } else {
                         $arr[] = [
-                            'nit' => $value[0],
-                            'razon_social' => $value[1],
-                            'direccion' => $value[2],
-                            'telefono' => $value[3],
+                            'codigo' => $value[0],
+                            'nit' => $value[1],
+                            'razon_social' => $value[2],
+                            'direccion' => $value[3],
+                            'telefono' => $value[4],
+                            'email' => $value[5],
                             'id_categoria' => 1
                         ];
                     }
@@ -216,7 +243,7 @@ class ClienteController extends Controller
 
             });
 
-           $total = $cargar->parsed->count() - 1;
+            $total = $cargar->parsed->count() - 1;
 
         } catch (\PHPExcel_Reader_Exception $e) {
 
@@ -230,7 +257,7 @@ class ClienteController extends Controller
         }
 
         return redirect()->route('clientes.index')
-            ->with('success', 'Un total de '.$total . ' clientes cargados correctamente');
+            ->with('success', 'Un total de ' . $total . ' clientes cargados correctamente');
 
     }
 

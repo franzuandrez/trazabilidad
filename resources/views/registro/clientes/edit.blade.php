@@ -14,9 +14,19 @@
         @endslot
     @endcomponent
 
-
+    @include('componentes.alert-error')
     {!!Form::model($cliente,['method'=>'PATCH','route'=>['clientes.update',$cliente->id_cliente]])!!}
     {{Form::token()}}
+
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for=codigo"">
+                CODIGO
+            </label>
+            <input type="text" name="codigo" value="{{$cliente->Codigo}}"
+                   class="form-control">
+        </div>
+    </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for=razon_social"">
@@ -37,6 +47,16 @@
         <div class="form-group">
             <label for="telefono">TELEFONO</label>
             <input type="text" name="telefono" value="{{$cliente->telefono}}"
+                   class="form-control">
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for=email"">
+                EMAIL
+            </label>
+            <input type="text" name="email" value="{{$cliente->email}}"
                    class="form-control">
         </div>
     </div>
