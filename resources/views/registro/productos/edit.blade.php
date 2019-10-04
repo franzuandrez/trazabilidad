@@ -78,6 +78,7 @@
             </select>
         </div>
     </div>
+
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="tipo_producto">TIPO PRODUCTO</label>
@@ -85,11 +86,11 @@
                     required
                     id="tipo_producto" class="form-control selectpicker">
                 <option selected value="">SELECCIONAR TIPO PRODUCTO</option>
-                @if(  $producto->tipo_documento == "MP"  )
+                @if(  $producto->tipo_producto == "MP"  )
                     <option value="MP" selected> MATERIA PRIMA</option>
                     <option value="PT">PRODUCTO TERMINADO</option>
                     <option value="ME">MATERIAL EMPAQUE</option>
-                @elseif($producto->tipo_documento == "PT"  )
+                @elseif($producto->tipo_producto == "PT"  )
                     <option value="MP"> MATERIA PRIMA</option>
                     <option value="PT" selected>PRODUCTO TERMINADO</option>
                     <option value="ME">MATERIAL EMPAQUE</option>

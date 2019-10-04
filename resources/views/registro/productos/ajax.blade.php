@@ -44,7 +44,7 @@
 
     @include('componentes.modal-importar-options',
 [
-    'ruta'=>'clientes.importar',
+    'ruta'=>'productos.importar',
     'opciones'=>$tipos_productos,
     'mensaje'=>'IMPORTAR PRODUCTOS'
 ])

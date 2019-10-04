@@ -29,11 +29,12 @@ class ProductoController extends Controller
         $sortField = $request->get('field') == null ? 'codigo_barras' : $request->get('field');
 
         $productos = Producto::leftjoin('dimensionales', 'dimensionales.id_dimensional', '=', 'productos.id_dimensional')
-            ->join('presentaciones', 'presentaciones.id_presentacion', '=', 'productos.id_presentacion')
+            ->leftjoin('presentaciones', 'presentaciones.id_presentacion', '=', 'productos.id_presentacion')
             ->select('productos.*', 'presentaciones.descripcion as presentacion',
                 'dimensionales.descripcion as dimensional')
             ->where(function ($query) use ($search) {
                 $query->where('productos.codigo_barras', 'LIKE', '%' . $search . '%')
+                    ->orwhere('productos.codigo_interno', 'LIKE', '%' . $search . '%')
                     ->orwhere('productos.descripcion', 'LIKE', '%' . $search . '%')
                     ->orwhere('presentaciones.descripcion', 'LIKE', '%' . $search . '%')
                     ->orwhere('dimensionales.descripcion', 'LIKE', '%' . $search . '%');
@@ -43,7 +44,9 @@ class ProductoController extends Controller
 
         $tipos_productos = [
             'MP' => 'MATERIA PRIMA',
-            'ME' => 'MATERIAL EMPAQUE'
+            'ME' => 'MATERIAL EMPAQUE',
+            'PT' => 'PRODUCTO TERMINADO',
+            'MIX' => 'MIXTO'
         ];
 
 
@@ -129,6 +132,7 @@ class ProductoController extends Controller
             $dimensionales = Dimensional::actived()->get();
             $presentaciones = Presentacion::actived()->get();
 
+
             return view('registro.productos.edit',
                 compact('producto', 'dimensionales', 'presentaciones'));
 
@@ -146,7 +150,7 @@ class ProductoController extends Controller
     {
         $existeCodigoInterno = Producto::actived()
             ->where('codigo_interno', $request->get('codigo_interno'))
-            ->where('id_producto','<>',$id)
+            ->where('id_producto', '<>', $id)
             ->exists();
 
         if ($existeCodigoInterno) {
@@ -260,8 +264,10 @@ class ProductoController extends Controller
     {
 
         $tipo_producto = $request->get('opcion');
+
         $extensionesValidas = ['xlsx', 'xls'];
         $file = $request->file('archivo_importar');
+        $total = 0;
 
         if (!in_array($file->extension(), $extensionesValidas)) {
             return redirect()
@@ -269,48 +275,82 @@ class ProductoController extends Controller
                 ->withErrors(['El archivo debe ser formato Excel']);
         }
         try {
-            Excel::load($file, function ($reader) use ($tipo_producto) {
+
+            $cargar = Excel::load($file, function ($reader) use ($tipo_producto) {
 
                 $results = $reader->noHeading()->get();
+
                 $results = $results->slice(1);
+                $results = $results->where(0, '<>', null);
                 foreach ($results as $key => $value) {
 
 
-                    $id_presentacion = $this->getIdPresentacion($value[2]);
-                    $existePresentacion = $id_presentacion != null;
+                    $formatoExcel = $this->getFormato($value);
 
-                    if (!$existePresentacion) {
-                        $id_presentacion = $this->savePresentacion($value[2]);
-                    }
-
-                    $codigo_barras = str_pad($value[0], 14, "0", STR_PAD_LEFT);
-
-                    $existeProducto = Producto::where('codigo_barras', $codigo_barras)->exists();
-
-                    if ($existeProducto) {
-
-                        $producto = Producto::where('codigo_barras', $codigo_barras)->first();
-                        $producto->descripcion = $value[1];
-                        $producto->update();
-
-
+                    if ($formatoExcel == "0") {
+                        return redirect()->back()->withErrors(['Formato de excel no valido']);
                     } else {
-                        $producto = new Producto();
-                        $producto->codigo_barras = $codigo_barras;
-                        //$producto->codigo_interno  =$codigo_barras;
-                        $producto->descripcion = $value[1];
-                        $producto->id_presentacion = $id_presentacion;
-                        $producto->tipo_producto = $tipo_producto;
-                        $producto->fecha_creacion = Carbon::now();
-                        $producto->creado_por = \Auth::user()->id;
-                        $producto->save();
+                        $codigo_barras = $value[0];
+                        $codigo_barras = str_pad($codigo_barras, 14, "0", STR_PAD_LEFT);
+                        $existeProducto = Producto::where('codigo_barras', $codigo_barras)->exists();
 
+                        if ($existeProducto) {
+                            $producto = Producto::where('codigo_barras', $codigo_barras)->first();
+                            $producto->descripcion = $value[1];
+                            $producto->update();
+                        } else {
+
+                            if ($formatoExcel == "A") {
+                                $id_dimensional = $this->getIdDimensional($value[3]);
+                                $existeDimensional = $id_dimensional != null;
+                                if (!$existeDimensional) {
+                                    $id_dimensional = $this->saveDimensional($value[5]);
+                                }
+                                $id_presentacion = null;
+                            } else if ($formatoExcel == "B" || $formatoExcel == "C") {
+
+                                $id_dimensional = $this->getIdDimensional($value[5]);
+                                $existeDimensional = $id_dimensional != null;
+                                if (!$existeDimensional) {
+                                    $id_dimensional = $this->saveDimensional($value[5], $value[4], $value[3]);
+                                }
+                                $id_presentacion = $this->getIdPresentacion($value[3]);
+                                $existePresentacion = $id_presentacion != null;
+                                if (!$existePresentacion) {
+                                    $id_presentacion = $this->savePresentacion($value[3]);
+                                }
+
+                            }
+
+                            if ($tipo_producto == "MIX") {
+                                $tipo_producto_asignado = $value[6];
+
+                            } else {
+                                $tipo_producto_asignado = $tipo_producto;
+                            }
+                            if ($tipo_producto_asignado == "PP") {
+                                $tipo_producto_asignado = "PT";
+                            }
+                            $codigo_interno = $value[1];
+                            $producto = new Producto();
+                            $producto->codigo_barras = $codigo_barras;
+                            $producto->codigo_interno = $codigo_interno;
+                            $producto->descripcion = $value[2];
+                            $producto->id_presentacion = $id_presentacion;
+                            $producto->tipo_producto = $tipo_producto_asignado;
+                            $producto->id_dimensional = $id_dimensional;
+                            $producto->fecha_creacion = Carbon::now();
+                            $producto->creado_por = \Auth::user()->id;
+                            $producto->save();
+
+                        }
                     }
-
                 }
 
 
             });
+            $total = $cargar->parsed->count() - 1;
+
             return redirect()->route('productos.index')
                 ->with('success', 'Productos cargados correctamente.');
         } catch (\PHPExcel_Reader_Exception $e) {
@@ -319,7 +359,7 @@ class ProductoController extends Controller
                 ->withErrors(['Archivo no valido']);
 
         } catch (\Exception $e) {
-
+            dd($e);
             return redirect()->route('productos.index')
                 ->withErrors(['No ha sido posible cargar los Productos']);
         }
@@ -342,6 +382,33 @@ class ProductoController extends Controller
 
     }
 
+    private function getIdDimensional($unidad_medida)
+    {
+        $id_dimensional = null;
+        $dimensional = Dimensional::where('unidad_medida', $unidad_medida)
+            ->first();
+
+        if ($dimensional != null) {
+            $id_dimensional = $dimensional->id_dimensional;
+        }
+
+        return $id_dimensional;
+    }
+
+    private function saveDimensional($unidad_medida, $cantidad = 1, $descripcion = "")
+    {
+
+
+        $dimensional = new Dimensional();
+        $dimensional->descripcion = $descripcion;
+        $dimensional->unidad_medida = $unidad_medida;
+        $dimensional->factor = $cantidad;
+        $dimensional->save();
+
+        return $dimensional->id_dimensional;
+
+    }
+
     private function savePresentacion($descripcion)
     {
 
@@ -351,5 +418,60 @@ class ProductoController extends Controller
         $presentacion->save();
 
         return $presentacion->id_presentacion;
+    }
+
+
+    /*
+     *  FORMATO A - [ CODIGO_BARRAS , CODIGO_INTERNO , DESCRIPCION , UNIDAD_MEDIDA  ]
+     *
+     * FORMATO B - [CODIGO_BARRAS - CODIGO_INTERNO , DESCRIPCION , PRESENTACION(CAJA,SACO), PRESENTACION(NUMERO), UNIDAD_MEDIDA ]
+     *
+     * FORMATO C - [CODIGO_BARRAS - CODIGO_INTERNO , DESCRIPCION , PRESENTACION(CAJA,SACO), PRESENTACION(NUMERO), UNIDAD_MEDIDA - CLASIFICACION]
+     *
+     * 0 - desconocido
+     * */
+    private function getFormato($row)
+    {
+        if ($row->count() == 4) {
+            return "A";
+        } else if ($row->count() == 6) {
+            return "B";
+        } else if ($row->count() == 7) {
+            return "C";
+        } else {
+            return "0";
+        }
+
+    }
+
+
+    private function importarFormatoB($row, $tipo_producto = null, $dimensional, $presentacion)
+    {
+
+        $codigo_barras = $row[0];
+        $codigo_interno = $row[1];
+        $descripcion = $row[2];
+
+        $existeProducto = Producto::where('codigo_barras', $codigo_barras)->exists();
+
+        if ($existeProducto) {
+            $producto = Producto::where('codigo_barras', $codigo_barras)->first();
+            $producto->descripcion = $descripcion;
+            $producto->update();
+
+        } else {
+            $producto = new Producto();
+            $producto->codigo_barras = $codigo_barras;
+            $producto->codigo_interno = $codigo_interno;
+            $producto->descripcion = $descripcion;
+            $producto->tipo_producto = $tipo_producto;
+            $producto->id_dimensional = $dimensional->id_dimensional;
+            $producto->id_presentacion = $dimensional->id_dimensional;
+            $producto->fecha_creacion = Carbon::now();
+            $producto->creado_por = \Auth::user()->id;
+            $producto->save();
+
+        }
+
     }
 }
