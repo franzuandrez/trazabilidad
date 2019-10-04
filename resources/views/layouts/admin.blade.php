@@ -231,7 +231,7 @@
                                 <li>
                                     <a href="{{url('recepcion/ubicacion')}}">
                                         <i class="fa fa-building-o" aria-hidden="true"></i>
-                                        Ubicacion
+                                        Sloting
                                     </a>
                                 </li>
                             @endcan
