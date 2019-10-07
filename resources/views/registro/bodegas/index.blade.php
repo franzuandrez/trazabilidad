@@ -99,13 +99,7 @@
                 </tbody>
             </table>
         </div>
+        @include('componentes.pagination',['pagination'=>$bodegas])
     </div>
-    {{
-      $bodegas->appends([
-          'search' => $search,
-          'sort'=>$sort,
-          'field'=>$sortField
-      ])->links()
-  }}
 </div>
 

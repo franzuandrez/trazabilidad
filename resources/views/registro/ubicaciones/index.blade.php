@@ -140,7 +140,8 @@
                 </tbody>
             </table>
         </div>
+
+        @include('componentes.pagination',['pagination'=>$ubicaciones])
     </div>
-    @include('componentes.pagination',['pagination'=>$ubicaciones])
 </div>
 

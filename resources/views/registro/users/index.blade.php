@@ -1,4 +1,3 @@
-
 @component('componentes.search',[
 'search'=>$search,
   'sort'=>$sort,
@@ -116,13 +115,6 @@
             </table>
 
         </div>
-
+        @include('componentes.pagination',['pagination'=>$users])
     </div>
-{{
-  $users->appends([
-    'search' => $search,
-    'sort'=>$sort,
-    'field'=>$sortField
-    ])->links()
-}}
 </div>

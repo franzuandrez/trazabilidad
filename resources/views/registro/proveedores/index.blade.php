@@ -104,6 +104,7 @@
             </table>
 
         </div>
+        @include('componentes.pagination',['pagination'=>$proveedores])
     </div>
-    @include('componentes.pagination',['pagination'=>$proveedores])
+
 </div>

@@ -58,7 +58,7 @@
                         </td>
                         <td>
                             @if($presentacion->estado == 1)
-                            <span class="label label-success">Activo</span>
+                                <span class="label label-success">Activo</span>
                             @else
                                 <span class="label label-danger">De baja</span>
                             @endif
@@ -80,13 +80,7 @@
                 </tbody>
             </table>
         </div>
+        @include('componentes.pagination',['pagination'=>$presentaciones])
     </div>
-    {{
-   $presentaciones->appends([
-      'search' => $search,
-      'sort'=>$sort,
-      'field'=>$sortField
-   ])->links()
-  }}
 </div>
 

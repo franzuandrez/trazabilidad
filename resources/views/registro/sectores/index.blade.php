@@ -98,14 +98,7 @@
                 </tbody>
             </table>
         </div>
+        @include('componentes.pagination',['pagination'=>$sectores])
     </div>
-    {{
-
-      $sectores->appends([
-    'search' => $search,
-    'sort'=>$sort,
-    'field'=>$sortField
-    ])->links()
-    }}
 </div>
 

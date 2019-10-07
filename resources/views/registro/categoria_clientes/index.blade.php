@@ -78,12 +78,6 @@
                 </tbody>
             </table>
         </div>
+        @include('componentes.pagination',['pagination'=>$categorias])
     </div>
-    {{
-       $categorias->appends([
-           'search' => $search,
-           'sort'=>$sort,
-           'field'=>$sortField
-       ])->links()
-    }}
 </div>

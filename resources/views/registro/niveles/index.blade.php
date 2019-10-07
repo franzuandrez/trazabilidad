@@ -88,13 +88,7 @@
                 </tbody>
             </table>
         </div>
+        @include('componentes.pagination',['pagination'=>$niveles])
     </div>
-    {{
-     $niveles->appends([
-        'search' => $search,
-        'sort'=>$sort,
-        'field'=>$sortField
-     ])->links()
-    }}
 </div>
 

@@ -73,13 +73,7 @@
                 </tbody>
             </table>
         </div>
+        @include('componentes.pagination',['pagination'=>$actividades])
     </div>
-    {{
-   $actividades->appends([
-       'search' => $search,
-       'sort'=>$sort,
-       'field'=>$sortField
-   ])->links()
-   }}
 </div>
 

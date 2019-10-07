@@ -90,13 +90,7 @@
                 </tbody>
             </table>
         </div>
+        @include('componentes.pagination',['pagination'=>$dimensionales])
     </div>
-    {{
-   $dimensionales->appends([
-       'search' => $search,
-       'sort'=>$sort,
-       'field'=>$sortField
-   ])->links()
-   }}
 </div>
 

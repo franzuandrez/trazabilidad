@@ -100,13 +100,8 @@
                 </tbody>
             </table>
         </div>
+        @include('componentes.pagination',['pagination'=>$localidades])
     </div>
-    {{
-    $localidades->appends([
-       'search' => $search,
-       'sort'=>$sort,
-       'field'=>$sortField
-    ])->links()
-}}
+
 </div>
 

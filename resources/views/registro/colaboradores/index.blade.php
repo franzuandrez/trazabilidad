@@ -87,13 +87,7 @@
                 </tbody>
             </table>
         </div>
+        @include('componentes.pagination',['pagination'=>$colaboradores])
     </div>
-    {{
-    $colaboradores->appends([
-        'search' => $search,
-        'sort'=>$sort,
-        'field'=>$sortField
-    ])->links()
-    }}
 </div>
 

@@ -75,13 +75,7 @@
                 </tbody>
             </table>
         </div>
+        @include('componentes.pagination',['pagination'=>$clientes])
     </div>
-    {{
-    $clientes->appends([
-        'search' => $search,
-        'sort'=>$sort,
-        'field'=>$sortField
-    ])->links()
-    }}
 </div>
 

@@ -80,13 +80,7 @@
             </table>
 
         </div>
-
+        @include('componentes.pagination',['pagination'=>$roles])
     </div>
-{{
-  $roles->appends([
-    'search' => $search,
-    'sort'=>$sort,
-    'field'=>$sortField
-    ])->links()
-}}
+
 </div>
