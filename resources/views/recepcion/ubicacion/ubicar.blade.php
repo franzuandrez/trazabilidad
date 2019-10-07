@@ -123,7 +123,7 @@
                    class="form-control">
         </div>
     </div>
-    <input type="hidden" id="user_acepted" name="user_acepted" >
+    <input type="hidden" id="user_acepted" name="user_acepted">
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="table-responsive">
             <table class="table table-striped table-bordered table-condensed table-hover">
@@ -182,9 +182,9 @@
 
         function solicitar_credenciales() {
 
-            if(existe_producto_pendiente()){
+            if (existe_producto_pendiente()) {
                 alert("Orden incompleta, aún falta producto por ubicar");
-            }else{
+            } else {
                 $('#autorizacion').modal();
             }
 
@@ -192,8 +192,7 @@
 
         function existe_producto_pendiente() {
 
-            let cantidades =Array.prototype.slice.call(document.getElementsByName('cantidad[]'));
-
+            let cantidades = Array.prototype.slice.call(document.getElementsByName('cantidad[]'));
 
 
             let existeProductoPendiente = false;
@@ -201,13 +200,12 @@
 
             let producto_lote = "";
             getRmiDetalle().forEach(function (prod) {
-                producto_lote = prod.id_producto+"-"+prod.lote;
-                cantidad = Array.prototype.slice.call(cantidades).filter(x => x.className==producto_lote).map(e=>parseFloat(e.value)).reduce((x,y)=> x+y,0);
-                if(parseFloat(prod.total) - cantidad > 0 ){
+                producto_lote = prod.id_producto + "-" + prod.lote;
+                cantidad = Array.prototype.slice.call(cantidades).filter(x => x.className == producto_lote).map(e => parseFloat(e.value)).reduce((x, y) => x + y, 0);
+                if (parseFloat(prod.total) - cantidad > 0) {
                     existeProductoPendiente = true;
                 }
             });
-
 
 
             return existeProductoPendiente;
@@ -254,10 +252,10 @@
 
         function mostrar_ubicacion(ubicacion) {
 
-            var tmr =  setTimeout(function () {
+            var tmr = setTimeout(function () {
 
                 stop_spinner("fa-eye");
-               var tmr_ =  setTimeout(function () {
+                var tmr_ = setTimeout(function () {
 
                     document.getElementById('ubicacion').readOnly = true;
                     document.getElementById('td-localidad').innerText = ubicacion.localidad.descripcion;
@@ -303,7 +301,7 @@
         }
 
         function cantidad_focus() {
-            var tmr =setTimeout(function () {
+            var tmr = setTimeout(function () {
                 document.getElementById('cantidad').focus();
                 clearTimeout(tmr)
             }, 350);
@@ -392,7 +390,7 @@
             }
 
             if (gl_cantidad_disponible < cantidad + cantidad_agregada) {
-                alert("Cantidad insuficiente");
+                alert("La cantidad excede la existencia");
                 return;
             }
 
@@ -464,15 +462,16 @@
             document.getElementById('codigo_producto').value = "";
             document.getElementById('lote').value = "";
             document.getElementById('descripcion').value = "";
-            document.getElementById('ubicacion').readOnly  = true;
+            document.getElementById('ubicacion').readOnly = true;
             document.getElementById('codigo_producto').focus();
         }
+
         function removeFromTable(element) {
 
             let td = $(element).parent();
             let row = td.parent();
 
-            if(row.prev().hasClass('titulo-ubicacion')){
+            if (row.prev().hasClass('titulo-ubicacion')) {
                 row.prev().remove();
             }
             row.remove();
