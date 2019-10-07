@@ -20,7 +20,9 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="id_encargado">LOCALIDAD</label>
-            <select name="id_localidad" class="form-control selectpicker" id="localidades" onchange="cargarBodegas()">
+            <select name="id_localidad" class="form-control selectpicker" id="localidades"
+                    required
+                    onchange="cargarBodegas()">
                 <option value="">SELECCIONAR LOCALIDAD</option>
                 @foreach($localidades as $loc)
                     @if($loc->id_localidad == $localidad->id_localidad)
@@ -36,7 +38,9 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="id_encargado">BODEGA</label>
-            <select name="id_bodega" id="bodegas" class="form-control selectpicker" onchange="cargarSectores()">
+            <select name="id_bodega"
+                    required
+                    id="bodegas" class="form-control selectpicker" onchange="cargarSectores()">
                 <option value="">SELECCIONAR BODEGA</option>
                 @foreach( $localidad->bodegas as $bod )
 
@@ -53,7 +57,9 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="id_encargado">SECTOR</label>
-            <select name="id_sector" id="sectores" class="form-control selectpicker" onchange="cargarPasillos()">
+            <select name="id_sector"
+                    required
+                    id="sectores" class="form-control selectpicker" onchange="cargarPasillos()">
                 <option value="">SELECCIONAR SECTOR</option>
                 @foreach( $bodega->sectores as $sec)
                     @if($sec->id_sector = $sector->id_sector)
@@ -68,7 +74,9 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="id_encargado">PASILLOS</label>
-            <select name="id_pasillo" id="pasillos" class="form-control selectpicker" onchange="cargarRacks()">
+            <select name="id_pasillo"
+                    required
+                    id="pasillos" class="form-control selectpicker" onchange="cargarRacks()">
                 <option value="">SELECCIONAR PASILLO</option>
                 @foreach( $sector->pasillos as $pass)
                     @if($pass->id_pasillo = $pasillo->id_pasillo)
@@ -84,6 +92,7 @@
         <div class="form-group">
             <label for="id_rack">RACKS</label>
             <select name="id_rack" id="racks"
+                    required
                     class="form-control selectpicker"
                     onchange="cargarNiveles()"
             >
@@ -103,7 +112,7 @@
             <label for="id_nivel">NIVELES</label>
             <select name="id_nivel"
                     id="niveles"
-                    reuired
+                    required
                     class="form-control selectpicker"
             >
                 <option value="">SELECCIONAR NIVEL</option>
@@ -122,14 +131,14 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="codigo_barras">CODIGO BARRAS</label>
-            <input type="text" name="codigo_barras" value="{{$posicion->codigo_barras}}" reuired
+            <input type="text" name="codigo_barras" value="{{$posicion->codigo_barras}}" required
                    class="form-control">
         </div>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="descripcion">DESCRIPCION</label>
-            <input type="text" name="descripcion" value="{{$posicion->descripcion}}" reuired
+            <input type="text" name="descripcion" value="{{$posicion->descripcion}}" required
                    class="form-control">
         </div>
     </div>
@@ -145,7 +154,6 @@
                     CANCELAR
                 </button>
             </a>
-
         </div>
     </div>
     {!!Form::close()!!}
