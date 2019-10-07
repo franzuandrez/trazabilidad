@@ -52,6 +52,16 @@ class TipoMovimientoController extends Controller
     public function store(Request $request)
     {
 
+        $existeTipo = TipoMovimiento::where('descripcion', $request->get('descripcion'))
+            ->exists();
+        if ($existeTipo) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->withErrors(['Tipo de movimiento ya existente']);
+        }
+
+
         $tipoMovimiento = new TipoMovimiento();
         $tipoMovimiento->descripcion = $request->get('descripcion');
         $tipoMovimiento->factor = $request->get('factor');
@@ -81,6 +91,16 @@ class TipoMovimientoController extends Controller
     {
 
         try {
+            $existeTipo = TipoMovimiento::where('descripcion', $request->get('descripcion'))
+                ->where('id_movimiento', '<>', $id)
+                ->exists();
+            if ($existeTipo) {
+                return redirect()
+                    ->back()
+                    ->withInput()
+                    ->withErrors(['Tipo de movimiento ya existente']);
+            }
+
             $tipoMovimiento = TipoMovimiento::findOrFail($id);
             $tipoMovimiento->descripcion = $request->get('descripcion');
             $tipoMovimiento->factor = $request->get('factor');
@@ -107,7 +127,7 @@ class TipoMovimientoController extends Controller
         } catch (\Exception $e) {
 
             return redirect()->route('tipo_movimientos.index')
-                ->withErrors(['error'=>'Tipo de movimiento no encontrado']);
+                ->withErrors(['error' => 'Tipo de movimiento no encontrado']);
         }
 
     }

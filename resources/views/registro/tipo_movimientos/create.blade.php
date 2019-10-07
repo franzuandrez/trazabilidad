@@ -14,7 +14,7 @@
         @endslot
     @endcomponent
 
-
+    @include('componentes.alert-error')
     {!!Form::open(array('url'=>'registro/tipo_movimientos/create','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
@@ -30,9 +30,11 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="factor">SUMA INVENTARIO</label>
-            <select name="factor" class="form-control selectpicker">
-                <option value="" >SELECCIONE OPCION</option>
-                <option value="1" >SI</option>
+            <select name="factor"
+                    required
+                    class="form-control selectpicker">
+                <option value="">SELECCIONE OPCION</option>
+                <option value="1">SI</option>
                 <option value="-1">NO</option>
             </select>
         </div>

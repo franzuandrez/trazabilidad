@@ -14,7 +14,7 @@
         @endslot
     @endcomponent
 
-
+    @include('componentes.alert-error')
     {!!Form::model($tipoMovimiento,['method'=>'PATCH','route'=>['tipo_movimientos.update',$tipoMovimiento->id_movimiento]])!!}
     {{Form::token()}}
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
@@ -30,12 +30,14 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="factor">SUMA INVENTARIO</label>
-            <select name="factor" class="form-control selectpicker">
+            <select name="factor"
+                    required
+                    class="form-control selectpicker">
                 @if( $tipoMovimiento->factor == 1 )
-                    <option value="1" selected >SI</option>
+                    <option value="1" selected>SI</option>
                     <option value="-1">NO</option>
                 @else
-                    <option value="1" >SI</option>
+                    <option value="1">SI</option>
                     <option value="-1" selected>NO</option>
                 @endif
             </select>
