@@ -26,7 +26,7 @@ class DimensionalRequest extends FormRequest
         return [
             //
             'descripcion' => 'required',
-            'unidad_medida' => 'required',
+            'unidad_medida' => 'required|max:5',
         ];
     }
 
@@ -34,7 +34,8 @@ class DimensionalRequest extends FormRequest
     {
         return [
             'descripcion.required' => 'El campo descripcion es requerido',
-            'unidad_medida.required' => 'El campo unidad de medida es requerido'
+            'unidad_medida.required' => 'El campo unidad de medida es requerido',
+            'unidad_medida.max' => 'La unidad de medida no puede exceder 5 caracteres'
         ];
     }
 }
