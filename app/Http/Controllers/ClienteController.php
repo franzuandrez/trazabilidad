@@ -157,6 +157,7 @@ class ClienteController extends Controller
             }
             $cliente = Cliente::findOrFail($id);
             $cliente->razon_social = $request->get('razon_social');
+            $cliente->Codigo = $request->get('codigo');
             $cliente->nit = $request->get('nit');
             $cliente->telefono = $request->get('telefono');
             $cliente->direccion = $request->get('direccion');
