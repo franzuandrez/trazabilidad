@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="{{asset('css/bootstrap-select.min.css')}}">
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
     <style>
-        .popover{
+        .popover {
             max-width: none;
         }
     </style>
@@ -231,7 +231,7 @@
                                 <li>
                                     <a href="{{url('recepcion/ubicacion')}}">
                                         <i class="fa fa-building-o" aria-hidden="true"></i>
-                                        Sloting
+                                        Asignar Ubicacion
                                     </a>
                                 </li>
                             @endcan
@@ -239,7 +239,7 @@
                                 <li>
                                     <a href="{{url('recepcion/kardex')}}">
                                         <i class="fa fa-th-list" aria-hidden="true"></i>
-                                        Kardex
+                                        Existencias
                                     </a>
                                 </li>
                             @endcan
@@ -390,11 +390,10 @@
         });
         height = window.screen.availHeight;
         width = window.screen.availWidth;
-        if(height < 740 || width < 400){
-           document.getElementById('lnk_username').style.display = "none";
-           document.getElementById('lnk_logout').style.display = "block";
+        if (height < 740 || width < 400) {
+            document.getElementById('lnk_username').style.display = "none";
+            document.getElementById('lnk_logout').style.display = "block";
         }
-
 
 
     });
@@ -402,10 +401,10 @@
         height = window.screen.availHeight;
         width = window.screen.availWidth;
 
-        if(height < 740 || width < 380){
+        if (height < 740 || width < 380) {
             document.getElementById('lnk_username').style.display = "none";
             document.getElementById('lnk_logout').style.display = "block";
-        }else{
+        } else {
             document.getElementById('lnk_username').style.display = "block";
             document.getElementById('lnk_logout').style.display = "none";
         }
