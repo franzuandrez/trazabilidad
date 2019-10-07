@@ -628,7 +628,6 @@
             });
 
 
-
             $(window).keydown(function (event) {
                 if (event.keyCode == 13) {
                     event.preventDefault();
@@ -644,7 +643,7 @@
         });
     </script>
     <script>
-        function limpiarProducto(){
+        function limpiarProducto() {
             document.getElementById('id_producto').value = "";
             document.getElementById('codigo_producto').value = "";
             document.getElementById('nombre_producto').value = "";
@@ -653,6 +652,7 @@
             document.getElementById('cantidad').value = "";
             document.getElementById('codigo_producto').focus();
         }
+
         function cargarProveedores(proveedores) {
             limpiarSelectProveedores()
             let option = '';
@@ -676,6 +676,11 @@
 
             if ($("#cantidad").val() != "" && $("#lote").val() != "" && $("#vencimiento").val() != "") {
                 let cantidad = $("#cantidad");
+
+                if (cantidad.val() == 0) {
+                    alert("La cantidad debe ser mayor a cero");
+                    return ;
+                }
                 let lote = $("#lote");
                 let fecha = $("#vencimiento");
                 let codigo_producto = $("#codigo_producto");
@@ -689,8 +694,8 @@
                     return;
                 }
 
-                let existeLoteValido = findLote(id_producto.val(), lote.val().toUpperCase(), cantidad.val(),fecha.val());
-                if (existeLoteValido==0) { //No existe, lo agrego
+                let existeLoteValido = findLote(id_producto.val(), lote.val().toUpperCase(), cantidad.val(), fecha.val());
+                if (existeLoteValido == 0) { //No existe, lo agrego
 
                     let row =
                         `<tr class="row-producto-added" id='${id_producto.val()}-${lote.val().toUpperCase()}'>
@@ -713,9 +718,9 @@
                     validacion_checks();
 
                     limpiarProducto();
-                }else if(existeLoteValido == 1){ //Existe y tiene la fecha valida.
+                } else if (existeLoteValido == 1) { //Existe y tiene la fecha valida.
                     limpiarProducto();
-                }else{//Existe y la fecha es invalida
+                } else {//Existe y la fecha es invalida
                     fecha.focus();
                 }
                 $('#proveedores').find('option:not(:selected)').remove();
@@ -1049,12 +1054,11 @@
          * Acumula la cantidad en caso de existir ya un producto con su lote
          */
 
-        function findLote(id_producto, lote, nuevaCantidad , fecha_vencimiento) {
+        function findLote(id_producto, lote, nuevaCantidad, fecha_vencimiento) {
             var existe = 0;
             var producto = productosAgregados.find(p => p.id_producto == id_producto);
             const POSICION_CANTIDAD = 2;
             const POSICION_FECHA = 4;
-
 
 
             if (typeof producto != 'undefined') {
@@ -1069,13 +1073,13 @@
                     var inputCantidad = row.children[POSICION_CANTIDAD].firstChild;
                     var inputFechaVencimiento = row.children[POSICION_FECHA].firstChild;
 
-                    if(inputFechaVencimiento.value == fecha_vencimiento ){
+                    if (inputFechaVencimiento.value == fecha_vencimiento) {
                         var cantidad = parseInt(inputCantidad.value);
                         cantidad = parseInt(nuevaCantidad) + parseInt(cantidad);
                         inputCantidad.value = cantidad;
                         row.children[POSICION_CANTIDAD].lastChild.textContent = cantidad;
                         existe = 1;
-                    }else{
+                    } else {
                         alert("La fecha de vencimiento no corresponde con el lote.");
                         existe = 2;
                     }
@@ -1099,9 +1103,9 @@
 
                 var estado = document.getElementsByClassName('validacion')[i].checked;
 
-                var detalleNoVacio = document.getElementById('body-detalles').children.length !=0;
+                var detalleNoVacio = document.getElementById('body-detalles').children.length != 0;
 
-                if (estado == true && detalleNoVacio==true) {
+                if (estado == true && detalleNoVacio == true) {
                     $("#Bt_guardar").attr('disabled', false);
 
                 } else {
