@@ -21,7 +21,9 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="id_encargado">LOCALIDAD</label>
-            <select name="id_localidad" class="form-control selectpicker" id="localidades" onchange="cargarBodegas()">
+            <select name="id_localidad"
+                    required
+                    class="form-control selectpicker" id="localidades" onchange="cargarBodegas()">
                 @foreach($localidades as $loc)
                     @if($loc->id_localidad == $localidad->id_localidad)
                         <option selected value="{{$loc->id_localidad}}">{{$loc->descripcion}}</option>
@@ -36,7 +38,9 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="id_encargado">BODEGA</label>
-            <select name="id_bodega" id="bodegas" class="form-control selectpicker"
+            <select name="id_bodega" id="bodegas"
+                    required
+                    class="form-control selectpicker"
                     required
                     onchange="cargarSectores()">
                 <option value="">SELECCIONAR BODEGA</option>
@@ -55,7 +59,8 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="id_encargado">SECTOR</label>
-            <select name="id_sector" id="sectores" class="form-control selectpicker"
+            <select name="id_sector"
+                    id="sectores" class="form-control selectpicker"
                     required
                     onchange="cargarPasillos()">
                 <option value="">SELECCIONAR SECTOR</option>
@@ -72,7 +77,9 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="id_encargado">PASILLOS</label>
-            <select name="id_pasillo" id="pasillos" class="form-control selectpicker" onchange="cargarRacks()">
+            <select name="id_pasillo"
+                    required
+                    id="pasillos" class="form-control selectpicker" onchange="cargarRacks()">
                 <option value="">SELECCIONAR PASILLO</option>
                 @foreach( $sector->pasillos as $pass)
                     @if($pass->id_pasillo = $pasillo->id_pasillo)

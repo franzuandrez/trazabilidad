@@ -20,7 +20,9 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="id_encargado">LOCALIDAD</label>
-            <select name="id_localidad" class="form-control selectpicker" id="localidades" onchange="cargarBodegas()">
+            <select name="id_localidad"
+                    required
+                    class="form-control selectpicker" id="localidades" onchange="cargarBodegas()">
                 <option value="">SELECCIONAR LOCALIDAD</option>
                 @foreach($localidades as $localidad)
                     <option value="{{$localidad->id_localidad}}">{{$localidad->descripcion}}</option>
@@ -32,7 +34,9 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="id_encargado">BODEGA</label>
-            <select name="id_bodega" id="bodegas" class="form-control selectpicker" onchange="cargarSectores()">
+            <select name="id_bodega"
+                    required
+                    id="bodegas" class="form-control selectpicker" onchange="cargarSectores()">
                 <option value="">SELECCIONAR BODEGA</option>
 
             </select>
@@ -41,7 +45,9 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="id_encargado">SECTOR</label>
-            <select name="id_sector" id="sectores" class="form-control selectpicker" onchange="cargarPasillos()">
+            <select name="id_sector"
+                    required
+                    id="sectores" class="form-control selectpicker" onchange="cargarPasillos()">
                 <option value="">SELECCIONAR SECTOR</option>
             </select>
         </div>
@@ -49,7 +55,9 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="id_encargado">PASILLOS</label>
-            <select name="id_pasillo" id="pasillos" class="form-control selectpicker" onchange="cargarRacks()">
+            <select name="id_pasillo"
+                    required
+                    id="pasillos" class="form-control selectpicker" onchange="cargarRacks()">
                 <option value="">SELECCIONAR PASILLO</option>
             </select>
         </div>
