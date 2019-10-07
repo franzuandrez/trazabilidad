@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Bodega;
+use App\Http\Requests\BodegaRequest;
 use App\Localidad;
 use App\User;
 use DB;
@@ -60,7 +61,7 @@ class BodegaController extends Controller
         return view('registro.bodegas.create', compact('encargados', 'localidades'));
     }
 
-    public function store(Request $request)
+    public function store(BodegaRequest $request)
     {
 
         $existeCodigo = Bodega::actived()
@@ -112,7 +113,7 @@ class BodegaController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(BodegaRequest $request, $id)
     {
 
         try {

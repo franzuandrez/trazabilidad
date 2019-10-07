@@ -21,21 +21,26 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="codigo_barras">CODIGO BARRAS</label>
-            <input type="text" name="codigo_barras" value="{{old('codigo_barras')}}"
+            <input type="text"
+                    required
+                   name="codigo_barras" value="{{old('codigo_barras')}}"
                    class="form-control">
         </div>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="descripcion">DESCRIPCION</label>
-            <input type="text" name="descripcion" value="{{old('descripcion')}}"
+            <input type="text"
+                   required
+                   name="descripcion" value="{{old('descripcion')}}"
                    class="form-control">
         </div>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="telefono">TELEFONO</label>
-            <input type="text" name="telefono" value="{{old('telefono')}}"
+            <input type="text" name="telefono"
+                   value="{{old('telefono')}}"
                    class="form-control">
         </div>
     </div>
@@ -64,7 +69,9 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="id_localidad">LOCALIDAD</label>
-            <select name="id_localidad" class="form-control selectpicker">
+            <select name="id_localidad"
+                    required
+                    class="form-control selectpicker">
                 <option value="">SELECCIONAR LOCALIDAD</option>
                 @foreach($localidades as $localidad)
                     @if(old('id_localidad') == $localidad->id_localidad)
@@ -79,7 +86,9 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="id_encargado">ENCARGADO</label>
-            <select name="id_encargado" class="form-control selectpicker">
+            <select name="id_encargado"
+                    required
+                    class="form-control selectpicker">
                 <option value="">SELECCIONAR ENCARGADO</option>
                 @foreach($encargados as $encargado)
                     @if(old('id_encargado') == $encargado->id)
