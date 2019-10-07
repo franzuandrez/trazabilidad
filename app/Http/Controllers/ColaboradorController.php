@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Colaborador;
+use App\Http\Requests\ColaboradorRequest;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -73,7 +74,7 @@ class ColaboradorController extends Controller
         return view('registro.colaboradores.create');
     }
 
-    public function store(Request $request)
+    public function store(ColaboradorRequest $request)
     {
 
         $existeColaborador = Colaborador::where('codigo_barras', $request->get('codigo_barras'))
@@ -114,7 +115,7 @@ class ColaboradorController extends Controller
 
     }
 
-    public function update(Request $request, $id)
+    public function update(ColaboradorRequest $request, $id)
     {
 
         try {
@@ -198,15 +199,15 @@ class ColaboradorController extends Controller
         }
 
         try {
-            $cargar =     Excel::load($file, function ($reader) {
+            $cargar = Excel::load($file, function ($reader) {
 
                 $results = $reader->noHeading()->get();
-                $results = $results->slice(1)->where(0,'<>','');
+                $results = $results->slice(1)->where(0, '<>', '');
 
 
                 foreach ($results as $key => $value) {
 
-                    $codigo =str_replace(['(',')'],'',$value[0]);
+                    $codigo = str_replace(['(', ')'], '', $value[0]);
                     $nombre = $value[1];
                     $apellido = $value[2];
                     $telefono = empty($value[3]) ? "" : $value[3];
@@ -237,11 +238,11 @@ class ColaboradorController extends Controller
 
 
             });
-            $total = $cargar->parsed->where(0,'<>','')->count() - 1;
+            $total = $cargar->parsed->where(0, '<>', '')->count() - 1;
 
 
             return redirect()->route('colaboradores.index')
-                ->with('success', 'Un total de '.$total.' colaboradores cargados correctamente.');
+                ->with('success', 'Un total de ' . $total . ' colaboradores cargados correctamente.');
 
         } catch (\PHPExcel_Reader_Exception $e) {
 
@@ -249,7 +250,7 @@ class ColaboradorController extends Controller
                 ->withErrors(['Archivo no valido']);
 
         } catch (\Exception $e) {
-            dd($e);
+
             return redirect()->route('colaboradores.index')
                 ->withErrors(['No ha sido posible cargar los colaboradores']);
         }

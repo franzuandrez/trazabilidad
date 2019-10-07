@@ -41,7 +41,7 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="telefono">TELEFONO</label>
-            <input type="text" name="telefono" value="{{$colaborador->telefono}}" required
+            <input type="text" name="telefono" value="{{$colaborador->telefono}}"
                    class="form-control">
         </div>
     </div>
