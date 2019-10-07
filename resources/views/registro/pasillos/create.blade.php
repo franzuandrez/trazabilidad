@@ -20,7 +20,9 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="id_encargado">LOCALIDAD</label>
-            <select name="id_localidad" class="form-control selectpicker" id="localidades" onchange="cargarBodegas()">
+            <select name="id_localidad"
+                    required
+                    class="form-control selectpicker" id="localidades" onchange="cargarBodegas()">
                 <option value="">SELECCIONAR LOCALIDAD</option>
                 @foreach($localidades as $localidad)
                     <option value="{{$localidad->id_localidad}}">{{$localidad->descripcion}}</option>
@@ -32,7 +34,9 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="id_encargado">BODEGA</label>
-            <select name="id_bodega" id="bodegas" class="form-control selectpicker" onchange="cargarSectores()">
+            <select name="id_bodega"
+                    required
+                    id="bodegas" class="form-control selectpicker" onchange="cargarSectores()">
                 <option value="">SELECCIONAR BODEGA</option>
 
             </select>
@@ -41,7 +45,9 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="id_encargado">SECTOR</label>
-            <select name="id_sector" id="sectores" class="form-control selectpicker">
+            <select name="id_sector"
+                    required
+                    id="sectores" class="form-control selectpicker">
                 <option value="">SELECCIONAR SECTOR</option>
             </select>
         </div>
@@ -50,14 +56,18 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="codigo_barras">CODIGO BARRAS</label>
-            <input type="text" name="codigo_barras" value="{{old('codigo_barras')}}"
+            <input type="text"
+                   required
+                   name="codigo_barras" value="{{old('codigo_barras')}}"
                    class="form-control">
         </div>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="descripcion">DESCRIPCION</label>
-            <input type="text" name="descripcion" value="{{old('descripcion')}}"
+            <input type="text"
+                   required
+                   name="descripcion" value="{{old('descripcion')}}"
                    class="form-control">
         </div>
     </div>
@@ -65,7 +75,9 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="id_encargado">ENCARGADO</label>
-            <select name="id_encargado" class="form-control selectpicker">
+            <select name="id_encargado"
+                    required
+                    class="form-control selectpicker">
                 <option value="">SELECCIONAR ENCARGADO</option>
                 @foreach($encargados as $encargado)
                     <option value="{{$encargado->id}}">{{$encargado->nombre}}</option>
