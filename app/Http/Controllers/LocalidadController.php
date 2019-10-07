@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LocalidadRequest;
 use App\Localidad;
 use App\User;
 use Illuminate\Http\Request;
@@ -53,7 +54,7 @@ class LocalidadController extends Controller
         return view('registro.localidades.create', compact('encargados'));
     }
 
-    public function store(Request $request)
+    public function store(LocalidadRequest $request)
     {
 
 
@@ -101,7 +102,7 @@ class LocalidadController extends Controller
 
     }
 
-    public function update(Request $request, $id)
+    public function update(LocalidadRequest $request, $id)
     {
         try {
             $existeCodigoBarras = Localidad::actived()

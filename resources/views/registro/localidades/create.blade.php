@@ -47,7 +47,11 @@
             <select name="id_encargado" class="form-control selectpicker">
                 <option value="">SELECCIONAR ENCARGADO</option>
                 @foreach($encargados as $encargado)
-                    <option value="{{$encargado->id}}">{{$encargado->nombre}}</option>
+                    @if(old('id_encargado')== $encargado->id)
+                        <option selected value="{{$encargado->id}}">{{$encargado->nombre}}</option>
+                    @else
+                        <option value="{{$encargado->id}}">{{$encargado->nombre}}</option>
+                    @endif
                 @endforeach
             </select>
         </div>
