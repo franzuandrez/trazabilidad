@@ -13,12 +13,21 @@
 
                     </th>
                     <th>
-                        @component('componentes.column-sort',['modulo'=>'registro/proveedores',
-                        'search'=>$search,
+                        @component('componentes.column-sort',[
+                           'search'=>$search,
                            'sort'=>$sort,
                            'sortField'=>$sortField,
-                           'field'=>'razon_social',
-                           'titulo'=>'RAZON SOCIAL'])
+                           'field'=>'codigo_proveedor',
+                           'titulo'=>'CODIGO'])
+                        @endcomponent
+                    </th>
+                    <th>
+                        @component('componentes.column-sort',['modulo'=>'registro/proveedores',
+                       'search'=>$search,
+                          'sort'=>$sort,
+                          'sortField'=>$sortField,
+                          'field'=>'razon_social',
+                          'titulo'=>'RAZON SOCIAL'])
                         @endcomponent
                     </th>
                     <th>
@@ -65,7 +74,10 @@
 
                     <tr>
                         <td>
-                            <input type="radio" name="id_proveedor" value="{{$proveedor->id_proveedor}}" >
+                            <input type="radio" name="id_proveedor" value="{{$proveedor->id_proveedor}}">
+                        </td>
+                        <td>
+                            {{$proveedor->codigo_proveedor}}
                         </td>
                         <td>
                             {{$proveedor->razon_social}}

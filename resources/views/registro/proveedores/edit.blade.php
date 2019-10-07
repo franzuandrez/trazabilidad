@@ -21,7 +21,7 @@
         @endslot
     @endcomponent
 
-
+    @include('componentes.alert-error')
     {!!Form::model($proveedor,['method'=>'PATCH','route'=>['proveedores.update',$proveedor->id_proveedor]])!!}
     {{Form::token()}}
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
@@ -31,7 +31,13 @@
                 <small>&nbsp;&nbsp; INFORMACIÓN COMERCIAL .</small>
             </h2>
         </div>
-
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="codigo">CODIGO</label>
+                <input type="text" name="codigo" required value="{{$proveedor->codigo_proveedor}}" id="codigo"
+                       class="form-control">
+            </div>
+        </div>
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="nombre">RAZON SOCIAL</label>

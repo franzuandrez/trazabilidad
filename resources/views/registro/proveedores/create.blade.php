@@ -21,7 +21,7 @@
         @endslot
     @endcomponent
 
-
+    @include('componentes.alert-error')
 
     {!!Form::open(array('url'=>'registro/proveedores/create','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
@@ -32,7 +32,13 @@
                 <small>&nbsp;&nbsp; INFORMACIÓN COMERCIAL .</small>
             </h2>
         </div>
-
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="codigo">CODIGO</label>
+                <input type="text" name="codigo" required value="{{old('codigo')}}" id="codigo"
+                       class="form-control">
+            </div>
+        </div>
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="nombre">RAZON SOCIAL</label>
@@ -284,6 +290,7 @@
                      <input type="hidden" id="id_producto"
                             name="id_producto"
                             class="form-control">
+                </span>
                 <span class="input-group-btn">
                 <a href="javascript:buscar_producto();">
                     <button type="button"
@@ -298,6 +305,7 @@
              </span>
             </div>
         </div>
+
 
         <div class="col-lg-5 col-sm-5 col-md-5 col-xs-10">
             <div class="form-group">
@@ -431,7 +439,7 @@
 
         }
 
-        function getCodigoProducto(){
+        function getCodigoProducto() {
 
             var producto = document.getElementById('producto').value;
 
@@ -483,6 +491,7 @@
             })
 
         }
+
         function removeFromTable(element) {
 
             let td = $(element).parent();
@@ -493,7 +502,7 @@
 
         }
 
-        function cargarProducto(producto){
+        function cargarProducto(producto) {
 
             document.getElementById('id_producto').value = producto.id_producto;
             document.getElementById('producto').value = producto.descripcion;
@@ -539,11 +548,13 @@
                 addToTableProductos();
             }
         }
+
         function habilitar() {
 
             document.getElementById('aceptar_producto').disabled = false;
 
         }
+
         function getProductoSelected() {
             var productos = document.getElementsByName('id_prod');
             var id_prod = null;
@@ -564,7 +575,7 @@
 
                 }
             });
-            return [id_prod, descripcion,presentacion];
+            return [id_prod, descripcion, presentacion];
         }
 
     </script>

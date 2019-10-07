@@ -13,6 +13,7 @@ class Proveedor extends Model
     protected $primaryKey = 'id_proveedor';
 
     public static $logAttributes =[
+        'codigo',
         'razon_social',
         'nombre_comercial',
         'nit',
@@ -43,6 +44,7 @@ class Proveedor extends Model
     protected static $logOnlyDirty = true;
 
     protected  $fillable = [
+        'codigo',
         'razon_social',
         'nombre_comercial',
         'nit',

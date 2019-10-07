@@ -36,13 +36,14 @@ class ProveedorController extends Controller
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
         $sortField = $request->get('field') == null ? 'razon_social' : $request->get('field');
 
-        $proveedores = Proveedor::select('id_proveedor', 'razon_social', 'nombre_comercial', 'nit', 'direccion_planta', 'estado')
+        $proveedores = Proveedor::select('id_proveedor', 'codigo_proveedor', 'razon_social', 'nombre_comercial', 'nit', 'direccion_planta', 'estado')
             ->actived()
             ->where(function ($query) use ($search) {
                 $query->where('razon_social', 'LIKE', '%' . $search . '%')
                     ->orwhere('nombre_comercial', 'LIKE', '%' . $search . '%')
                     ->orwhere('direccion_planta', 'LIKE', '%' . $search . '%')
-                    ->orwhere('nit', 'LIKE', '%' . $search . '%');
+                    ->orwhere('nit', 'LIKE', '%' . $search . '%')
+                    ->orwhere('codigo_proveedor', 'LIKE', '%' . $search . '%');
             })
             ->orderBy($sortField, $sort)
             ->paginate(20);
@@ -58,7 +59,7 @@ class ProveedorController extends Controller
             $examples = $this->getExamples();
 
             return view('registro.proveedores.ajax',
-                compact('search', 'sort', 'sortField', 'proveedores','headers','examples'));
+                compact('search', 'sort', 'sortField', 'proveedores', 'headers', 'examples'));
 
         }
 
@@ -87,8 +88,20 @@ class ProveedorController extends Controller
             $sistema_calidad_auditado_por_terceros = $this->getValueChecked($request->get('sistema_calidad_auditado_por_terceros'));
             $certificaciones = $this->getValueChecked($request->get('certificaciones'));
 
+            $existeProveedor = Proveedor::where('codigo_proveedor', $request->get('codigo'))
+                ->where('estado', 1)
+                ->exists();
+
+            if ($existeProveedor) {
+                return redirect()
+                    ->back()
+                    ->withInput()
+                    ->withErrors(['El codigo ya existe']);
+            }
+
 
             $proveedor = new Proveedor();
+            $proveedor->codigo_proveedor = $request->get('codigo');
             $proveedor->razon_social = $request->get('razon_social');
             $proveedor->nombre_comercial = $request->get('nombre_comercial');
             $proveedor->nit = $request->get('nit');
@@ -135,7 +148,7 @@ class ProveedorController extends Controller
 
             DB::rollback();
 
-            dd($ex);
+
             return redirect()
                 ->route('proveedores.index')
                 ->withErrors(['error' => 'Lo sentimos, su petición no fue procesada']);
@@ -158,7 +171,7 @@ class ProveedorController extends Controller
 
         } catch (\Exception $ex) {
 
-            dd($ex);
+
             return redirect()->route('proveedores.index')
                 ->with('error', 'Proveedor no encontrado');
         }
@@ -184,7 +197,20 @@ class ProveedorController extends Controller
 
             DB::beginTransaction();
 
+            $existeProveedor = Proveedor::where('codigo_proveedor', $request->get('codigo'))
+                ->where('estado', 1)
+                ->where('id_proveedor', '<>', $id)
+                ->exists();
+
+            if ($existeProveedor) {
+                return redirect()
+                    ->back()
+                    ->withInput()
+                    ->withErrors(['El codigo ya existe']);
+            }
+
             $proveedor = Proveedor::findOrFail($id);
+            $proveedor->codigo_proveedor = $request->get('codigo');
             $proveedor->razon_social = $request->get('razon_social');
             $proveedor->nombre_comercial = $request->get('nombre_comercial');
             $proveedor->nit = $request->get('nit');

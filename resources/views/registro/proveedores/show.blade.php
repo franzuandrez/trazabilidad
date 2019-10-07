@@ -28,7 +28,13 @@
                     <small>&nbsp;&nbsp; INFORMACIÓN COMERCIAL .</small>
                 </h2>
             </div>
-
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                <div class="form-group">
+                    <label for="codigo">CODIGO</label>
+                    <input type="text" name="codigo"  readonly required value="{{$proveedor->codigo_proveedor}}" id="codigo"
+                           class="form-control">
+                </div>
+            </div>
             <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
                 <div class="form-group">
                     <label for="nombre">RAZON SOCIAL</label>
