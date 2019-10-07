@@ -44,7 +44,9 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="id_encargado">ENCARGADO</label>
-            <select name="id_encargado" class="form-control selectpicker">
+            <select name="id_encargado"
+                    required
+                    class="form-control selectpicker">
                 <option value="">SELECCIONAR ENCARGADO</option>
                 @foreach($encargados as $encargado)
                     @if(old('id_encargado')== $encargado->id)
