@@ -20,7 +20,9 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="id_encargado">LOCALIDAD</label>
-            <select name="id_localidad" class="form-control selectpicker" id="localidades" onchange="cargarBodegas()">
+            <select name="id_localidad"
+                    required
+                    class="form-control selectpicker" id="localidades" onchange="cargarBodegas()">
                 <option value="">SELECCIONAR LOCALIDAD</option>
                 @foreach($localidades as $localidad)
                     @if($localidad->id_localidad == $idLocalidad)
@@ -35,7 +37,9 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="id_encargado">BODEGA</label>
-            <select name="id_bodega" id="bodegas" class="form-control selectpicker">
+            <select name="id_bodega"
+                    required
+                    id="bodegas" class="form-control selectpicker">
                 <option value="">SELECCIONE BODEGA</option>
                 @foreach($bodegas as $bodega)
                     @if($bodega->id_bodega == $sector->id_bodega)
@@ -52,14 +56,18 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="codigo_barras">CODIGO BARRAS</label>
-            <input type="text" name="codigo_barras" value="{{$sector->codigo_barras}}"
+            <input type="text"
+                   required
+                   name="codigo_barras" value="{{$sector->codigo_barras}}"
                    class="form-control">
         </div>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="descripcion">DESCRIPCION</label>
-            <input type="text" name="descripcion" value="{{$sector->descripcion}}"
+            <input type="text"
+                   required
+                   name="descripcion" value="{{$sector->descripcion}}"
                    class="form-control">
         </div>
     </div>
@@ -67,7 +75,9 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="id_encargado">ENCARGADO</label>
-            <select name="id_encargado" class="form-control selectpicker">
+            <select name="id_encargado"
+                    required
+                    class="form-control selectpicker">
                 @foreach($encargados as $encargado)
                     @if($encargado->id == $sector->id_encargado)
                         <option value="{{$encargado->id}}" selected>{{$encargado->nombre}}</option>
