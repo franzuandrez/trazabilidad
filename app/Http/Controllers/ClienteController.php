@@ -18,13 +18,13 @@ class ClienteController extends Controller
 
     private function getHeaders()
     {
-        $headers = ['NIT', 'Nombre', 'Direccion', 'Telefono'];
+        $headers = ['codigo', 'NIT', 'Nombre', 'Direccion', 'Telefono'];
         return $headers;
     }
 
     public function getExamples()
     {
-        $examples = ['8760547-9', 'ER CORP. SA', 'Ciudad', '47809050'];
+        $examples = ['VERP1', '8760547-9', 'ER CORP. SA', 'Ciudad', '47809050'];
         return $examples;
     }
 
@@ -35,7 +35,7 @@ class ClienteController extends Controller
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
         $sortField = $request->get('field') == null ? 'razon_social' : $request->get('field');
 
-        $clientes = Cliente::select('id_cliente','Codigo', 'razon_social', 'nit', 'direccion', 'telefono')
+        $clientes = Cliente::select('id_cliente', 'Codigo', 'razon_social', 'nit', 'direccion', 'telefono')
             ->where(function ($query) use ($search) {
                 $query->where('razon_social', 'LIKE', '%' . $search . '%')
                     ->orWhere('nit', 'LIKE', '%' . $search . '%')
@@ -146,7 +146,7 @@ class ClienteController extends Controller
             $domingo = $this->getValueCheched($request->get('domingo'));
 
             $existeCliente = Cliente::where('codigo', $request->get('codigo'))
-                ->where('id_cliente','<>',$id)
+                ->where('id_cliente', '<>', $id)
                 ->exists();
 
             if ($existeCliente) {
@@ -217,7 +217,7 @@ class ClienteController extends Controller
                 foreach ($results as $key => $value) {
 
 
-                    if (Cliente::where('codigo', $value[0])->exists() ) {
+                    if (Cliente::where('codigo', $value[0])->exists()) {
 
                         $cliente = Cliente::where('codigo', $value[0])->first();
                         $cliente->nit = $value[1];
