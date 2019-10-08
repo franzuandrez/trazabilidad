@@ -656,7 +656,11 @@ class RecepcionController extends Controller
 
         try {
             $orden = Recepcion::findOrFail($id);
-
+            if ($orden->rmi_encabezado->control != 1) {
+                return redirect()
+                    ->route('recepcion.ubicacion.index')
+                    ->withErrors(['Orden ya procesada']);
+            }
             $rmi_detalle = RMIDetalle::where('id_rmi_encabezado', $orden->rmi_encabezado->id_rmi_encabezado)
                 ->select(DB::raw('sum(cantidad_entrante) as total'), 'rmi_detalle.*')
                 ->groupBy('id_producto')
