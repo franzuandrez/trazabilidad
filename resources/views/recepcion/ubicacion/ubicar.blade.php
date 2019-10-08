@@ -92,7 +92,7 @@
             <input type="text"
                    readonly
                    id="ubicacion"
-                   onkeydown="if(event.keyCode==13)buscar_ubicacion(document.getElementById('ubicacion').value,document.getElementById('icon-search'))"
+                   onkeydown="if(event.keyCode==13)buscar_ubicacion(document.getElementById('ubicacion').value.trim(),document.getElementById('icon-search'))"
                    name="ubicacion"
                    class="form-control">
             <div class="input-group-btn">
@@ -374,9 +374,9 @@
         function add() {
 
 
-            let lote = document.getElementById('lote').value;
-            let cantidad = parseFloat(document.getElementById('cantidad').value);
-            let descripcion_producto = document.getElementById('descripcion').value;
+            let lote = document.getElementById('lote').value.trim();
+            let cantidad = parseFloat(document.getElementById('cantidad').value.trim() == "" ? 0 : document.getElementById('cantidad').value.trim());
+            let descripcion_producto = document.getElementById('descripcion').value.trim();
 
             let cantidad_agregada = Array.prototype.slice.call(document.getElementsByClassName(gl_id_producto + "-" + lote)).map(e => e.value).reduce((x, y) => parseFloat(x) + parseFloat(y), 0)
 
@@ -394,6 +394,11 @@
                 return;
             }
 
+            if (gl_id_producto == "" || descripcion_producto == "") {
+                alert("Producto no válido");
+                document.getElementById('codigo_producto').focus();
+                return;
+            }
 
             let nombre_bodega = document.getElementById('td-bodega').innerText.toUpperCase();
             let nombre_sector = document.getElementById('td-sector').innerText.toUpperCase();
