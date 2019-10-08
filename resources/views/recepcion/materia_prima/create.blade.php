@@ -674,12 +674,12 @@
         function addToTable() {
 
 
-            if ($("#cantidad").val() != "" && $("#lote").val() != "" && $("#vencimiento").val() != "") {
+            if ($("#cantidad").val() != "" && $("#lote").val() != "" && $("#vencimiento").val() != "" && $("#id_producto").val() != "") {
                 let cantidad = $("#cantidad");
 
                 if (cantidad.val() == 0) {
                     alert("La cantidad debe ser mayor a cero");
-                    return ;
+                    return;
                 }
                 let lote = $("#lote");
                 let fecha = $("#vencimiento");
