@@ -6,13 +6,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" align="center">{{$mensaje}}
-                    <i data-toggle="popover" class="fa fa-info-circle"
-                       data-html="true"
-                       title="Formato Carga <i class='fa fa-upload' ></i>"
-                       data-placement="bottom"
-                       data-trigger="hover"
-                       data-content="@include('componentes.formato-carga')" >
-                    </i>
+
                 </h4>
 
             </div>
