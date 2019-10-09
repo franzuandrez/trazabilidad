@@ -37,7 +37,7 @@ class ColaboradorController extends Controller
 
         $search = $request->get('search') == null ? '' : $request->get('search');
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
-        $sortField = $request->get('field') == null ? 'codigo_barras' : $request->get('field');
+        $sortField = $request->get('field') == null ? 'id_colaborador' : $request->get('field');
 
         $colaboradores = Colaborador::actived()
             ->where(function ($query) use ($search) {

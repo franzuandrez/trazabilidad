@@ -33,7 +33,7 @@ class ClienteController extends Controller
 
         $search = $request->get('search') == null ? '' : $request->get('search');
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
-        $sortField = $request->get('field') == null ? 'razon_social' : $request->get('field');
+        $sortField = $request->get('field') == null ? 'id_cliente' : $request->get('field');
 
         $clientes = Cliente::select('id_cliente', 'Codigo', 'razon_social', 'nit', 'direccion', 'telefono')
             ->where(function ($query) use ($search) {
