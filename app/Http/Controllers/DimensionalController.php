@@ -21,15 +21,13 @@ class DimensionalController extends Controller
 
         $search = $request->get('search') == null ? '' : $request->get('search');
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
-        $sortField = $request->get('field') == null ? 'descripcion' : $request->get('field');
+        $sortField = $request->get('field') == null ? 'id_dimensional' : $request->get('field');
 
         $dimensionales = Dimensional::actived()
             ->where(function ($query) use ($search) {
-
                 $query->where('descripcion', 'LIKE', '%' . $search . '%')
                     ->orWhere('factor', 'LIKE', '%' . $search . '%')
                     ->orWhere('unidad_medida', 'LIKE', '%' . $search . '%');
-
             })
             ->orderBy($sortField, $sort)
             ->paginate(20);

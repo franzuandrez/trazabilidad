@@ -23,7 +23,7 @@ class PresentacionController extends Controller
 
         $search = $request->get('search') == null ? '' : $request->get('search');
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
-        $sortField = $request->get('field') == null ? 'codigo_barras' : $request->get('field');
+        $sortField = $request->get('field') == null ? 'id_presentacion' : $request->get('field');
 
         $presentaciones = Presentacion::select('id_presentacion', 'codigo_barras', 'descripcion', 'estado')
             ->actived()
