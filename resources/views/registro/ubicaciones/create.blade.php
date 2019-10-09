@@ -7,13 +7,13 @@
 
     @component('componentes.nav',['operation'=>'Crear',
     'menu_icon'=>'fa-file-text',
-    'submenu_icon'=>'fa fa-inbox',
+    'submenu_icon'=>'fa   fa-map-marker',
     'operation_icon'=>'fa-plus',])
         @slot('menu')
             Registro
         @endslot
         @slot('submenu')
-            Bines
+            Ubicaciones
         @endslot
     @endcomponent
     @component('componentes.alert-error')

@@ -10,7 +10,7 @@
             Registro
         @endslot
         @slot('submenu')
-            Presentacion
+            Presentaciones
         @endslot
     @endcomponent
 

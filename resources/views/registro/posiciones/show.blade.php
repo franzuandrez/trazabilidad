@@ -2,7 +2,7 @@
 
 @section('contenido')
 
-    @component('componentes.nav',['operation'=>'Editar',
+    @component('componentes.nav',['operation'=>'Ver',
     'menu_icon'=>'fa-file-text',
     'submenu_icon'=>'fa fa-ellipsis-v',
     'operation_icon'=>'fa-eye',])

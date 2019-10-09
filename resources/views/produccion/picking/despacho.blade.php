@@ -8,13 +8,13 @@
 
     @component('componentes.nav',['operation'=>'Ver',
     'menu_icon'=>'fa-arrow-circle-o-right',
-    'submenu_icon'=>'fa fa-sign-in',
+    'submenu_icon'=>'fa fa-hand-rock-o',
     'operation_icon'=>'fa-eye',])
         @slot('menu')
             Produccion
         @endslot
         @slot('submenu')
-            Materia Prima
+           Picking
         @endslot
     @endcomponent
 

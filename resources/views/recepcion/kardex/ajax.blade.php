@@ -15,7 +15,7 @@
             Recepcion
         @endslot
         @slot('submenu')
-            Kardex
+            Existencias
         @endslot
     @endcomponent
 

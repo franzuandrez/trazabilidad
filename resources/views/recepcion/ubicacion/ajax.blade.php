@@ -19,7 +19,7 @@
             Recepcion
         @endslot
         @slot('submenu')
-            Ubicacion
+            Asignar Ubicacion
         @endslot
     @endcomponent
 

@@ -5,15 +5,15 @@
 
 @section('contenido')
 
-    @component('componentes.nav',['operation'=>'Crear',
+    @component('componentes.nav',['operation'=>'Ver',
     'menu_icon'=>'fa-file-text',
-    'submenu_icon'=>'fa fa-inbox',
-    'operation_icon'=>'fa-plus',])
+    'submenu_icon'=>'fa fa-map-marker',
+    'operation_icon'=>'fa-eye',])
         @slot('menu')
             Registro
         @endslot
         @slot('submenu')
-            Bines
+            Ubicaciones
         @endslot
     @endcomponent
 

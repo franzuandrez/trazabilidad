@@ -13,7 +13,7 @@
             Recepcion
         @endslot
         @slot('submenu')
-            Transito
+            Control Calidad
         @endslot
     @endcomponent
 

@@ -2,10 +2,10 @@
 
 @section('contenido')
 
-    @component('componentes.nav',['operation'=>'Editar',
+    @component('componentes.nav',['operation'=>'Ver',
     'menu_icon'=>'fa-file-text',
     'submenu_icon'=>'fa fa-shopping-cart',
-    'operation_icon'=>'fa-pencil',])
+    'operation_icon'=>'fa-eye',])
         @slot('menu')
             Registro
         @endslot

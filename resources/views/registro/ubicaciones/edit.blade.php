@@ -7,7 +7,7 @@
 
     @component('componentes.nav',['operation'=>'Editar',
     'menu_icon'=>'fa-file-text',
-    'submenu_icon'=>'fa fa-inbox',
+    'submenu_icon'=>'fa fa-map-marker',
     'operation_icon'=>'fa-pencil',])
         @slot('menu')
             Registro
