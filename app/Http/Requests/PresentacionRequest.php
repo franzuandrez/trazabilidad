@@ -34,7 +34,7 @@ class PresentacionRequest extends FormRequest
     public function messages()
     {
         return [
-            'codigo_barras.required' => 'El codigo de barras es requedido',
+            'codigo_barras.required' => 'El codigo de barras es requerido',
             'descripcion.required' => 'El campo descripcion es requerido'
         ];
     }
