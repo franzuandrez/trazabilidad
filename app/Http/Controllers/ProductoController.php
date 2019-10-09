@@ -127,6 +127,7 @@ class ProductoController extends Controller
     {
 
 
+
         try {
             $producto = Producto::findOrFail($id);
             $dimensionales = Dimensional::actived()->get();
@@ -293,14 +294,23 @@ class ProductoController extends Controller
                         $codigo_barras = $value[0];
                         $codigo_barras = str_pad($codigo_barras, 14, "0", STR_PAD_LEFT);
                         $existeProducto = Producto::where('codigo_barras', $codigo_barras)->exists();
-
+                        if ($tipo_producto == "MIX") {
+                            $tipo_producto_asignado = $value[6];
+                        } else {
+                            $tipo_producto_asignado = $tipo_producto;
+                        }
+                        if ($tipo_producto_asignado == "PP") {
+                            $tipo_producto_asignado = "PT";
+                        }
                         if ($existeProducto) {
+
                             $producto = Producto::where('codigo_barras', $codigo_barras)->first();
                             $producto->descripcion = $value[1];
+                            $producto->tipo_producto = $tipo_producto_asignado;
                             $producto->update();
                         } else {
 
-                            if ($formatoExcel == "A") {
+                            if ($formatoExcel == "A" && ( $tipo_producto_asignado =="PT" )) {
                                 $id_dimensional = $this->getIdDimensional($value[3]);
                                 $existeDimensional = $id_dimensional != null;
                                 if (!$existeDimensional) {
@@ -320,17 +330,12 @@ class ProductoController extends Controller
                                     $id_presentacion = $this->savePresentacion($value[3]);
                                 }
 
+                            }else{
+                                return redirect()
+                                    ->route('productos.index')
+                                    ->withErrors(['El número de las columnas no concide con ninguno de los formatos establecidos']);
                             }
 
-                            if ($tipo_producto == "MIX") {
-                                $tipo_producto_asignado = $value[6];
-
-                            } else {
-                                $tipo_producto_asignado = $tipo_producto;
-                            }
-                            if ($tipo_producto_asignado == "PP") {
-                                $tipo_producto_asignado = "PT";
-                            }
                             $codigo_interno = $value[1];
                             $producto = new Producto();
                             $producto->codigo_barras = $codigo_barras;
