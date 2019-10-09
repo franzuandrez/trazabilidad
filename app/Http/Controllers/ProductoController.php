@@ -127,7 +127,6 @@ class ProductoController extends Controller
     {
 
 
-
         try {
             $producto = Producto::findOrFail($id);
             $dimensionales = Dimensional::actived()->get();
@@ -302,41 +301,43 @@ class ProductoController extends Controller
                         if ($tipo_producto_asignado == "PP") {
                             $tipo_producto_asignado = "PT";
                         }
-                        if ($existeProducto) {
 
-                            $producto = Producto::where('codigo_barras', $codigo_barras)->first();
-                            $producto->descripcion = $value[1];
-                            $producto->tipo_producto = $tipo_producto_asignado;
-                            $producto->update();
-                        } else {
+                        if ($formatoExcel == "A") {
+                            $id_dimensional = $this->getIdDimensional($value[3]);
+                            $existeDimensional = $id_dimensional != null;
+                            if (!$existeDimensional) {
+                                $id_dimensional = $this->saveDimensional($value[5]);
+                            }
+                            $id_presentacion = null;
+                        } else if ($formatoExcel == "B" || $formatoExcel == "C") {
 
-                            if ($formatoExcel == "A" && ( $tipo_producto_asignado =="PT" )) {
-                                $id_dimensional = $this->getIdDimensional($value[3]);
-                                $existeDimensional = $id_dimensional != null;
-                                if (!$existeDimensional) {
-                                    $id_dimensional = $this->saveDimensional($value[5]);
-                                }
-                                $id_presentacion = null;
-                            } else if ($formatoExcel == "B" || $formatoExcel == "C") {
-
-                                $id_dimensional = $this->getIdDimensional($value[5]);
-                                $existeDimensional = $id_dimensional != null;
-                                if (!$existeDimensional) {
-                                    $id_dimensional = $this->saveDimensional($value[5], $value[4], $value[3]);
-                                }
-                                $id_presentacion = $this->getIdPresentacion($value[3]);
-                                $existePresentacion = $id_presentacion != null;
-                                if (!$existePresentacion) {
-                                    $id_presentacion = $this->savePresentacion($value[3]);
-                                }
-
-                            }else{
-                                return redirect()
-                                    ->route('productos.index')
-                                    ->withErrors(['El número de las columnas no concide con ninguno de los formatos establecidos']);
+                            $id_dimensional = $this->getIdDimensional($value[5]);
+                            $existeDimensional = $id_dimensional != null;
+                            if (!$existeDimensional) {
+                                $id_dimensional = $this->saveDimensional($value[5], $value[4], $value[3]);
+                            }
+                            $id_presentacion = $this->getIdPresentacion($value[3]);
+                            $existePresentacion = $id_presentacion != null;
+                            if (!$existePresentacion) {
+                                $id_presentacion = $this->savePresentacion($value[3]);
                             }
 
-                            $codigo_interno = $value[1];
+                        } else {
+                            return redirect()
+                                ->route('productos.index')
+                                ->withErrors(['El número de las columnas no concide con ninguno de los formatos establecidos']);
+                        }
+
+                        $codigo_interno = $value[1];
+                        if ($existeProducto) {
+                            $producto = Producto::where('codigo_barras', $codigo_barras)->first();
+                            $producto->codigo_interno = $codigo_interno;
+                            $producto->descripcion = $value[2];
+                            $producto->id_presentacion = $id_presentacion;
+                            $producto->tipo_producto = $tipo_producto_asignado;
+                            $producto->id_dimensional = $id_dimensional;
+                            $producto->update();
+                        } else {
                             $producto = new Producto();
                             $producto->codigo_barras = $codigo_barras;
                             $producto->codigo_interno = $codigo_interno;
@@ -347,8 +348,9 @@ class ProductoController extends Controller
                             $producto->fecha_creacion = Carbon::now();
                             $producto->creado_por = \Auth::user()->id;
                             $producto->save();
-
                         }
+
+
                     }
                 }
 
