@@ -363,6 +363,7 @@
                     document.getElementById('id_movimiento').value = mov.id_rmi_detalle;
                     document.getElementById('cantidad_impresion').readOnly = false;
                     document.getElementById('cantidad').readOnly = false;
+                    document.getElementById('cantidad').value =mov.cantidad;
                     document.getElementById('cantidad_impresion').focus();
                     cantidadMinima = parseFloat(mov.cantidad);
                 } else {
