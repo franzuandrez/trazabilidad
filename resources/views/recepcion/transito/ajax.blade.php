@@ -28,7 +28,7 @@
 
 
             @can('role-edit')
-                @component('componentes.btn-edit',['url'=>'javascript:editar()'])
+                @component('componentes.btn-ingresar',['url'=>'javascript:editar()'])
                 @endcomponent
             @endcan
             @can('role-list')
@@ -40,7 +40,7 @@
 
     @component('componentes.alert-no-selecction')
         @slot('mensaje')
-            SELECCIONAR RECEPCION
+            SELECCIONAR ORDEN
         @endslot
     @endcomponent
     <div id="content">

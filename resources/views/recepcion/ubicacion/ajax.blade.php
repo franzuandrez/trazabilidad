@@ -27,7 +27,7 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
             @can('role-edit')
-                @component('componentes.btn-edit',['url'=>'javascript:editar("ubicacion","ubicar")'])
+                @component('componentes.btn-ubicar',['url'=>'javascript:editar("ubicacion","ubicar")'])
                 @endcomponent
             @endcan
             @can('role-list')
@@ -39,7 +39,7 @@
 
     @component('componentes.alert-no-selecction')
         @slot('mensaje')
-            SELECCIONAR RECEPCION
+            SELECCIONAR ORDEN
         @endslot
     @endcomponent
     <div id="content">

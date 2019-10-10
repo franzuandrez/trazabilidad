@@ -27,7 +27,7 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
             @can('role-create')
-                @component('componentes.btn-create',['url'=>url('recepcion/materia_prima/create')])
+                @component('componentes.btn-ingresar',['url'=>url('recepcion/materia_prima/create')])
                 @endcomponent
             @endcan
 
@@ -42,7 +42,7 @@
 
     @component('componentes.alert-no-selecction')
         @slot('mensaje')
-            SELECCIONAR RECEPCION
+            SELECCIONAR ORDEN
         @endslot
     @endcomponent
     <div id="content">
