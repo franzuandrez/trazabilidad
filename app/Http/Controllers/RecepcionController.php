@@ -478,7 +478,7 @@ class RecepcionController extends Controller
 
             //MANEJO DE ETIQUETAS DE IMPRESION.
             $impresiones = $request->get('imprimir');
-            Impresiones::imprimir($idsMovimiento, '192.168.0.133', 'R', $impresiones);
+            Impresiones::imprimir($idsMovimiento, '192.168.0.179', 'R', $impresiones);
 
             DB::commit();
             return redirect()->route('recepcion.transito.index')
