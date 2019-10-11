@@ -54,7 +54,7 @@
                         <i class="fa fa-search " aria-hidden="true"></i>
                     </button>
                 </a>
-                <a href="javascript:limpiar_producto()">
+                <a href="javascript:limpiar()">
                     <button type="button" class="btn btn-default">
                         <i class="fa fa-trash" aria-hidden="true"></i>
                     </button>
@@ -86,29 +86,24 @@
         <i class="fa fa-refresh fa-spin "></i><br/>
         <span>Cargando</span>
     </div>
-    <div id="tab-ubicacion" class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
-        <label for="ubicacion">UBICACION</label>
-        <div class="input-group">
-            <input type="text"
-                   readonly
-                   id="ubicacion"
-                   onkeydown="if(event.keyCode==13)buscar_ubicacion(document.getElementById('ubicacion').value.trim(),document.getElementById('icon-search'))"
-                   name="ubicacion"
-                   class="form-control">
-            <div class="input-group-btn">
-                <a href="javascript:buscar_ubicacion(document.getElementById('ubicacion').value,document.getElementById('icon-search'))"
-                >
-                    <button type="button" class="btn btn-default">
-                        <i class="fa fa-search " id="icon-search" aria-hidden="true"></i>
-                    </button>
+    <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="ubicacion">BODEGA</label>
+            <select name="ubicacion"
+                    disabled
+                    onchange="buscar_ubicacion()"
+                    id="ubicacion" class="form-control selectpicker">
+                <option value="">SELECCIONAR BODEGA</option>
+                @foreach( $bodegas as $bodega )
+                    @if(old('ubicacion') == $bodega->id_bodega)
+                        <option selected
+                                value="{{$bodega->id_bodega}}"> {{$bodega->descripcion}}  </option>
+                    @else
+                        <option value="{{$bodega->id_bodega}}"> {{$bodega->descripcion}}  </option>
+                    @endif
 
-                </a>
-                <a href="javascript:limpiar_ubicacion()">
-                    <button type="button" class="btn btn-default">
-                        <i class="fa fa-trash" aria-hidden="true"></i>
-                    </button>
-                </a>
-            </div>
+                @endforeach
+            </select>
         </div>
     </div>
 
@@ -133,7 +128,6 @@
                     <th>DESCRIPCION</th>
                     <th>LOTE</th>
                     <th>CANTIDAD</th>
-                    <th>UBICACION</th>
                 </tr>
                 </thead>
                 <tbody id="detalles">
@@ -212,41 +206,15 @@
 
         }
 
-        function buscar_ubicacion(input, element = 0) {
+        function buscar_ubicacion() {
 
-
-            let search = element == 0 ? true : element.classList.contains('fa-search');
-
-            if (search) {
-                let codigo_barras = input == "" ? 0 : input;
-                start_spinner();
-                $.ajax({
-                    url: "{{url('registro/ubicaciones/search')}}" + "/" + codigo_barras,
-                    type: "get",
-                    dataType: "json",
-                    success: function (response) {
-
-                        let ubicacion = response;
-                        if (ubicacion.length == 0) {
-                            alert("Ubicacion no encontrada");
-                            stop_spinner("fa-search");
-                        } else if (ubicacion[0].estado == 0) {
-                            alert("Ubicacion no disponible");
-                            stop_spinner("fa-search");
-                        } else {
-                            mostrar_ubicacion(ubicacion[0]);
-                        }
-
-                    },
-                    error: function (e) {
-
-                    }
-                })
+            let id_ubicacion = $('#ubicacion option:selected').val();
+            if (id_ubicacion != "") {
+                document.getElementById('cantidad').readOnly = false;
+                document.getElementById('cantidad').focus();
             } else {
-
-                $('#modal-ubicacion').modal();
+                document.getElementById('cantidad').readOnly = true;
             }
-
 
         }
 
@@ -309,12 +277,14 @@
         }
 
         function limpiar_ubicacion() {
-            stop_spinner("fa-search");
+            //stop_spinner("fa-search");
             document.getElementById('ubicacion').value = "";
             document.getElementById('ubicacion').focus();
             document.getElementById('ubicacion').readOnly = false;
             document.getElementById('cantidad').value = "";
             document.getElementById('cantidad').readOnly = true;
+            document.getElementById('ubicacion').disabled = true;
+            $('#ubicacion').selectpicker('refresh');
         }
 
         var gl_id_producto = 0;
@@ -335,7 +305,8 @@
                 gl_cantidad_disponible = parseFloat(producto.total);
                 gl_id_producto = producto.id_producto;
 
-                document.getElementById('ubicacion').readOnly = false;
+                document.getElementById('ubicacion').disabled = false;
+                $('#ubicacion').selectpicker('refresh');
                 document.getElementById('ubicacion').focus();
             } else {
                 alert("Producto no encontrado");
@@ -400,20 +371,8 @@
                 return;
             }
 
-            let nombre_bodega = document.getElementById('td-bodega').innerText.toUpperCase();
-            let nombre_sector = document.getElementById('td-sector').innerText.toUpperCase();
-            let nombre_pasillo = document.getElementById('td-pasillo').innerText.toUpperCase();
-            let nombre_rack = document.getElementById('td-rack').innerText.toUpperCase();
-            let nombre_nivel = document.getElementById('td-nivel').innerText.toUpperCase();
-            let nombre_posicion = document.getElementById('td-posicion').innerText.toUpperCase();
-            let nombre_bin = document.getElementById('td-bin').innerText.toUpperCase();
 
-            let id_bodega = document.getElementById('td-id_bodega').value;
-            let id_sector = document.getElementById('td-id_sector').value;
-            let id_pasillo = document.getElementById('td-id_pasillo').value;
-            let id_rack = document.getElementById('td-id_rack').value;
-
-            let ubicacion = id_bodega + id_sector + id_pasillo + id_rack;
+            let nombre_bodega = $('#ubicacion option:selected').text();
 
             let codigo_ubicacion = document.getElementById('ubicacion').value;
 
@@ -430,29 +389,19 @@
                                 <input type="hidden" value ='${cantidad}'  class="${gl_id_producto}-${lote}"  name=cantidad[] >${cantidad}
                                 <input type="hidden" value ='${codigo_ubicacion}'  name=ubicacion[] >
                             </td>
-                            <td >
-                                 <span class="label label-primary"><i class="fa fa-sort-numeric-desc"></i> ${nombre_nivel}</span>
-                                 <span class="label label-primary"><i class="fa fa fa-ellipsis-v"></i> ${nombre_posicion}</span>
-                                 <span class="label label-primary"><i class="fa fa-inbox"></i> ${nombre_bin}</span>
-                            </td>
+
                  </tr>`;
-            if (document.getElementById(ubicacion) == null) {
+            if (document.getElementById(codigo_ubicacion) == null) {
                 row += `
-                <tr id="${ubicacion}"  class="titulo-ubicacion">
-                    <td colspan="5">
+                <tr id="${codigo_ubicacion}"  class="titulo-ubicacion">
+                    <td colspan="4">
                         <span class="label label-primary"><i class="fa fa-building-o"></i> ${nombre_bodega}</span>
-                        <strong>/</strong>
-                        <span class="label label-primary "><i class="fa fa-square-o"></i> ${nombre_sector}</span>
-                        <strong>/</strong>
-                        <span class="label label-primary "><i class="fa fa-pause"></i> ${nombre_pasillo}</span>
-                        <strong>/</strong>
-                        <span class="label label-primary "><i class="fa fa-tasks"></i> ${nombre_rack}</span>
                     </td>
                 </tr>`;
                 row = row + row_producto;
                 $("#detalles").append(row);
             } else {
-                $('#' + ubicacion).after(row_producto);
+                $('#' + codigo_ubicacion).after(row_producto);
             }
             limpiar();
             document.getElementById('codigo_producto').focus();

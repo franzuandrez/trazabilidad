@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Bodega;
 use App\DetalleLotes;
 use App\Http\Requests\MateriaPrimaRequest;
 use App\Http\Tools\Impresiones;
@@ -667,7 +668,11 @@ class RecepcionController extends Controller
                 ->groupBy('lote')
                 ->get();
 
-            return view('recepcion.ubicacion.ubicar', compact('orden', 'rmi_detalle'));
+            $bodegas = Bodega::actived()->get();
+
+
+
+            return view('recepcion.ubicacion.ubicar', compact('orden', 'rmi_detalle','bodegas'));
 
         } catch (\Exception $e) {
 
@@ -693,7 +698,7 @@ class RecepcionController extends Controller
             foreach ($productos as $key => $id_producto) {
 
                 $producto = Producto::findOrFail($id_producto);
-                $ubicacion = Ubicacion::where('codigo_barras', $request->get('ubicacion')[$key])->first();
+                $ubicacion = Bodega::where('id_bodega', $request->get('ubicacion')[$key])->first();
 
                 $lote = $request->get('lote')[$key];
 
@@ -723,6 +728,7 @@ class RecepcionController extends Controller
         } catch (\Exception $e) {
 
             DB::rollback();
+            dd($e);
             return redirect()->route('recepcion.ubicacion.index')
                 ->withErrors(['Su peticion no ha podido ser procesada']);
 

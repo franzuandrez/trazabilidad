@@ -9,7 +9,7 @@ class Movimientos
 {
 
 
-    private $ubicacion;
+    private $bodega;
     private $producto;
     private $lote;
     private $fecha_vencimiento;
@@ -27,7 +27,7 @@ class Movimientos
         $usuario_autoriza)
     {
 
-        $this->ubicacion = $ubicacion;
+        $this->bodega = $ubicacion;
         $this->producto = $producto;
         $this->lote = $lote;
         $this->fecha_vencimiento = $fecha_vencimiento;
@@ -77,19 +77,19 @@ class Movimientos
         $movimiento->cantidad = $this->cantidad;
         $movimiento->id_producto = $this->producto->id_producto;
         $movimiento->fecha_hora_movimiento = \Carbon\Carbon::now();
-        $movimiento->ubicacion = $this->ubicacion->codigo_barras;
+        $movimiento->ubicacion = $this->bodega->codigo_barras;
         $movimiento->lote = $this->lote;
         $movimiento->fecha_vencimiento = $this->fecha_vencimiento;
         $movimiento->clave_autorizacion = 1234;
         $movimiento->estado = 1;
-        $movimiento->id_localidad = $this->ubicacion->id_localidad;
-        $movimiento->id_bodega = $this->ubicacion->id_bodega;
-        $movimiento->id_sector = $this->ubicacion->id_sector;
-        $movimiento->id_pasillo = $this->ubicacion->id_pasillo;
-        $movimiento->id_rack = $this->ubicacion->id_rack;
-        $movimiento->id_nivel = $this->ubicacion->id_nivel;
-        $movimiento->id_posicion = $this->ubicacion->id_posicion;
-        $movimiento->id_bin = $this->ubicacion->id_bin;
+        $movimiento->id_localidad = $this->bodega->localidad->id_localidad;
+        $movimiento->id_bodega = $this->bodega->id_bodega;
+        $movimiento->id_sector = 0;
+        $movimiento->id_pasillo = 0;
+        $movimiento->id_rack = 0;
+        $movimiento->id_nivel = 0;
+        $movimiento->id_posicion = 0;
+        $movimiento->id_bin = 0;
         $movimiento->usuario_autorizo = $this->usuario_autoriza->id;
 
         $movimiento->save();
