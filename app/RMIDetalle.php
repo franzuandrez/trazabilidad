@@ -54,4 +54,9 @@ class RMIDetalle extends Model
         return $query->where("rmi_detalle.rampa",1);
 
     }
+
+    public function scopeEstaEnControl( $query ){
+
+        return $query->where('rmi_detalle.control',1);
+    }
 }

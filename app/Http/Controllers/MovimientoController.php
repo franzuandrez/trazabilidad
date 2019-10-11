@@ -37,6 +37,8 @@ class MovimientoController extends Controller
         if ($search == 0) {
             $rmi_encabezado = Recepcion::esDocumentoMateriaPrima()
                 ->estaEnRampa()
+                ->orWhere
+                ->estaEnControl()
                 ->get()
                 ->pluck('id_rmi_encabezado');
 
@@ -46,6 +48,8 @@ class MovimientoController extends Controller
                     DB::raw('sum(cantidad) as total'),DB::raw('0 as bodega'))
                 ->whereIn('id_rmi_encabezado', $rmi_encabezado)
                 ->estaEnRampa()
+                ->orWhere
+                ->estaEnControl()
                 ->orderBy($sortField, $sort)
                 ->groupBy('rmi_detalle.id_producto')
                 ->groupBy('rmi_detalle.lote')
