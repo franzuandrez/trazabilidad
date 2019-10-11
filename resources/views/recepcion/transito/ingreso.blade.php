@@ -120,13 +120,13 @@
             <table class="table table-striped table-bordered table-condensed table-hover">
                 <thead style="background-color: #01579B;  color: #fff;">
                 <tr>
-                    <th>OPCION</th>
-                    <th>IMPRIMIR</th>
-                    <th>CANTIDAD ENTRANTE</th>
-                    <th>CANTIDAD</th>
                     <th>PRODUCTO</th>
                     <th>LOTE</th>
                     <th>FECHA VENCIMIENTO</th>
+                    <th>CANTIDAD</th>
+                    <th>CANTIDAD ENTRANTE</th>
+                    <th>IMPRESIONES</th>
+                    <th>STATUS</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -134,22 +134,6 @@
                 @foreach( $movimientos as $key => $mov)
 
                     <tr id="mov-{{$mov->id_rmi_detalle}}" class="row-producto">
-                        <td>
-                            <span class="label label-success hidden">
-                                <i class="fa fa-check" aria-hidden="true"></i>
-                            </span>
-                            <input type="hidden" name="codigo_barra[]" value="{{$mov->producto->codigo_barras}}">
-                            <input type="hidden" name="id_movimiento[]" value="{{$mov->id_rmi_detalle}}">
-                        </td>
-                        <td>
-                            <input type="hidden" value="0" name="imprimir[]">
-                        </td>
-                        <td>
-                            <input type="hidden" name="cantidad_entrante[]" value="0">
-                        </td>
-                        <td>
-                            {{$mov->total }}
-                        </td>
                         <td>
                             {{$mov->producto->descripcion}}
                         </td>
@@ -160,6 +144,22 @@
                         <td>
                             {{$mov->fecha_vencimiento->format('Y-m-d')}}
                             <input type="hidden" name="fecha_vencimiento[]" value="{{$mov->fecha_vencimiento->format('Y-m-d')}}">
+                        </td>
+                        <td>
+                            {{$mov->total }}
+                        </td>
+                        <td>
+                            <input type="hidden" name="cantidad_entrante[]" value="0">
+                        </td>
+                        <td>
+                            <input type="hidden" value="0" name="imprimir[]">
+                        </td>
+                        <td>
+                            <span class="label label-success hidden">
+                                <i class="fa fa-check" aria-hidden="true"></i>
+                            </span>
+                            <input type="hidden" name="codigo_barra[]" value="{{$mov->producto->codigo_barras}}">
+                            <input type="hidden" name="id_movimiento[]" value="{{$mov->id_rmi_detalle}}">
                         </td>
                     </tr>
                 @endforeach
@@ -417,10 +417,10 @@
 
 
             let row = document.getElementById('mov-' + idMovimiento);
-            let span = row.children[0].children[0];
+            let span = row.children[6].children[0];
             span.classList.remove('hidden');
-            row.children[1].innerHTML = "<input name='imprimir[]' value='" + impresiones + "' type='hidden'  >" + impresiones + " ";
-            row.children[2].innerHTML = cantidad + "<input name='cantidad_entrante[]' type='hidden' value='" + cantidad + "'> ";
+            row.children[5].innerHTML = "<input name='imprimir[]' value='" + impresiones + "' type='hidden'  >" + impresiones + " ";
+            row.children[4].innerHTML = cantidad + "<input name='cantidad_entrante[]' type='hidden' value='" + cantidad + "'> ";
         }
 
         function activarCheck(input) {
