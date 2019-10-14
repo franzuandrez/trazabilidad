@@ -6,10 +6,9 @@ use App\Bodega;
 use App\Movimiento;
 use App\Producto;
 use App\Recepcion;
-use App\RequisicionDetalle;
-use Illuminate\Http\Request;
-use DB;
 use App\RMIDetalle;
+use DB;
+use Illuminate\Http\Request;
 
 class MovimientoController extends Controller
 {
@@ -32,24 +31,42 @@ class MovimientoController extends Controller
         }
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
         $sortField = $request->get('field') == null ? 'producto' : $request->get('field');
-
+        $filtro = $request->get('filtro') == null ? '2' : $request->get('filtro');
         $bodegas = Bodega::select('id_bodega as id', 'descripcion as descripcion')->get();
         if ($search == 0) {
-            $rmi_encabezado = Recepcion::esDocumentoMateriaPrima()
-                ->estaEnRampa()
-                ->orWhere
-                ->estaEnControl()
-                ->get()
+
+            $rmi_encabezado = Recepcion::esDocumentoMateriaPrima();
+            if ($filtro == 2) { // TODAS
+                $rmi_encabezado = $rmi_encabezado
+                    ->where(function ($query) {
+                        $query->estaEnRampa()
+                            ->orWhere
+                            ->estaEnControl();
+                    });
+            } elseif ($filtro == 0) { //SOLO LAS QUE DEBE VERIFICAR CALIDAD
+                $rmi_encabezado = $rmi_encabezado->where(function ($query) {
+                    $query->estaEnRampa();
+                });
+
+            } else {
+                $rmi_encabezado = $rmi_encabezado->where(function ($query) { // LAS QUE YA FUERON VERIFICADAS POR CALIDAD
+                    $query->estaEnControl();
+                });
+            }
+            $rmi_encabezado = $rmi_encabezado->get()
                 ->pluck('id_rmi_encabezado');
+
 
             $productos = RMIDetalle::join('productos', 'rmi_detalle.id_producto', '=', 'productos.id_producto')
                 ->select('*',
                     'productos.descripcion as producto',
-                    DB::raw('sum(cantidad) as total'),DB::raw('0 as bodega'))
+                    DB::raw('sum(cantidad) as total'), DB::raw('0 as bodega'))
                 ->whereIn('id_rmi_encabezado', $rmi_encabezado)
-                ->estaEnRampa()
-                ->orWhere
-                ->estaEnControl()
+                ->where(function ($query) {
+                    $query->estaEnRampa()
+                        ->orWhere
+                        ->estaEnControl();
+                })
                 ->orderBy($sortField, $sort)
                 ->groupBy('rmi_detalle.id_producto')
                 ->groupBy('rmi_detalle.lote')
@@ -77,10 +94,10 @@ class MovimientoController extends Controller
 
         if ($request->ajax()) {
             return view('recepcion.kardex.index',
-                compact('productos', 'bodegas', 'sort', 'sortField', 'search'));
+                compact('productos', 'bodegas', 'sort', 'sortField', 'search', 'filtro'));
         } else {
             return view('recepcion.kardex.ajax',
-                compact('productos', 'bodegas', 'sort', 'sortField', 'search'));
+                compact('productos', 'bodegas', 'sort', 'sortField', 'search', 'filtro'));
         }
 
     }
