@@ -23,20 +23,21 @@
                     </th>
                     <th>
                         @component('componentes.column-sort',['modulo'=>'registro/proveedores',
-                       'search'=>$search,
-                          'sort'=>$sort,
-                          'sortField'=>$sortField,
-                          'field'=>'razon_social',
-                          'titulo'=>'RAZON SOCIAL'])
-                        @endcomponent
-                    </th>
-                    <th>
-                        @component('componentes.column-sort',['modulo'=>'registro/proveedores',
                         'search'=>$search,
                          'sort'=>$sort,
                          'sortField'=>$sortField,
                          'field'=>'nombre_comercial',
                          'titulo'=>'NOMBRE COMERCIAL'])
+                        @endcomponent
+                    </th>
+
+                    <th>
+                        @component('componentes.column-sort',['modulo'=>'registro/proveedores',
+                       'search'=>$search,
+                          'sort'=>$sort,
+                          'sortField'=>$sortField,
+                          'field'=>'razon_social',
+                          'titulo'=>'RAZON SOCIAL'])
                         @endcomponent
                     </th>
                     <th>

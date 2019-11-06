@@ -33,8 +33,8 @@ class ProveedorController extends Controller
     {
 
         $search = $request->get('search') == null ? '' : $request->get('search');
-        $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
-        $sortField = $request->get('field') == null ? 'id_proveedor' : $request->get('field');
+        $sort = $request->get('sort') == null ? 'asc' : ($request->get('sort'));
+        $sortField = $request->get('field') == null ? 'nombre_comercial' : $request->get('field');
 
         $proveedores = Proveedor::select('id_proveedor', 'codigo_proveedor', 'razon_social', 'nombre_comercial', 'nit', 'direccion_planta', 'estado')
             ->actived()
