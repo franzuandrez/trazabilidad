@@ -39,24 +39,7 @@
                           'titulo'=>'descripcion'])
                     @endcomponent
                 </th>
-                <th>
-                    @component('componentes.column-sort',['modulo'=>'registro/productos',
-                        'search'=>$search,
-                        'sort'=>$sort,
-                        'sortField'=>$sortField,
-                        'field'=>'dimensional',
-                        'titulo'=>'dimensional'])
-                    @endcomponent
-                </th>
-                <th>
-                    @component('componentes.column-sort',['modulo'=>'registro/productos',
-                        'search'=>$search,
-                        'sort'=>$sort,
-                        'sortField'=>$sortField,
-                        'field'=>'presentacion',
-                        'titulo'=>'presentacion'])
-                    @endcomponent
-                </th>
+
                 </thead>
                 <tbody>
                 @foreach($productos as $producto)
@@ -73,12 +56,6 @@
                         </td>
                         <td>
                             {{$producto->descripcion}}
-                        </td>
-                        <td>
-                            {{$producto->dimensional}}
-                        </td>
-                        <td>
-                            {{$producto->presentacion}}
                         </td>
                     </tr>
 
