@@ -18,7 +18,7 @@
                           'sort'=>$sort,
                           'sortField'=>$sortField,
                           'field'=>'orden_compra',
-                          'titulo'=>'ORDEN DE COMPRA'])
+                          'titulo'=>'NO. DOCUMENTO'])
                     @endcomponent
                 </th>
                 <th>
