@@ -82,18 +82,7 @@
     </div>
 
 
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <label for="dias">DIAS DE VISITA</label>
-        <ul class="list-group" style="height: 25vh; overflow: scroll">
-            <li class="list-group-item"><input type="checkbox" value="1" name="lunes"> LUNES</li>
-            <li class="list-group-item"><input type="checkbox" value="1" name="martes"> MARTES</li>
-            <li class="list-group-item"><input type="checkbox" value="1" name="miercoles"> MIERCOLES</li>
-            <li class="list-group-item"><input type="checkbox" value="1" name="jueves"> JUEVES</li>
-            <li class="list-group-item"><input type="checkbox" value="1" name="viernes"> VIERNES</li>
-            <li class="list-group-item"><input type="checkbox" value="1" name="sabado"> SABADO</li>
-            <li class="list-group-item"><input type="checkbox" value="1" name="domingo"> DOMINGO</li>
-        </ul>
-    </div>
+
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
             <button class="btn btn-default" type="submit">

@@ -84,58 +84,7 @@
         </div>
     </div>
 
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <label for="dias">DIAS DE VISITA</label>
-        <ul class="list-group" style="height: 25vh; overflow: scroll">
-            @if($cliente->lunes == 1 )
-                <li class="list-group-item"><input type="checkbox" value="1" checked name="lunes"> LUNES</li>
-            @else
-                <li class="list-group-item"><input type="checkbox" value="1" name="lunes"> LUNES</li>
-            @endif
 
-            @if($cliente->martes == 1 )
-                <li class="list-group-item"><input type="checkbox" value="1" checked name="martes"> MARTES</li>
-            @else
-                <li class="list-group-item"><input type="checkbox" value="1" name="martes"> MARTES</li>
-            @endif
-
-            @if($cliente->miercoles == 1 )
-                    <li class="list-group-item"><input type="checkbox" value="1" checked name="miercoles"> MIERCOLES</li>
-            @else
-                    <li class="list-group-item"><input type="checkbox" value="1" name="miercoles"> MIERCOLES</li>
-            @endif
-
-            @if($cliente->jueves == 1 )
-                    <li class="list-group-item"><input type="checkbox" value="1" checked name="jueves"> JUEVES</li>
-            @else
-                    <li class="list-group-item"><input type="checkbox" value="1" name="jueves"> JUEVES</li>
-            @endif
-
-            @if($cliente->viernes == 1 )
-                    <li class="list-group-item"><input type="checkbox" value="1" checked name="viernes"> VIERNES</li>
-            @else
-                    <li class="list-group-item"><input type="checkbox" value="1" name="viernes"> VIERNES</li>
-            @endif
-
-            @if($cliente->sabado == 1 )
-                    <li class="list-group-item"><input type="checkbox" value="1"  checked name="sabado"> SABADO</li>
-            @else
-                <li class="list-group-item"><input type="checkbox" value="1" name="sabado"> SABADO</li>
-            @endif
-
-            @if($cliente->domingo == 1 )
-                <li class="list-group-item"><input type="checkbox" value="1" checked name="domingo"> DOMINGO</li>
-            @else
-                <li class="list-group-item"><input type="checkbox" value="1" name="domingo"> DOMINGO</li>
-            @endif
-
-
-
-
-
-
-        </ul>
-    </div>
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
             <button class="btn btn-default" type="submit">
