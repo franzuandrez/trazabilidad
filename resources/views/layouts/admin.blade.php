@@ -177,13 +177,14 @@
                                     </a>
                                 </li>
                             @endcan
-
-                            <li>
-                                <a href="{{url('registro/ubicaciones')}}">
-                                    <i class="fa fa  fa-map-marker" aria-hidden="true"></i>
-                                    Ubicaciones
-                                </a>
-                            </li>
+                            @can('ubicaciones')
+                                <li>
+                                    <a href="{{url('registro/ubicaciones')}}">
+                                        <i class="fa fa  fa-map-marker" aria-hidden="true"></i>
+                                        Ubicaciones
+                                    </a>
+                                </li>
+                            @endcan
                             @can('tipo_movimiento')
                                 <li>
                                     <a href="{{url('registro/tipo_movimientos')}}">
