@@ -31,7 +31,7 @@
                     <tr>
                         <th>CODIGO</th>
                         <th>PRODUCTO</th>
-                        <th>PRESENTACON</th>
+
                     </tr>
                     </thead>
                     <tbody>
@@ -39,7 +39,7 @@
                         <tr>
                             <td>{{$producto->codigo_barras}}</td>
                             <td>{{$producto->descripcion}}</td>
-                            <td>{{$producto->presentacion->descripcion}}</td>
+
                         </tr>
                     @endforeach
                     </tbody>
