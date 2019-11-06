@@ -52,8 +52,10 @@ class RoleController extends Controller
 
         $menus = Permission::where('orden_menu','!=','0')
             ->orderBy('orden_menu','ASC')
+            ->where('isActive',1)
             ->get();
         $opciones = Permission::where('id_menu','!=','0')
+            ->where('isActive',1)
             ->get();
 
         return view('registro.roles.create',compact('menus','opciones'));
@@ -81,9 +83,11 @@ class RoleController extends Controller
         $role = Role::find($id);
 
         $menus= Permission::where('orden_menu','!=','0')
+            ->where('isActive',1)
             ->orderBy('orden_menu','ASC')->get();
 
         $opciones = Permission::where('id_menu','!=','0')
+            ->where('isActive',1)
             ->get();
 
         $rolePermissions = DB::table("role_has_permissions")
@@ -134,8 +138,11 @@ class RoleController extends Controller
         $role = Role::find($id);
 
         $menus= Permission::where('orden_menu','!=','0')
+            ->where('isActive',1)
             ->orderBy('orden_menu','ASC')->get();
-        $opciones = Permission::where('id_menu','!=','0')->get();
+        $opciones = Permission::where('id_menu','!=','0')
+            ->where('isActive',1)
+            ->get();
         $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id",$id)
             ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
             ->all();
