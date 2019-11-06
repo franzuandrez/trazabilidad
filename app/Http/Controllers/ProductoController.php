@@ -78,11 +78,20 @@ class ProductoController extends Controller
 
     }
 
+    private function getCodigoBarras($codigo){
+
+
+
+        return  str_pad($codigo, 14, "0", STR_PAD_LEFT);
+    }
+
     public function store(ProductoRequest $request)
     {
 
+        $codigo_barras = $this->getCodigoBarras($request->get('codigo_barras'));
+
         $existeCodigoBarras = Producto::actived()
-            ->where('codigo_barras', $request->get('codigo_barras'))
+            ->where('codigo_barras',$codigo_barras )
             ->exists();
 
         if ($existeCodigoBarras) {
@@ -105,7 +114,7 @@ class ProductoController extends Controller
 
 
         $producto = new Producto();
-        $producto->codigo_barras = $request->get('codigo_barras');
+        $producto->codigo_barras = $codigo_barras;
         $producto->codigo_interno = $request->get('codigo_interno');
         $producto->descripcion = $request->get('descripcion');
         $producto->id_dimensional = $request->get('id_dimensional');
@@ -148,6 +157,8 @@ class ProductoController extends Controller
 
     public function update(ProductoRequest $request, $id)
     {
+
+
         $existeCodigoInterno = Producto::actived()
             ->where('codigo_interno', $request->get('codigo_interno'))
             ->where('id_producto', '<>', $id)
@@ -291,7 +302,7 @@ class ProductoController extends Controller
                         return redirect()->back()->withErrors(['Formato de excel no valido']);
                     } else {
                         $codigo_barras = $value[0];
-                        $codigo_barras = str_pad($codigo_barras, 14, "0", STR_PAD_LEFT);
+                        $codigo_barras = $this->getCodigoBarras($codigo_barras);
                         $existeProducto = Producto::where('codigo_barras', $codigo_barras)->exists();
                         if ($tipo_producto == "MIX") {
                             $tipo_producto_asignado = $value[6];
