@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Correlativo;
+use App\Impresion;
 use App\Proveedor;
 use App\ReferenciasComerciales;
 use DB;
@@ -69,7 +71,9 @@ class ProveedorController extends Controller
     public function create()
     {
 
-        return view('registro.proveedores.create');
+        $correlativo = $this->getCorrelativo();
+
+        return view('registro.proveedores.create',['correlativo'=>$correlativo]);
     }
 
     public function store(Request $request)
@@ -88,7 +92,9 @@ class ProveedorController extends Controller
             $sistema_calidad_auditado_por_terceros = $this->getValueChecked($request->get('sistema_calidad_auditado_por_terceros'));
             $certificaciones = $this->getValueChecked($request->get('certificaciones'));
 
-            $existeProveedor = Proveedor::where('codigo_proveedor', $request->get('codigo'))
+            $codigo  = $this->getCorrelativo();
+            $this->actualizarCorrelativo($codigo);
+            $existeProveedor = Proveedor::where('codigo_proveedor',$codigo)
                 ->where('estado', 1)
                 ->exists();
 
@@ -377,6 +383,7 @@ class ProveedorController extends Controller
 
                     } else {
                         if ($value[1] != null && $value[2] != null) {
+
                             $proveedor = new Proveedor();
                             $proveedor->codigo_proveedor = $value[0];
                             $proveedor->razon_social = $value[1];
@@ -385,6 +392,7 @@ class ProveedorController extends Controller
                             $proveedor->direccion_planta = $value[4];
                             $proveedor->telefono_contacto = $value[5];
                             $proveedor->save();
+                            $this->actualizarCorrelativo($value[0]);
                         }
 
 
@@ -425,4 +433,59 @@ class ProveedorController extends Controller
         }
 
     }
+
+
+    private function getCorrelativo(  ){
+
+
+
+        $correlativo = Correlativo::where('modulo','PROVEEDORES')
+            ->first();
+
+            if($correlativo == null){
+                $siguiente ='PROV01';
+            }else{
+                if(intval($correlativo->correlativo) < 10){
+                    $siguiente = $correlativo->prefijo.'0'. intval($correlativo->correlativo);
+                }else{
+                    $siguiente =  $correlativo->prefijo.(intval($correlativo->correlativo + 1));
+                }
+            }
+
+
+
+        return $siguiente;
+
+
+
+
+    }
+
+
+    private function actualizarCorrelativo( $codigo ){
+
+        $codigo =strtoupper($codigo);
+        $correlativoEntrante = explode('PROV',$codigo)[1];
+
+        $correlativoActual = Correlativo::where('modulo','PROVEEDORES')
+            ->first();
+
+        if($correlativoActual == null){
+            $correlativo = new Correlativo();
+            $correlativo->prefijo = 'PROV';
+            $correlativo->correlativo = '1';
+            $correlativo->modulo = 'PROVEEDORES';
+            $correlativo->id_empresa = 1;
+            $correlativo->save();
+        }else{
+            if($correlativoEntrante >  $correlativoActual->correlativo){
+                $correlativoActual->correlativo = $correlativoEntrante;
+                $correlativoActual->update();
+            }
+        }
+
+
+    }
+
+
 }

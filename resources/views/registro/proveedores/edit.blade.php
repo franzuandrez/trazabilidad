@@ -34,7 +34,9 @@
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="codigo">CODIGO</label>
-                <input type="text" name="codigo" required value="{{$proveedor->codigo_proveedor}}" id="codigo"
+                <input type="text"
+                       readonly
+                       name="codigo" required value="{{$proveedor->codigo_proveedor}}" id="codigo"
                        class="form-control">
             </div>
         </div>
@@ -388,7 +390,7 @@
             </div>
         </div>
 
-        <div class="col-lg-5 col-sm-5 col-md-5 col-xs-10">
+        <div class="col-lg-5 col-sm-5 col-md-5 col-xs-10" style="display: none">
             <div class="form-group">
                 <label for="presentacion">PRESENTACION</label>
                 <input id="presentacion" type="text" name="presentacion" value="" readonly
@@ -408,20 +410,18 @@
                 <thead style="background-color: #01579B;  color: #fff;">
                 <th>OPCION</th>
                 <th>PRODUCTO</th>
-                <th>PRESENTACION</th>
+
                 </thead>
                 <tbody>
                 @foreach( $proveedor->productos as $producto )
                     <tr>
-                        <td>
 
-                        </td>
+                        <td><button onclick=removeFromTable(this) type="button" class="btn btn-warning">x</button></td>
+
                         <td>
                             {{$producto->descripcion}}
                         </td>
-                        <td>
-                            {{$producto->presentacion->descripcion}}
-                        </td>
+
                     </tr>
                 @endforeach
                 </tbody>
@@ -506,23 +506,23 @@
 
                     function addToTableProductos() {
                         var producto = $('#producto');
-                        var presentacion = $('#presentacion');
+
 
                         var id_producto = $('#id_producto');
 
-                        if (producto.val() != "" && presentacion.val() != "") {
+                        if (producto.val() != "" ) {
                             let row =
                                 `<tr>
                     <td><button onclick=removeFromTable(this) type="button" class="btn btn-warning">x</button></td>
                     <td><input type="hidden" value='${id_producto.val()}' name=productos[]>${producto.val()}</td>
-                    <td><input type="hidden" value='${presentacion.val()}' name=presentaciones[]>${presentacion.val()}</td>
+
                     </tr>`;
 
                             $("#detalle_productos").append(row);
                         }
 
                         producto.val('');
-                        presentacion.val('');
+
                         id_producto.val('');
                         document.getElementById('producto').readOnly = false;
 
@@ -595,7 +595,7 @@
 
                         document.getElementById('id_producto').value = producto.id_producto;
                         document.getElementById('producto').value = producto.descripcion;
-                        document.getElementById('presentacion').value = producto.presentacion.descripcion;
+
                         document.getElementById('producto').readOnly = true;
 
                     }
@@ -620,7 +620,7 @@
                     <td><input  onclick="habilitar()" type='radio' name='id_prod' value='${producto.id_producto}'  ></td>
                     <td> ${producto.codigo_barras} </td>
                     <td> ${producto.descripcion} </td>
-                    <td> ${producto.presentacion.descripcion} </td>
+
                 </tr> `;
                         })
 
@@ -633,7 +633,7 @@
                         if (infoProd.length != 0) {
                             document.getElementById('producto').value = infoProd[1];
                             document.getElementById('id_producto').value = infoProd[0];
-                            document.getElementById('presentacion').value = infoProd[2];
+
                             addToTableProductos();
                         }
                     }
@@ -657,7 +657,7 @@
                                 var childrens = prod[1].parentElement.parentElement.children;
                                 id_prod = childrens[0].firstChild.value;
                                 descripcion = childrens[2].innerText;
-                                presentacion = childrens[3].innerText;
+
 
 
                             }
@@ -714,23 +714,23 @@
 
         function addToTableProductos() {
             var producto = $('#producto');
-            var presentacion = $('#presentacion');
+
 
             var id_producto = $('#id_producto');
 
-            if (producto.val() != "" && presentacion.val() != "") {
+            if (producto.val() != "" ) {
                 let row =
                     `<tr>
                     <td><button onclick=removeFromTable(this) type="button" class="btn btn-warning">x</button></td>
                     <td><input type="hidden" value='${id_producto.val()}' name=productos[]>${producto.val()}</td>
-                    <td><input type="hidden" value='${presentacion.val()}' name=presentaciones[]>${presentacion.val()}</td>
+
                     </tr>`;
 
                 $("#detalle_productos").append(row);
             }
 
             producto.val('');
-            presentacion.val('');
+
             id_producto.val('');
             document.getElementById('producto').readOnly = false;
 
@@ -803,7 +803,6 @@
 
             document.getElementById('id_producto').value = producto.id_producto;
             document.getElementById('producto').value = producto.descripcion;
-            document.getElementById('presentacion').value = producto.presentacion.descripcion;
             document.getElementById('producto').readOnly = true;
 
         }
@@ -828,7 +827,6 @@
                     <td><input  onclick="habilitar()" type='radio' name='id_prod' value='${producto.id_producto}'  ></td>
                     <td> ${producto.codigo_barras} </td>
                     <td> ${producto.descripcion} </td>
-                    <td> ${producto.presentacion.descripcion} </td>
                 </tr> `;
             })
 
@@ -841,7 +839,7 @@
             if (infoProd.length != 0) {
                 document.getElementById('producto').value = infoProd[1];
                 document.getElementById('id_producto').value = infoProd[0];
-                document.getElementById('presentacion').value = infoProd[2];
+
                 addToTableProductos();
             }
         }
@@ -865,7 +863,7 @@
                     var childrens = prod[1].parentElement.parentElement.children;
                     id_prod = childrens[0].firstChild.value;
                     descripcion = childrens[2].innerText;
-                    presentacion = childrens[3].innerText;
+
 
 
                 }

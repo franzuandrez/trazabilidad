@@ -334,7 +334,7 @@
                        class="table table-striped table-bordered table-condensed table-hover">
                     <thead style="background-color: #01579B;  color: #fff;">
                     <th>PRODUCTO</th>
-                    <th>PRESENTACION</th>
+
                     </thead>
                     <tbody>
                     @foreach( $proveedor->productos as $producto )
@@ -343,9 +343,7 @@
                             <td>
                                 {{$producto->descripcion}}
                             </td>
-                            <td>
-                                {{$producto->presentacion->descripcion}}
-                            </td>
+
                         </tr>
                     @endforeach
                     </tbody>
