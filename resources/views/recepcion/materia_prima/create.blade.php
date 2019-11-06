@@ -76,7 +76,7 @@
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="orden_compra">NO. ORDEN DE COMPRA</label>
+            <label for="orden_compra">NO. DOCUMENTO</label>
             <input type="text" name="orden_compra" value="{{old('orden_compra')}}"
                    class="form-control">
         </div>
@@ -611,8 +611,10 @@
     <script src="{{asset('js/moment.min.js')}}"></script>
     <script src="{{asset('js/moment-with-locales.js')}}"></script>
     <script>
+        var formato = 'D/M/Y';
+
         $('.date').datepicker({
-            format: 'yyyy-mm-dd',
+            format: 'dd/mm/yyyy',
             autoclose: true,
             setDate: new Date()
 
@@ -687,7 +689,7 @@
                 let nombre_producto = $("#nombre_producto");
                 let id_producto = $("#id_producto");
 
-                let isFechaVencimientoValida = moment(fecha.val()).isValid() && moment(fecha.val()).isAfter(moment());
+                let isFechaVencimientoValida = moment(fecha.val(),formato).isValid() && moment(fecha.val(),formato).isAfter(moment());
 
                 if (!isFechaVencimientoValida) {
                     alert("La fecha de vencimiento no es válida.");
@@ -703,7 +705,7 @@
                             <td><input type="hidden" name="descripcion_producto[]" value="${nombre_producto.val()}" > <input type="hidden" value='${id_producto.val()}' name=id_producto[]>${nombre_producto.val()}</td>
                             <td><input type="hidden" value='${cantidad.val()}' name=cantidad[]>${cantidad.val()}</td>
                             <td ><input type="hidden" value ='${lote.val().toUpperCase()}'  name=no_lote[] >${lote.val().toUpperCase()}</td>
-                            <td ><input type="hidden" value ='${fecha.val()}'  name=fecha_vencimiento[] >${fecha.val()}</td>
+                            <td ><input type="hidden" value ='${moment(fecha.val(),formato).format('Y-MM-DD')}'  name=fecha_vencimiento[] >${fecha.val()}</td>
                             </tr>`;
                     let producto = productosAgregados.find(producto => producto.id_producto == id_producto.val());
                     if (typeof producto != 'undefined') {
@@ -715,7 +717,7 @@
                     }
 
                     $("#detalles").append(row);
-                    validacion_checks();
+                    document.getElementById('Bt_guardar').disabled = false;
 
                     limpiarProducto();
                 } else if (existeLoteValido == 1) { //Existe y tiene la fecha valida.
@@ -1024,7 +1026,7 @@
             var anio = "20" + date.substring(0, 2);
             var mes = date.substring(2, 4);
             var dia = date.substring(4);
-            var newDate = anio + "-" + mes + "-" + dia;
+            var newDate = dia + "/" + mes + "/" + anio;
 
             return newDate
 
@@ -1097,24 +1099,13 @@
         }
 
         function validacion_checks() {
-            var i;
-            for (i = 0; i < 27; i++) {
+            var detalleNoVacio = document.getElementById('body-detalles').children.length != 0;
 
-
-                var estado = document.getElementsByClassName('validacion')[i].checked;
-
-                var detalleNoVacio = document.getElementById('body-detalles').children.length != 0;
-
-                if (estado == true && detalleNoVacio == true) {
-                    $("#Bt_guardar").attr('disabled', false);
-
-                } else {
-                    $("#Bt_guardar").attr('disabled', true);
-                    break;
-                }
+            if  (detalleNoVacio == true) {
+                $("#Bt_guardar").attr('disabled', false);
+            } else {
+                $("#Bt_guardar").attr('disabled', true);
             }
-
-            return true;
         }
     </script>
 @endsection
