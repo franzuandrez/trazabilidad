@@ -728,7 +728,7 @@ class RecepcionController extends Controller
         } catch (\Exception $e) {
 
             DB::rollback();
-            dd($e);
+
             return redirect()->route('recepcion.ubicacion.index')
                 ->withErrors(['Su peticion no ha podido ser procesada']);
 
