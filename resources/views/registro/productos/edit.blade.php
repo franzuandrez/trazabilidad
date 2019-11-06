@@ -42,13 +42,13 @@
                    class="form-control">
         </div>
     </div>
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12" style="display: none">
         <div class="form-group">
             <label for="id_dimensional">DIMENSIONAL</label>
             <select name="id_dimensional" id="dimensionales"
                     required
                     class="form-control selectpicker">
-                <option value="">SELECCIONAR DIMENSIONAL</option>
+
                 @foreach( $dimensionales as $dimensional )
                     @if( $dimensional->id_dimensional == $producto->id_dimensional )
                         <option selected
@@ -60,13 +60,13 @@
             </select>
         </div>
     </div>
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12" style="display: none">
         <div class="form-group">
             <label for="id_presentacion">PRESENTACIONES</label>
             <select name="id_presentacion" id="presentaciones"
                     required
                     class="form-control selectpicker">
-                <option value="">SELECCIONAR PRESENTACION</option>
+
                 @foreach( $presentaciones as $presentacion)
                     @if( $presentacion->id_presentacion == $producto->id_presentacion  )
                         <option selected
