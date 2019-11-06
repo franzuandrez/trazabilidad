@@ -70,9 +70,9 @@
     <input type="hidden" name="longitud" value="0" id="longitud" value="{{old('longitud')}}"
            class="form-control">
 
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12" style="display: none">
         <div class="form-group">
-            <label for="id_categoria_cliente">CATEGORIA CLIENTE</label>
+
             <select name="id_categoria_cliente" class="form-control selectpicker">
                 @foreach($categorias as $categoria)
                     <option value="{{$categoria->id_categoria}}">{{$categoria->descripcion}}</option>
