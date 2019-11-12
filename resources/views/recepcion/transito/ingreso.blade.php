@@ -187,6 +187,7 @@
     </div>
 @endsection
 @section('scripts')
+    <script src="{{asset('js/moment.min.js')}}"></script>
     <script>
         $(document).ready(function () {
             $(window).keydown(function (event) {
@@ -287,7 +288,7 @@
                          <td>${e.producto.codigo_barras}</td>
                          <td>${e.producto.descripcion}</td>
                          <td>${e.lote}</td>
-                         <td>${e.fecha_vencimiento}</td>
+                         <td>${moment(e.fecha_vencimiento,'').format('DD/MM/Y')}</td>
                         </tr>`
             })
 
