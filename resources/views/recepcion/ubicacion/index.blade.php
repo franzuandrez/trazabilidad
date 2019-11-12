@@ -51,7 +51,7 @@
                             {{$recepcion->proveedor->nombre_comercial}}
                         </td>
                         <td>
-                            {{$recepcion->fecha_ingreso}}
+                            {{$recepcion->fecha_ingreso->format('d/m/Y H:i:s')}}
                         </td>
                     </tr>
 

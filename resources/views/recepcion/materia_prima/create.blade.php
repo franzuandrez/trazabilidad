@@ -70,14 +70,14 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="documento_proveedor">DOCUMENTO PROVEEDOR</label>
-            <input type="text" name="documento_proveedor" value="{{old('documento_proveedor')}}"
+            <input type="text" required name="documento_proveedor" value="{{old('documento_proveedor')}}"
                    class="form-control">
         </div>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="orden_compra">NO. DOCUMENTO</label>
-            <input type="text" name="orden_compra" value="{{old('orden_compra')}}"
+            <input type="text" required name="orden_compra" value="{{old('orden_compra')}}"
                    class="form-control">
         </div>
     </div>
@@ -573,7 +573,9 @@
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <button class="btn btn-default" name="Bt_guardar" disabled id="Bt_guardar" type="submit">
+            <button class="btn btn-default" name="Bt_guardar" disabled id="Bt_guardar"
+                    onclick="$('form').submit()"
+                    type="button">
                 <span class=" fa fa-check"></span> GUARDAR
             </button>
             <a href="{{url('recepcion/materia_prima')}}">
