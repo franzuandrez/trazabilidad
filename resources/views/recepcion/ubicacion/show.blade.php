@@ -7,7 +7,7 @@
 
     @component('componentes.nav',['operation'=>'Ver',
     'menu_icon'=>'fa-arrow-circle-o-right',
-    'submenu_icon'=>'fa fa-arrow-right',
+    'submenu_icon'=>'fa  fa-building-o',
     'operation_icon'=>'fa-eye',])
         @slot('menu')
             Recepcion
@@ -81,7 +81,7 @@
                             <input type="hidden" name="lote[]" value="{{$mov->lote}}">
                         </td>
                         <td>
-                            {{$mov->fecha_vencimiento}}
+                            {{$mov->fecha_vencimiento->format('d/m/Y')}}
                             <input type="hidden" name="fecha_vencimiento[]" value="{{$mov->fecha_vencimiento}}">
                         </td>
                     </tr>

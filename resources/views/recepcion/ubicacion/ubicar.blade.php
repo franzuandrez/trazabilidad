@@ -11,7 +11,7 @@
 
     @component('componentes.nav',['operation'=>'Ubicar',
     'menu_icon'=>'fa-arrow-circle-o-right',
-    'submenu_icon'=>'fa fa-arrow-right',
+    'submenu_icon'=>'fa fa fa-building-o',
     'operation_icon'=>'fa-plus',])
         @slot('menu')
             Recepcion
