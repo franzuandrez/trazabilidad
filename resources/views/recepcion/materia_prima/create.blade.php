@@ -658,8 +658,14 @@
         function cargarProveedores(proveedores) {
             limpiarSelectProveedores()
             let option = '';
+            var total = proveedores.length;
+
             proveedores.forEach(function (e) {
-                option += `<option value='${e.id_proveedor}'>${e.nombre_comercial}</option>`;
+                if (total == 1) {
+                    option += `<option  selected value='${e.id_proveedor}'>${e.nombre_comercial}</option>`;
+                } else {
+                    option += `<option   value='${e.id_proveedor}'>${e.nombre_comercial}</option>`;
+                }
             });
             $('#proveedores').append(option);
             $('#proveedores').selectpicker('refresh');
@@ -689,7 +695,7 @@
                 let nombre_producto = $("#nombre_producto");
                 let id_producto = $("#id_producto");
 
-                let isFechaVencimientoValida = moment(fecha.val(),formato).isValid() && moment(fecha.val(),formato).isAfter(moment());
+                let isFechaVencimientoValida = moment(fecha.val(), formato).isValid() && moment(fecha.val(), formato).isAfter(moment());
 
                 if (!isFechaVencimientoValida) {
                     alert("La fecha de vencimiento no es válida.");
@@ -705,7 +711,7 @@
                             <td><input type="hidden" name="descripcion_producto[]" value="${nombre_producto.val()}" > <input type="hidden" value='${id_producto.val()}' name=id_producto[]>${nombre_producto.val()}</td>
                             <td><input type="hidden" value='${cantidad.val()}' name=cantidad[]>${cantidad.val()}</td>
                             <td ><input type="hidden" value ='${lote.val().toUpperCase()}'  name=no_lote[] >${lote.val().toUpperCase()}</td>
-                            <td ><input type="hidden" value ='${moment(fecha.val(),formato).format('Y-MM-DD')}'  name=fecha_vencimiento[] >${fecha.val()}</td>
+                            <td ><input type="hidden" value ='${moment(fecha.val(), formato).format('Y-MM-DD')}'  name=fecha_vencimiento[] >${fecha.val()}</td>
                             </tr>`;
                     let producto = productosAgregados.find(producto => producto.id_producto == id_producto.val());
                     if (typeof producto != 'undefined') {
@@ -1101,7 +1107,7 @@
         function validacion_checks() {
             var detalleNoVacio = document.getElementById('body-detalles').children.length != 0;
 
-            if  (detalleNoVacio == true) {
+            if (detalleNoVacio == true) {
                 $("#Bt_guardar").attr('disabled', false);
             } else {
                 $("#Bt_guardar").attr('disabled', true);
