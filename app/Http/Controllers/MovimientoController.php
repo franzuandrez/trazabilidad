@@ -33,7 +33,7 @@ class MovimientoController extends Controller
 
 
         if ($request->get('search') != null) {
-            $search = $request->get('search');
+            $this->search = $request->get('search');
         }
         $this->sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
         $this->sortField = $request->get('field') == null ? 'producto' : $request->get('field');
@@ -118,6 +118,38 @@ class MovimientoController extends Controller
 
     public function reporte_excel(Request $request)
     {
+
+
+        $this->search = $request->get('id_select_search') == null ? '0' : $request->get('id_select_search');
+
+
+        if ($request->get('search') != null) {
+            $this->search = $request->get('search');
+        }
+        $this->sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
+        $this->sortField = $request->get('field') == null ? 'producto' : $request->get('field');
+        $filtro = $request->get('filtro') == null ? '2' : $request->get('filtro');
+        if ($this->search == 0) {
+
+            $productos = $this->producto_en_transito($filtro)
+                ->get();
+
+
+        } else {
+            $productos = $this->producto_en_bodega()
+                ->get();
+        }
+
+
+        return Excel::create("Inventario", function ($excel) use($productos) {
+            $excel->sheet("Inventario", function ($sheet) use($productos) {
+                $sheet->loadView('recepcion.kardex.excel',
+                    [
+                        'collection' =>$productos,
+                    ]);
+            });
+        })->export('xlsx');
+
 
 
     }

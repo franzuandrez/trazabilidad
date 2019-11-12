@@ -273,6 +273,7 @@ Route::get('recepcion/ubicacion/{id}','RecepcionController@show_producto_a_ubica
 
 
 Route::get('recepcion/kardex','MovimientoController@index')->name('movimientos.bodegas.index');
+Route::get('recepcion/kardex/reporte','MovimientoController@reporte_excel')->name('movimientos.bodegas.excel');
 Route::get('movimientos/existencia/productos','MovimientoController@existencia')->name('movimientos.existencia.productos');
 
 Route::get('control/chaomin','ChaomeanController@index')->name('chaomin.index');

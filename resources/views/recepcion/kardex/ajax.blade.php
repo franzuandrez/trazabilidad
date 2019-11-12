@@ -34,7 +34,7 @@
              'default'=>'BODEGA TRANSITO',
              'elements'=>$bodegas])
         @endcomponent
-        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 filtro-active" id="filtro">
+        <div class="col-lg-4 col-md-4 col-sm-5 col-xs-10 filtro-active" id="filtro">
             <div class="form-group">
                 <label for="id_filtro">FILTRO</label>
                 <select name="id_filtro"
@@ -47,6 +47,23 @@
                     <option value="1">LIBERADO</option>
 
                 </select>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-1 col-xs-2">
+            <br>
+            <div class="btn-group ">
+                <a type="button" data-toggle="dropdown" aria-expanded="true">
+                    <img src="{{asset('imagenes_web/imprimir.png')}}" data-placement="top" title=""
+                         data-toggle="tooltip" data-original-title="Imprimir" width="50" height="50"></a>
+                <ul class="dropdown-menu" role="menu">
+                    <li>
+                        <a href="javascript:excel()">
+                            <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                            EXCEL
+                        </a>
+                    </li>
+
+                </ul>
             </div>
         </div>
     </div>
@@ -92,6 +109,12 @@
                 document.getElementById('filtro').classList.remove('filtro-active');
                 document.getElementById('filtro').classList.add('filtro-no-active');
             }
+        }
+
+        function excel() {
+
+            let url = "{{url('recepcion/kardex/reporte?type=excel')}}";
+            generar(url);
         }
 
     </script>

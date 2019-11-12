@@ -1,3 +1,4 @@
+
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
         <div class="table-responsive">
@@ -77,4 +78,24 @@
    ])->links()
    }}
 </div>
+
+<script>
+    function generar(url) {
+
+        let  search = "<?php echo $search; ?>";
+        let  sort = "<?php echo $sort; ?>";
+        let  sortField = "<?php echo $sortField; ?>";
+
+
+        url += "&";
+        url += "search="+search+"&";
+        url += "sort="+sort+"&";
+        url += "sortField="+sortField+"&";
+
+
+        window.location.href = url
+
+    }
+
+</script>
 
