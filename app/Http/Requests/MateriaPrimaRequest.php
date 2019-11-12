@@ -37,7 +37,7 @@ class MateriaPrimaRequest extends FormRequest
     {
        return [
            'orden_compra.unique'=>'Orden ya existente',
-           'orden_compra.required'=>'El campo Orden Compra es obligatorio',
+           'orden_compra.required'=>'El campo No. Documento es obligatorio',
            'id_proveedor.required'=>'Debe seleccionar proveedor',
            'documento_proveedor.required'=>'El campo Documento Proveedor es obligatorio'
        ];
