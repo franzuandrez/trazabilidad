@@ -4,7 +4,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" align="center">ELIMINAR  {{$model}} : {{$description}} </h4>
+                <h4 class="modal-title" align="center">DAR DE BAJA  {{$model}} : {{$description}} </h4>
                 <div class="modal-body" align="center">
                     @if($extras !=null && $extras!='')
                         {{$extras}}
