@@ -39,8 +39,8 @@ class ColaboradorController extends Controller
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
         $sortField = $request->get('field') == null ? 'id_colaborador' : $request->get('field');
 
-        $colaboradores = Colaborador::actived()
-            ->where(function ($query) use ($search) {
+        $colaboradores = Colaborador::
+           where(function ($query) use ($search) {
 
                 $query->where('colaboradores.codigo_barras', 'LIKE', '%' . $search . '%')
                     ->orWhere('colaboradores.nombre', 'LIKE', '%' . $search . '%')
