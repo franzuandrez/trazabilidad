@@ -419,6 +419,7 @@
                         <td><button onclick=removeFromTable(this) type="button" class="btn btn-warning">x</button></td>
 
                         <td>
+                            <input  type="hidden" value="{{$producto->id_producto}}" name="productos[]">
                             {{$producto->descripcion}}
                         </td>
 

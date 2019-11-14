@@ -296,7 +296,7 @@ class ProveedorController extends Controller
     {
 
 
-        $proveedor->productos()->syncWithoutDetaching($productos);
+        $proveedor->productos()->sync($productos);
 
 
     }
@@ -410,7 +410,7 @@ class ProveedorController extends Controller
                 ->withErrors(['Archivo no valido']);
 
         } catch (\Exception $e) {
-            dd($e);
+
             return redirect()->route('proveedores.index')
                 ->withErrors(['No ha sido posible cargar los Proveedores']);
         }
