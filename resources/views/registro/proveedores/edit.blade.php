@@ -71,21 +71,21 @@
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="nombre">DIRECCION PLANTA</label>
-                <input type="text" name="direccion_planta" value="{{$proveedor->direccion_planta}}" required
+                <input type="text" name="direccion_planta" value="{{$proveedor->direccion_planta}}"
                        class="form-control">
             </div>
         </div>
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="nombre">NOMBRE CONTACTO</label>
-                <input type="text" name="nombre_contacto" value="{{$proveedor->nombre_contacto}}" required
+                <input type="text" name="nombre_contacto" value="{{$proveedor->nombre_contacto}}"
                        class="form-control">
             </div>
         </div>
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="nombre">TELEFONO DE CONTACTO</label>
-                <input type="text" name="telefono_contacto" value="{{$proveedor->telefono_contacto}}" required
+                <input type="text" name="telefono_contacto" value="{{$proveedor->telefono_contacto}}"
                        class="form-control">
             </div>
         </div>
@@ -99,35 +99,35 @@
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="nombre">REGIMEN TRIBUTARIO</label>
-                <input type="text" name="regimen_tributario" value="{{$proveedor->regimen_tributario}}" required
+                <input type="text" name="regimen_tributario" value="{{$proveedor->regimen_tributario}}"
                        class="form-control">
             </div>
         </div>
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="nombre">PATENTE DE COMERCIO</label>
-                <input type="text" name="patente_comercio" value="{{$proveedor->patente_comercio}}" required
+                <input type="text" name="patente_comercio" value="{{$proveedor->patente_comercio}}"
                        class="form-control">
             </div>
         </div>
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="nombre">PATENTE DE SOCIEDAD</label>
-                <input type="text" name="patente_sociedad" value="{{$proveedor->patente_sociedad}}" required
+                <input type="text" name="patente_sociedad" value="{{$proveedor->patente_sociedad}}"
                        class="form-control">
             </div>
         </div>
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="nombre">DIAS DE CREDITO</label>
-                <input type="text" name="dias_credito" value="{{$proveedor->dias_credito}}" required
+                <input type="text" name="dias_credito" value="{{$proveedor->dias_credito}}"
                        class="form-control">
             </div>
         </div>
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="nombre">MONTO DE CREDITO</label>
-                <input type="text" name="monto_credito" value="{{$proveedor->monto_credito}}" required
+                <input type="text" name="monto_credito" value="{{$proveedor->monto_credito}}"
                        class="form-control">
             </div>
         </div>
