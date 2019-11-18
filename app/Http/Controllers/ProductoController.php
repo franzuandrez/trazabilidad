@@ -82,7 +82,7 @@ class ProductoController extends Controller
 
 
 
-        return  str_pad($codigo, 14, "0", STR_PAD_LEFT);
+        return  str_pad($codigo, 13, "0", STR_PAD_LEFT);
     }
 
     public function store(ProductoRequest $request)
