@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title>Cantonesa</title>
+    <title>Marketin</title>
 
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('css/AdminLTE.min.css')}}">
@@ -35,7 +35,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{url('/')}}" style="color: #fff">CANTONESA</a>
+            <a class="navbar-brand" href="{{url('/')}}" style="color: #fff">MARKETIN</a>
         </div>
         <div class="collapse navbar-collapse" id="mynavbar-content">
             @can('registro')
@@ -248,66 +248,64 @@
                     </li>
                 </ul>
             @endcan
-            @can('produccion')
-                <ul class="nav navbar-nav">
-                    <li class="dropdown">
-                        <a href="#" data-toggle="dropdown" style="background-color: #01579B;  color: #fff;">Produccion<b
-                                class="caret"></b></a>
-                        <ul class="dropdown-menu">
 
-                            <li><a href="{{url('produccion/requisiciones')}}"><i class="fa fa-pencil-square"
-                                                                                 aria-hidden="true"></i>
-                                    Requisiciones</a></li>
-                            <li><a href="{{url('produccion/picking')}}"><i class="fa fa-hand-rock-o"></i>Picking</a>
-                            </li>
-                            <li><a href="{{url('produccion/mezcladora')}}"><i class="fa fa-spinner"></i>Mezcladora</a>
-                            </li>
-                            <li><a href="{{url('produccion/laminado')}}"><i class="fa fa-tasks"></i>Laminado y
-                                    Precocción de
-                                    Sopas</a></li>
-                            <li><a href="{{url('produccion/frituras')}}"><i class="fa fa-fire"></i>Frituras de Sopas</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            @endcan
-            @can('control_chaomin')
-                <ul class="nav navbar-nav">
-                    <li class="dropdown">
-                        <a href="#" data-toggle="dropdown" style="background-color: #01579B;  color: #fff;">Control
-                            Chaomin<b
-                                class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="{{url('control/chaomin')}}"><i class="fa fa-line-chart"></i>Línea para ChaoMin</a>
-                            </li>
-                            <li><a href="{{url('control/mezcla_harina')}}"><i class="fa fa-spoon"></i>Mezcla de
-                                    Harina</a>
-                            </li>
-                            <li><a href="{{url('control/laminado')}}"><i class="fa fa-th"></i>Laminado</a></li>
-                            <li><a href="{{url('control/peso_humedo')}}"><i class="fa fa-signal"></i>Peso Humedo</a>
-                            </li>
-                            <li><a href="{{url('control/peso_seco')}}"><i class="fa fa-bar-chart"></i>Peso Seco</a></li>
-                            <li><a href="{{url('control/precocido')}}"><i class="fa fa-cutlery"></i>Pre-cocido de Pasta</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            @endcan
-            @can('control_sopas')
-                <ul class="nav navbar-nav">
-                    <li class="dropdown">
-                        <a href="#" data-toggle="dropdown" style="background-color: #01579B;  color: #fff;">Control
-                            Sopas<b
-                                class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="{{url('sopas/mezclado_sopas')}}"><i class="fa fa-balance-scale"></i>Mezclado de
-                                    Sopas</a></li>
-                            <li><a href="{{url('sopas/peso_pasta')}}"><i class="fa fa-industry"></i>Peso de la Pasta</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            @endcan
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="#" data-toggle="dropdown" style="background-color: #01579B;  color: #fff;">Produccion<b
+                            class="caret"></b></a>
+                    <ul class="dropdown-menu">
+
+                        <li><a href="{{url('produccion/requisiciones')}}"><i class="fa fa-pencil-square"
+                                                                             aria-hidden="true"></i>
+                                Requisiciones</a></li>
+                        <li><a href="{{url('produccion/picking')}}"><i class="fa fa-hand-rock-o"></i>Picking</a>
+                        </li>
+                        <li><a href="{{url('produccion/mezcladora')}}"><i class="fa fa-spinner"></i>Mezcladora</a>
+                        </li>
+                        <li><a href="{{url('produccion/laminado')}}"><i class="fa fa-tasks"></i>Laminado y
+                                Precocción de
+                                Sopas</a></li>
+                        <li><a href="{{url('produccion/frituras')}}"><i class="fa fa-fire"></i>Frituras de Sopas</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="#" data-toggle="dropdown" style="background-color: #01579B;  color: #fff;">Control
+                        Chaomin<b
+                            class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{url('control/chaomin')}}"><i class="fa fa-line-chart"></i>Línea para ChaoMin</a>
+                        </li>
+                        <li><a href="{{url('control/mezcla_harina')}}"><i class="fa fa-spoon"></i>Mezcla de
+                                Harina</a>
+                        </li>
+                        <li><a href="{{url('control/laminado')}}"><i class="fa fa-th"></i>Laminado</a></li>
+                        <li><a href="{{url('control/peso_humedo')}}"><i class="fa fa-signal"></i>Peso Humedo</a>
+                        </li>
+                        <li><a href="{{url('control/peso_seco')}}"><i class="fa fa-bar-chart"></i>Peso Seco</a></li>
+                        <li><a href="{{url('control/precocido')}}"><i class="fa fa-cutlery"></i>Pre-cocido de Pasta</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="#" data-toggle="dropdown" style="background-color: #01579B;  color: #fff;">Control
+                        Sopas<b
+                            class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{url('sopas/mezclado_sopas')}}"><i class="fa fa-balance-scale"></i>Mezclado de
+                                Sopas</a></li>
+                        <li><a href="{{url('sopas/peso_pasta')}}"><i class="fa fa-industry"></i>Peso de la Pasta</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
             @can('usuarios')
                 <ul class="nav navbar-nav">
                     <li class="dropdown">
