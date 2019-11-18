@@ -4,7 +4,8 @@
             <select name="id_select_search"
                     id="id_select_search"
                     class="form-control selectpicker"
-                    onchange="ver_existencia()">
+                    onchange="buscar_existencias()">
+                <option value="">SELECCIONE BODEGA</option>
                 <option value="0">{{$default}}</option>
                 @foreach( $elements as $e )
                     <option value="{{$e->id}}">{{$e->descripcion}}</option>
