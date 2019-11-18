@@ -15,6 +15,12 @@ class ProveedorController extends Controller
     //
 
 
+    public function __construct()
+    {
+
+        $this->middleware('auth');
+    }
+
     private function getHeaders()
     {
 
