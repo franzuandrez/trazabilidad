@@ -27,14 +27,19 @@
             Existencias
         @endslot
     @endcomponent
+
+
+
     <div class="row">
+
+
         @component('componentes.search-select'
              ,[
              'busqueda'=>'BODEGA',
              'default'=>'BODEGA TRANSITO',
              'elements'=>$bodegas])
         @endcomponent
-        <div class="col-lg-4 col-md-4 col-sm-5 col-xs-10 filtro-active" id="filtro">
+        <div class="col-lg-4 col-md-4 col-sm-5 col-xs-10 filtro-no-active" id="filtro">
             <div class="form-group">
                 <label for="id_filtro">FILTRO</label>
                 <select name="id_filtro"
@@ -49,8 +54,54 @@
                 </select>
             </div>
         </div>
-        <div class="col-lg-4 col-md-4 col-sm-1 col-xs-2">
+
+    </div>
+    <div class="row">
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="Fecha">RANGO FECHA
+                </label>
+                <div class="input-daterange input-group fj-date" id="datepicker">
+                    <input style="height:35px" type="text" id="start"
+                           value=""
+                           onchange="next('end')"
+                           class="input-sm form-control"
+                           name="start"/>
+                    <span class="input-group-addon">a</span>
+                    <input style="height:35px"
+                           type="text" id="end"
+                           value=""
+                           onchange="next('producto')"
+                           class="input-sm form-control" name="end"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2 col-sm-3 col-md-5 col-xs-12">
+            <div class="form-group">
+                <label for="producto">PRODUCTO</label>
+                <input type="text"
+                       id="producto"
+                       placeholder="CODIGO DE BARRAS , DESCRIPCION"
+                       onkeydown="if(event.keyCode ==13)next('lote')"
+                       name="producto" value="{{old('producto')}}"
+                       class="form-control">
+            </div>
+        </div>
+        <div class="col-lg-2 col-sm-3 col-md-5 col-xs-10">
+            <div class="form-group">
+                <label for="lote">LOTE</label>
+                <input type="text"
+                       id="lote"
+                       onkeydown="if(event.keyCode==13)next('lote')"
+                       placeholder="NO. LOTE" name="lote" value="{{old('lote')}}"
+                       class="form-control">
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-2 col-sm-1 col-xs-2">
             <br>
+
             <div class="btn-group ">
                 <a type="button" data-toggle="dropdown" aria-expanded="true">
                     <img src="{{asset('imagenes_web/imprimir.png')}}" data-placement="top" title=""
@@ -66,6 +117,8 @@
                 </ul>
             </div>
         </div>
+
+
     </div>
     <div id="content">
 
@@ -80,16 +133,21 @@
 @section('scripts')
     <script src="{{asset('js/ajax-crud.js')}}"></script>
     <script>
-        function ver_existencia() {
+        function filtro() {
 
             let id_bodega = $('#id_select_search').val();
-            if (id_bodega == 0) {
+
+            let isNumber = !isNaN(parseInt(id_bodega));
+            if (isNumber) {
+                id_bodega = parseInt(id_bodega);
+            }
+
+            if (id_bodega === 0) {
                 activar_filtro(true);
             } else {
                 activar_filtro(false);
             }
 
-            ajaxLoad('{{url('recepcion/kardex')}}?id_select_search=' + id_bodega)
 
         }
 
@@ -112,9 +170,65 @@
         }
 
         function excel() {
+            let id_bodega = $('#id_select_search').val();
+            let producto = $('#producto').val();
+            let lote = $('#lote').val();
+            let start = $('#start').val();
+            let end = $('#end').val();
 
             let url = "{{url('recepcion/kardex/reporte?type=excel')}}";
+            let busqueda = '&';
+
+            if (id_bodega !== "") {
+                busqueda += "id_select_search=" + id_bodega + "&";
+            }
+            if (producto !== "") {
+                busqueda += "producto=" + producto + "&";
+            }
+            if (lote !== "") {
+                busqueda += "lote=" + lote + "&";
+            }
+
+            if (start !== "" && end !== "") {
+                busqueda += "start=" + start + "&end=" + end;
+            }
+            url += busqueda;
             generar(url);
+        }
+
+
+        function next(id_next) {
+
+            document.getElementById(id_next).focus();
+            buscar_existencias();
+        }
+
+        function buscar_existencias() {
+
+            let id_bodega = $('#id_select_search').val();
+            let producto = $('#producto').val();
+            let lote = $('#lote').val();
+            let start = $('#start').val();
+            let end = $('#end').val();
+
+            let busqueda = '{{url('recepcion/kardex')}}';
+            busqueda += '?';
+
+            if (id_bodega !== "") {
+                busqueda += "id_select_search=" + id_bodega + "&";
+            }
+            if (producto !== "") {
+                busqueda += "producto=" + producto + "&";
+            }
+            if (lote !== "") {
+                busqueda += "lote=" + lote + "&";
+            }
+
+            if (start !== "" && end !== "") {
+                busqueda += "start=" + start + "&end=" + end;
+            }
+            filtro();
+            ajaxLoad(busqueda)
         }
 
     </script>

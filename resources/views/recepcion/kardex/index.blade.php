@@ -49,7 +49,7 @@
                 @foreach($productos as $producto)
                     <tr>
                         <td>
-                            @if($producto->ubicacion == 0)
+                            @if($producto->id_bodega == 0)
                                 BODEGA TRANSITO
                             @else
                                 {{$producto->bodega}}
@@ -68,15 +68,11 @@
                 @endforeach
                 </tbody>
             </table>
+
+
         </div>
     </div>
-    {{
-   $productos->appends([
-       'search' => $search,
-       'sort'=>$sort,
-       'field'=>$sortField
-   ])->links()
-   }}
+
 </div>
 
 <script>

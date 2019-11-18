@@ -14,7 +14,11 @@
     </tr>
     <tr>
         <td style="border: 1px solid #000"><strong>Fecha </strong></td>
-        <td style="border: 1px solid #000" colspan="3">{{\Carbon\Carbon::now()}}</td>
+        <td style="border: 1px solid #000" colspan="3">{{\Carbon\Carbon::now()->format('d/m/Y H:i:s')}}</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #000"><strong>Usuario</strong></td>
+        <td style="border: 1px solid #000" colspan="3">{{\Auth::user()->nombre}}</td>
     </tr>
     </thead>
 </table>
@@ -35,7 +39,7 @@
     @foreach($collection as $producto)
         <tr>
             <td style="border: 1px solid #000000">
-                @if($producto->ubicacion == 0)
+                @if($producto->id_bodega == 0)
                     BODEGA TRANSITO
                 @else
                     {{$producto->bodega}}
