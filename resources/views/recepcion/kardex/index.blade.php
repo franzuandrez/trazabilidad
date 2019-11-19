@@ -46,7 +46,7 @@
                 </th>
                 </thead>
                 <tbody>
-                @foreach($productos as $producto)
+                @forelse ($productos as $producto)
                     <tr>
                         <td>
                             @if($producto->id_bodega == 0)
@@ -65,7 +65,11 @@
                             {{$producto->total}}
                         </td>
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td align="center" colspan="4"> <strong> <i class="fa fa-meh-o"></i> SIN RESULTADOS</strong></td>
+                    </tr>
+                @endforelse
                 </tbody>
             </table>
 
