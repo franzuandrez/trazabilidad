@@ -146,12 +146,22 @@ class MovimientoController extends Controller
             ->orderBy($this->sortField, $this->sort)
             ->get();
 
+        $filtrosDisponibles = [
+            'id_select_search'=>'bodega',
+            'producto'=>'producto',
+            'lote'=>'lote',
+            'end'=>'rango'
+        ];
+        $filtrosUsados = collect($filtrosDisponibles)->intersectByKeys(collect($request->all()));
 
-        return Excel::create("Inventario", function ($excel) use ($productos) {
-            $excel->sheet("Inventario", function ($sheet) use ($productos) {
+
+
+        return Excel::create("Inventario", function ($excel) use ($productos,$request) {
+            $excel->sheet("Inventario", function ($sheet) use ($productos,$request) {
                 $sheet->loadView('recepcion.kardex.excel',
                     [
                         'collection' => $productos,
+                        'parametros'=>$request
                     ]);
             });
         })->export('xlsx');

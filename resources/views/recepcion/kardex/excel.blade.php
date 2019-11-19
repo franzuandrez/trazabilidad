@@ -13,24 +13,72 @@
         <td style="border: 1px solid #000" colspan="4" align="center"><b>EXISTENCIAS</b></td>
     </tr>
     <tr>
-        <td style="border: 1px solid #000"><strong>Fecha </strong></td>
+        <td style="border: 1px solid #000"><strong>GENERADO </strong></td>
         <td style="border: 1px solid #000" colspan="3">{{\Carbon\Carbon::now()->format('d/m/Y H:i:s')}}</td>
     </tr>
     <tr>
-        <td style="border: 1px solid #000"><strong>Usuario</strong></td>
+        <td style="border: 1px solid #000"><strong>USUARIO</strong></td>
         <td style="border: 1px solid #000" colspan="3">{{\Auth::user()->nombre}}</td>
     </tr>
+    @if($parametros->start != null && $parametros->end != null)
+        <tr>
+            <td style="border: 1px solid #000"><strong>FECHA</strong></td>
+            <td style="border: 1px solid #000" colspan="3">
+                {{\Carbon\Carbon::createFromFormat('Y-m-d',$parametros->start)->format('d/m/Y')}}
+                -
+                {{\Carbon\Carbon::createFromFormat('Y-m-d',$parametros->end)->format('d/m/Y')}}
+            </td>
+        </tr>
+    @endif
+
+    @if($parametros->id_select_search!=null)
+        @if($parametros->id_select_search==0)
+            <tr>
+                <td style="border: 1px solid #000"><strong>BODEGA</strong></td>
+                <td style="border: 1px solid #000" colspan="3">TRANSITO</td>
+            </tr>
+        @else
+            <tr>
+                <td style="border: 1px solid #000"><strong>BODEGA</strong></td>
+                <td style="border: 1px solid #000" colspan="3">{{$collection->first()->bodega}}</td>
+            </tr>
+        @endif
+    @endif
+
+
+    @if($parametros->lote !=null)
+        <tr>
+            <td style="border: 1px solid #000"><strong>LOTE</strong></td>
+            <td style="border: 1px solid #000" colspan="3">{{$parametros->lote}}</td>
+        </tr>
+    @endif
+
     </thead>
 </table>
 <table style=" border-collapse: collapse;">
+    @php
 
+        $colspan = 3;
+    @endphp
 
     <thead>
     <tr style="border: 1px solid #000">
-        <th width="20" style="border: 1px solid #000">BODEGA</th>
+        @if($parametros->id_select_search==null)
+            <th width="20" style="border: 1px solid #000">BODEGA</th>
+            @php
+                $colspan -= 1;
+            @endphp
+        @endif
         <th width="35" style="border: 1px solid #000">PRODUCTO</th>
-        <th width="20" style="border: 1px solid #000">LOTE</th>
-        <th width="20" style="border: 1px solid #000">CANTIDAD</th>
+
+        @if($parametros->lote ==null)
+            <th width="20" style="border: 1px solid #000">LOTE</th>
+            @php
+                $colspan -= 1;
+            @endphp
+        @endif
+
+        <th width="20" style="border: 1px solid #000" colspan="{{$colspan}}">CANTIDAD</th>
     </tr>
     </thead>
     <tbody>
@@ -38,20 +86,26 @@
 
     @foreach($collection as $producto)
         <tr>
-            <td style="border: 1px solid #000000">
-                @if($producto->id_bodega == 0)
-                    BODEGA TRANSITO
-                @else
-                    {{$producto->bodega}}
-                @endif
-            </td>
+            @if($parametros->id_select_search==null)
+                <td style="border: 1px solid #000000">
+                    @if($producto->id_bodega == 0)
+                        BODEGA TRANSITO
+                    @else
+                        {{$producto->bodega}}
+                    @endif
+                </td>
+            @endif
             <td style="border: 1px solid #000000">
                 {{$producto->producto}}
             </td>
-            <td style="border: 1px solid #000000">
-                {{$producto->lote}}
-            </td>
-            <td style="border: 1px solid #000000">
+
+            @if($parametros->lote ==null)
+                <td style="border: 1px solid #000000">
+                    {{$producto->lote}}
+                </td>
+            @endif
+
+            <td colspan="{{$colspan}}" style="border: 1px solid #000000">
                 {{$producto->total}}
             </td>
         </tr>
