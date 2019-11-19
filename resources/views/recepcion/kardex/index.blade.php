@@ -5,44 +5,44 @@
             <table class="table table-striped table-bordered table-condensed table-hover">
                 <thead style="background-color: #01579B;  color: #fff;">
                 <th>
-                    @component('recepcion.kardex.sort',[
+                    @include('recepcion.kardex.sort',[
                         'filtro' => $filtro,
                           'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
                           'field'=>'bodega',
                           'titulo'=>'BODEGA'])
-                    @endcomponent
+
                 </th>
                 <th>
-                    @component('recepcion.kardex.sort',[
+                    @include('recepcion.kardex.sort',[
                     'filtro' => $filtro,
                         'search'=>$search,
                          'sort'=>$sort,
                          'sortField'=>$sortField,
                          'field'=>'producto',
                          'titulo'=>'PRODUCTO'])
-                    @endcomponent
+
                 </th>
                 <th>
-                    @component('recepcion.kardex.sort',[
+                    @include('recepcion.kardex.sort',[
                     'filtro' => $filtro,
                         'search'=>$search,
                          'sort'=>$sort,
                          'sortField'=>$sortField,
                          'field'=>'lote',
                          'titulo'=>'LOTE'])
-                    @endcomponent
+
                 </th>
                 <th>
-                    @component('recepcion.kardex.sort',[
+                    @include('recepcion.kardex.sort',[
                         'filtro' => $filtro,
                         'search'=>$search,
                          'sort'=>$sort,
                          'sortField'=>$sortField,
                          'field'=>'total',
                          'titulo'=>'CANTIDAD'])
-                    @endcomponent
+
                 </th>
                 </thead>
                 <tbody>
