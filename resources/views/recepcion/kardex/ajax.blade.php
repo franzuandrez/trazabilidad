@@ -78,7 +78,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-2 col-sm-3 col-md-5 col-xs-12">
+        <div class="col-lg-2 col-sm-3 col-md-3 col-xs-12">
             <div class="form-group">
                 <label for="producto">PRODUCTO</label>
                 <input type="text"
@@ -89,7 +89,7 @@
                        class="form-control">
             </div>
         </div>
-        <div class="col-lg-2 col-sm-3 col-md-5 col-xs-10">
+        <div class="col-lg-2 col-sm-3 col-md-3 col-xs-12">
             <div class="form-group">
                 <label for="lote">LOTE</label>
                 <input type="text"
@@ -99,9 +99,26 @@
                        class="form-control">
             </div>
         </div>
-        <div class="col-lg-4 col-md-2 col-sm-1 col-xs-2">
+        <div class="col-lg-2 col-sm-3 col-md-3 col-xs-12">
             <br>
+            <div class="btn-group ">
+                <a type="button"
+                   onclick="buscar_existencias()"
+                   data-toggle="dropdown" aria-expanded="true">
+                    <img src="{{asset('imagenes_web/buscar.png')}}" data-placement="top" title=""
+                         data-toggle="tooltip" data-original-title="Buscar" width="50" height="50">
+                </a>
 
+            </div>
+            <div class="btn-group ">
+                <a type="button"
+                   onclick="limpiar()"
+                   data-toggle="dropdown" aria-expanded="true">
+                    <img src="{{asset('imagenes_web/borrar.png')}}" data-placement="top" title=""
+                         data-toggle="tooltip" data-original-title="Limpiar" width="50" height="50">
+                </a>
+
+            </div>
             <div class="btn-group ">
                 <a type="button" data-toggle="dropdown" aria-expanded="true">
                     <img src="{{asset('imagenes_web/imprimir.png')}}" data-placement="top" title=""
@@ -231,5 +248,23 @@
             ajaxLoad(busqueda)
         }
 
+
+        function limpiar() {
+            let fecha_inicio = document.getElementById('start');
+            let fecha_fin =  document.getElementById('end');
+            let lote = document.getElementById('lote');
+            let producto = document.getElementById('producto');
+
+            fecha_inicio.value ='';
+            fecha_fin.value ='';
+            lote.value ='';
+            producto.value ='';
+
+            $('#id_select_search').find('option:first').prop('selected','selected');
+            $('#id_select_search').selectpicker('refresh');
+            buscar_existencias();
+            producto.focus();
+
+        }
     </script>
 @endsection
