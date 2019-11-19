@@ -185,6 +185,11 @@ class MovimientoController extends Controller
                 $query->estaEnControl();
             });
         }
+
+        if ($this->start != '' && $this->start != null && $this->end != '' && $this->end != null) {
+            $rmi_encabezado = $rmi_encabezado->whereBetween(DB::raw("date_format(rmi_encabezado.fecha_ingreso,'%Y-%m-%d')"), [$this->start, $this->end]);
+        }
+
         $rmi_encabezado = $rmi_encabezado->get()
             ->pluck('id_rmi_encabezado');
 
@@ -218,6 +223,7 @@ class MovimientoController extends Controller
         if ($this->search != null && $this->search != 0) {
             $productos = $productos->where(DB::RAW('0'), '1');
         }
+
 
         $productos = $productos->groupBy('rmi_detalle.id_producto')
             ->groupBy('rmi_detalle.lote');
@@ -265,6 +271,11 @@ class MovimientoController extends Controller
             });
         }
 
+        if ($this->start != '' && $this->start != null && $this->end != '' && $this->end != null) {
+            $productos = $productos->where(function ($query) {
+                $query->whereBetween(DB::raw(" date_format(fecha_hora_movimiento,'%Y-%m-%d') "), [$this->start, $this->end]);
+            });
+        }
 
         $productos = $productos->groupBy('movimientos.id_producto')
             ->groupBy('movimientos.lote')
