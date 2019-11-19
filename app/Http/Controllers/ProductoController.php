@@ -78,11 +78,11 @@ class ProductoController extends Controller
 
     }
 
-    private function getCodigoBarras($codigo){
+    private function getCodigoBarras($codigo)
+    {
 
 
-
-        return  str_pad($codigo, 13, "0", STR_PAD_LEFT);
+        return str_pad($codigo, 13, "0", STR_PAD_LEFT);
     }
 
     public function store(ProductoRequest $request)
@@ -91,7 +91,7 @@ class ProductoController extends Controller
         $codigo_barras = $this->getCodigoBarras($request->get('codigo_barras'));
 
         $existeCodigoBarras = Producto::actived()
-            ->where('codigo_barras',$codigo_barras )
+            ->where('codigo_barras', $codigo_barras)
             ->exists();
 
         if ($existeCodigoBarras) {
@@ -122,6 +122,7 @@ class ProductoController extends Controller
         $producto->tipo_producto = $request->get('tipo_producto');
         $producto->fecha_creacion = \Carbon\Carbon::now();
         $producto->estado = 1;
+        $producto->unidad_medida = $request->get('unidad_medida');
         $producto->creado_por = \Auth::user()->id;
         $producto->save();
 
@@ -179,6 +180,7 @@ class ProductoController extends Controller
             $producto->id_dimensional = $request->get('id_dimensional');
             $producto->id_presentacion = $request->get('id_presentacion');
             $producto->tipo_producto = $request->get('tipo_producto');
+            $producto->unidad_medida = $request->get('unidad_medida');
             $producto->fecha_actualizacion = \Carbon\Carbon::now();
             $producto->update();
 

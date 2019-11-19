@@ -31,14 +31,21 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="codigo_barras">CODIGO INTERNO</label>
-            <input type="text" name="codigo_interno" value="{{$producto->codigo_interno}}"
+            <input type="text" name="codigo_interno" value="{{$producto->codigo_interno}}" required
                    class="form-control">
         </div>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="descripcion">DESCRIPCION</label>
-            <input type="text" name="descripcion" value="{{$producto->descripcion}}"
+            <input type="text" name="descripcion" value="{{$producto->descripcion}}" required
+                   class="form-control">
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="unidad_medida">UNIDAD DE MEDIDA</label>
+            <input type="text" name="unidad_medida" value="{{$producto->unidad_medida}}" required
                    class="form-control">
         </div>
     </div>

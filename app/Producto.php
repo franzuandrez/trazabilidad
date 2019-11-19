@@ -25,7 +25,8 @@ class Producto extends Model
         'fecha_creacion',
         'fecha_actualizacion',
         'estado',
-        'creado_por'
+        'creado_por',
+        'unidad_medida',
     ];
 
     public static $logAttributes = [
@@ -38,7 +39,8 @@ class Producto extends Model
         'tipo_producto',
         'fecha_creacion',
         'estado',
-        'creado_por'
+        'creado_por',
+        'unidad_medida',
     ];
 
     protected static $logOnlyDirty = true;
