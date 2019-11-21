@@ -612,6 +612,7 @@
 @section('scripts')
     <script src="{{asset('js/moment.min.js')}}"></script>
     <script src="{{asset('js/moment-with-locales.js')}}"></script>
+    <script src="{{asset('js-brc/tools/lectura_codigo.js')}}"></script>
     <script>
         var formato = 'D/M/Y';
 
@@ -927,26 +928,7 @@
             return [id_prod, descripcion];
         }
 
-        function descomponerInput(input) {
 
-            var codigoBarras = input.value;
-            var codigo, fecha_vencimiento, lote;
-
-            if (codigoBarras.length <= 14) {
-                codigo = codigoBarras;
-                fecha_vencimiento = "";
-                lote = "";
-            } else {
-                codigo = codigoBarras.substring(2, 16);
-                fecha_vencimiento = codigoBarras.substring(18, 24);
-                lote = codigoBarras.substring(26, codigoBarras.length);
-            }
-
-
-            return ["", codigo, fecha_vencimiento, lote];
-
-
-        }
 
         function cargarInfoCodigoBarras(input) {
 

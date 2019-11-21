@@ -23,7 +23,7 @@
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="orden_compra">NO. ORDEN DE COMPRA</label>
+            <label for="orden_compra">NO. DOCUMENTO</label>
             <input type="text"
                    readonly
                    name="orden_compra"
@@ -188,6 +188,7 @@
 @endsection
 @section('scripts')
     <script src="{{asset('js/moment.min.js')}}"></script>
+    <script src="{{asset('js-brc/tools/lectura_codigo.js')}}"></script>
     <script>
         $(document).ready(function () {
             $(window).keydown(function (event) {
@@ -223,25 +224,7 @@
             return mov;
         }
 
-        function descomponerInput(input) {
 
-            var codigoBarras = input.value;
-            var codigo, fecha_vencimiento, lote;
-            if (codigoBarras.length <= 14) {
-                codigo = codigoBarras;
-                fecha_vencimiento = "";
-                lote = "";
-            } else {
-                codigo = codigoBarras.substring(2, 16);
-                fecha_vencimiento = codigoBarras.substring(18, 24);
-                lote = codigoBarras.substring(26, codigoBarras.length);
-            }
-
-
-            return ["", codigo, fecha_vencimiento, lote];
-
-
-        }
 
         function buscarProducto(input) {
 
