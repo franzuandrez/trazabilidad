@@ -260,6 +260,11 @@
                                 Requisiciones</a></li>
                         <li><a href="{{url('produccion/picking')}}"><i class="fa fa-hand-rock-o"></i>Picking</a>
                         </li>
+
+                        <li><a href="{{url('produccion/trazabilidad_chao_mein')}}"><i class="fa fa-list-alt"
+                                                                           aria-hidden="true"></i>
+                                Control Trazabilidad Chao Mein</a></li>
+
                         <li><a href="{{url('produccion/mezcladora')}}"><i class="fa fa-spinner"></i>Mezcladora</a>
                         </li>
                         <li><a href="{{url('produccion/laminado')}}"><i class="fa fa-tasks"></i>Laminado y

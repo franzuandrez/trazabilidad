@@ -330,6 +330,7 @@ Route::post('control/precocido/{id}','PrecocidoController@destroy')->name('preco
 Route::get('produccion/trazabilidad_chao_mein','OperacionController@index')->name('produccion.operacion.index');
 Route::get('produccion/trazabilidad_chao_mein/create','OperacionController@create')->name('produccion.operacion.create');
 Route::post('produccion/trazabilidad_chao_mein/create','OperacionController@store')->name('produccion.operacion.store');
+Route::get('produccion/trazabilidad_chao_mein/buscar_producto','OperacionController@buscar_producto')->name('produccion.operacion.buscar_producto');
 
 
 Route::get('produccion/requisiciones','RequisicionController@index')->name('produccion.requisiciones.index');
