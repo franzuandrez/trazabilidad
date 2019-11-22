@@ -326,6 +326,12 @@ Route::patch('control/precocido/{id}','PrecocidoController@update')->name('preco
 Route::get('control/precocido/{id}','PrecocidoController@show')->name('precocido.show');
 Route::post('control/precocido/{id}','PrecocidoController@destroy')->name('precocido.destroy');
 
+
+Route::get('produccion/trazabilidad_chao_mein','OperacionController@index')->name('produccion.operacion.index');
+Route::get('produccion/trazabilidad_chao_mein/create','OperacionController@create')->name('produccion.operacion.create');
+Route::post('produccion/trazabilidad_chao_mein/create','OperacionController@store')->name('produccion.operacion.store');
+
+
 Route::get('produccion/requisiciones','RequisicionController@index')->name('produccion.requisiciones.index');
 Route::get('produccion/requisiciones/create','RequisicionController@create')->name('produccion.requisiciones.create');
 Route::post('produccion/requisiciones/create','RequisicionController@store')->name('produccion.requisiciones.store');
