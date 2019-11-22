@@ -57,7 +57,7 @@
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="nombre">NIT</label>
-                <input type="text" name="nit" value="{{$proveedor->nit}}" required
+                <input type="text" name="nit" value="{{$proveedor->nit}}"
                        class="form-control">
             </div>
         </div>
@@ -71,7 +71,7 @@
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="nombre">DIRECCION PLANTA</label>
-                <input type="text" name="direccion_planta" value="{{$proveedor->direccion_planta}}"
+                <input type="text" name="direccion_planta" value="{{$proveedor->direccion_planta}}" required
                        class="form-control">
             </div>
         </div>

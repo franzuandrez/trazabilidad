@@ -36,8 +36,8 @@ class ProductoController extends Controller
                 $query->where('productos.codigo_barras', 'LIKE', '%' . $search . '%')
                     ->orwhere('productos.codigo_interno', 'LIKE', '%' . $search . '%')
                     ->orwhere('productos.descripcion', 'LIKE', '%' . $search . '%')
-                    ->orwhere('presentaciones.descripcion', 'LIKE', '%' . $search . '%')
-                    ->orwhere('dimensionales.descripcion', 'LIKE', '%' . $search . '%');
+                    ->orwhere('productos.codigo_interno_cliente', 'LIKE', '%' . $search . '%')
+                  ;
             })
             ->orderBy($sortField, $sort)
             ->paginate(20);
@@ -136,6 +136,7 @@ class ProductoController extends Controller
         $producto->id_dimensional = $request->get('id_dimensional');
         $producto->id_presentacion = $request->get('id_presentacion');
         $producto->tipo_producto = $request->get('tipo_producto');
+        $producto->codigo_interno_cliente = $request->get('codigo_interno_cliente');
         $producto->fecha_creacion = \Carbon\Carbon::now();
         $producto->estado = 1;
         $producto->unidad_medida = $request->get('unidad_medida');
@@ -200,6 +201,7 @@ class ProductoController extends Controller
             $producto->id_dimensional = $request->get('id_dimensional');
             $producto->id_presentacion = $request->get('id_presentacion');
             $producto->tipo_producto = $request->get('tipo_producto');
+            $producto->codigo_interno_cliente = $request->get('codigo_interno_cliente');
             $producto->unidad_medida = $request->get('unidad_medida');
             $producto->fecha_actualizacion = \Carbon\Carbon::now();
             $producto->update();
@@ -283,10 +285,10 @@ class ProductoController extends Controller
         $productos = Producto::esMateriaPrima()
             ->where(function ($query) use ($search) {
                 $query->where('productos.codigo_barras', 'LIKE', '%' . $search . '%')
+                    ->orWhere('productos.codigo_interno_cliente', 'LIKE', '%' . $search . '%')
                     ->orWhere('productos.descripcion', 'LIKE', '%' . $search . '%');
             })
             ->with('proveedores')
-            ->with('presentacion')
             ->get();
 
         if ($productos->isEmpty()) {
@@ -350,40 +352,43 @@ class ProductoController extends Controller
                             $codigo_barras = $this->getCodigoBarras($codigo_barras);
                             $existeProducto = Producto::where('codigo_barras', $codigo_barras)->exists();
                             if ($tipo_producto == "MIX") {
-                                $tipo_producto_asignado = $value[6];
+                                $tipo_producto_asignado = $value[7];
                             } else {
                                 $tipo_producto_asignado = $tipo_producto;
                             }
 
 
                             if ($formatoExcel == "A") {
-                                $unidad_medida = $value[3];
+                                $unidad_medida = $value[4];
                             } else if ($formatoExcel == "B" || $formatoExcel == "C") {
-                                $unidad_medida = $value[5];
+                                $unidad_medida = $value[6];
 
                             } else {
                                 return redirect()
                                     ->route('productos.index')
                                     ->withErrors(['El número de las columnas no coincide con ninguno de los formatos establecidos']);
                             }
-
-                            $codigo_interno = $value[1];
+                            $codigo_interno_cliente = $value[1];
+                            $codigo_interno = $value[2];
+                            $descripcion = $value[3];
                             if ($existeProducto) {
                                 $producto = Producto::where('codigo_barras', $codigo_barras)->first();
                                 $producto->codigo_interno = $codigo_interno;
-                                $producto->descripcion = $value[2];
+                                $producto->descripcion = $descripcion;
                                 $producto->tipo_producto = $tipo_producto_asignado;
                                 $producto->unidad_medida = $unidad_medida;
+                                $producto->codigo_interno_cliente = $codigo_interno_cliente;
                                 $producto->update();
                             } else {
                                 $producto = new Producto();
                                 $producto->codigo_barras = $codigo_barras;
                                 $producto->codigo_interno = $codigo_interno;
-                                $producto->descripcion = $value[2];
+                                $producto->descripcion = $descripcion;
                                 $producto->tipo_producto = $tipo_producto_asignado;
                                 $producto->fecha_creacion = Carbon::now();
                                 $producto->creado_por = \Auth::user()->id;
                                 $producto->unidad_medida = $unidad_medida;
+                                $producto->codigo_interno_cliente = $codigo_interno_cliente;
                                 $producto->save();
                             }
 

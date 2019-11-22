@@ -59,7 +59,7 @@
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="nombre">NIT</label>
-                <input type="text" name="nit" required value="{{old('nit')}}"
+                <input type="text" name="nit"  value="{{old('nit')}}"
                        class="form-control">
             </div>
         </div>
@@ -73,7 +73,7 @@
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="nombre">DIRECCION PLANTA</label>
-                <input type="text" name="direccion_planta"  value="{{old('direccion_planta')}}"
+                <input type="text" name="direccion_planta" required value="{{old('direccion_planta')}}"
                        class="form-control">
             </div>
         </div>
