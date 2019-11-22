@@ -327,6 +327,7 @@ class ProductoController extends Controller
                         if ($producto != null) {
                             $producto->descripcion = $value[1];
                             $producto->unidad_medida = $value[2];
+                            $producto->tipo_producto = "PT";
                             $producto->dias_vencimiento = $value[3];
                             $producto->update();
                         } else {
@@ -334,6 +335,7 @@ class ProductoController extends Controller
                             $producto->codigo_interno = $value[0];
                             $producto->descripcion = $value[1];
                             $producto->unidad_medida = $value[2];
+                            $producto->tipo_producto = "PT";
                             $producto->dias_vencimiento = $value[3];
                             $producto->save();
                         }

@@ -100,14 +100,22 @@
                 @if(  $producto->tipo_producto == "MP"  )
                     <option value="MP" selected> MATERIA PRIMA</option>
                     <option value="PT">PRODUCTO TERMINADO</option>
+                    <option value="PP">PRODUCTO PROCESO</option>
                     <option value="ME">MATERIAL EMPAQUE</option>
                 @elseif($producto->tipo_producto == "PT"  )
                     <option value="MP"> MATERIA PRIMA</option>
                     <option value="PT" selected>PRODUCTO TERMINADO</option>
+                    <option value="PP">PRODUCTO PROCESO</option>
+                    <option value="ME">MATERIAL EMPAQUE</option>
+                @elseif($producto->tipo_producto == "PP"  )
+                    <option value="MP"> MATERIA PRIMA</option>
+                    <option value="PT">PRODUCTO TERMINADO</option>
+                    <option value="PP" selected>PRODUCTO PROCESO</option>
                     <option value="ME">MATERIAL EMPAQUE</option>
                 @else
                     <option value="MP"> MATERIA PRIMA</option>
                     <option value="PT">PRODUCTO TERMINADO</option>
+                    <option value="PP">PRODUCTO PROCESO</option>
                     <option value="ME" selected>MATERIAL EMPAQUE</option>
                 @endif
             </select>

@@ -95,6 +95,7 @@
                 <option value="MP"> MATERIA PRIMA</option>
                 <option value="PT">PRODUCTO TERMINADO</option>
                 <option value="ME">MATERIAL EMPAQUE</option>
+                <option value="PP">PRODUCTO PROCESO</option>
             </select>
         </div>
     </div>
