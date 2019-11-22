@@ -289,6 +289,7 @@ class MovimientoController extends Controller
 
         $productos = $productos->groupBy('movimientos.id_producto')
             ->groupBy('movimientos.lote')
+            ->groupBy('movimientos.id_bodega')
             ->having(DB::raw('sum( cantidad  * factor )'), '>', 0);
 
 

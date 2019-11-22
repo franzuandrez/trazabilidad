@@ -87,26 +87,17 @@
         <span>Cargando</span>
     </div>
     <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+        <label for="ubicacion">BODEGA</label>
         <div class="form-group">
-            <label for="ubicacion">BODEGA</label>
-            <select name="ubicacion"
-                    disabled
-                    onchange="buscar_ubicacion()"
-                    id="ubicacion" class="form-control selectpicker">
-                <option value="">SELECCIONAR BODEGA</option>
-                @foreach( $bodegas as $bodega )
-                    @if(old('ubicacion') == $bodega->id_bodega)
-                        <option selected
-                                value="{{$bodega->id_bodega}}"> {{$bodega->descripcion}}  </option>
-                    @else
-                        <option value="{{$bodega->id_bodega}}"> {{$bodega->descripcion}}  </option>
-                    @endif
-
-                @endforeach
-            </select>
+            <input type="text"
+                   id="ubicacion"
+                   readonly
+                   name="ubicacion"
+                   onkeydown="if(event.keyCode==13)buscar_ubicacion()"
+                   class="form-control">
         </div>
     </div>
-
+    <input id="codigo_ubicacion" type="hidden" value="">
     <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
         <label for="cantidad">CANTIDAD</label>
         <div class="form-group">
@@ -208,14 +199,27 @@
 
         function buscar_ubicacion() {
 
-            let id_ubicacion = $('#ubicacion option:selected').val();
-            if (id_ubicacion != "") {
+            let codigo_bodega = document.getElementById('ubicacion').value;
+            let bodega = bodegas().find(e => e.codigo_barras == codigo_bodega);
+
+            if (typeof bodega == 'undefined') {
+                alert("Bodega no encontrada")
+            } else {
+                document.getElementById('codigo_ubicacion').value =bodega.id_bodega;
+                document.getElementById('ubicacion').readOnly = true;
+                document.getElementById('ubicacion').value = bodega.descripcion;
                 document.getElementById('cantidad').readOnly = false;
                 document.getElementById('cantidad').focus();
-            } else {
-                document.getElementById('cantidad').readOnly = true;
             }
 
+
+        }
+
+        function bodegas() {
+
+            let bodegas = [];
+            bodegas = @json($bodegas);
+            return bodegas;
         }
 
         function mostrar_ubicacion(ubicacion) {
@@ -283,8 +287,8 @@
             document.getElementById('ubicacion').readOnly = false;
             document.getElementById('cantidad').value = "";
             document.getElementById('cantidad').readOnly = true;
-            document.getElementById('ubicacion').disabled = true;
-            $('#ubicacion').selectpicker('refresh');
+            document.getElementById('ubicacion').readOnly = true;
+
         }
 
         var gl_id_producto = 0;
@@ -305,8 +309,7 @@
                 gl_cantidad_disponible = parseFloat(producto.total);
                 gl_id_producto = producto.id_producto;
 
-                document.getElementById('ubicacion').disabled = false;
-                $('#ubicacion').selectpicker('refresh');
+                document.getElementById('ubicacion').readOnly = false;
                 document.getElementById('ubicacion').focus();
             } else {
                 alert("Producto no encontrado");
@@ -314,7 +317,6 @@
 
 
         }
-
 
 
         function getRmiDetalle() {
@@ -354,9 +356,9 @@
             }
 
 
-            let nombre_bodega = $('#ubicacion option:selected').text();
+            let nombre_bodega = document.getElementById('ubicacion').value;
 
-            let codigo_ubicacion = document.getElementById('ubicacion').value;
+            let codigo_ubicacion = document.getElementById('codigo_ubicacion').value;
 
 
             let row = '';
