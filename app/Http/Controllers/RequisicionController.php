@@ -10,7 +10,7 @@ use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class OperacionController extends Controller
+class RequisicionController extends Controller
 {
     //
     const ESTADO_ORDEN_EXISTENTE = 0;
