@@ -40,13 +40,13 @@ class ColaboradorController extends Controller
         $sortField = $request->get('field') == null ? 'id_colaborador' : $request->get('field');
 
         $colaboradores = Colaborador::
-           where(function ($query) use ($search) {
+        where(function ($query) use ($search) {
 
-                $query->where('colaboradores.codigo_barras', 'LIKE', '%' . $search . '%')
-                    ->orWhere('colaboradores.nombre', 'LIKE', '%' . $search . '%')
-                    ->orWhere('colaboradores.apellido', 'LIKE', '%' . $search . '%');
+            $query->where('colaboradores.codigo_barras', 'LIKE', '%' . $search . '%')
+                ->orWhere('colaboradores.nombre', 'LIKE', '%' . $search . '%')
+                ->orWhere('colaboradores.apellido', 'LIKE', '%' . $search . '%');
 
-            })
+        })
             ->orderBy($sortField, $sort)
             ->paginate(20);
 
@@ -54,13 +54,28 @@ class ColaboradorController extends Controller
         if ($request->ajax()) {
 
             return view('registro.colaboradores.index',
-                compact('colaboradores', 'search', 'sort', 'sortField'));
+                [
+                    'colaboradores' => $colaboradores,
+                    'search' => $search,
+                    'sort' => $sort,
+                    'sortField' => $sortField
+                ]
+            );
         } else {
 
             $headers = $this->getHeaders();
             $examples = $this->getExamples();
             return view('registro.colaboradores.ajax',
-                compact('colaboradores', 'search', 'sort', 'sortField', 'headers', 'examples'));
+                [
+                    'colaboradores' => $colaboradores,
+                    'search' => $search,
+                    'sort' => $sort,
+                    'sortField' => $sortField,
+                    'examples' => $examples,
+                    'headers' => $headers
+                ]
+
+            );
 
         }
 
@@ -105,7 +120,11 @@ class ColaboradorController extends Controller
 
         try {
             $colaborador = Colaborador::findOrFail($id);
-            return view('registro.colaboradores.edit', compact('colaborador'));
+            return view('registro.colaboradores.edit',
+                [
+                    'colaborador' => $colaborador
+                ]
+            );
         } catch (\Exception $e) {
 
             return redirect()
@@ -154,7 +173,11 @@ class ColaboradorController extends Controller
 
         try {
             $colaborador = Colaborador::findOrFail($id);
-            return view('registro.colaboradores.show', compact('colaborador'));
+            return view('registro.colaboradores.show',
+                [
+                    'colaborador' => $colaborador
+                ]
+            );
         } catch (\Exception $e) {
 
             return redirect()

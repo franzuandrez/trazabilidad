@@ -47,10 +47,24 @@ class UserController extends Controller
 
         if ($request->ajax()) {
 
-            return view('registro.users.index', compact('search', 'sort', 'sortField', 'users'));
+            return view('registro.users.index',
+                [
+                    'search' => $search,
+                    'sort' => $sort,
+                    'sortField' => $sortField,
+                    'users' => $users
+                ]
+            );
         } else {
 
-            return view('registro.users.ajax', compact('search', 'sort', 'sortField', 'users'));
+            return view('registro.users.ajax',
+                [
+                    'search' => $search,
+                    'sort' => $sort,
+                    'sortField' => $sortField,
+                    'users' => $users
+                ]
+            );
         }
 
 
@@ -61,7 +75,7 @@ class UserController extends Controller
 
         $roles = Role::where('estado', '1')->get();
 
-        return view('registro.users.create', compact('roles'));
+        return view('registro.users.create', ['roles' => $roles]);
     }
 
     public function store(UserRequest $request)
@@ -97,7 +111,13 @@ class UserController extends Controller
             $user = User::find($id);
             $roles = Role::where('estado', '1')->get();
             $userRole = $user->roles->all();
-            return view('registro.users.edit', compact('user', 'roles', 'userRole'));
+            return view('registro.users.edit',
+                [
+                    'user' => $user,
+                    'roles' => $roles,
+                    'userRole' => $userRole
+                ]
+            );
         } catch (\Exception $e) {
 
             return redirect()->route('users.index')
@@ -167,7 +187,13 @@ class UserController extends Controller
             $user = User::findOrFail($id);
             $roles = Role::where('estado', '1')->get();
             $userRole = $user->roles->all();
-            return view('registro.users.show', compact('user', 'roles', 'userRole'));
+            return view('registro.users.show',
+                [
+                    'user' => $user,
+                    'roles' => $roles,
+                    'userRole' => $userRole
+                ]
+            );
         } catch (\Exception $ex) {
 
             return redirect()->route('users.index')
@@ -186,7 +212,13 @@ class UserController extends Controller
             $user = User::find($id);
             $roles = Role::where('estado', '1')->get();
             $userRole = $user->roles->all();
-            return view('registro.users.cambiar_contrasena', compact('user', 'roles', 'userRole'));
+            return view('registro.users.cambiar_contrasena',
+                [
+                    'user' => $user,
+                    'roles' => $roles,
+                    'userRole' => $userRole
+                ]
+            );
         } catch (\Exception $e) {
 
             return redirect()->route('users.index')

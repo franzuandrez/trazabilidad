@@ -37,9 +37,23 @@ class LocalidadController extends Controller
             ->paginate(20);
 
         if ($request->ajax()) {
-            return view('registro.localidades.index', compact('search', 'sort', 'sortField', 'localidades'));
+            return view('registro.localidades.index',
+                [
+                    'search' => $search,
+                    'sort' => $sort,
+                    'sortField' => $sortField,
+                    'localidades' => $localidades
+                ]
+            );
         } else {
-            return view('registro.localidades.ajax', compact('search', 'sort', 'sortField', 'localidades'));
+            return view('registro.localidades.ajax',
+                [
+                    'search' => $search,
+                    'sort' => $sort,
+                    'sortField' => $sortField,
+                    'localidades' => $localidades
+                ]
+            );
         }
 
 
@@ -51,7 +65,9 @@ class LocalidadController extends Controller
         $encargados = User::actived()->get();
 
 
-        return view('registro.localidades.create', compact('encargados'));
+        return view('registro.localidades.create', [
+            'encargados' => $encargados
+        ]);
     }
 
     public function store(LocalidadRequest $request)
@@ -92,7 +108,12 @@ class LocalidadController extends Controller
             $localidad = Localidad::findOrFail($id);
             $encargados = User::actived()->get();
 
-            return view('registro.localidades.edit', compact('localidad', 'encargados'));
+            return view('registro.localidades.edit',
+                [
+                    'localidad' => $localidad,
+                    'encargados' => $encargados
+                ]
+            );
 
         } catch (\Exception $ex) {
 
@@ -142,7 +163,12 @@ class LocalidadController extends Controller
             $localidad = Localidad::findOrFail($id);
             $encargados = User::actived()->get();
 
-            return view('registro.localidades.show', compact('localidad', 'encargados'));
+            return view('registro.localidades.show',
+                [
+                    'localidad' => $localidad,
+                    'encargados' => $encargados
+                ]
+            );
 
         } catch (\Exception $ex) {
 

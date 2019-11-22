@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Correlativo;
-use App\Impresion;
 use App\Proveedor;
 use App\ReferenciasComerciales;
 use DB;
@@ -60,14 +59,21 @@ class ProveedorController extends Controller
         if ($request->ajax()) {
 
             return view('registro.proveedores.index',
-                compact('search', 'sort', 'sortField', 'proveedores'));
+                ['search' => $search, 'sort' => $sort, 'sortField' => $sortField, 'proveedores' => $proveedores]);
 
         } else {
             $headers = $this->getHeaders();
             $examples = $this->getExamples();
 
             return view('registro.proveedores.ajax',
-                compact('search', 'sort', 'sortField', 'proveedores', 'headers', 'examples'));
+                [
+                    'search' => $search,
+                    'sort' => $sort,
+                    'sortField' => $sortField,
+                    'proveedores' => $proveedores,
+                    'headers' => $headers,
+                    'examples' => $examples
+                ]);
 
         }
 
@@ -79,7 +85,7 @@ class ProveedorController extends Controller
 
         $correlativo = $this->getCorrelativo();
 
-        return view('registro.proveedores.create',['correlativo'=>$correlativo]);
+        return view('registro.proveedores.create', ['correlativo' => $correlativo]);
     }
 
     public function store(Request $request)
@@ -98,9 +104,9 @@ class ProveedorController extends Controller
             $sistema_calidad_auditado_por_terceros = $this->getValueChecked($request->get('sistema_calidad_auditado_por_terceros'));
             $certificaciones = $this->getValueChecked($request->get('certificaciones'));
 
-            $codigo  = $this->getCorrelativo();
+            $codigo = $this->getCorrelativo();
             $this->actualizarCorrelativo($codigo);
-            $existeProveedor = Proveedor::where('codigo_proveedor',$codigo)
+            $existeProveedor = Proveedor::where('codigo_proveedor', $codigo)
                 ->where('estado', 1)
                 ->exists();
 
@@ -178,7 +184,7 @@ class ProveedorController extends Controller
             $proveedor = Proveedor::findOrFail($id);
 
 
-            return view('registro.proveedores.edit', compact('proveedor'));
+            return view('registro.proveedores.edit', ['proveedor' => $proveedor]);
 
 
         } catch (\Exception $ex) {
@@ -315,7 +321,7 @@ class ProveedorController extends Controller
             $proveedor = Proveedor::findOrFail($id);
 
 
-            return view('registro.proveedores.show', compact('proveedor'));
+            return view('registro.proveedores.show', ['proveedor' => $proveedor]);
 
 
         } catch (\Exception $ex) {
@@ -430,7 +436,7 @@ class ProveedorController extends Controller
         try {
             $proveedor = Proveedor::findOrFail($id);
 
-            return view('registro.proveedores.detalle-productos', compact('proveedor'));
+            return view('registro.proveedores.detalle-productos', ['proveedor' => $proveedor]);
 
         } catch (\Exception $e) {
 
@@ -441,50 +447,48 @@ class ProveedorController extends Controller
     }
 
 
-    private function getCorrelativo(  ){
+    private function getCorrelativo()
+    {
 
 
-
-        $correlativo = Correlativo::where('modulo','PROVEEDORES')
+        $correlativo = Correlativo::where('modulo', 'PROVEEDORES')
             ->first();
 
-            if($correlativo == null){
-                $siguiente ='PROV01';
-            }else{
-                if(intval($correlativo->correlativo) < 10){
-                    $siguiente = $correlativo->prefijo.'0'. intval($correlativo->correlativo);
-                }else{
-                    $siguiente =  $correlativo->prefijo.(intval($correlativo->correlativo + 1));
-                }
+        if ($correlativo == null) {
+            $siguiente = 'PROV01';
+        } else {
+            if (intval($correlativo->correlativo) < 10) {
+                $siguiente = $correlativo->prefijo . '0' . intval($correlativo->correlativo);
+            } else {
+                $siguiente = $correlativo->prefijo . (intval($correlativo->correlativo + 1));
             }
-
+        }
 
 
         return $siguiente;
 
 
-
-
     }
 
 
-    private function actualizarCorrelativo( $codigo ){
+    private function actualizarCorrelativo($codigo)
+    {
 
-        $codigo =strtoupper($codigo);
-        $correlativoEntrante = explode('PROV',$codigo)[1];
+        $codigo = strtoupper($codigo);
+        $correlativoEntrante = explode('PROV', $codigo)[1];
 
-        $correlativoActual = Correlativo::where('modulo','PROVEEDORES')
+        $correlativoActual = Correlativo::where('modulo', 'PROVEEDORES')
             ->first();
 
-        if($correlativoActual == null){
+        if ($correlativoActual == null) {
             $correlativo = new Correlativo();
             $correlativo->prefijo = 'PROV';
             $correlativo->correlativo = '1';
             $correlativo->modulo = 'PROVEEDORES';
             $correlativo->id_empresa = 1;
             $correlativo->save();
-        }else{
-            if($correlativoEntrante >  $correlativoActual->correlativo){
+        } else {
+            if ($correlativoEntrante > $correlativoActual->correlativo) {
                 $correlativoActual->correlativo = $correlativoEntrante;
                 $correlativoActual->update();
             }

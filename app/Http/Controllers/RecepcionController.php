@@ -15,7 +15,6 @@ use App\Proveedor;
 use App\Recepcion;
 use App\RMIDetalle;
 use App\RMIEncabezado;
-use App\Ubicacion;
 use App\User;
 use Carbon\Carbon;
 use DB;
@@ -52,11 +51,23 @@ class RecepcionController extends Controller
 
         if ($request->ajax()) {
             return view('recepcion.materia_prima.index',
-                compact('recepciones', 'sort', 'sortField', 'search'));
+                [
+                    'recepciones' => $recepciones,
+                    'sort' => $sort,
+                    'sortField' => $sortField,
+                    'search' => $search
+                ]);
         } else {
 
             return view('recepcion.materia_prima.ajax',
-                compact('recepciones', 'sort', 'sortField', 'search'));
+                [
+                    'recepciones' => $recepciones,
+                    'sort' => $sort,
+                    'sortField' => $sortField,
+                    'search' => $search
+                ]
+
+            );
         }
 
 
@@ -70,7 +81,12 @@ class RecepcionController extends Controller
         $proveedores = Proveedor::all();
 
         return view('recepcion.materia_prima.create',
-            compact('productos', 'proveedores'));
+
+            [
+                'productos' => $productos,
+                'proveedores' => $proveedores
+            ]
+        );
 
 
     }
@@ -321,7 +337,11 @@ class RecepcionController extends Controller
             $recepcion = Recepcion::findOrFail($id);
 
 
-            return view('recepcion.materia_prima.show', compact('recepcion'));
+            return view('recepcion.materia_prima.show',
+                [
+                    'recepcion' => $recepcion
+                ]
+            );
         } catch (\Exception $e) {
 
             return redirect()->route('recepcion.materia_prima.index')
@@ -339,7 +359,11 @@ class RecepcionController extends Controller
             $recepcion = Recepcion::findOrFail($id);
 
 
-            return view('recepcion.materia_prima.edit', compact('recepcion'));
+            return view('recepcion.materia_prima.edit',
+                [
+                    'recepcion' => $recepcion
+                ]
+            );
         } catch (\Exception $e) {
             return redirect()->route('recepcion.materia_prima.index')
                 ->withErrors(['errors' => ' Recepcion no encontrada ']);
@@ -404,10 +428,21 @@ class RecepcionController extends Controller
 
         if ($request->ajax()) {
             return view('recepcion.transito.index',
-                compact('movimientos_en_transito', 'search', 'sort', 'sortField'));
+                [
+                    'movimientos_en_transito' => $movimientos_en_transito,
+                    'search' => $search,
+                    'sort' => $sort,
+                    'sortField' => $sortField
+                ]);
         } else {
             return view('recepcion.transito.ajax',
-                compact('movimientos_en_transito', 'search', 'sort', 'sortField'));
+                [
+                    'movimientos_en_transito' => $movimientos_en_transito,
+                    'search' => $search,
+                    'sort' => $sort,
+                    'sortField' => $sortField
+                ]
+            );
         }
 
 
@@ -433,7 +468,12 @@ class RecepcionController extends Controller
                 ->get();
 
 
-            return view('recepcion.transito.ingreso', compact('recepcion', 'movimientos'));
+            return view('recepcion.transito.ingreso',
+                [
+                    'recepcion' => $recepcion,
+                    'movimientos' => $movimientos
+                ]
+            );
         } catch (\Exception $e) {
 
 
@@ -608,7 +648,12 @@ class RecepcionController extends Controller
                 ->groupBy('lote')
                 ->get();
 
-            return view('recepcion.transito.show', compact('recepcion', 'movimientos'));
+            return view('recepcion.transito.show',
+                [
+                    'recepcion' => $recepcion,
+                    'movimientos' => $movimientos
+                ]
+            );
         } catch (\Exception $e) {
 
 
@@ -641,10 +686,20 @@ class RecepcionController extends Controller
 
         if ($request->ajax()) {
             return view('recepcion.ubicacion.index',
-                compact('sort', 'sortField', 'search', 'ordenes_en_control'));
+                [
+                    'sort' => $sort,
+                    'sortField' => $sortField,
+                    'search' => $search,
+                    'ordenes_en_control' => $ordenes_en_control
+                ]);
         } else {
             return view('recepcion.ubicacion.ajax',
-                compact('sort', 'sortField', 'search', 'ordenes_en_control'));
+                [
+                    'sort' => $sort,
+                    'sortField' => $sortField,
+                    'search' => $search,
+                    'ordenes_en_control' => $ordenes_en_control
+                ]);
         }
 
 
@@ -671,8 +726,12 @@ class RecepcionController extends Controller
             $bodegas = Bodega::actived()->get();
 
 
-
-            return view('recepcion.ubicacion.ubicar', compact('orden', 'rmi_detalle','bodegas'));
+            return view('recepcion.ubicacion.ubicar',
+                [
+                    'orden' => $orden,
+                    'rmi_detalle' => $rmi_detalle,
+                    'bodegas' => $bodegas
+                ]);
 
         } catch (\Exception $e) {
 
@@ -747,7 +806,12 @@ class RecepcionController extends Controller
         $movimientos = $recepcion->rmi_encabezado->rmi_detalle;
 
 
-        return view('recepcion.ubicacion.show', compact('recepcion', 'movimientos'));
+        return view('recepcion.ubicacion.show',
+            [
+                'recepcion' => $recepcion,
+                'movimientos' => $movimientos
+            ]
+        );
 
 
     }

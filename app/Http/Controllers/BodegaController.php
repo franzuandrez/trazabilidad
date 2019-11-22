@@ -40,11 +40,25 @@ class BodegaController extends Controller
 
         if ($request->ajax()) {
 
-            return view('registro.bodegas.index', compact('sort', 'sortField', 'search', 'bodegas'));
+            return view('registro.bodegas.index',
+                [
+                    'sort' => $sort,
+                    'sortField' => $sortField,
+                    'search' => $search,
+                    'bodegas' => $bodegas
+                ]
+            );
 
         } else {
 
-            return view('registro.bodegas.ajax', compact('sort', 'sortField', 'search', 'bodegas'));
+            return view('registro.bodegas.ajax',
+                [
+                    'sort' => $sort,
+                    'sortField' => $sortField,
+                    'search' => $search,
+                    'bodegas' => $bodegas
+                ]
+            );
 
         }
 
@@ -58,7 +72,12 @@ class BodegaController extends Controller
         $encargados = User::actived()->get();
         $localidades = Localidad::actived()->get();
 
-        return view('registro.bodegas.create', compact('encargados', 'localidades'));
+        return view('registro.bodegas.create',
+            [
+                'encargados' => $encargados,
+                'localidades' => $localidades
+            ]
+        );
     }
 
     public function store(BodegaRequest $request)
@@ -103,7 +122,13 @@ class BodegaController extends Controller
             $bodega = Bodega::findOrFail($id);
             $encargados = User::actived()->get();
             $localidades = Localidad::actived()->get();
-            return view('registro.bodegas.edit', compact('encargados', 'localidades', 'bodega'));
+            return view('registro.bodegas.edit',
+                [
+                    'encargados' => $encargados,
+                    'localidades' => $localidades,
+                    'bodega' => $bodega
+                ]
+            );
 
         } catch (\Exception $ex) {
 
@@ -120,7 +145,7 @@ class BodegaController extends Controller
 
             $existeCodigo = Bodega::actived()
                 ->where('codigo_barras', $request->get('codigo_barras'))
-                ->where('id_bodega','<>',$id)
+                ->where('id_bodega', '<>', $id)
                 ->exists();
 
             if ($existeCodigo) {
@@ -159,7 +184,13 @@ class BodegaController extends Controller
             $bodega = Bodega::findOrFail($id);
             $encargados = User::actived()->get();
             $localidades = Localidad::actived()->get();
-            return view('registro.bodegas.show', compact('encargados', 'localidades', 'bodega'));
+            return view('registro.bodegas.show',
+                [
+                    'encargados' => $encargados,
+                    'localidades' => $localidades,
+                    'bodega' => $bodega
+                ]
+            );
 
         } catch (\Exception $ex) {
 

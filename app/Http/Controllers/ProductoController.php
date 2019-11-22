@@ -53,13 +53,24 @@ class ProductoController extends Controller
 
         if ($request->ajax()) {
             return view('registro.productos.index',
-                compact('search', 'sort', 'sortField', 'productos', 'tipos_productos'));
+                [
+                    'search' => $search,
+                    'sort' => $sort,
+                    'sortField' => $sortField,
+                    'productos' => $productos,
+                    'tipos_productos' => $tipos_productos
+                ]);
         } else {
-            $headers = $this->getHeaders();
-            $examples = $this->getExamples();
+
 
             return view('registro.productos.ajax',
-                compact('search', 'sort', 'sortField', 'productos', 'tipos_productos', 'headers', 'examples'));
+                [
+                    'search' => $search,
+                    'sort' => $sort,
+                    'sortField' => $sortField,
+                    'productos' => $productos,
+                    'tipos_productos' => $tipos_productos
+                ]);
         }
 
 
@@ -74,7 +85,11 @@ class ProductoController extends Controller
 
 
         return view('registro.productos.create',
-            compact('dimensionales', 'presentaciones', 'proveedores'));
+            [
+                'dimensionales' => $dimensionales,
+                'presentaciones' => $presentaciones,
+                'proveedores' => $proveedores
+            ]);
 
 
     }
@@ -145,7 +160,11 @@ class ProductoController extends Controller
 
 
             return view('registro.productos.edit',
-                compact('producto', 'dimensionales', 'presentaciones'));
+                [
+                    'producto' => $producto,
+                    'dimensionales' => $dimensionales,
+                    'presentaciones' => $presentaciones
+                ]);
 
 
         } catch (\Exception $ex) {
@@ -209,7 +228,9 @@ class ProductoController extends Controller
             $proveedores = Proveedor::actived()->get();
 
             return view('registro.productos.show',
-                compact('producto', 'dimensionales', 'presentaciones', 'proveedores'));
+                [
+                    'producto' => $producto, 'dimensionales' => $dimensionales, 'presentaciones' => $presentaciones, 'proveedores' => $proveedores
+                ]);
 
 
         } catch (\Exception $ex) {
@@ -300,15 +321,15 @@ class ProductoController extends Controller
 
 
                     if ($tipo_producto == "PT") {
-                        $producto = Producto::where('codigo_interno',$value[0])
+                        $producto = Producto::where('codigo_interno', $value[0])
                             ->first();
 
-                        if($producto != null){
+                        if ($producto != null) {
                             $producto->descripcion = $value[1];
                             $producto->unidad_medida = $value[2];
                             $producto->dias_vencimiento = $value[3];
                             $producto->update();
-                        }else{
+                        } else {
                             $producto = new Producto();
                             $producto->codigo_interno = $value[0];
                             $producto->descripcion = $value[1];

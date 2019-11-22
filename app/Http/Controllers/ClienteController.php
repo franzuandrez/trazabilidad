@@ -48,13 +48,25 @@ class ClienteController extends Controller
 
         if ($request->ajax()) {
             return view('registro.clientes.index',
-                compact('search', 'sort', 'sortField', 'clientes'));
+                [
+                    'search' => $search,
+                    'sort' => $sort,
+                    'sortField' => $sortField,
+                    'clientes' => $clientes
+                ]);
         } else {
 
             $headers = $this->getHeaders();
             $examples = $this->getExamples();
             return view('registro.clientes.ajax',
-                compact('search', 'sort', 'sortField', 'clientes', 'headers', 'examples'));
+                [
+                    'search' => $search,
+                    'sort' => $sort,
+                    'sortField' => $sortField,
+                    'clientes' => $clientes,
+                    'headers' => $headers,
+                    'examples' => $examples
+                ]);
         }
 
     }
@@ -63,7 +75,9 @@ class ClienteController extends Controller
     {
 
         $categorias = CategoriaCliente::actived()->get();
-        return view('registro.clientes.create', compact('categorias'));
+        return view('registro.clientes.create', [
+            'categorias' => $categorias
+        ]);
 
     }
 
@@ -122,7 +136,10 @@ class ClienteController extends Controller
             $cliente = Cliente::findOrFail($id);
             $categorias = CategoriaCliente::actived()->get();
 
-            return view('registro.clientes.edit', compact('categorias', 'cliente'));
+            return view('registro.clientes.edit', [
+                'categorias' => $categorias,
+                'cliente' => $cliente
+            ]);
 
         } catch (\Exception $ex) {
 
@@ -191,7 +208,10 @@ class ClienteController extends Controller
             $cliente = Cliente::findOrFail($id);
             $categorias = CategoriaCliente::actived()->get();
 
-            return view('registro.clientes.show', compact('categorias', 'cliente'));
+            return view('registro.clientes.show', [
+                'categorias' => $categorias,
+                'cliente' => $cliente
+            ]);
 
         } catch (\Exception $ex) {
 
