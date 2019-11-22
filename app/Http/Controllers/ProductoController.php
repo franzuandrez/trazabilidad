@@ -45,6 +45,7 @@ class ProductoController extends Controller
         $tipos_productos = [
             'MP' => 'MATERIA PRIMA',
             'ME' => 'MATERIAL EMPAQUE',
+            'PP' => 'PRODUCTO PROCESO',
             'PT' => 'PRODUCTO TERMINADO',
             'MIX' => 'MIXTO'
         ];
@@ -298,73 +299,76 @@ class ProductoController extends Controller
                 foreach ($results as $key => $value) {
 
 
-                    $formatoExcel = $this->getFormato($value);
+                    if ($tipo_producto == "PT") {
+                        $producto = Producto::where('codigo_interno',$value[0])
+                            ->first();
 
-                    if ($formatoExcel == "0") {
-                        return redirect()->back()->withErrors(['Formato de excel no valido']);
-                    } else {
-                        $codigo_barras = $value[0];
-                        $codigo_barras = $this->getCodigoBarras($codigo_barras);
-                        $existeProducto = Producto::where('codigo_barras', $codigo_barras)->exists();
-                        if ($tipo_producto == "MIX") {
-                            $tipo_producto_asignado = $value[6];
-                        } else {
-                            $tipo_producto_asignado = $tipo_producto;
-                        }
-                        if ($tipo_producto_asignado == "PP") {
-                            $tipo_producto_asignado = "PT";
-                        }
-
-                        if ($formatoExcel == "A") {
-                            $id_dimensional = $this->getIdDimensional($value[3]);
-                            $existeDimensional = $id_dimensional != null;
-                            if (!$existeDimensional) {
-                                $id_dimensional = $this->saveDimensional($value[5]);
-                            }
-                            $id_presentacion = null;
-                        } else if ($formatoExcel == "B" || $formatoExcel == "C") {
-
-                            $id_dimensional = $this->getIdDimensional($value[5]);
-                            $existeDimensional = $id_dimensional != null;
-                            if (!$existeDimensional) {
-                                $id_dimensional = $this->saveDimensional($value[5], $value[4], $value[3]);
-                            }
-                            $id_presentacion = $this->getIdPresentacion($value[3]);
-                            $existePresentacion = $id_presentacion != null;
-                            if (!$existePresentacion) {
-                                $id_presentacion = $this->savePresentacion($value[3]);
-                            }
-
-                        } else {
-                            return redirect()
-                                ->route('productos.index')
-                                ->withErrors(['El número de las columnas no concide con ninguno de los formatos establecidos']);
-                        }
-
-                        $codigo_interno = $value[1];
-                        if ($existeProducto) {
-                            $producto = Producto::where('codigo_barras', $codigo_barras)->first();
-                            $producto->codigo_interno = $codigo_interno;
-                            $producto->descripcion = $value[2];
-                            $producto->id_presentacion = $id_presentacion;
-                            $producto->tipo_producto = $tipo_producto_asignado;
-                            $producto->id_dimensional = $id_dimensional;
+                        if($producto != null){
+                            $producto->descripcion = $value[1];
+                            $producto->unidad_medida = $value[2];
+                            $producto->dias_vencimiento = $value[3];
                             $producto->update();
-                        } else {
+                        }else{
                             $producto = new Producto();
-                            $producto->codigo_barras = $codigo_barras;
-                            $producto->codigo_interno = $codigo_interno;
-                            $producto->descripcion = $value[2];
-                            $producto->id_presentacion = $id_presentacion;
-                            $producto->tipo_producto = $tipo_producto_asignado;
-                            $producto->id_dimensional = $id_dimensional;
-                            $producto->fecha_creacion = Carbon::now();
-                            $producto->creado_por = \Auth::user()->id;
+                            $producto->codigo_interno = $value[0];
+                            $producto->descripcion = $value[1];
+                            $producto->unidad_medida = $value[2];
+                            $producto->dias_vencimiento = $value[3];
                             $producto->save();
                         }
 
+                    } else {
+                        $formatoExcel = $this->getFormato($value);
 
+                        if ($formatoExcel == "0") {
+                            return redirect()->back()->withErrors(['Formato de excel no valido']);
+                        } else {
+                            $codigo_barras = $value[0];
+                            $codigo_barras = $this->getCodigoBarras($codigo_barras);
+                            $existeProducto = Producto::where('codigo_barras', $codigo_barras)->exists();
+                            if ($tipo_producto == "MIX") {
+                                $tipo_producto_asignado = $value[6];
+                            } else {
+                                $tipo_producto_asignado = $tipo_producto;
+                            }
+
+
+                            if ($formatoExcel == "A") {
+                                $unidad_medida = $value[3];
+                            } else if ($formatoExcel == "B" || $formatoExcel == "C") {
+                                $unidad_medida = $value[5];
+
+                            } else {
+                                return redirect()
+                                    ->route('productos.index')
+                                    ->withErrors(['El número de las columnas no coincide con ninguno de los formatos establecidos']);
+                            }
+
+                            $codigo_interno = $value[1];
+                            if ($existeProducto) {
+                                $producto = Producto::where('codigo_barras', $codigo_barras)->first();
+                                $producto->codigo_interno = $codigo_interno;
+                                $producto->descripcion = $value[2];
+                                $producto->tipo_producto = $tipo_producto_asignado;
+                                $producto->unidad_medida = $unidad_medida;
+                                $producto->update();
+                            } else {
+                                $producto = new Producto();
+                                $producto->codigo_barras = $codigo_barras;
+                                $producto->codigo_interno = $codigo_interno;
+                                $producto->descripcion = $value[2];
+                                $producto->tipo_producto = $tipo_producto_asignado;
+                                $producto->fecha_creacion = Carbon::now();
+                                $producto->creado_por = \Auth::user()->id;
+                                $producto->unidad_medida = $unidad_medida;
+                                $producto->save();
+                            }
+
+
+                        }
                     }
+
+
                 }
 
 
