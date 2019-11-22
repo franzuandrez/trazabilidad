@@ -26,10 +26,10 @@
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
-            @can('role-edit')
-                @component('componentes.btn-ubicar',['url'=>'javascript:editar("ubicacion","ubicar")'])
-                @endcomponent
-            @endcan
+
+            @component('componentes.btn-ubicar',['url'=>'javascript:editar("ubicacion","ubicar")'])
+            @endcomponent
+
             @can('role-list')
                 @component('componentes.btn-ver',['url'=>'javascript:ver("ubicacion")'])
                 @endcomponent

@@ -10,12 +10,12 @@
         'menu_icon'=>'fa-cogs',
         'submenu_icon'=>'fa-wrench',
         'operation_icon'=>'',])
-            @slot('menu')
-                Usuarios
-            @endslot
-            @slot('submenu')
-                Roles
-            @endslot
+        @slot('menu')
+            Usuarios
+        @endslot
+        @slot('submenu')
+            Roles
+        @endslot
     @endcomponent
 
     @component('componentes.alert-no-selecction')
@@ -26,14 +26,22 @@
 
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            @component('componentes.btn-create',['url'=>url('roles/create')])
-            @endcomponent
-            @component('componentes.btn-edit',['url'=>'javascript:editar()'])
-            @endcomponent
-            @component('componentes.btn-ver',['url'=>'javascript:ver()'])
-            @endcomponent
-            @component('componentes.btn-eliminar',['url'=>'javascript:eliminar()'])
-            @endcomponent
+            @can('role-create')
+                @component('componentes.btn-create',['url'=>url('roles/create')])
+                @endcomponent
+            @endcan
+            @can('role-edit')
+                @component('componentes.btn-edit',['url'=>'javascript:editar()'])
+                @endcomponent
+            @endcan
+            @can('role-list')
+                @component('componentes.btn-ver',['url'=>'javascript:ver()'])
+                @endcomponent
+            @endcan
+            @can('role-delete')
+                @component('componentes.btn-eliminar',['url'=>'javascript:eliminar()'])
+                @endcomponent
+            @endcan
         </div>
     </div>
 
