@@ -116,7 +116,7 @@
                     <div class="form-group">
                         <label for="actividades">ACTIVIDADES</label>
                         <select name="actividades"
-                                onchange="next('codigo_colaborador')"
+                                onchange="next('colaborador')"
                                 id="actividades" class="form-control selectpicker">
                             <option value="">SELECCIONE ACTIVIDAD</option>
                             @foreach( $actividades  as $actividad)
@@ -126,24 +126,35 @@
                     </div>
                 </div>
                 <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                    <label for="codigo_colaborador">CODIGO COLABORADOR</label>
+                    <label for="colaborador">CODIGO COLABORADOR</label>
                     <div class="input-group">
                         <input type="text"
-                               name="codigo_colaborador"
-                               id="codigo_colaborador"
+                               name="colaborador"
+                               id="colaborador"
+                               onkeydown="if(event.keyCode==13)buscar_colaborador()"
                                class="form-control">
                         <div class="input-group-btn">
-                            <button type="button" class="btn btn-default">
+                            <button
+                                onclick="buscar_colaborador()"
+                                type="button" class="btn btn-default">
                                 <i class="fa fa-search"
-                                   id="icon_search"
                                    aria-hidden="true"></i>
                             </button>
-                            <button type="button" class="btn btn-default">
+                            <button type="button"
+                                    id="btn_agregar"
+                                    onclick="agregar_asociacion()"
+                                    onkeydown="agregar_asociacion()"
+                                    class="btn btn-default">
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                            </button>
+                            <button type="button"
+                                    id="btn_limpiar"
+                                    class="btn btn-default">
                                 <i class="fa fa-trash" aria-hidden="true"></i>
                             </button>
                         </div>
                     </div>
-
+                    <input type="hidden" id="id_colaborador">
                 </div>
 
                 <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
@@ -232,6 +243,110 @@
                     console.log(e);
                 }
             })
+        }
+
+        function agregar_asociacion() {
+            let actividad_seleccionada = $('#actividades option:selected');
+            let id_actividad = actividad_seleccionada.val();
+            let descripcion_actividad = actividad_seleccionada.text();
+            let id_colaborador = $('#id_colaborador').val();
+            let nombre_colaborador = $('#colaborador').val();
+
+
+            let estaActividadAgregada = document.getElementById('actividad-' + id_actividad) != null;
+            if (id_actividad == "") {
+                alert('Debe seleccionar una actividad');
+                return;
+            }
+            if (id_colaborador == "") {
+                alert("Debe buscar un colaborador");
+                return;
+            }
+
+            if (estaActividadAgregada) {
+                let estaColaboradorAgregado = document.getElementById('act-' + id_actividad + '-col-' + id_colaborador) != null;
+
+                if (estaColaboradorAgregado) {
+                    alert('El colaborador ya pertence a este actividad');
+                } else {
+                    agregarColaborador(id_actividad, id_colaborador, nombre_colaborador);
+                }
+
+            } else {
+                agregarActividad(id_actividad, descripcion_actividad, id_colaborador, nombre_colaborador)
+            }
+            document.getElementById('colaborador').readOnly = false;
+            limpiarElement('colaborador');
+            next('colaborador');
+
+        }
+
+        function limpiarElement(id_element) {
+
+            document.getElementById(id_element).value = "";
+        }
+
+        function agregarColaborador(id_actividad, id_colaborador, nombre_colaborador) {
+            let row = `
+                        <tr id="act-${id_actividad}-col-${id_colaborador}">
+                                            <td><input type="hidden" name="id_actividad[]" value="${id_actividad}">
+                                                    <button  type="button" class="btn btn-warning">x</button>
+                                            </td>
+                                            <td><input type="hidden" name="id_colaborador[]" value="${id_colaborador}">  ${nombre_colaborador}</td>
+                        </tr>
+                      `;
+            $('#asociacion-' + id_actividad).append(row);
+        }
+
+        function agregarActividad(id_actividad, descripcion_actividad, id_colaborador, nombre_colaborador) {
+            let row = `
+                <tr id="actividad-${id_actividad}">
+                        <td>
+                            ${descripcion_actividad}
+                        </td>
+                        <td>
+                         <table class="table table-bordered table-responsive " >
+                            <thead>
+                            </thead>
+                            <tbody id="asociacion-${id_actividad}" >
+
+                            </tbody>
+                         </table>
+                        </td>
+                </tr>
+            `;
+            $('#asociaciones').append(row);
+            agregarColaborador(id_actividad, id_colaborador, nombre_colaborador)
+        }
+
+        function buscar_colaborador() {
+            let colaborador = document.getElementById('colaborador').value;
+
+            $.ajax({
+                url: "{{url('registro/colaboradores/search')}}" + "?q=" + colaborador,
+                type: "get",
+                dataType: "json",
+                success: function (response) {
+
+                    let colaboradores = response.colaboradores;
+
+                    if (colaboradores.length == 0) {
+                        alert("Colaborador no encontrado");
+                    } else if (colaboradores.length == 1) {
+                        document.getElementById('id_colaborador').value = colaboradores[0].id_colaborador;
+                        document.getElementById('colaborador').value = colaboradores[0].nombre + " " + colaboradores[0].apellido;
+                        document.getElementById('colaborador').readOnly = true;
+                        next('btn_agregar')
+                    } else {
+
+                    }
+
+                },
+                error: function (e) {
+                    console.log(e);
+                }
+            })
+
         }
 
         function next(id) {

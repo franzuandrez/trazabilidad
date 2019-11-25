@@ -280,4 +280,25 @@ class ColaboradorController extends Controller
 
 
     }
+
+    public function search(Request $request)
+    {
+
+        $search = $request->get('q');
+        $colaboradores = [];
+        if ($search != null) {
+            $colaboradores = Colaborador::actived()
+                ->where(function ($query) use ($search) {
+                    $query->where('codigo_barras', 'LIKE', '%' . $search . '%')
+                        ->orWhere('nombre', 'LIKE', '%' . $search . '%')
+                        ->orWhere('apellido', 'LIKE', '%' . $search . '%');
+                })
+                ->get();
+        }
+
+
+        return response()->json(['colaboradores'=>$colaboradores]);
+
+
+    }
 }

@@ -242,6 +242,7 @@ Route::post('registro/tipo_movimientos/{id}','TipoMovimientoController@destroy')
 
 
 Route::get('registro/colaboradores','ColaboradorController@index')->name('colaboradores.index');
+Route::get('registro/colaboradores/search','ColaboradorController@search')->name('colaboradores.search');
 Route::get('registro/colaboradores/create','ColaboradorController@create')->name('colaboradores.create');
 Route::post('registro/colaboradores/create','ColaboradorController@store')->name('colaboradores.store');
 Route::get('registro/colaboradores/{id}/edit','ColaboradorController@edit')->name('colaboradores.edit');
