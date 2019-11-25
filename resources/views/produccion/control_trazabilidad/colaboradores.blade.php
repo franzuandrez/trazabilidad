@@ -38,6 +38,7 @@
                         class="btn btn-primary"
                         disabled
                         id="btn_aceptar"
+                        onclick="agregarColaboradores()"
                         data-dismiss="modal">
                     Aceptar
                 </button>

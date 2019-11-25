@@ -267,7 +267,6 @@
             let nombre_colaborador = $('#colaborador').val();
 
 
-            let estaActividadAgregada = document.getElementById('actividad-' + id_actividad) != null;
             if (id_actividad == "") {
                 alert('Debe seleccionar una actividad');
                 return;
@@ -276,7 +275,7 @@
                 alert("Debe buscar un colaborador");
                 return;
             }
-
+            let estaActividadAgregada = document.getElementById('actividad-' + id_actividad) != null;
             if (estaActividadAgregada) {
                 let estaColaboradorAgregado = document.getElementById('act-' + id_actividad + '-col-' + id_colaborador) != null;
 
@@ -298,6 +297,37 @@
         function limpiarElement(id_element) {
 
             document.getElementById(id_element).value = "";
+        }
+
+        function agregarColaboradores() {
+
+            Array.prototype.slice.call(document.getElementsByName('resultado_colaborador'))
+                .filter(e => e.checked)
+                .map(e => e.parentElement.parentElement)
+                .forEach(function (e) {
+                    let actividad_seleccionada = $('#actividades option:selected');
+                    let id_actividad = actividad_seleccionada.val();
+                    let descripcion_actividad = actividad_seleccionada.text();
+                    let id_colaborador = e.children[0].firstChild.value;
+                    let nombre_colaborador = e.children[2].innerText
+
+                    let estaActividadAgregada = document.getElementById('actividad-' + id_actividad) != null;
+
+                    if (estaActividadAgregada) {
+                        let estaColaboradorAgregado = document.getElementById('act-' + id_actividad + '-col-' + id_colaborador) != null;
+                        if (!estaColaboradorAgregado) {
+                            agregarColaborador(id_actividad, id_colaborador, nombre_colaborador);
+                        }
+                    } else {
+                        agregarActividad(id_actividad, descripcion_actividad, id_colaborador, nombre_colaborador)
+                    }
+                })
+            ;
+            setTimeout(function () {
+                limpiarElement('colaborador');
+                next('colaborador');
+            }, 100)
+
         }
 
         function agregarColaborador(id_actividad, id_colaborador, nombre_colaborador) {
@@ -386,7 +416,6 @@
 
             let totalSeleccionados = Array.prototype.slice.call(document.getElementsByName('resultado_colaborador')).filter(e => e.checked).length;
             document.getElementById('btn_aceptar').disabled = totalSeleccionados == 0;
-
 
 
         }
