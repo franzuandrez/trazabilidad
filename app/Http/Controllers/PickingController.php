@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Bodega;
 use App\Http\tools\Existencias;
 use App\Http\tools\Movimientos;
 use App\Picking;
@@ -60,6 +61,7 @@ class PickingController extends Controller
 
 
         $requisicion = Requisicion::findOrFail($id);
+
         if ($requisicion->estado !== "D") {
             $validarOrdenProductos = false;
             $this->crearOrdenPicking($requisicion);
@@ -226,7 +228,7 @@ class PickingController extends Controller
 
                     $movimientos = new Movimientos();
                     $movimientos->salida_producto(
-                        $reserva->ubicacion()->first(),
+                        $reserva->bodega,
                         $reserva->producto,
                         $reserva->lote,
                         $reserva->fecha_vencimiento,
@@ -379,14 +381,13 @@ class PickingController extends Controller
                 foreach ($lotesDisponibles as $lote => $cantidadDisponible) {
 
 
-                    $ubicacion = Ubicacion::where('codigo_barras', $existencia->where('lote', $lote)->first()->ubicacion)->first();
+                    $ubicacion = Bodega::where('codigo_barras', $existencia->where('lote', $lote)->first()->ubicacion)->first();
                     $reserva = new ReservaPicking();
                     $reserva->id_producto = $detalle_requisicion->id_producto;
                     $reserva->lote = $lote;
                     $reserva->fecha_vencimiento = $cantidadDisponible['fecha_vencimiento'];
                     $reserva->id_requisicion = $detalle_requisicion->requision_encabezado->id;
                     $reserva->id_bodega = $ubicacion->id_bodega;
-                    $reserva->id_ubicacion = $ubicacion->id_ubicacion;
                     $reserva->ubicacion = $ubicacion->codigo_barras;
                     $reserva->estado = 'P';
 
