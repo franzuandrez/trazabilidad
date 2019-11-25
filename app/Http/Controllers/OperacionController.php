@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Actividad;
 use App\Operacion;
 use App\Producto;
+use App\Requisicion;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -68,7 +69,7 @@ class OperacionController extends Controller
 
         $fecha_vencimiento = null;
         $producto = Producto::where('codigo_interno', $request->get('codigo_interno'))
-            ->select('id_producto', 'descripcion', 'codigo_interno', 'dias_vencimiento','unidad_medida')
+            ->select('id_producto', 'descripcion', 'codigo_interno', 'dias_vencimiento', 'unidad_medida')
             ->first();
         if ($producto != null) {
 
@@ -80,6 +81,18 @@ class OperacionController extends Controller
             'producto' => $producto,
             'fecha_vencimiento' => $fecha_vencimiento
         ]);
+    }
+
+    public function buscar_orden_produccion(Request $request)
+    {
+
+        $search = $request->get('q');
+        $ordenProduccion = Requisicion::select('estado', 'id', 'no_requision', 'no_orden_produccion')
+            ->where('no_orden_produccion', $search )
+            ->first();
+
+        return response()->json(['orden_produccion' => $ordenProduccion]);
+
     }
 
     public function create()

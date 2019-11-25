@@ -65,6 +65,7 @@
             <input type="text"
                    name="no_orden_produccion"
                    readonly
+                   onkeydown="if(event.keyCode==13)buscar_orden_produccion()"
                    id="no_orden_produccion"
                    class="form-control">
         </div>
@@ -230,6 +231,35 @@
             }
         });
 
+        function buscar_orden_produccion() {
+
+            let orden_produccion = document.getElementById('no_orden_produccion').value;
+
+            $.ajax({
+                url: '{{url('produccion/trazabilidad_chao_mein/buscar_orden_produccion')}}' + '?q=' + orden_produccion,
+                type: 'get',
+                dataType: "json",
+                success: function (response) {
+                    let orden_produccion = response.orden_produccion;
+                    if (orden_produccion == null) {
+                        alert("Orden de produccion no encontrada");
+                    } else if (orden_produccion.estado != 'D') {
+                        alert("Orden de produccion en proceso ");
+                    } else {
+                        document.getElementById('no_orden_produccion').readOnly = true;
+                        document.getElementById('lote').readOnly = false;
+                        document.getElementById('lote').focus();
+                        document.getElementById('turno').readOnly = false;
+                        document.getElementById('cantidad_programada').readOnly = false;
+                    }
+                },
+                error: function (e) {
+                    console.log(e)
+                }
+            })
+
+        }
+
         function buscar_producto() {
 
             let codigo_interno = document.getElementById('codigo_producto').value;
@@ -245,11 +275,7 @@
                         document.getElementById('producto').value = response.producto.descripcion;
                         document.getElementById('best_by').value = response.fecha_vencimiento;
                         document.getElementById('unidad_medida').value = response.producto.unidad_medida;
-                        document.getElementById('lote').readOnly = false;
                         document.getElementById('no_orden_produccion').readOnly = false;
-                        document.getElementById('no_orden_produccion').readOnly = false;
-                        document.getElementById('turno').readOnly = false;
-                        document.getElementById('cantidad_programada').readOnly = false;
                         document.getElementById('no_orden_produccion').focus();
 
                     } else {
