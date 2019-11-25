@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actividad;
 use App\Operacion;
 use App\Producto;
 use Carbon\Carbon;
@@ -84,8 +85,14 @@ class OperacionController extends Controller
     public function create()
     {
 
+        $actividades = Actividad::actived()->get();
 
-        return view('produccion.control_trazabilidad.create');
+
+        return view('produccion.control_trazabilidad.create',
+            [
+                'actividades' => $actividades
+            ]
+        );
 
 
     }

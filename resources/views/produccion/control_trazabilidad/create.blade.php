@@ -107,9 +107,63 @@
         </ul>
         <div class="tab-content">
 
-            <div class="tab-pane active" id="#insumos"></div>
-            <div class="tab-pane " id="#involucrados">
+            <div class="tab-pane active" id="insumos">
 
+
+            </div>
+            <div class="tab-pane " id="involucrados">
+                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                    <div class="form-group">
+                        <label for="actividades">ACTIVIDADES</label>
+                        <select name="actividades"
+                                onchange="next('codigo_colaborador')"
+                                id="actividades" class="form-control selectpicker">
+                            <option value="">SELECCIONE ACTIVIDAD</option>
+                            @foreach( $actividades  as $actividad)
+                                <option value="{{$actividad->id_actividad}}">{{$actividad->descripcion}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                    <label for="codigo_colaborador">CODIGO COLABORADOR</label>
+                    <div class="input-group">
+                        <input type="text"
+                               name="codigo_colaborador"
+                               id="codigo_colaborador"
+                               class="form-control">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default">
+                                <i class="fa fa-search"
+                                   id="icon_search"
+                                   aria-hidden="true"></i>
+                            </button>
+                            <button type="button" class="btn btn-default">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                    <table class="table table-bordered table-responsive">
+                        <thead style="background-color: #01579B;  color: #fff;">
+                        <tr>
+                            <th>
+                                ACTIVIDAD
+                            </th>
+                            <th>
+                                COLABORADORES
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody id="asociaciones">
+
+                        </tbody>
+
+                    </table>
+                </div>
 
             </div>
         </div>
@@ -178,6 +232,11 @@
                     console.log(e);
                 }
             })
+        }
+
+        function next(id) {
+
+            document.getElementById(id).focus();
         }
     </script>
 @endsection
