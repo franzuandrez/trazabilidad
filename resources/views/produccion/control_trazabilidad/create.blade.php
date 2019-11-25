@@ -126,7 +126,7 @@
                     </div>
                 </div>
                 <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                    <label for="colaborador">CODIGO COLABORADOR</label>
+                    <label for="colaborador"> COLABORADOR</label>
                     <div class="input-group">
                         <input type="text"
                                name="colaborador"
@@ -161,6 +161,9 @@
                     <table class="table table-bordered table-responsive">
                         <thead style="background-color: #01579B;  color: #fff;">
                         <tr>
+                            <th>
+
+                            </th>
                             <th>
                                 ACTIVIDAD
                             </th>
@@ -290,7 +293,9 @@
             let row = `
                         <tr id="act-${id_actividad}-col-${id_colaborador}">
                                             <td><input type="hidden" name="id_actividad[]" value="${id_actividad}">
-                                                    <button  type="button" class="btn btn-warning">x</button>
+                                                    <button
+                                                     onclick="eliminarColaborador('${id_actividad}','${id_colaborador}')"
+                                                     type="button" class="btn btn-warning">x</button>
                                             </td>
                                             <td><input type="hidden" name="id_colaborador[]" value="${id_colaborador}">  ${nombre_colaborador}</td>
                         </tr>
@@ -301,6 +306,9 @@
         function agregarActividad(id_actividad, descripcion_actividad, id_colaborador, nombre_colaborador) {
             let row = `
                 <tr id="actividad-${id_actividad}">
+                        <td>
+                               <button onclick="eliminarActividad('${id_actividad}')" type="button" class="btn btn-warning">x</button>
+                        </td>
                         <td>
                             ${descripcion_actividad}
                         </td>
@@ -352,6 +360,32 @@
         function next(id) {
 
             document.getElementById(id).focus();
+        }
+
+        function eliminarActividad(id_actividad) {
+
+            let cantidadColaboradores = $('#asociacion-' + id_actividad + " tr").length;
+            if (cantidadColaboradores > 1) {
+                if (confirm('¿Está seguro de remover la actividad?')) {
+                    $('#actividad-' + id_actividad).remove();
+                }
+            } else {
+                $('#actividad-' + id_actividad).remove();
+            }
+            next('colaborador')
+
+
+        }
+
+        function eliminarColaborador(id_actividad, id_colaborador) {
+
+            let cantidadColaboradores = $('#asociacion-' + id_actividad + " tr").length;
+
+            if (cantidadColaboradores == 1) {
+                eliminarActividad(id_actividad);
+            } else {
+                $('#act-' + id_actividad + '-col-' + id_colaborador).remove();
+            }
         }
     </script>
 @endsection
