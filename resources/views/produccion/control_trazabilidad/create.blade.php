@@ -191,7 +191,7 @@
         <i class="fa fa-refresh fa-spin "></i><br/>
         <span>Cargando</span>
     </div>
-
+    @include('produccion.control_trazabilidad.colaboradores')
 
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
@@ -340,7 +340,12 @@
 
         function buscar_colaborador() {
             let colaborador = document.getElementById('colaborador').value;
-
+            let id_actividad = $('#actividades option:selected').val();
+            if (id_actividad == "") {
+                alert("Seleccione Actividad");
+                return;
+            }
+            $('.loading').show();
             $.ajax({
                 url: "{{url('registro/colaboradores/search')}}" + "?q=" + colaborador,
                 type: "get",
@@ -350,22 +355,48 @@
                     let colaboradores = response.colaboradores;
 
                     if (colaboradores.length == 0) {
+                        $('.loading').hide();
                         alert("Colaborador no encontrado");
                     } else if (colaboradores.length == 1) {
                         document.getElementById('id_colaborador').value = colaboradores[0].id_colaborador;
                         document.getElementById('colaborador').value = colaboradores[0].nombre + " " + colaboradores[0].apellido;
                         document.getElementById('colaborador').readOnly = true;
-                        next('btn_agregar')
+                        next('btn_agregar');
+                        $('.loading').hide();
                     } else {
-
+                        cargar_colaboradores(colaboradores);
+                        mostrar_colaboradores();
                     }
 
                 },
                 error: function (e) {
                     console.log(e);
+                    $('.loading').hide();
                 }
             })
 
+        }
+
+        function cargar_colaboradores(colaboradores) {
+
+            $("#tbody-colaboradores").empty();
+            let row = "";
+            colaboradores.forEach(function (colaborador) {
+                row += `<tr>
+                    <td><input  type='checkbox' name='id_colaborador' value='${colaborador.id_colaborador}'  ></td>
+                    <td> ${colaborador.codigo_barras} </td>
+                    <td> ${colaborador.nombre} ${colaborador.apellido} </td>
+                </tr> `;
+            });
+
+            $('#tbody-colaboradores').append(row);
+        }
+
+        function mostrar_colaboradores() {
+            setTimeout(function () {
+                $('.loading').hide();
+                $('#modal-colaboradores').modal();
+            }, 1000);
         }
 
         function next(id) {
