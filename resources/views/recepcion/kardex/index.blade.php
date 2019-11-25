@@ -30,8 +30,38 @@
                         'search'=>$search,
                          'sort'=>$sort,
                          'sortField'=>$sortField,
+                         'field'=>'unidad_medida',
+                         'titulo'=>'MEDIDA'])
+
+                </th>
+                <th>
+                    @include('recepcion.kardex.sort',[
+                    'filtro' => $filtro,
+                        'search'=>$search,
+                         'sort'=>$sort,
+                         'sortField'=>$sortField,
                          'field'=>'lote',
                          'titulo'=>'LOTE'])
+
+                </th>
+                <th>
+                    @include('recepcion.kardex.sort',[
+                    'filtro' => $filtro,
+                        'search'=>$search,
+                         'sort'=>$sort,
+                         'sortField'=>$sortField,
+                         'field'=>'entrada',
+                         'titulo'=>'ENT.'])
+
+                </th>
+                <th>
+                    @include('recepcion.kardex.sort',[
+                    'filtro' => $filtro,
+                        'search'=>$search,
+                         'sort'=>$sort,
+                         'sortField'=>$sortField,
+                         'field'=>'salida',
+                         'titulo'=>'SAL.'])
 
                 </th>
                 <th>
@@ -41,7 +71,7 @@
                          'sort'=>$sort,
                          'sortField'=>$sortField,
                          'field'=>'total',
-                         'titulo'=>'CANTIDAD'])
+                         'titulo'=>'FINAL'])
 
                 </th>
                 </thead>
@@ -59,7 +89,16 @@
                             {{$producto->producto}}
                         </td>
                         <td>
+                            {{$producto->unidad_medida}}
+                        </td>
+                        <td>
                             {{$producto->lote}}
+                        </td>
+                        <td>
+                            {{$producto->entrada}}
+                        </td>
+                        <td>
+                            {{$producto->salida}}
                         </td>
                         <td>
                             {{$producto->total}}

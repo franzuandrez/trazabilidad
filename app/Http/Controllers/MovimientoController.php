@@ -146,6 +146,8 @@ class MovimientoController extends Controller
             ->orderBy($this->sortField, $this->sort)
             ->get();
 
+
+
         $filtrosDisponibles = [
             'id_select_search'=>'bodega',
             'producto'=>'producto',
@@ -207,9 +209,12 @@ class MovimientoController extends Controller
         $productos = RMIDetalle::join('productos', 'rmi_detalle.id_producto', '=', 'productos.id_producto')
             ->select(DB::raw('0 as id_bodega'),
                 'productos.descripcion as producto',
+                'productos.unidad_medida as unidad_medida',
                 'rmi_detalle.lote as lote',
                 DB::raw("'BODEGA TRANSITO' as bodega"),
-                DB::raw('sum(cantidad) as total'
+                DB::raw('sum(cantidad_entrante) as entrada'),
+                DB::raw(' "0"  as salida'),
+                DB::raw('sum(cantidad_entrante) as total'
                 ))
             ->whereIn('id_rmi_encabezado', $rmi_encabezado)
             ->where(function ($query) {
@@ -255,8 +260,11 @@ class MovimientoController extends Controller
             ->leftJoin('bodegas', 'movimientos.id_bodega', '=', 'bodegas.id_bodega')
             ->select('movimientos.id_bodega as id_bodega',
                 'productos.descripcion as producto',
+                'productos.unidad_medida as unidad_medida',
                 'movimientos.lote as lote',
                 'bodegas.descripcion as bodega',
+                DB::raw('sum( if(factor=1, cantidad  * factor,0) ) as entrada'),
+                DB::raw('sum( if(factor<>1, cantidad  * factor * -1,0) ) as salida'),
                 DB::raw('sum( cantidad  * factor ) as total')
             );
 
