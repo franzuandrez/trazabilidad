@@ -59,6 +59,7 @@ class Movimientos
                                     $usuario_autoriza)
     {
         $this->ubicacion = $ubicacion;
+        $this->bodega = $ubicacion;
         $this->producto = $producto;
         $this->lote = $lote;
         $this->fecha_vencimiento = $fecha_vencimiento;
