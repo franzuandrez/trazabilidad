@@ -364,6 +364,7 @@
                         next('btn_agregar');
                         $('.loading').hide();
                     } else {
+                        document.getElementById('nombre-colaboradores').innerText = $('#actividades option:selected').text();
                         cargar_colaboradores(colaboradores);
                         mostrar_colaboradores();
                     }
@@ -377,13 +378,26 @@
 
         }
 
+        function seleccionar(id_colaborador, element) {
+
+            if (element.tagName != "INPUT") {
+                document.getElementById('colaborador_item-' + id_colaborador).checked = !document.getElementById('colaborador_item-' + id_colaborador).checked;
+            }
+
+            let totalSeleccionados = Array.prototype.slice.call(document.getElementsByName('resultado_colaborador')).filter(e => e.checked).length;
+            document.getElementById('btn_aceptar').disabled = totalSeleccionados == 0;
+
+
+
+        }
+
         function cargar_colaboradores(colaboradores) {
 
             $("#tbody-colaboradores").empty();
             let row = "";
             colaboradores.forEach(function (colaborador) {
-                row += `<tr>
-                    <td><input  type='checkbox' name='id_colaborador' value='${colaborador.id_colaborador}'  ></td>
+                row += `<tr  onclick="seleccionar('${colaborador.id_colaborador}',event.target)">
+                    <td><input  type='checkbox' name='resultado_colaborador' value='${colaborador.id_colaborador}' id="colaborador_item-${colaborador.id_colaborador}" ></td>
                     <td> ${colaborador.codigo_barras} </td>
                     <td> ${colaborador.nombre} ${colaborador.apellido} </td>
                 </tr> `;

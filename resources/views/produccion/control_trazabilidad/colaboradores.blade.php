@@ -37,6 +37,7 @@
                 <button type="button"
                         class="btn btn-primary"
                         disabled
+                        id="btn_aceptar"
                         data-dismiss="modal">
                     Aceptar
                 </button>
