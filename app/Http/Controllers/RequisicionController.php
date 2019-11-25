@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Bodega;
+use App\Correlativo;
 use App\Requisicion;
 use App\RequisicionDetalle;
 use Carbon\Carbon;
@@ -54,13 +55,22 @@ class RequisicionController extends Controller
 
         $bodegas = Bodega::actived()
             ->get();
+        $no_orden_produccion = Correlativo::where('modulo', 'PRODUCCION')
+            ->first();
+        $no_orden_produccion = $no_orden_produccion->prefijo . '-' . Carbon::now()->addDay()
+                ->format('Ymd');
+
 
         $requisicion = Requisicion::enProceso()
             ->where('id_usuario_ingreso', Auth::user()->id)
             ->get();
 
 
-        return view('produccion.operaciones.create', compact('bodegas', 'requisicion'));
+        return view('produccion.operaciones.create', [
+            'bodegas' => $bodegas,
+            'requisicion' => $requisicion,
+            'no_orden_produccion' => $no_orden_produccion
+        ]);
     }
 
     public function store(Request $request)

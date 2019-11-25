@@ -69,7 +69,7 @@
                    readonly
                    onkeydown="if(event.keyCode==13)validarOrdenProduccion()"
                    id="no_orden_produccion"
-                   value="{{old('no_orden_produccion')}}"
+                   value="{{$no_orden_produccion}}"
                    class="form-control">
         </div>
     </div>
@@ -133,7 +133,7 @@
             <th>CANTIDAD</th>
             <th>CODIGO PRODUCTO</th>
             <th>PRODUCTO</th>
-            <th>PRESENTACION</th>
+            <th>UNIDAD MEDIDA</th>
             </thead>
             <tbody id="body-detalles">
             </tbody>
@@ -372,7 +372,7 @@
                     <td>${cantidad}</td>
                     <td>${producto.codigo_barras}</td>
                     <td>${producto.descripcion}</td>
-                    <td>${producto.presentacion.descripcion}</td>
+                    <td>${producto.unidad_medida}</td>
                     </tr>    `;
 
             $('#body-detalles').append(row);
@@ -393,6 +393,10 @@
                         document.getElementById('no_orden_produccion').focus();
                         document.getElementById('no_orden_produccion').readOnly = false;
                         document.getElementById('no_requisicion').readOnly = true;
+
+                        document.getElementById('codigo_producto').focus();
+                        document.getElementById('codigo_producto').readOnly = false;
+                        document.getElementById('no_orden_produccion').readOnly = true;
                     } else {
                         let estaEnProceso = response[1].toUpperCase() == "P";
                         if (estaEnProceso) {
