@@ -29,7 +29,7 @@
         </div>
     </div>
     <input type="hidden" name="id_producto" id="id_producto">
-    <div class="col-lg-3 col-sm-3 col-md-6 col-xs-12">
+    <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="producto">PRODUCTO</label>
             <input type="text"
@@ -39,7 +39,17 @@
                    class="form-control">
         </div>
     </div>
-    <div class="col-lg-3 col-sm-3 col-md-6 col-xs-12">
+    <div class="col-lg-1 col-sm-2 col-md-2 col-xs-6">
+        <div class="form-group">
+            <label for="unidad_medida">U.MEDIDA</label>
+            <input type="text"
+                   name="unidad_medida"
+                   readonly
+                   id="unidad_medida"
+                   class="form-control">
+        </div>
+    </div>
+    <div class="col-lg-2 col-sm-4 col-md-4 col-xs-6">
         <div class="form-group">
             <label for="best_by">BEST BY</label>
             <input type="text"
@@ -234,6 +244,7 @@
                         document.getElementById('id_producto').value = response.producto.id_producto;
                         document.getElementById('producto').value = response.producto.descripcion;
                         document.getElementById('best_by').value = response.fecha_vencimiento;
+                        document.getElementById('unidad_medida').value = response.producto.unidad_medida;
                         document.getElementById('lote').readOnly = false;
                         document.getElementById('no_orden_produccion').readOnly = false;
                         document.getElementById('no_orden_produccion').readOnly = false;
