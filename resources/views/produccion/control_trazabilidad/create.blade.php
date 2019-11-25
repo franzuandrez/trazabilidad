@@ -136,6 +136,7 @@
                         <div class="input-group-btn">
                             <button
                                 onclick="buscar_colaborador()"
+                                onkeydown="buscar_colaborador()"
                                 type="button" class="btn btn-default">
                                 <i class="fa fa-search"
                                    aria-hidden="true"></i>
@@ -149,6 +150,8 @@
                             </button>
                             <button type="button"
                                     id="btn_limpiar"
+                                    onclick="limpiar()"
+                                    onkeydown="limpiar()"
                                     class="btn btn-default">
                                 <i class="fa fa-trash" aria-hidden="true"></i>
                             </button>
@@ -246,6 +249,14 @@
                     console.log(e);
                 }
             })
+        }
+
+        function limpiar() {
+
+            document.getElementById('colaborador').value = "";
+            document.getElementById('id_colaborador').value = "";
+            document.getElementById('colaborador').readOnly = false;
+            next('colaborador')
         }
 
         function agregar_asociacion() {
