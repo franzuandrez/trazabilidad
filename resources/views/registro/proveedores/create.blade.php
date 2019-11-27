@@ -37,7 +37,7 @@
                 <label for="codigo">CODIGO</label>
                 <input type="text" name="codigo"
                        readonly
-                       value = "{{$correlativo}}"
+                       value="{{$correlativo}}"
                        required value="{{old('codigo')}}" id="codigo"
                        class="form-control">
             </div>
@@ -59,14 +59,14 @@
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="nombre">NIT</label>
-                <input type="text" name="nit"  value="{{old('nit')}}"
+                <input type="text" name="nit" value="{{old('nit')}}"
                        class="form-control">
             </div>
         </div>
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="nombre">DIRECCION FISCAL</label>
-                <input type="text" name="direccion_fiscal"  value="{{old('direccion_fiscal')}}"
+                <input type="text" name="direccion_fiscal" value="{{old('direccion_fiscal')}}"
                        class="form-control">
             </div>
         </div>
@@ -80,14 +80,14 @@
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="nombre">NOMBRE CONTACTO</label>
-                <input type="text" name="nombre_contacto"  value="{{old('nombre_contacto')}}"
+                <input type="text" name="nombre_contacto" value="{{old('nombre_contacto')}}"
                        class="form-control">
             </div>
         </div>
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="nombre">TELEFONO DE CONTACTO</label>
-                <input type="text" name="telefono_contacto"  value="{{old('telefono_contacto')}}"
+                <input type="text" name="telefono_contacto" value="{{old('telefono_contacto')}}"
                        class="form-control">
             </div>
         </div>
@@ -101,21 +101,21 @@
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="nombre">REGIMEN TRIBUTARIO</label>
-                <input type="text" name="regimen_tributario"  value="{{old('regimen_tributario')}}"
+                <input type="text" name="regimen_tributario" value="{{old('regimen_tributario')}}"
                        class="form-control">
             </div>
         </div>
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="nombre">PATENTE DE COMERCIO</label>
-                <input type="text" name="patente_comercio"  value="{{old('patente_comercio')}}"
+                <input type="text" name="patente_comercio" value="{{old('patente_comercio')}}"
                        class="form-control">
             </div>
         </div>
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="nombre">PATENTE DE SOCIEDAD</label>
-                <input type="text" name="patente_sociedad"  value="{{old('patente_sociedad')}}"
+                <input type="text" name="patente_sociedad" value="{{old('patente_sociedad')}}"
                        class="form-control">
             </div>
         </div>
@@ -281,33 +281,47 @@
                 <small>&nbsp;&nbsp; PRODUCTOS QUE PROVEE .</small>
             </h2>
         </div>
-        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="col-lg-5 col-sm-5 col-md-5 col-xs-12">
             <label for="producto">PRODUCTO</label>
             <div class="input-group">
                 <input type="text" id="producto"
                        name="producto"
-                       onkeydown="getCodigoProducto()"
+                       onkeydown="if(event.keyCode==13)getCodigoProducto()"
                        placeholder="BUSCAR..."
                        class="form-control">
-                <span class="input-group-btn">
-                     <input type="hidden" id="id_producto"
-                            name="id_producto"
-                            class="form-control">
-                </span>
-                <span class="input-group-btn">
-                <a href="javascript:buscar_producto();">
-                    <button type="button"
-                            class="btn btn-default"
-                            id="buscar"
-                            data-placement="top"
-                            title="Buscar" data-toggle="tooltip"
-                            data-loading-text="<i class='fa fa-refresh fa-spin '></i>">
-                        <i class="fa fa-search"></i>
+                <div class="input-group-btn">
+                    <button
+                        onclick="buscar_producto()"
+                        onkeydown="if(event.keyCode==13)buscar_producto()"
+                        type="button" class="btn btn-default">
+                        <i class="fa fa-search"
+                           id="icon_search"
+                           data-loading-text="<i class='fa fa-refresh fa-spin '></i>"
+                           aria-hidden="true"></i>
                     </button>
-                </a>
-             </span>
+                    <button type="button"
+                            id="btn_agregar"
+                            onclick="addToTableProductos()"
+                            onkeydown="if(event.keyCode==13)addToTableProductos()"
+                            class="btn btn-default">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                    </button>
+                    <button type="button"
+                            id="btn_limpiar"
+                            onclick="limpiar()"
+                            onkeydown="if(event.keyCode==13)limpiar()"
+                            class="btn btn-default">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                    </button>
+                </div>
             </div>
+            <input type="hidden" id="id_producto">
         </div>
+
+        <br>
+        <br>
+        <br>
+        <br>
 
 
         <div class="col-lg-5 col-sm-5 col-md-5 col-xs-10" style="display: none">
@@ -317,13 +331,7 @@
                        class="form-control">
             </div>
         </div>
-        <div class="col-lg-1 col-sm-1 col-md-1 col-xs-2">
-            <br>
-            <div class="form-group">
-                <button id="btnAddProductos" class="btn btn-default block" style="margin-top: 5px;"
-                        type="button"><span class=" fa fa-plus"></span></button>
-            </div>
-        </div>
+
         <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
             <table id="detalle_productos"
                    class="table table-striped table-bordered table-condensed table-hover">
@@ -356,25 +364,9 @@
     {!!Form::close()!!}
     </div>
     </div>
-    <div class="modal fade" id="modal-default" style="display: none;">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">x</span></button>
-                    <h4 class="modal-title">Advertencia</h4>
-                </div>
-                <div class="modal-body">
-                    <p>Complete todo los campos...</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
+
+
+
 @section('scripts')
     <script>
         $("#btnAddReferencias").click(function () {
@@ -389,6 +381,26 @@
                 return false;
             }
         });
+
+        function start_spin(id, icon) {
+            $('#' + id).button('loading');
+            document.getElementById(id).classList.remove(icon)
+        }
+
+        function stop_spin(id, icon) {
+
+            setTimeout(function () {
+                $('#' + id).button('reset');
+                document.getElementById(id).classList.add(icon)
+            }, 1000);
+
+        }
+
+        function limpiar() {
+            document.getElementById('id_producto').value = "";
+            document.getElementById('producto').value = "";
+            document.getElementById('producto').readOnly = false;
+        }
 
         function addToTableComerciales() {
             if ($("#rc_empresa").val() != "" && $("#rc_telefono").val() != "" && $("#rc_direccion").val() != "" && $("#rc_contacto").val() != "") {
@@ -423,7 +435,7 @@
 
             var id_producto = $('#id_producto');
 
-            if (producto.val() != "") {
+            if (producto.val() != "" && id_producto.val() != "") {
                 let row =
                     `<tr>
                     <td><button onclick=removeFromTable(this) type="button" class="btn btn-warning">x</button></td>
@@ -432,12 +444,16 @@
                     </tr>`;
 
                 $("#detalle_productos").append(row);
+
+            } else {
+                alert("Producto no encontrado");
             }
 
             producto.val('');
 
             id_producto.val('');
             document.getElementById('producto').readOnly = false;
+            document.getElementById('producto').focus();
 
 
         }
@@ -458,8 +474,12 @@
 
             if (searchValue == null) {
                 searchValue = productoElement.value;
+                if (searchValue === "") {
+                    mostrarAlertaNotFound();
+                    return;
+                }
             }
-
+            start_spin('icon_search', 'fa-search');
             $.ajax({
 
                 url: "{{url('registro/productos/search')}}" + "/" + searchValue,
@@ -484,10 +504,12 @@
                         mostrarProductosCargados();
                     }
 
+                    stop_spin('icon_search', 'fa-search');
 
                 },
                 error: function (e) {
-
+                    stop_spin('icon_search', 'fa-search');
+                    alert("Error, revise conexión");
                     console.error(e);
                 }
 
@@ -509,9 +531,8 @@
 
             document.getElementById('id_producto').value = producto.id_producto;
             document.getElementById('producto').value = producto.descripcion;
-
             document.getElementById('producto').readOnly = true;
-
+            document.getElementById('btn_agregar').focus();
         }
 
         function mostrarProductosCargados() {
@@ -522,7 +543,15 @@
         }
 
         function mostrarAlertaNotFound() {
-            $('#not_found').modal();
+            alert("Producto no encontrado");
+        }
+
+        function seleccionar(id, element) {
+
+            if (element.tagName != "INPUT") {
+                document.getElementById('producto_item_' + id).checked = !document.getElementById('producto_item_' + id).checked;
+                habilitar();
+            }
         }
 
         function cargarProductos(productos) {
@@ -530,11 +559,10 @@
             $("#tbody-productos").empty();
             let row = "";
             productos.forEach(function (producto) {
-                row += `<tr>
-                    <td><input  onclick="habilitar()" type='radio' name='id_prod' value='${producto.id_producto}'  ></td>
+                row += `<tr  onclick="seleccionar('${producto.id_producto}',event.target)" >
+                    <td><input  onclick="habilitar()" type='radio' name='id_prod' value='${producto.id_producto}' id="producto_item_${producto.id_producto}" ></td>
                     <td> ${producto.codigo_barras} </td>
                     <td> ${producto.descripcion} </td>
-
                 </tr> `;
             })
 
@@ -558,6 +586,10 @@
 
         }
 
+        function deshabilitar() {
+            document.getElementById('aceptar_producto').disabled = true;
+        }
+
         function getProductoSelected() {
             var productos = document.getElementsByName('id_prod');
             var id_prod = null;
@@ -573,7 +605,6 @@
                     var childrens = prod[1].parentElement.parentElement.children;
                     id_prod = childrens[0].firstChild.value;
                     descripcion = childrens[2].innerText;
-
 
 
                 }

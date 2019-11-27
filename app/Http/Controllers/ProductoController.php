@@ -36,8 +36,7 @@ class ProductoController extends Controller
                 $query->where('productos.codigo_barras', 'LIKE', '%' . $search . '%')
                     ->orwhere('productos.codigo_interno', 'LIKE', '%' . $search . '%')
                     ->orwhere('productos.descripcion', 'LIKE', '%' . $search . '%')
-                    ->orwhere('productos.codigo_interno_cliente', 'LIKE', '%' . $search . '%')
-                  ;
+                    ->orwhere('productos.codigo_interno_cliente', 'LIKE', '%' . $search . '%');
             })
             ->orderBy($sortField, $sort)
             ->paginate(20);
@@ -286,8 +285,10 @@ class ProductoController extends Controller
             ->where(function ($query) use ($search) {
                 $query->where('productos.codigo_barras', 'LIKE', '%' . $search . '%')
                     ->orWhere('productos.codigo_interno_cliente', 'LIKE', '%' . $search . '%')
+                    ->orWhere('productos.codigo_interno', 'LIKE', '%' . $search . '%')
                     ->orWhere('productos.descripcion', 'LIKE', '%' . $search . '%');
             })
+            ->orderBy('productos.descripcion', 'asc')
             ->with('proveedores')
             ->get();
 
