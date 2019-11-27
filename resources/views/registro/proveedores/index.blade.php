@@ -81,11 +81,13 @@
                             {{$proveedor->codigo_proveedor}}
                         </td>
                         <td>
-                            {{$proveedor->razon_social}}
-                        </td>
-                        <td>
                             {{$proveedor->nombre_comercial}}
                         </td>
+
+                        <td>
+                            {{$proveedor->razon_social}}
+                        </td>
+
                         <td>
                             {{$proveedor->nit}}
                         </td>
