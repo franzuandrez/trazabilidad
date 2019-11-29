@@ -64,7 +64,7 @@
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="nombre">DIRECCION FISCAL</label>
-                <input type="text" name="direccion_fiscal" value="{{$proveedor->direccion_fiscal}}"
+                <input type="text" name="direccion_fiscal" value="{{$proveedor->direccion_fiscal}}" required
                        class="form-control">
             </div>
         </div>
