@@ -220,10 +220,17 @@
 
 
             let isFileSelected = document.getElementsByName('file_requisiones')[0].files.length > 0;
+            let id_requisicion = document.getElementById('id_requisicion').value;
+            if (id_requisicion === "") {
+                alert("No. Requisición no válida");
+                document.getElementById('no_requisicion').focus();
+                return;
+            }
+
             if (isFileSelected) {
                 var file = document.getElementsByName('file_requisiones')[0];
                 var cln = file.cloneNode(true);
-                document.getElementById('id_requisicion_importar').value = document.getElementById('id_requisicion').value;
+                document.getElementById('id_requisicion_importar').value = id_requisicion;
                 document.getElementById("frm_importar").appendChild(cln);
                 $('#frm_importar').submit();
             } else {
