@@ -455,6 +455,7 @@
                         document.getElementById('codigo_producto').focus();
                         document.getElementById('codigo_producto').readOnly = false;
                         document.getElementById('no_orden_produccion').readOnly = true;
+                        validarOrdenProduccion();
                     } else {
                         let estaEnProceso = response[1].toUpperCase() == "P";
                         if (estaEnProceso) {
