@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Bodega;
+use App\Http\tools\Movimientos;
 use App\Movimiento;
-use App\Producto;
 use App\Recepcion;
 use App\RMIDetalle;
 use DB;
@@ -99,37 +99,9 @@ class MovimientoController extends Controller
     public function existencia(Request $request)
     {
 
-        $search = $request->get('search');
+        $movimientos = new Movimientos();
+        return $movimientos->existencia($request);
 
-
-        $productos = Producto::where('codigo_interno', '=', $search)
-            ->orWhere('codigo_barras', '=', $search)
-            ->pluck('id_producto');
-
-
-        $ubicacion = $request->get('ubicacion');
-
-
-        $existencias = Movimiento::join('tipo_movimiento', 'tipo_movimiento.id_movimiento', '=', 'movimientos.tipo_movimiento')
-            ->select('movimientos.id_movimiento',
-                'movimientos.lote',
-                'movimientos.id_producto',
-                'movimientos.ubicacion',
-                'movimientos.fecha_vencimiento',
-                DB::raw('sum(cantidad * factor) as total'))
-            ->whereIn('id_producto', $productos)
-            ->groupBy('id_producto')
-            ->groupBy('lote')
-            ->orderBy('movimientos.fecha_vencimiento', 'asc')
-            ->with('producto')
-            ->with('bodega')
-            ->with('producto.presentacion')
-            ->with('producto.dimensional')
-            ->get();
-
-
-        $response = $existencias;
-        return response()->json($response);
 
     }
 
@@ -147,23 +119,21 @@ class MovimientoController extends Controller
             ->get();
 
 
-
         $filtrosDisponibles = [
-            'id_select_search'=>'bodega',
-            'producto'=>'producto',
-            'lote'=>'lote',
-            'end'=>'rango'
+            'id_select_search' => 'bodega',
+            'producto' => 'producto',
+            'lote' => 'lote',
+            'end' => 'rango'
         ];
         $filtrosUsados = collect($filtrosDisponibles)->intersectByKeys(collect($request->all()));
 
 
-
-        return Excel::create("Inventario", function ($excel) use ($productos,$request) {
-            $excel->sheet("Inventario", function ($sheet) use ($productos,$request) {
+        return Excel::create("Inventario", function ($excel) use ($productos, $request) {
+            $excel->sheet("Inventario", function ($sheet) use ($productos, $request) {
                 $sheet->loadView('recepcion.kardex.excel',
                     [
                         'collection' => $productos,
-                        'parametros'=>$request
+                        'parametros' => $request
                     ]);
             });
         })->export('xlsx');

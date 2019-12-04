@@ -4,7 +4,9 @@
 namespace App\Http\tools;
 
 use App\Movimiento;
-
+use App\Producto;
+use Illuminate\Http\Request;
+use DB;
 class Movimientos
 {
 
@@ -96,5 +98,42 @@ class Movimientos
         $movimiento->save();
     }
 
+
+    public function existencia(Request $request)
+    {
+
+        $search = $request->get('search');
+
+
+        $productos = Producto::where('codigo_interno', '=', $search)
+            ->orWhere('codigo_barras', '=', $search)
+            ->pluck('id_producto');
+
+
+        $ubicacion = $request->get('ubicacion');
+
+
+        $existencias = Movimiento::join('tipo_movimiento', 'tipo_movimiento.id_movimiento', '=', 'movimientos.tipo_movimiento')
+            ->select('movimientos.id_movimiento',
+                'movimientos.lote',
+                'movimientos.id_producto',
+                'movimientos.ubicacion',
+                'movimientos.fecha_vencimiento',
+                DB::raw('sum(cantidad * factor) as total'))
+            ->whereIn('id_producto', $productos)
+            ->groupBy('id_producto')
+            ->groupBy('lote')
+            ->orderBy('movimientos.fecha_vencimiento', 'asc')
+            ->with('producto')
+            ->with('bodega')
+            ->with('producto.presentacion')
+            ->with('producto.dimensional')
+            ->get();
+
+
+        $response = $existencias;
+        return response()->json($response);
+
+    }
 
 }
