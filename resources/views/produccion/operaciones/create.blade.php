@@ -14,11 +14,11 @@
             Requisiciones
         @endslot
     @endcomponent
-
+    @include('componentes.alert-error')
     {!!Form::open(array('url'=>'produccion/requisiciones/create','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
 
-    @if(!$requisicion->isEmpty())
+    @if(!$requisicion->isEmpty() &&  Session::get('importacion')==null )
         <div class="modal fade modal-slide-in-right in" aria-hidden="false" role="dialog" tabindex="-1"
              onclick="eliminarRequisicionPendiente(event)"
              id="requision_pendiente" style="display: block; padding-right: 17px;">
@@ -48,7 +48,7 @@
         </div>
     @endif
 
-
+    {{Session::get('importar')}}
     <input name="id_requisicion" type="hidden" id="id_requisicion">
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
@@ -74,52 +74,84 @@
         </div>
     </div>
 
-    <div class="col-lg-5 col-sm-4 col-md-5 col-xs-8">
-        <div class="form-group">
-            <label for="codigo_producto">CODIGO PRODUCTO</label>
-            <input type="text"
-                   name="codigo_producto"
-                   readonly
-                   id="codigo_producto"
-                   onkeydown="if(event.keyCode==13)buscar_existencia()"
-                   value="{{old('codigo_producto')}}"
-                   class="form-control">
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#crear" data-toggle="tab" aria-expanded="false">
+                    INGRESAR
+                </a>
+            </li>
+            <li class="">
+                <a href="#importar" data-toggle="tab" aria-expanded="false">
+                    IMPORTAR
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="crear">
+                <br>
+                <div class="col-lg-5 col-sm-4 col-md-5 col-xs-8">
+                    <div class="form-group">
+                        <label for="codigo_producto">CODIGO PRODUCTO</label>
+                        <input type="text"
+                               name="codigo_producto"
+                               readonly
+                               id="codigo_producto"
+                               onkeydown="if(event.keyCode==13)buscar_existencia()"
+                               value="{{old('codigo_producto')}}"
+                               class="form-control">
 
-        </div>
-    </div>
-    <div class="col-lg-1 col-md-2 col-sm-2  col-xs-4">
-        <br>
-        <div class="form-group">
-            <button id="btnBuscar"
-                    onclick="buscar_existencia()"
-                    class="btn btn-default block" style="margin-top: 5px;" type="button">
-                <span class=" fa fa-search"></span></button>
-            <button id="btnLimpiar"
-                    onclick="limpiar()"
-                    class="btn btn-default block" style="margin-top: 5px;" type="button">
-                <span class=" fa fa-trash"></span></button>
-        </div>
-    </div>
-    <div class="col-lg-6 col-md-6 col-sm-6  col-xs-12">
-        <div class="form-group">
-            <label for="descripcion">DESCRIPCION</label>
-            <input type="text" name="descripcion" id="descripcion" readonly value="{{old('descripcion')}}"
-                   class="form-control">
-            <input type="hidden" name="id_producto" id="id_producto" readonly value="{{old('id_producto')}}"
-                   class="form-control">
+                    </div>
+                </div>
+                <div class="col-lg-1 col-md-2 col-sm-2  col-xs-4">
+                    <br>
+                    <div class="form-group">
+                        <button id="btnBuscar"
+                                onclick="buscar_existencia()"
+                                class="btn btn-default block" style="margin-top: 5px;" type="button">
+                            <span class=" fa fa-search"></span></button>
+                        <button id="btnLimpiar"
+                                onclick="limpiar()"
+                                class="btn btn-default block" style="margin-top: 5px;" type="button">
+                            <span class=" fa fa-trash"></span></button>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6  col-xs-12">
+                    <div class="form-group">
+                        <label for="descripcion">DESCRIPCION</label>
+                        <input type="text" name="descripcion" id="descripcion" readonly value="{{old('descripcion')}}"
+                               class="form-control">
+                        <input type="hidden" name="id_producto" id="id_producto" readonly value="{{old('id_producto')}}"
+                               class="form-control">
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6  col-xs-12">
+                    <div class="form-group">
+                        <label for="cantidad">CANTIDAD</label>
+                        <input type="number" name="cantidad" id="cantidad"
+                               onkeydown="if(event.keyCode==13)agregarProducto()"
+                               readonly
+                               value="{{old('cantidad')}}"
+                               class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane " id="importar">
+
+                <div class="col-lg-push-5 col-lg-4  col-md-push-5 col-md-4  ">
+
+                    <input type="file" name="file_requisiones">
+                    <a class="btn btn-app" onclick="javascript:importar()">
+                        <i class="fa fa-upload"></i>
+                        IMPORTAR
+                    </a>
+
+                </div>
+
+            </div>
         </div>
     </div>
 
-    <div class="col-lg-6 col-md-6 col-sm-6  col-xs-12">
-        <div class="form-group">
-            <label for="cantidad">CANTIDAD</label>
-            <input type="number" name="cantidad" id="cantidad"
-                   onkeydown="if(event.keyCode==13)agregarProducto()"
-                   readonly
-                   value="{{old('cantidad')}}"
-                   class="form-control">
-        </div>
-    </div>
     <div class="loading">
         <i class="fa fa-refresh fa-spin "></i><br/>
         <span>Cargando</span>
@@ -157,9 +189,20 @@
         </div>
     </div>
     {!!Form::close()!!}
+    <form id="frm_importar" style="display: none !important;"
+          enctype="multipart/form-data"
+          method="POST" action="{{url('produccion/requisiciones/importar')}}">
+        <input name="id_requisicion_importar" id="id_requisicion_importar" type="hidden">
+        {{Form::token()}}
+    </form>
 @endsection
 @section('scripts')
     <script>
+
+        @if(Session::get('importacion')!=null)
+        cargarRequisicionPendiente();
+        @endif
+
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -173,6 +216,21 @@
         });
         $('#requision_pendiente').modal('toggle');
 
+        function importar() {
+
+
+            let isFileSelected = document.getElementsByName('file_requisiones')[0].files.length > 0;
+            if (isFileSelected) {
+                var file = document.getElementsByName('file_requisiones')[0];
+                var cln = file.cloneNode(true);
+                document.getElementById('id_requisicion_importar').value = document.getElementById('id_requisicion').value;
+                document.getElementById("frm_importar").appendChild(cln);
+                $('#frm_importar').submit();
+            } else {
+                alert("Debe seleccionar un arhivo");
+            }
+
+        }
 
         function limpiar() {
             document.getElementById('codigo_producto').value = "";
@@ -208,7 +266,7 @@
                         document.getElementById('cantidad').readOnly = true;
 
                     } else {
-                        let sinExistencias = response.map(e=>e.total).reduce((x,y)=>parseFloat(x)+parseFloat(y),0) === 0;
+                        let sinExistencias = response.map(e => e.total).reduce((x, y) => parseFloat(x) + parseFloat(y), 0) === 0;
                         if (sinExistencias) {
                             document.getElementById('no_selecction_mensaje').innerText = 'Producto sin existencias';
                             alertInexitencia();

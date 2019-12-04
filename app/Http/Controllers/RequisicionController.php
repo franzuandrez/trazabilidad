@@ -4,18 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Bodega;
 use App\Correlativo;
+use App\Http\tools\Movimientos;
 use App\Requisicion;
 use App\RequisicionDetalle;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class RequisicionController extends Controller
 {
     //
     const ESTADO_ORDEN_EXISTENTE = 0;
     const ESTADO_ORDEN_NUEVA = 1;
+    private $productos_no_agregados = [];
 
     public function __construct()
     {
@@ -102,6 +105,66 @@ class RequisicionController extends Controller
             return redirect()->route('produccion.requisiciones.index')
                 ->withErrors(['Algo salio mal, intentelo más tarde']);
         }
+    }
+
+    public function importar(Request $request)
+    {
+
+        $file = $request->file('file_requisiones');
+        $id_requisicion = $request->get('id_requisicion_importar');
+        $productos_no_agregados = [];
+
+        Excel::load($file, function ($reader) use ($id_requisicion) {
+            $movimientos = new Movimientos();
+
+            $results = $reader->noHeading()->get();
+            $results = $results->slice(1);
+            foreach ($results as $key => $value) {
+
+                $codigo = $value[0];
+                $cantidadEntrante = floatval($value[1]);
+                $producto = ($movimientos->existencia($codigo)->getData());
+
+
+                if (count($producto) > 0) {
+                    $idProducto = $producto[0]->id_producto;
+                    $cantidadDisponible = floatval($producto[0]->total);
+                    $cantidadReservada = floatval(RequisicionDetalle::select('cantidad')
+                        ->where('id_requisicion_encabezado', $id_requisicion)
+                        ->where('id_producto', $idProducto)
+                        ->sum('cantidad'));
+
+                    if (($cantidadEntrante + $cantidadReservada) <= ($cantidadDisponible)) {
+                        $request = new \Illuminate\Http\Request();
+                        $request->query->add(
+                            [
+                                'id' => $id_requisicion,
+                                'cantidad' => $cantidadEntrante,
+                                'id_producto' => $idProducto
+                            ]
+                        );
+                        $this->reservar($request);
+                    } else {
+                        //CANTIDAD INSUFICIENTE
+                        $mensaje = 'EL producto ' . $codigo . ' con cantidad ' . $cantidadEntrante . ' excede la existencia actual';
+                        array_push($this->productos_no_agregados, $mensaje);
+                    }
+                } else {
+                    //CANTIDAD 0
+                    $mensaje = 'EL producto ' . $codigo . ' no tiene existencia';
+                    array_push($this->productos_no_agregados, $mensaje);
+                }
+
+
+            }
+
+        });;
+        return redirect()->route('produccion.requisiciones.create')
+            ->withErrors(
+                $this->productos_no_agregados
+            )
+            ->with('importacion', true);
+
     }
 
     public function show($id)

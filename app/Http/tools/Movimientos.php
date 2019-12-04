@@ -99,10 +99,10 @@ class Movimientos
     }
 
 
-    public function existencia(Request $request)
+    public function existencia($search)
     {
 
-        $search = $request->get('search');
+
 
 
         $productos = Producto::where('codigo_interno', '=', $search)
@@ -110,7 +110,7 @@ class Movimientos
             ->pluck('id_producto');
 
 
-        $ubicacion = $request->get('ubicacion');
+
 
 
         $existencias = Movimiento::join('tipo_movimiento', 'tipo_movimiento.id_movimiento', '=', 'movimientos.tipo_movimiento')

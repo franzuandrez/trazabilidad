@@ -100,7 +100,7 @@ class MovimientoController extends Controller
     {
 
         $movimientos = new Movimientos();
-        return $movimientos->existencia($request);
+        return $movimientos->existencia($request->get('search'));
 
 
     }

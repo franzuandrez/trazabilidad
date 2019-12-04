@@ -338,6 +338,7 @@ Route::get('produccion/trazabilidad_chao_mein/buscar_orden_produccion','Operacio
 Route::get('produccion/requisiciones','RequisicionController@index')->name('produccion.requisiciones.index');
 Route::get('produccion/requisiciones/create','RequisicionController@create')->name('produccion.requisiciones.create');
 Route::post('produccion/requisiciones/create','RequisicionController@store')->name('produccion.requisiciones.store');
+Route::post('produccion/requisiciones/importar','RequisicionController@importar')->name('produccion.requisiciones.importar');
 Route::get('produccion/requisiciones/validar_requisicion/{no_requisicion}','RequisicionController@verificarOrdenRequisicion')
     ->name('produccion.requisiciones.validar_requisicion');
 Route::get('produccion/requisiciones/validar_orden_produccion/{no_orden}/{id}','RequisicionController@verificarOrdenProduccion')
