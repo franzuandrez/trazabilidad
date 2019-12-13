@@ -685,6 +685,27 @@
         function addToTable() {
 
 
+            if ($("#id_producto").val() == "") {
+                alert("Producto invalido");
+                return;
+            }
+            if ($("#lote").val() == "") {
+                alert("Lote en blanco");
+                $("#lote").focus();
+                return;
+            }
+            if ($("#vencimiento").val() == "") {
+                alert("Fecha de vencimiento en blanco");
+                $("#vencimiento").focus();
+                return;
+            }
+
+            if ($("#cantidad").val() == "" || $("#cantidad").val() == 0) {
+                alert("Cantidad invalida");
+                $("#cantidad").focus();
+                return;
+            }
+
             if ($("#cantidad").val() != "" && $("#lote").val() != "" && $("#vencimiento").val() != "" && $("#id_producto").val() != "") {
                 let cantidad = $("#cantidad");
 
@@ -737,9 +758,6 @@
                 $('#proveedores').find('option:not(:selected)').remove();
                 $('#proveedores').selectpicker('refresh');
 
-            } else {
-                $('#modal-default').modal('show');
-                return false;
             }
         }
 
@@ -927,7 +945,6 @@
             });
             return [id_prod, descripcion];
         }
-
 
 
         function cargarInfoCodigoBarras(input) {
