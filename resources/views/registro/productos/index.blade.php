@@ -39,7 +39,15 @@
                           'titulo'=>'descripcion'])
                     @endcomponent
                 </th>
-
+                <th>
+                    @component('componentes.column-sort',['modulo'=>'registro/productos',
+                        'search'=>$search,
+                          'sort'=>$sort,
+                          'sortField'=>$sortField,
+                          'field'=>'tipo_producto',
+                          'titulo'=>'Tipo producto'])
+                    @endcomponent
+                </th>
                 </thead>
                 <tbody>
                 @foreach($productos as $producto)
@@ -56,6 +64,10 @@
                         </td>
                         <td>
                             {{$producto->descripcion}}
+                        </td>
+                        <td>
+                            {{$tipos_productos[$producto->tipo_producto]}}
+
                         </td>
                     </tr>
 
