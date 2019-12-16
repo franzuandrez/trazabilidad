@@ -29,7 +29,7 @@ class SectorController extends Controller
 
 
         $sectores = Sector::join('bodegas', 'bodegas.id_bodega', '=', 'sectores.id_bodega')
-            ->join('users', 'users.id', '=', 'sectores.id_sector')
+            ->join('users', 'users.id', '=', 'sectores.id_encargado')
             ->select('sectores.*', 'bodegas.descripcion as bodega', 'users.nombre as encargado')
             ->actived()
             ->where(function ($query) use ($search) {
