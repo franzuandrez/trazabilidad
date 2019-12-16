@@ -179,6 +179,7 @@ class MovimientoController extends Controller
         $productos = RMIDetalle::join('productos', 'rmi_detalle.id_producto', '=', 'productos.id_producto')
             ->select(DB::raw('0 as id_bodega'),
                 'productos.descripcion as producto',
+                'productos.codigo_interno as codigo_interno',
                 'productos.unidad_medida as unidad_medida',
                 'rmi_detalle.lote as lote',
                 DB::raw("'BODEGA TRANSITO' as bodega"),
@@ -230,6 +231,7 @@ class MovimientoController extends Controller
             ->leftJoin('bodegas', 'movimientos.id_bodega', '=', 'bodegas.id_bodega')
             ->select('movimientos.id_bodega as id_bodega',
                 'productos.descripcion as producto',
+                'productos.codigo_interno as codigo_interno',
                 'productos.unidad_medida as unidad_medida',
                 'movimientos.lote as lote',
                 'bodegas.descripcion as bodega',

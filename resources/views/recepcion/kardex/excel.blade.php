@@ -4,13 +4,16 @@
 </head>
 <body style="width: auto; height: auto;">
 <table style=" border-collapse: collapse;">
+    @php
+
+    @endphp
     <thead>
     <td colspan="1"><img src="img/empresa.png"></td>
     <td width="25"></td>
     <tr>
     </tr>
     <tr>
-        <td style="border: 1px solid #000" colspan="7" align="center"><b>EXISTENCIAS</b></td>
+        <td style="border: 1px solid #000" colspan="8" align="center"><b>EXISTENCIAS</b></td>
     </tr>
     <tr>
         <td style="border: 1px solid #000"><strong>GENERADO </strong></td>
@@ -69,6 +72,7 @@
                 $colspan -= 1;
             @endphp
         @endif
+        <th width="35" style="border: 1px solid #000">CODIGO INTERNO</th>
         <th width="35" style="border: 1px solid #000">PRODUCTO</th>
         <th width="35" style="border: 1px solid #000">MEDIDA</th>
 
@@ -98,11 +102,14 @@
                 </td>
             @endif
             <td style="border: 1px solid #000000">
+                {{$producto->codigo_interno}}
+            </td>
+            <td style="border: 1px solid #000000">
                 {{$producto->producto}}
             </td>
-                <td style="border: 1px solid #000000">
-                    {{$producto->unidad_medida}}
-                </td>
+            <td style="border: 1px solid #000000">
+                {{$producto->unidad_medida}}
+            </td>
 
             @if($parametros->lote ==null)
                 <td style="border: 1px solid #000000">

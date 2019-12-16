@@ -20,6 +20,16 @@
                         'search'=>$search,
                          'sort'=>$sort,
                          'sortField'=>$sortField,
+                         'field'=>'codigo_interno',
+                         'titulo'=>'CODIGO INTERNO'])
+
+                </th>
+                <th>
+                    @include('recepcion.kardex.sort',[
+                    'filtro' => $filtro,
+                        'search'=>$search,
+                         'sort'=>$sort,
+                         'sortField'=>$sortField,
                          'field'=>'producto',
                          'titulo'=>'PRODUCTO'])
 
@@ -84,6 +94,9 @@
                             @else
                                 {{$producto->bodega}}
                             @endif
+                        </td>
+                        <td>
+                            {{$producto->codigo_interno}}
                         </td>
                         <td>
                             {{$producto->producto}}
