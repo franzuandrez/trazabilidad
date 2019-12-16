@@ -51,7 +51,9 @@ class MovimientoController extends Controller
 
         $this->setFiltros($request);
         $filtro = $request->get('filtro') == null ? '2' : $request->get('filtro');
-        $bodegas = Bodega::select('id_bodega as id', 'descripcion as descripcion')->get();
+        $bodegas = Bodega::select('id_bodega as id', 'descripcion as descripcion')
+            ->actived()
+            ->get();
         $transito = $this->producto_en_transito($filtro);
 
 
@@ -183,6 +185,7 @@ class MovimientoController extends Controller
                 'productos.unidad_medida as unidad_medida',
                 'rmi_detalle.lote as lote',
                 DB::raw("'BODEGA TRANSITO' as bodega"),
+                DB::raw("'BODEGA TRANSITO' as ubicacion"),
                 DB::raw('sum(cantidad_entrante) as entrada'),
                 DB::raw(' "0"  as salida'),
                 DB::raw('sum(cantidad_entrante) as total'
@@ -229,12 +232,14 @@ class MovimientoController extends Controller
         $productos = Movimiento::join('productos', 'movimientos.id_producto', '=', 'productos.id_producto')
             ->join('tipo_movimiento', 'tipo_movimiento.id_movimiento', '=', 'movimientos.tipo_movimiento')
             ->leftJoin('bodegas', 'movimientos.id_bodega', '=', 'bodegas.id_bodega')
+            ->leftJoin('sectores','movimientos.id_sector','=','sectores.id_sector')
             ->select('movimientos.id_bodega as id_bodega',
                 'productos.descripcion as producto',
                 'productos.codigo_interno as codigo_interno',
                 'productos.unidad_medida as unidad_medida',
                 'movimientos.lote as lote',
                 'bodegas.descripcion as bodega',
+                'sectores.descripcion as ubicacion',
                 DB::raw('sum( if(factor=1, cantidad  * factor,0) ) as entrada'),
                 DB::raw('sum( if(factor<>1, cantidad  * factor * -1,0) ) as salida'),
                 DB::raw('sum( cantidad  * factor ) as total')
