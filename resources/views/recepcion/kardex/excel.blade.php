@@ -67,7 +67,7 @@
     <thead>
     <tr style="border: 1px solid #000">
         @if($parametros->id_select_search==null)
-            <th width="20" style="border: 1px solid #000">BODEGA</th>
+            <th width="20" style="border: 1px solid #000">UBICACION</th>
             @php
                 $colspan -= 1;
             @endphp
@@ -97,7 +97,7 @@
                     @if($producto->id_bodega == 0)
                         BODEGA TRANSITO
                     @else
-                        {{$producto->bodega}}
+                        {{$producto->ubicacion}}
                     @endif
                 </td>
             @endif

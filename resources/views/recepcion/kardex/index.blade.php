@@ -1,4 +1,3 @@
-
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
         <div class="table-responsive">
@@ -11,7 +10,7 @@
                           'sort'=>$sort,
                           'sortField'=>$sortField,
                           'field'=>'bodega',
-                          'titulo'=>'BODEGA'])
+                          'titulo'=>'UBICACION'])
 
                 </th>
                 <th>
@@ -90,13 +89,17 @@
                     <tr>
                         <td>
                             @if($producto->id_bodega == 0)
-                                BODEGA TRANSITO
+                                {{$producto->bodega}}
                             @else
                                 {{$producto->bodega}}
+                                <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                                {{$producto->ubicacion}}
                             @endif
                         </td>
                         <td>
+
                             {{$producto->codigo_interno}}
+
                         </td>
                         <td>
                             {{$producto->producto}}
@@ -119,7 +122,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td align="center" colspan="4"> <strong> <i class="fa fa-meh-o"></i> SIN RESULTADOS</strong></td>
+                        <td align="center" colspan="4"><strong> <i class="fa fa-meh-o"></i> SIN RESULTADOS</strong></td>
                     </tr>
                 @endforelse
                 </tbody>
@@ -134,15 +137,15 @@
 <script>
     function generar(url) {
 
-        let  search = "<?php echo $search; ?>";
-        let  sort = "<?php echo $sort; ?>";
-        let  sortField = "<?php echo $sortField; ?>";
+        let search = "<?php echo $search; ?>";
+        let sort = "<?php echo $sort; ?>";
+        let sortField = "<?php echo $sortField; ?>";
 
 
         url += "&";
-        url += "search="+search+"&";
-        url += "sort="+sort+"&";
-        url += "sortField="+sortField+"&";
+        url += "search=" + search + "&";
+        url += "sort=" + sort + "&";
+        url += "sortField=" + sortField + "&";
 
 
         window.location.href = url
