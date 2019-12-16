@@ -355,6 +355,7 @@
                 document.getElementById('cantidad').value = "";
             } else {
                 insertarProducto(id_producto, cantidad, id_requisicion);
+                document.getElementById('codigo_producto').focus()
             }
 
 
