@@ -12,6 +12,7 @@ class Movimientos
 
 
     private $bodega;
+    private $sector;
     private $producto;
     private $lote;
     private $fecha_vencimiento;
@@ -28,8 +29,8 @@ class Movimientos
         $numero_documento,
         $usuario_autoriza)
     {
-
-        $this->bodega = $ubicacion;
+        $this->sector =$ubicacion;
+        $this->bodega = $ubicacion->bodega;
         $this->producto = $producto;
         $this->lote = $lote;
         $this->fecha_vencimiento = $fecha_vencimiento;
@@ -60,8 +61,8 @@ class Movimientos
                                     $numero_documento,
                                     $usuario_autoriza)
     {
-        $this->ubicacion = $ubicacion;
-        $this->bodega = $ubicacion;
+        $this->sector =$ubicacion;
+        $this->bodega = $ubicacion->bodega;
         $this->producto = $producto;
         $this->lote = $lote;
         $this->fecha_vencimiento = $fecha_vencimiento;
@@ -87,7 +88,7 @@ class Movimientos
         $movimiento->estado = 1;
         $movimiento->id_localidad = $this->bodega->localidad->id_localidad;
         $movimiento->id_bodega = $this->bodega->id_bodega;
-        $movimiento->id_sector = 0;
+        $movimiento->id_sector = $this->sector->id_sector;
         $movimiento->id_pasillo = 0;
         $movimiento->id_rack = 0;
         $movimiento->id_nivel = 0;

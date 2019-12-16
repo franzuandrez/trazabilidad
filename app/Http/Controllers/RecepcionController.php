@@ -15,6 +15,7 @@ use App\Proveedor;
 use App\Recepcion;
 use App\RMIDetalle;
 use App\RMIEncabezado;
+use App\Sector;
 use App\User;
 use Carbon\Carbon;
 use DB;
@@ -723,14 +724,17 @@ class RecepcionController extends Controller
                 ->groupBy('lote')
                 ->get();
 
-            $bodegas = Bodega::actived()->get();
+            $ubicaciones = Sector::actived()
+                ->with('bodega')
+                ->get();
+
 
 
             return view('recepcion.ubicacion.ubicar',
                 [
                     'orden' => $orden,
                     'rmi_detalle' => $rmi_detalle,
-                    'bodegas' => $bodegas
+                    'ubicaciones' => $ubicaciones
                 ]);
 
         } catch (\Exception $e) {
@@ -745,6 +749,9 @@ class RecepcionController extends Controller
 
     public function ubicar(Request $request, $id)
     {
+
+
+
         $orden = Recepcion::findOrFail($id);
         $rmi_encabezado = $orden->rmi_encabezado;
 
@@ -757,7 +764,7 @@ class RecepcionController extends Controller
             foreach ($productos as $key => $id_producto) {
 
                 $producto = Producto::findOrFail($id_producto);
-                $ubicacion = Bodega::where('id_bodega', $request->get('ubicacion')[$key])->first();
+                $ubicacion = Sector::where('id_bodega', $request->get('ubicacion')[$key])->first();
 
                 $lote = $request->get('lote')[$key];
 

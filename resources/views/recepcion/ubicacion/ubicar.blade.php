@@ -87,7 +87,7 @@
         <span>Cargando</span>
     </div>
     <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
-        <label for="ubicacion">BODEGA</label>
+        <label for="ubicacion">UBICACION</label>
         <div class="form-group">
             <input type="text"
                    id="ubicacion"
@@ -96,7 +96,21 @@
                    onkeydown="if(event.keyCode==13)buscar_ubicacion()"
                    class="form-control">
         </div>
+        <div id="ubicacion_a_asignar"   style="display: none">
+            <span class="label label-primary" id="bodega_a_asignar">
+                <i class="fa fa-building-o"></i>
+                AREA
+            </span>
+            <strong>/</strong>
+            <span class="label label-primary" id="sector_a_asignar">
+                <i class="fa fa-square-o"></i>
+                BODEGA
+            </span>
+        </div>
+        <br>
+
     </div>
+    <input id="codigo_bodega" type="hidden" value="">
     <input id="codigo_ubicacion" type="hidden" value="">
     <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
         <label for="cantidad">CANTIDAD</label>
@@ -200,14 +214,16 @@
         function buscar_ubicacion() {
 
             let codigo_bodega = document.getElementById('ubicacion').value;
-            let bodega = bodegas().find(e => e.codigo_barras == codigo_bodega);
+            let ubicacion = ubicaciones().find(e => e.codigo_barras == codigo_bodega);
 
-            if (typeof bodega == 'undefined') {
-                alert("Bodega no encontrada")
+            if (typeof ubicacion == 'undefined') {
+                alert("Ubicacion no encontrada")
             } else {
-                document.getElementById('codigo_ubicacion').value =bodega.id_bodega;
+                mostrar_ubicacion(ubicacion);
+                document.getElementById('codigo_bodega').value = ubicacion.bodega.id_bodega;
+                document.getElementById('codigo_ubicacion').value = ubicacion.id_sector;
                 document.getElementById('ubicacion').readOnly = true;
-                document.getElementById('ubicacion').value = bodega.descripcion;
+                document.getElementById('ubicacion').value = ubicacion.descripcion;
                 document.getElementById('cantidad').readOnly = false;
                 document.getElementById('cantidad').focus();
             }
@@ -215,45 +231,18 @@
 
         }
 
-        function bodegas() {
+        function ubicaciones() {
 
-            let bodegas = [];
-            bodegas = @json($bodegas);
-            return bodegas;
+            let ubicaciones = [];
+            ubicaciones = @json($ubicaciones);
+            return ubicaciones;
         }
 
         function mostrar_ubicacion(ubicacion) {
 
-            var tmr = setTimeout(function () {
-
-                stop_spinner("fa-eye");
-                var tmr_ = setTimeout(function () {
-
-                    document.getElementById('ubicacion').readOnly = true;
-                    document.getElementById('td-localidad').innerText = ubicacion.localidad.descripcion;
-                    document.getElementById('td-id_localidad').value = ubicacion.localidad.id_localidad;
-                    document.getElementById('td-bodega').innerText = ubicacion.bodega.descripcion;
-                    document.getElementById('td-id_bodega').value = ubicacion.bodega.id_bodega;
-                    document.getElementById('td-sector').innerText = ubicacion.sector.descripcion;
-                    document.getElementById('td-id_sector').value = ubicacion.sector.id_sector;
-                    document.getElementById('td-pasillo').innerText = ubicacion.pasillo.descripcion;
-                    document.getElementById('td-id_pasillo').value = ubicacion.pasillo.id_pasillo;
-                    document.getElementById('td-rack').innerText = ubicacion.rack.descripcion;
-                    document.getElementById('td-id_rack').value = ubicacion.rack.id_rack;
-                    document.getElementById('td-nivel').innerText = ubicacion.nivel.descripcion;
-                    document.getElementById('td-id_nivel').value = ubicacion.nivel.id_nivel;
-                    document.getElementById('td-posicion').innerText = ubicacion.posicion.descripcion;
-                    document.getElementById('td-id_posicion').value = ubicacion.posicion.id_posicion;
-                    document.getElementById('td-bin').innerText = ubicacion.bin.descripcion;
-                    document.getElementById('td-id_bin').value = ubicacion.bin.id_bin;
-
-                    document.getElementById('cantidad').readOnly = false;
-                    document.getElementById('cantidad').focus();
-                    clearTimeout(tmr_);
-                }, 0);
-                clearTimeout(tmr);
-            }, 500);
-
+            document.getElementById('ubicacion_a_asignar').style.display = 'block';
+            document.getElementById('bodega_a_asignar').childNodes[2].data =" "+ubicacion.bodega.descripcion;
+            document.getElementById('sector_a_asignar').childNodes[2].data =" "+ubicacion.descripcion;
 
         }
 
@@ -359,7 +348,7 @@
             let nombre_bodega = document.getElementById('ubicacion').value;
 
             let codigo_ubicacion = document.getElementById('codigo_ubicacion').value;
-
+            let codigo_bodega = document.getElementById('codigo_bodega').value;
 
             let row = '';
             let row_producto = `
@@ -372,6 +361,7 @@
                             <td >
                                 <input type="hidden" value ='${cantidad}'  class="${gl_id_producto}-${lote}"  name=cantidad[] >${cantidad}
                                 <input type="hidden" value ='${codigo_ubicacion}'  name=ubicacion[] >
+                                <input type="hidden" value ='${codigo_bodega}'  name=bodega[] >
                             </td>
 
                  </tr>`;
@@ -379,7 +369,7 @@
                 row += `
                 <tr id="${codigo_ubicacion}"  class="titulo-ubicacion">
                     <td colspan="4">
-                        <span class="label label-primary"><i class="fa fa-building-o"></i> ${nombre_bodega}</span>
+                        <span class="label label-primary"><i class="fa fa-square-o"></i> ${nombre_bodega}</span>
                     </td>
                 </tr>`;
                 row = row + row_producto;
@@ -389,6 +379,7 @@
             }
             limpiar();
             document.getElementById('codigo_producto').focus();
+            document.getElementById('ubicacion_a_asignar').style.display = 'none';
         }
 
         function limpiar() {
