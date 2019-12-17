@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Bodega;
 use App\Http\tools\Existencias;
 use App\Http\tools\Movimientos;
 use App\Picking;
 use App\Requisicion;
 use App\ReservaPicking;
-use App\Ubicacion;
+use App\Sector;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
@@ -95,19 +94,20 @@ class PickingController extends Controller
             $productos = $requisicion->reservas->groupBy('id_producto')->keys();
 
 
-            return view('produccion.picking.show',compact('requisicion','productos'));
+            return view('produccion.picking.show', compact('requisicion', 'productos'));
         }
 
 
     }
 
-    public function show($id){
+    public function show($id)
+    {
 
         $requisicion = Requisicion::findOrFail($id);
 
         $productos = $requisicion->reservas->groupBy('id_producto')->keys();
 
-        return view('produccion.picking.show',compact('requisicion','productos'));
+        return view('produccion.picking.show', compact('requisicion', 'productos'));
 
     }
 
@@ -176,11 +176,26 @@ class PickingController extends Controller
                 ->enReserva()
                 ->sum('cantidad');
 
-            if ($lote['total'] - $total_reservado != 0) {
-                $lotesDisponibles[$lote['lote']] = [
-                    'total' => $lote['total'] - $total_reservado,
-                    'fecha_vencimiento' => $lote['fecha_vencimiento']
-                ];
+            $total_disponible = $lote['total'] - $total_reservado;
+
+            $esta_lote_disponible = $total_disponible > 0;
+            if ($esta_lote_disponible) {
+                $lote_ubicacion = $lote['lote'] . '-' . $lote['ubicacion'];
+                $fecha_vencimiento = $lote['fecha_vencimiento'];
+                if (!array_key_exists($lote_ubicacion, $lotesDisponibles)) {
+                    $lotesDisponibles[$lote_ubicacion] = [
+                        'total' => $total_disponible,
+                        'fecha_vencimiento' => $fecha_vencimiento
+                    ];
+
+                } else {
+                    $total_previo = $lotesDisponibles[$lote_ubicacion]['total'];
+                    $lotesDisponibles[$lote_ubicacion] = [
+                        'total' => $total_previo + $total_disponible,
+                        'fecha_vencimiento' => $fecha_vencimiento
+                    ];
+                }
+
             }
 
 
@@ -190,6 +205,56 @@ class PickingController extends Controller
         return $lotesDisponibles;
     }
 
+    private function despachar_reservas($requisicion)
+    {
+
+
+        $requisicion
+            ->reservas()
+            ->update
+            (
+                ['estado' => 'D']
+            );
+
+    }
+
+    private function despachar_requisicion($requisicion)
+    {
+        $requisicion->estado = 'D';
+        $requisicion->update();
+
+        $requisicion
+            ->detalle()
+            ->update(
+                ['estado' => 'D']
+            );
+    }
+
+    private function despachar_orden_picking($picking)
+    {
+        $picking->fecha_fin = Carbon::now();
+        $picking->id_usuario = Auth::user()->id;
+        $picking->estado = 'D';
+        $picking->update();
+    }
+
+    private function rebajar_inventario($requisicion)
+    {
+        foreach ($requisicion->reservas as $reserva) {
+
+            $movimientos = new Movimientos();
+            $movimientos->salida_producto(
+                $reserva->ubicacion()->first(),
+                $reserva->producto,
+                $reserva->lote,
+                $reserva->fecha_vencimiento,
+                $reserva->cantidad,
+                $requisicion->no_orden_produccion,
+                Auth::user()
+            );
+
+        }
+    }
 
     public function store(Request $request)
     {
@@ -201,43 +266,13 @@ class PickingController extends Controller
             $picking = Picking::where('id_requisicion', $requisicion->id)->first();
             if ($picking->enProceso()) {
                 DB::beginTransaction();
-                //LA RESERVAS PASAN A SER DESPACHADAS
-                $requisicion
-                    ->reservas()
-                    ->update
-                    (
-                        ['estado' => 'D']
-                    );
-                //EL DETALLE DE REQUISICION PASA A SER DESPACHADO
-                $requisicion
-                    ->detalle()
-                    ->update(
-                        ['estado' => 'D']
-                    );
-                //LA REQUISICION SE DESPACHA.
-                $requisicion->estado = 'D';
-                $requisicion->update();
 
-                //EL PICKING SE DESPACHA.
-                $picking->fecha_fin = Carbon::now();
-                $picking->id_usuario = Auth::user()->id;
-                $picking->estado = 'D';
-                $picking->update();
+                $this->despachar_reservas($requisicion);
+                $this->despachar_requisicion($requisicion);
+                $this->despachar_orden_picking($picking);
+                $this->rebajar_inventario($requisicion);
 
-                foreach ($requisicion->reservas as $reserva) {
 
-                    $movimientos = new Movimientos();
-                    $movimientos->salida_producto(
-                        $reserva->bodega,
-                        $reserva->producto,
-                        $reserva->lote,
-                        $reserva->fecha_vencimiento,
-                        $reserva->cantidad,
-                        $requisicion->no_orden_produccion,
-                        Auth::user()
-                    );
-
-                }
                 DB::commit();
             }
             return redirect()
@@ -337,68 +372,90 @@ class PickingController extends Controller
     }
 
 
-    private function generarListadoLotesDespachar($requisicion)
+    private function reservas_previas($requisicion)
     {
-        //RESERVAS DE LA MISMA REQUISICION.
+
         $reservas = $requisicion
             ->reservas()
             ->select('*', DB::raw('sum(cantidad) as total'))
             ->groupBy('id_producto')
             ->get();
 
+        return $reservas;
+
+    }
+
+    private function total_reservado($id_producto, $reservas)
+    {
+
+        $producto = $reservas
+            ->where('id_producto', $id_producto)
+            ->first();
+
+
+        //SI TIENE RESERVA, obtengo el total.
+        if ($producto != null) {
+            $cantidadReserva = $producto->total;
+        } else {
+            $cantidadReserva = 0;
+        }
+
+        return $cantidadReserva;
+
+    }
+
+    private function generarListadoLotesDespachar($requisicion)
+    {
+        //RESERVAS DE LA MISMA REQUISICION.
+        $reservas = $this->reservas_previas($requisicion);
+
 
         $detalles_requisicion = $requisicion->detalle()->groupBy('id_producto')->get();
 
         foreach ($detalles_requisicion as $detalle_requisicion) {
 
-            //PRODUCTO CON RESERVA
-            $producto = $reservas
-                ->where('id_producto', $detalle_requisicion->id_producto)
-                ->first();
-
-
-            //SI TIENE RESERVA, obtengo el total.
-            if ($producto != null) {
-                $cantidadReserva = $producto->total;
-            } else {
-                $cantidadReserva = 0;
-            }
+            //CANTIDAD YA RESERVADA. (0 en caso de no haber)
+            $cantidadReserva = $this->total_reservado($detalle_requisicion->id_producto, $reservas);
 
             $cantidadEntrante = $detalle_requisicion->cantidad - $cantidadReserva;
 
-            // EXISTENCIA DE UN PRODUCTO
-            $existencia = $this->productos->existencia($detalle_requisicion->producto->codigo_barras);
+            // LOTES CON INVENTARIO DISPONIBLE
+            $lotes = $this
+                ->productos
+                ->existencia($detalle_requisicion->producto->codigo_barras)
+                ->map
+                ->only(['total', 'lote', 'fecha_vencimiento', 'ubicacion']);
 
-
-            //LOS LOTES Y LAS CANTIDAD DE LA EXISTENCIA DEVUELTA
-            $lotes = $existencia->map->only(['total', 'lote', 'fecha_vencimiento']);
 
             //LOS LOTES QUE SI PODES UTILIZAR PORQUE NO HA SIDO RESERVADOS.
             $lotesDisponibles = $this->getLotesDisponibles($lotes, $detalle_requisicion->id_producto);
+
 
             if (!empty($lotesDisponibles)) {
 
                 foreach ($lotesDisponibles as $lote => $cantidadDisponible) {
 
+                    $codigo_ubicacion = explode('-', $lote)[1];
+                    $no_lote = explode('-', $lote)[0];
 
-                    $ubicacion = Bodega::where('codigo_barras', $existencia->where('lote', $lote)->first()->ubicacion)->first();
+                    $ubicacion = Sector::where('codigo_barras', $codigo_ubicacion)->first();
+
                     $reserva = new ReservaPicking();
                     $reserva->id_producto = $detalle_requisicion->id_producto;
-                    $reserva->lote = $lote;
+                    $reserva->lote = $no_lote;
                     $reserva->fecha_vencimiento = $cantidadDisponible['fecha_vencimiento'];
                     $reserva->id_requisicion = $detalle_requisicion->requision_encabezado->id;
-                    $reserva->id_bodega = $ubicacion->id_bodega;
+                    $reserva->id_bodega = $ubicacion->bodega->id_bodega;
                     $reserva->ubicacion = $ubicacion->codigo_barras;
                     $reserva->estado = 'P';
 
-                    if ($cantidadEntrante >= $cantidadDisponible['total']) {
+                    $esLoteConsumido = $cantidadEntrante >= $cantidadDisponible['total'];
+                    if ($esLoteConsumido) {
                         $reserva->cantidad = $cantidadDisponible['total'];
                         $reserva->save();
                         $cantidadEntrante = $cantidadEntrante - $cantidadDisponible['total'];
                     } else {
-
                         $reserva->cantidad = $cantidadEntrante;
-
                         if ($cantidadEntrante != 0) {
                             $reserva->save();
                         }
