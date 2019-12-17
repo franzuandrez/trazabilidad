@@ -31,7 +31,7 @@ class ReservaPicking extends Model
     ];
 
     public $with = [
-        'producto', 'bodega', 'usuario_picking'
+        'producto', 'bodega', 'usuario_picking','ubicacion'
     ];
 
     public function requisicion()
@@ -55,7 +55,7 @@ class ReservaPicking extends Model
     public function ubicacion()
     {
 
-        return $this->belongsTo('App\Ubicacion', 'id_ubicacion');
+        return $this->belongsTo('App\Sector', 'ubicacion','codigo_barras');
     }
 
     public function scopeEnReserva($query)
