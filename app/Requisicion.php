@@ -12,7 +12,7 @@ class Requisicion extends Model
     protected $primaryKey = 'id';
     public $timestamps = false;
 
-    public $with = ['detalle'];
+    public $with = ['detalle','reservas'];
     protected $fillable = [
 
         'no_requision',
