@@ -81,7 +81,7 @@ class Movimientos
         $movimiento->cantidad = $this->cantidad;
         $movimiento->id_producto = $this->producto->id_producto;
         $movimiento->fecha_hora_movimiento = \Carbon\Carbon::now();
-        $movimiento->ubicacion = $this->bodega->codigo_barras;
+        $movimiento->ubicacion = $this->sector->codigo_barras;
         $movimiento->lote = $this->lote;
         $movimiento->fecha_vencimiento = $this->fecha_vencimiento;
         $movimiento->clave_autorizacion = 1234;
