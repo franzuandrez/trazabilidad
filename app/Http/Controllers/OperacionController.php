@@ -68,7 +68,8 @@ class OperacionController extends Controller
     {
 
         $fecha_vencimiento = null;
-        $producto = Producto::where('codigo_interno', $request->get('codigo_interno'))
+        $producto = Producto::esProductoTerminado()
+            ->where('codigo_interno', $request->get('codigo_interno'))
             ->select('id_producto', 'descripcion', 'codigo_interno', 'dias_vencimiento', 'unidad_medida')
             ->first();
         if ($producto != null) {

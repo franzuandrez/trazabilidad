@@ -24,7 +24,7 @@
             <input type="text"
                    name="codigo_producto"
                    id="codigo_producto"
-                   onkeydown="if(event.keyCode==13)buscar_producto()"
+                   onkeydown="if(event.keyCode==13)buscar_producto_terminado()"
                    class="form-control">
         </div>
     </div>
@@ -119,10 +119,148 @@
         <div class="tab-content">
 
             <div class="tab-pane active" id="insumos">
+                <br>
+                <div style="display: none">
+                    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-6">
+                        <label for="materia_prima">MATERIA PRIMA</label>
+                        <div class="input-group">
+                            <input type="text"
+                                   name="materia_prima"
+                                   id="materia_prima"
+                                   onkeydown="if(event.keyCode==13)buscar_producto_mp()"
+                                   class="form-control">
+                            <div class="input-group-btn">
+                                <button
+                                    type="button" class="btn btn-default">
+                                    <i class="fa fa-search"
+                                       onclick="buscar_producto_mp()"
+                                       aria-hidden="true"></i>
+                                </button>
+                                <button type="button"
+                                        class="btn btn-default">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-6">
+                        <div class="form-group">
+                            <label for="producto_mp">PRODUCTO</label>
+                            <input type="text"
+                                   name="producto_mp"
+                                   id="producto_mp"
+                                   readonly
+                                   class="form-control">
+                        </div>
+                    </div>
 
 
+                    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-6">
+                        <div class="form-group">
+                            <label for="color">COLOR</label>
+                            <input type="text"
+                                   name="color"
+                                   id="color"
+                                   readonly
+                                   class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-6">
+                        <div class="form-group">
+                            <label for="olor">OLOR</label>
+                            <input type="text"
+                                   name="olor"
+                                   id="olor"
+                                   readonly
+                                   class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-sm-2 col-md-2 col-xs-4">
+                        <div class="form-group">
+                            <label for="impresion">IMPRESION</label>
+                            <select name="impresion"
+                                    id="impresion"
+                                    disabled
+
+                                    class="form-control selectpicker">
+                                <option value="S">SI</option>
+                                <option value="N">N/A</option>
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-sm-2 col-md-2 col-xs-4">
+                        <div class="form-group">
+                            <label for="ausencia_material">AUSENCIA DE MATERIAL EXTRAÑO</label>
+                            <select name="ausencia_material"
+                                    id="ausencia_material"
+                                    disabled
+                                    class="form-control selectpicker">
+                                <option value="S">SI</option>
+                                <option value="N">NO</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-sm-2 col-md-2 col-xs-4">
+
+                        <div class="form-group">
+                            <label for="cantidad_mp">CANTIDAD</label>
+                            <input type="text"
+                                   name="cantidad_mp"
+                                   id="cantidad_mp"
+                                   readonly
+                                   class="form-control">
+                        </div>
+
+                    </div>
+                    <div class="col-lg-2 col-sm-2 col-md-2 col-xs-4">
+                        <div class="form-group">
+                            <label for="ausencia_material">NO. LOTE</label>
+                            <input type="no_lote_mp"
+                                   name="no_lote_mp"
+                                   id="no_lote_mp"
+                                   readonly
+                                   class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="fecha_vencimiento">Fecha de Vencimiento</label>
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input id="fecha_vencimiento"
+                                       disabled
+                                       type="text" class="form-control pull-right" id="datepicker">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                    <table class="table table-bordered table-responsive">
+                        <thead style="background-color: #01579B;  color: #fff;">
+                        <tr>
+                            <th>MP</th>
+                            <th>COLOR</th>
+                            <th>OLOR</th>
+                            <th>IMPRESION</th>
+                            <th>AUSENCIA M.E.</th>
+                            <th>NO LOTE</th>
+                            <th>CANTIDAD</th>
+                            <th>FECHA VENC.</th>
+                        </tr>
+                        </thead>
+                        <tbody id="tbody_insumos">
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div class="tab-pane " id="involucrados">
+                <br>
                 <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
                     <div class="form-group">
                         <label for="actividades">ACTIVIDADES</label>
@@ -221,9 +359,16 @@
     {!!Form::close()!!}
 @endsection
 @section('scripts')
-
+    <script src="{{asset('js/moment.min.js')}}">
+    </script>
     <script>
+        var formato = 'D/M/Y';
 
+        $('.date').datepicker({
+            format: 'dd/mm/yyyy',
+            autoclose: true,
+            setDate: new Date()
+        });
         $(window).keydown(function (event) {
             if (event.keyCode == 13) {
                 event.preventDefault();
@@ -241,11 +386,13 @@
                 dataType: "json",
                 success: function (response) {
                     let orden_produccion = response.orden_produccion;
+                    console.log(orden_produccion)
                     if (orden_produccion == null) {
                         alert("Orden de produccion no encontrada");
                     } else if (orden_produccion.estado != 'D') {
                         alert("Orden de produccion en proceso ");
                     } else {
+                        cargar_insumos(orden_produccion.reservas);
                         document.getElementById('no_orden_produccion').readOnly = true;
                         document.getElementById('lote').readOnly = false;
                         document.getElementById('lote').focus();
@@ -260,7 +407,68 @@
 
         }
 
-        function buscar_producto() {
+        function cargar_insumos(insumos) {
+
+            let row = '';
+            insumos.forEach(function (insumo) {
+
+                row += `
+                    <tr>
+                        <td> ${insumo.producto.codigo_interno} </td>
+                        <td><input type="checkbox" name=color[]></td>
+                        <td><input type="checkbox" name=olor[]></td>
+                        <td><input type="checkbox" name=impresion[]></td>
+                        <td><input type="checkbox" name=ausencia_me[]></td>
+                        <td><input type="hidden" name=lote[]>${insumo.lote}</td>
+                        <td><input type="hidden" name=cantidad[] value="${insumo.cantidad}">${insumo.cantidad}</td>
+                        <td><input type="hidden" name=no_lote[] value="${insumo.fecha_vencimiento}">  ${moment( insumo.fecha_vencimiento).format('DD/MM/Y')} </td>
+                    </tr>
+                `;
+            });
+
+
+            $('#tbody_insumos').append(row);
+        }
+
+        function buscar_producto_mp() {
+            let codigo_producto = document.getElementById('materia_prima').value;
+
+            $.ajax({
+                url: "{{url('registro/productos/search/')}}" + "/" + codigo_producto,
+                type: "get",
+                dataType: "json",
+                success: function (response) {
+
+                    let cantidadProductos = response.length;
+
+                    if (cantidadProductos == 0) {
+                        alert("Producto no encontrado");
+                    } else {
+                        let producto = response[0];
+                        document.getElementById('producto_mp').value = producto.descripcion;
+                        document.getElementById('materia_prima').value = producto.codigo_interno;
+                        document.getElementById('materia_prima').readOnly = true;
+                        document.getElementById('olor').readOnly = false;
+                        document.getElementById('color').readOnly = false;
+                        document.getElementById('color').focus();
+                        document.getElementById('impresion').disabled = false;
+                        document.getElementById('ausencia_material').disabled = false;
+                        $('#impresion').selectpicker('refresh');
+                        $('#ausencia_material').selectpicker('refresh');
+                        document.getElementById('cantidad_mp').readOnly = false;
+                        document.getElementById('no_lote_mp').readOnly = false;
+                        document.getElementById('fecha_vencimiento').disabled = false;
+
+                    }
+
+                },
+                error: function (e) {
+
+                }
+            })
+        }
+
+        function buscar_producto_terminado() {
 
             let codigo_interno = document.getElementById('codigo_producto').value;
 
@@ -508,6 +716,16 @@
             } else {
                 $('#act-' + id_actividad + '-col-' + id_colaborador).remove();
             }
+        }
+
+        function agregar_insumo() {
+
+            const producto_element = $('#producto_mp');
+            const color_element = $('#color');
+            const olor_element = $('#olor');
+            const impresion_element = $('#impresion');
+            const ausencia_material_element = $('#ausencia_material');
+
         }
     </script>
 @endsection
