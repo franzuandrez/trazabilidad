@@ -59,7 +59,9 @@
                     </td>
                     <td>
                         <input type="hidden" name="ubicacion[]" value="{{$reserva->ubicacion}}">
-                        {{$reserva->ubicacion}}
+                        {{$reserva->ubicacion()->first()->bodega->descripcion}}
+                        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                        {{$reserva->ubicacion()->first()->descripcion}}
                     </td>
                 </tr>
             @endforeach
