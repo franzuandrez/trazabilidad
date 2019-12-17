@@ -9,7 +9,7 @@
                           'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
-                          'field'=>'bodega',
+                          'field'=>'ubicacion',
                           'titulo'=>'UBICACION'])
 
                 </th>
