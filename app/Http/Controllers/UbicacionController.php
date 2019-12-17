@@ -211,7 +211,7 @@ class UbicacionController extends Controller
 
     public function buscar_by_codigo($codigo)
     {
-        $ubicacion = Bodega::where('codigo_barras','=',$codigo)
+        $ubicacion = Sector::where('codigo_barras','=',$codigo)
             ->get();
 
         return response()->json($ubicacion);
