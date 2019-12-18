@@ -164,7 +164,7 @@ class OperacionController extends Controller
             DB::commit();
             return redirect()
                 ->route('produccion.operacion.index')
-                ->with('success','Orden creada correctamente');
+                ->with('success', 'Orden creada correctamente');
 
         } catch (\Exception $ex) {
 
@@ -175,5 +175,21 @@ class OperacionController extends Controller
         }
 
 
+    }
+
+    public function show($id)
+    {
+
+        $operacion = Operacion::findOrFail($id)
+            ->with('detalle_insumos')
+            ->with('asistencias')
+            ->with('producto')
+            ->first();
+
+
+
+        return view('produccion.control_trazabilidad.show', [
+            'operacion' => $operacion
+        ]);
     }
 }

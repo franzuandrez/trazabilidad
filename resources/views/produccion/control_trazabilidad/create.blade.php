@@ -525,6 +525,7 @@
                     }
                 },
                 error: function (e) {
+                    alert("Producto no encontrado");
                     console.log(e);
                 }
             })

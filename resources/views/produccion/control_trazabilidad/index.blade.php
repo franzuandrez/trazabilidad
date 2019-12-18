@@ -33,6 +33,12 @@
                            'titulo'=>'LOTE'])
 
                 </th>
+                <th>
+                    @include('componentes.column-sort',[
+                           'field'=>'control_trazabilidad.created_at',
+                           'titulo'=>'Fecha'])
+
+                </th>
 
                 </thead>
                 <tbody>
@@ -54,6 +60,9 @@
                         </td>
                         <td>
                             {{$operacion->lote}}
+                        </td>
+                        <td>
+                            {{$operacion->created_at->format('d/m/Y H:i:s')}}
                         </td>
                     </tr>
 
