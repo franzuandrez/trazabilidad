@@ -12,6 +12,13 @@ class DetalleInsumo extends Model
     protected $primaryKey = 'id_detalle_insumo';
 
     public $timestamps = false;
+
+    public $with = [
+        'producto'
+    ];
+    public $dates = [
+        'fecha_vencimiento'
+    ];
     protected $fillable =
         [
             'id_control',
@@ -23,4 +30,9 @@ class DetalleInsumo extends Model
             'fecha_vencimiento',
             'cantidad'
         ];
+
+    public function producto(){
+
+        return $this->belongsTo(Producto::class,'id_producto','id_producto');
+    }
 }
