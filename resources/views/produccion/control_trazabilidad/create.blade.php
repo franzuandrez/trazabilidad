@@ -1,6 +1,15 @@
 @extends('layouts.admin')
 @section('style')
     <link href="{{asset('css/loading.css')}}" rel="stylesheet">
+    <style>
+        .ocultar {
+            visibility: hidden;
+        }
+
+        .mostrar {
+            visibility: visible;
+        }
+    </style>
 @endsection
 @section('contenido')
     @component('componentes.nav',['operation'=>'Crear',
@@ -72,9 +81,9 @@
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="lote">LOTE</label>
+            <label for="lote_pt">LOTE</label>
             <input type="text"
-                   name="lote"
+                   name="lote_pt"
                    id="lote"
                    readonly
                    class="form-control">
@@ -407,6 +416,18 @@
 
         }
 
+        function mostrar_icono_observaciones(element) {
+
+            element.children[1].classList.add('mostrar');
+            element.children[1].classList.remove('ocultar');
+
+        }
+
+        function remover_icono_observaciones(element) {
+            element.children[1].classList.add('ocultar');
+            element.children[1].classList.remove('mostrar');
+        }
+
         function cargar_insumos(insumos) {
 
             let row = '';
@@ -414,14 +435,27 @@
 
                 row += `
                     <tr>
-                        <td> ${insumo.producto.codigo_interno} </td>
-                        <td><input type="checkbox" name=color[]></td>
-                        <td><input type="checkbox" name=olor[]></td>
-                        <td><input type="checkbox" name=impresion[]></td>
-                        <td><input type="checkbox" name=ausencia_me[]></td>
-                        <td><input type="hidden" name=lote[]>${insumo.lote}</td>
+                        <td  >
+                            <input type="hidden" name='id_producto_mp[]' value="${insumo.producto.id_producto}">
+                            ${insumo.producto.codigo_interno}
+                        </td>
+                        <td>
+                             <input type="hidden" name="color[]" value="0">
+                             <input type="checkbox" onclick="this.previousSibling.value=1-this.previousSibling.value">
+                        </td>
+                        <td>
+                                <input type="hidden" name=olor[] value="0">
+                                 <input type="checkbox" onclick="this.previousSibling.value=1-this.previousSibling.value">
+
+                            </td>
+                        <td><input type="hidden" name=impresion[] value="0">
+                                <input type="checkbox" onclick="this.previousSibling.value=1-this.previousSibling.value">
+                            </td>
+                        <td><input type="hidden" name=ausencia_me[] value=0>
+                        <input type="checkbox" onclick="this.previousSibling.value=1-this.previousSibling.value"></td>
+                        <td><input type="hidden" name=lote[] value="${insumo.lote}" >${insumo.lote}</td>
                         <td><input type="hidden" name=cantidad[] value="${insumo.cantidad}">${insumo.cantidad}</td>
-                        <td><input type="hidden" name=no_lote[] value="${insumo.fecha_vencimiento}">  ${moment( insumo.fecha_vencimiento).format('DD/MM/Y')} </td>
+                        <td><input type="hidden" name=fecha_vencimiento[] value="${(insumo.fecha_vencimiento)}">  ${moment(insumo.fecha_vencimiento).format('DD/MM/Y')} </td>
                     </tr>
                 `;
             });

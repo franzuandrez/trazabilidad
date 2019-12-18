@@ -41,6 +41,6 @@ class Operacion extends Model
 
     public function producto()
     {
-        $this->belongsTo(Producto::class, 'id_producto', 'id_producto');
+        return $this->belongsTo(Producto::class, 'id_producto', 'id_producto');
     }
 }
