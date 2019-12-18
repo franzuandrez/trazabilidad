@@ -13,6 +13,9 @@ class Operacion extends Model
 
     public $timestamps = true;
 
+    public $dates = [
+        'fecha_vencimiento'
+    ];
     protected $fillable = [
         'id_producto',
         'id_turno',
@@ -26,6 +29,7 @@ class Operacion extends Model
         'id_usuario',
     ];
 
+
     public function detalle_insumos()
     {
 
@@ -36,11 +40,17 @@ class Operacion extends Model
     public function asistencias()
     {
 
-        return $this->hasMany(Asistencia::class, 'id_control', 'id_control');
+        return $this->hasMany(OperariosInvolucrados::class, 'id_control', 'id_control');
     }
 
     public function producto()
     {
         return $this->belongsTo(Producto::class, 'id_producto', 'id_producto');
+    }
+
+    public function actividades(){
+
+        return $this->asistencias()->groupBy('id_actividad');
+
     }
 }
