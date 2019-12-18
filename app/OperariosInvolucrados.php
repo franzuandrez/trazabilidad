@@ -24,6 +24,10 @@ class OperariosInvolucrados extends Model
         'fecha_hora_asociacion',
         'fecha_asistencia'
     ];
+    public $with = [
+        'actividad',
+        'colaborador'
+    ];
 
     public function operacion() {
 
