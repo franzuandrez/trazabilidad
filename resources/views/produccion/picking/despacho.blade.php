@@ -238,9 +238,9 @@
             let id_producto = document.getElementById('id_producto').value;
             let lote = document.getElementById('lote').value;
             let cantidad = parseFloat(document.getElementById('cantidad').value);
-            let producto = getProducto(id_producto, lote);
-            let ubicacion = document.getElementById('ubicacion').value;
 
+            let ubicacion = document.getElementById('ubicacion').value;
+            let producto = getProducto(id_producto, lote).filter(e=>e.ubicacion.codigo_barras==ubicacion);
             if (producto.length == 0) {
                 alert("Producto y lote incorrecto");
             } else {
@@ -384,6 +384,8 @@
 
                             if (posicion_valida == null) {
                                 alert("El producto no se encuentra en esta ubicacion");
+                                document.getElementById('ubicacion').value="";
+                                document.getElementById('ubicacion').focus();
                                 return;
                             }
                             document.getElementById('cantidad').readOnly = false;

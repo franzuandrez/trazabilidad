@@ -764,7 +764,7 @@ class RecepcionController extends Controller
             foreach ($productos as $key => $id_producto) {
 
                 $producto = Producto::findOrFail($id_producto);
-                $ubicacion = Sector::where('id_bodega', $request->get('ubicacion')[$key])->first();
+                $ubicacion = Sector::where('id_sector', $request->get('ubicacion')[$key])->first();
 
                 $lote = $request->get('lote')[$key];
 
