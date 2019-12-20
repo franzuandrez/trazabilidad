@@ -1,11 +1,13 @@
 <?php
+
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\Auth;
+
 use App\LineaChaomin;
 use App\Presentacion;
-use App\Sector;
 use App\User;
+use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ChaomeanController extends Controller
 {
@@ -18,6 +20,7 @@ class ChaomeanController extends Controller
     {
         $this->middleware('auth');
     }
+
     public function index(Request $request)
     {
         //
@@ -27,20 +30,20 @@ class ChaomeanController extends Controller
 
 
         $lineas = LineaChaomin::select('chaomin.*')
-            ->where(function ($query) use ($search){
-                $query->where('chaomin.no_orden_produccion','LIKE','%'.$search.'%')
-                    ->orWhere('chaomin.id_turno','LIKE','%'.$search.'%');
+            ->where(function ($query) use ($search) {
+                $query->where('chaomin.no_orden_produccion', 'LIKE', '%' . $search . '%')
+                    ->orWhere('chaomin.id_turno', 'LIKE', '%' . $search . '%');
             })
-            ->orderBy($sortField,$sort)
+            ->orderBy($sortField, $sort)
             ->paginate(20);
 
 
-        if($request->ajax()){
+        if ($request->ajax()) {
 
-            return view('control.chaomin.index',compact('lineas','search','sort','sortField'));
+            return view('control.chaomin.index', compact('lineas', 'search', 'sort', 'sortField'));
 
-        }else{
-            return view('control.chaomin.ajax',compact('lineas','search','sort','sortField'));
+        } else {
+            return view('control.chaomin.ajax', compact('lineas', 'search', 'sort', 'sortField'));
         }
     }
 
@@ -52,15 +55,15 @@ class ChaomeanController extends Controller
     public function create()
     {
         //
-        $presentaciones =Presentacion::actived()->get();
+        $presentaciones = Presentacion::actived()->get();
         $responsables = User::actived()->get();
-        return view('control.chaomin.create',compact('presentaciones','responsables'));
+        return view('control.chaomin.create', compact('presentaciones', 'responsables'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -121,9 +124,6 @@ class ChaomeanController extends Controller
         $linea_chaomin->velocidad_pasi180_observaciones = $request->get('velocidad_pasi180_observaciones');
 
 
-
-
-
         $linea_chaomin->velocidad_pasm160_inicial = $request->get('velocidad_pasm160_inicial');
         $linea_chaomin->velocidad_pasm160_final = $request->get('velocidad_pasm160_final');
         $linea_chaomin->velocidad_pasm160_observaciones = $request->get('velocidad_pasm160_observaciones');
@@ -154,21 +154,21 @@ class ChaomeanController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         //
-        $presentaciones =Presentacion::actived()->get();
+        $presentaciones = Presentacion::actived()->get();
         $chaomin = LineaChaomin::findOrFail($id);
-        return view('control.chaomin.show',compact('chaomin','presentaciones'));
+        return view('control.chaomin.show', compact('chaomin', 'presentaciones'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -179,8 +179,8 @@ class ChaomeanController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -191,11 +191,55 @@ class ChaomeanController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         //
+    }
+
+    public function iniciar_linea_chaomein(Request $request)
+    {
+
+
+
+        try {
+            $linea_chaomin = new LineaChaomin();
+            $linea_chaomin->no_orden_produccion = $request->no_orden_produccion;
+            $linea_chaomin->save();
+
+            $response = [
+                'status' => 1,
+                'message' => 'Creado correctamente',
+
+            ];
+        } catch (\Exception $ex) {
+
+            $response = [
+                'status' => 0,
+                'message' => $ex->getMessage(),
+            ];
+        }
+
+        return response()->json($response);
+
+    }
+
+    public function nuevo_registro(Request $request)
+    {
+        $id_model = $request->id_model;
+        $field = $request->field;
+        $value = $request->value;
+
+        $rows = DB::table('linea_chaomin')
+            ->where('id_chaomin', $id_model)
+            ->update([$field => $value]);
+
+        return response()->json([
+            'rows_affected' => $rows
+        ]);
+
+
     }
 }

@@ -279,12 +279,14 @@ Route::get('movimientos/existencia/productos','MovimientoController@existencia')
 
 Route::get('control/chaomin','ChaomeanController@index')->name('chaomin.index');
 Route::get('control/chaomin/create','ChaomeanController@create')->name('chaomin.create');
+Route::post('control/chaomin/iniciar','ChaomeanController@iniciar_linea_chaomein')->name('chaomin.iniciar');
 Route::post('control/chaomin/create','ChaomeanController@store')->name('chaomin.store');
 Route::get('control/chaomin/{id}/edit','ChaomeanController@edit')->name('chaomin.edit');
 Route::patch('control/chaomin/{id}','ChaomeanController@update')->name('chaomin.update');
 Route::get('control/chaomin/{id}','ChaomeanController@show')->name('chaomin.show');
 Route::post('control/chaomin/{id}','ChaomeanController@destroy')->name('chaomin.destroy');
 Route::get('control/chaomin','ChaomeanController@index')->name('chaomin.index');
+
 
 
 Route::get('control/mezcla_harina','HarinaController@index')->name('mezcla_harina.index');
