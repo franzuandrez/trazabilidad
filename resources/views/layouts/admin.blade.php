@@ -133,7 +133,7 @@
                                 <li>
                                     <a href="{{url('registro/sectores')}}">
                                         <i class="fa fa-square-o" aria-hidden="true"></i>
-                                        Sectores
+                                        Areas
                                     </a>
                                 </li>
                             @endcan
