@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\LineaChaomin;
+use App\Operacion;
 use App\Presentacion;
 use App\User;
 use DB;
@@ -202,18 +203,43 @@ class ChaomeanController extends Controller
     public function iniciar_linea_chaomein(Request $request)
     {
 
+        $orden_produccion = $request->no_orden_produccion;
+        $existe_orden_produccion = Operacion::where('no_orden_produccion', $orden_produccion)
+            ->exists();
 
 
         try {
-            $linea_chaomin = new LineaChaomin();
-            $linea_chaomin->no_orden_produccion = $request->no_orden_produccion;
-            $linea_chaomin->save();
 
-            $response = [
-                'status' => 1,
-                'message' => 'Creado correctamente',
 
-            ];
+            if ($existe_orden_produccion) {
+
+                $control_iniciado = LineaChaomin::where('no_orden_produccion', $orden_produccion)
+                    ->exists();
+                if ($control_iniciado) {
+                    $response = [
+                        'status' => 0,
+                        'message' => 'Linea de chaomin ya iniciada'
+                    ];
+                } else {
+                    $linea_chaomin = new LineaChaomin();
+                    $linea_chaomin->no_orden_produccion = $orden_produccion;
+                    $linea_chaomin->save();
+
+                    $response = [
+                        'status' => 1,
+                        'message' => 'Creado correctamente',
+                        'id'=>$linea_chaomin->id_chaomin
+                    ];
+                }
+
+
+            } else {
+                $response = [
+                    'status' => 0,
+                    'message' => 'Orden de produccion no existente'
+                ];
+            }
+
         } catch (\Exception $ex) {
 
             $response = [
@@ -232,13 +258,33 @@ class ChaomeanController extends Controller
         $field = $request->field;
         $value = $request->value;
 
-        $rows = DB::table('linea_chaomin')
-            ->where('id_chaomin', $id_model)
-            ->update([$field => $value]);
+        DB::enableQueryLog();
+        try {
+            $rows = DB::table('chaomin')
+                ->where('id_chaomin', $id_model)
+                ->update([$field => $value]);
 
-        return response()->json([
-            'rows_affected' => $rows
-        ]);
+            if ($rows > 0) {
+                $response = [
+                    'status' => 1,
+                    'message' => 'Insertado correctamente',
+
+                ];
+            } else {
+                $response = [
+                    'status' => 0,
+                    'message' => 'No se ha podido insertar el registro',
+                ];
+            }
+        } catch (\Exception $ex) {
+            $response = [
+                'status' => 0,
+                'message' => $ex->getMessage(),
+            ];
+        }
+
+
+        return response()->json($response);
 
 
     }

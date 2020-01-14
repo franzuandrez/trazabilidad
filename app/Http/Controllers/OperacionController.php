@@ -119,6 +119,7 @@ class OperacionController extends Controller
     {
 
 
+
         try {
             DB::beginTransaction();
 
@@ -180,11 +181,7 @@ class OperacionController extends Controller
     public function show($id)
     {
 
-        $operacion = Operacion::findOrFail($id)
-            ->with('detalle_insumos')
-            ->with('asistencias')
-            ->with('producto')
-            ->first();
+        $operacion = Operacion::findOrFail($id);
 
 
 

@@ -95,15 +95,7 @@
                    class="form-control">
         </div>
     </div>
-    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
-        <div class="form-group">
-            <label for="solucion_carga">DATO FINAL</label>
-            <input type="text" name="cant_carga_salida" id="cant_carga_salida" readonly
-                   readonly
-                   value="{{$chaomin->cant_carga_salida}}"
-                   class="form-control ">
-        </div>
-    </div>
+
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="cantidad_solucion_observacion">OBSERVACIONES</label>
@@ -143,15 +135,7 @@
         </div>
     </div>
 
-    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
-        <div class="form-group">
-            <label for="ph_solucion">DATO FINAL</label>
-            <input type="text" name="ph_solucion_final" id="ph_solucion_final" readonly
-                   readonly
-                   value="{{$chaomin->ph_solucion_final}}"
-                   class="form-control">
-        </div>
-    </div>
+
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="ph_solucion_observacion">OBSERVACIONES</label>
@@ -190,15 +174,7 @@
                    class="form-control">
         </div>
     </div>
-    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
-        <div class="form-group">
-            <label for="ph_solucion">DATO FINAL</label>
-            <input type="text" name="mezcla_seca_final" id="mezcla_seca_final" readonly
-                   readonly
-                   value="{{$chaomin->mezcla_seca_final}}"
-                   class="form-control">
-        </div>
-    </div>
+
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="mezcla_seca_observacion">OBSERVACIONES</label>
@@ -238,15 +214,6 @@
         </div>
     </div>
 
-    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
-        <div class="form-group">
-            <label for="mezcla_alta">DATO FINAL</label>
-            <input type="text" name="mezcla_alta_final" id="mezcla_alta_final" READONLY
-                   readonly
-                   value="{{$chaomin->mezcla_alta_final}}"
-                   class="form-control">
-        </div>
-    </div>
 
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
@@ -287,15 +254,7 @@
                    class="form-control">
         </div>
     </div>
-    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
-        <div class="form-group">
-            <label for="DATO_FINAL">DATO FINAL</label>
-            <input type="text" name="mezcla_baja_final" id="mezcla_baja_final" READONLY
-                   readonly
-                   value="{{$chaomin->mezcla_baja_final}}"
-                   class="form-control">
-        </div>
-    </div>
+
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="mezcla_baja_observacion">OBSERVACIONES</label>
@@ -332,15 +291,7 @@
                    class="form-control">
         </div>
     </div>
-    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
-        <div class="form-group">
-            <label for="dato_final">DATO FINAL</label>
-            <input type="text" name="temperatura_reposo_final" id="temperatura_reposo_final" readonly
-                   readonly
-                   value="{{$chaomin->temperatura_reposo_final}}"
-                   class="form-control">
-        </div>
-    </div>
+
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="temperatura_reposo_observacion">OBSERVACIONES</label>
@@ -377,15 +328,7 @@
                    class="form-control">
         </div>
     </div>
-    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
-        <div class="form-group">
-            <label for="dato_final">DATO FINAL</label>
-            <input type="text" name="ancho_cartucho_final" id="ancho_cartucho_final" readonly
-                   readonly
-                   value="{{$chaomin->ancho_cartucho_final}}"
-                   class="form-control">
-        </div>
-    </div>
+
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="ancho_cartucho_observacion">OBSERVACIONES</label>
@@ -422,15 +365,7 @@
                    class="form-control">
         </div>
     </div>
-    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
-        <div class="form-group">
-            <label for="dato_final">DATO FINAL</label>
-            <input type="text" name="temperatura_precocedora_1_final" id="temperatura_precocedora_1_final" readonly=""
-                   readonly
-                   value="{{$chaomin->temperatura_precocedora_1_final}}"
-                   class="form-control">
-        </div>
-    </div>
+
 
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
@@ -468,15 +403,7 @@
                    class="form-control">
         </div>
     </div>
-    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
-        <div class="form-group">
-            <label for="dato_final">DATO FINAL</label>
-            <input type="text" name="tiempo_precocedora_1_final" id="tiempo_precocedora_1_final" readonly
-                   readonly
-                   value="{{$chaomin->tiempo_precocedora_1_final}}"
-                   class="form-control">
-        </div>
-    </div>
+
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="tiempo_precedore_1_observacion">OBSERVACIONES</label>
@@ -512,15 +439,7 @@
                    class="form-control">
         </div>
     </div>
-    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
-        <div class="form-group">
-            <label for="dato_final">DATO FINAL</label>
-            <input type="text" name="temperatura_precocedora_2_final" id="temperatura_precocedora_2_final" readonly=""
-                   readonly
-                   value="{{$chaomin->temperatura_precocedora_2_final}}"
-                   class="form-control">
-        </div>
-    </div>
+
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="temperatura_precocedora_1_observacion">OBSERVACIONES</label>
@@ -556,14 +475,7 @@
                    class="form-control">
         </div>
     </div>
-    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
-        <div class="form-group">
-            <label for="dato_final">DATO FINAL</label>
-            <input type="text" name="tiempo_precocedora_2_final" id="tiempo_precocedora_2_final" readonly
-                   value="{{old('tiempo_precocedora_2_final')}}"
-                   class="form-control">
-        </div>
-    </div>
+
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="tiempo_precedore_2_observacion">OBSERVACIONES</label>
@@ -598,15 +510,7 @@
                    class="form-control">
         </div>
     </div>
-    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
-        <div class="form-group">
-            <label for="dato_final">DATO FINAL</label>
-            <input type="text" name="temperatura_central_final" id="temperatura_central_final" readonly
-                   readonly
-                   value="{{$chaomin->temperatura_central_final}}"
-                   class="form-control">
-        </div>
-    </div>
+
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="temperatura_central_observaciones">OBSERVACIONES</label>
@@ -641,15 +545,7 @@
                    class="form-control">
         </div>
     </div>
-    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
-        <div class="form-group">
-            <label for="dato_final">DATO FINAL</label>
-            <input type="text" name="velocidad_pass200_final" id="velocidad_pass200_final" readonly
-                   readonly
-                   value="{{$chaomin->velocidad_pass200_final}}"
-                   class="form-control">
-        </div>
-    </div>
+
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="velocidad_pass200_observaciones">OBSERVACIONES</label>
@@ -683,22 +579,13 @@
                    class="form-control">
         </div>
     </div>
-    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
-        <div class="form-group">
-            <label for="dato_final">DATO FINAL</label>
-            <input type="text" name="velocidad_pasc180_final" id="velocidad_pasc180_final" readonly
-                   readonly
-                   value="{{$chaomin->velocidad_pasc180_final}}"
-                   class="form-control">
-        </div>
-    </div>
 
 
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="velocidad_pasc180_observaciones">OBSERVACIONES</label>
             <input type="text" name="velocidad_pasc180_observaciones" id="velocidad_pasc180_observaciones" readonly
-                   value="{{old('velocidad_pasc180_observaciones')}}"
+                   value="{{$chaomin->velocidad_pasc180_observaciones}}"
                    class="form-control">
         </div>
     </div>
@@ -726,15 +613,8 @@
                    class="form-control">
         </div>
     </div>
-    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
-        <div class="form-group">
-            <label for="dato_final">DATO FINAL</label>
-            <input type="text" name="velocidad_pask180_final" id="velocidad_pask180_final" readonly
-                   readonly
-                   value="{{$chaomin->velocidad_pask180_final}}"
-                   class="form-control">
-        </div>
-    </div>
+
+
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="velocidad_pask180_observaciones">OBSERVACIONES</label>
@@ -768,15 +648,7 @@
                    class="form-control">
         </div>
     </div>
-    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
-        <div class="form-group">
-            <label for="dato_final">DATO FINAL</label>
-            <input type="text" name="velocidad_pasi180_final" id="velocidad_pasi180_final"
-                   readonly
-                   value="{{$chaomin->velocidad_pasi180_final}}"
-                   class="form-control">
-        </div>
-    </div>
+
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="velocidad_pasi180_observaciones">OBSERVACIONES</label>
@@ -810,15 +682,7 @@
                    class="form-control">
         </div>
     </div>
-    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
-        <div class="form-group">
-            <label for="dato_final">DATO FINAL</label>
-            <input type="text" name="velocidad_pasm160_final" id="velocidad_pasm160_final" readonly
-                   readonly
-                   value="{{$chaomin->velocidad_pasm160_final}}"
-                   class="form-control">
-        </div>
-    </div>
+
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="velocidad_pasm160_observaciones">OBSERVACIONES</label>
@@ -855,19 +719,7 @@
             </select>
         </div>
     </div>
-    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
-        <div class="form-group">
-            <label for="dato_final">DATO FINAL</label>
-            <select class="form-control selectpicker" data-live-search="true" id="extractor_activo_final" DISABLED
-                    disabled
-                    name="extractor_activo_final">
-                <option value="" selected>{{ $chaomin->extractor_activo_final}}</option>
-                <!--<option value="" selected>SELECCIONE UNA OPCION</option> -->
-                <option value="SI">SI</option>
-                <option value="NO">NO</option>
-            </select>
-        </div>
-    </div>
+
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="extractor_activo_observaciones">OBSERVACIONES</label>
@@ -907,19 +759,7 @@
             </select>
         </div>
     </div>
-    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
-        <div class="form-group">
-            <label for="dato_final">DATO FINAL</label>
-            <select class="form-control selectpicker" data-live-search="true" id="ventilacion_final" DISABLED
-                    disabled
-                    name="ventilacion_final">
-                <option value="" selected>{{ $chaomin->ventilacion_inicial}}</option>
-                <!--<option value="" selected>SELECCIONE UNA OPCION</option> -->
-                <option value="SI">SI</option>
-                <option value="NO">NO</option>
-            </select>
-        </div>
-    </div>
+
 
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
@@ -1056,15 +896,7 @@
                    class="form-control">
         </div>
     </div>
-    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
-        <div class="form-group">
-            <label for="dato_final">DATO FINAL</label>
-            <input type="text" name="maquina_final" id="maquina_final"
-                   readonly
-                   value="{{$chaomin->maquina_final}}"
-                   class="form-control">
-        </div>
-    </div>
+
 
     <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
         <div class="form-group">

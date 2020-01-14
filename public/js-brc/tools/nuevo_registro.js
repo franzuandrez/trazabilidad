@@ -1,18 +1,20 @@
-
-function iniciar( url , no_orden_produccion) {
+function iniciar(url, no_orden_produccion) {
 
     return $.ajax(
         {
             type: "POST",
             url: url,
-            data:{
-                no_orden_produccion:no_orden_produccion,
+            data: {
+                no_orden_produccion: no_orden_produccion,
             },
             success: function (response) {
 
-                console.log(response)
+
+
+
+
             },
-            error:function ( error) {
+            error: function (error) {
                 console.log(error)
             }
         }
@@ -21,23 +23,22 @@ function iniciar( url , no_orden_produccion) {
 
 }
 
-function nuevo_registro(url,field,value,id) {
+function nuevo_registro(url, field, value, id) {
 
-    $.ajax(
+    return $.ajax(
         {
             type: "POST",
             url: url,
-            data:{
-                field:field,
-                value:value,
-                id_model:id
+            data: {
+                field: field,
+                value: value,
+                id_model: id
             },
-            contentType: false,
             success: function (response) {
 
 
             },
-            error:function ( error) {
+            error: function (error) {
 
             }
         }
