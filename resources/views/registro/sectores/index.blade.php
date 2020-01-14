@@ -36,7 +36,7 @@
                         'sort'=>$sort,
                         'sortField'=>$sortField,
                         'field'=>'bodega',
-                        'titulo'=>'bodega'])
+                        'titulo'=>'Area'])
                     @endcomponent
                 </th>
                 <th>
@@ -86,7 +86,7 @@
                         </td>
                     </tr>
                     @component('componentes.alert-delete',
-                ['model'=>'SECTOR',
+                ['model'=>'BODEGA',
                 'id'=>$sector->id_sector,
                 'method'=>'SectorController@destroy',
                 'extras'=>'',

@@ -16,7 +16,7 @@
             Registro
         @endslot
         @slot('submenu')
-            Bodegas
+            Area
         @endslot
     @endcomponent
 
@@ -44,7 +44,7 @@
     </div>
     @component('componentes.alert-no-selecction')
         @slot('mensaje')
-            SELECCIONE UNA BODEGA
+            SELECCIONE AREA
         @endslot
     @endcomponent
     <div id="content">

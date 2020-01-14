@@ -125,7 +125,7 @@
                                 <li>
                                     <a href="{{url('registro/bodegas')}}">
                                         <i class="fa fa-building-o" aria-hidden="true"></i>
-                                        Bodegas
+                                        Area
                                     </a>
                                 </li>
                             @endcan
@@ -133,7 +133,7 @@
                                 <li>
                                     <a href="{{url('registro/sectores')}}">
                                         <i class="fa fa-square-o" aria-hidden="true"></i>
-                                        Areas
+                                        Bodega
                                     </a>
                                 </li>
                             @endcan

@@ -17,16 +17,16 @@
     </tr>
     <tr>
         <td style="border: 1px solid #000"><strong>GENERADO </strong></td>
-        <td style="border: 1px solid #000" colspan="6">{{\Carbon\Carbon::now()->format('d/m/Y H:i:s')}}</td>
+        <td style="border: 1px solid #000" colspan="7">{{\Carbon\Carbon::now()->format('d/m/Y H:i:s')}}</td>
     </tr>
     <tr>
         <td style="border: 1px solid #000"><strong>USUARIO</strong></td>
-        <td style="border: 1px solid #000" colspan="6">{{\Auth::user()->nombre}}</td>
+        <td style="border: 1px solid #000" colspan="7">{{\Auth::user()->nombre}}</td>
     </tr>
     @if($parametros->start != null && $parametros->end != null)
         <tr>
             <td style="border: 1px solid #000"><strong>FECHA</strong></td>
-            <td style="border: 1px solid #000" colspan="6">
+            <td style="border: 1px solid #000" colspan="7">
                 {{\Carbon\Carbon::createFromFormat('Y-m-d',$parametros->start)->format('d/m/Y')}}
                 -
                 {{\Carbon\Carbon::createFromFormat('Y-m-d',$parametros->end)->format('d/m/Y')}}
@@ -37,13 +37,13 @@
     @if($parametros->id_select_search!=null)
         @if($parametros->id_select_search==0)
             <tr>
-                <td style="border: 1px solid #000"><strong>BODEGA</strong></td>
-                <td style="border: 1px solid #000" colspan="6">TRANSITO</td>
+                <td style="border: 1px solid #000"><strong>AREA</strong></td>
+                <td style="border: 1px solid #000" colspan="7">TRANSITO</td>
             </tr>
         @else
             <tr>
-                <td style="border: 1px solid #000"><strong>BODEGA</strong></td>
-                <td style="border: 1px solid #000" colspan="6">{{$collection->first()->bodega}}</td>
+                <td style="border: 1px solid #000"><strong>AREA</strong></td>
+                <td style="border: 1px solid #000" colspan="7">{{$collection->first()->bodega}}</td>
             </tr>
         @endif
     @endif
@@ -52,7 +52,7 @@
     @if($parametros->lote !=null)
         <tr>
             <td style="border: 1px solid #000"><strong>LOTE</strong></td>
-            <td style="border: 1px solid #000" colspan="6">{{$parametros->lote}}</td>
+            <td style="border: 1px solid #000" colspan="7">{{$parametros->lote}}</td>
         </tr>
     @endif
 
@@ -95,7 +95,7 @@
             @if($parametros->id_select_search==null)
                 <td style="border: 1px solid #000000">
                     @if($producto->id_bodega == 0)
-                        BODEGA TRANSITO
+                        AREA TRANSITO
                     @else
                         {{$producto->ubicacion}}
                     @endif

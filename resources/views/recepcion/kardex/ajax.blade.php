@@ -35,8 +35,8 @@
 
         @component('componentes.search-select'
              ,[
-             'busqueda'=>'BODEGA',
-             'default'=>'BODEGA TRANSITO',
+             'busqueda'=>'AREA',
+             'default'=>'AREA TRANSITO',
              'elements'=>$bodegas])
         @endcomponent
         <div class="col-lg-4 col-md-4 col-sm-5 col-xs-10 filtro-no-active" id="filtro">

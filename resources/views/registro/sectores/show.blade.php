@@ -10,7 +10,7 @@
             Registro
         @endslot
         @slot('submenu')
-            Sectores
+            Bodegas
         @endslot
     @endcomponent
 
@@ -31,9 +31,9 @@
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="id_encargado">BODEGA</label>
+            <label for="id_encargado">AREA</label>
             <select name="id_bodega" id="bodegas"  disabled class="form-control selectpicker">
-                <option value="">SELECCIONE BODEGA</option>
+                <option value="">SELECCIONE AREA</option>
                 @foreach($bodegas as $bodega)
                     @if($bodega->id_bodega == $sector->id_bodega)
                         <option selected value="{{$bodega->id_bodega}}">{{$bodega->descripcion}}</option>

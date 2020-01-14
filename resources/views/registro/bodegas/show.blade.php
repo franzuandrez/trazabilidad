@@ -10,7 +10,7 @@
             Registro
         @endslot
         @slot('submenu')
-            Bodegas
+            Area
         @endslot
     @endcomponent
 

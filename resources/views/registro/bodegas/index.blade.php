@@ -88,7 +88,7 @@
                         </td>
                     </tr>
                     @component('componentes.alert-delete',
-                    ['model'=>'BODEGA',
+                    ['model'=>'AREA',
                     'id'=>$bodega->id_bodega,
                     'method'=>'LocalidadController@destroy',
                     'extras'=>'',
