@@ -94,7 +94,7 @@ class SectorController extends Controller
         $sector->save();
 
         return redirect()->route('sectores.index')
-            ->with('success', 'Sector dado de alta correctamente');
+            ->with('success', 'Bodega dada de alta correctamente');
 
 
     }
@@ -117,7 +117,7 @@ class SectorController extends Controller
         } catch (\Exception $ex) {
 
             return redirect()->route('sectores.index')
-                ->withErrors(['error' => 'Sector no encontrado']);
+                ->withErrors(['error' => 'Bodega no encontrada']);
         }
     }
 
@@ -146,12 +146,12 @@ class SectorController extends Controller
             $sector->update();
 
             return redirect()->route('sectores.index')
-                ->with('success', 'Sector actualizado correctamente');
+                ->with('success', 'Bodega actualizada correctamente');
         } catch
         (\Exception $ex) {
 
             return redirect()->route('sectores.index')
-                ->withErrors(['error' => 'Sector no encontrado']);
+                ->withErrors(['error' => 'Bodega no encontrada']);
         }
 
     }
@@ -174,7 +174,7 @@ class SectorController extends Controller
         } catch (\Exception $ex) {
 
             return redirect()->route('sectores.index')
-                ->withErrors(['error' => 'Sector no encontrado']);
+                ->withErrors(['error' => 'Bodega no encontrada']);
         }
 
     }
@@ -186,7 +186,7 @@ class SectorController extends Controller
             $sector = Sector::findOrFail($id);
             $sector->estado = 0;
             $sector->update();
-            return response()->json(['success' => 'Sector dado de baja correctamente']);
+            return response()->json(['success' => 'Bodega dada de baja correctamente']);
         } catch (\Exception $ex) {
 
             return response()->json(
