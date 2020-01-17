@@ -112,6 +112,7 @@
                                    class="custom-control-input validacion" onclick="validacion_checks()"
                                    id="proveedor_aprobado"
                                    value="1"
+                                   {{old('proveedor_aprobado')?'checked':''}}
                                    required
                                    name="proveedor_aprobado">
                             <label class="custom-control-label" for="proveedor_aprobado">Proveedor aprobado</label>
@@ -125,6 +126,7 @@
                                    class="custom-control-input validacion"
                                    name="producto_acorde_compra"
                                    value="1"
+                                   {{old('producto_acorde_compra')?'checked':''}}
                                    id="producto_acorde_compra"
                                    onclick="validacion_checks()"
                             >
@@ -137,6 +139,7 @@
                             <input type="checkbox"
                                    class="custom-control-input validacion"
                                    value="1"
+                                   {{old('cantidad_acorde_compra')?'checked':''}}
                                    name="cantidad_acorde_compra"
                                    id="cantidad_acorde_compra"
                                    onclick="validacion_checks()"
@@ -157,6 +160,7 @@
                                    class="custom-control-input validacion" onclick="validacion_checks()"
                                    name="certificado_existente"
                                    value="1"
+                                   {{old('certificado_existente')?'checked':''}}
                                    id="certificado_existente">
                             <label class="custom-control-label" style="font-weight: normal"
                                    for="certificado_existente">Existente</label>
@@ -167,6 +171,7 @@
                                    class="custom-control-input validacion" onclick="validacion_checks()"
                                    name="certificado_correspondiente_lote"
                                    value="1"
+                                   {{old('certificado_correspondiente_lote')?'checked':''}}
                                    id="certificado_correspondiente_lote">
                             <label class="custom-control-label" style="font-weight: normal"
                                    for="certificado_correspondiente_lote">Correspondiente
@@ -176,6 +181,7 @@
                             <input type="checkbox"
                                    class="custom-control-input validacion" onclick="validacion_checks()"
                                    id="certificado_correspondiente_especificacion"
+                                   {{old('certificado_correspondiente_especificacion')?'checked':''}}
                                    name="certificado_correspondiente_especificacion"
                                    value="1"
                             >
@@ -194,6 +200,7 @@
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox" class="custom-control-input validacion" onclick="validacion_checks()"
                                    id="sin_polvo"
+                                   {{old('sin_polvo')?'checked':''}}
                                    name="sin_polvo"
                                    value="1"
                             >
@@ -207,6 +214,7 @@
                                    class="custom-control-input  validacion" onclick="validacion_checks()"
                                    id="sin_material_ajeno"
                                    value="1"
+                                   {{old('sin_material_ajeno')?'checked':''}}
                                    name="sin_material_ajeno">
                             <label class="custom-control-label" style="font-weight: normal" for="sin_material_ajeno">Sin
                                 Material
@@ -224,6 +232,7 @@
                             <input type="checkbox"
                                    class="custom-control-input validacion" onclick="validacion_checks()"
                                    value="1"
+                                   {{old('ausencia_plagas')?'checked':''}}
                                    name="ausencia_plagas"
                                    id="ausencia_plagas">
                             <label class="custom-control-label" style="font-weight: normal" for="ausencia_plagas">Ausencia
@@ -236,6 +245,7 @@
                             <input type="checkbox"
                                    class="custom-control-input validacion" onclick="validacion_checks()"
                                    value="1"
+                                   {{old('sin_humedad')?'checked':''}}
                                    id="sin_humedad"
                                    name="sin_humedad">
 
@@ -248,6 +258,7 @@
                             <input type="checkbox" class="custom-control-input validacion" onclick="validacion_checks()"
                                    name="sin_oxido"
                                    value="1"
+                                   {{old('sin_oxido')?'checked':''}}
                                    id="sin_oxido">
                             <label class="custom-control-label" style="font-weight: normal" for="sin_oxido">Sin
                                 óxido</label>
@@ -258,6 +269,7 @@
                                    class="custom-control-input validacion" onclick="validacion_checks()"
                                    name="ausencia_olores_extranios"
                                    value="1"
+                                   {{old('ausencia_olores_extranios')?'checked':''}}
                                    id="ausencia_olores_extranios">
                             <label class="custom-control-label" style="font-weight: normal"
                                    for="ausencia_olores_extranios">Ausencia de
@@ -269,6 +281,7 @@
                                    class="custom-control-input validacion" onclick="validacion_checks()"
                                    name="ausencia_material_extranio"
                                    value="1"
+                                   {{old('ausencia_material_extranio')?'checked':''}}
                                    id="ausencia_material_extranio">
                             <label class="custom-control-label" style="font-weight: normal"
                                    for="ausencia_material_extranio">Ausencia de
@@ -280,6 +293,7 @@
                             <input type="checkbox" class="custom-control-input validacion" onclick="validacion_checks()"
                                    name="cerrado"
                                    value="1"
+                                   {{old('cerrado')?'checked':''}}
                                    id="cerrado"> <label
                                 class="custom-control-label" style="font-weight: normal" for="cerrado">Cerrado y
                                 con llave</label>
@@ -289,6 +303,7 @@
                             <input type="checkbox" class="custom-control-input validacion" onclick="validacion_checks()"
                                    name="sin_agujeros"
                                    value="1"
+                                   {{old('sin_agujeros')?'checked':''}}
                                    id="sin_agujeros">
                             <label class="custom-control-label" style="font-weight: normal" for="sin_agujeros">Sin
                                 agujeros</label>
@@ -317,6 +332,7 @@
                                    class="custom-control-input  validacion" onclick="validacion_checks()"
                                    name="no_golpeado"
                                    value="1"
+                                   {{old('no_golpeado')?'checked':''}}
                                    required
                                    id="no_golpeado">
                             <label class="custom-control-label" style="font-weight: normal" for="no_golpeado">No
@@ -327,6 +343,7 @@
                                    class="custom-control-input  validacion" onclick="validacion_checks()"
                                    name="sin_roturas"
                                    value="1"
+                                   {{old('sin_roturas')?'checked':''}}
                                    required
                                    id="sin_roturas">
                             <label class="custom-control-label" style="font-weight: normal" for="sin_roturas">Sin
@@ -335,6 +352,7 @@
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox"
                                    required
+                                   {{old('empaque_cerrado')?'checked':''}}
                                    class="custom-control-input  validacion" onclick="validacion_checks()"
                                    name="empaque_cerrado"
                                    value="1"
@@ -346,6 +364,7 @@
                             <input type="checkbox"
                                    class="custom-control-input  validacion" onclick="validacion_checks()"
                                    name="seco_limpio"
+                                   {{old('seco_limpio')?'checked':''}}
                                    value="1"
                                    id="seco_limpio">
                             <label class="custom-control-label" style="font-weight: normal" for="seco_limpio">Seco y
@@ -355,6 +374,7 @@
                             <input type="checkbox"
                                    class="custom-control-input  validacion" onclick="validacion_checks()"
                                    value="1"
+                                   {{old('sin_material_extranio')?'checked':''}}
                                    name="sin_material_extranio"
                                    id="sin_material_extranio">
                             <label class="custom-control-label" style="font-weight: normal" for="sin_material_extranio">Sin
@@ -369,6 +389,7 @@
                             <input type="checkbox"
                                    class="custom-control-input  validacion" onclick="validacion_checks()"
                                    value="1"
+                                   {{old('debidamente_identificado')?'checked':''}}
                                    name="debidamente_identificado"
                                    id="debidamente_identificado">
                             <label class="custom-control-label" for="debidamente_identificado">Producto debidamente
@@ -378,6 +399,7 @@
                     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox"
+                                   {{old('debidamente_legible')?'checked':''}}
                                    class="custom-control-input  validacion" onclick="validacion_checks()"
                                    name="debidamente_legible"
                                    value="1"
@@ -391,6 +413,7 @@
                             <input type="checkbox"
                                    class="custom-control-input  validacion" onclick="validacion_checks()"
                                    value="1"
+                                   {{old('no_lote_presente')?'checked':''}}
                                    name="no_lote_presente"
                                    id="no_lote_presente">
                             <label class="custom-control-label" for="no_lote_presente">No. de lote presente</label>
@@ -402,6 +425,7 @@
                                    class="custom-control-input  validacion" onclick="validacion_checks()"
                                    name="no_lote_legible"
                                    value="1"
+                                   {{old('no_lote_legible')?'checked':''}}
                                    id="no_lote_legible">
                             <label class="custom-control-label" for="no_lote_legible">No. de lote legible</label>
                         </div>
@@ -412,6 +436,7 @@
                                    class="custom-control-input  validacion" onclick="validacion_checks()"
                                    name="fecha_vencimiento_legible"
                                    value="1"
+                                   {{old('fecha_vencimiento_legible')?'checked':''}}
                                    id="fecha_vencimiento_legible">
                             <label class="custom-control-label" for="fecha_vencimiento_legible">Fecha de vencimiento
                                 presente y
@@ -424,6 +449,7 @@
                                    class="custom-control-input  validacion" onclick="validacion_checks()"
                                    name="fecha_vencimiento_vigente"
                                    value="1"
+                                   {{old('fecha_vencimiento_vigente')?'checked':''}}
                                    id="fecha_vencimiento_vigente">
                             <label class="custom-control-label" for="fecha_vencimiento_vigente">Fecha de vencimiento
                                 vigente</label>
@@ -435,6 +461,7 @@
                                    class="custom-control-input  validacion" onclick="validacion_checks()"
                                    name="contenido_neto_declarado"
                                    value="1"
+                                   {{old('contenido_neto_declarado')?'checked':''}}
                                    id="contenido_neto_declarado">
                             <label class="custom-control-label" for="contenido_neto_declarado">Contenido Neto
                                 declarado</label>
