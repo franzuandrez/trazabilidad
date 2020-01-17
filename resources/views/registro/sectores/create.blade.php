@@ -104,6 +104,9 @@
 
 
             let idLocalidad = $('#localidades option:selected').val();
+            if(idLocalidad == ""){
+                idLocalidad = 0;
+            }
             $.ajax({
 
                 url: "{{url('registro/bodegas_by_localidad/')}}" + "/" + idLocalidad,
