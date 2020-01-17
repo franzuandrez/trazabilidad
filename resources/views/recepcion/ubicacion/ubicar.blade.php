@@ -328,7 +328,7 @@
                 alert("producto no valido");
                 return;
             }
-            if (cantidad == "") {
+            if (cantidad == ""|| isNaN(cantidad) ) {
                 alert("Cantidad invalida");
                 return;
             }
