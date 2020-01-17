@@ -25,7 +25,7 @@ class ProductoRequest extends FormRequest
     {
         return [
             //
-            'codigo_barras' => 'required|max:14',
+            'codigo_barras' => 'required|max:13|min:13',
             'codigo_interno' => 'required',
             'descripcion' => 'required',
             'id_dimensional' => 'required',
@@ -38,7 +38,8 @@ class ProductoRequest extends FormRequest
     {
         return [
             'codigo_barras.required' => 'El codigo de barras es requerido',
-            'codigo_barras.max' => 'El codigo de barras no puede ser mayor a 14 caracteres',
+            'codigo_barras.max' => 'El codigo de barras debe tener 13 caracteres',
+            'codigo_barras.min' => 'El codigo de barras debe tener 13 caracteres',
             'codigo_interno.required' => 'El codigo interno es requerido',
             'descripcion.required' => 'El campo descripcion es requerido',
             'id_dimensional.required' => ' Debe seleccionar una dimensional',
