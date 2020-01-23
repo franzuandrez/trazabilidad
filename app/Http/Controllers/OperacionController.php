@@ -91,12 +91,48 @@ class OperacionController extends Controller
     public function buscar_orden_produccion(Request $request)
     {
 
-        $search = $request->get('q');
-        $ordenProduccion = Requisicion::select('estado', 'id', 'no_requision', 'no_orden_produccion')
-            ->where('no_orden_produccion', $search)
-            ->first();
 
-        return response()->json(['orden_produccion' => $ordenProduccion]);
+        try {
+            $search = $request->get('q');
+
+            $ordenProduccion = Requisicion::select('estado', 'id', 'no_requision', 'no_orden_produccion')
+                ->where('no_orden_produccion', $search)
+                ->first();
+
+            if ($ordenProduccion == null) {
+                $response = [
+                    'status' => 0,
+                    'message' => 'No existe orden de produccion',
+                    'data' => []
+                ];
+            } else {
+                $orden_produccion_iniciada = Operacion::where('no_orden_produccion', $search)
+                    ->exists();
+                if ($orden_produccion_iniciada) {
+                    $response = [
+                        'status' => 0,
+                        'message' => 'Orden de produccion ya iniciada',
+                        'data' => []
+                    ];
+                } else {
+                    $response = [
+                        'status' => 1,
+                        'message' => 'Nueva orden de produccion ',
+                        'data' => $ordenProduccion
+                    ];
+                }
+            }
+
+        } catch (\Exception $e) {
+            $response = [
+                'status' => 0,
+                'message' => 'Algo salió mal, codigo error :' . $e->getCode(),
+                'data' => [],
+            ];
+
+        }
+
+        return response()->json($response);
 
     }
 
@@ -117,7 +153,6 @@ class OperacionController extends Controller
 
     public function store(Request $request)
     {
-
 
 
         try {
@@ -182,7 +217,6 @@ class OperacionController extends Controller
     {
 
         $operacion = Operacion::findOrFail($id);
-
 
 
         return view('produccion.control_trazabilidad.show', [

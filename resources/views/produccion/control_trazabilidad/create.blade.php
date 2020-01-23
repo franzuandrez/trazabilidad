@@ -394,20 +394,29 @@
                 type: 'get',
                 dataType: "json",
                 success: function (response) {
-                    let orden_produccion = response.orden_produccion;
-                    console.log(orden_produccion)
-                    if (orden_produccion == null) {
-                        alert("Orden de produccion no encontrada");
-                    } else if (orden_produccion.estado != 'D') {
-                        alert("Orden de produccion en proceso ");
+                    console.log(response);
+                    if (response.status == 1) {
+                        let orden_produccion = response.data;
+
+                        if (orden_produccion == null) {
+                            alert("Orden de produccion no encontrada");
+                        } else if (orden_produccion.estado != 'D') {
+                            alert("Orden de produccion en proceso ");
+                        } else {
+                            cargar_insumos(orden_produccion.reservas);
+                            document.getElementById('no_orden_produccion').readOnly = true;
+                            document.getElementById('lote').readOnly = false;
+                            document.getElementById('lote').focus();
+                            document.getElementById('turno').readOnly = false;
+                            document.getElementById('cantidad_programada').readOnly = false;
+                        }
                     } else {
-                        cargar_insumos(orden_produccion.reservas);
-                        document.getElementById('no_orden_produccion').readOnly = true;
-                        document.getElementById('lote').readOnly = false;
-                        document.getElementById('lote').focus();
-                        document.getElementById('turno').readOnly = false;
-                        document.getElementById('cantidad_programada').readOnly = false;
+                        alert(response.message);
                     }
+
+
+
+
                 },
                 error: function (e) {
                     console.log(e)
