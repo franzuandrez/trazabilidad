@@ -476,22 +476,29 @@
                     </div>
                 </div>
                 <div class="tab-pane" id="tab_3">
-                    <div class="col-lg-7 col-sm-10 col-md-10 col-xs-10">
-                        <div class="form-group">
-                            <label for="codigo_producto">Codigo</label>
+                    <div class="col-lg-8 col-sm-10 col-md-12 col-xs-12">
+                        <label for="codigo_producto">Codigo</label>
+                        <div class="input-group">
                             <input id="codigo_producto" type="text"
-                                   onkeydown="cargarInfoCodigoBarras(this)"
+                                   onkeydown="if(event.keyCode==13)cargarInfoCodigoBarras(this)"
                                    class="form-control">
+
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default"
+                                        onclick="cargarInfoCodigoBarras(document.getElementById('codigo_producto'))"
+                                >
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                </button>
+                                <button type="button" class="btn btn-default"
+                                        onclick="limpiarProducto()"
+                                >
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </button>
+                            </div>
                         </div>
+
                     </div>
-                    <div class="col-lg-1 col-sm-2 col-md-2 col-xs-2">
-                        <br>
-                        <div class="form-group">
-                            <button id="btnLimpiar" class="btn btn-default block" style="margin-top: 5px;"
-                                    type="button">
-                                <span class=" fa fa-trash"></span></button>
-                        </div>
-                    </div>
+
                     <input id="id_producto" type="hidden"
                            name="id_producto"
                            class="form-control">
@@ -541,7 +548,9 @@
                     <div class="col-lg-1 col-sm-2 col-md-2 col-xs-2">
                         <br>
                         <div class="form-group">
-                            <button id="btnAdd" class="btn btn-default block" style="margin-top: 5px;" type="button">
+                            <button id="btnAdd"
+                                    onclick="addToTable();"
+                                    class="btn btn-default block" style="margin-top: 5px;" type="button">
                                 <span class=" fa fa-plus"></span></button>
                         </div>
                     </div>
@@ -651,9 +660,6 @@
         });
         $(document).ready(function () {
 
-            $("#btnAdd").click(function () {
-                addToTable();
-            });
 
             $("#btnLimpiar").click(function () {
                 limpiarProducto();
@@ -979,10 +985,11 @@
 
 
             let infoCodigoBarras = descomponerInput(input);
-            if (event.keyCode == 13) {
-
-                mostrarInfoCodigoBarras(infoCodigoBarras);
+            if (infoCodigoBarras[1] == "") {
+                alert("codigo de barras no valido");
+                return;
             }
+            mostrarInfoCodigoBarras(infoCodigoBarras);
 
 
         }
@@ -1048,7 +1055,7 @@
 
                 },
                 error: function (e) {
-
+                    alert("Producto invalido");
                     console.log(e);
                 }
 
