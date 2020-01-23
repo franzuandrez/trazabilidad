@@ -28,14 +28,34 @@
     {{Form::token()}}
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="codigo_producto">CODIGO PRODUCTO</label>
+
+        <label for="codigo_producto">CODIGO PRODUCTO</label>
+        <div class="input-group">
             <input type="text"
                    name="codigo_producto"
                    id="codigo_producto"
                    onkeydown="if(event.keyCode==13)buscar_producto_terminado()"
                    class="form-control">
+            <div class="input-group-btn">
+                <button
+                    onclick="buscar_producto_terminado()"
+                    onkeydown="buscar_producto_terminado()"
+                    type="button" class="btn btn-default">
+                    <i class="fa fa-search"
+                       aria-hidden="true"></i>
+                </button>
+                <button
+                    onclick="limpiar_formulario()"
+                    onkeydown="limpiar_formulario()"
+                    type="button" class="btn btn-default">
+                    <i class="fa fa-trash"
+                       aria-hidden="true"></i>
+                </button>
+            </div>
+
         </div>
+
+
     </div>
     <input type="hidden" name="id_producto" id="id_producto">
     <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
@@ -69,15 +89,33 @@
         </div>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="no_orden_produccion">NO. ORDEN PRODUCION</label>
+        <label for="no_orden_produccion">NO. ORDEN PRODUCION</label>
+        <div class="input-group">
             <input type="text"
                    name="no_orden_produccion"
                    readonly
                    onkeydown="if(event.keyCode==13)buscar_orden_produccion()"
                    id="no_orden_produccion"
                    class="form-control">
+            <div class="input-group-btn">
+                <button
+                    onclick="buscar_orden_produccion()"
+                    onkeydown="buscar_orden_produccion()"
+                    type="button" class="btn btn-default">
+                    <i class="fa fa-search"
+                       aria-hidden="true"></i>
+                </button>
+                <button type="button"
+                        id="btn_agregar"
+                        onclick="limpiar_orden_produccion()"
+                        onkeydown="limpiar_orden_produccion()"
+                        class="btn btn-default">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                </button>
         </div>
+
+        </div>
+
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
@@ -383,7 +421,38 @@
                 event.preventDefault();
                 return false;
             }
+
         });
+
+        function limpiar_formulario() {
+            limpiar_orden_produccion();
+            limpiar_producto();
+
+        }
+
+        function limpiar_producto() {
+            document.getElementById('codigo_producto').value = "";
+            document.getElementById('codigo_producto').focus();
+            document.getElementById('producto').value = "";
+            document.getElementById('unidad_medida').value = "";
+            document.getElementById('best_by').value = "";
+        }
+
+        function limpiar_orden_produccion() {
+            document.getElementById('no_orden_produccion').value = "";
+            document.getElementById('no_orden_produccion').readOnly = false;
+            document.getElementById('no_orden_produccion').focus();
+            document.getElementById('lote').value = "";
+            document.getElementById('lote').readOnly = true;
+            document.getElementById('turno').value = "";
+            document.getElementById('turno').readOnly = true;
+            document.getElementById('cantidad_programada').value = "";
+            document.getElementById('cantidad_programada').readOnly = true;
+            $("#tbody_insumos").empty();
+            $("#asociaciones").empty();
+
+        }
+
 
         function buscar_orden_produccion() {
 
@@ -413,8 +482,6 @@
                     } else {
                         alert(response.message);
                     }
-
-
 
 
                 },
