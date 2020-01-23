@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Bodega;
 use App\Correlativo;
 use App\Http\tools\Movimientos;
+use App\Http\tools\OrdenProduccion;
 use App\Requisicion;
 use App\RequisicionDetalle;
 use Carbon\Carbon;
@@ -58,10 +59,9 @@ class RequisicionController extends Controller
 
         $bodegas = Bodega::actived()
             ->get();
-        $no_orden_produccion = Correlativo::where('modulo', 'PRODUCCION')
-            ->first();
-        $no_orden_produccion = $no_orden_produccion->prefijo . '-' . Carbon::now()->addDay()
-                ->format('Ymd');
+        $no_orden_produccion = OrdenProduccion::obtener_nueva_no_orden();
+
+
 
 
         $requisicion = Requisicion::enProceso()

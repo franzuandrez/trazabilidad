@@ -609,6 +609,7 @@
                             alert("Algo salio mal");
                         } else {
                             document.getElementById('no_requisicion').focus();
+                            window.location.reload();
                         }
 
                     },
