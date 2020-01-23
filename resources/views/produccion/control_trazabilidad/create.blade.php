@@ -112,7 +112,7 @@
                         class="btn btn-default">
                     <i class="fa fa-trash" aria-hidden="true"></i>
                 </button>
-        </div>
+            </div>
 
         </div>
 
@@ -727,6 +727,14 @@
         function buscar_colaborador() {
             let colaborador = document.getElementById('colaborador').value;
             let id_actividad = $('#actividades option:selected').val();
+
+
+            const is_orden_produccion_valida = document.getElementById('no_orden_produccion').value != "" && document.getElementById('no_orden_produccion').readOnly == true;
+            if (!is_orden_produccion_valida) {
+                alert("Orden de produccion  invalida");
+                return;
+            }
+
             if (id_actividad == "") {
                 alert("Seleccione Actividad");
                 return;
