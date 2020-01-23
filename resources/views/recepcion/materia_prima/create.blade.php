@@ -828,6 +828,7 @@
             if (searchValue == null) {
                 searchValue = productoElement.value;
             }
+            searchValue = descomponerString(searchValue)[1];
 
             $.ajax({
 
