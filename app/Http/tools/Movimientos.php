@@ -5,8 +5,10 @@ namespace App\Http\tools;
 
 use App\Movimiento;
 use App\Producto;
-use Illuminate\Http\Request;
+use App\Sector;
+use App\User;
 use DB;
+
 class Movimientos
 {
 
@@ -19,17 +21,19 @@ class Movimientos
     private $cantidad;
     private $numero_documento;
     private $usuario_autoriza;
+    private $observaciones = '';
 
     public function ingreso_producto(
-        $ubicacion,
-        $producto,
+        Sector $ubicacion,
+        Producto $producto,
         $lote,
         $fecha_vencimiento,
         $cantidad,
         $numero_documento,
-        $usuario_autoriza)
+        User $usuario_autoriza ,
+        $observaciones = '')
     {
-        $this->sector =$ubicacion;
+        $this->sector = $ubicacion;
         $this->bodega = $ubicacion->bodega;
         $this->producto = $producto;
         $this->lote = $lote;
@@ -37,7 +41,7 @@ class Movimientos
         $this->cantidad = $cantidad;
         $this->numero_documento = $numero_documento;
         $this->usuario_autoriza = $usuario_autoriza;
-
+        $this->observaciones = $observaciones;
         $this->generar_movimiento(1);
 
 
@@ -61,7 +65,7 @@ class Movimientos
                                     $numero_documento,
                                     $usuario_autoriza)
     {
-        $this->sector =$ubicacion;
+        $this->sector = $ubicacion;
         $this->bodega = $ubicacion->bodega;
         $this->producto = $producto;
         $this->lote = $lote;
@@ -95,7 +99,7 @@ class Movimientos
         $movimiento->id_posicion = 0;
         $movimiento->id_bin = 0;
         $movimiento->usuario_autorizo = $this->usuario_autoriza->id;
-
+        $movimiento->observaciones = $this->observaciones;
         $movimiento->save();
     }
 
@@ -104,14 +108,9 @@ class Movimientos
     {
 
 
-
-
         $productos = Producto::where('codigo_interno', '=', $search)
             ->orWhere('codigo_barras', '=', $search)
             ->pluck('id_producto');
-
-
-
 
 
         $existencias = Movimiento::join('tipo_movimiento', 'tipo_movimiento.id_movimiento', '=', 'movimientos.tipo_movimiento')

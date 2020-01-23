@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Bodega;
 use App\DetalleLotes;
 use App\Http\Requests\MateriaPrimaRequest;
 use App\Http\Tools\Impresiones;
@@ -492,7 +491,7 @@ class RecepcionController extends Controller
         try {
             DB::beginTransaction();
             $recepcion = Recepcion::findOrFail($id);
-
+            $observaciones = $request->get('observaciones');
 
             //INGRESO DEL PRODUCTO CHEQUEADO POR CONTROL DE CALIDAD
             $idsMovimiento = [];
@@ -500,10 +499,20 @@ class RecepcionController extends Controller
                 $idsMovimiento = $request->get('id_movimiento');
             }
             $cantidadesEntrantes = $request->get('cantidad_entrante');
+            $diferencias = $request->get('diferencia');
             $i = 0;
             foreach ($idsMovimiento as $key => $mov) {
+                $rmi_detalle =    RMIDetalle::find($mov);
+
+                if($diferencias[$key]>0){
+                    $this->ingresar_bodega_desecho(
+                        $diferencias[$key],
+                        $rmi_detalle,
+                        $observaciones
+                    );
+                }
                 if ($cantidadesEntrantes[$key] > 0) {
-                    $this->ingresoCalidad($mov, $cantidadesEntrantes[$key]);
+                    $this->ingresoCalidad($rmi_detalle, $cantidadesEntrantes[$key]);
                 } else {
                     $i++;
                 }
@@ -534,11 +543,32 @@ class RecepcionController extends Controller
 
     }
 
-    private function ingresoCalidad($id_rmi_detalle, $cantidad)
+    private function ingresar_bodega_desecho($cantidad,RMIDetalle $rmi_detalle, $observaciones)
+    {
+        $ubicacion = Sector::where('sistema', 1)->first();
+        $usuario_autoriza = Auth::user();
+        $movimiento = new Movimientos();
+
+        $movimiento
+            ->ingreso_producto(
+                $ubicacion,
+                $rmi_detalle->producto,
+                $rmi_detalle->lote,
+                $rmi_detalle->fecha_vencimiento,
+                $cantidad,
+                $rmi_detalle->rmi_encabezado->documento,
+                $usuario_autoriza,
+                $observaciones
+            );
+
+
+    }
+
+    private function ingresoCalidad($rmi_detalle, $cantidad)
     {
 
 
-        $rmi_detalle = RMIDetalle::find($id_rmi_detalle);
+
         $rmi_detalle->control = 1;
         $rmi_detalle->cantidad_entrante = $rmi_detalle->cantidad_entrante + $cantidad;
         $rmi_detalle->rampa = 0;
@@ -729,7 +759,6 @@ class RecepcionController extends Controller
                 ->get();
 
 
-
             return view('recepcion.ubicacion.ubicar',
                 [
                     'orden' => $orden,
@@ -749,7 +778,6 @@ class RecepcionController extends Controller
 
     public function ubicar(Request $request, $id)
     {
-
 
 
         $orden = Recepcion::findOrFail($id);

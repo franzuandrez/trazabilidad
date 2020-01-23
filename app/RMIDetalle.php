@@ -29,7 +29,7 @@ class RMIDetalle extends Model
     ];
 
     public $with = [
-        'producto'
+        'producto',
     ];
 
     /**
