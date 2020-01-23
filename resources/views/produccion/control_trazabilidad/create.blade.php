@@ -392,7 +392,10 @@
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <button class="btn btn-default" type="submit">
+            <button class="btn btn-default"
+                    type="button"
+                    onclick="guardar()"
+            >
                 <span class=" fa fa-check"></span> GUARDAR
             </button>
             <a href="{{url('produccion/trazabilidad_chao_mein')}}">
@@ -423,6 +426,24 @@
             }
 
         });
+
+        function guardar() {
+
+            const total_asociaciones = $('#asociaciones').children().length;
+            if (total_asociaciones == 0) {
+                alert("Debe agregar a los operarios involucrados");
+                return;
+            }
+            const total_insumos = $('#tbody_insumos').children().length;
+
+            if (total_insumos == 0) {
+                alert("Orden de produccion no valida");
+                return;
+            }
+
+            $('form').submit();
+
+        }
 
         function limpiar_formulario() {
             limpiar_orden_produccion();
