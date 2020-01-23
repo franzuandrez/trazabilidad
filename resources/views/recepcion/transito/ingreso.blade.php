@@ -104,6 +104,7 @@
         </div>
     </div>
     @include('recepcion.transito.productos')
+    @include('recepcion.transito.modal_confirmar')
     <div class="col-lg-3 col-sm-3 col-md-6 col-xs-6">
         <label for="cantidad">CANTIDAD ENTRANTE</label>
         <div class="form-group">
@@ -115,6 +116,8 @@
                    class="form-control">
         </div>
     </div>
+    <input type="hidden" name="observaciones" id="observaciones">
+
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="table-responsive">
             <table class="table table-striped table-bordered table-condensed table-hover">
@@ -143,10 +146,12 @@
                         </td>
                         <td>
                             {{$mov->fecha_vencimiento->format('d/m/Y')}}
-                            <input type="hidden" name="fecha_vencimiento[]" value="{{$mov->fecha_vencimiento->format('Y-m-d')}}">
+                            <input type="hidden" name="fecha_vencimiento[]"
+                                   value="{{$mov->fecha_vencimiento->format('Y-m-d')}}">
                         </td>
                         <td>
                             {{$mov->total }}
+
                         </td>
                         <td>
                             <input type="hidden" name="cantidad_entrante[]" value="0">
@@ -199,10 +204,39 @@
             });
         });
 
-        function confirmar(){
-            if (window.confirm("¿Está seguro que desea continuar?")) {
-                $('form').submit();
+        function confirmar() {
+
+            const existe_diferencia = Array.prototype.slice.call(document.getElementsByName('diferencia[]')).filter(e => e.value > 0).length > 0;
+
+            if (existe_diferencia) {
+                $('#modal_confirmar').modal();
+                document.getElementById('observaciones_previa').focus();
+            } else {
+                if (confirm("¿Está seguro que desea continuar")) {
+                    $('form').submit();
+                }
             }
+
+
+        }
+
+        function verficar_obsevaciones(value) {
+
+
+            document.getElementById('btn_confirmar_observaciones').disabled = value == "";
+
+        }
+
+        function cargar_observaciones() {
+            const observaciones_previa = document.getElementById('observaciones_previa').value;
+            if (observaciones_previa == "") {
+                alert("La observaciones son requeridas");
+                document.getElementById('observaciones_previa').focus();
+                $('#modal_confirmar').modal();
+                return;
+            }
+            document.getElementById("observaciones").value = observaciones_previa;
+            $('form').submit();
         }
 
 
@@ -225,12 +259,11 @@
         }
 
 
-
         function buscarProducto(input) {
 
             if (event.keyCode == 13) {
 
-                var regexp = new RegExp(input.value.trim(),'i');
+                var regexp = new RegExp(input.value.trim(), 'i');
                 var noexisteproducto = getMovimientos()
                     .filter(mov => mov.producto.descripcion.trim().match(regexp) || mov.producto.codigo_barras.trim() == input.value.trim())
                     .length == 0;
@@ -260,7 +293,7 @@
             if (search == null || search == "") {
                 movimientos = getMovimientos();
             } else {
-                var regexp = new RegExp(search.trim(),'i');
+                var regexp = new RegExp(search.trim(), 'i');
                 movimientos = getMovimientos().filter(mov => mov.producto.descripcion.trim().match(regexp) || mov.producto.codigo_barras.trim() == search.trim());
             }
 
@@ -271,7 +304,7 @@
                          <td>${e.producto.codigo_barras}</td>
                          <td>${e.producto.descripcion}</td>
                          <td>${e.lote}</td>
-                         <td>${moment(e.fecha_vencimiento,'').format('DD/MM/Y')}</td>
+                         <td>${moment(e.fecha_vencimiento, '').format('DD/MM/Y')}</td>
                         </tr>`
             })
 
@@ -281,8 +314,9 @@
 
         function seleccionarProducto(element) {
             element.children[0].children[0].checked = true;
-            document.getElementById('aceptar_producto').disabled=false;
+            document.getElementById('aceptar_producto').disabled = false;
         }
+
         function addToTable() {
 
 
@@ -296,7 +330,7 @@
                 return
             }
 
-            if (cantidad_impresiones == "" ) {
+            if (cantidad_impresiones == "") {
                 document.getElementById('cantidad_impresion').focus();
                 alert("Cantidad de impresiones en blanco");
                 return
@@ -306,7 +340,7 @@
                 return
             }
 
-            if(cantidadMinima < cantidad){
+            if (cantidadMinima < cantidad) {
                 alert("La cantidad entrante no puede ser mayor");
                 document.getElementById('cantidad').focus();
                 return;
@@ -323,7 +357,7 @@
             document.getElementById('cantidad_impresion').readOnly = true;
             cantidadMinima = 0;
 
-            if(document.getElementsByClassName('hidden').length == 0){
+            if (document.getElementsByClassName('hidden').length == 0) {
                 document.getElementById('btnGuardar').disabled = false;
             }
 
@@ -347,7 +381,7 @@
                     document.getElementById('id_movimiento').value = mov.id_rmi_detalle;
                     document.getElementById('cantidad_impresion').readOnly = false;
                     document.getElementById('cantidad').readOnly = false;
-                    document.getElementById('cantidad').value =mov.cantidad;
+                    document.getElementById('cantidad').value = mov.cantidad;
                     document.getElementById('cantidad_impresion').focus();
                     cantidadMinima = parseFloat(mov.cantidad);
                 } else {
@@ -403,8 +437,10 @@
             let row = document.getElementById('mov-' + idMovimiento);
             let span = row.children[6].children[0];
             span.classList.remove('hidden');
+            const cantidad_recepcionada = parseFloat(row.children[3].innerText);
             row.children[5].innerHTML = "<input name='imprimir[]' value='" + impresiones + "' type='hidden'  >" + impresiones + " ";
-            row.children[4].innerHTML = cantidad + "<input name='cantidad_entrante[]' type='hidden' value='" + cantidad + "'> ";
+            row.children[4].innerHTML = cantidad + "<input name='cantidad_entrante[]' type='hidden' value='" + cantidad + "'><input name='diferencia[]' type='hidden' value='" + (cantidad_recepcionada - cantidad) + "'> ";
+
         }
 
         function activarCheck(input) {
