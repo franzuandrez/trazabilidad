@@ -2,21 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\tools\RealTimeService;
 use App\LineaChaomin;
 use App\Operacion;
 use App\Presentacion;
 use App\User;
 use DB;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Response;
 
 class ChaomeanController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -51,7 +48,7 @@ class ChaomeanController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -64,90 +61,24 @@ class ChaomeanController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Request $request)
     {
-        //
-        //dd("geovany");
-        $linea_chaomin = new LineaChaomin();
-        $linea_chaomin->no_orden_produccion = $request->get('no_orden_produccion');
-        $linea_chaomin->id_presentacion = $request->get('id_presentacion');
-        $linea_chaomin->id_turno = $request->get('id_turno');
-        $linea_chaomin->cant_solucion_carga = $request->get('cant_solucion_carga');
-        $linea_chaomin->cant_carga_salida = $request->get('cant_carga_salida');
-        $linea_chaomin->cantidad_solucion_observacion = $request->get('cantidad_solucion_observacion');
-        $linea_chaomin->ph_solucion_inicial = $request->get('ph_solucion_inicial');
-        $linea_chaomin->ph_solucion_final = $request->get('ph_solucion_final');
-        $linea_chaomin->ph_solucion_observacion = $request->get('ph_solucion_observacion');
-        $linea_chaomin->mezcla_seca_inicial = $request->get('mezcla_seca_inicial');
-        $linea_chaomin->mezcla_seca_final = $request->get('mezcla_seca_final');
-        $linea_chaomin->mezcla_seca_observacion = $request->get('mezcla_seca_observacion');
-        $linea_chaomin->mezcla_alta_inicial = $request->get('mezcla_alta_inicial');
-        $linea_chaomin->mezcla_alta_final = $request->get('mezcla_alta_final');
-        $linea_chaomin->mezcla_alta_observacion = $request->get('mezcla_alta_observacion');
-        $linea_chaomin->mezcla_baja_inicial = $request->get('mezcla_baja_inicial');
-        $linea_chaomin->mezcla_baja_final = $request->get('mezcla_baja_final');
-        $linea_chaomin->mezcla_baja_observacion = $request->get('mezcla_baja_observacion');
-        $linea_chaomin->temperatura_reposo_inicial = $request->get('temperatura_reposo_inicial');
-        $linea_chaomin->temperatura_reposo_final = $request->get('temperatura_reposo_final');
-        $linea_chaomin->temperatura_reposo_observacion = $request->get('temperatura_reposo_observacion');
-        $linea_chaomin->ancho_cartucho_inicial = $request->get('ancho_cartucho_inicial');
-        $linea_chaomin->ancho_cartucho_final = $request->get('ancho_cartucho_final');
-        $linea_chaomin->ancho_cartucho_observacion = $request->get('ancho_cartucho_observacion');
-        $linea_chaomin->temperatura_precocedora_1_inicial = $request->get('temperatura_precocedora_1_inicial');
-        $linea_chaomin->temperatura_precocedora_1_final = $request->get('temperatura_precocedora_1_final');
-        $linea_chaomin->temperatura_precocedora_1_observacion = $request->get('temperatura_precocedora_1_observacion');
-        $linea_chaomin->tiempo_precocedora_1_inicial = $request->get('tiempo_precocedora_1_inicial');
-        $linea_chaomin->tiempo_precocedora_1_final = $request->get('tiempo_precocedora_1_final');
-        $linea_chaomin->tiempo_precocedora_1_observacion = $request->get('tiempo_precocedora_1_observacion');
-        $linea_chaomin->temperatura_precocedora_2_inicial = $request->get('temperatura_precocedora_2_inicial');
-        $linea_chaomin->temperatura_precocedora_2_final = $request->get('temperatura_precocedora_2_final');
-        $linea_chaomin->temperatura_precocedora_2_observacion = $request->get('temperatura_precocedora_2_observacion');
-        $linea_chaomin->tiempo_precocedora_2_inicial = $request->get('tiempo_precocedora_2_inicial');
-        $linea_chaomin->tiempo_precocedora_2_final = $request->get('tiempo_precocedora_2_final');
-        $linea_chaomin->tiempo_precocedora_2_observacion = $request->get('tiempo_precocedora_2_observacion');
-        $linea_chaomin->temperatura_central_inicial = $request->get('temperatura_central_inicial');
-        $linea_chaomin->temperatura_central_final = $request->get('temperatura_central_final');
-        $linea_chaomin->temperatura_central_observaciones = $request->get('temperatura_central_observaciones');
-        $linea_chaomin->velocidad_pass200_inicial = $request->get('velocidad_pass200_inicial');
-        $linea_chaomin->velocidad_pass200_final = $request->get('velocidad_pass200_final');
-        $linea_chaomin->velocidad_pass200_observaciones = $request->get('velocidad_pass200_observaciones');
-        $linea_chaomin->velocidad_pasc180_inicial = $request->get('velocidad_pasc180_inicial');
-        $linea_chaomin->velocidad_pasc180_final = $request->get('velocidad_pasc180_final');
-        $linea_chaomin->velocidad_pasc180_observaciones = $request->get('velocidad_pasc180_observaciones');
-        $linea_chaomin->velocidad_pask180_inicial = $request->get('velocidad_pask180_inicial');
-        $linea_chaomin->velocidad_pask180_final = $request->get('velocidad_pask180_final');
-        $linea_chaomin->velocidad_pask180_observaciones = $request->get('velocidad_pask180_observaciones');
-        $linea_chaomin->velocidad_pasi180_inicial = $request->get('velocidad_pasi180_inicial');
-        $linea_chaomin->velocidad_pasi180_final = $request->get('velocidad_pasi180_final');
-        $linea_chaomin->velocidad_pasi180_observaciones = $request->get('velocidad_pasi180_observaciones');
 
+        $orden_produccion = $request->get('no_orden_produccion');
+        $linea_chaomin = LineaChaomin::where('no_orden_produccion', $orden_produccion)
+            ->first();
 
-        $linea_chaomin->velocidad_pasm160_inicial = $request->get('velocidad_pasm160_inicial');
-        $linea_chaomin->velocidad_pasm160_final = $request->get('velocidad_pasm160_final');
-        $linea_chaomin->velocidad_pasm160_observaciones = $request->get('velocidad_pasm160_observaciones');
-        $linea_chaomin->extractor_activo_inicial = $request->get('extractor_activo_inicial');
-        $linea_chaomin->extractor_activo_final = $request->get('extractor_activo_final');
-        $linea_chaomin->extractor_activo_observaciones = $request->get('extractor_activo_observacion');
-        $linea_chaomin->ventilacion_inicial = $request->get('ventilacion_inicial');
-        $linea_chaomin->ventilacion_final = $request->get('ventilacion_final');
-        $linea_chaomin->ventilacion_observacion = $request->get('ventilacion_observacion');
-        $linea_chaomin->verificacion_codificacion_lote = $request->get('verificacion_codificacion_lote');
-        $linea_chaomin->verificacion_codificacion_vence = $request->get('verificacion_codificacion_vence');
-        $linea_chaomin->verificacion_codificacion_obs = $request->get('verificacion_codificacion_obs');
-        $linea_chaomin->id_maquina = $request->get('id_maquina');
-        $linea_chaomin->maquina_inicial = $request->get('maquina_inicial');
-        $linea_chaomin->maquina_final = $request->get('maquina_final');
-        $linea_chaomin->sellos_observaciones = $request->get('sellos_observaciones');
-        $linea_chaomin->observaciones_acciones = $request->get('observaciones_acciones');
-        $linea_chaomin->responsable = Auth::user()->id;
-        $linea_chaomin->save();
-
-
-        return redirect()->route('chaomin.index')
-            ->with('success', 'Linea para ChaoMin dado de alta correctamente');
+        try {
+            RealTimeService::guardar($linea_chaomin, $request->except(['no_orden_produccion', '_token']));
+            return redirect()->route('chaomin.index')
+                ->with('success', 'Linea para ChaoMin Finalizada correctamente');
+        } catch (\Exception $ex) {
+            return redirect()->back()
+                ->withErrors(['No se ha podido completar su petición, codigo de error :  ' . $ex->getCode()]);
+        }
 
 
     }
@@ -156,7 +87,7 @@ class ChaomeanController extends Controller
      * Display the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show($id)
     {
@@ -170,7 +101,7 @@ class ChaomeanController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit($id)
     {
@@ -180,9 +111,9 @@ class ChaomeanController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, $id)
     {
@@ -193,7 +124,7 @@ class ChaomeanController extends Controller
      * Remove the specified resource from storage.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy($id)
     {
@@ -228,7 +159,7 @@ class ChaomeanController extends Controller
                     $response = [
                         'status' => 1,
                         'message' => 'Creado correctamente',
-                        'id'=>$linea_chaomin->id_chaomin
+                        'id' => $linea_chaomin->id_chaomin
                     ];
                 }
 
@@ -255,33 +186,12 @@ class ChaomeanController extends Controller
     public function nuevo_registro(Request $request)
     {
         $id_model = $request->id_model;
-        $field = $request->field;
-        $value = $request->value;
+        $fields = $request->fields;
 
-        DB::enableQueryLog();
-        try {
-            $rows = DB::table('chaomin')
-                ->where('id_chaomin', $id_model)
-                ->update([$field => $value]);
 
-            if ($rows > 0) {
-                $response = [
-                    'status' => 1,
-                    'message' => 'Insertado correctamente',
-
-                ];
-            } else {
-                $response = [
-                    'status' => 0,
-                    'message' => 'No se ha podido insertar el registro',
-                ];
-            }
-        } catch (\Exception $ex) {
-            $response = [
-                'status' => 0,
-                'message' => $ex->getMessage(),
-            ];
-        }
+        $response = RealTimeService::actualizar_modelo(
+            LineaChaomin::find($id_model), $fields
+        );
 
 
         return response()->json($response);

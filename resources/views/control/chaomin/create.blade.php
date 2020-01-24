@@ -75,7 +75,7 @@
             transition: all 0.3s ease-in-out;
         }
 
-        #hamburger .icon-bar+.icon-bar {
+        #hamburger .icon-bar + .icon-bar {
             margin-top: 4px;
         }
 
@@ -177,7 +177,9 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="presentacion">PRESENTACION</label>
-            <select name="id_presentacion" class="form-control selectpicker" disabled="" id="id_presentacion">
+            <select name="id_presentacion" class="form-control selectpicker valor"
+                    onchange="cambiar_combobox('id_turno')"
+                    disabled="" id="id_presentacion">
                 <option value="">SELECCIONAR PRESENTACION</option>
                 @foreach($presentaciones as $presentacion)
                     <option value="{{$presentacion->id_presentacion}}">{{$presentacion->descripcion}}</option>
@@ -194,15 +196,17 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="turno">TURNO</label>
-            <select class="form-control selectpicker" data-live-search="true" id="id_turno" name="id_turno" disabled>
+            <select class="form-control selectpicker valor"
+                    onchange="document.getElementById('cant_solucion_carga').focus()"
+                    id="id_turno" name="id_turno" disabled>
                 <option value="" selected>SELECCIONE UN TURNO</option>
-                <option value="TURNO 1">TURNO 1</option>
-                <option value="TURNO 2">TURNO 2</option>
+                <option value="1">TURNO 1</option>
+                <option value="2">TURNO 2</option>
             </select>
         </div>
     </div>
 
-    <!---***********************-->
+
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
@@ -219,10 +223,11 @@
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="DATO_INICIAL">VALOR</label>
-            <input type="number"  step=".01" name="cant_solucion_carga" id="cant_solucion_carga"
-                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'cantidad_solucion_observacion','cant_solucion_carga')" disabled
+            <input type="number" step="any" lang="en" name="cant_solucion_carga" id="cant_solucion_carga"
+                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'cantidad_solucion_observacion','cant_solucion_carga')"
+                   disabled
                    value="{{old('cant_solucion_carga')}}"
-                   class="form-control">
+                   class="form-control valor">
         </div>
     </div>
 
@@ -230,9 +235,10 @@
         <div class="form-group">
             <label for="cantidad_solucion_observacion">OBSERVACIONES</label>
             <input type="text" name="cantidad_solucion_observacion" id="cantidad_solucion_observacion"
-                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'ph_solucion_inicial','cantidad_solucion_observacion')" disabled
+                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'ph_solucion_inicial','cantidad_solucion_observacion')"
+                   disabled
                    value="{{old('cantidad_solucion_observacion')}}"
-                   class="form-control">
+                   class="form-control valor">
         </div>
     </div>
 
@@ -256,10 +262,10 @@
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="ph_solucion">VALOR</label>
-            <input type="number"  step=".01" name="ph_solucion_inicial" id="ph_solucion_inicial" disabled
+            <input type="number" step="any" name="ph_solucion_inicial" id="ph_solucion_inicial" disabled
                    value="{{old('ph_solucion_inicial')}}"
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'ph_solucion_observacion','ph_solucion_inicial')"
-                   class="form-control">
+                   class="form-control valor">
         </div>
     </div>
 
@@ -269,7 +275,7 @@
             <input type="text" name="ph_solucion_observacion" id="ph_solucion_observacion" disabled
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'mezcla_seca_inicial','ph_solucion_observacion')"
                    value="{{old('ph_solucion_observacion')}}"
-                   class="form-control">
+                   class="form-control valor">
         </div>
     </div>
 
@@ -293,10 +299,10 @@
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="dato_inicial">VALOR</label>
-            <input type="number"  step=".01" name="mezcla_seca_inicial" id="mezcla_seca_inicial"
+            <input type="number" step="any" name="mezcla_seca_inicial" id="mezcla_seca_inicial"
                    value="{{old('mezcla_seca_inicial')}}" disabled
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'mezcla_seca_observacion','mezcla_seca_inicial')"
-                   class="form-control">
+                   class="form-control valor">
         </div>
     </div>
 
@@ -306,7 +312,7 @@
             <input type="text" name="mezcla_seca_observacion" id="mezcla_seca_observacion" disabled
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'mezcla_alta_inicial','mezcla_seca_observacion')"
                    value="{{old('mezcla_seca_observacion')}}"
-                   class="form-control">
+                   class="form-control valor">
         </div>
     </div>
 
@@ -329,11 +335,11 @@
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="mezcla_alta">VALOR</label>
-            <input type="number"  step=".01" name="mezcla_alta_inicial" id="mezcla_alta_inicial"
+            <input type="number" step="any" name="mezcla_alta_inicial" id="mezcla_alta_inicial"
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'mezcla_alta_observacion','mezcla_alta_inicial')"
                    value="{{old('mezcla_alta_inicial')}}" disabled
 
-                   class="form-control">
+                   class="form-control valor">
         </div>
     </div>
 
@@ -345,7 +351,7 @@
             <input type="text" name="mezcla_alta_observacion" id="mezcla_alta_observacion" disabled
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'mezcla_baja_inicial','mezcla_alta_observacion')"
                    value="{{old('mezcla_alta_observacion')}}"
-                   class="form-control">
+                   class="form-control valor">
         </div>
     </div>
 
@@ -356,7 +362,7 @@
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <label for="label_generico"> </label>
+            <label for="label_generico "> </label>
         </div>
     </div>
 
@@ -370,10 +376,10 @@
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="mezcla_baja">VALOR</label>
-            <input type="number"  step=".01" name="mezcla_baja_inicial" id="mezcla_baja_inicial"
+            <input type="number" step="any" name="mezcla_baja_inicial" id="mezcla_baja_inicial"
                    value="{{old('mezcla_baja_inicial')}}" disabled
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'mezcla_baja_observacion','mezcla_baja_inicial')"
-                   class="form-control">
+                   class="form-control valor">
         </div>
     </div>
 
@@ -383,7 +389,7 @@
             <input type="text" name="mezcla_baja_observacion" id="mezcla_baja_observacion" disabled
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'temperatura_reposo_inicial','mezcla_baja_observacion')"
                    value="{{old('mezcla_baja_observacion')}}"
-                   class="form-control">
+                   class="form-control valor">
         </div>
     </div>
 
@@ -405,10 +411,10 @@
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="dato_inicial">VALOR</label>
-            <input type="number"  step=".01" name="temperatura_reposo_inicial" id="temperatura_reposo_inicial"
+            <input type="number" step="any" name="temperatura_reposo_inicial" id="temperatura_reposo_inicial"
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'temperatura_reposo_observacion','temperatura_reposo_inicial')"
                    value="{{old('temperatura_reposo_inicial')}}" disabled=""
-                   class="form-control">
+                   class="form-control valor">
         </div>
     </div>
 
@@ -418,7 +424,7 @@
             <input type="text" name="temperatura_reposo_observacion" id="temperatura_reposo_observacion" disabled
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'ancho_cartucho_inicial','temperatura_reposo_observacion')"
                    value="{{old('temperatura_reposo_observacion')}}"
-                   class="form-control">
+                   class="form-control valor">
         </div>
     </div>
 
@@ -433,7 +439,7 @@
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <label for="label_generico">ANCHO DEL CARTUCHO (1.0 m, 1.5 m y 1.8 m)</label>
+            <label for="label_generico ">ANCHO DEL CARTUCHO (1.0 m, 1.5 m y 1.8 m)</label>
 
         </div>
     </div>
@@ -441,10 +447,10 @@
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="dato_inicial">VALOR</label>
-            <input type="number"  step=".01" name="ancho_cartucho_inicial" id="ancho_cartucho_inicial"
+            <input type="number" step="any" name="ancho_cartucho_inicial" id="ancho_cartucho_inicial"
                    value="{{old('ancho_cartucho_inicial')}}" disabled
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'ancho_cartucho_observacion','ancho_cartucho_inicial')"
-                   class="form-control">
+                   class="form-control valor">
         </div>
     </div>
 
@@ -454,7 +460,7 @@
             <input type="text" name="ancho_cartucho_observacion" id="ancho_cartucho_observacion" disabled
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'temperatura_precocedora_1_inicial','ancho_cartucho_observacion')"
                    value="{{old('ancho_cartucho_observacion')}}"
-                   class="form-control">
+                   class="form-control valor">
         </div>
     </div>
 
@@ -476,11 +482,12 @@
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="dato_inicial">VALOR</label>
-            <input type="number"  step=".01" name="temperatura_precocedora_1_inicial" id="temperatura_precocedora_1_inicial"
+            <input type="number" step="any" name="temperatura_precocedora_1_inicial"
+                   id="temperatura_precocedora_1_inicial"
                    value="{{old('temperatura_precocedora_1_inicial')}}"
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'temperatura_precocedora_1_observacion','temperatura_precocedora_1_inicial')"
-                    disabled
-                   class="form-control">
+                   disabled
+                   class="form-control valor">
         </div>
     </div>
 
@@ -492,7 +499,7 @@
                    disabled=""
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'tiempo_precocedora_1_inicial','temperatura_precocedora_1_observacion')"
                    value="{{old('temperatura_precocedora_1_observacion')}}"
-                   class="form-control">
+                   class="form-control valor">
         </div>
     </div>
 
@@ -513,10 +520,10 @@
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="dato_inicial">VALOR</label>
-            <input type="number"  step=".01" name="tiempo_precocedora_1_inicial" id="tiempo_precocedora_1_inicial"
+            <input type="number" step="any" name="tiempo_precocedora_1_inicial" id="tiempo_precocedora_1_inicial"
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'tiempo_precocedora_1_observacion','tiempo_precocedora_1_inicial')"
                    value="{{old('tiempo_precocedora_1_inicial')}}" disabled
-                   class="form-control">
+                   class="form-control valor">
         </div>
     </div>
 
@@ -526,7 +533,7 @@
             <input type="text" name="tiempo_precocedora_1_observacion" id="tiempo_precocedora_1_observacion" disabled
                    value="{{old('tiempo_precocedora_1_observacion')}}"
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'temperatura_precocedora_2_inicial','tiempo_precocedora_1_observacion')"
-                   class="form-control">
+                   class="form-control valor">
         </div>
     </div>
 
@@ -547,21 +554,23 @@
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="dato_inicial">VALOR</label>
-            <input type="number"  step=".01"  name="temperatura_precocedora_2_inicial" id="temperatura_precocedora_2_inicial"
+            <input type="number" step="any" name="temperatura_precocedora_2_inicial"
+                   id="temperatura_precocedora_2_inicial"
 
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'temperatura_precocedora_2_observacion','temperatura_precocedora_2_inicial')"
                    value="{{old('temperatura_precocedora_2_inicial')}}" disabled=""
-                   class="form-control">
+                   class="form-control valor">
         </div>
     </div>
 
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="temperatura_precocedora_1_observacion">OBSERVACIONES</label>
-            <input type="text" name="temperatura_precocedora_2_observacion" id="temperatura_precocedora_2_observacion" disabled=""
+            <input type="text" name="temperatura_precocedora_2_observacion" id="temperatura_precocedora_2_observacion"
+                   disabled=""
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'tiempo_precocedora_2_inicial','temperatura_precocedora_2_observacion')"
                    value="{{old('temperatura_precocedora_2_observacion')}}"
-                   class="form-control">
+                   class="form-control valor">
         </div>
     </div>
 
@@ -582,10 +591,10 @@
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="dato_inicial">VALOR</label>
-            <input type="number"  step=".01" name="tiempo_precocedora_2_inicial" id="tiempo_precocedora_2_inicial"
+            <input type="number" step="any" name="tiempo_precocedora_2_inicial" id="tiempo_precocedora_2_inicial"
                    value="{{old('tiempo_precocedora_2_inicial')}}" disabled=""
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'tiempo_precocedora_2_observacion','tiempo_precocedora_2_inicial')"
-                   class="form-control">
+                   class="form-control valor">
         </div>
     </div>
 
@@ -595,7 +604,7 @@
             <input type="text" name="tiempo_precocedora_2_observacion" id="tiempo_precocedora_2_observacion" disabled
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'temperatura_central_inicial','tiempo_precocedora_2_observacion')"
                    value="{{old('tiempo_precocedora_2_observacion')}}"
-                   class="form-control">
+                   class="form-control valor">
         </div>
     </div>
 
@@ -615,11 +624,11 @@
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="dato_inicial">VALOR</label>
-            <input type="number"  step=".01" name="temperatura_central_inicial" id="temperatura_central_inicial"
+            <input type="number" step="any" name="temperatura_central_inicial" id="temperatura_central_inicial"
                    value="{{old('temperatura_central_inicial')}}"
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'temperatura_central_observaciones','temperatura_central_inicial')"
                    disabled
-                   class="form-control">
+                   class="form-control valor">
         </div>
     </div>
 
@@ -629,7 +638,7 @@
             <input type="text" name="temperatura_central_observaciones" id="temperatura_central_observaciones" disabled
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'velocidad_pass200_inicial','temperatura_central_observaciones')"
                    value="{{old('temperatura_central_observaciones')}}"
-                   class="form-control">
+                   class="form-control valor">
         </div>
     </div>
 
@@ -649,10 +658,10 @@
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="dato_inicial">VALOR</label>
-            <input type="number"  step=".01" name="velocidad_pass200_inicial" id="velocidad_pass200_inicial"
+            <input type="number" step="any" name="velocidad_pass200_inicial" id="velocidad_pass200_inicial"
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'velocidad_pass200_observaciones','velocidad_pass200_inicial')"
                    value="{{old('velocidad_pass200_inicial')}}" disabled=""
-                   class="form-control">
+                   class="form-control valor">
         </div>
     </div>
 
@@ -662,7 +671,7 @@
             <input type="text" name="velocidad_pass200_observaciones" id="velocidad_pass200_observaciones" disabled
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'velocidad_pasc180_inicial','velocidad_pass200_observaciones')"
                    value="{{old('velocidad_pass200_observaciones')}}"
-                   class="form-control">
+                   class="form-control valor">
         </div>
     </div>
 
@@ -681,10 +690,10 @@
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="dato_inicial">VALOR</label>
-            <input type="number"  step=".01" name="velocidad_pasc180_inicial" id="velocidad_pasc180_inicial"
+            <input type="number" step="any" name="velocidad_pasc180_inicial" id="velocidad_pasc180_inicial"
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'velocidad_pasc180_observaciones','velocidad_pasc180_inicial')"
                    value="{{old('velocidad_pasc180_inicial')}}" disabled=""
-                   class="form-control">
+                   class="form-control valor">
         </div>
     </div>
 
@@ -695,7 +704,7 @@
             <input type="text" name="velocidad_pasc180_observaciones" id="velocidad_pasc180_observaciones" disabled
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'velocidad_pask180_inicial','velocidad_pasc180_observaciones')"
                    value="{{old('velocidad_pasc180_observaciones')}}"
-                   class="form-control">
+                   class="form-control valor">
         </div>
     </div>
 
@@ -714,10 +723,10 @@
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="dato_inicial">VALOR</label>
-            <input type="number"  step=".01" name="velocidad_pask180_inicial" id="velocidad_pask180_inicial"
+            <input type="number" step="any" name="velocidad_pask180_inicial" id="velocidad_pask180_inicial"
                    value="{{old('velocidad_pask180_inicial')}}" disabled=""
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'velocidad_pask180_observaciones','velocidad_pask180_inicial')"
-                   class="form-control">
+                   class="form-control valor">
         </div>
     </div>
 
@@ -727,7 +736,7 @@
             <input type="text" name="velocidad_pask180_observaciones" id="velocidad_pask180_observaciones" disabled
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'velocidad_pasi180_inicial','velocidad_pask180_observaciones')"
                    value="{{old('velocidad_pask180_observaciones')}}"
-                   class="form-control">
+                   class="form-control valor ">
         </div>
     </div>
 
@@ -746,10 +755,10 @@
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="dato_inicial">VALOR</label>
-            <input type="number"  step=".01" name="velocidad_pasi180_inicial" id="velocidad_pasi180_inicial" disabled
+            <input type="number" step="any" name="velocidad_pasi180_inicial" id="velocidad_pasi180_inicial" disabled
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'velocidad_pasi180_observaciones','velocidad_pasi180_inicial')"
                    value="{{old('velocidad_pasi180_inicial')}}"
-                   class="form-control">
+                   class="form-control valor">
         </div>
     </div>
 
@@ -759,7 +768,7 @@
             <input type="text" name="velocidad_pasi180_observaciones" id="velocidad_pasi180_observaciones" disabled
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'velocidad_pasm160_inicial','velocidad_pasi180_observaciones')"
                    value="{{old('velocidad_pasi180_observaciones')}}"
-                   class="form-control">
+                   class="form-control valor">
         </div>
     </div>
 
@@ -772,16 +781,16 @@
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <label for="label_generico">VELOCIDAD SECADORA PASM160 (60HRZ)</label>
+            <label for="label_generico valor">VELOCIDAD SECADORA PASM160 (60HRZ)</label>
         </div>
     </div>
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="dato_inicial">VALOR</label>
-            <input type="number"  step=".01" name="velocidad_pasm160_inicial" id="velocidad_pasm160_inicial"
+            <input type="number" step="any" name="velocidad_pasm160_inicial" id="velocidad_pasm160_inicial"
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'velocidad_pasm160_observaciones','velocidad_pasm160_inicial')"
                    value="{{old('velocidad_pasm160_inicial')}}" disabled=""
-                   class="form-control">
+                   class="form-control valor">
         </div>
     </div>
 
@@ -789,9 +798,10 @@
         <div class="form-group">
             <label for="velocidad_pasm160_observaciones">OBSERVACIONES</label>
             <input type="text" name="velocidad_pasm160_observaciones" id="velocidad_pasm160_observaciones" disabled=""
-                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'extractor_activo_inicial','velocidad_pasm160_observaciones')"
+                   onkeydown="if(event.keyCode==9||event.keyCode==13)
+                       next(this,'extractor_activo_inicial','velocidad_pasm160_observaciones')"
                    value="{{old('velocidad_pasm160_observaciones')}}"
-                   class="form-control">
+                   class="form-control valor">
         </div>
     </div>
 
@@ -804,36 +814,40 @@
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <label for="label_generico">EXTRACTOR ACTIVO</label>
+            <label for="label_generico">EXTRACTOR ACTIVO (SI)</label>
         </div>
     </div>
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="dato_inicial">VALOR</label>
-            <!--<select name="id_localidad" class="form-control selectpicker" id="localidades" >-->
-            <select class="form-control selectpicker" data-live-search="true" id="extractor_activo_inicial"
+
+            <select class="form-control selectpicker valor"
+                    id="extractor_activo_inicial"
                     name="extractor_activo_inicial"
-                    onchange="ValidacionCombox(this,  document.getElementById('extractor_activo_final'), document.getElementById('extractor_activo_observacion') , document.getElementById('ventilacion_inicial') )">
-                <option value="" selected>SELECCIONE UNA OPCION</option>
-                <option value="SI">SI</option>
-                <option value="NO">NO</option>
+                    disabled
+                    onchange="document.getElementById('extractor_activo_observaciones').focus()">
+                <option value="1">SI</option>
+                <option value="0" selected>NO</option>
             </select>
+
+
         </div>
     </div>
 
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="extractor_activo_observaciones">OBSERVACIONES</label>
-            <input type="text" name="extractor_activo_observacion" id="extractor_activo_observacion" disabled
-                   value="{{old('extractor_activo_observacion')}}"
+            <input type="text" name="extractor_activo_observaciones"
+                   onkeydown="if(event.keyCode==9||event.keyCode==13)
+                       next(this,'ventilacion_inicial','extractor_activo_observaciones')"
+                   id="extractor_activo_observaciones" disabled
+                   value="{{old('extractor_activo_observaciones')}}"
                    class="form-control">
         </div>
     </div>
 
 
 
-
-    <!---***********************-->
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
             <label for="label_generico"> </label>
@@ -848,12 +862,13 @@
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="dato_inicial">VALOR</label>
-            <select class="form-control selectpicker" data-live-search="true" id="ventilacion_inicial"
+            <select class="form-control selectpicker valor"
+                    id="ventilacion_inicial"
                     name="ventilacion_inicial"
-                    onchange="ValidacionCombox(this,  document.getElementById('ventilacion_final'), document.getElementById('ventilacion_observacion') , document.getElementById('verificacion_codificacion_lote') )">
-                <option value="" selected>SELECCIONE UNA OPCION</option>
-                <option value="SI">SI</option>
-                <option value="NO">NO</option>
+                    disabled
+                    onchange="document.getElementById('ventilacion_observacion').focus()">
+                <option value="1">SI</option>
+                <option value="0" selected>NO</option>
             </select>
         </div>
     </div>
@@ -861,9 +876,12 @@
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="extractor_activo_observaciones">OBSERVACIONES</label>
-            <input type="text" name="ventilacion_observacion" id="ventilacion_observacion" disabled
+            <input type="text" name="ventilacion_observacion"
+                   onkeydown="if(event.keyCode==9||event.keyCode==13)
+                       next(this,'verificacion_codificacion_lote','ventilacion_observacion')"
+                   id="ventilacion_observacion" disabled
                    value="{{old('ventilacion_observacion')}}"
-                   class="form-control">
+                   class="form-control valor">
         </div>
     </div>
 
@@ -871,8 +889,6 @@
 
 
 
-
-    <!---***********************-->
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
             <label for="label_generico"> </label>
@@ -887,9 +903,11 @@
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="dato_inicial">LOTE: CODMMDDAATUR</label>
-            <input type="text" name="verificacion_codificacion_lote" id="verificacion_codificacion_lote"
+            <input type="text" name="verificacion_codificacion_lote" id="verificacion_codificacion_lote" disabled
+                   onkeydown="if(event.keyCode==9||event.keyCode==13)
+                       next(this,'verificacion_codificacion_lote','ventilacion_observacion')"
                    value="{{old('verificacion_codificacion_lote')}}"
-                   class="form-control">
+                   class="form-control valor">
         </div>
     </div>
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
@@ -897,22 +915,26 @@
             <label for="dato_final">VENCE: DD/MM/AAAA</label>
             <input type="text" name="verificacion_codificacion_vence" id="verificacion_codificacion_vence" disabled
                    value="{{old('verificacion_codificacion_vence')}}"
-                   class="form-control">
+                   onkeydown="if(event.keyCode==9||event.keyCode==13)
+                       next(this,'verificacion_codificacion_obs','verificacion_codificacion_vence')"
+                   class="form-control valor">
         </div>
     </div>
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="verificacion_codificacion_obs">OBSERVACIONES</label>
             <input type="text" name="verificacion_codificacion_obs" id="verificacion_codificacion_obs" disabled
+                   onkeydown="if(event.keyCode==9||event.keyCode==13)
+                       next(this,'maquina_inicial_1','verificacion_codificacion_obs')"
                    value="{{old('verificacion_codificacion_obs')}}"
-                   class="form-control">
+                   class="form-control valor">
         </div>
     </div>
 
 
 
 
-    <!---***********************-->
+
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
             <label for="label_generico"> </label>
@@ -921,33 +943,60 @@
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <label for="label_generico">SELLOS CUALITATIVO</label>
+            <label for="label_generico">SELLOS CUALITATIVO (MAQUINA #1)</label>
         </div>
     </div>
     <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
         <div class="form-group">
-            <label for="dato_final">MAQUINA</label>
-            <select class="form-control selectpicker" data-live-search="true" id="id_maquina" name="id_maquina">
-                <option value="" selected>SELECCIONE UNA OPCION</option>
-                <option value="1">MAQ # 1</option>
-                <option value="2">MAQ # 2</option>
+            <label for="dato_final">VALOR</label>
+            <select class="form-control selectpicker valor" id="maquina_inicial_1"
+                    disabled
+                    onchange="document.getElementById('sellos_observaciones_1').focus()"
+                    name="maquina_inicial_1">
+                <option value="1">SI</option>
+                <option value="0" selected>NO</option>
             </select>
-        </div>
-    </div>
-    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
-        <div class="form-group">
-            <label for="dato_inicial">VALOR</label>
-            <input type="text" name="maquina_inicial" id="maquina_inicial" value="{{old('maquina_inicial')}}"
-                   class="form-control">
         </div>
     </div>
 
     <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
         <div class="form-group">
-            <label for="extractor_activo_observaciones">OBSERVACIONES</label>
-            <input type="text" name="sellos_observaciones" id="sellos_observaciones"
+            <label for="sellos_observaciones_1">OBSERVACIONES</label>
+            <input type="text" name="sellos_observaciones_1" id="sellos_observaciones_1"
+                   disabled
+                   onkeydown="if(event.keyCode==9||event.keyCode==13)
+                       next(this,'maquina_inicial_2','sellos_observaciones_1')"
                    value="{{old('sellos_observaciones')}}"
                    class="form-control">
+        </div>
+    </div>
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <div class="form-group">
+            <label for="label_generico">SELLOS CUALITATIVO (MAQUINA #2)</label>
+        </div>
+    </div>
+    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+        <div class="form-group">
+            <label for="dato_final">VALOR</label>
+            <select class="form-control selectpicker valor"
+                    disabled
+                    onchange="document.getElementById('sellos_observaciones_2').focus()"
+                    id="maquina_inicial_2" name="maquina_inicial_2">
+                <option value="1">SI</option>
+                <option value="0" selected>NO</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+        <div class="form-group">
+            <label for="sellos_observaciones_2">OBSERVACIONES</label>
+            <input type="text" name="sellos_observaciones_2" id="sellos_observaciones_2"
+                   disabled
+                   onkeydown="if(event.keyCode==9||event.keyCode==13)
+                       next(this,'observaciones_acciones','sellos_observaciones_2')"
+                   value="{{old('sellos_observaciones')}}"
+                   class="form-control valor">
         </div>
     </div>
 
@@ -960,10 +1009,12 @@
     </div>
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <label for="observaciones">OBSERVACIONES/ACCIONES CORRECTIVAS</label>
-            <input type="text" name="observaciones_acciones" value="{{old('observaciones_acciones')}}"
-
-                   class="form-control">
+            <label for="observaciones_acciones">OBSERVACIONES/ACCIONES CORRECTIVAS</label>
+            <input type="text" name="observaciones_acciones"
+                   disabled
+                   id="observaciones_acciones"
+                   value="{{old('observaciones_acciones')}}"
+                   class="form-control valor">
 
         </div>
     </div>
@@ -972,7 +1023,9 @@
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <button class="btn btn-default" type="submit">
+            <button class="btn btn-default"
+                    onclick="guardar()"
+                    type="button">
                 <span class=" fa fa-check"></span> GUARDAR
             </button>
             <a href="{{url('control/chaomin')}}">
@@ -1002,6 +1055,12 @@
             $(select).selectpicker('refresh');
         }
 
+        function guardar() {
+            document.getElementById('no_orden_produccion').disabled = false;
+            habilitar_formulario();
+            $('form').submit();
+        }
+
         function addToSelect(value, txt, select) {
 
             let option = `<option value='${value}'>${txt}</option>`;
@@ -1011,7 +1070,7 @@
 
     </script>
     <script>
-        $('#hamburger').click(function() {
+        $('#hamburger').click(function () {
             $('#hamburger').toggleClass('show');
             $('.hamburger-nav').toggleClass('show');
         });
@@ -1093,10 +1152,29 @@
         }
 
 
-        function habilitar_formulario(){
+        function cambiar_combobox(id) {
 
-            Array.prototype.slice.call(document.getElementsByClassName('form-control')).map(e=>e.disabled = false);
-            Array.prototype.slice.call(document.getElementsByClassName('form-control')).map(e=>e.readOnly = false);
+            setTimeout(function () {
+                document.getElementById(id).disabled = false;
+                $('#' + id).selectpicker('refresh').selectpicker('toggle');
+            }, 100);
+
+        }
+
+        function habilitar_formulario() {
+
+            Array.prototype.slice.call
+            (document.getElementsByClassName('form-control'))
+                .map(function (e) {
+                        e.disabled = false;
+                        if (e.tagName === "SELECT") {
+                            $(e).selectpicker('refresh');
+                        }
+                    }
+                )
+
+            ;
+            Array.prototype.slice.call(document.getElementsByClassName('form-control')).map(e => e.readOnly = false);
         }
 
         async function iniciar_linea_chaomein(e) {
@@ -1109,39 +1187,47 @@
                 alert(response.message);
             } else {
                 habilitar_formulario();
-                document.getElementById('no_orden_produccion').disabled  =true;
-                document.getElementById('cant_solucion_carga').focus();
+                document.getElementById('no_orden_produccion').disabled = true;
+                document.getElementById('id_presentacion').disabled = false;
+                document.getElementById('id_turno').disabled = false;
+                $('#id_turno').selectpicker('refresh');
+                $('#id_presentacion').selectpicker('refresh');
+                cambiar_combobox('id_presentacion');
                 document.getElementById('id_chaomin').value = response.id;
+                start_job("{{url('control/chaomin/nuevo_registro')}}", document.getElementById('id_chaomin').value);
             }
 
 
         }
 
-        async function next(actual, next, field,e) {
+        function focus_next(element) {
+
+            if (element.tagName === "SELECT") {
+                cambiar_combobox(element.id);
+            } else {
+                element.focus();
+            }
+
+
+        }
+
+        async function next(actual, next, field) {
 
 
             let new_value = actual.value;
             let url = "{{url('control/chaomin/nuevo_registro')}}";
 
-            let id_chaomin  =document.getElementById('id_chaomin').value;
-            let response = await nuevo_registro(url, field, new_value, id_chaomin);
-
+            let id_chaomin = document.getElementById('id_chaomin').value;
+            const fields = array_registros(field, new_value);
+            let response = await insertar_registros(url, fields, id_chaomin);
             if (response.status == 1) {
                 let next_element = document.getElementById(next);
                 actual.disabled = true;
-
-                if(next_element.disabled==true){
-
-                    Array.prototype.slice.call(document.getElementsByTagName('INPUT'))
-                        .filter(
-                            e=>(e.type=="text" || e.type=="number" ) & (e.disabled==false)  & (e.id!="")
-                        )[0].focus();
-
-                }else{
-                    next_element.focus();
+                if (next_element.disabled == true) {
+                    buscar_siguiente();
+                } else {
+                    focus_next(next_element);
                 }
-
-
 
             } else {
                 actual.focus();
@@ -1150,8 +1236,12 @@
 
         }
 
-
-
+        function buscar_siguiente() {
+            Array.prototype.slice.call(document.getElementsByTagName('INPUT'))
+                .filter(
+                    e => (e.type == "text" || e.type == "number") & (e.disabled == false) & (e.id != "")
+                )[0].focus();
+        }
 
 
     </script>

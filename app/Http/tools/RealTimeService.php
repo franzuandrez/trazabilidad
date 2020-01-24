@@ -11,24 +11,16 @@ class RealTimeService
 {
 
 
-    public static function actualizar_modelo(Model $model, $fields)
+    public static function guardar(Model $model, $nuevos_registro)
     {
 
-        DB::enableQueryLog();
-
-        $nuevos_registro = collect($fields)
-            ->filter(function ($item) use ($model) {
-                $value = $model->getAttributes()[$item[0]];
-                return $value != $item[1];
-            })
-            ->mapWithKeys(function ($item) {
-
-                return [$item[0] => $item[1]];
+        $nuevos_registro = collect($nuevos_registro)
+            ->filter(function ($item) {
+                return $item != "" && $item != null;
             })->toArray();
 
-
         try {
-
+            DB::enableQueryLog();
             $nothing_to_update = count($nuevos_registro) == 0;
 
             if ($nothing_to_update) {
@@ -65,6 +57,26 @@ class RealTimeService
         }
 
         return $response;
+
+    }
+
+    public static function actualizar_modelo(Model $model, $fields)
+    {
+
+
+        $nuevos_registro = collect($fields)
+            ->filter(function ($item) use ($model) {
+                $value = $model->getAttributes()[$item[0]];
+                return $value != $item[1];
+            })
+            ->mapWithKeys(function ($item) {
+
+                return [$item[0] => $item[1]];
+            })->toArray();
+
+        return self::guardar($model, $nuevos_registro);
+
+
     }
 
 
