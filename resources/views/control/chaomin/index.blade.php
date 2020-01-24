@@ -69,13 +69,18 @@
                             {{$linea->no_orden_produccion}}
                         </td>
                         <td>
-                            {{$linea->id_turno}}
+                            @if($linea->id_turno == 1)
+                                TURNO 1
+                            @else
+                                TURNO 2
+                            @endif
+
                         </td>
                         <td>
-                            {{$linea->id_presentacion}}
+                            {{$linea->presentacion}}
                         </td>
                         <td>
-                            {{$linea->fecha}}
+                            {{$linea->fecha->format('d/m/Y H:i:s')}}
                         </td>
                         <td>
                             {{$linea->responsable}}

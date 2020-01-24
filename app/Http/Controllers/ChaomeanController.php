@@ -27,9 +27,14 @@ class ChaomeanController extends Controller
         $sortField = $request->get('field') == null ? 'no_orden_produccion' : $request->get('field');
 
 
-        $lineas = LineaChaomin::select('chaomin.*')
+        $lineas = LineaChaomin::select('chaomin.*', 'presentaciones.descripcion as presentacion', 'users.nombre as responsable')
+            ->leftJoin('presentaciones', 'presentaciones.id_presentacion', '=', 'chaomin.id_presentacion')
+            ->join('users', 'users.id', '=', 'chaomin.responsable')
             ->where(function ($query) use ($search) {
                 $query->where('chaomin.no_orden_produccion', 'LIKE', '%' . $search . '%')
+                    ->orWhere('chaomin.id_turno', 'LIKE', '%' . $search . '%')
+                    ->orWhere('presentaciones.descripcion', 'LIKE', '%' . $search . '%')
+                    ->orWhere('users.nombre', 'LIKE', '%' . $search . '%')
                     ->orWhere('chaomin.id_turno', 'LIKE', '%' . $search . '%');
             })
             ->orderBy($sortField, $sort)
@@ -154,6 +159,7 @@ class ChaomeanController extends Controller
                 } else {
                     $linea_chaomin = new LineaChaomin();
                     $linea_chaomin->no_orden_produccion = $orden_produccion;
+                    $linea_chaomin->responsable = \Auth::user()->id;
                     $linea_chaomin->save();
 
                     $response = [

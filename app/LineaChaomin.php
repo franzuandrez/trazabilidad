@@ -8,10 +8,14 @@ class LineaChaomin extends Model
 {
     //
 
-    protected $table ='chaomin';
+    protected $table = 'chaomin';
     protected $primaryKey = 'id_chaomin';
     public $timestamps = false;
 
+
+    protected $dates = [
+        'fecha'
+    ];
     protected $fillable = [
         'no_orden_produccion',
         'id_presentacion',
