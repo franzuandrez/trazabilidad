@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 @section('style')
     <link rel="stylesheet" href="{{asset('css/bootstrap-datepicker.css')}}">
+    <link rel="stylesheet" href="{{asset('css/loading.css')}}">
 @endsection
 
 @section('contenido')
@@ -51,7 +52,7 @@
     </div>
 
     <input type="hidden" id="id_producto" name="id_producto">
-
+    @include('componentes.loading')
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="id_proveedor">PROVEEDOR</label>
@@ -836,6 +837,7 @@
             }
             searchValue = descomponerString(searchValue)[1];
 
+            $('.loading').show();
             $.ajax({
 
                 url: "{{url('registro/productos/search')}}" + "/" + searchValue,
@@ -859,12 +861,14 @@
                         cargarProductos(productos);
                         mostrarProductosCargados();
                     }
-
+                    $('.loading').hide();
 
                 },
                 error: function (e) {
-
                     console.error(e);
+                    alert(e);
+                    $('.loading').hide();
+
                 }
 
             })
@@ -1009,7 +1013,7 @@
             let fecha = infoCodigoBarras[POSICION_FECHA];
             let codigo = infoCodigoBarras[POSICION_CODIGO];
             let lote = infoCodigoBarras[POSICION_LOTE];
-
+            $('.loading').show();
             $.ajax({
 
                 url: "{{url('registro/productos/search')}}" + "/" + codigo,
@@ -1052,11 +1056,12 @@
 
                     }
 
-
+                    $('.loading').hide();
                 },
                 error: function (e) {
                     alert("Producto invalido");
                     console.log(e);
+                    $('.loading').hide();
                 }
 
             })
