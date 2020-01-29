@@ -263,24 +263,36 @@
 
             if (event.keyCode == 13) {
 
-                var regexp = new RegExp(input.value.trim(), 'i');
-                var noexisteproducto = getMovimientos()
-                    .filter(mov => mov.producto.descripcion.trim().match(regexp) || mov.producto.codigo_barras.trim() == input.value.trim())
-                    .length == 0;
+                let regexp = new RegExp(input.value.trim(), 'i');
+                let productos = getMovimientos()
+                    .filter(function (e) {
+                        return !productos_agregados.includes(e.id_rmi_detalle.toString())
+                    })
+                    .filter(mov => mov.producto.descripcion.trim().match(regexp) || mov.producto.codigo_barras.trim() == input.value.trim());
+                let cantidad_matches = productos.length;
+                let noexisteproducto = cantidad_matches == 0;
+                let no_es_codigo_estandar = input.value < 13;
 
-                if (input.value != "" && noexisteproducto) {
-                    let infoProducto = descomponerInput(input);
-
-                    if (infoProducto[POSICION_LOTE] == "") {
-                        alert("Producto no encontrado");
-                    } else {
-                        let codigo = infoProducto[POSICION_CODIGO];
-                        let lote = infoProducto[POSICION_LOTE];
-                        fillProduct(codigo, lote);
-                    }
-                } else {
-                    cargarProductos(input.value);
+                if (noexisteproducto && no_es_codigo_estandar) {
+                    alert("Producto no encontrado");
+                    return;
                 }
+
+                if (cantidad_matches == 1) {
+                    fillProduct(productos[0].producto.codigo_barras, productos[0].lote)
+                    return;
+                }
+
+
+                if (input.value == "" || cantidad_matches > 1) {
+                    cargarProductos(input.value);
+                    return;
+                }
+
+                let infoProducto = descomponerInput(input);
+                let codigo = infoProducto[POSICION_CODIGO];
+                let lote = infoProducto[POSICION_LOTE];
+                fillProduct(codigo, lote);
 
 
             }
@@ -431,6 +443,8 @@
             return [id_prod, codigo, lote, descripcion];
         }
 
+        var productos_agregados = [];
+
         function checkRow(idMovimiento, cantidad, impresiones) {
 
 
@@ -440,7 +454,7 @@
             const cantidad_recepcionada = parseFloat(row.children[3].innerText);
             row.children[5].innerHTML = "<input name='imprimir[]' value='" + impresiones + "' type='hidden'  >" + impresiones + " ";
             row.children[4].innerHTML = cantidad + "<input name='cantidad_entrante[]' type='hidden' value='" + cantidad + "'><input name='diferencia[]' type='hidden' value='" + (cantidad_recepcionada - cantidad) + "'> ";
-
+            productos_agregados.push(idMovimiento);
         }
 
         function activarCheck(input) {
