@@ -277,7 +277,7 @@
             document.getElementById('cantidad').value = "";
             document.getElementById('cantidad').readOnly = true;
             document.getElementById('ubicacion').readOnly = true;
-
+            document.getElementById('ubicacion_a_asignar').style.display = 'none';
         }
 
         var gl_id_producto = 0;
