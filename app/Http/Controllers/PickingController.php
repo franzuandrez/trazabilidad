@@ -180,7 +180,7 @@ class PickingController extends Controller
 
             $esta_lote_disponible = $total_disponible > 0;
             if ($esta_lote_disponible) {
-                $lote_ubicacion = $lote['lote'] . '-' . $lote['ubicacion'];
+                $lote_ubicacion = $lote['lote'] . '|' . $lote['ubicacion'];
                 $fecha_vencimiento = $lote['fecha_vencimiento'];
                 if (!array_key_exists($lote_ubicacion, $lotesDisponibles)) {
                     $lotesDisponibles[$lote_ubicacion] = [
@@ -435,8 +435,8 @@ class PickingController extends Controller
 
                 foreach ($lotesDisponibles as $lote => $cantidadDisponible) {
 
-                    $codigo_ubicacion = explode('-', $lote)[1];
-                    $no_lote = explode('-', $lote)[0];
+                    $codigo_ubicacion = explode('|', $lote)[1];
+                    $no_lote = explode('|', $lote)[0];
 
                     $ubicacion = Sector::where('codigo_barras', $codigo_ubicacion)->first();
 
