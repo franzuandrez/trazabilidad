@@ -1,9 +1,5 @@
-@component('componentes.search',
-['search'=>$search,
-  'sort'=>$sort,
-  'sortField'=>$sortField,
-'modulo'=>'recepcion/materia_prima'])
-@endcomponent
+@include('componentes.search')
+
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
         <div class="table-responsive">
@@ -13,61 +9,61 @@
 
                 </th>
                 <th>
-                    @component('componentes.column-sort',['modulo'=>'recepcion/materia_prima',
+                    @include('componentes.column-sort',['modulo'=>'recepcion/materia_prima',
                         'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
-                          'field'=>'orden_compra',
-                          'titulo'=>'ORDEN DE COMPRA'])
-                    @endcomponent
+                          'field'=>'no_orden',
+                          'titulo'=>'no. ORDEN PRODUCCION'])
+
                 </th>
                 <th>
-                    @component('componentes.column-sort',['modulo'=>'recepcion/materia_prima',
+                    @include('componentes.column-sort',['modulo'=>'recepcion/materia_prima',
                         'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
-                          'field'=>'proveedor',
-                          'titulo'=>'proveedor'])
-                    @endcomponent
+                          'field'=>'turno',
+                          'titulo'=>'turno'])
+
                 </th>
                 <th>
-                    @component('componentes.column-sort',['modulo'=>'recepcion/materia_prima',
-                        'search'=>$search,
-                          'sort'=>$sort,
-                          'sortField'=>$sortField,
-                          'field'=>'producto',
-                          'titulo'=>'producto'])
-                    @endcomponent
-                </th>
-                <th>
-                    @component('componentes.column-sort',['modulo'=>'recepcion/materia_prima',
+                    @include('componentes.column-sort',['modulo'=>'recepcion/materia_prima',
                         'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
                           'field'=>'fecha_ingreso',
-                          'titulo'=>'FECHA INGRESO'])
-                    @endcomponent
+                          'titulo'=>'FEcha'])
+
+                </th>
+                <th>
+                    @include('componentes.column-sort',['modulo'=>'recepcion/materia_prima',
+                        'search'=>$search,
+                          'sort'=>$sort,
+                          'sortField'=>$sortField,
+                          'field'=>'users.nombre',
+                          'titulo'=>'responsable'])
+
                 </th>
 
                 </thead>
                 <tbody>
-                @foreach($recepciones as $recepcion)
+                @foreach($precocidos as $precocido)
                     <tr>
                         <td>
-                            <input type="radio" name="id_recepcion_enc" value="{{$recepcion->id_recepcion_enc}}">
+                            <input type="radio" name="id_item" value="{{$precocido->id_precocido_enc}}">
 
                         </td>
                         <td>
-                            {{$recepcion->orden_compra}}
+                            {{$precocido->no_orden}}
                         </td>
                         <td>
-                            {{$recepcion->proveedor}}
+                            Turno {{$precocido->turno}}
                         </td>
                         <td>
-                            {{$recepcion->producto}}
+                            {{$precocido->fecha_ingreso}}
                         </td>
                         <td>
-                            {{$recepcion->fecha_ingreso}}
+                            {{$precocido->usuario}}
                         </td>
                     </tr>
 
@@ -78,7 +74,7 @@
         </div>
     </div>
     {{
-  $recepciones->appends([
+  $precocidos->appends([
       'search' => $search,
       'sort'=>$sort,
       'field'=>$sortField

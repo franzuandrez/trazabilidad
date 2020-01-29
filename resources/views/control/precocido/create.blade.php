@@ -22,180 +22,171 @@
     {!!Form::open(array('url'=>'control/precocido/create','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-        <div class="form-group">
-            <label for="turno">NO ORDEN DE PRODUCCION</label>
-            <input type="text" name="NO_ORDEN_PRODUCCION" value="{{old('NO_ORDEN_PRODUCCION')}}"
+        <label for="turno">NO ORDEN DE PRODUCCION</label>
+        <div class="input-group">
+            <input type="text" name="no_orden_produccion" value="{{old('no_orden_produccion')}}"
+                   id="no_orden_produccion"
+                   onkeydown="if(event.keyCode==13)iniciar_control_precocido()"
                    class="form-control">
-
+            <div class="input-group-btn">
+                <button
+                    onclick="iniciar_control_precocido()"
+                    onkeydown="iniciar_control_precocido()"
+                    type="button" class="btn btn-default">
+                    <i class="fa fa-search"
+                       aria-hidden="true"></i>
+                </button>
+            </div>
         </div>
     </div>
-
-
-
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+    <div class="col-lg-4 col-sm-4 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="turno">TURNO</label>
-            <input id="turno" type="text"
-                   class="form-control">
+            <select class="form-control selectpicker"
+                    id="id_turno"
+                    name="id_turno" disabled>
+                <option value="" selected>SELECCIONE UN TURNO</option>
+                <option value="1">TURNO 1</option>
+                <option value="2">TURNO 2</option>
+            </select>
         </div>
     </div>
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+
+
+    <div class="col-lg-4 col-sm-4 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="codigo">CODIGO</label>
-            <input id="codigo" type="text"
-                   onkeydown="descomponerInput(this)"
-                   class="form-control">
+            <label for="id_producto">PRODUCTO</label>
+            <select class="form-control selectpicker valor"
+                    disabled
+                    required
+                    onchange="cargar_lotes(this.value)"
+                    id="id_producto" name="id_producto">
+                <option value="" selected>SELECCIONE UN PRODUCTO</option>
+            </select>
         </div>
     </div>
-    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-        <div class="">
-            <div class="tab-content">
-            </div>
-            <div class="tab-pane" id="tab_3">
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <label for="hora_inicio">HORA INICIO</label>
-                    <div class="input-group">
-                        <input id="hora_inicio" type="text" class="form-control timepicker" name="hora_inicio">
 
-                        <div class="input-group-addon">
-                            <i class="fa fa-clock-o"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <label for="hora_salida">HORA SALIA</label>
-                    <div class="input-group">
-                        <input id="hora_salida" type="text" class="form-control timepicker" name="hora_salida">
-
-                        <div class="input-group-addon">
-                            <i class="fa fa-clock-o"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="tiempo_efectivo">TIEMPO EFECTIVO</label>
-                        <input id="tiempo_efectivo" type="text" name="tiempo_efectivo"
-
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="alcance_presion">ALCANCE PRESIÓN</label>
-                        <input id="alcance_presion" type="text" name="alcance_presion"
-
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="temperatura">TEMPERATURA A (98-106 C)</label>
-                        <input id="temperatura" type="text" name="temperatura"
-
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="lote">LOTE</label>
-                        <input id="lote" type="text" name="lote"
-
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="producto">PRODUCTO</label>
-                        <input id="producto" type="text" name="producto"
-
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="responsable">RESPONSABLES</label>
-                        <select name="id_responsable" class="form-control selectpicker" id="responsable">
-                            <option value="">SELECCIONAR RESPONSABLE</option>
-                            @foreach($responsables as $responsable)
-                                <option value="{{$responsable->id}}">{{$responsable->nombre}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="observaciones">OBSERVACIONES</label>
-                        <input id="observaciones" type="text" name="observaciones"
-
-                               class="form-control">
-                    </div>
-                </div>
-
-                <div class="col-lg-2 col-sm-4 col-md-2 col-xs-2">
-                    <br>
-                    <div class="form-group">
-                        <button id="btnAdd" class="btn btn-default block" style="margin-top: 5px;" type="button">
-                            <span class=" fa fa-plus"></span></button>
-                    </div>
-                </div>
+    <div class="col-lg-4 col-sm-4 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="lote">LOTE</label>
+            <select class="form-control selectpicker valor"
+                    disabled
+                    required
+                    id="lote" name="lote">
+                <option value="" selected>SELECCIONE LOTE</option>
+            </select>
+        </div>
+    </div>
 
 
-                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
+    <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+        <label for="hora_inicio">HORA INICIO</label>
+        <div class="input-group">
+            <input id="hora_inicio" type="text"
+                   disabled
+                   required
+                   class="form-control timepicker" name="hora_inicio">
 
-                    <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
-
-                        <thead style="background-color: #01579B;  color: #fff;">
-                        <th>OPCION</th>
-                        <th>HORA INICIO</th>
-                        <th>HORA SALIDA</th>
-                        <th>TIEMPO EFECTIVO</th>
-                        <th>ALCANCE PRESICIÓN</th>
-                        <th>TEMPERATURA</th>
-                        <th>LOTE</th>
-                        <th>PRODUCTO</th>
-                        <th>RESPONSABLE EJECUCIÓN</th>
-                        <th>OBSERVACIONES</th>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-                    <div class="form-group">
-                        <label for="observacion_correctiva">RESPONSABLE:</label>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="puesto">PUESTO</label>
-                        <input type="text" name="puesto" value="{{old('puesto')}}"
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="nombre">NOMBRE</label>
-                        <input type="text" name="nombre" value="{{old('nombre')}}"
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="firma">FIRMA</label>
-                        <input type="text" name="firma" value="{{old('firma')}}"
-                               class="form-control">
-                    </div>
-                </div>
+            <div class="input-group-addon">
+                <i class="fa fa-clock-o"></i>
             </div>
         </div>
     </div>
+    <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+        <label for="hora_salida">HORA SALIDA</label>
+        <div class="input-group">
+            <input id="hora_salida"
+                   disabled
+                   required
+                   type="text" class="form-control timepicker" name="hora_salida">
+            <div class="input-group-addon">
+                <i class="fa fa-clock-o"></i>
+            </div>
+        </div>
     </div>
+    <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="tiempo_efectivo">TIEMPO EFECTIVO</label>
+            <input id="tiempo_efectivo" type="text"
+                   disabled
+                   required
+                   name="tiempo_efectivo"
+
+                   class="form-control">
+        </div>
+    </div>
+    <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="alcance_presion">ALCANCE PRESIÓN</label>
+            <input id="alcance_presion" type="text" name="alcance_presion"
+                   disabled
+                   required
+                   class="form-control">
+        </div>
+    </div>
+    <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="temperatura">TEMPERATURA A (98-106 C)</label>
+            <input id="temperatura" type="text" name="temperatura"
+                   disabled
+                   required
+                   class="form-control">
+        </div>
+    </div>
+
+
+    <div class="col-lg-2 col-sm-6 col-md-6 col-xs-10">
+        <div class="form-group">
+            <label for="observaciones">OBSERVACIONES</label>
+            <input id="observaciones" type="text" name="observaciones"
+                   disabled
+                   class="form-control">
+        </div>
+    </div>
+
+    <div class="col-lg-2 col-sm-4 col-md-2 col-xs-2">
+        <br>
+        <div class="form-group">
+            <button class="btn btn-default block" style="margin-top: 5px;" type="button"
+            onclick="agregar_a_table()"
+            >
+                <span class=" fa fa-plus"></span></button>
+            <button
+                onclick="limpiar()"
+                class="btn btn-default block" style="margin-top: 5px;" type="button">
+                <span class=" fa fa-trash"></span></button>
+        </div>
+    </div>
+
+
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
+
+        <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
+
+            <thead style="background-color: #01579B;  color: #fff;">
+            <tr>
+                <th>OPCION</th>
+                <th>PRODUCTO</th>
+                <th>LOTE</th>
+                <th>HORA INICIO</th>
+                <th>HORA SALIDA</th>
+                <th>TIEMPO EFECTIVO</th>
+                <th>ALCANCE RPESION</th>
+                <th>TEMPERATURA</th>
+                <th>OBSERVACIONES</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <button class="btn btn-default" type="submit">
+            <button class="btn btn-default"
+                    onclick="guardar()"
+                    type="button">
                 <span class=" fa fa-check"></span> GUARDAR
             </button>
             <a href="{{url('control/precocido')}}">
@@ -215,179 +206,177 @@
         $(function () {
             //Timepicker
             $('.timepicker').timepicker({
-                showInputs: false
+                showInputs: false,
+                minuteStep: 1,
+                format : 'HH:mm',
+                showMeridian: false,
             });
         })
 
     </script>
+    <script src="{{asset('js/moment.min.js')}}"></script>
+    <script src="{{asset('js/moment-with-locales.js')}}"></script>
+    <script src="{{asset('js-brc/tools/nuevo_registro.js')}}"></script>
+
 
     <script>
-        $('.date').datepicker({
-            format: 'yyyy-mm-dd',
-            autoclose: true,
-            setDate: new Date()
-
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
         });
-        $(document).ready(function () {
 
-            $("#btnAdd").click(function () {
-                addToTable();
-            });
+        function guardar() {
 
-        });
+            document.getElementById('no_orden_produccion').disabled = false;
+            $('form').submit();
+        }
         $(window).keydown(function (event) {
             if (event.keyCode == 13) {
                 event.preventDefault();
                 return false;
             }
         });
-    </script>
-    <script>
-        function cargarProveedores() {
-            //NOT IMPLEMENTED
+        var gl_detalle_insumos = null;
+
+
+        function cargar_productos() {
+
+            const select = document.getElementById('id_producto');
+            $(select).empty();
+            let option = '<option value="" selected>   SELECCIONE PRODUCTO </option>';
+            gl_detalle_insumos.forEach(function (e) {
+                option += `
+                <option  value="${e.id_producto}" > ${e.producto.descripcion} </option>
+                `
+            });
+            $(select).append(option);
+            $(select).selectpicker('refresh');
         }
 
-        function addToTable() {
-            if ($("#hora_inicio").val() != "" && $("#hora_salida").val() != "" && $("#tiempo_efectivo").val() != "" && $("#alcance_presion").val() != "" && $("#temperatura").val() != "" && $("#lote").val() != "" && $("#producto").val() != "" && $("#responsable").val() != "" && $("#observaciones").val() != "") {
-                let hora_inicio = $("#hora_inicio");
-                let hora_salida = $("#hora_salida");
-                let tiempo_efectivo = $("#tiempo_efectivo");
-                let alcance_presion = $("#alcance_presion");
-                let temperatura = $("#temperatura");
-                let nombreResponsable = $("select.selectpicker").children("option:selected").text();
-                let lote = $("#lote");
-                let producto = $("#producto");
-                let responsable = $("#responsable");
-                let observaciones = $("#observaciones");
-                let row =
-                    `<tr>
-            <td><button onclick=removeFromTable(this) type="button" class="btn btn-warning">x</button></td>
-            <td><input type="hidden" value='${hora_inicio.val()}' name=hora_inicio[]>${hora_inicio.val()}</td>
-            <td><input type="hidden" value='${hora_salida.val()}' name=hora_salida[]>${hora_salida.val()}</td>
-            <td ><input type="hidden" value ='${tiempo_efectivo.val()}'  name=tiempo_efectivo[] >${tiempo_efectivo.val()}</td>
-            <td ><input type="hidden" value ='${alcance_presion.val()}'  name=alcance_presion[] >${alcance_presion.val()}</td>
-            <td ><input type="hidden" value ='${temperatura.val()}'  name=temperatura[] >${temperatura.val()}</td>
-            <td ><input type="hidden" value ='${lote.val()}'  name=lote[] >${lote.val()}</td>
-            <td ><input type="hidden" value ='${producto.val()}'  name=producto[] >${producto.val()}</td>
-            <td ><input type="hidden" value ='${responsable.val()}'  name=responsable[] >${nombreResponsable}</td>
-            <td ><input type="hidden" value ='${observaciones.val()}'  name=observaciones[] >${observaciones.val()}</td>
-            </tr>`;
+        function cargar_lotes(id) {
 
-                $("#detalles").append(row);
-                hora_inicio.val('');
-                hora_salida.val('');
-                tiempo_efectivo.val('');
-                alcance_presion.val('');
-                temperatura.val('');
-                lote.val('');
-                producto.val('');
-                responsable.val('');
-                observaciones.val('');
-            } else {
-                $('#modal-default').modal('show');
-                return false;
+            if (id != "") {
+                const select = document.getElementById('lote');
+                $(select).empty();
+                let option = '<option value="" selected>SELECCIONE LOTE</option>';
+                var id_producto = id;
+                const filtered = gl_detalle_insumos.filter(function (e) {
+                    return e.id_producto == id_producto;
+                });
+
+                const es_unico_lote = filtered.length == 1;
+
+                if (es_unico_lote) {
+                    option += `<option selected value="${filtered[0].lote}" >${filtered[0].lote}</option>`;
+                } else {
+                    filtered.forEach(function (e) {
+                        option += `<option value="${e.lote}" >${e.lote}</option>`;
+                    })
+                }
+                $(select).append(option);
+                $(select).selectpicker('refresh');
             }
+
+
         }
 
-        function removeFromTable(element) {
-            //Removemos la fila
-            let td = $(element).parent();
-            td.parent().remove();
-            let tdNext = td.next();
-            let tdNextNext = tdNext.next();
+        async function iniciar_control_precocido() {
+
+
+            const no_orden_produccion = document.getElementById('no_orden_produccion').value;
+            const url = "{{url('control/precocido/iniciar_laminado')}}";
+            const response = await iniciar(url, no_orden_produccion);
+
+            if (response.status == 0) {
+                alert(response.message);
+            } else {
+                const fields = detalle();
+                gl_detalle_insumos = response.data.data.control_trazabilidad.detalle_insumos;
+                document.getElementById('id_turno').disabled = false;
+                $('#id_turno').selectpicker('refresh');
+                habilitar_formulario(fields);
+                cargar_productos();
+                document.getElementById('no_orden_produccion').disabled = true;
+            }
+
+
         }
 
-        function justNumbers(e) {
-            var keynum = window.event ? window.event.keyCode : e.which;
-            if ((keynum == 8) || (keynum == 46))
-                return true;
+        function detalle() {
 
-            return /\d/.test(String.fromCharCode(keynum));
+            const id_producto = document.getElementById('id_producto');
+            const lote = document.getElementById('lote');
+            const hora_inicio = document.getElementById('hora_inicio');
+            const hora_salida = document.getElementById('hora_salida');
+            const tiempo_efectivo = document.getElementById('tiempo_efectivo');
+            const alcance_presion = document.getElementById('alcance_presion');
+            const temperatura = document.getElementById('temperatura');
+            const observaciones = document.getElementById('observaciones');
+
+
+
+
+            const fields = [
+                ["id_producto", id_producto],
+                ["lote", lote],
+                ["hora_inicio", hora_inicio],
+                ["hora_salida", hora_salida],
+                ["tiempo_efectivo", tiempo_efectivo],
+                ["alcance_presion", alcance_presion],
+                ["temperatura", temperatura],
+                ["observaciones", observaciones],
+            ];
+
+            return fields;
+
+        }
+
+        async function agregar_a_table() {
+
+
+            const no_orden_produccion = get_no_orden_produccion();
+            const no_orden_disabled = document.getElementById('no_orden_produccion').disabled;
+            const no_orden_valida = no_orden_disabled && no_orden_produccion != "";
+
+            const fields = detalle();
+
+            if (existe_campo_vacio(fields)) {
+                alert("Campos incompletos");
+                return;
+            }
+            if (no_orden_valida) {
+
+                const request = getRequest(fields);
+                const url = "{{url('control/precocido/insertar_detalle')}}";
+                const url_borrar = "'{{url('control/precocido/borrar_detalle')}}'";
+                const response = await insertar_detalle(request, no_orden_produccion, url);
+                if (response.status == 1) {
+                    const url_update_enc = "{{url('control/precocido/nuevo_registro')}}";
+                    const id_turno = document.getElementById('id_turno').value;
+                    const registros = [
+                        formato_registro('turno', id_turno),
+                    ]   ;
+                    insertar_registros(url_update_enc, registros, no_orden_produccion);
+                    add_to_table(fields, response.id, 'detalles', url_borrar);
+                    limpiar()
+                } else {
+                    alert(response.message);
+                }
+            } else {
+                alert("Orden de produccion no valida");
+            }
+
+
         }
 
         function limpiar() {
 
-            document.getElementById('id_producto').value = "";
-            document.getElementById('producto').value = "";
-            document.getElementById('proveedor').value = "";
-            document.getElementById('id_proveedor').value = "";
-            document.getElementById('producto').readOnly = false;
-            document.getElementById('buscar').disabled = false;
-        }
-
-        function mostrarProductosCargados() {
-
-            setTimeout(function () {
-                $('#modal-productos').modal();
-            }, 1000);
-        }
-
-        function mostrarAlertaNotFound() {
-            $('#not_found').modal();
-        }
-
-        function habilitar() {
-
-            document.getElementById('aceptar_producto').disabled = false;
+            const fields = detalle();
+            limpiar_formulario(fields)
 
         }
 
-        function setProducto() {
 
-            let infoProd = getProductoSelected();
-            if (infoProd.length != 0) {
-                cargarProducto(infoProd);
-            } else {
-
-
-            }
-
-
-        }
-
-        function descomponerInput(input) {
-            const POSICION_CODIGO = 1;
-            const POSICION_FECHA = 2;
-            const POSICION_LOTE = 3;
-
-            var codigoBarras = input.value;
-            var removerParentesis = codigoBarras.replace(/\([0-9]*\)/g, '-');
-            var codigoSplited = removerParentesis.split('-');
-
-            var codigo = codigoSplited[POSICION_CODIGO];
-            var fecha = codigoSplited[POSICION_FECHA];
-            var lote = codigoSplited[POSICION_LOTE];
-
-            if (event.keyCode == 13) {
-                document.getElementById('lote').value = lote;
-                document.getElementById('producto').value = codigo;
-                document.getElementById('no_1').focus();
-            }
-        }
-
-        function getProductoSelected() {
-            var productos = document.getElementsByName('id_prod');
-            var id_prod = null;
-            var descripcion = null;
-            var id_prov = null;
-            var razon_social = null;
-
-            var arrayProductos = Object.keys(productos).map(function (key) {
-                return [Number(key), productos[key]];
-            });
-
-
-            arrayProductos.forEach(function (prod) {
-                if (prod[1].checked) {
-                    var childrens = prod[1].parentElement.parentElement.children;
-                    id_prod = childrens[0].firstChild.value;
-                    descripcion = childrens[2].innerText;
-                    razon_social = childrens[3].innerText;
-                    id_prov = childrens[3].firstChild.value;
-
-                }
-            });
-            return [id_prod, descripcion, id_prov, razon_social];
-        }
     </script>
 @endsection

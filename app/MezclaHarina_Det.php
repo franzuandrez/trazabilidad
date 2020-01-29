@@ -24,9 +24,13 @@ class MezclaHarina_Det extends Model
         'ph_final',
         'ph_observacion'
     ];
+    protected $with = [
+        'producto'
+    ];
 
-    public function Encabezado()
-    {
-        return $this->belongsTo('APP\MezclaHarina_Enc','id_enc_mezclaharina');
+    public function producto(){
+
+        return $this->belongsTo(Producto::class,'id_producto','id_producto');
     }
+
 }

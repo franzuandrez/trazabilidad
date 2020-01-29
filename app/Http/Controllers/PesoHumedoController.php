@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\tools\OrdenProduccion;
+use App\Http\tools\RealTimeService;
+use App\PesoHumedoDet;
+use App\PesoHumedoEnc;
 use App\Recepcion;
 use App\User;
 use Illuminate\Http\Request;
@@ -17,32 +21,33 @@ class PesoHumedoController extends Controller
     {
         $this->middleware('auth');
     }
+
     public function index(Request $request)
     {
         //
         $search = $request->get('search') == null ? '' : $request->get('search');
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
-        $sortField = $request->get('field') == null ? 'orden_compra' : $request->get('field');
+        $sortField = $request->get('field') == null ? 'fecha_ingreso' : $request->get('field');
 
 
-        $recepciones = Recepcion::join('proveedores', 'proveedores.id_proveedor', '=', 'recepcion_encabezado.id_proveedor')
-            ->join('productos', 'productos.id_producto', '=', 'recepcion_encabezado.id_producto')
-            ->select('recepcion_encabezado.*', 'productos.descripcion as producto', 'proveedores.razon_social as proveedor')
+        $humedos = PesoHumedoEnc::select('peso_humedo_enc.*', 'users.nombre as usuario')
+            ->join('users', 'users.id', '=', 'peso_humedo_enc.id_usuario')
             ->where(function ($query) use ($search) {
-                $query->where('proveedores.razon_social', 'LIKE', '%' . $search . '%')
-                    ->orWhere('productos.descripcion', 'LIKE', '%' . $search . '%')
-                    ->orWhere('recepcion_encabezado.orden_compra', 'LIKE', '%' . $search . '%');
+                $query->where('peso_humedo_enc.no_orden', 'LIKE', '%' . $search . '%')
+                    ->orWhere('peso_humedo_enc.fecha_ingreso', 'LIKE', '%' . $search . '%')
+                    ->orWhere('peso_humedo_enc.turno', 'LIKE', '%' . $search . '%')
+                    ->orWhere('users.nombre', 'LIKE', '%' . $search . '%');
             })
             ->orderBy($sortField, $sort)
             ->paginate(20);
 
         if ($request->ajax()) {
             return view('control.peso_humedo.index',
-                compact('recepciones', 'sort', 'sortField', 'search'));
+                compact('humedos', 'sort', 'sortField', 'search'));
         } else {
 
             return view('control.peso_humedo.ajax',
-                compact('recepciones', 'sort', 'sortField', 'search'));
+                compact('humedos', 'sort', 'sortField', 'search'));
         }
     }
 
@@ -63,29 +68,52 @@ class PesoHumedoController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         //
+
+        try {
+
+            $orden_produccion = $request->get('no_orden_produccion');
+            $LaminadoEnc = PesoHumedoEnc::where('no_orden', $orden_produccion)
+                ->firstOrFail();
+            $LaminadoEnc->observaciones = $request->get('observacion_correctiva');
+            $LaminadoEnc->save();
+            return redirect()->route('peso_humedo.index')
+                ->with('success', 'Peso humedo ingresado corrrectamente');
+        } catch (\Exception $ex) {
+            DD($ex);
+            return redirect()->back()
+                ->withErrors(['No se ha podido completar su petición, codigo de error :  ' . $ex->getCode()]);
+        }
+
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         //
+
+        $humedo = PesoHumedoEnc::findOrFail($id);
+
+
+        return view('control.peso_humedo.show', [
+            'humedo' => $humedo
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -96,8 +124,8 @@ class PesoHumedoController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -108,11 +136,121 @@ class PesoHumedoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         //
     }
+
+    public function iniciar_laminado(Request $request)
+    {
+        $no_orden_produccion = $request->get('no_orden_produccion');
+
+
+        $linea_chaomin = OrdenProduccion::verificar_linea_chaomin($no_orden_produccion);
+
+        $laminado = PesoHumedoEnc::where('no_orden', $no_orden_produccion)
+            ->first();
+
+
+        if ($linea_chaomin['status'] == 0) {
+            $response = $linea_chaomin;
+        } else {
+            if ($linea_chaomin['data']->estado == 0) {
+                $response = [
+                    'status' => 0,
+                    'message' => 'Linea chaomin aun en proceso'
+                ];
+            } else {
+                if ($laminado != null) {
+                    $response = [
+                        'status' => 0,
+                        'message' => 'Peso Humedo ya iniciado'
+                    ];
+                } else {
+                    $peso_humedo = new PesoHumedoEnc();
+                    $peso_humedo->no_orden = $no_orden_produccion;
+                    $peso_humedo->id_usuario = \Auth::user()->id;
+                    $peso_humedo->save();
+                    $response = [
+                        'status' => 1,
+                        'message' => 'Peso humedo iniciado correctamente',
+                        'data' => $linea_chaomin
+                    ];
+
+                }
+            }
+
+        }
+
+        return response()->json($response);
+    }
+
+    public function insertar_detalle(Request $request)
+    {
+
+
+        try {
+            $no_orden_produccion = $request->get('no_orden_produccion');
+
+            $peso_humedo = PesoHumedoEnc::where('no_orden', $no_orden_produccion)
+                ->first();
+
+            $response = RealTimeService::insertar_detalle(
+                PesoHumedoDet::query()->getModel(),
+                $request->fields,
+                'id_peso_humedo_enc',
+                $peso_humedo->id_peso_humedo);
+
+        } catch (\Exception $ex) {
+            $response = [
+                'status' => 0,
+                'message' => $ex->getMessage(),
+            ];
+        }
+
+
+        return response()->json($response);
+    }
+
+    public function borrar_detalle(Request $request)
+    {
+
+
+        try {
+            $detalle = PesoHumedoDet::findOrFail($request->id);
+
+            $response = RealTimeService::borrar_detalle($detalle);
+
+        } catch (\Exception $ex) {
+            $response = [
+                'status' => 0,
+                'message' => $ex->getMessage()
+            ];
+        }
+
+        return response()->json($response);
+
+
+    }
+
+    public function nuevo_registro(Request $request)
+    {
+        $id_model = $request->id_model;
+        $fields = $request->fields;
+
+
+        $response = RealTimeService::actualizar_modelo(
+            PesoHumedoEnc::where('no_orden', $id_model)->first(), $fields
+        );
+
+
+        return response()->json($response);
+
+
+    }
+
+
 }

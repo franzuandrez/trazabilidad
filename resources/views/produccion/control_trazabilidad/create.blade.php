@@ -538,18 +538,18 @@
                         </td>
                         <td>
                              <input type="hidden" name="color[]" value="0">
-                             <input type="checkbox" onclick="this.previousSibling.value=1-this.previousSibling.value">
+                             <input type="checkbox" onclick="asignar(this)">
                         </td>
                         <td>
                                 <input type="hidden" name=olor[] value="0">
-                                 <input type="checkbox" onclick="this.previousSibling.value=1-this.previousSibling.value">
+                                 <input type="checkbox" onclick="asignar(this)">
 
                             </td>
                         <td><input type="hidden" name=impresion[] value="0">
-                                <input type="checkbox" onclick="this.previousSibling.value=1-this.previousSibling.value">
+                                <input type="checkbox" onclick="asignar(this)">
                             </td>
                         <td><input type="hidden" name=ausencia_me[] value=0>
-                        <input type="checkbox" onclick="this.previousSibling.value=1-this.previousSibling.value"></td>
+                        <input type="checkbox" onclick="asignar(this)"></td>
                         <td><input type="hidden" name=lote[] value="${insumo.lote}" >${insumo.lote}</td>
                         <td><input type="hidden" name=cantidad[] value="${insumo.cantidad}">${insumo.cantidad}</td>
                         <td><input type="hidden" name=fecha_vencimiento[] value="${(insumo.fecha_vencimiento)}">  ${moment(insumo.fecha_vencimiento).format('DD/MM/Y')} </td>
@@ -561,6 +561,11 @@
             $('#tbody_insumos').append(row);
         }
 
+        function asignar(e) {
+
+            e.previousElementSibling.value=1-e.previousElementSibling.value;
+
+        }
         function buscar_producto_mp() {
             let codigo_producto = document.getElementById('materia_prima').value;
 

@@ -27,20 +27,19 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             @component('componentes.btn-create',['url'=>url('control/precocido/create')])
             @endcomponent
-            @component('componentes.btn-edit',['url'=>'javascript:editar()'])
-            @endcomponent
-            @component('componentes.btn-ver',['url'=>'javascript:ver()'])
+
+            @component('componentes.btn-ver',['url'=>'javascript:ver("precocido")'])
             @endcomponent
         </div>
     </div>
 
     @component('componentes.alert-no-selecction')
         @slot('mensaje')
-            SELECCIONAR RECEPCION
+            SELECCIONAR DOCUMENTO PRECOCIDO DE PASTA
         @endslot
     @endcomponent
     <div id="content">
-        @include('recepcion.materia_prima.index')
+        @include('control.precocido.index')
     </div>
     <div class="loading">
         <i class="fa fa-refresh fa-spin "></i><br/>
@@ -49,5 +48,5 @@
 @endsection
 @section('scripts')
     <script src="{{asset('js/ajax-crud.js')}}"></script>
-    <script src="{{asset('js-brc/recepciones/index.js')}}"></script>
+    <script src="{{asset('js-brc/generico/index.js')}}"></script>
 @endsection

@@ -6,6 +6,8 @@
 @endsection
 
 @section('contenido')
+    @include('componentes.alert-success')
+    @include('componentes.alert-error')
 
     @component('componentes.nav',['operation'=>'LIST',
     'menu_icon'=>'fa fa-check-square-o',
@@ -23,18 +25,18 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             @component('componentes.btn-create',['url'=>url('control/peso_seco/create')])
             @endcomponent
-            @component('componentes.btn-ver',['url'=>'javascript:ver()'])
+            @component('componentes.btn-ver',['url'=>'javascript:ver("peso_seco")'])
             @endcomponent
         </div>
     </div>
 
     @component('componentes.alert-no-selecction')
         @slot('mensaje')
-            SELECCIONAR RECEPCION
+            SELECCIONAR DOCUMENTO PESO SECO
         @endslot
     @endcomponent
     <div id="content">
-        @include('recepcion.materia_prima.index')
+        @include('control.peso_seco.index')
     </div>
     <div class="loading">
         <i class="fa fa-refresh fa-spin "></i><br/>
@@ -43,5 +45,5 @@
 @endsection
 @section('scripts')
     <script src="{{asset('js/ajax-crud.js')}}"></script>
-    <script src="{{asset('js-brc/recepciones/index.js')}}"></script>
+    <script src="{{asset('js-brc/generico/index.js')}}"></script>
 @endsection

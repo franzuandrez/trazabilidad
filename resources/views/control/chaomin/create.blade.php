@@ -152,7 +152,7 @@
             Control
         @endslot
         @slot('submenu')
-            Chaomin
+            Línea  Chaomin
         @endslot
     @endcomponent
 
@@ -164,12 +164,21 @@
 
     <input type="hidden" id="id_chaomin">
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-        <div class="form-group">
-            <label for="turno">NO ORDEN DE PRODUCCION</label>
+        <label for="turno">NO ORDEN DE PRODUCCION</label>
+        <div class="input-group">
             <input type="text" name="no_orden_produccion" value="{{old('no_orden_produccion')}}"
                    id="no_orden_produccion"
                    onkeydown="if(event.keyCode==9||event.keyCode==13)iniciar_linea_chaomein()"
                    class="form-control">
+            <div class="input-group-btn">
+                <button
+                    onclick="iniciar_linea_chaomein()"
+                    onkeydown="iniciar_linea_chaomein()"
+                    type="button" class="btn btn-default">
+                    <i class="fa fa-search"
+                       aria-hidden="true"></i>
+                </button>
+            </div>
 
         </div>
     </div>

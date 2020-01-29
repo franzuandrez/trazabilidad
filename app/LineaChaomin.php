@@ -87,4 +87,13 @@ class LineaChaomin extends Model
         'observaciones_acciones',
         'responsable'
     ];
+
+
+    public function control_trazabilidad()
+    {
+
+        return $this->belongsTo(Operacion::class, 'no_orden_produccion', 'no_orden_produccion');
+
+
+    }
 }

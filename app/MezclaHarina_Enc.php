@@ -17,9 +17,13 @@ class MezclaHarina_Enc extends Model
         'id_usuario',
         'puesto'
     ];
-    public function Detalle()
+
+    protected $with = [
+      'detalle'
+    ];
+    public function detalle()
     {
 
-        return $this->hasMany('APP\MezclaHarina_Det','id_enc_mezclaharina');
+        return $this->hasMany(MezclaHarina_Det::class,'id_Enc_mezclaharina','id_Enc_mezclaharina');
     }
 }

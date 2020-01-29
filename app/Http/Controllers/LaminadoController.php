@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 
+use App\Http\tools\OrdenProduccion;
+use App\Http\tools\RealTimeService;
 use App\Laminado_Det;
 use App\Laminado_Enc;
+use App\MezclaHarina_Det;
+use App\MezclaHarina_Enc;
 use App\Recepcion;
 use App\User;
 use Illuminate\Http\Request;
@@ -24,30 +28,30 @@ class LaminadoController extends Controller
 
     public function index(Request $request)
     {
-        //FUNCION PARA CARGAR BOTONES Y  EL LISTADO DE LAMINADOS INGRESADOS
+
         $search = $request->get('search') == null ? '' : $request->get('search');
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
-        $sortField = $request->get('field') == null ? 'orden_compra' : $request->get('field');
+        $sortField = $request->get('field') == null ? 'fecha_ingreso' : $request->get('field');
 
 
-
-        $recepciones = Recepcion::join('proveedores', 'proveedores.id_proveedor', '=', 'recepcion_encabezado.id_proveedor')
-            ->join('productos', 'productos.id_producto', '=', 'recepcion_encabezado.id_producto')
-            ->select('recepcion_encabezado.*', 'productos.descripcion as producto', 'proveedores.razon_social as proveedor')
+        $laminados = Laminado_Enc::select('laminado_enc.*', 'users.nombre as usuario')
+            ->join('users', 'users.id', '=', 'laminado_enc.id_usuario')
             ->where(function ($query) use ($search) {
-                $query->where('proveedores.razon_social', 'LIKE', '%' . $search . '%')
-                    ->orWhere('productos.descripcion', 'LIKE', '%' . $search . '%')
-                    ->orWhere('recepcion_encabezado.orden_compra', 'LIKE', '%' . $search . '%');
+                $query->where('laminado_enc.no_orden', 'LIKE', '%' . $search . '%')
+                    ->orWhere('laminado_enc.turno', 'LIKE', '%' . $search . '%')
+                    ->orWhere('users.nombre', 'LIKE', '%' . $search . '%')
+                    ->orWhere('laminado_enc.fecha_ingreso', 'LIKE', '%' . $search . '%');
             })
             ->orderBy($sortField, $sort)
             ->paginate(20);
+
         if ($request->ajax()) {
             return view('control.laminado.index',
-                compact('recepciones', 'sort', 'sortField', 'search'));
+                compact('laminados', 'sort', 'sortField', 'search'));
         } else {
 
             return view('control.laminado.ajax',
-                compact('recepciones', 'sort', 'sortField', 'search'));
+                compact('laminados', 'sort', 'sortField', 'search'));
         }
     }
 
@@ -82,6 +86,12 @@ class LaminadoController extends Controller
     public function show($id)
     {
         //
+
+        $laminado = Laminado_Enc::findOrFail($id);
+
+        return view('control.laminado.show', [
+            'laminado' => $laminado
+        ]);
     }
 
     /**
@@ -93,6 +103,8 @@ class LaminadoController extends Controller
     public function edit($id)
     {
         //
+
+
     }
 
     /**
@@ -120,27 +132,21 @@ class LaminadoController extends Controller
 
     public function store(Request $request)
     {
-        /// FUNCION PARA GUARDAR CAMBIOS
-        dd($request->all());
-        try
-        {
-            DB::beginTransaction();
-            //Insertar el encabezado de laminado
-            $LaminadoEnc = new Laminado_Enc();
-            $LaminadoEnc->id_responsable = $request->get('id_responsable');
-            $LaminadoEnc->id_usuario = \Auth::user()->id;
-            $LaminadoEnc->turno = $request->get('turno');
+
+
+        try {
+
+            $orden_produccion = $request->get('no_orden_produccion');
+            $LaminadoEnc = Laminado_Enc::where('no_orden', $orden_produccion)
+                ->firstOrFail();
             $LaminadoEnc->observaciones = $request->get('observacion_correctiva');
-            $LaminadoEnc->no_orden = $request->get('NO_ORDEN_PRODUCCION');
             $LaminadoEnc->save();
-            $this->GuardarDetalle($request, $LaminadoEnc->id_enc_laminado);
-            DB::commit();
-            return redirect()->route('laminado.index')
-                ->with('success', 'Laminado ingresada corrrectamente');
-        }catch (\Exception $ex)
-        {
-            DB::rollBack();
-            dd("ERROR AL GUARDA ENCABEZADO");
+            return redirect()->route('control.laminado.index')
+                ->with('success', 'Laminado ingresado corrrectamente');
+        } catch (\Exception $ex) {
+            DD($ex);
+            return redirect()->back()
+                ->withErrors(['No se ha podido completar su petición, codigo de error :  ' . $ex->getCode()]);
         }
     }
 
@@ -157,19 +163,127 @@ class LaminadoController extends Controller
                 $detalleLaminado1 = Laminado_Det::create([
                     'lote_producto' => $value,
                     'id_enc_laminado' => $id_enc_Laminado,
-                    'temperatura_inicio' => $request->get('temperatura_inicial')[$key] ,
-                    'temperatura_final'=> $request->get('temperatura_final')[$key] ,
-                    'temperatura_observaciones'=> $request->get('temperatura_observaciones')[$key] ,
-                    'espesor_inicio'=> $request->get('espesor_inicial')[$key] ,
-                    'espesor_final' => $request->get('espesor_final')[$key] ,
-                    'espesor_observaciones'=> $request->get('espesor_observaciones')[$key],
-                    'lote_producto'=> $request->get('LOTE')[$key],
-                    'hora'=> $request->get('hora')[$key]
-                ]) ;
+                    'temperatura_inicio' => $request->get('temperatura_inicial')[$key],
+                    'temperatura_final' => $request->get('temperatura_final')[$key],
+                    'temperatura_observaciones' => $request->get('temperatura_observaciones')[$key],
+                    'espesor_inicio' => $request->get('espesor_inicial')[$key],
+                    'espesor_final' => $request->get('espesor_final')[$key],
+                    'espesor_observaciones' => $request->get('espesor_observaciones')[$key],
+                    'lote_producto' => $request->get('LOTE')[$key],
+                    'hora' => $request->get('hora')[$key]
+                ]);
             }
         }
 
     }
 
+
+    public function iniciar_laminado(Request $request)
+    {
+        $no_orden_produccion = $request->get('no_orden_produccion');
+
+
+        $linea_chaomin = OrdenProduccion::verificar_linea_chaomin($no_orden_produccion);
+
+        $laminado = Laminado_Enc::where('no_orden', $no_orden_produccion)
+            ->first();
+
+
+        if ($linea_chaomin['status'] == 0) {
+            $response = $linea_chaomin;
+        } else {
+            if ($linea_chaomin['data']->estado == 0) {
+                $response = [
+                    'status' => 0,
+                    'message' => 'Linea chaomin aun en proceso'
+                ];
+            } else {
+                if ($laminado != null) {
+                    $response = [
+                        'status' => 0,
+                        'message' => 'Mezcla de harina ya iniciada'
+                    ];
+                } else {
+                    $laminado = new Laminado_Enc();
+                    $laminado->no_orden = $no_orden_produccion;
+                    $laminado->id_usuario = \Auth::user()->id;
+                    $laminado->save();
+                    $response = [
+                        'status' => 1,
+                        'message' => 'Laminado iniciado correctamente',
+                        'data' => $linea_chaomin
+                    ];
+
+                }
+            }
+
+        }
+
+        return response()->json($response);
+    }
+
+    public function insertar_detalle(Request $request)
+    {
+
+
+        try {
+            $no_orden_produccion = $request->get('no_orden_produccion');
+
+            $laminado = Laminado_Enc::where('no_orden', $no_orden_produccion)
+                ->first();
+
+            $response = RealTimeService::insertar_detalle(
+                Laminado_Det::query()->getModel(),
+                $request->fields,
+                'id_enc_laminado',
+                $laminado->id_enc_laminado);
+
+        } catch (\Exception $ex) {
+            $response = [
+                'status' => 0,
+                'message' => $ex->getMessage(),
+            ];
+        }
+
+
+        return response()->json($response);
+    }
+
+    public function borrar_detalle(Request $request)
+    {
+
+
+        try {
+            $detalle = Laminado_Det::findOrFail($request->id);
+
+            $response = RealTimeService::borrar_detalle($detalle);
+
+        } catch (\Exception $ex) {
+            $response = [
+                'status' => 0,
+                'message' => $ex->getMessage()
+            ];
+        }
+
+        return response()->json($response);
+
+
+    }
+
+    public function nuevo_registro(Request $request)
+    {
+        $id_model = $request->id_model;
+        $fields = $request->fields;
+
+
+        $response = RealTimeService::actualizar_modelo(
+            Laminado_Enc::where('no_orden', $id_model)->first(), $fields
+        );
+
+
+        return response()->json($response);
+
+
+    }
 
 }

@@ -74,13 +74,18 @@ class ChaomeanController extends Controller
 
         $orden_produccion = $request->get('no_orden_produccion');
         $linea_chaomin = LineaChaomin::where('no_orden_produccion', $orden_produccion)
-            ->first();
+            ->firstOrFail();
 
         try {
+            $linea_chaomin->observaciones_acciones = $request->observaciones_acciones;
+            $linea_chaomin->estado = 1;
+            $linea_chaomin->save();
+
             RealTimeService::guardar($linea_chaomin, $request->except(['no_orden_produccion', '_token']));
             return redirect()->route('chaomin.index')
-                ->with('success', 'Linea para ChaoMin Finalizada correctamente');
+                ->with('success', 'Linea  Finalizada correctamente');
         } catch (\Exception $ex) {
+
             return redirect()->back()
                 ->withErrors(['No se ha podido completar su petición, codigo de error :  ' . $ex->getCode()]);
         }

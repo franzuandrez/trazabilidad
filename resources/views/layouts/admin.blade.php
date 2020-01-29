@@ -262,16 +262,9 @@
                         </li>
 
                         <li><a href="{{url('produccion/trazabilidad_chao_mein')}}"><i class="fa fa-list-alt"
-                                                                           aria-hidden="true"></i>
-                                Control Trazabilidad Chao Mein</a></li>
+                                                                                      aria-hidden="true"></i>
+                                Control Trazabilidad</a></li>
 
-                        <li><a href="{{url('produccion/mezcladora')}}"><i class="fa fa-spinner"></i>Mezcladora</a>
-                        </li>
-                        <li><a href="{{url('produccion/laminado')}}"><i class="fa fa-tasks"></i>Laminado y
-                                Precocción de
-                                Sopas</a></li>
-                        <li><a href="{{url('produccion/frituras')}}"><i class="fa fa-fire"></i>Frituras de Sopas</a>
-                        </li>
                     </ul>
                 </li>
             </ul>
@@ -283,7 +276,8 @@
                         Chaomin<b
                             class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{url('control/chaomin')}}"><i class="fa fa-line-chart"></i>Línea para ChaoMin</a>
+                        <li><a href="{{url('control/chaomin')}}"><i class="fa fa-line-chart"></i>Liberacion Linea
+                                chaomin</a>
                         </li>
                         <li><a href="{{url('control/mezcla_harina')}}"><i class="fa fa-spoon"></i>Mezcla de
                                 Harina</a>
@@ -303,6 +297,9 @@
                         Sopas<b
                             class="caret"></b></a>
                     <ul class="dropdown-menu">
+                        <li><a href="{{url('sopas/liberacion')}}"><i class="fa fa-line-chart"></i>Liberacion Linea Sopas
+                                Instantaneas</a>
+                        </li>
                         <li><a href="{{url('sopas/mezclado_sopas')}}"><i class="fa fa-balance-scale"></i>Mezclado de
                                 Sopas</a></li>
                         <li><a href="{{url('sopas/peso_pasta')}}"><i class="fa fa-industry"></i>Peso de la Pasta</a>

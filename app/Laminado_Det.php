@@ -21,8 +21,12 @@ class Laminado_Det extends Model
         'hora'
     ];
 
-    public function Encabezado()
+
+    protected $with =[
+        'producto'
+    ];
+    public function producto()
     {
-        return $this->belongsTo('APP\Laminado_Enc','id_enc_laminado');
+        return $this->belongsTo(Producto::class,'id_producto','id_producto');
     }
 }

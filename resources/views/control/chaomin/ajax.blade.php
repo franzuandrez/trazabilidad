@@ -19,7 +19,7 @@
             Control
         @endslot
         @slot('submenu')
-            Línea para Chaomin
+            Línea  Chaomin
         @endslot
     @endcomponent
 

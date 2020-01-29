@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\tools\RealTimeService;
+use App\MezclaHarina_Det;
 use App\Producto;
 use App\Recepcion;
 use App\User;
@@ -18,6 +20,7 @@ class HarinaController extends Controller
     {
         $this->middleware('auth');
     }
+
     public function index(Request $request)
     {
         //
@@ -55,7 +58,7 @@ class HarinaController extends Controller
     public function create()
     {
         //
-        $responsables = User::actived()->get();
+
 
         return view('control.mezcla_harina.create',
             compact('responsables'));
@@ -64,18 +67,23 @@ class HarinaController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         //
+
+
+        dd($request->all());
+
+
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -86,7 +94,7 @@ class HarinaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -97,8 +105,8 @@ class HarinaController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -109,11 +117,14 @@ class HarinaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         //
     }
+
+
+
 }

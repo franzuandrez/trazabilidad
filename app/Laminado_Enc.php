@@ -19,9 +19,13 @@ class Laminado_Enc extends Model
         'observaciones',
         'no_orden'
     ];
-    public function Detalle()
+
+     protected $with = [
+         'detalle'
+     ];
+    public function detalle()
     {
 
-        return $this->hasMany('APP\Laminado_Det','id_enc_laminado');
+        return $this->hasMany(Laminado_Det::class,'id_enc_laminado','id_enc_laminado');
     }
 }

@@ -80,4 +80,60 @@ class RealTimeService
     }
 
 
+    public static function insertar_detalle(Model $model, $fields, $campo_enc, $value_enc)
+    {
+
+
+        $nuevos_registro = collect($fields)
+            ->mapWithKeys(function ($item) {
+                return [$item[0] => $item[1]];
+            })
+            ->put($campo_enc, $value_enc)
+            ->toArray();
+
+        $rows = DB::table($model->getTable())
+            ->insert($nuevos_registro);
+
+
+        if ($rows > 0) {
+            $response = [
+                'status' => 1,
+                'message' => 'Insertado correctamente',
+                'id' => DB::getPdo()->lastInsertId()
+            ];
+        } else {
+            $response = [
+                'status' => 0,
+                'message' => 'No se ha podido insertar el registro',
+                'id' => ''
+            ];
+        }
+
+        return $response;
+
+    }
+
+
+    public static function borrar_detalle(Model $model)
+    {
+
+        $rows = $model->delete();
+
+        if ($rows > 0) {
+
+            $response = [
+                'status' => 1,
+                'message' => 'Eliminado correctamente'
+            ];
+        } else {
+            $response = [
+                'status' => 0,
+                'message' => 'No ha sido posible eliminar el dato'
+            ];
+        }
+
+        return $response;
+    }
+
+
 }

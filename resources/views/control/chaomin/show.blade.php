@@ -6,15 +6,15 @@
 
 @section('contenido')
 
-    @component('componentes.nav',['operation'=>'Crear',
+    @component('componentes.nav',['operation'=>'Ver',
     'menu_icon'=>'fa fa-check-square-o',
     'submenu_icon'=>'a fa-line-chart',
-    'operation_icon'=>'fa-plus',])
+    'operation_icon'=>'fa-eye',])
         @slot('menu')
             Control
         @endslot
         @slot('submenu')
-            Chaomin
+            Línea  Chaomin
         @endslot
     @endcomponent
 

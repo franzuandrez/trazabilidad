@@ -5,6 +5,7 @@ namespace App\Http\tools;
 
 
 use App\Correlativo;
+use App\LineaChaomin;
 use App\Requisicion;
 use Carbon\Carbon;
 
@@ -31,6 +32,35 @@ class OrdenProduccion
         }
 
         return $no_orden_produccion;
+
+
+    }
+
+
+    public static function verificar_linea_chaomin($no_orden_produccion)
+    {
+
+
+        $linea_chamoin = LineaChaomin::where('no_orden_produccion', $no_orden_produccion)
+            ->with('control_trazabilidad')
+            ->with('control_trazabilidad.detalle_insumos')
+            ->first();
+
+        if ($linea_chamoin != null) {
+            $response = [
+                'status' => 1,
+                'message' => 'Linea chaomin iniciada',
+                'data' => $linea_chamoin
+            ];
+        } else {
+            $response = [
+                'status' => 0,
+                'message' => 'Linea no existente',
+                'data' => ''
+            ];
+        }
+
+        return $response;
 
 
     }
