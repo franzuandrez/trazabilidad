@@ -60,7 +60,7 @@
                          'sort'=>$sort,
                          'sortField'=>$sortField,
                          'field'=>'entrada',
-                         'titulo'=>'ENT.'])
+                         'titulo'=>' + ENT.'])
 
                 </th>
                 <th>
@@ -70,7 +70,7 @@
                          'sort'=>$sort,
                          'sortField'=>$sortField,
                          'field'=>'salida',
-                         'titulo'=>'SAL.'])
+                         'titulo'=>'- SAL.'])
 
                 </th>
                 <th>
@@ -80,7 +80,7 @@
                          'sort'=>$sort,
                          'sortField'=>$sortField,
                          'field'=>'total',
-                         'titulo'=>'FINAL'])
+                         'titulo'=>'= FINAL'])
 
                 </th>
                 </thead>
