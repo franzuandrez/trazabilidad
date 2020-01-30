@@ -116,7 +116,14 @@
                             <span class=" fa fa-trash"></span></button>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-6  col-xs-12">
+                <div class="col-lg-2 col-md-2 col-sm-4  col-xs-12">
+                    <div class="form-group">
+                        <label for="existencia">EXISTENCIA</label>
+                        <input type="text" name="existencia" id="existencia" readonly value="{{old('existencia')}}"
+                               class="form-control">
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-2 col-sm-4  col-xs-12">
                     <div class="form-group">
                         <label for="descripcion">DESCRIPCION</label>
                         <input type="text" name="descripcion" id="descripcion" readonly value="{{old('descripcion')}}"
@@ -285,7 +292,7 @@
                             document.getElementById('id_producto').value = response[0].producto.id_producto;
                             document.getElementById('cantidad').readOnly = false;
                             document.getElementById('cantidad').focus();
-
+                            document.getElementById('existencia').value = getTotalExistencia() + " " + response[0].producto.unidad_medida;
                         }
 
 
