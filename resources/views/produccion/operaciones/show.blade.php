@@ -50,7 +50,6 @@
                 <th>CANTIDAD</th>
                 <th>CODIGO PRODUCTO</th>
                 <th>PRODUCTO</th>
-                <th>PRESENTACION</th>
                 <th>DETALLE</th>
                 </thead>
                 <tbody id="body-detalles">
@@ -65,9 +64,7 @@
                         <td>
                             {{$detalle->producto->descripcion}}
                         </td>
-                        <td>
-                            {{$detalle->producto->presentacion->descripcion}}
-                        </td>
+
                         <td>
                             <table class="table">
                                 <tr>
@@ -98,7 +95,7 @@
                 <th>CANTIDAD</th>
                 <th>CODIGO PRODUCTO</th>
                 <th>PRODUCTO</th>
-                <th>PRESENTACION</th>
+
                 </thead>
                 <tbody id="body-detalles">
                 @foreach( $requisicion->detalle as $detalle )
@@ -112,9 +109,7 @@
                         <td>
                             {{$detalle->producto->descripcion}}
                         </td>
-                        <td>
-                            {{$detalle->producto->presentacion->descripcion}}
-                        </td>
+
                     </tr>
                 @endforeach
                 </tbody>
