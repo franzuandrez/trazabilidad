@@ -277,7 +277,7 @@ class PickingController extends Controller
             }
             return redirect()
                 ->route('produccion.picking.index')
-                ->with('success', 'Requisicion despachada');
+                ->with('success', 'Requisicion Armada');
         } catch (\Exception $ex) {
             DB::rollback();
 
@@ -410,7 +410,18 @@ class PickingController extends Controller
         $reservas = $this->reservas_previas($requisicion);
 
 
-        $detalles_requisicion = $requisicion->detalle()->groupBy('id_producto')->get();
+        $detalles_requisicion = $requisicion
+            ->detalle()
+            ->select('requisicion_detalle.id',
+                'requisicion_detalle.id_requisicion_encabezado',
+                'requisicion_detalle.orden_requisicion',
+                'requisicion_detalle.orden_produccion',
+                'requisicion_detalle.id_producto',
+                'requisicion_detalle.estado',
+                \DB::raw('sum(cantidad) as cantidad'))
+            ->groupBy('id_producto')
+            ->get()
+            ;
 
         foreach ($detalles_requisicion as $detalle_requisicion) {
 

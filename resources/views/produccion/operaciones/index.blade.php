@@ -77,6 +77,10 @@
                                 <span class="label label-default">
                                       Pendiente
                                 </span>
+                            @elseif($operacion->estado=="D")
+                                <span class="label label-primary">
+                                      Armada
+                                </span>
                             @else
                                 <span class="label label-success">
                                       Despachada
