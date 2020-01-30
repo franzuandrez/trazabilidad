@@ -90,9 +90,9 @@
         <div class="tab-content">
             <div class="tab-pane active" id="crear">
                 <br>
-                <div class="col-lg-5 col-sm-4 col-md-5 col-xs-8">
-                    <div class="form-group">
-                        <label for="codigo_producto">CODIGO PRODUCTO</label>
+                <div class="col-lg-6 col-sm-4 col-md-4 col-xs-12">
+                    <label for="codigo_producto">CODIGO PRODUCTO</label>
+                    <div class="input-group">
                         <input type="text"
                                name="codigo_producto"
                                readonly
@@ -100,22 +100,19 @@
                                onkeydown="if(event.keyCode==13)buscar_existencia()"
                                value="{{old('codigo_producto')}}"
                                class="form-control">
+                        <div class="input-group-btn">
+                            <button id="btnBuscar"
+                                    onclick="buscar_existencia()"
+                                    class="btn btn-default " type="button">
+                                <span class=" fa fa-search"></span></button>
+                            <button id="btnLimpiar"
+                                    onclick="limpiar()"
+                                    class="btn btn-default " type="button">
+                                <span class=" fa fa-trash"></span></button>
+                        </div>
+                    </div>
+                </div>
 
-                    </div>
-                </div>
-                <div class="col-lg-1 col-md-2 col-sm-2  col-xs-4">
-                    <br>
-                    <div class="form-group">
-                        <button id="btnBuscar"
-                                onclick="buscar_existencia()"
-                                class="btn btn-default block" style="margin-top: 5px;" type="button">
-                            <span class=" fa fa-search"></span></button>
-                        <button id="btnLimpiar"
-                                onclick="limpiar()"
-                                class="btn btn-default block" style="margin-top: 5px;" type="button">
-                            <span class=" fa fa-trash"></span></button>
-                    </div>
-                </div>
                 <div class="col-lg-2 col-md-2 col-sm-4  col-xs-12">
                     <div class="form-group">
                         <label for="existencia">EXISTENCIA</label>
@@ -133,13 +130,20 @@
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6  col-xs-12">
-                    <div class="form-group">
-                        <label for="cantidad">CANTIDAD</label>
+                    <label for="cantidad">CANTIDAD</label>
+                    <div class="input-group">
                         <input type="number" name="cantidad" id="cantidad"
                                onkeydown="if(event.keyCode==13)agregarProducto()"
                                readonly
                                value="{{old('cantidad')}}"
                                class="form-control">
+                        <div class="input-group-btn">
+                            <button
+                                onclick="agregarProducto()"
+                                class="btn btn-default " type="button">
+                                <span class=" fa fa-plus"></span></button>
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -159,10 +163,7 @@
         </div>
     </div>
 
-    <div class="loading">
-        <i class="fa fa-refresh fa-spin "></i><br/>
-        <span>Cargando</span>
-    </div>
+    @include('componentes.loading')
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
 
         <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
@@ -252,6 +253,7 @@
             document.getElementById('id_producto').value = "";
             document.getElementById('cantidad').value = "";
             document.getElementById('cantidad').readOnly = true;
+            document.getElementById('existencia').value = "";
         }
 
         function buscar_existencia() {
@@ -301,6 +303,7 @@
                 },
                 error: function (e) {
                     console.error(e);
+                    $('.loading').hide();
                 }
             })
         }
@@ -412,7 +415,7 @@
         }
 
         function removeFromTable(id) {
-
+            $('.loading').show();
             $.ajax({
                     url: "{{url('produccion/requisiciones/borrar_de_reserva')}}",
                     type: "post",
@@ -426,7 +429,11 @@
                         } else {
                             alert("Algo salió mal");
                         }
+                        $('.loading').hide();
 
+                    }, error: function (e) {
+                        alert(e);
+                        $('.loading').hide();
                     }
                 }
             )
@@ -529,10 +536,7 @@
                     if (inserted) {
                         let id = response[1];
                         cargarProducto(existencia[0].producto, cantidad, id);
-                        document.getElementById('cantidad').value = "";
-                        document.getElementById('descripcion').value = "";
-                        document.getElementById('cantidad').readOnly = true;
-                        document.getElementById('codigo_producto').value = "";
+                        limpiar();
                         existencia.splice(0, existencia.length);
                     } else {
                         alert("Algo salió mal");
@@ -546,16 +550,16 @@
         }
 
         function getTotalEnReserva(id_producto) {
-
+            $('.loading').show();
             return $.ajax({
                 url: "{{url('produccion/requisiciones/en_reserva')}}" + "/" + id_producto,
                 type: "get",
                 dataType: "json",
                 success: function (response) {
 
-
+                    $('.loading').hide();
                 }, error: function (e) {
-
+                    $('.loading').hide();
                 }
             })
 
