@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Bodega;
-use App\Correlativo;
 use App\Http\tools\Movimientos;
 use App\Http\tools\OrdenProduccion;
 use App\Requisicion;
@@ -172,7 +171,9 @@ class RequisicionController extends Controller
 
         $requisicion = Requisicion::findOrFail($id);
 
-        return view('produccion.operaciones.show', compact('requisicion'));
+
+        return view('produccion.operaciones.show',
+            ['requisicion' => $requisicion]);
 
 
     }
