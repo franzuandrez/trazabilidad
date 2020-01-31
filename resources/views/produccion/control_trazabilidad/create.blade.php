@@ -11,16 +11,20 @@
         }
     </style>
 @endsection
+
 @section('contenido')
+    <div class="col-lg-12 col-lg-push-4 col-sm-12   col-sm-push-4   col-md-12   col-md-push-4  col-xs-12">
+        <h3>CONTROL DE TRAZABILIDAD</h3>
+    </div>
     @component('componentes.nav',['operation'=>'Crear',
     'menu_icon'=>' fa fa fa-cube ',
-    'submenu_icon'=>' fa fa fa-hand-rock-o  ',
+    'submenu_icon'=>'fa fa-list-alt ',
     'operation_icon'=>'fa-plus',])
         @slot('menu')
             Produccion
         @endslot
         @slot('submenu')
-            Requisiciones
+            Control Trazabilidad
         @endslot
     @endcomponent
 
@@ -437,7 +441,7 @@
             const total_insumos = $('#tbody_insumos').children().length;
 
             if (total_insumos == 0) {
-                alert("Orden de produccion no valida");
+                alert("Orden de produccion sin insumos");
                 return;
             }
 
@@ -455,6 +459,7 @@
             document.getElementById('codigo_producto').value = "";
             document.getElementById('codigo_producto').focus();
             document.getElementById('producto').value = "";
+            document.getElementById('id_producto').value = "";
             document.getElementById('unidad_medida').value = "";
             document.getElementById('best_by').value = "";
         }
@@ -478,9 +483,15 @@
         function buscar_orden_produccion() {
 
             let orden_produccion = document.getElementById('no_orden_produccion').value;
+            let id_producto = document.getElementById('id_producto').value;
 
+            if (id_producto == "") {
+                alert("Producto no válido");
+                return;
+            }
+            $('.loading').show();
             $.ajax({
-                url: '{{url('produccion/trazabilidad_chao_mein/buscar_orden_produccion')}}' + '?q=' + orden_produccion,
+                url: '{{url('produccion/trazabilidad_chao_mein/buscar_orden_produccion')}}' + '?q=' + orden_produccion + "&id_producto=" + id_producto,
                 type: 'get',
                 dataType: "json",
                 success: function (response) {
@@ -493,7 +504,7 @@
                         } else if (orden_produccion.estado != 'D') {
                             alert("Orden de produccion en proceso ");
                         } else {
-                            cargar_insumos(orden_produccion.reservas);
+
                             document.getElementById('no_orden_produccion').readOnly = true;
                             document.getElementById('lote').readOnly = false;
                             document.getElementById('lote').focus();
@@ -503,11 +514,13 @@
                     } else {
                         alert(response.message);
                     }
-
+                    $('.loading').hide();
 
                 },
                 error: function (e) {
-                    console.log(e)
+                    console.log(e);
+                    alert(e);
+                    $('.loading').hide();
                 }
             })
 
@@ -563,12 +576,13 @@
 
         function asignar(e) {
 
-            e.previousElementSibling.value=1-e.previousElementSibling.value;
+            e.previousElementSibling.value = 1 - e.previousElementSibling.value;
 
         }
+
         function buscar_producto_mp() {
             let codigo_producto = document.getElementById('materia_prima').value;
-
+            $('.loading').show();
             $.ajax({
                 url: "{{url('registro/productos/search/')}}" + "/" + codigo_producto,
                 type: "get",
@@ -597,9 +611,13 @@
 
                     }
 
+                    $('.loading').hide();
+
                 },
                 error: function (e) {
 
+                    alert(e);
+                    $('.loading').hide();
                 }
             })
         }
@@ -607,7 +625,7 @@
         function buscar_producto_terminado() {
 
             let codigo_interno = document.getElementById('codigo_producto').value;
-
+            $('.loading').show();
             $.ajax({
                 url: "{{url('produccion/trazabilidad_chao_mein/buscar_producto')}}" + "?codigo_interno=" + codigo_interno,
                 type: "get",
@@ -625,10 +643,12 @@
                     } else {
                         alert('Producto no encontrado');
                     }
+                    $('.loading').hide();
                 },
                 error: function (e) {
                     alert("Producto no encontrado");
                     console.log(e);
+                    $('.loading').hide();
                 }
             })
         }
@@ -775,20 +795,20 @@
                     let colaboradores = response.colaboradores;
 
                     if (colaboradores.length == 0) {
-                        $('.loading').hide();
+
                         alert("Colaborador no encontrado");
                     } else if (colaboradores.length == 1) {
                         document.getElementById('id_colaborador').value = colaboradores[0].id_colaborador;
                         document.getElementById('colaborador').value = colaboradores[0].nombre + " " + colaboradores[0].apellido;
                         document.getElementById('colaborador').readOnly = true;
                         next('btn_agregar');
-                        $('.loading').hide();
+
                     } else {
                         document.getElementById('nombre-colaboradores').innerText = $('#actividades option:selected').text();
                         cargar_colaboradores(colaboradores);
                         mostrar_colaboradores();
                     }
-
+                    $('.loading').hide();
                 },
                 error: function (e) {
                     console.log(e);
