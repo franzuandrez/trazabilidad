@@ -121,13 +121,12 @@ class Movimientos
                 'movimientos.fecha_vencimiento',
                 DB::raw('sum(cantidad * factor) as total'))
             ->whereIn('id_producto', $productos)
+            ->where('movimientos.observaciones','=','')
             ->groupBy('id_producto')
             ->groupBy('lote')
             ->orderBy('movimientos.fecha_vencimiento', 'asc')
             ->with('producto')
             ->with('bodega')
-            ->with('producto.presentacion')
-            ->with('producto.dimensional')
             ->get();
 
 
