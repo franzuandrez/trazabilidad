@@ -31,10 +31,12 @@
                 @endcomponent
             @endcan
 
-            {{--@component('componentes.btn-edit',['url'=>'javascript:editar()'])
-            @endcomponent--}}
             @can('role-list')
-                @component('componentes.btn-ver',['url'=>'javascript:ver()'])
+                @component('componentes.btn-ver',['url'=>'javascript:ver("materia_prima")'])
+                @endcomponent
+            @endcan
+            @can('generar_reporte')
+                @component('componentes.btn-reporte',['url'=>'javascript:reporte("materia_prima/reporte")'])
                 @endcomponent
             @endcan
         </div>
@@ -55,5 +57,5 @@
 @endsection
 @section('scripts')
     <script src="{{asset('js/ajax-crud.js')}}"></script>
-    <script src="{{asset('js-brc/recepciones/index.js')}}"></script>
+    <script src="{{asset('js-brc/generico/index.js')}}"></script>
 @endsection
