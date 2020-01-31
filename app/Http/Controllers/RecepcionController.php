@@ -36,7 +36,7 @@ class RecepcionController extends Controller
 
         $search = $request->get('search') == null ? '' : $request->get('search');
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
-        $sortField = $request->get('field') == null ? 'orden_compra' : $request->get('field');
+        $sortField = $request->get('field') == null ? 'fecha_ingreso' : $request->get('field');
 
 
         $recepciones = Recepcion::join('proveedores', 'proveedores.id_proveedor', '=', 'recepcion_encabezado.id_proveedor')
