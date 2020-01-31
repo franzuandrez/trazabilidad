@@ -94,6 +94,7 @@ class OperacionController extends Controller
 
         try {
             $search = $request->get('q');
+            $id_producto = $request->get('id_producto');
 
             $ordenProduccion = Requisicion::select('estado', 'id', 'no_requision', 'no_orden_produccion')
                 ->where('no_orden_produccion', $search)
@@ -107,6 +108,7 @@ class OperacionController extends Controller
                 ];
             } else {
                 $orden_produccion_iniciada = Operacion::where('no_orden_produccion', $search)
+                    ->where('id_producto', $id_producto)
                     ->exists();
                 if ($orden_produccion_iniciada) {
                     $response = [
