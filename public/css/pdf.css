@@ -123,7 +123,7 @@ div {
 }
 
 table {
-  width: 100%;
+  width: 90%;
   border-collapse: collapse;
   border-spacing: 2;
   margin-bottom: 5px;
@@ -139,7 +139,7 @@ table td {
 table th {
   font-family: "Century Gothic";
   font-size: 12px;
-  padding: 5px;
+  padding: 4px;
   color: #000;
   border: 1px solid #000;
   white-space: normal;
@@ -149,31 +149,18 @@ table th {
   font-weight: bold;
 }
 
-table .service,
-table .desc {
-  text-align: center;
-}
+
 
 table td {
-  padding: 5px;
+
   text-align: center;
   border:1px solid black;
 }
 
-table td.service,
-table td.desc {
-  vertical-align: top;
-}
 
-table td.unit,
-table td.qty,
-table td.total {
-  font-size: 1.2em;
-}
 
-table td.grand {
-  border-top: 1px solid #5D6975;;
-}
+
+
 
 #notices .notice {
   color: #5D6975;
@@ -197,23 +184,9 @@ footer {
 td:nth-child(n){
   background-color: #fff;
 }
-.table-totales td{
-  border-right: 1px solid #000000;
-}
-td.total{
-  background-color: #fff;
-  color: #000;
-  border-bottom:1px solid #000;
-  border-right: none;
-  border-left: none;
-  font-weight: bold;
-}
-td.total:last-child(){
-  border-right: 1px solid #000;
-}
-td.total:first-child(){
-    border-left: 1px solid #000;
-}
+
+
+
 td.encabezado-pedido{
   background-color: #d9d9d9;
   color: #000;
