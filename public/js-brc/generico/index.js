@@ -57,6 +57,17 @@ function ver(modulo){
 
 }
 
+function reporte(modulo){
+    let item = getItemSelected();
+
+    if(item==null){
+        $('#errorToEdit').modal();
+    }else{
+        window.location.href = modulo+"/"+item+"";
+    }
+
+}
+
 function darBaja(url){
 
     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
