@@ -306,7 +306,10 @@
                 movimientos = getMovimientos();
             } else {
                 var regexp = new RegExp(search.trim(), 'i');
-                movimientos = getMovimientos().filter(mov => mov.producto.descripcion.trim().match(regexp) || mov.producto.codigo_barras.trim() == search.trim());
+                movimientos = getMovimientos()
+                    .filter(function (e) {
+                        return !productos_agregados.includes(e.id_rmi_detalle.toString())
+                    }).filter(mov => mov.producto.descripcion.trim().match(regexp) || mov.producto.codigo_barras.trim() == search.trim());
             }
 
             let row = '';
