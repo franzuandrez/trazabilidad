@@ -253,6 +253,7 @@ Route::get('recepcion/materia_prima/create', 'RecepcionController@create')
 
 Route::post('recepcion/materia_prima/create', 'RecepcionController@store')->name('recepcion.materia_prima.store');
 Route::get('recepcion/materia_prima/{id}', 'RecepcionController@show')->name('recepcion.materia_prima.show');
+Route::get('recepcion/materia_prima/reporte/{id}', 'ReporteRecepcionController@reporte_recepcion')->name('recepcion.materia_prima.reporte_recepcion');
 Route::get('recepcion/materia_prima/{id}/edit', 'RecepcionController@edit')->name('recepcion.materia_prima.edit');
 Route::patch('recepcion/materia_prima/{id}', 'RecepcionController@update')->name('recepcion.materia_prima.update');
 
