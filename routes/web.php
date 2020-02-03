@@ -349,6 +349,8 @@ Route::post('control/precocido/{id}', 'PrecocidoController@destroy')->name('prec
 
 Route::get('produccion/trazabilidad_chao_mein', 'OperacionController@index')->name('produccion.operacion.index');
 Route::get('produccion/trazabilidad_chao_mein/create', 'OperacionController@create')->name('produccion.operacion.create');
+Route::get('produccion/trazabilidad_chao_mein/verificar_proximo_lote', 'OperacionController@verificar_proximo_lote')->name('produccion.operacion.verificar_proximo_lote');
+Route::get('produccion/trazabilidad_chao_mein/verificar_existencia_lote', 'OperacionController@verificar_existencia_lote')->name('produccion.operacion.verificar_existencia_lote');
 Route::post('produccion/trazabilidad_chao_mein/create', 'OperacionController@store')->name('produccion.operacion.store');
 Route::get('produccion/trazabilidad_chao_mein/buscar_producto', 'OperacionController@buscar_producto')->name('produccion.operacion.buscar_producto');
 Route::get('produccion/trazabilidad_chao_mein/buscar_orden_produccion', 'OperacionController@buscar_orden_produccion')->name('produccion.operacion.buscar_orden_produccion');

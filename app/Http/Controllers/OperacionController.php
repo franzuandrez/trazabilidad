@@ -162,15 +162,9 @@ class OperacionController extends Controller
 
             $no_orden_produccion = $request->no_orden_produccion;
 
-            $operacion = new Operacion();
-            $operacion->id_producto = $request->id_producto;
-            $operacion->id_turno = $request->turno;
-            $operacion->fecha_vencimiento = Carbon::createFromFormat('d/m/Y', $request->best_by)->format('Y-m-d');
-            $operacion->cantidad_programada = $request->cantidad_programada;
-            $operacion->lote = $request->lote_pt;
-            $operacion->no_orden_produccion = $no_orden_produccion;
-            $operacion->id_usuario = Auth::user()->id;
-            $operacion->save();
+            $operacion = Operacion::where('id_producto',$request->id_producto)
+                ->where('no_orden_produccion',$request->no_orden_produccion)
+                ->first();
 
             $actividades = $request->id_actividad;
 
@@ -179,23 +173,19 @@ class OperacionController extends Controller
                 $operario_involucrado->id_colaborador = $request->id_colaborador[$key];
                 $operario_involucrado->id_actividad = $actividad;
                 $operario_involucrado->id_control = $operacion->id_control;
+                $operario_involucrado->no_orden_produccion = $no_orden_produccion;
                 $operario_involucrado->fecha_hora_asociacion = Carbon::now();
                 $operario_involucrado->save();
             }
 
-            $insumos = $request->id_producto_mp;
+            $insumos = $request->id_insumo;
 
             foreach ($insumos as $key => $insumo) {
-                $detalle_insumo = new DetalleInsumo();
-                $detalle_insumo->id_control = $operacion->id_control;
-                $detalle_insumo->id_producto = $insumo;
+                $detalle_insumo =  DetalleInsumo::find($insumo);
                 $detalle_insumo->color = $request->color[$key];
                 $detalle_insumo->olor = $request->olor[$key];
                 $detalle_insumo->impresion = $request->impresion[$key];
                 $detalle_insumo->ausencia_material_extranio = $request->ausencia_me[$key];
-                $detalle_insumo->lote = $request->lote[$key];
-                $detalle_insumo->fecha_vencimiento = $request->fecha_vencimiento[$key];
-                $detalle_insumo->cantidad = $request->cantidad[$key];
                 $detalle_insumo->save();
             }
 
@@ -205,6 +195,7 @@ class OperacionController extends Controller
                 ->with('success', 'Orden creada correctamente');
 
         } catch (\Exception $ex) {
+
 
             DB::rollback();
             return redirect()->back()
@@ -225,4 +216,184 @@ class OperacionController extends Controller
             'operacion' => $operacion
         ]);
     }
+
+
+    public function verificar_proximo_lote(Request $request)
+    {
+
+        $orden_produccion = $request->get('no_orden_produccion');
+        $codigo_barras = $request->get('codigo_barras');
+        $lote = $request->get('lote');
+        $producto = Producto::where('codigo_barras', $codigo_barras)
+            ->first();
+
+        $response = $this->es_lote_proximo_a_vencer($producto->id_producto, $orden_produccion, $lote);
+
+        return response()->json($response);
+    }
+
+
+    private function save_orden_produccion(Request $request)
+    {
+
+        $operacion = new Operacion();
+        $operacion->id_producto = $request->id_producto;
+        $operacion->id_turno = $request->turno;
+        $operacion->fecha_vencimiento = Carbon::createFromFormat('d/m/Y', $request->best_by)->format('Y-m-d');
+        $operacion->cantidad_programada = $request->cantidad_programada;
+        $operacion->lote = $request->lote_pt;
+        $operacion->no_orden_produccion = $request->no_orden_produccion;
+        $operacion->id_usuario = Auth::user()->id;
+        $operacion->save();
+
+        return $operacion;
+
+    }
+
+    public function verificar_existencia_lote(Request $request)
+    {
+
+
+        $proximo_lote = $this->verificar_proximo_lote($request)->getData();
+
+
+        if ($proximo_lote->status == 1) {
+            $cantidad_solicitada = $request->get('cantidad');
+            $reserva = $proximo_lote->data->reserva_insumo;
+            $no_orden_produccion = $request->no_orden_produccion;
+            $id_producto = $request->id_producto;
+            $cantidad_reservada = $reserva == null ? 0 : floatval($reserva->cantidad);
+            $cantidad_disponible = floatval($proximo_lote->data->siguiente_lote->cantidad - $cantidad_reservada);
+            $es_cantidad_suficiente = $cantidad_disponible >= $cantidad_solicitada;
+            if ($es_cantidad_suficiente) {
+                $orden_produccion = Operacion::where('no_orden_produccion', $no_orden_produccion)
+                    ->where('id_producto', $id_producto)
+                    ->first();
+                $existe_orden_produccion = $orden_produccion != null;
+                if (!$existe_orden_produccion) {
+                    $orden_produccion = $this->save_orden_produccion($request);
+                }
+                $detalle_insumo = new DetalleInsumo();
+                $detalle_insumo->id_control = $orden_produccion->id_control;
+                $detalle_insumo->id_producto = $proximo_lote->data->siguiente_lote->producto->id_producto;
+                $detalle_insumo->color = 0;
+                $detalle_insumo->olor = 0;
+                $detalle_insumo->impresion = 0;
+                $detalle_insumo->ausencia_material_extranio = 0;
+                $detalle_insumo->lote = $request->lote;
+                $detalle_insumo->fecha_vencimiento = $proximo_lote->data->siguiente_lote->fecha_vencimiento;
+                $detalle_insumo->cantidad = $cantidad_solicitada;
+                $detalle_insumo->no_orden_produccion = $no_orden_produccion;
+                $detalle_insumo->save();
+
+
+                $response = [
+                    'status' => 1,
+                    'message' => 'Ingresado correctamente',
+                    'data' => $detalle_insumo
+                        ->with('producto')
+                        ->orderBy('id_detalle_insumo', 'desc')
+                        ->first()
+                ];
+
+            } else {
+                $response = [
+                    'status' => 0,
+                    'message' => 'La cantidad  tiene un excedente',
+                    'data' => [
+                        $proximo_lote->data->siguiente_lote->cantidad,
+                        $cantidad_reservada,
+                        $cantidad_disponible
+                    ]
+                ];
+            }
+
+        } else {
+            $response = $proximo_lote;
+        }
+
+        return response()->json($response);
+
+
+    }
+
+
+    private function es_lote_proximo_a_vencer($id_producto, $orden_produccion, $lote)
+    {
+        $result = $this->get_lote_siguiente_y_reserva_insumo($id_producto, $orden_produccion);
+        if ($result['siguiente_lote']->lote == $lote) {
+            $response = [
+                'status' => 1,
+                'message' => 'Lote correcto',
+                'data' => $result
+            ];
+        } else {
+            $response = [
+                'status' => 0,
+                'message' => 'Lote no proximo a vencer',
+
+            ];
+        }
+
+        return $response;
+
+    }
+
+    private function get_lote_siguiente_y_reserva_insumo($id_producto, $no_orden_produccion)
+    {
+
+        $reserva_insumo = DetalleInsumo::where('id_producto', $id_producto)
+            ->where('no_orden_produccion', $no_orden_produccion)
+            ->select('id_producto', 'lote', DB::raw('sum(cantidad) as cantidad'))
+            ->orderBy('fecha_vencimiento', 'desc')
+            ->groupBy('lote')
+            ->groupBy('id_producto')
+            ->get();
+
+
+        $requisicion = Requisicion::where('no_orden_produccion', $no_orden_produccion)->first();
+
+        $reservas = $requisicion->reservas()
+            ->where('id_producto', $id_producto)
+            ->orderBy('fecha_vencimiento', 'asc')
+            ->get();
+
+        $siguiente_lote = [
+            'reserva_insumo' => $reserva_insumo->first(),
+            'siguiente_lote' => $reservas->first()
+        ];
+
+
+        if ($reserva_insumo != null) {
+            foreach ($reservas as $reserva) {
+
+
+                $lote_reservado = $reserva_insumo->where('lote', $reserva->lote)->first();
+                $existe_lote_reservado = $lote_reservado != null;
+
+                if ($existe_lote_reservado) {
+                    if (floatval($reserva->cantidad) != floatval($lote_reservado->cantidad)) {
+                        $siguiente_lote = [
+                            'reserva_insumo' => $lote_reservado,
+                            'siguiente_lote' => $reserva
+                        ];
+                        break;
+                    }
+                } else {
+                    $siguiente_lote = [
+                        'reserva_insumo' => $lote_reservado,
+                        'siguiente_lote' => $reserva
+                    ];
+                    break;
+                }
+
+            }
+        }
+
+
+        return $siguiente_lote;
+
+
+    }
+
 }

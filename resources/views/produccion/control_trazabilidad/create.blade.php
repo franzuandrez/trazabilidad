@@ -32,7 +32,7 @@
     {{Form::token()}}
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-
+        <input type="hidden" id="id_requisicion" name="id_requisicion">
         <label for="codigo_producto">CODIGO PRODUCTO</label>
         <div class="input-group">
             <input type="text"
@@ -171,126 +171,59 @@
 
             <div class="tab-pane active" id="insumos">
                 <br>
-                <div style="display: none">
-                    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-6">
-                        <label for="materia_prima">MATERIA PRIMA</label>
-                        <div class="input-group">
-                            <input type="text"
-                                   name="materia_prima"
-                                   id="materia_prima"
-                                   onkeydown="if(event.keyCode==13)buscar_producto_mp()"
-                                   class="form-control">
-                            <div class="input-group-btn">
-                                <button
-                                    type="button" class="btn btn-default">
-                                    <i class="fa fa-search"
-                                       onclick="buscar_producto_mp()"
-                                       aria-hidden="true"></i>
-                                </button>
-                                <button type="button"
-                                        class="btn btn-default">
-                                    <i class="fa fa-trash" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                        </div>
+                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+                    <div class="form-group">
+                        <label>CODIGO PRODUCTO</label>
+                        <input type="text"
+                               name="codigo_producto_mp"
+                               id="codigo_producto_mp"
+                               onkeydown="if(event.keyCode==13)buscar_producto_mp_pp()"
+                               placeholder="CODIGO PRODUCTO"
+                               class="form-control">
                     </div>
-
-                    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-6">
-                        <div class="form-group">
-                            <label for="producto_mp">PRODUCTO</label>
-                            <input type="text"
-                                   name="producto_mp"
-                                   id="producto_mp"
-                                   readonly
-                                   class="form-control">
-                        </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+                    <div class="form-group">
+                        <label for="descripcion_producto_mp">DESCRIPCION</label>
+                        <input type="text"
+                               readonly
+                               name="descripcion_producto_mp"
+                               id="descripcion_producto_mp"
+                               class="form-control">
                     </div>
-
-
-                    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-6">
-                        <div class="form-group">
-                            <label for="color">COLOR</label>
-                            <input type="text"
-                                   name="color"
-                                   id="color"
-                                   readonly
-                                   class="form-control">
-                        </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+                    <div class="form-group">
+                        <label for="lote_producto_mp">LOTE</label>
+                        <input type="text"
+                               readonly
+                               name="lote_producto_mp"
+                               id="lote_producto_mp"
+                               class="form-control">
                     </div>
-                    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-6">
-                        <div class="form-group">
-                            <label for="olor">OLOR</label>
-                            <input type="text"
-                                   name="olor"
-                                   id="olor"
-                                   readonly
-                                   class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-sm-2 col-md-2 col-xs-4">
-                        <div class="form-group">
-                            <label for="impresion">IMPRESION</label>
-                            <select name="impresion"
-                                    id="impresion"
-                                    disabled
-
-                                    class="form-control selectpicker">
-                                <option value="S">SI</option>
-                                <option value="N">N/A</option>
-
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-sm-2 col-md-2 col-xs-4">
-                        <div class="form-group">
-                            <label for="ausencia_material">AUSENCIA DE MATERIAL EXTRAÑO</label>
-                            <select name="ausencia_material"
-                                    id="ausencia_material"
-                                    disabled
-                                    class="form-control selectpicker">
-                                <option value="S">SI</option>
-                                <option value="N">NO</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-sm-2 col-md-2 col-xs-4">
-
-                        <div class="form-group">
-                            <label for="cantidad_mp">CANTIDAD</label>
-                            <input type="text"
-                                   name="cantidad_mp"
-                                   id="cantidad_mp"
-                                   readonly
-                                   class="form-control">
-                        </div>
-
-                    </div>
-                    <div class="col-lg-2 col-sm-2 col-md-2 col-xs-4">
-                        <div class="form-group">
-                            <label for="ausencia_material">NO. LOTE</label>
-                            <input type="no_lote_mp"
-                                   name="no_lote_mp"
-                                   id="no_lote_mp"
-                                   readonly
-                                   class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
-                        <div class="form-group">
-                            <label for="fecha_vencimiento">Fecha de Vencimiento</label>
-                            <div class="input-group date">
-                                <div class="input-group-addon">
-                                    <i class="fa fa-calendar"></i>
-                                </div>
-                                <input id="fecha_vencimiento"
-                                       disabled
-                                       type="text" class="form-control pull-right" id="datepicker">
-                            </div>
-
+                </div>
+                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+                    <label for="cantidad_producto_mp">CANTIDAD</label>
+                    <div class="input-group">
+                        <input type="text"
+                               readonly
+                               onkeydown="if(event.keyCode==13)verificar_existencia_lote()"
+                               name="cantidad_producto_mp"
+                               id="cantidad_producto_mp"
+                               class="form-control">
+                        <div class="input-group-btn">
+                            <button
+                                type="button"
+                                onclick="verificar_existencia_lote()"
+                                class="btn btn-default">
+                                <i class="fa fa-plus"
+                                   aria-hidden="true"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+
                     <table class="table table-bordered table-responsive">
                         <thead style="background-color: #01579B;  color: #fff;">
                         <tr>
@@ -415,6 +348,8 @@
 @section('scripts')
     <script src="{{asset('js/moment.min.js')}}">
     </script>
+    <script src="{{asset('js-brc/tools/lectura_codigo.js')}}">
+    </script>
     <script>
         var formato = 'D/M/Y';
 
@@ -504,7 +439,7 @@
                         } else if (orden_produccion.estado != 'D') {
                             alert("Orden de produccion en proceso ");
                         } else {
-
+                            document.getElementById('id_requisicion').value = orden_produccion.id;
                             document.getElementById('no_orden_produccion').readOnly = true;
                             document.getElementById('lote').readOnly = false;
                             document.getElementById('lote').focus();
@@ -580,46 +515,93 @@
 
         }
 
-        function buscar_producto_mp() {
-            let codigo_producto = document.getElementById('materia_prima').value;
+        function buscar_producto_mp_pp() {
+
+
+            const no_orden_produccion_element = document.getElementById('no_orden_produccion');
+            const no_orden_produccion_valida = no_orden_produccion_element.value !== "" && (no_orden_produccion_element.disabled || no_orden_produccion_element.readOnly);
+
+            if (!no_orden_produccion_valida) {
+                alert(" No. orden no valido ");
+                return;
+            }
+
+            const codigo_barras_completo = document.getElementById('codigo_producto_mp').value;
+            const codigo_barras_descompuesto = descomponerString(codigo_barras_completo);
+            const codigo_barras = codigo_barras_descompuesto[1];
+            const lote = codigo_barras_descompuesto[3];
+
+
+            const query = "?codigo_barras=" + codigo_barras + "&no_orden_produccion=" + no_orden_produccion_element.value + "&lote=" + lote;
             $('.loading').show();
             $.ajax({
-                url: "{{url('registro/productos/search/')}}" + "/" + codigo_producto,
-                type: "get",
-                dataType: "json",
+                url: "{{url('produccion/trazabilidad_chao_mein/verificar_proximo_lote')}}" + query,
+                type: "GET",
                 success: function (response) {
 
-                    let cantidadProductos = response.length;
-
-                    if (cantidadProductos == 0) {
-                        alert("Producto no encontrado");
+                    if (response.status === 1) {
+                        document.getElementById('descripcion_producto_mp').value = response.data.siguiente_lote.producto.descripcion;
+                        document.getElementById('lote_producto_mp').value = lote;
+                        document.getElementById('cantidad_producto_mp').readOnly = false;
+                        document.getElementById('cantidad_producto_mp').focus();
                     } else {
-                        let producto = response[0];
-                        document.getElementById('producto_mp').value = producto.descripcion;
-                        document.getElementById('materia_prima').value = producto.codigo_interno;
-                        document.getElementById('materia_prima').readOnly = true;
-                        document.getElementById('olor').readOnly = false;
-                        document.getElementById('color').readOnly = false;
-                        document.getElementById('color').focus();
-                        document.getElementById('impresion').disabled = false;
-                        document.getElementById('ausencia_material').disabled = false;
-                        $('#impresion').selectpicker('refresh');
-                        $('#ausencia_material').selectpicker('refresh');
-                        document.getElementById('cantidad_mp').readOnly = false;
-                        document.getElementById('no_lote_mp').readOnly = false;
-                        document.getElementById('fecha_vencimiento').disabled = false;
-
+                        alert(response.message);
                     }
-
                     $('.loading').hide();
-
-                },
-                error: function (e) {
-
-                    alert(e);
+                }, error: function (e) {
+                    alert("Algo salió mal , error: " + e.responseJSON.message);
                     $('.loading').hide();
                 }
+
             })
+            ;
+        }
+
+
+        function verificar_existencia_lote() {
+
+            const no_orden_produccion_element = document.getElementById('no_orden_produccion');
+            const no_orden_produccion_valida = no_orden_produccion_element.value !== "" && (no_orden_produccion_element.disabled || no_orden_produccion_element.readOnly);
+
+            if (!no_orden_produccion_valida) {
+                alert(" No. orden no valido ");
+                return;
+            }
+
+            const codigo_barras_completo = document.getElementById('codigo_producto_mp').value;
+            const codigo_barras_descompuesto = descomponerString(codigo_barras_completo);
+            const codigo_barras = codigo_barras_descompuesto[1];
+            const lote = codigo_barras_descompuesto[3];
+            const cantidad = document.getElementById('cantidad_producto_mp').value;
+            const id_producto = document.getElementById('id_producto').value;
+            const fecha_vencimiento = document.getElementById('best_by').value;
+            const turno = document.getElementById('turno').value;
+            const lote_pt = document.getElementById('lote').value;
+            const cantidad_programada = document.getElementById('cantidad_programada').value;
+
+            let query = "?codigo_barras=" + codigo_barras + "&no_orden_produccion=";
+            query += no_orden_produccion_element.value + "&lote=" + lote + "&cantidad=" + cantidad;
+            query += "&id_producto=" + id_producto + "&turno=" + turno + "&best_by=" + fecha_vencimiento;
+            query += "&cantidad_programada=" + cantidad_programada + "&lote_pt=" + lote_pt;
+            $('.loading').show();
+            $.ajax({
+                url: "{{url('produccion/trazabilidad_chao_mein/verificar_existencia_lote')}}" + query,
+                type: "get",
+                success: function (response) {
+                    if (response.status === 1) {
+                        agregar_insumo(response.data.id_detalle_insumo);
+                        limpiar_insumo();
+                    } else {
+                        alert(response.message);
+                    }
+                    $('.loading').hide();
+                }, error: function (e) {
+                    console.log(e);
+                    $('.loading').hide();
+                }
+            });
+
+
         }
 
         function buscar_producto_terminado() {
@@ -883,13 +865,57 @@
             }
         }
 
-        function agregar_insumo() {
+        function agregar_insumo(id) {
 
-            const producto_element = $('#producto_mp');
-            const color_element = $('#color');
-            const olor_element = $('#olor');
-            const impresion_element = $('#impresion');
-            const ausencia_material_element = $('#ausencia_material');
+            const descripcion = document.getElementById('descripcion_producto_mp').value;
+            const lote = document.getElementById('lote_producto_mp').value;
+            const cantidad = document.getElementById('cantidad_producto_mp').value;
+
+
+            let row = `
+                    <tr>
+                        <td>     <input type="hidden" name="id_insumo[]" value="${id}">   ${descripcion}</td>
+                        <td>        <input type="hidden" name="color[]" value="0">
+                                      <input type="checkbox" onclick="asignar(this)">
+                        </td>
+                        <td>
+                             <input type="hidden" name="olor[]" value="0">
+                                      <input type="checkbox" onclick="asignar(this)">
+                        </td>
+                        <td>
+                                  <input type="hidden" name="impresion[]" value="0">
+                                      <input type="checkbox" onclick="asignar(this)">
+                        </td>
+                        <td>
+                                    <input type="hidden" name="ausencia_me[]" value="0">
+                                      <input type="checkbox" onclick="asignar(this)">
+                        </td>
+                        <td>              <input type="hidden" name="lote_pt[]" value="${lote}">
+                                          ${lote}
+                        </td>
+                        <td>                <input type="hidden" name="cantidad[]" value="${cantidad}">
+                                           ${cantidad}
+                        </td>
+                        <td>
+
+                        </td>
+                    </tr>
+            `;
+
+            $('#tbody_insumos').append(row);
+
+
+        }
+
+
+        function limpiar_insumo() {
+
+            document.getElementById('codigo_producto_mp').value = "";
+            document.getElementById('descripcion_producto_mp').value = "";
+            document.getElementById('lote_producto_mp').value = "";
+            document.getElementById('cantidad_producto_mp').value = "";
+            document.getElementById('cantidad_producto_mp').readOnly = true;
+            document.getElementById('codigo_producto_mp').focus();
 
         }
     </script>
