@@ -36,6 +36,7 @@ class ProductoController extends Controller
                 $query->where('productos.codigo_barras', 'LIKE', '%' . $search . '%')
                     ->orwhere('productos.codigo_interno', 'LIKE', '%' . $search . '%')
                     ->orwhere('productos.descripcion', 'LIKE', '%' . $search . '%')
+                    ->orwhere('productos.tipo_producto', 'LIKE', '%' . $search . '%')
                     ->orwhere('productos.codigo_interno_cliente', 'LIKE', '%' . $search . '%');
             })
             ->orderBy($sortField, $sort)
