@@ -62,6 +62,7 @@
 
     </div>
     <input type="hidden" name="id_producto" id="id_producto">
+    <input type="hidden" name="id_control" id="id_control">
     <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="producto">PRODUCTO</label>
@@ -123,6 +124,16 @@
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
+            <label for="ordenes">ORDENES</label>
+            <input type="text"
+                   name="ordenes"
+                   id="ordenes"
+                   readonly
+                   class="form-control">
+        </div>
+    </div>
+    <div class="col-lg-4 col-sm-6 col-md-4 col-xs-12">
+        <div class="form-group">
             <label for="lote_pt">LOTE</label>
             <input type="text"
                    name="lote_pt"
@@ -132,7 +143,7 @@
         </div>
     </div>
 
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+    <div class="col-lg-4 col-sm-6 col-md-4col-xs-12">
         <div class="form-group">
             <label for="turno">TURNO</label>
             <input type="text"
@@ -143,7 +154,7 @@
         </div>
     </div>
 
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+    <div class="col-lg-4 col-sm-6 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="cantidad_programada">CANTIDAD PROGRAMADA</label>
             <input type="text"
@@ -393,14 +404,17 @@
         function limpiar_producto() {
             document.getElementById('codigo_producto').value = "";
             document.getElementById('codigo_producto').focus();
+            document.getElementById('codigo_producto').readOnly = false;
             document.getElementById('producto').value = "";
             document.getElementById('id_producto').value = "";
             document.getElementById('unidad_medida').value = "";
             document.getElementById('best_by').value = "";
+            document.getElementById('no_orden_produccion').readOnly = true;
         }
 
         function limpiar_orden_produccion() {
             document.getElementById('no_orden_produccion').value = "";
+            document.getElementById('ordenes').value = "";
             document.getElementById('no_orden_produccion').readOnly = false;
             document.getElementById('no_orden_produccion').focus();
             document.getElementById('lote').value = "";
@@ -414,6 +428,27 @@
 
         }
 
+        function agregar_orden_produccion() {
+
+            const old_value = document.getElementById('ordenes').value;
+            const new_value = document.getElementById('no_orden_produccion').value;
+
+            if (old_value === "") {
+                document.getElementById('ordenes').value = new_value;
+            } else {
+                document.getElementById('ordenes').value = old_value + ',' + new_value;
+            }
+
+        }
+
+        function existe_orden_produccion(orden_produccion) {
+
+            let ordenes = document.getElementById('ordenes').value.split(',');
+            const existe_orden = ordenes.find(e => e === orden_produccion);
+
+            return typeof existe_orden !== "undefined";
+
+        }
 
         function buscar_orden_produccion() {
 
@@ -430,21 +465,26 @@
                 type: 'get',
                 dataType: "json",
                 success: function (response) {
-                    console.log(response);
+
                     if (response.status == 1) {
                         let orden_produccion = response.data;
-
                         if (orden_produccion == null) {
                             alert("Orden de produccion no encontrada");
                         } else if (orden_produccion.estado != 'D') {
                             alert("Orden de produccion en proceso ");
                         } else {
-                            document.getElementById('id_requisicion').value = orden_produccion.id;
-                            document.getElementById('no_orden_produccion').readOnly = true;
-                            document.getElementById('lote').readOnly = false;
-                            document.getElementById('lote').focus();
-                            document.getElementById('turno').readOnly = false;
-                            document.getElementById('cantidad_programada').readOnly = false;
+                            if (existe_orden_produccion(orden_produccion.no_orden_produccion)) {
+                                alert("Orden de produccion ya agregada");
+                            } else {
+                                agregar_orden_produccion();
+                                document.getElementById('id_requisicion').value = orden_produccion.id;
+                                document.getElementById('lote').readOnly = false;
+                                document.getElementById('lote').focus();
+                                document.getElementById('turno').readOnly = false;
+                                document.getElementById('cantidad_programada').readOnly = false;
+                                document.getElementById('no_orden_produccion').value = "";
+                            }
+
                         }
                     } else {
                         alert(response.message);
@@ -518,7 +558,7 @@
         function buscar_producto_mp_pp() {
 
 
-            const no_orden_produccion_element = document.getElementById('no_orden_produccion');
+            const no_orden_produccion_element = document.getElementById('ordenes');
             const no_orden_produccion_valida = no_orden_produccion_element.value !== "" && (no_orden_produccion_element.disabled || no_orden_produccion_element.readOnly);
 
             if (!no_orden_produccion_valida) {
@@ -560,7 +600,7 @@
 
         function verificar_existencia_lote() {
 
-            const no_orden_produccion_element = document.getElementById('no_orden_produccion');
+            const no_orden_produccion_element = document.getElementById('ordenes');
             const no_orden_produccion_valida = no_orden_produccion_element.value !== "" && (no_orden_produccion_element.disabled || no_orden_produccion_element.readOnly);
 
             if (!no_orden_produccion_valida) {
@@ -591,6 +631,7 @@
                     if (response.status === 1) {
                         agregar_insumo(response.data.id_detalle_insumo);
                         limpiar_insumo();
+                        set_id_orden(response.data.id_control);
                     } else {
                         alert(response.message);
                     }
@@ -604,6 +645,10 @@
 
         }
 
+        function set_id_orden(id) {
+            document.getElementById('id_control').value = id;
+        }
+
         function buscar_producto_terminado() {
 
             let codigo_interno = document.getElementById('codigo_producto').value;
@@ -613,13 +658,16 @@
                 type: "get",
                 dataType: "json",
                 success: function (response) {
-                    console.log(response);
+
                     if (response.producto != null) {
+                        document.getElementById('codigo_producto').readOnly = true;
                         document.getElementById('id_producto').value = response.producto.id_producto;
                         document.getElementById('producto').value = response.producto.descripcion;
                         document.getElementById('best_by').value = response.fecha_vencimiento;
                         document.getElementById('unidad_medida').value = response.producto.unidad_medida;
                         document.getElementById('no_orden_produccion').readOnly = false;
+                        document.getElementById('no_orden_produccion').value = "";
+                        document.getElementById('ordenes').value = "";
                         document.getElementById('no_orden_produccion').focus();
 
                     } else {
@@ -757,7 +805,7 @@
             let id_actividad = $('#actividades option:selected').val();
 
 
-            const is_orden_produccion_valida = document.getElementById('no_orden_produccion').value != "" && document.getElementById('no_orden_produccion').readOnly == true;
+            const is_orden_produccion_valida = document.getElementById('ordenes').value != "" && document.getElementById('ordenes').readOnly == true;
             if (!is_orden_produccion_valida) {
                 alert("Orden de produccion  invalida");
                 return;

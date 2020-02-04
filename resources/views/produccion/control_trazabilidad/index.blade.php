@@ -15,9 +15,9 @@
 
                 </th>
                 <th>
-                 @include('componentes.column-sort',[
-                          'field'=>'productos.codigo_interno',
-                          'titulo'=>'CODIGO INTERNO'])
+                    @include('componentes.column-sort',[
+                             'field'=>'productos.codigo_interno',
+                             'titulo'=>'CODIGO INTERNO'])
 
                 </th>
 
@@ -49,7 +49,13 @@
 
                         </td>
                         <td>
-                            {{$operacion->no_orden_produccion}}
+                            {{$operacion->requisiciones
+                               ->reduce(
+                                   function ($carry,$item){
+                                        return
+                                        $item->no_orden_produccion.' , '.$carry;
+                                   },'')
+                               }}
                         </td>
                         <td>
                             {{$operacion->producto->codigo_interno}}
@@ -72,6 +78,6 @@
             </table>
         </div>
     </div>
-@include('componentes.pagination',['pagination'=>$operaciones])
+    @include('componentes.pagination',['pagination'=>$operaciones])
 </div>
 

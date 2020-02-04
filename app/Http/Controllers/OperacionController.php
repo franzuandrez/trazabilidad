@@ -8,6 +8,7 @@ use App\Operacion;
 use App\OperariosInvolucrados;
 use App\Producto;
 use App\Requisicion;
+use App\ReservaPicking;
 use Auth;
 use Carbon\Carbon;
 use DB;
@@ -31,16 +32,24 @@ class OperacionController extends Controller
         $search = $request->get('search') == null ? '' : $request->get('search');
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
         $sortField = $request->get('field') == null ? 'id_control' : $request->get('field');
+        $id_control = DB::table('control_trazabilidad_orden_produccion')
+            ->where('no_orden_produccion', 'LIKE', '%' . $search . '%')
+            ->get()
+            ->pluck('id_control')
+            ->toArray();
+
 
         $operaciones = Operacion::join('productos', 'productos.id_producto', '=', 'control_trazabilidad.id_producto')
-            ->where(function ($query) use ($search) {
+            ->where(function ($query) use ($search, $id_control) {
                 $query->where('productos.descripcion', 'LIKE', '%' . $search . '%')
                     ->orWhere('productos.codigo_interno', 'LIKE', '%' . $search . '%')
-                    ->orWhere('control_trazabilidad.no_orden_produccion', 'LIKE', '%' . $search . '%')
+                    ->orWhereIn('control_trazabilidad.id_control', $id_control)
                     ->orWhere('control_trazabilidad.lote', 'LIKE', '%' . $search . '%');
             })
             ->orderBy($sortField, $sort)
             ->paginate(20);
+
+
 
 
         if ($request->ajax()) {
@@ -88,6 +97,21 @@ class OperacionController extends Controller
         ]);
     }
 
+    private function get_id_control_trazabilidad($ordenes, $id_producto)
+    {
+
+        $ids = DB::table('control_trazabilidad_orden_produccion')
+            ->select('id_control')
+            ->whereIn('no_orden_produccion', $ordenes)
+            ->where('id_producto', $id_producto)
+            ->first();
+        if ($ids != null) {
+            $ids = $ids->id_control;
+        }
+
+        return [$ids];
+    }
+
     public function buscar_orden_produccion(Request $request)
     {
 
@@ -96,9 +120,11 @@ class OperacionController extends Controller
             $search = $request->get('q');
             $id_producto = $request->get('id_producto');
 
+
             $ordenProduccion = Requisicion::select('estado', 'id', 'no_requision', 'no_orden_produccion')
                 ->where('no_orden_produccion', $search)
                 ->first();
+
 
             if ($ordenProduccion == null) {
                 $response = [
@@ -107,8 +133,8 @@ class OperacionController extends Controller
                     'data' => []
                 ];
             } else {
-                $orden_produccion_iniciada = Operacion::where('no_orden_produccion', $search)
-                    ->where('id_producto', $id_producto)
+                $orden_produccion_iniciada = Operacion::whereIn('id_control', $this->get_id_control_trazabilidad([$search], $id_producto))
+                    ->where('id_control', $id_producto)
                     ->exists();
                 if ($orden_produccion_iniciada) {
                     $response = [
@@ -160,11 +186,13 @@ class OperacionController extends Controller
         try {
             DB::beginTransaction();
 
-            $no_orden_produccion = $request->no_orden_produccion;
 
-            $operacion = Operacion::where('id_producto',$request->id_producto)
-                ->where('no_orden_produccion',$request->no_orden_produccion)
+            $id_control = $request->get('id_control');
+
+            $operacion = Operacion::where('id_producto', $request->id_producto)
+                ->where('id_control', $id_control)
                 ->first();
+
 
             $actividades = $request->id_actividad;
 
@@ -173,7 +201,6 @@ class OperacionController extends Controller
                 $operario_involucrado->id_colaborador = $request->id_colaborador[$key];
                 $operario_involucrado->id_actividad = $actividad;
                 $operario_involucrado->id_control = $operacion->id_control;
-                $operario_involucrado->no_orden_produccion = $no_orden_produccion;
                 $operario_involucrado->fecha_hora_asociacion = Carbon::now();
                 $operario_involucrado->save();
             }
@@ -181,7 +208,7 @@ class OperacionController extends Controller
             $insumos = $request->id_insumo;
 
             foreach ($insumos as $key => $insumo) {
-                $detalle_insumo =  DetalleInsumo::find($insumo);
+                $detalle_insumo = DetalleInsumo::find($insumo);
                 $detalle_insumo->color = $request->color[$key];
                 $detalle_insumo->olor = $request->olor[$key];
                 $detalle_insumo->impresion = $request->impresion[$key];
@@ -198,6 +225,7 @@ class OperacionController extends Controller
 
 
             DB::rollback();
+
             return redirect()->back()
                 ->withInput()
                 ->withErrors(['Algo salió mal, vuelva a intentarlo']);
@@ -221,11 +249,12 @@ class OperacionController extends Controller
     public function verificar_proximo_lote(Request $request)
     {
 
-        $orden_produccion = $request->get('no_orden_produccion');
+        $orden_produccion = explode(",", $request->get('no_orden_produccion'));
         $codigo_barras = $request->get('codigo_barras');
         $lote = $request->get('lote');
         $producto = Producto::where('codigo_barras', $codigo_barras)
             ->first();
+
 
         $response = $this->es_lote_proximo_a_vencer($producto->id_producto, $orden_produccion, $lote);
 
@@ -236,6 +265,7 @@ class OperacionController extends Controller
     private function save_orden_produccion(Request $request)
     {
 
+
         $operacion = new Operacion();
         $operacion->id_producto = $request->id_producto;
         $operacion->id_turno = $request->turno;
@@ -245,6 +275,7 @@ class OperacionController extends Controller
         $operacion->no_orden_produccion = $request->no_orden_produccion;
         $operacion->id_usuario = Auth::user()->id;
         $operacion->save();
+
 
         return $operacion;
 
@@ -260,18 +291,39 @@ class OperacionController extends Controller
         if ($proximo_lote->status == 1) {
             $cantidad_solicitada = $request->get('cantidad');
             $reserva = $proximo_lote->data->reserva_insumo;
-            $no_orden_produccion = $request->no_orden_produccion;
+            $no_orden_produccion = explode(',', $request->no_orden_produccion);
             $id_producto = $request->id_producto;
             $cantidad_reservada = $reserva == null ? 0 : floatval($reserva->cantidad);
             $cantidad_disponible = floatval($proximo_lote->data->siguiente_lote->cantidad - $cantidad_reservada);
             $es_cantidad_suficiente = $cantidad_disponible >= $cantidad_solicitada;
             if ($es_cantidad_suficiente) {
-                $orden_produccion = Operacion::where('no_orden_produccion', $no_orden_produccion)
+
+                $id_control = $this->get_id_control_trazabilidad($no_orden_produccion, $id_producto);
+
+
+                $orden_produccion = Operacion::whereIn('id_control', $id_control)
                     ->where('id_producto', $id_producto)
                     ->first();
-                $existe_orden_produccion = $orden_produccion != null;
+
+
+                $existe_orden_produccion = ($orden_produccion) != null;
                 if (!$existe_orden_produccion) {
                     $orden_produccion = $this->save_orden_produccion($request);
+                }
+                DB::table('control_trazabilidad_orden_produccion')
+                    ->where('id_control', $orden_produccion->id_control)
+                    ->delete();
+                foreach ($no_orden_produccion as $orden) {
+                    $requisicion = Requisicion::where('no_orden_produccion', $orden)->first();
+
+
+                    DB::table('control_trazabilidad_orden_produccion')
+                        ->insert([
+                            'id_control' => $orden_produccion->id_control,
+                            'no_orden_produccion' => $requisicion->no_orden_produccion,
+                            'id_requisicion' => $requisicion->id,
+                            'id_producto' => $id_producto
+                        ]);
                 }
                 $detalle_insumo = new DetalleInsumo();
                 $detalle_insumo->id_control = $orden_produccion->id_control;
@@ -283,10 +335,8 @@ class OperacionController extends Controller
                 $detalle_insumo->lote = $request->lote;
                 $detalle_insumo->fecha_vencimiento = $proximo_lote->data->siguiente_lote->fecha_vencimiento;
                 $detalle_insumo->cantidad = $cantidad_solicitada;
-                $detalle_insumo->no_orden_produccion = $no_orden_produccion;
+                $detalle_insumo->no_orden_produccion = Requisicion::find($proximo_lote->data->siguiente_lote->id_requisicion)->no_orden_produccion;
                 $detalle_insumo->save();
-
-
                 $response = [
                     'status' => 1,
                     'message' => 'Ingresado correctamente',
@@ -321,19 +371,29 @@ class OperacionController extends Controller
     private function es_lote_proximo_a_vencer($id_producto, $orden_produccion, $lote)
     {
         $result = $this->get_lote_siguiente_y_reserva_insumo($id_producto, $orden_produccion);
-        if ($result['siguiente_lote']->lote == $lote) {
+
+        if ($result['siguiente_lote'] == null) {
             $response = [
-                'status' => 1,
-                'message' => 'Lote correcto',
+                'status' => 0,
+                'message' => 'No hay en existencia  ',
                 'data' => $result
             ];
         } else {
-            $response = [
-                'status' => 0,
-                'message' => 'Lote no proximo a vencer',
+            if ($result['siguiente_lote']->lote == $lote) {
+                $response = [
+                    'status' => 1,
+                    'message' => 'Lote correcto',
+                    'data' => $result
+                ];
+            } else {
+                $response = [
+                    'status' => 0,
+                    'message' => 'Lote no proximo a vencer',
 
-            ];
+                ];
+            }
         }
+
 
         return $response;
 
@@ -343,7 +403,7 @@ class OperacionController extends Controller
     {
 
         $reserva_insumo = DetalleInsumo::where('id_producto', $id_producto)
-            ->where('no_orden_produccion', $no_orden_produccion)
+            ->whereIn('no_orden_produccion', $no_orden_produccion)
             ->select('id_producto', 'lote', DB::raw('sum(cantidad) as cantidad'))
             ->orderBy('fecha_vencimiento', 'desc')
             ->groupBy('lote')
@@ -351,27 +411,28 @@ class OperacionController extends Controller
             ->get();
 
 
-        $requisicion = Requisicion::where('no_orden_produccion', $no_orden_produccion)->first();
+        $requisicion = Requisicion::select('id')->whereIn('no_orden_produccion', $no_orden_produccion)
+            ->get()->pluck('id')->toArray();;
 
-        $reservas = $requisicion->reservas()
+        $reservas = ReservaPicking::whereIn('id_requisicion', $requisicion)
             ->where('id_producto', $id_producto)
             ->orderBy('fecha_vencimiento', 'asc')
             ->get();
 
+
         $siguiente_lote = [
             'reserva_insumo' => $reserva_insumo->first(),
-            'siguiente_lote' => $reservas->first()
+            'siguiente_lote' => null
         ];
 
 
         if ($reserva_insumo != null) {
             foreach ($reservas as $reserva) {
-
-
                 $lote_reservado = $reserva_insumo->where('lote', $reserva->lote)->first();
                 $existe_lote_reservado = $lote_reservado != null;
 
                 if ($existe_lote_reservado) {
+
                     if (floatval($reserva->cantidad) != floatval($lote_reservado->cantidad)) {
                         $siguiente_lote = [
                             'reserva_insumo' => $lote_reservado,
@@ -380,6 +441,7 @@ class OperacionController extends Controller
                         break;
                     }
                 } else {
+
                     $siguiente_lote = [
                         'reserva_insumo' => $lote_reservado,
                         'siguiente_lote' => $reserva
