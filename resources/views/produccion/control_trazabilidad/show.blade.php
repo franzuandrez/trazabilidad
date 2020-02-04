@@ -68,7 +68,15 @@
             <input type="text"
                    name="no_orden_produccion"
                    readonly
-                   value="{{$operacion->no_orden_produccion}}"
+                   value="{{
+                   $operacion
+                   ->requisiciones
+                   ->reduce(
+                       function ($carry,$item){
+                            return
+                            $item->no_orden_produccion.','.$carry;
+                       })
+                   }}"
                    id="no_orden_produccion"
                    class="form-control">
         </div>
@@ -214,7 +222,7 @@
                                 <td>
                                     <table class="table table-bordered">
                                         @php
-                                             $i = 0;
+                                            $i = 0;
                                         @endphp
                                         @foreach($operacion->asistencias as $asistencia )
                                             @if($asistencia->id_actividad == $actividad->id_actividad)
