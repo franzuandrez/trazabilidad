@@ -1,5 +1,5 @@
 @foreach( $reporte_detalle['details'] as  $key=> $detail)
-    <table>
+    <table class="table-detalle">
         <tr>
             <th colspan="{{ $detail['headers']->count()}}">{{$key}}</th>
         </tr>
@@ -11,10 +11,20 @@
         @foreach( $detail['detail'] as  $det)
             <tr>
                 @foreach( $det as $row)
-                    <td>{{$row}}</td>
+                    <td>
+                        @if($row==="1")
+                            SI
+                        @elseif($row==="0")
+                            NO
+                        @else
+                            {{$row}}
+                        @endif
+
+                    </td>
                 @endforeach
             </tr>
         @endforeach
 
     </table>
+    <br>
 @endforeach

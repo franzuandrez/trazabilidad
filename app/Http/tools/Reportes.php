@@ -17,12 +17,15 @@ class Reportes
     private $created_at = null;
     private $header = [];
     private $replaced = [
-        'ID', 'id'
+        '/\bID\b/', '/\bid\b/'
     ];
 
-    private function get_headers_from_model(Model $model)
+    private function get_headers_from_model(Model $model = null)
     {
-        $headers = $this->get_headers_from_table($model->getTable());
+        $headers = collect([]);
+        if ($model) {
+            $headers = $this->get_headers_from_table($model->getTable());
+        }
         return $headers;
     }
 
@@ -43,22 +46,22 @@ class Reportes
     }
 
 
-    public function maped(Model $model)
+    public function maped(Model $model = null)
     {
+
+
         $headers = $this->except($model);
-        $attributes = collect($model->getAttributes());
-
-
+        $attributes = collect($model == null ? [] : $model->getAttributes());
         $maped = $headers->map(function ($item, $key) use ($attributes) {
-
             if (Arr::exists($attributes, $key)) {
                 return (object)[
-                    "field" => $item,
+                    "field" => preg_replace($this->replaced, '', $item),
                     "value" => $attributes[$key]
                 ];
             }
 
         });
+
 
         return $maped;
     }
@@ -142,6 +145,7 @@ class Reportes
 
 
         $detail = $collection->map(function ($item) {
+
             return $this->maped($item)
                 ->filter(function ($item) {
                     return $item != null;
@@ -166,19 +170,25 @@ class Reportes
     public function mapers($mapers = [])
     {
 
+        if (count($mapers) > 0) {
+            return (collect($mapers)->map(function ($item, $key) {
+                if ($key == "headers") {
+                    return collect($item)->map(function ($item) {
 
-        return (collect($mapers)->map(function ($item, $key) {
-            if ($key == "headers") {
-                return collect($item)->map(function ($item) {
-                    return $this->maped($item);
-                });
-            } else {
-                return collect($item)->map(function ($item) {
-                    return $this->map_detail($item);
-                });
-            }
+                        return $this->maped($item);
+                    });
+                } else {
 
-        }));
+                    return collect($item)->map(function ($item) {
+
+                        return $this->map_detail($item);
+                    });
+                }
+
+            }));
+        } else {
+            return $mapers;
+        }
 
 
     }

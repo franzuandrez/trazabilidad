@@ -355,6 +355,7 @@ Route::post('produccion/trazabilidad_chao_mein/create', 'OperacionController@sto
 Route::get('produccion/trazabilidad_chao_mein/buscar_producto', 'OperacionController@buscar_producto')->name('produccion.operacion.buscar_producto');
 Route::get('produccion/trazabilidad_chao_mein/buscar_orden_produccion', 'OperacionController@buscar_orden_produccion')->name('produccion.operacion.buscar_orden_produccion');
 Route::get('produccion/trazabilidad_chao_mein/{id}', 'OperacionController@show')->name('produccion.operacion.show');
+Route::get('produccion/trazabilidad_chao_mein/reporte/{id}', 'ReporteControlTrazabilidadController@reporte_control_trazabilidad')->name('produccion.operacion.reporte');
 
 
 Route::get('produccion/requisiciones', 'RequisicionController@index')->name('produccion.requisiciones.index');

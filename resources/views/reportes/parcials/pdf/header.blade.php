@@ -1,4 +1,4 @@
-<table>
+<table class="table-header">
     <tr>
         <th class="title" colspan="2">{{ strtoupper($reporte_encabezado->getTitle()) }}</th>
         <th>{{$reporte_encabezado->getCreatedAt()->format('d/m/Y H:i:s')}}</th>
