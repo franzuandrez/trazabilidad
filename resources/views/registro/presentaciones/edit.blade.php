@@ -16,13 +16,7 @@
     {!!Form::model($presentacion,['method'=>'PATCH','route'=>['presentacion.update',$presentacion->id_presentacion]])!!}
     {{Form::token()}}
 
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="codigo_barras">CODIGO BARRAS</label>
-            <input type="text" name="codigo_barras" value="{{$presentacion->codigo_barras}}"
-                   class="form-control">
-        </div>
-    </div>
+
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="descripcion">DESCRIPCION</label>

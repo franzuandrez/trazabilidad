@@ -15,15 +15,7 @@
                 <th>
 
                 </th>
-                <th>
-                    @component('componentes.column-sort',['modulo'=>'registro/presentaciones',
-                    'search'=>$search,
-                          'sort'=>$sort,
-                          'sortField'=>$sortField,
-                          'field'=>'codigo_barras',
-                          'titulo'=>'codigo barras'])
-                    @endcomponent
-                </th>
+
                 <th>
                     @component('componentes.column-sort',['modulo'=>'registro/presentaciones',
                     'search'=>$search,
@@ -33,15 +25,7 @@
                           'titulo'=>'descripcion'])
                     @endcomponent
                 </th>
-                <th>
-                    @component('componentes.column-sort',['modulo'=>'registro/presentaciones',
-                    'search'=>$search,
-                        'sort'=>$sort,
-                        'sortField'=>$sortField,
-                        'field'=>'estado',
-                        'titulo'=>'estado'])
-                    @endcomponent
-                </th>
+
                 </thead>
                 <tbody>
                 @foreach($presentaciones as $presentacion)
@@ -50,19 +34,11 @@
                             <input type="radio" name="id_presentacion" value="{{$presentacion->id_presentacion}}">
 
                         </td>
-                        <td>
-                            {{$presentacion->codigo_barras}}
-                        </td>
+
                         <td>
                             {{$presentacion->descripcion}}
                         </td>
-                        <td>
-                            @if($presentacion->estado == 1)
-                                <span class="label label-success">Activo</span>
-                            @else
-                                <span class="label label-danger">De baja</span>
-                            @endif
-                        </td>
+
 
                     </tr>
 

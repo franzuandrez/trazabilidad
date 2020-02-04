@@ -57,15 +57,8 @@ class PresentacionController extends Controller
     {
 
 
-        $existePresentacion = Presentacion::actived()
-            ->where('codigo_barras', $request->get('codigo_barras'))
-            ->exists();
-        if ($existePresentacion) {
-            return redirect()
-                ->back()
-                ->withErrors(['El codigo de barras ya existe'])
-                ->withInput();
-        }
+
+
 
         $presentacion = new Presentacion();
         $presentacion->codigo_barras = $request->get('codigo_barras');
@@ -104,16 +97,7 @@ class PresentacionController extends Controller
 
         try {
 
-            $existePresentacion = Presentacion::actived()
-                ->where('codigo_barras', $request->get('codigo_barras'))
-                ->where('id_presentacion', '<>', $id)
-                ->exists();
-            if ($existePresentacion) {
-                return redirect()
-                    ->back()
-                    ->withErrors(['El codigo de barras ya existe'])
-                    ->withInput();
-            }
+
 
             $presentacion = Presentacion::findOrFail($id);
             $presentacion->codigo_barras = $request->get('codigo_barras');
