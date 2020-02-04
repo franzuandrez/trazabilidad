@@ -29,6 +29,7 @@ class Operacion extends Model
         'id_usuario',
     ];
 
+    protected $with = ['requisiciones'];
 
     public function detalle_insumos()
     {
@@ -48,9 +49,16 @@ class Operacion extends Model
         return $this->belongsTo(Producto::class, 'id_producto', 'id_producto');
     }
 
-    public function actividades(){
+    public function actividades()
+    {
 
         return $this->asistencias()->groupBy('id_actividad');
 
+    }
+
+    public function requisiciones()
+    {
+
+        return $this->belongsToMany(Requisicion::class, 'control_trazabilidad_orden_produccion', 'id_control', 'id_requisicion');
     }
 }
