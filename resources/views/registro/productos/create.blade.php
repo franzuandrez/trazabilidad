@@ -75,11 +75,11 @@
             </select>
         </div>
     </div>
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12" style="display: none">
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12"  >
         <div class="form-group">
             <label for="id_presentacion">PRESENTACIONES</label>
             <select name="id_presentacion" id="presentaciones"
-                    required
+                    multiple
                     class="form-control selectpicker">
 
                 @foreach( $presentaciones as $presentacion)

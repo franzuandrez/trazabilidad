@@ -134,7 +134,6 @@ class ProductoController extends Controller
         $producto->codigo_interno = $request->get('codigo_interno');
         $producto->descripcion = $request->get('descripcion');
         $producto->id_dimensional = $request->get('id_dimensional');
-        $producto->id_presentacion = $request->get('id_presentacion');
         $producto->tipo_producto = $request->get('tipo_producto');
         $producto->codigo_interno_cliente = $request->get('codigo_interno_cliente');
         $producto->fecha_creacion = \Carbon\Carbon::now();
@@ -142,7 +141,7 @@ class ProductoController extends Controller
         $producto->unidad_medida = $request->get('unidad_medida');
         $producto->creado_por = \Auth::user()->id;
         $producto->save();
-
+        $producto->presentaciones()->sync($request->id_presentacion);
         return redirect()->route('productos.index')
             ->with('success', 'Producto dado de alta correctamente');
 
@@ -158,13 +157,15 @@ class ProductoController extends Controller
             $producto = Producto::findOrFail($id);
             $dimensionales = Dimensional::actived()->get();
             $presentaciones = Presentacion::actived()->get();
+            $producto_presentaciones = $producto->presentaciones->pluck('id_presentacion')->toArray();
 
 
             return view('registro.productos.edit',
                 [
                     'producto' => $producto,
                     'dimensionales' => $dimensionales,
-                    'presentaciones' => $presentaciones
+                    'presentaciones' => $presentaciones,
+                    'producto_presentaciones' => $producto_presentaciones
                 ]);
 
 
@@ -198,14 +199,13 @@ class ProductoController extends Controller
             $producto = Producto::findOrFail($id);
             $producto->codigo_interno = $request->get('codigo_interno');
             $producto->descripcion = $request->get('descripcion');
-            $producto->id_dimensional = $request->get('id_dimensional');
-            $producto->id_presentacion = $request->get('id_presentacion');
             $producto->tipo_producto = $request->get('tipo_producto');
             $producto->codigo_interno_cliente = $request->get('codigo_interno_cliente');
             $producto->unidad_medida = $request->get('unidad_medida');
             $producto->fecha_actualizacion = \Carbon\Carbon::now();
             $producto->update();
 
+            $producto->presentaciones()->sync($request->id_presentacion);
             return redirect()->route('productos.index')
                 ->with('success', 'Producto actualizado correctamente');
 
@@ -228,10 +228,11 @@ class ProductoController extends Controller
             $dimensionales = Dimensional::actived()->get();
             $presentaciones = Presentacion::actived()->get();
             $proveedores = Proveedor::actived()->get();
-
+            $producto_presentaciones = $producto->presentaciones->pluck('id_presentacion')->toArray();
             return view('registro.productos.show',
                 [
-                    'producto' => $producto, 'dimensionales' => $dimensionales, 'presentaciones' => $presentaciones, 'proveedores' => $proveedores
+                    'producto' => $producto, 'dimensionales' => $dimensionales, 'presentaciones' => $presentaciones, 'proveedores' => $proveedores,
+                    'producto_presentaciones' => $producto_presentaciones
                 ]);
 
 

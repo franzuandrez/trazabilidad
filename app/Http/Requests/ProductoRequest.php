@@ -25,11 +25,10 @@ class ProductoRequest extends FormRequest
     {
         return [
             //
-            'codigo_barras' => 'required|max:13|min:13',
+
             'codigo_interno' => 'required',
             'descripcion' => 'required',
             'id_dimensional' => 'required',
-            'id_presentacion' => 'required',
             'tipo_producto' => 'required',
         ];
     }

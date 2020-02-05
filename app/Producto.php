@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
+
 class Producto extends Model
 {
     //
@@ -45,44 +46,58 @@ class Producto extends Model
 
     protected static $logOnlyDirty = true;
 
-    public function scopeActived( $query ){
+    public function scopeActived($query)
+    {
 
-        return $query->where('productos.estado',1);
+        return $query->where('productos.estado', 1);
 
     }
-    public function scopeEsProductoTerminado( $query ){
-        return $query->where('productos.tipo_producto','PT');
+
+    public function scopeEsProductoTerminado($query)
+    {
+        return $query->where('productos.tipo_producto', 'PT');
     }
 
-    public function scopeEsMateriaPrima( $query ){
+    public function scopeEsMateriaPrima($query)
+    {
 
-        return $query->where('productos.tipo_producto','MP')->orWhere('productos.tipo_producto','ME');
+        return $query->where('productos.tipo_producto', 'MP')->orWhere('productos.tipo_producto', 'ME');
     }
 
-    public function proveedores(){
+    public function proveedores()
+    {
 
         return $this
             ->belongsToMany('App\Proveedor',
                 'proveedores_productos',
-                'id_producto','id_proveedor');
+                'id_producto', 'id_proveedor');
     }
 
-    public function dimensional(){
+    public function dimensional()
+    {
 
-        return $this->belongsTo('App\Dimensional','id_dimensional');
+        return $this->belongsTo('App\Dimensional', 'id_dimensional');
 
     }
 
-    public function presentacion(){
+    public function presentacion()
+    {
 
-        return $this->belongsTo('App\Presentacion','id_presentacion');
+        return $this->belongsTo('App\Presentacion', 'id_presentacion');
     }
 
-    public function creador(){
+    public function creador()
+    {
 
-        return $this->belongsTo('App\User','creado_por');
+        return $this->belongsTo('App\User', 'creado_por');
     }
 
+
+    public function presentaciones()
+    {
+        return $this
+            ->belongsToMany(Presentacion::class, 'producto_presentacion', 'id_producto', 'id_presentacion');
+    }
 
 
 }
