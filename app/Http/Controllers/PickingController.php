@@ -32,6 +32,7 @@ class PickingController extends Controller
 
         $requisiciones_pendientes = Requisicion::select('requisicion_encabezado.*')
             ->join('users', 'users.id', '=', 'requisicion_encabezado.id_usuario_ingreso')
+            ->NoDeBaja()
             ->where(function ($query) use ($search) {
                 $query->where('requisicion_encabezado.no_orden_produccion', 'LIKE', '%' . $search . '%')
                     ->orWhere('requisicion_encabezado.no_requision', 'LIKE', '%' . $search . '%')
