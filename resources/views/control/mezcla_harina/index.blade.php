@@ -17,8 +17,8 @@
                     'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
-                          'field'=>'no_orden',
-                          'titulo'=>'NO ORDEN'])
+                          'field'=>'id_control',
+                          'titulo'=>'CONTROL'])
                     @endcomponent
                 </th>
 
@@ -49,7 +49,7 @@
                             <input type="radio" name="id_item" value="{{$linea->id_Enc_mezclaharina}}">
                         </td>
                         <td>
-                            {{$linea->no_orden}}
+                            {{$linea->id_control}}
                         </td>
 
                         <td>
