@@ -164,8 +164,8 @@
     {{Form::token()}}
 
 
-    <input type="hidden" id="id_chaomin">
-    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+    <input type="hidden" id="id_chaomin" name="id_chaomin">
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <label for="turno">NO ORDEN DE PRODUCCION</label>
         <div class="input-group">
             <input type="text" name="no_orden_produccion" value="{{old('no_orden_produccion')}}"
@@ -174,6 +174,9 @@
                    class="form-control">
             <div class="input-group-btn">
                 <button
+                    data-toggle="tooltip"
+                    title="Buscar"
+                    id="btn_buscar_orden"
                     onclick="iniciar_linea_chaomein()"
                     onkeydown="iniciar_linea_chaomein()"
                     type="button" class="btn btn-default">
@@ -184,14 +187,13 @@
 
         </div>
     </div>
-
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="presentacion">PRESENTACION</label>
-            <select name="id_presentacion" class="form-control selectpicker valor"
-                    onchange="cambiar_combobox('id_turno')"
-                    disabled="" id="id_presentacion">
-                <option value="">SELECCIONAR PRESENTACION</option>
+            <label for="producto">PRODUCTO</label>
+            <select name="producto" class="form-control selectpicker "
+                    onchange="cargar_presentaciones(this.value)"
+                    disabled="" id="producto">
+                <option value="">SELECCIONAR PRODUCTO</option>
                 @foreach($presentaciones as $presentacion)
                     <option value="{{$presentacion->id_presentacion}}">{{$presentacion->descripcion}}</option>
                 @endforeach
@@ -199,24 +201,39 @@
         </div>
     </div>
 
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <label for="presentacion">PRESENTACION</label>
+        <div class="form-group">
+            <select name="id_presentacion" class="form-control selectpicker "
+                    onchange="cambiar_combobox('id_turno')"
+                    disabled="" id="id_presentacion">
+                <option value="">SELECCIONAR PRESENTACION</option>
 
-
-
-
+            </select>
+        </div>
+    </div>
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="turno">TURNO</label>
-            <select class="form-control selectpicker valor"
-                    onchange="document.getElementById('cant_solucion_carga').focus()"
+        <label for="turno">TURNO</label>
+        <div class="input-group">
+            <select class="form-control selectpicker "
                     id="id_turno" name="id_turno" disabled>
                 <option value="" selected>SELECCIONE UN TURNO</option>
                 <option value="1">TURNO 1</option>
                 <option value="2">TURNO 2</option>
             </select>
+            <div class="input-group-btn">
+                <button
+                    data-toggle="tooltip"
+                    title="Iniciar"
+                    onclick="iniciar_liberacion()"
+                    type="button" class="btn btn-default">
+                    <i class="fa fa-check"
+                       aria-hidden="true"></i>
+                </button>
+            </div>
         </div>
     </div>
-
 
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
@@ -1191,23 +1208,89 @@
         async function iniciar_linea_chaomein(e) {
 
 
-            let url = "{{url('control/chaomin/iniciar')}}";
+            let url = "{{url('control/chaomin/verficar_no_orden_produccion')}}";
             let no_orden_produccion = document.getElementById('no_orden_produccion').value;
             let response = await iniciar(url, no_orden_produccion);
             if (response.status == 0) {
                 alert(response.message);
             } else {
-                habilitar_formulario();
+
                 document.getElementById('no_orden_produccion').disabled = true;
                 document.getElementById('id_presentacion').disabled = false;
                 document.getElementById('id_turno').disabled = false;
+                document.getElementById('producto').disabled = false;
                 $('#id_turno').selectpicker('refresh');
                 $('#id_presentacion').selectpicker('refresh');
-                cambiar_combobox('id_presentacion');
-                document.getElementById('id_chaomin').value = response.id;
-                start_job("{{url('control/chaomin/nuevo_registro')}}", document.getElementById('id_chaomin').value);
+                $('#producto').selectpicker('refresh');
+
+                cargar_productos(response.data);
+                gl_productos = response.data;
+                // cambiar_combobox('id_producto');
+                //document.getElementById('id_chaomin').value = response.id;
+                {{-- // start_job("{{url('control/chaomin/nuevo_registro')}}", document.getElementById('id_chaomin').value);--}}
             }
 
+
+        }
+
+        function iniciar_liberacion() {
+
+            const id_presentacion = document.getElementById('id_presentacion').value;
+            const id_producto = document.getElementById('producto').value;
+            const id_turno = document.getElementById('id_turno').value;
+            const no_orden_produccion = document.getElementById('no_orden_produccion').value;
+            if (id_presentacion === "") {
+                alert("Seleccione presentacion");
+                return;
+            }
+            if (id_producto === "") {
+                alert("Seleccione Producto");
+                return;
+            }
+            if (id_turno === "") {
+                alert("Seleccione Turno");
+                return;
+            }
+            if (no_orden_produccion === "") {
+                alert("Especifique no orden de producccion");
+                return;
+            }
+
+            $.ajax(
+                {
+                    type: "POST",
+                    url: "{{url('control/chaomin/iniciar')}}",
+                    data: {
+                        id_presentacion: id_presentacion,
+                        id_producto: id_producto,
+                        no_orden_produccion: no_orden_produccion,
+                        id_turno: id_turno
+                    },
+                    success: function (response) {
+
+                        if (response.status == 1) {
+                            habilitar_formulario();
+                            document.getElementById('id_presentacion').disabled = true;
+                            document.getElementById('producto').disabled = true;
+                            document.getElementById('id_turno').disabled = true;
+                            document.getElementById('no_orden_produccion').disabled = true;
+                            document.getElementById('btn_buscar_orden').disabled = true;
+                            $('#id_turno').selectpicker('refresh');
+                            $('#id_presentacion').selectpicker('refresh');
+                            $('#producto').selectpicker('refresh');
+                            document.getElementById('id_chaomin').value = response.data.id_chaomin;
+                            start_job("{{url('control/chaomin/nuevo_registro')}}", document.getElementById('id_chaomin').value);
+                        } else {
+                            alert(response.message);
+                        }
+
+
+                    },
+                    error: function (error) {
+                        console.log(error)
+                    }
+                }
+            );
 
         }
 
@@ -1255,5 +1338,45 @@
         }
 
 
+        function cargar_productos(productos) {
+
+            const select = document.getElementById('producto');
+            $(select).empty();
+            let option = '<option value="" selected>SELECCIONE PRODUCTO</option>';
+
+            const es_unico = productos.length === 1;
+
+            if (es_unico) {
+                option += `<option selected value="${productos[0].id_producto}" >${productos[0].descripcion}</option>`;
+            } else {
+                productos.forEach(function (e) {
+                    option += `<option value="${e.id_producto}" >${e.descripcion}</option>`;
+                })
+            }
+            $(select).append(option);
+            $(select).selectpicker('refresh');
+
+        }
+
+
+        var gl_productos = [];
+
+        function cargar_presentaciones(id) {
+            const presentaciones = gl_productos.find(e => e.id_producto == id).presentaciones;
+            const select = document.getElementById('id_presentacion');
+            $(select).empty();
+            let option = '<option value="" selected>SELECCIONE PRESENTACION</option>';
+            const es_unico = presentaciones.length === 1;
+            if (es_unico) {
+                option += `<option selected value="${presentaciones[0].id_presentacion}" >${presentaciones[0].descripcion}</option>`;
+            } else {
+                presentaciones.forEach(function (e) {
+                    option += `<option value="${e.id_presentacion}" >${e.descripcion}</option>`;
+                })
+            }
+            $(select).append(option);
+            $(select).selectpicker('refresh');
+
+        }
     </script>
 @endsection

@@ -6,6 +6,7 @@ use App\Http\tools\RealTimeService;
 use App\LineaChaomin;
 use App\Operacion;
 use App\Presentacion;
+use App\Producto;
 use App\User;
 use DB;
 use Illuminate\Http\Request;
@@ -72,16 +73,18 @@ class ChaomeanController extends Controller
     public function store(Request $request)
     {
 
-        $orden_produccion = $request->get('no_orden_produccion');
-        $linea_chaomin = LineaChaomin::where('no_orden_produccion', $orden_produccion)
-            ->firstOrFail();
+
+
 
         try {
+            $id_chaomin = $request->get('id_chaomin');
+            $linea_chaomin = LineaChaomin::where('id_chaomin', $id_chaomin)
+                ->firstOrFail();
             $linea_chaomin->observaciones_acciones = $request->observaciones_acciones;
             $linea_chaomin->estado = 1;
             $linea_chaomin->save();
 
-            RealTimeService::guardar($linea_chaomin, $request->except(['no_orden_produccion', '_token']));
+            RealTimeService::guardar($linea_chaomin, $request->except(['no_orden_produccion', '_token','id_chaomin','producto']));
             return redirect()->route('chaomin.index')
                 ->with('success', 'Linea  Finalizada correctamente');
         } catch (\Exception $ex) {
@@ -141,11 +144,17 @@ class ChaomeanController extends Controller
         //
     }
 
-    public function iniciar_linea_chaomein(Request $request)
+    public function verficar_no_orden_produccion(Request $request)
     {
 
         $orden_produccion = $request->no_orden_produccion;
-        $existe_orden_produccion = Operacion::where('no_orden_produccion', $orden_produccion)
+
+        $control = DB::table('control_trazabilidad_orden_produccion')
+            ->where('no_orden_produccion', $orden_produccion)
+            ->get();
+        $id_control = $control->pluck('id_control')->toArray();
+
+        $existe_orden_produccion = Operacion::whereIn('id_control', $id_control)
             ->exists();
 
 
@@ -154,25 +163,15 @@ class ChaomeanController extends Controller
 
             if ($existe_orden_produccion) {
 
-                $control_iniciado = LineaChaomin::where('no_orden_produccion', $orden_produccion)
-                    ->exists();
-                if ($control_iniciado) {
-                    $response = [
-                        'status' => 0,
-                        'message' => 'Linea de chaomin ya iniciada'
-                    ];
-                } else {
-                    $linea_chaomin = new LineaChaomin();
-                    $linea_chaomin->no_orden_produccion = $orden_produccion;
-                    $linea_chaomin->responsable = \Auth::user()->id;
-                    $linea_chaomin->save();
 
-                    $response = [
-                        'status' => 1,
-                        'message' => 'Creado correctamente',
-                        'id' => $linea_chaomin->id_chaomin
-                    ];
-                }
+                $productos = Producto::whereIn('id_producto',
+                    $control->pluck('id_producto')->toArray()
+                )->get();
+                $response = [
+                    'status' => 1,
+                    'message' => 'Siguiente paso',
+                    'data' => $productos
+                ];
 
 
             } else {
@@ -192,6 +191,47 @@ class ChaomeanController extends Controller
 
         return response()->json($response);
 
+    }
+
+
+    public function iniciar_linea_chaomein(Request $request)
+    {
+
+        $no_orden_produccion = $request->get('no_orden_produccion');
+        $id_producto = $request->get('id_producto');
+        $id_presentacion = $request->get('id_presentacion');
+
+        $control = DB::table('control_trazabilidad_orden_produccion')
+            ->where('id_producto', $id_producto)
+            ->where('no_orden_produccion', $no_orden_produccion)
+            ->first();
+
+        $chaomin = LineaChaomin::where('id_control', $control->id_control)
+            ->first();
+
+        if ($chaomin == null) {
+            $linea_chaomein = new LineaChaomin();
+            $linea_chaomein->id_presentacion = $id_presentacion;
+            $linea_chaomein->id_control = $control->id_control;
+            $linea_chaomein->id_producto = $id_producto;
+            $linea_chaomein->responsable = \Auth::user()->id;
+            $linea_chaomein->id_turno = $request->get('id_turno');
+            $linea_chaomein->save();
+
+            $response = [
+                'status' => 1,
+                'message' => 'Iniciada correctamente',
+                'data' => $linea_chaomein
+            ];
+
+        } else {
+            $response = [
+                'status' => 0,
+                'message' => 'Liberacion ya iniciada',
+            ];
+        }
+
+        return response()->json($response);
     }
 
     public function nuevo_registro(Request $request)

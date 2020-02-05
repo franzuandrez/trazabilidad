@@ -17,8 +17,8 @@
                     'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
-                          'field'=>'no_orden_produccion',
-                          'titulo'=>'NO ORDEN'])
+                          'field'=>'id_control',
+                          'titulo'=>'CONTROL'])
                     @endcomponent
                 </th>
                 <th>
@@ -57,6 +57,15 @@
                           'titulo'=>'RESPONSABLE'])
                     @endcomponent
                 </th>
+                <th>
+                    @component('componentes.column-sort',['modulo'=>'registro/sectores',
+                    'search'=>$search,
+                          'sort'=>$sort,
+                          'sortField'=>$sortField,
+                          'field'=>'Estado',
+                          'titulo'=>'estado'])
+                    @endcomponent
+                </th>
                 </thead>
                 <tbody>
                 @foreach($lineas as $linea)
@@ -66,7 +75,7 @@
 
                         </td>
                         <td>
-                            {{$linea->no_orden_produccion}}
+                            {{$linea->id_control}}
                         </td>
                         <td>
                             @if($linea->id_turno == 1)
@@ -84,6 +93,14 @@
                         </td>
                         <td>
                             {{$linea->responsable}}
+                        </td>
+                        <td>
+                            @if($linea->estado == 1)
+                                <span  class="label label-success">  Liberada</span>
+                            @else
+                                <span  class="label label-warning"> En proceso</span>
+                            @endif
+
                         </td>
                     </tr>
 
