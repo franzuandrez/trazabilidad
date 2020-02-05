@@ -273,11 +273,11 @@
             <ul class="nav navbar-nav">
                 <li class="dropdown">
                     <a href="#" data-toggle="dropdown" style="background-color: #01579B;  color: #fff;">Control
-                        Chaomin<b
+                        Chao mein<b
                             class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="{{url('control/chaomin')}}"><i class="fa fa-line-chart"></i>Liberacion Linea
-                                chaomin</a>
+                                chao mein</a>
                         </li>
                         <li><a href="{{url('control/mezcla_harina')}}"><i class="fa fa-spoon"></i>Mezcla de
                                 Harina</a>
