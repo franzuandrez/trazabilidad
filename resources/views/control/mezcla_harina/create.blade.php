@@ -85,34 +85,41 @@
             </div>
         </div>
     </div>
+
+
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <label for="hora_carga">HORA CARGA</label>
-        <div class="input-group date1" id='datetimepicker3'>
-            <input
-                disabled
-                required
-                id="hora_carga" type="text" name="descripcion" class="form-control">
-            <span class="input-group-addon">
-                        <i class="fa fa-clock-o"></i>
-                    </span>
-        </div>
-    </div>
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="hora_descarga">HORA DESCARGA</label>
-            <input id="hora_descarga" type="text" name="hora_descarga"
+        <div class="input-group">
+            <input id="hora_carga" type="text"
                    disabled
                    required
-                   class="form-control">
+                   class="form-control timepicker" name="hora_carga">
+            <div class="input-group-addon">
+                <i class="fa fa-clock-o"></i>
+            </div>
         </div>
     </div>
+
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <label for="hora_descarga">HORA DESCARGA</label>
+        <div class="input-group">
+            <input id="hora_descarga" type="text"
+                   disabled
+                   required
+                   class="form-control timepicker" name="hora_descarga">
+            <div class="input-group-addon">
+                <i class="fa fa-clock-o"></i>
+            </div>
+        </div>
+    </div>
+
 
     <div class="col-lg-12 col-sm-12 col-md-12  col-xs-12">
         <div class="form-group">
             <label for="solucion">LBS DE SOLUCIÓN (158.4 A 168.5)</label>
         </div>
     </div>
-    <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="_solucion_inicial">VALOR</label>
             <input id="solucion_inicial" type="text" name="solucion_inicial"
@@ -131,7 +138,7 @@
                    class="form-control">
         </div>
     </div>
-    <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="_solucion_final"> </label>
         </div>
@@ -142,7 +149,7 @@
             <label for="ph">PH (8-11 PPM)</label>
         </div>
     </div>
-    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="_solucion_inicial">VALOR</label>
             <input id="ph_inicial" type="text" name="ph_inicial"
@@ -152,30 +159,34 @@
         </div>
     </div>
 
-    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-8">
-        <div class="form-group">
-            <label for="observacion">OBSERVACIONES</label>
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <label for="observacion">OBSERVACIONES</label>
+        <div class="input-group">
             <input id="ph_observacion" type="text" name="ph_observacion"
                    disabled
                    class="form-control">
-        </div>
-    </div>
-
-
-
-    <div class="col-lg-3 col-md-3 col-sm-3  col-xs-4">
-        <br>
-        <div class="form-group">
-            <button class="btn btn-default block"
+            <div class="input-group-btn">
+                <button
                     onclick="agregar_a_table()"
-                    style="margin-top: 5px;" type="button">
-                <span class=" fa fa-plus"></span></button>
-            <button class="btn btn-default block" style="margin-top: 5px;"
+                    onkeydown="agregar_a_table()"
+                    type="button" class="btn btn-default">
+                    <i class="fa fa-plus"
+                       aria-hidden="true"></i>
+                </button>
+                <button
                     onclick="limpiar()"
-                    type="button">
-                <span class=" fa fa-trash"></span></button>
+                    onkeydown="limpiar()"
+                    type="button" class="btn btn-default">
+                    <i class="fa fa-trash"
+                       aria-hidden="true"></i>
+                </button>
+            </div>
         </div>
     </div>
+
+
+
+
 
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
@@ -232,12 +243,15 @@
 @section('scripts')
     <script src="{{asset('js-brc/tools/nuevo_registro.js')}}"></script>
     <script>
-        $('.date').datepicker({
-            format: 'yyyy-mm-dd',
-            autoclose: true,
-            setDate: new Date()
-
-        });
+        $(function () {
+            //Timepicker
+            $('.timepicker').timepicker({
+                showInputs: false,
+                minuteStep: 1,
+                format: 'HH:mm',
+                showMeridian: false,
+            });
+        })
 
         $(window).keydown(function (event) {
             if (event.keyCode == 13) {
