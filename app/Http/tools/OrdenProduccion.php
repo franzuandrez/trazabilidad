@@ -8,6 +8,7 @@ use App\Correlativo;
 use App\LineaChaomin;
 use App\Requisicion;
 use Carbon\Carbon;
+use DB;
 
 class OrdenProduccion
 {
@@ -41,12 +42,16 @@ class OrdenProduccion
     {
 
 
-        $linea_chamoin = LineaChaomin::where('no_orden_produccion', $no_orden_produccion)
-            ->with('control_trazabilidad')
-            ->with('control_trazabilidad.detalle_insumos')
-            ->first();
+        $controles = DB::table('control_trazabilidad_orden_produccion')
+            ->where('no_orden_produccion', $no_orden_produccion)
+            ->get();
 
-        if ($linea_chamoin != null) {
+        $linea_chamoin = LineaChaomin::with('control_trazabilidad.producto')
+            ->without('control_trazabilidad.requisiciones')
+            ->whereIn('id_control', $controles->pluck('id_control')->toArray())
+            ->get();
+
+        if (count($linea_chamoin) > 0) {
             $response = [
                 'status' => 1,
                 'message' => 'Linea chaomin iniciada',
@@ -62,6 +67,38 @@ class OrdenProduccion
 
         return $response;
 
+
+    }
+
+
+    public static function verificar_linea_chaomin_por_producto($no_orden_produccion, $id_producto)
+    {
+        $control = DB::table('control_trazabilidad_orden_produccion')
+            ->where('no_orden_produccion', $no_orden_produccion)
+            ->where('id_producto', $id_producto)
+            ->first();
+
+        $linea_chamoin = LineaChaomin::with('control_trazabilidad.producto')
+            ->without('control_trazabilidad.requisiciones')
+            ->where('id_control', $control->id_control)
+            ->get();
+
+        if ($linea_chamoin != null) {
+            $response = [
+                'status' => 1,
+                'message' => 'Linea chaomin iniciada',
+                'data' => $linea_chamoin
+            ];
+
+        } else {
+            $response = [
+                'status' => 0,
+                'message' => 'Linea chaomin iniciada',
+                'data' => $linea_chamoin
+            ];
+        }
+
+        return $response;
 
     }
 }
