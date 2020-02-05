@@ -12,7 +12,7 @@ class Requisicion extends Model
     protected $primaryKey = 'id';
     public $timestamps = false;
 
-    public $with = ['detalle','reservas'];
+    public $with = ['detalle', 'reservas'];
     protected $fillable = [
 
         'no_requision',
@@ -23,45 +23,59 @@ class Requisicion extends Model
         'estado',
     ];
 
-    protected $dates =[
+    protected $dates = [
         'fecha_ingreso'
     ];
 
-    public function usuario_ingreso() {
+    public function usuario_ingreso()
+    {
 
-        return $this->belongsTo('App\User','id_usuario_ingreso');
+        return $this->belongsTo('App\User', 'id_usuario_ingreso');
     }
 
-    public function usuario_aprobo(){
+    public function usuario_aprobo()
+    {
 
-        return $this->belongsTo('App\User','id_usuario_aprobo');
+        return $this->belongsTo('App\User', 'id_usuario_aprobo');
     }
 
-    public function detalle(){
-        return $this->hasMany('App\RequisicionDetalle','id_requisicion_encabezado');
+    public function detalle()
+    {
+        return $this->hasMany('App\RequisicionDetalle', 'id_requisicion_encabezado');
     }
 
-    public function reservas(){
-        return $this->hasMany('App\ReservaPicking','id_requisicion')
-            ->orderBy('id_producto','asc')
-            ->orderBy('fecha_vencimiento','asc')
-            ->orderBy('id_ubicacion','asc')
-            ;
+    public function reservas()
+    {
+        return $this->hasMany('App\ReservaPicking', 'id_requisicion')
+            ->orderBy('id_producto', 'asc')
+            ->orderBy('fecha_vencimiento', 'asc')
+            ->orderBy('id_ubicacion', 'asc');
     }
 
-    public function scopeEnProceso( $query){
-        return $query->where('estado','P');
-    }
-    public function scopeDespachada( $query){
-        return $query->where('estado','D');
-    }
-    public function scopeEnReserva( $query ){
-
-        return $query->where('requisicion_encabezado.estado','R');
+    public function scopeEnProceso($query)
+    {
+        return $query->where('estado', 'P');
     }
 
-    public function scopeDeUsuarioRecepcion($query,$type){
+    public function scopeDespachada($query)
+    {
+        return $query->where('estado', 'D');
+    }
 
-        return $query->where('id_usuario_ingreso',$type);
+    public function scopeEnReserva($query)
+    {
+
+        return $query->where('requisicion_encabezado.estado', 'R');
+    }
+
+    public function scopeNoDeBaja($query)
+    {
+        return $query->where('requisicion_encabezado.estado','!=', 'B');
+    }
+
+    public function scopeDeUsuarioRecepcion($query, $type)
+    {
+
+        return $query->where('id_usuario_ingreso', $type);
     }
 }
