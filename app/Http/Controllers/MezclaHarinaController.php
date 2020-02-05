@@ -5,15 +5,11 @@ namespace App\Http\Controllers;
 use App\DetalleLotes;
 use App\Http\tools\OrdenProduccion;
 use App\Http\tools\RealTimeService;
-use App\LineaChaomin;
 use App\MezclaHarina_Det;
 use App\MezclaHarina_Enc;
-use App\Presentacion;
-use App\Recepcion;
 use App\User;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
 use DB;
+use Illuminate\Http\Request;
 
 class MezclaHarinaController extends Controller
 {
@@ -63,7 +59,7 @@ class MezclaHarinaController extends Controller
 
 
         try {
-            $mezcla = MezclaHarina_Enc::where('no_orden', $orden_produccion)
+            $mezcla = MezclaHarina_Enc::where('id_control', $request->id_control)
                 ->firstOrFail();
             $mezcla->observaciones = $request->get('observacion');
             $mezcla->save();
@@ -189,40 +185,58 @@ class MezclaHarinaController extends Controller
 
         $linea_chaomin = OrdenProduccion::verificar_linea_chaomin($no_orden_produccion);
 
-        $harina = MezclaHarina_Enc::where('no_orden', $no_orden_produccion)
-            ->first();
 
         if ($linea_chaomin['status'] == 0) {
             $response = $linea_chaomin;
         } else {
-            if ($linea_chaomin['data']->estado == 0) {
-                $response = [
-                    'status' => 0,
-                    'message' => 'Linea chaomin aun en proceso'
-                ];
-            } else {
-                if ($harina != null) {
-                    $response = [
-                        'status' => 0,
-                        'message' => 'Mezcla de harina ya iniciada'
-                    ];
-                } else {
-                    $harina = new MezclaHarina_Enc();
-                    $harina->no_orden = $no_orden_produccion;
-                    $harina->id_usuario = \Auth::user()->id;
-                    $harina->save();
-                    $response = [
-                        'status' => 1,
-                        'message' => 'Mezcla de harina  iniciada correctamente',
-                        'data' => $linea_chaomin
-                    ];
+            $response = [
+                'status' => 1,
+                'message' => 'Mezcla de harina  iniciada correctamente',
+                'data' => $linea_chaomin
+            ];
 
-                }
-            }
 
         }
 
         return response()->json($response);
+
+
+    }
+
+
+    public function iniciar_formulario(Request $request)
+    {
+
+        $id_control = $request->get('id_control');
+
+
+        $harina = MezclaHarina_Enc::where('id_control', $id_control)
+            ->first();
+
+        if ($harina == null) {
+            $harina = new MezclaHarina_Enc();
+            $harina->id_usuario = \Auth::user()->id;
+            $harina->id_control = $id_control;
+            $harina->id_responsable_maquina = \Auth::user()->id;
+            $harina->save();
+
+            $response = [
+                'status' => 1,
+                'message' => "Iniciada correctamente",
+                'data' => $harina
+            ];
+
+        } else {
+            $response = [
+                'status' => 0,
+                'message' => "Mezcla de Harina ya iniciada",
+                'data' => $harina
+            ];
+        }
+
+
+        return response()
+            ->json($response);
 
 
     }
@@ -234,7 +248,7 @@ class MezclaHarinaController extends Controller
         try {
             $no_orden_produccion = $request->get('no_orden_produccion');
 
-            $harina_enc = MezclaHarina_Enc::where('no_orden', $no_orden_produccion)
+            $harina_enc = MezclaHarina_Enc::where('id_control', $no_orden_produccion)
                 ->first();
 
             $response = RealTimeService::insertar_detalle(

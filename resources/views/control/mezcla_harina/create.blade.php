@@ -24,7 +24,9 @@
     {!!Form::open(array('url'=>'control/mezcla_harina/create','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
 
-    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+
+    <input type="hidden" id="id_control" name="id_control">
+    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <label for="turno">NO ORDEN DE PRODUCCION</label>
         <div class="input-group">
             <input type="text"
@@ -34,6 +36,7 @@
                    class="form-control">
             <div class="input-group-btn">
                 <button
+                    id="btn_buscar_orden"
                     onclick="iniciar_mezcla_harina()"
                     onkeydown="iniciar_mezcla_harina()"
                     type="button" class="btn btn-default">
@@ -48,7 +51,7 @@
 
 
 
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="id_producto">PRODUCTO</label>
             <select class="form-control selectpicker valor"
@@ -61,15 +64,25 @@
         </div>
     </div>
 
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="lote">LOTE</label>
+    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
+
+        <label for="lote">LOTE</label>
+        <div class="input-group">
             <select class="form-control selectpicker valor"
                     disabled
                     required
                     id="lote" name="lote">
                 <option value="" selected>SELECCIONE LOTE</option>
             </select>
+            <div class="input-group-btn">
+                <button
+                    onclick="iniciar_formulario()"
+                    onkeydown="iniciar_formulario()"
+                    type="button" class="btn btn-default">
+                    <i class="fa fa-check"
+                       aria-hidden="true"></i>
+                </button>
+            </div>
         </div>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
@@ -147,6 +160,7 @@
                    class="form-control">
         </div>
     </div>
+
 
 
     <div class="col-lg-3 col-md-3 col-sm-3  col-xs-4">
@@ -255,7 +269,7 @@
             let option = '<option value="" selected>   SELECCIONE PRODUCTO </option>';
             gl_detalle_insumos.forEach(function (e) {
                 option += `
-                <option  value="${e.id_producto}" > ${e.producto.descripcion} </option>
+                <option  value="${e.id_producto}" > ${e.control_trazabilidad.producto.descripcion}   /    ${e.presentacion.descripcion} </option>
                 `
             });
             $(select).append(option);
@@ -276,10 +290,10 @@
                 const es_unico_lote = filtered.length == 1;
 
                 if (es_unico_lote) {
-                    option += `<option selected value="${filtered[0].lote}" >${filtered[0].lote}</option>`;
+                    option += `<option selected value="${filtered[0].control_trazabilidad.lote}" >${filtered[0].control_trazabilidad.lote}</option>`;
                 } else {
                     filtered.forEach(function (e) {
-                        option += `<option value="${e.lote}" >${e.lote}</option>`;
+                        option += `<option value="${e.control_trazabilidad.lote}" >${e.control_trazabilidad.lote}</option>`;
                     })
                 }
                 $(select).append(option);
@@ -299,13 +313,60 @@
             if (response.status == 0) {
                 alert(response.message);
             } else {
-                const fields = detalle();
-                gl_detalle_insumos = response.data.data.control_trazabilidad.detalle_insumos;
-
-                habilitar_formulario(fields);
+                gl_detalle_insumos = response.data.data;
+                document.getElementById('id_producto').disabled = false;
+                document.getElementById('lote').disabled = false;
+                $('#id_producto').selectpicker('refresh');
+                $('#lote').selectpicker('refresh');
                 cargar_productos();
                 document.getElementById('no_orden_produccion').disabled = true;
             }
+
+
+        }
+
+        function deshabilitar_encabezado() {
+
+            document.getElementById('no_orden_produccion').disabled = true;
+            document.getElementById('id_producto').disabled = true;
+            document.getElementById('btn_buscar_orden').disabled = true;
+            document.getElementById('lote').disabled = true;
+            $('#id_producto').selectpicker('refresh');
+            $('#lote').selectpicker('refresh');
+
+        }
+
+        function iniciar_formulario() {
+
+            const id_producto = document.getElementById('id_producto').value;
+
+            if (id_producto == "") {
+                alert("Seleccione producto");
+                return;
+            }
+            const id_control = gl_detalle_insumos.find(e => e.id_producto == id_producto).id_control;
+            return $.ajax(
+                {
+                    type: "POST",
+                    url: "{{url('control/mezcla_harina/iniciar_formulario')}}",
+                    data: {
+                        id_control: id_control,
+                    },
+                    success: function (response) {
+
+                        if (response.status === 1) {
+                            habilitar_formulario(detalle());
+                            deshabilitar_encabezado();
+                        } else {
+                            alert(response.message);
+                        }
+
+                    },
+                    error: function (error) {
+                        console.log(error)
+                    }
+                }
+            );
 
 
         }
@@ -356,6 +417,14 @@
         }
 
 
+        function get_id_control() {
+
+            const id_producto = document.getElementById('id_producto').value;
+            const id_control = gl_detalle_insumos.find(e => e.id_producto == id_producto).id_control;
+            document.getElementById('id_control').value = id_control;
+            return id_control;
+        }
+
         async function agregar_a_table() {
 
 
@@ -373,7 +442,7 @@
                 const request = getRequest(fields);
                 const url = "{{url('control/mezcla_harina/insertar_detalle')}}";
                 const url_borrar = "'{{url('control/mezcla_harina/borrar_detalle')}}'";
-                const response = await insertar_detalle(request, no_orden_produccion, url);
+                const response = await insertar_detalle(request, get_id_control(), url);
                 if (response.status == 1) {
                     add_to_table(fields, response.id, 'detalles', url_borrar);
                     limpiar()

@@ -15,7 +15,8 @@ class MezclaHarina_Enc extends Model
         'id_responsable_maquina',
         'observaciones',
         'id_usuario',
-        'puesto'
+        'puesto',
+        'id_control'
     ];
 
     protected $with = [

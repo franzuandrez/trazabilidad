@@ -290,6 +290,8 @@ Route::get('control/mezcla_harina/create', 'MezclaHarinaController@create')->nam
 Route::post('control/mezcla_harina/create', 'MezclaHarinaController@store')->name('mezcla_harina.store');
 Route::post('control/mezcla_harina/iniciar_harina', 'MezclaHarinaController@iniciar_harina')
     ->name('mezcla_harina.iniciar_harina');
+Route::post('control/mezcla_harina/iniciar_formulario', 'MezclaHarinaController@iniciar_formulario')
+    ->name('mezcla_harina.iniciar_formulario');
 Route::post('control/mezcla_harina/insertar_detalle', 'MezclaHarinaController@insertar_detalle')
     ->name('mezcla_harina.insertar_detalle');
 Route::post('control/mezcla_harina/borrar_detalle', 'MezclaHarinaController@borrar_detalle')
