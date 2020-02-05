@@ -88,12 +88,21 @@ class LineaChaomin extends Model
         'responsable'
     ];
 
+    protected $with = [
+        'control_trazabilidad',
+        'presentacion'
+    ];
 
     public function control_trazabilidad()
     {
 
-        return $this->belongsTo(Operacion::class, 'no_orden_produccion', 'no_orden_produccion');
+        return $this->belongsTo(Operacion::class, 'id_control', 'id_control');
 
+    }
 
+    public function presentacion()
+    {
+
+        return $this->belongsTo(Presentacion::class, 'id_presentacion', 'id_presentacion');
     }
 }
