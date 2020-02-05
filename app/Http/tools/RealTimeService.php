@@ -89,6 +89,7 @@ class RealTimeService
                 return [$item[0] => $item[1]];
             })
             ->put($campo_enc, $value_enc)
+            ->put('id_usuario', \Auth::user()->id)
             ->toArray();
 
         $rows = DB::table($model->getTable())
