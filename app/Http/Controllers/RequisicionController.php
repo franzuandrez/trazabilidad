@@ -34,6 +34,7 @@ class RequisicionController extends Controller
 
         $operaciones = Requisicion::select('requisicion_encabezado.*')
             ->join('users', 'users.id', '=', 'requisicion_encabezado.id_usuario_ingreso')
+            ->NoDeBaja()
             ->where(function ($query) use ($search) {
                 $query->where('requisicion_encabezado.no_orden_produccion', 'LIKE', '%' . $search . '%')
                     ->orWhere('requisicion_encabezado.no_requision', 'LIKE', '%' . $search . '%')
@@ -59,8 +60,6 @@ class RequisicionController extends Controller
         $bodegas = Bodega::actived()
             ->get();
         $no_orden_produccion = OrdenProduccion::obtener_nueva_no_orden();
-
-
 
 
         $requisicion = Requisicion::enProceso()
@@ -300,6 +299,45 @@ class RequisicionController extends Controller
         }
 
         return $response;
+
+
+    }
+
+
+    public function destroy($id)
+    {
+
+        try {
+
+            $requisicion = Requisicion::findOrFail($id);
+
+            $total_leidas = $requisicion->reservas()->where('leido', 'S')->count();
+
+            if ($total_leidas > 0) {
+                $response = [
+                    'status' => 0,
+                    'message' => 'La requisicion ya inicio el proceso de picking'
+                ];
+            } else {
+                $requisicion->estado = 'B';
+                $requisicion->update();
+                $response = [
+                    'status' => 1,
+                    'message' => 'Requisicion dada de baja correctamente'
+                ];
+            }
+
+
+        } catch (\Exception $ex) {
+            $response = [
+                'status' => 0,
+                'message' => $ex->getMessage()
+            ];
+
+        }
+
+
+        return response()->json($response);
 
 
     }

@@ -1,44 +1,42 @@
-
-
-function editar(modulo,opcion="edit"){
+function editar(modulo, opcion = "edit") {
 
 
     let item = getItemSelected();
 
 
-    if(item ==null){
+    if (item == null) {
         $('#errorToEdit').modal();
-    }else{
-        window.location.href = modulo+"/"+item+"/"+opcion;
+    } else {
+        window.location.href = modulo + "/" + item + "/" + opcion;
     }
 
 }
 
-function eliminar(){
+function eliminar() {
 
     item = getItemSelected();
 
-    if(item==null){
+    if (item == null) {
         $('#errorToEdit').modal();
-    }else{
+    } else {
 
-        $('#modal-delete-'+item).modal();
+        $('#modal-delete-' + item).modal();
     }
 
 }
 
 
-function getItemSelected(){
+function getItemSelected() {
 
     var items = document.getElementsByName('id_item');
-    var item=null;
-    var arrayItems = Object.keys(items).map(function(key) {
+    var item = null;
+    var arrayItems = Object.keys(items).map(function (key) {
         return [Number(key), items[key]];
     });
 
 
-    arrayItems.forEach(function(element){
-        if(element[1].checked){
+    arrayItems.forEach(function (element) {
+        if (element[1].checked) {
             item = element[1].value;
         }
     });
@@ -46,56 +44,57 @@ function getItemSelected(){
 }
 
 
-function ver(modulo){
+function ver(modulo) {
     let item = getItemSelected();
 
-    if(item==null){
+    if (item == null) {
         $('#errorToEdit').modal();
-    }else{
-        window.location.href = modulo+"/"+item+"";
+    } else {
+        window.location.href = modulo + "/" + item + "";
     }
 
 }
 
-function reporte(modulo){
+function reporte(modulo) {
     let item = getItemSelected();
 
-    if(item==null){
+    if (item == null) {
         $('#errorToEdit').modal();
-    }else{
-        window.location.href = modulo+"/"+item+"";
+    } else {
+        window.location.href = modulo + "/" + item + "";
     }
 
 }
 
-function darBaja(url){
+function darBaja(url) {
 
     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
     $.ajax({
 
-        url:url,
-        type:'post',
-        data:{_token:CSRF_TOKEN},
-        success:function(response){
+        url: url,
+        type: 'post',
+        data: {_token: CSRF_TOKEN},
+        success: function (response) {
 
+            console.log(response);
+            if (response.status === 1) {
+                setTimeout(function () {
+                    ajaxLoad(window.location.href);
+                }, 500);
+            } else {
+                alert(response.message);
+            }
             $('.modal').modal('hide');
 
-            setTimeout(function () {
-                ajaxLoad(window.location.href);
-            },500);
-
-
         },
-        error:function(e){
-
-
-
+        error: function (e) {
+            $('.modal').modal('hide');
+            alert(e);
         }
 
 
     });
-
 
 
 }

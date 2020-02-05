@@ -31,7 +31,11 @@
                 @endcomponent
             @endcan
             @can('role-list')
-                @component('componentes.btn-ver',['url'=>'javascript:ver()'])
+                @component('componentes.btn-ver',['url'=>'javascript:ver("requisiciones")'])
+                @endcomponent
+            @endcan
+            @can('role-delete')
+                @component('componentes.btn-eliminar',['url'=>'javascript:eliminar()'])
                 @endcomponent
             @endcan
         </div>
@@ -53,4 +57,5 @@
 @section('scripts')
     <script src="{{asset('js/ajax-crud.js')}}"></script>
     <script src="{{asset('js-brc/requisiciones/index.js')}}"></script>
+    <script src="{{asset('js-brc/generico/index.js')}}"></script>
 @endsection

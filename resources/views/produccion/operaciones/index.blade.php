@@ -55,7 +55,7 @@
                 @foreach($operaciones as $operacion)
                     <tr>
                         <td>
-                            <input type="radio" name="id_requisicion" value="{{$operacion->id}}">
+                            <input type="radio" name="id_item" value="{{$operacion->id}}">
 
                         </td>
                         <td>
@@ -77,11 +77,16 @@
                                 <span class="label label-default">
                                       Pendiente
                                 </span>
+                            @elseif($operacion->estado=="B")
+                                <span class="label label-danger">
+                                      Baja
+                                </span>
                             @elseif($operacion->estado=="D")
                                 <span class="label label-primary">
                                       Armada
                                 </span>
                             @else
+
                                 <span class="label label-success">
                                       Despachada
                                 </span>
@@ -89,7 +94,14 @@
 
                         </td>
                     </tr>
-
+                    @component('componentes.alert-delete',
+                    ['model'=>'REQUISICION',
+                    'id'=>$operacion->id,
+                    'method'=>'RequisicionController@destroy',
+                    'extras'=>'',
+                    'description'=>$operacion->no_requision,
+                    'url'=>url('produccion/requisiciones/')."/".$operacion->id])
+                    @endcomponent
                 @endforeach
 
                 </tbody>
