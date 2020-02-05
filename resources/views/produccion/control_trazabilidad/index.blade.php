@@ -10,6 +10,12 @@
                 </th>
                 <th>
                     @include('componentes.column-sort',[
+                          'field'=>'control_trazabilidad.id_control',
+                          'titulo'=>'CONTROL'])
+
+                </th>
+                <th>
+                    @include('componentes.column-sort',[
                           'field'=>'control_trazabilidad.no_orden_produccion',
                           'titulo'=>'NO. ORDEN PRODUCCION'])
 
@@ -47,6 +53,9 @@
                         <td>
                             <input type="radio" name="id_item" value="{{$operacion->id_control}}">
 
+                        </td>
+                        <td>
+                            {{$operacion->id_control}}
                         </td>
                         <td>
                             {{$operacion->requisiciones

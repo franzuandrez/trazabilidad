@@ -5,7 +5,9 @@
 @endsection
 
 @section('contenido')
-
+    <div class="col-lg-12 col-lg-push-4 col-sm-12   col-sm-push-4   col-md-12   col-md-push-4  col-xs-12">
+        <h3>CONTROL DE PESO SECO DE CHAO MEIN</h3>
+    </div>
     @component('componentes.nav',['operation'=>'Ver',
    'menu_icon'=>'fa fa-check-square-o',
    'submenu_icon'=>'fa fa-bar-chart',
@@ -85,7 +87,7 @@
             <label for="observacion_correctiva">OBSERVACIONES Y/O ACCION CORRECTIVA</label>
             <input type="text" name="observacion_correctiva"
                    readonly
-                   value = "{{$humedo->observaciones}}"
+                   value="{{$humedo->observaciones}}"
                    class="form-control">
         </div>
     </div>

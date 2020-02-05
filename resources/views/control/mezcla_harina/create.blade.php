@@ -4,6 +4,9 @@
 @endsection
 
 @section('contenido')
+    <div class="col-lg-12 col-lg-push-3 col-sm-12   col-sm-push-3   col-md-12   col-md-push-3  col-xs-12">
+        <h3>CONTROL MEZCLA DE HARINA Y SOLUCION CHAO MEIN</h3>
+    </div>
 
     @component('componentes.nav',['operation'=>'Crear',
     'menu_icon'=>'fa fa-check-square-o',
@@ -20,7 +23,6 @@
 
     {!!Form::open(array('url'=>'control/mezcla_harina/create','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
-
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <label for="turno">NO ORDEN DE PRODUCCION</label>

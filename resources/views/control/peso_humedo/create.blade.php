@@ -5,7 +5,9 @@
 @endsection
 
 @section('contenido')
-
+    <div class="col-lg-12 col-lg-push-3col-sm-12   col-sm-push-3   col-md-12   col-md-push-3  col-xs-12">
+        <h3>CONTROL DE PESO HUMEDO DE PASTA PARA CHAO MEIN</h3>
+    </div>
     @component('componentes.nav',['operation'=>'Ingreso',
     'menu_icon'=>'fa fa-check-square-o',
     'submenu_icon'=>'fa fa-signal',
