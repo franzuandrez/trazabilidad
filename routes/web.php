@@ -318,6 +318,7 @@ Route::get('control/peso_humedo', 'PesoHumedoController@index')->name('peso_hume
 Route::get('control/peso_humedo/create', 'PesoHumedoController@create')->name('peso_humedo.create');
 Route::post('control/peso_humedo/create', 'PesoHumedoController@store')->name('peso_humedo.store');
 Route::post('control/peso_humedo/iniciar_laminado', 'PesoHumedoController@iniciar_laminado')->name('peso_humedo.iniciar_laminado');
+Route::post('control/peso_humedo/iniciar_formulario', 'PesoHumedoController@iniciar_formulario')->name('peso_humedo.iniciar_formulario');
 Route::post('control/peso_humedo/insertar_detalle', 'PesoHumedoController@insertar_detalle')->name('peso_humedo.insertar_detalle');
 Route::post('control/peso_humedo/nuevo_registro', 'PesoHumedoController@nuevo_registro')->name('peso_humedo.nuevo_registro');
 Route::post('control/peso_humedo/borrar_detalle', 'PesoHumedoController@borrar_detalle')->name('peso_humedo.borrar_detalle');

@@ -77,8 +77,8 @@ class PesoHumedoController extends Controller
 
         try {
 
-            $orden_produccion = $request->get('no_orden_produccion');
-            $LaminadoEnc = PesoHumedoEnc::where('no_orden', $orden_produccion)
+            $orden_produccion = $request->get('id_control');
+            $LaminadoEnc = PesoHumedoEnc::where('id_control', $orden_produccion)
                 ->firstOrFail();
             $LaminadoEnc->observaciones = $request->get('observacion_correctiva');
             $LaminadoEnc->save();
@@ -151,41 +151,57 @@ class PesoHumedoController extends Controller
 
         $linea_chaomin = OrdenProduccion::verificar_linea_chaomin($no_orden_produccion);
 
-        $laminado = PesoHumedoEnc::where('no_orden', $no_orden_produccion)
-            ->first();
-
 
         if ($linea_chaomin['status'] == 0) {
             $response = $linea_chaomin;
         } else {
-            if ($linea_chaomin['data']->estado == 0) {
-                $response = [
-                    'status' => 0,
-                    'message' => 'Linea chaomin aun en proceso'
-                ];
-            } else {
-                if ($laminado != null) {
-                    $response = [
-                        'status' => 0,
-                        'message' => 'Peso Humedo ya iniciado'
-                    ];
-                } else {
-                    $peso_humedo = new PesoHumedoEnc();
-                    $peso_humedo->no_orden = $no_orden_produccion;
-                    $peso_humedo->id_usuario = \Auth::user()->id;
-                    $peso_humedo->save();
-                    $response = [
-                        'status' => 1,
-                        'message' => 'Peso humedo iniciado correctamente',
-                        'data' => $linea_chaomin
-                    ];
 
-                }
-            }
+            $response = [
+                'status' => 1,
+                'message' => 'Peso humedo iniciado correctamente',
+                'data' => $linea_chaomin
+            ];
+
 
         }
 
         return response()->json($response);
+    }
+
+    public function iniciar_formulario(Request $request)
+    {
+
+        $id_control = $request->get('id_control');
+
+
+        $humedo = PesoHumedoEnc::where('id_control', $id_control)
+            ->first();
+
+        if ($humedo == null) {
+            $humedo = new PesoHumedoEnc();
+            $humedo->id_usuario = \Auth::user()->id;
+            $humedo->id_control = $id_control;
+            $humedo->cortador_no = $request->cortador_no;
+            $humedo->save();
+
+            $response = [
+                'status' => 1,
+                'message' => "Iniciado correctamente",
+                'data' => $humedo
+            ];
+
+        } else {
+            $response = [
+                'status' => 0,
+                'message' => "Peso Humedo  ya iniciado",
+                'data' => $humedo
+            ];
+        }
+
+
+        return response()
+            ->json($response);
+
     }
 
     public function insertar_detalle(Request $request)
@@ -195,7 +211,7 @@ class PesoHumedoController extends Controller
         try {
             $no_orden_produccion = $request->get('no_orden_produccion');
 
-            $peso_humedo = PesoHumedoEnc::where('no_orden', $no_orden_produccion)
+            $peso_humedo = PesoHumedoEnc::where('id_control', $no_orden_produccion)
                 ->first();
 
             $response = RealTimeService::insertar_detalle(
@@ -243,7 +259,7 @@ class PesoHumedoController extends Controller
 
 
         $response = RealTimeService::actualizar_modelo(
-            PesoHumedoEnc::where('no_orden', $id_model)->first(), $fields
+            PesoHumedoEnc::where('id_control', $id_model)->first(), $fields
         );
 
 
