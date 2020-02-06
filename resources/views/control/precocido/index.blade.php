@@ -14,7 +14,7 @@
                           'sort'=>$sort,
                           'sortField'=>$sortField,
                           'field'=>'id_control',
-                          'titulo'=>'no. ORDEN PRODUCCION'])
+                          'titulo'=>'Control'])
 
                 </th>
                 <th>
