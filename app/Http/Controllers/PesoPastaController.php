@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\tools\OrdenProduccion;
+use App\Http\tools\RealTimeService;
+use App\PesoPastaSopasDet;
+use App\PesoPastaSopasEnc;
 use App\Recepcion;
 use App\User;
 use Illuminate\Http\Request;
@@ -22,27 +26,27 @@ class PesoPastaController extends Controller
         //
         $search = $request->get('search') == null ? '' : $request->get('search');
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
-        $sortField = $request->get('field') == null ? 'orden_compra' : $request->get('field');
+        $sortField = $request->get('field') == null ? 'fecha_hora' : $request->get('field');
 
 
-        $recepciones = Recepcion::join('proveedores', 'proveedores.id_proveedor', '=', 'recepcion_encabezado.id_proveedor')
-            ->join('productos', 'productos.id_producto', '=', 'recepcion_encabezado.id_producto')
-            ->select('recepcion_encabezado.*', 'productos.descripcion as producto', 'proveedores.razon_social as proveedor')
+        $pesos = PesoPastaSopasEnc::select('peso_pasta_enc.*', 'users.nombre as usuario')
+            ->join('users', 'users.id', '=', 'peso_pasta_enc.id_usuario')
             ->where(function ($query) use ($search) {
-                $query->where('proveedores.razon_social', 'LIKE', '%' . $search . '%')
-                    ->orWhere('productos.descripcion', 'LIKE', '%' . $search . '%')
-                    ->orWhere('recepcion_encabezado.orden_compra', 'LIKE', '%' . $search . '%');
+                $query->where('peso_pasta_enc.id_turno', 'LIKE', '%' . $search . '%')
+                    ->orWhere('users.nombre', 'LIKE', '%' . $search . '%')
+                    ->orWhere('peso_pasta_enc.fecha_hora', 'LIKE', '%' . $search . '%');
             })
             ->orderBy($sortField, $sort)
             ->paginate(20);
 
+
         if ($request->ajax()) {
             return view('sopas.peso_pasta.index',
-                compact('recepciones', 'sort', 'sortField', 'search'));
+                compact('pesos', 'sort', 'sortField', 'search'));
         } else {
 
             return view('sopas.peso_pasta.ajax',
-                compact('recepciones', 'sort', 'sortField', 'search'));
+                compact('pesos', 'sort', 'sortField', 'search'));
         }
     }
 
@@ -69,6 +73,23 @@ class PesoPastaController extends Controller
     public function store(Request $request)
     {
         //
+        try {
+
+            $orden_produccion = $request->get('id_control');
+            $mezlcado_sopas = PesoPastaSopasEnc::where('id_control', $orden_produccion)
+                ->firstOrFail();
+            $mezlcado_sopas->observaciones = $request->get('observacion_correctiva');
+            $mezlcado_sopas->save();
+            return redirect()->route('peso_pasta.index')
+                ->with('success', 'Peso de Sopas ingresada corrrectamente');
+        } catch (\Exception $ex) {
+            DD($ex);
+            return redirect()->back()
+                ->withErrors(['No se ha podido completar su petición, codigo de error :  ' . $ex->getCode()]);
+        }
+
+
+
     }
 
     /**
@@ -115,4 +136,115 @@ class PesoPastaController extends Controller
     {
         //
     }
+
+    public function iniciar_peso(Request $request)
+    {
+        $no_orden_produccion = $request->get('no_orden_produccion');
+
+
+        $linea_chaomin = OrdenProduccion::verificar_linea_sopas($no_orden_produccion);
+
+
+        if ($linea_chaomin['status'] == 0) {
+            $response = $linea_chaomin;
+        } else {
+            $response = [
+                'status' => 1,
+                'message' => 'Peso de sopas iniciado correctamente',
+                'data' => $linea_chaomin
+            ];
+
+
+        }
+
+        return response()->json($response);
+    }
+
+
+    public function iniciar_formulario(Request $request)
+    {
+
+        $id_control = $request->get('id_control');
+        $id_producto = $request->get('id_producto');
+
+
+        $laminado = PesoPastaSopasEnc::where('id_control', $id_control)
+            ->first();
+
+        if ($laminado == null) {
+            $laminado = new PesoPastaSopasEnc();
+            $laminado->id_usuario = \Auth::user()->id;
+            $laminado->id_control = $id_control;
+            $laminado->fecha_hora = \Carbon\Carbon::now();
+            $laminado->id_producto = $id_producto;
+            $laminado->save();
+
+            $response = [
+                'status' => 1,
+                'message' => "Iniciado correctamente",
+                'data' => $laminado
+            ];
+
+        } else {
+            $response = [
+                'status' => 0,
+                'message' => "Peso ya iniciado",
+                'data' => $laminado
+            ];
+        }
+
+
+        return response()
+            ->json($response);
+
+    }
+
+    public function insertar_detalle(Request $request)
+    {
+
+
+        try {
+            $no_orden_produccion = $request->get('no_orden_produccion');
+
+            $peso_humedo = PesoPastaSopasEnc::where('id_control', $no_orden_produccion)
+                ->first();
+
+            $response = RealTimeService::insertar_detalle(
+                PesoPastaSopasDet::query()->getModel(),
+                $request->fields,
+                'id_peso_pasta_enc',
+                $peso_humedo->id_peso_pasta_enc);
+
+        } catch (\Exception $ex) {
+            $response = [
+                'status' => 0,
+                'message' => $ex->getMessage(),
+            ];
+        }
+
+
+        return response()->json($response);
+    }
+
+    public function borrar_detalle(Request $request)
+    {
+
+
+        try {
+            $detalle = PesoPastaSopasDet::findOrFail($request->id);
+
+            $response = RealTimeService::borrar_detalle($detalle);
+
+        } catch (\Exception $ex) {
+            $response = [
+                'status' => 0,
+                'message' => $ex->getMessage()
+            ];
+        }
+
+        return response()->json($response);
+
+
+    }
+
 }

@@ -17,8 +17,8 @@
                         'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
-                          'field'=>'orden_compra',
-                          'titulo'=>'ORDEN DE COMPRA'])
+                          'field'=>'id_control',
+                          'titulo'=>'CONTROL'])
                     @endcomponent
                 </th>
                 <th>
@@ -26,8 +26,8 @@
                         'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
-                          'field'=>'proveedor',
-                          'titulo'=>'proveedor'])
+                          'field'=>'id_turno',
+                          'titulo'=>'turno'])
                     @endcomponent
                 </th>
                 <th>
@@ -35,8 +35,8 @@
                         'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
-                          'field'=>'producto',
-                          'titulo'=>'producto'])
+                          'field'=>'usuario',
+                          'titulo'=>'responsable'])
                     @endcomponent
                 </th>
                 <th>
@@ -44,30 +44,30 @@
                         'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
-                          'field'=>'fecha_ingreso',
-                          'titulo'=>'FECHA INGRESO'])
+                          'field'=>'fecha_hora',
+                          'titulo'=>'FECHA '])
                     @endcomponent
                 </th>
 
                 </thead>
                 <tbody>
-                @foreach($recepciones as $recepcion)
+                @foreach($laminados as $laminado)
                     <tr>
                         <td>
-                            <input type="radio" name="id_recepcion_enc" value="{{$recepcion->id_recepcion_enc}}">
+                            <input type="radio" name="id_recepcion_enc" value="{{$laminado->id_laminado_sopas_enc}}">
 
                         </td>
                         <td>
-                            {{$recepcion->orden_compra}}
+                            {{$laminado->id_control}}
                         </td>
                         <td>
-                            {{$recepcion->proveedor}}
+                            Turno {{$laminado->id_turno}}
                         </td>
                         <td>
-                            {{$recepcion->producto}}
+                            {{$laminado->usuario}}
                         </td>
                         <td>
-                            {{$recepcion->fecha_ingreso}}
+                            {{$laminado->fecha_hora}}
                         </td>
                     </tr>
 
@@ -78,7 +78,7 @@
         </div>
     </div>
     {{
-  $recepciones->appends([
+  $laminados->appends([
       'search' => $search,
       'sort'=>$sort,
       'field'=>$sortField

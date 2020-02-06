@@ -1,6 +1,6 @@
-@component('componentes.search',
+@include('componentes.search',
 ['search'=>$search,'modulo'=>'recepcion/materia_prima'])
-@endcomponent
+
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
         <div class="table-responsive">
@@ -10,57 +10,57 @@
 
                 </th>
                 <th>
-                    @component('componentes.column-sort',['modulo'=>'recepcion/materia_prima',
+                    @include('componentes.column-sort',['modulo'=>'recepcion/materia_prima',
                           'sort'=>$sort,
                           'sortField'=>$sortField,
-                          'field'=>'orden_compra',
-                          'titulo'=>'ORDEN DE COMPRA'])
-                    @endcomponent
+                          'field'=>'control',
+                          'titulo'=>'id_control'])
+
                 </th>
                 <th>
-                    @component('componentes.column-sort',['modulo'=>'recepcion/materia_prima',
+                    @include('componentes.column-sort',['modulo'=>'recepcion/materia_prima',
                           'sort'=>$sort,
                           'sortField'=>$sortField,
-                          'field'=>'proveedor',
-                          'titulo'=>'proveedor'])
-                    @endcomponent
+                          'field'=>'id_turno',
+                          'titulo'=>'turno'])
+
                 </th>
                 <th>
-                    @component('componentes.column-sort',['modulo'=>'recepcion/materia_prima',
+                    @include('componentes.column-sort',['modulo'=>'recepcion/materia_prima',
                           'sort'=>$sort,
                           'sortField'=>$sortField,
-                          'field'=>'producto',
-                          'titulo'=>'producto'])
-                    @endcomponent
+                          'field'=>'usuario',
+                          'titulo'=>'responsable'])
+
                 </th>
                 <th>
-                    @component('componentes.column-sort',['modulo'=>'recepcion/materia_prima',
+                    @include('componentes.column-sort',['modulo'=>'recepcion/materia_prima',
                           'sort'=>$sort,
                           'sortField'=>$sortField,
-                          'field'=>'fecha_ingreso',
-                          'titulo'=>'FECHA INGRESO'])
-                    @endcomponent
+                          'field'=>'fecha_hora',
+                          'titulo'=>'FECHA '])
+
                 </th>
 
                 </thead>
                 <tbody>
-                @foreach($recepciones as $recepcion)
+                @foreach($pesos as $peso)
                     <tr>
                         <td>
-                            <input type="radio" name="id_recepcion_enc" value="{{$recepcion->id_recepcion_enc}}">
+                            <input type="radio" name="id_item" value="{{$peso->id_peso_pasta_enc}}">
 
                         </td>
                         <td>
-                            {{$recepcion->orden_compra}}
+                            {{$peso->id_control}}
                         </td>
                         <td>
-                            {{$recepcion->proveedor}}
+                            Turno {{$peso->id_turno}}
                         </td>
                         <td>
-                            {{$recepcion->producto}}
+                            {{$peso->usuario}}
                         </td>
                         <td>
-                            {{$recepcion->fecha_ingreso}}
+                            {{$peso->fecha_hora}}
                         </td>
                     </tr>
 

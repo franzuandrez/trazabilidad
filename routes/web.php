@@ -394,21 +394,23 @@ Route::patch('produccion/mezcladora/{id}', 'MezcladoraController@update')->name(
 Route::get('produccion/mezcladora/{id}', 'MezcladoraController@show')->name('mezcladora.show');
 Route::post('produccion/mezcladora/{id}', 'MezcladoraController@destroy')->name('mezcladora.destroy');
 
-Route::get('produccion/laminado', 'LaminadoSopasController@index')->name('laminado.index');
-Route::get('produccion/laminado/create', 'LaminadoSopasController@create')->name('laminado.create');
-Route::post('produccion/laminado/create', 'LaminadoSopasController@store')->name('laminado.store');
-Route::get('produccion/laminado/{id}/edit', 'LaminadoSopasController@edit')->name('laminado.edit');
-Route::patch('produccion/laminado/{id}', 'LaminadoSopasController@update')->name('laminado.update');
-Route::get('produccion/laminado/{id}', 'LaminadoSopasController@show')->name('laminado.show');
-Route::post('produccion/laminado/{id}', 'LaminadoSopasController@destroy')->name('laminado.destroy');
 
-Route::get('produccion/frituras', 'FrituraSopasController@index')->name('frituras.index');
-Route::get('produccion/frituras/create', 'FrituraSopasController@create')->name('frituras.create');
-Route::post('produccion/frituras/create', 'FrituraSopasController@store')->name('frituras.store');
-Route::get('produccion/frituras/{id}/edit', 'FrituraSopasController@edit')->name('frituras.edit');
-Route::patch('produccion/frituras/{id}', 'FrituraSopasController@update')->name('frituras.update');
-Route::get('produccion/frituras/{id}', 'FrituraSopasController@show')->name('frituras.show');
-Route::post('produccion/frituras/{id}', 'FrituraSopasController@destroy')->name('frituras.destroy');
+
+
+
+
+Route::get('sopas/fritura', 'FrituraSopasController@index')->name('fritura.index');
+Route::get('sopas/fritura/create', 'FrituraSopasController@create')->name('fritura.create');
+Route::post('sopas/fritura/create', 'FrituraSopasController@store')->name('fritura.store');
+Route::post('sopas/fritura/iniciar_fritura', 'FrituraSopasController@iniciar_fritura')->name('fritura.iniciar_fritura');
+Route::post('sopas/fritura/iniciar_formulario', 'FrituraSopasController@iniciar_formulario')->name('fritura.iniciar_formulario');
+Route::post('sopas/fritura/insertar_detalle', 'FrituraSopasController@insertar_detalle')->name('fritura.insertar_detalle');
+Route::post('sopas/fritura/nuevo_registro', 'FrituraSopasController@nuevo_registro')->name('fritura.nuevo_registro');
+Route::post('sopas/fritura/borrar_detalle', 'FrituraSopasController@borrar_detalle')->name('fritura.borrar_detalle');
+Route::get('sopas/fritura/{id}/edit', 'FrituraSopasController@edit')->name('fritura.edit');
+Route::patch('sopas/fritura/{id}', 'FrituraSopasController@update')->name('fritura.update');
+Route::get('sopas/fritura/{id}', 'FrituraSopasController@show')->name('fritura.show');
+Route::post('sopas/fritura/{id}', 'FrituraSopasController@destroy')->name('fritura.destroy');
 
 Route::get('sopas/mezclado_sopas', 'MezcladoSopasController@index')->name('mezclado_sopas.index');
 Route::get('sopas/mezclado_sopas/create', 'MezcladoSopasController@create')->name('mezclado_sopas.create');
@@ -428,10 +430,29 @@ Route::post('sopas/mezclado_sopas/{id}', 'MezcladoSopasController@destroy')->nam
 Route::get('sopas/peso_pasta', 'PesoPastaController@index')->name('peso_pasta.index');
 Route::get('sopas/peso_pasta/create', 'PesoPastaController@create')->name('peso_pasta.create');
 Route::post('sopas/peso_pasta/create', 'PesoPastaController@store')->name('peso_pasta.store');
+Route::post('sopas/peso_pasta/inciar_peso', 'PesoPastaController@iniciar_peso')->name('peso_pasta.iniciar_laminado');
+Route::post('sopas/peso_pasta/iniciar_formulario', 'PesoPastaController@iniciar_formulario')->name('peso_pasta.iniciar_formulario');
+Route::post('sopas/peso_pasta/insertar_detalle', 'PesoPastaController@insertar_detalle')->name('peso_pasta.insertar_detalle');
+Route::post('sopas/peso_pasta/nuevo_registro', 'PesoPastaController@nuevo_registro')->name('peso_pasta.nuevo_registro');
+Route::post('sopas/peso_pasta/borrar_detalle', 'PesoPastaController@borrar_detalle')->name('peso_pasta.borrar_detalle');
 Route::get('sopas/peso_pasta/{id}/edit', 'PesoPastaController@edit')->name('peso_pasta.edit');
 Route::patch('sopas/peso_pasta/{id}', 'PesoPastaController@update')->name('peso_pasta.update');
 Route::get('sopas/peso_pasta/{id}', 'PesoPastaController@show')->name('peso_pasta.show');
 Route::post('sopas/peso_pasta/{id}', 'PesoPastaController@destroy')->name('peso_pasta.destroy');
+
+Route::get('sopas/laminado', 'LaminadoSopasController@index')->name('sopas.laminado..index');
+Route::get('sopas/laminado/create', 'LaminadoSopasController@create')->name('sopas.laminado..create');
+Route::post('sopas/laminado/create', 'LaminadoSopasController@store')->name('sopas.laminado..store');
+Route::post('sopas/laminado/iniciar_laminado', 'LaminadoSopasController@iniciar_laminado')->name('sopas.laminado..iniciar_laminado');
+Route::post('sopas/laminado/iniciar_formulario', 'LaminadoSopasController@iniciar_formulario')->name('sopas.laminado..iniciar_formulario');
+Route::post('sopas/laminado/insertar_detalle', 'LaminadoSopasController@insertar_detalle')->name('sopas.laminado..insertar_detalle');
+Route::post('sopas/laminado/nuevo_registro', 'LaminadoSopasController@nuevo_registro')->name('sopas.laminado..nuevo_registro');
+Route::post('sopas/laminado/borrar_detalle', 'LaminadoSopasController@borrar_detalle')->name('sopas.laminado..borrar_detalle');
+Route::get('sopas/laminado/{id}/edit', 'LaminadoSopasController@edit')->name('sopas.laminado..edit');
+Route::patch('sopas/laminado/{id}', 'LaminadoSopasController@update')->name('sopas.laminado..update');
+Route::get('sopas/laminado/{id}', 'LaminadoSopasController@show')->name('sopas.laminado..show');
+Route::post('sopas/laminado/{id}', 'LaminadoSopasController@destroy')->name('sopas.laminado.destroy');
+
 
 
 Route::get('sopas/liberacion', 'LineaSopaController@index')->name('sopas.liberacion');

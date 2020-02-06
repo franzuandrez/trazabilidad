@@ -16,7 +16,7 @@
     'submenu_icon'=>'fa fa-fire',
     'operation_icon'=>'',])
         @slot('menu')
-            Producción
+            Control
         @endslot
         @slot('submenu')
             Fritura de Sopas
@@ -25,7 +25,7 @@
 
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            @component('componentes.btn-create',['url'=>url('produccion/frituras/create')])
+            @component('componentes.btn-create',['url'=>url('sopas/fritura/create')])
             @endcomponent
             @component('componentes.btn-edit',['url'=>'javascript:editar()'])
             @endcomponent
@@ -36,11 +36,11 @@
 
     @component('componentes.alert-no-selecction')
         @slot('mensaje')
-            SELECCIONAR RECEPCION
+            SELECCIONAR FRITURA
         @endslot
     @endcomponent
     <div id="content">
-        @include('recepcion.materia_prima.index')
+        @include('sopas.frituras.index')
     </div>
     <div class="loading">
         <i class="fa fa-refresh fa-spin "></i><br/>
@@ -49,5 +49,5 @@
 @endsection
 @section('scripts')
     <script src="{{asset('js/ajax-crud.js')}}"></script>
-    <script src="{{asset('js-brc/recepciones/index.js')}}"></script>
+    <script src="{{asset('js-brc/generico/index.js')}}"></script>
 @endsection

@@ -25,7 +25,7 @@
 
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            @component('componentes.btn-create',['url'=>url('produccion/laminado/create')])
+            @component('componentes.btn-create',['url'=>url('sopas/laminado/create')])
             @endcomponent
             @component('componentes.btn-edit',['url'=>'javascript:editar()'])
             @endcomponent
@@ -40,7 +40,7 @@
         @endslot
     @endcomponent
     <div id="content">
-        @include('recepcion.materia_prima.index')
+        @include('sopas.laminado.index')
     </div>
     <div class="loading">
         <i class="fa fa-refresh fa-spin "></i><br/>
@@ -49,5 +49,5 @@
 @endsection
 @section('scripts')
     <script src="{{asset('js/ajax-crud.js')}}"></script>
-    <script src="{{asset('js-brc/recepciones/index.js')}}"></script>
+    <script src="{{asset('js-brc/generico/index.js')}}"></script>
 @endsection

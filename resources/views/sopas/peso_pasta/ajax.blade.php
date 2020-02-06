@@ -6,6 +6,8 @@
 @endsection
 
 @section('contenido')
+    @include('componentes.alert-success')
+    @include('componentes.alert-error')
 
     @component('componentes.nav',['operation'=>'LIST',
     'menu_icon'=>'fa fa-dot-circle-o',
@@ -15,7 +17,7 @@
             Control Sopas
         @endslot
         @slot('submenu')
-            Peso de la Pasta
+            Peso Pasta
         @endslot
     @endcomponent
 
@@ -30,11 +32,11 @@
 
     @component('componentes.alert-no-selecction')
         @slot('mensaje')
-            SELECCIONAR RECEPCION
+            SELECCIONAR PESO DE PASTA
         @endslot
     @endcomponent
     <div id="content">
-        @include('recepcion.materia_prima.index')
+        @include('sopas.peso_pasta.index')
     </div>
     <div class="loading">
         <i class="fa fa-refresh fa-spin "></i><br/>
@@ -43,5 +45,5 @@
 @endsection
 @section('scripts')
     <script src="{{asset('js/ajax-crud.js')}}"></script>
-    <script src="{{asset('js-brc/recepciones/index.js')}}"></script>
+    <script src="{{asset('js-brc/generico/index.js')}}"></script>
 @endsection

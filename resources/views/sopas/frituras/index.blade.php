@@ -17,8 +17,8 @@
                         'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
-                          'field'=>'orden_compra',
-                          'titulo'=>'ORDEN DE COMPRA'])
+                          'field'=>'id_control',
+                          'titulo'=>'control'])
                     @endcomponent
                 </th>
                 <th>
@@ -26,8 +26,8 @@
                         'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
-                          'field'=>'proveedor',
-                          'titulo'=>'proveedor'])
+                          'field'=>'id_turno',
+                          'titulo'=>'turno'])
                     @endcomponent
                 </th>
                 <th>
@@ -35,8 +35,8 @@
                         'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
-                          'field'=>'producto',
-                          'titulo'=>'producto'])
+                          'field'=>'usuario',
+                          'titulo'=>'responsable'])
                     @endcomponent
                 </th>
                 <th>
@@ -44,30 +44,30 @@
                         'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
-                          'field'=>'fecha_ingreso',
-                          'titulo'=>'FECHA INGRESO'])
+                          'field'=>'fecha_hora',
+                          'titulo'=>'FECHA '])
                     @endcomponent
                 </th>
 
                 </thead>
                 <tbody>
-                @foreach($recepciones as $recepcion)
+                @foreach($frituras as $fritura)
                     <tr>
                         <td>
-                            <input type="radio" name="id_recepcion_enc" value="{{$recepcion->id_recepcion_enc}}">
+                            <input type="radio" name="id_item" value="{{$fritura->id_frutura_sopas_enc}}">
 
                         </td>
                         <td>
-                            {{$recepcion->orden_compra}}
+                            {{$fritura->id_control}}
                         </td>
                         <td>
-                            {{$recepcion->proveedor}}
+                            Turno {{$fritura->id_turno}}
                         </td>
                         <td>
-                            {{$recepcion->producto}}
+                            {{$fritura->usuario}}
                         </td>
                         <td>
-                            {{$recepcion->fecha_ingreso}}
+                            {{$fritura->fecha_hora}}
                         </td>
                     </tr>
 
@@ -78,7 +78,7 @@
         </div>
     </div>
     {{
-  $recepciones->appends([
+  $frituras->appends([
       'search' => $search,
       'sort'=>$sort,
       'field'=>$sortField
