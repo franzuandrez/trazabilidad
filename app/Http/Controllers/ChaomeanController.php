@@ -89,6 +89,7 @@ class ChaomeanController extends Controller
                 ->with('success', 'Linea  Finalizada correctamente');
         } catch (\Exception $ex) {
 
+            dd($ex);
             return redirect()->back()
                 ->withErrors(['No se ha podido completar su petición, codigo de error :  ' . $ex->getCode()]);
         }

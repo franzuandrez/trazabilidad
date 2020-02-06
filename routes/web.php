@@ -425,3 +425,11 @@ Route::get('sopas/peso_pasta/{id}/edit', 'PesoPastaController@edit')->name('peso
 Route::patch('sopas/peso_pasta/{id}', 'PesoPastaController@update')->name('peso_pasta.update');
 Route::get('sopas/peso_pasta/{id}', 'PesoPastaController@show')->name('peso_pasta.show');
 Route::post('sopas/peso_pasta/{id}', 'PesoPastaController@destroy')->name('peso_pasta.destroy');
+
+
+Route::get('sopas/liberacion', 'LineaSopaController@index')->name('sopas.liberacion');
+Route::get('sopas/liberacion/create', 'LineaSopaController@create')->name('sopas.create');
+Route::post('sopas/liberacion/create', 'LineaSopaController@store')->name('sopas.store');
+Route::post('sopas/liberacion/verficar_no_orden_produccion', 'LineaSopaController@verficar_no_orden_produccion')->name('chaomin.verficar_no_orden_produccion');
+Route::post('sopas/liberacion/iniciar', 'LineaSopaController@iniciar_linea_sopas')->name('sopas.iniciar_linea_sopas');
+Route::post('sopas/liberacion/nuevo_registro', 'LineaSopaController@nuevo_registro')->name('sopas.nuevo_registro');
