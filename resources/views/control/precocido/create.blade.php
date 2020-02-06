@@ -6,7 +6,7 @@
 
 @section('contenido')
     <div class="col-lg-12 col-lg-push-4 col-sm-12   col-sm-push-4   col-md-12   col-md-push-4  col-xs-12">
-        <h3>CONTROL DE PRE-COCIDO DE PASTA PARA  CHAO MEIN</h3>
+        <h3>CONTROL DE PRE-COCIDO DE PASTA PARA CHAO MEIN</h3>
     </div>
     @component('componentes.nav',['operation'=>'Ingreso',
     'menu_icon'=>'fa fa-check-square-o',
@@ -23,6 +23,7 @@
 
     {!!Form::open(array('url'=>'control/precocido/create','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
+    <input type="hidden" id="id_control" name="id_control">
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <label for="turno">NO ORDEN DE PRODUCCION</label>
         <div class="input-group">
@@ -32,6 +33,7 @@
                    class="form-control">
             <div class="input-group-btn">
                 <button
+                    id="btn_buscar_orden"
                     onclick="iniciar_control_precocido()"
                     onkeydown="iniciar_control_precocido()"
                     type="button" class="btn btn-default">
@@ -69,14 +71,23 @@
     </div>
 
     <div class="col-lg-4 col-sm-4 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="lote">LOTE</label>
+        <label for="lote">LOTE</label>
+        <div class="input-group">
             <select class="form-control selectpicker valor"
                     disabled
                     required
                     id="lote" name="lote">
                 <option value="" selected>SELECCIONE LOTE</option>
             </select>
+            <div class="input-group-btn">
+                <button
+                    onclick="inicia_formulario()"
+                    onkeydown="inicia_formulario()"
+                    type="button" class="btn btn-default">
+                    <i class="fa fa-check"
+                       aria-hidden="true"></i>
+                </button>
+            </div>
         </div>
     </div>
 
@@ -150,7 +161,7 @@
         <br>
         <div class="form-group">
             <button class="btn btn-default block" style="margin-top: 5px;" type="button"
-            onclick="agregar_a_table()"
+                    onclick="agregar_a_table()"
             >
                 <span class=" fa fa-plus"></span></button>
             <button
@@ -210,7 +221,7 @@
             $('.timepicker').timepicker({
                 showInputs: false,
                 minuteStep: 1,
-                format : 'HH:mm',
+                format: 'HH:mm',
                 showMeridian: false,
             });
         })
@@ -233,6 +244,7 @@
             document.getElementById('no_orden_produccion').disabled = false;
             $('form').submit();
         }
+
         $(window).keydown(function (event) {
             if (event.keyCode == 13) {
                 event.preventDefault();
@@ -241,7 +253,16 @@
         });
         var gl_detalle_insumos = null;
 
-
+        function deshabilitar_encabezado() {
+            document.getElementById('no_orden_produccion').disabled = true;
+            document.getElementById('id_producto').disabled = true;
+            document.getElementById('btn_buscar_orden').disabled = true;
+            document.getElementById('lote').disabled = true;
+            document.getElementById('id_turno').disabled = true;
+            $('#id_producto').selectpicker('refresh');
+            $('#lote').selectpicker('refresh');
+            $('#id_turno').selectpicker('refresh');
+        }
         function cargar_productos() {
 
             const select = document.getElementById('id_producto');
@@ -249,7 +270,7 @@
             let option = '<option value="" selected>   SELECCIONE PRODUCTO </option>';
             gl_detalle_insumos.forEach(function (e) {
                 option += `
-                <option  value="${e.id_producto}" > ${e.producto.descripcion} </option>
+                <option  value="${e.id_producto}" > ${e.control_trazabilidad.producto.descripcion}   /    ${e.presentacion.descripcion} </option>
                 `
             });
             $(select).append(option);
@@ -270,10 +291,10 @@
                 const es_unico_lote = filtered.length == 1;
 
                 if (es_unico_lote) {
-                    option += `<option selected value="${filtered[0].lote}" >${filtered[0].lote}</option>`;
+                    option += `<option selected value="${filtered[0].control_trazabilidad.lote}" >${filtered[0].control_trazabilidad.lote}</option>`;
                 } else {
                     filtered.forEach(function (e) {
-                        option += `<option value="${e.lote}" >${e.lote}</option>`;
+                        option += `<option value="${e.control_trazabilidad.lote}" >${e.control_trazabilidad.lote}</option>`;
                     })
                 }
                 $(select).append(option);
@@ -282,6 +303,49 @@
 
 
         }
+
+
+        function get_id_control() {
+
+            const id_producto = document.getElementById('id_producto').value;
+            const id_control = gl_detalle_insumos.find(e => e.id_producto == id_producto).id_control;
+            document.getElementById('id_control').value = id_control;
+            return id_control;
+        }
+
+
+        function inicia_formulario() {
+            const id_producto = document.getElementById('id_producto').value;
+
+            if (id_producto == "") {
+                alert("Seleccione producto");
+                return;
+            }
+            const id_control = gl_detalle_insumos.find(e => e.id_producto == id_producto).id_control;
+            $.ajax(
+                {
+                    type: "POST",
+                    url: "{{url('control/precocido/iniciar_formulario')}}",
+                    data: {
+                        id_control: id_control,
+                    },
+                    success: function (response) {
+
+                        if (response.status === 1) {
+                            habilitar_formulario(detalle());
+                            deshabilitar_encabezado();
+                        } else {
+                            alert(response.message);
+                        }
+
+                    },
+                    error: function (error) {
+                        console.log(error)
+                    }
+                }
+            );
+        }
+
 
         async function iniciar_control_precocido() {
 
@@ -293,11 +357,13 @@
             if (response.status == 0) {
                 alert(response.message);
             } else {
-                const fields = detalle();
-                gl_detalle_insumos = response.data.data.control_trazabilidad.detalle_insumos;
+                gl_detalle_insumos = response.data.data;
+                document.getElementById('id_producto').disabled = false;
+                document.getElementById('lote').disabled = false;
                 document.getElementById('id_turno').disabled = false;
+                $('#id_producto').selectpicker('refresh');
+                $('#lote').selectpicker('refresh');
                 $('#id_turno').selectpicker('refresh');
-                habilitar_formulario(fields);
                 cargar_productos();
                 document.getElementById('no_orden_produccion').disabled = true;
             }
@@ -315,8 +381,6 @@
             const alcance_presion = document.getElementById('alcance_presion');
             const temperatura = document.getElementById('temperatura');
             const observaciones = document.getElementById('observaciones');
-
-
 
 
             const fields = [
@@ -352,14 +416,14 @@
                 const request = getRequest(fields);
                 const url = "{{url('control/precocido/insertar_detalle')}}";
                 const url_borrar = "'{{url('control/precocido/borrar_detalle')}}'";
-                const response = await insertar_detalle(request, no_orden_produccion, url);
+                const response = await insertar_detalle(request, get_id_control(), url);
                 if (response.status == 1) {
                     const url_update_enc = "{{url('control/precocido/nuevo_registro')}}";
                     const id_turno = document.getElementById('id_turno').value;
                     const registros = [
                         formato_registro('turno', id_turno),
-                    ]   ;
-                    insertar_registros(url_update_enc, registros, no_orden_produccion);
+                    ];
+                    insertar_registros(url_update_enc, registros, get_id_control());
                     add_to_table(fields, response.id, 'detalles', url_borrar);
                     limpiar()
                 } else {

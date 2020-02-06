@@ -359,7 +359,7 @@
                 return;
             }
             const id_control = gl_detalle_insumos.find(e => e.id_producto == id_producto).id_control;
-            return $.ajax(
+             $.ajax(
                 {
                     type: "POST",
                     url: "{{url('control/peso_seco/iniciar_formulario')}}",

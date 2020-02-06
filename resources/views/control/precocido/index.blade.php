@@ -13,7 +13,7 @@
                         'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
-                          'field'=>'no_orden',
+                          'field'=>'id_control',
                           'titulo'=>'no. ORDEN PRODUCCION'])
 
                 </th>
@@ -54,7 +54,7 @@
 
                         </td>
                         <td>
-                            {{$precocido->no_orden}}
+                            {{$precocido->id_control}}
                         </td>
                         <td>
                             Turno {{$precocido->turno}}

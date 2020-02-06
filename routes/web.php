@@ -345,6 +345,7 @@ Route::get('control/precocido/create', 'PrecocidoController@create')->name('prec
 Route::post('control/precocido/create', 'PrecocidoController@store')->name('precocido.store');
 Route::post('control/precocido/iniciar_laminado', 'PrecocidoController@iniciar_laminado')->name('precocido.iniciar_laminado');
 Route::post('control/precocido/insertar_detalle', 'PrecocidoController@insertar_detalle')->name('precocido.insertar_detalle');
+Route::post('control/precocido/iniciar_formulario', 'PrecocidoController@iniciar_formulario')->name('precocido.iniciar_formulario');
 Route::post('control/precocido/nuevo_registro', 'PrecocidoController@nuevo_registro')->name('precocido.nuevo_registro');
 Route::post('control/precocido/borrar_detalle', 'PrecocidoController@borrar_detalle')->name('precocido.borrar_detalle');
 Route::get('control/precocido/{id}/edit', 'PrecocidoController@edit')->name('precocido.edit');

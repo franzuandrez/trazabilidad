@@ -82,7 +82,7 @@ class PrecocidoController extends Controller
         try {
 
             $orden_produccion = $request->get('no_orden_produccion');
-            $LaminadoEnc = PrecocidoEnc::where('no_orden', $orden_produccion)
+            $LaminadoEnc = PrecocidoEnc::where('id_control', $orden_produccion)
                 ->firstOrFail();
             $LaminadoEnc->observaciones = $request->get('observacion_correctiva');
             $LaminadoEnc->save();
@@ -106,8 +106,6 @@ class PrecocidoController extends Controller
         //
 
         $precocido = PrecocidoEnc::findOrFail($id);
-
-
 
 
         return view('control.precocido.show', [
@@ -158,42 +156,56 @@ class PrecocidoController extends Controller
 
         $linea_chaomin = OrdenProduccion::verificar_linea_chaomin($no_orden_produccion);
 
-        $laminado = PrecocidoEnc::where('no_orden', $no_orden_produccion)
-            ->first();
-
 
         if ($linea_chaomin['status'] == 0) {
             $response = $linea_chaomin;
         } else {
-            if ($linea_chaomin['data']->estado == 0) {
-                $response = [
-                    'status' => 0,
-                    'message' => 'Linea chaomin aun en proceso'
-                ];
-            } else {
-                if ($laminado != null) {
-                    $response = [
-                        'status' => 0,
-                        'message' => 'Precocio de Pasta ya iniciado'
-                    ];
-                } else {
-                    $precocido = new PrecocidoEnc();
-                    $precocido->no_orden = $no_orden_produccion;
-                    $precocido->id_usuario = \Auth::user()->id;
-                    $precocido->save();
-                    $response = [
-                        'status' => 1,
-                        'message' => 'Precocido de pasta iniciado correctamente',
-                        'data' => $linea_chaomin
-                    ];
 
-                }
-            }
+            $response = [
+                'status' => 1,
+                'message' => 'Precocido de pasta iniciado correctamente',
+                'data' => $linea_chaomin
+            ];
+
 
         }
 
         return response()->json($response);
     }
+
+    public function iniciar_formulario(Request $request)
+    {
+        $id_control = $request->get('id_control');
+
+
+        $humedo = PrecocidoEnc::where('id_control', $id_control)
+            ->first();
+
+        if ($humedo == null) {
+            $humedo = new PrecocidoEnc();
+            $humedo->id_usuario = \Auth::user()->id;
+            $humedo->id_control = $id_control;
+            $humedo->save();
+
+            $response = [
+                'status' => 1,
+                'message' => "Iniciado correctamente",
+                'data' => $humedo
+            ];
+
+        } else {
+            $response = [
+                'status' => 0,
+                'message' => "Precocido  ya iniciado",
+                'data' => $humedo
+            ];
+        }
+
+
+        return response()
+            ->json($response);
+    }
+
 
     public function insertar_detalle(Request $request)
     {
@@ -202,7 +214,7 @@ class PrecocidoController extends Controller
         try {
             $no_orden_produccion = $request->get('no_orden_produccion');
 
-            $precocido = PrecocidoEnc::where('no_orden', $no_orden_produccion)
+            $precocido = PrecocidoEnc::where('id_control', $no_orden_produccion)
                 ->first();
 
             $response = RealTimeService::insertar_detalle(
@@ -250,7 +262,7 @@ class PrecocidoController extends Controller
 
 
         $response = RealTimeService::actualizar_modelo(
-            PrecocidoEnc::where('no_orden', $id_model)->first(), $fields
+            PrecocidoEnc::where('id_control', $id_model)->first(), $fields
         );
 
 
