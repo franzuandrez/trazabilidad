@@ -96,7 +96,9 @@ class Producto extends Model
     public function presentaciones()
     {
         return $this
-            ->belongsToMany(Presentacion::class, 'producto_presentacion', 'id_producto', 'id_presentacion');
+            ->belongsToMany(Presentacion::class, 'producto_presentacion', 'id_producto', 'id_presentacion')
+            ->groupBy('id_presentacion')
+            ;
     }
 
 

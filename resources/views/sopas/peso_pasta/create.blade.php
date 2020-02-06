@@ -16,7 +16,7 @@
             Control
         @endslot
         @slot('submenu')
-            Peso Humedo
+            Peso Pasta
         @endslot
     @endcomponent
 
@@ -207,7 +207,7 @@
                     type="button">
                 <span class=" fa fa-check"></span> GUARDAR
             </button>
-            <a href="{{url('control/peso_humedo')}}">
+            <a href="{{url('sopas/peso_pasta')}}">
                 <button class="btn btn-default" type="button">
                     <span class="fa fa-remove"></span>
                     CANCELAR

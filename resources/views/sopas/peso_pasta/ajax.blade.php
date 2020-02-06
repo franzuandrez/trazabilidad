@@ -25,8 +25,7 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             @component('componentes.btn-create',['url'=>url('sopas/peso_pasta/create')])
             @endcomponent
-            @component('componentes.btn-ver',['url'=>'javascript:ver()'])
-            @endcomponent
+
         </div>
     </div>
 

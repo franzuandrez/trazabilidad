@@ -941,13 +941,21 @@
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="dato_final">VENCE: DD/MM/AAAA</label>
-            <input type="text" name="verificacion_codificacion_vence" id="verificacion_codificacion_vence" disabled
-                   value="{{old('verificacion_codificacion_vence')}}"
-                   onkeydown="if(event.keyCode==9||event.keyCode==13)
+            <div class="input-group date">
+                <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                </div>
+                <input type="text" name="verificacion_codificacion_vence" id="verificacion_codificacion_vence" disabled
+                       value="{{old('verificacion_codificacion_vence')}}"
+
+                       onkeydown="if(event.keyCode==9||event.keyCode==13)
                        next(this,'verificacion_codificacion_obs','verificacion_codificacion_vence')"
-                   class="form-control valor">
+                       class="form-control valor form-control pull-right">
+            </div>
         </div>
     </div>
+
+
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="verificacion_codificacion_obs">OBSERVACIONES</label>
@@ -1075,6 +1083,12 @@
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
+        });
+        $('.date').datepicker({
+            format: 'dd/mm/yyyy',
+            autoclose: true,
+            setDate: new Date()
+
         });
 
         function clearSelect(select) {
@@ -1222,9 +1236,9 @@
                 $('#id_turno').selectpicker('refresh');
                 $('#id_presentacion').selectpicker('refresh');
                 $('#producto').selectpicker('refresh');
-
-                cargar_productos(response.data);
                 gl_productos = response.data;
+                cargar_productos(response.data);
+
                 // cambiar_combobox('id_producto');
                 //document.getElementById('id_chaomin').value = response.id;
                 {{-- // start_job("{{url('control/chaomin/nuevo_registro')}}", document.getElementById('id_chaomin').value);--}}
@@ -1348,6 +1362,7 @@
 
             if (es_unico) {
                 option += `<option selected value="${productos[0].id_producto}" >${productos[0].descripcion}</option>`;
+                cargar_presentaciones(productos[0].id_producto);
             } else {
                 productos.forEach(function (e) {
                     option += `<option value="${e.id_producto}" >${e.descripcion}</option>`;
@@ -1362,20 +1377,24 @@
         var gl_productos = [];
 
         function cargar_presentaciones(id) {
-            const presentaciones = gl_productos.find(e => e.id_producto == id).presentaciones;
-            const select = document.getElementById('id_presentacion');
-            $(select).empty();
-            let option = '<option value="" selected>SELECCIONE PRESENTACION</option>';
-            const es_unico = presentaciones.length === 1;
-            if (es_unico) {
-                option += `<option selected value="${presentaciones[0].id_presentacion}" >${presentaciones[0].descripcion}</option>`;
-            } else {
-                presentaciones.forEach(function (e) {
-                    option += `<option value="${e.id_presentacion}" >${e.descripcion}</option>`;
-                })
+
+            if (id !== "") {
+                const presentaciones = gl_productos.find(e => e.id_producto == id).presentaciones;
+                const select = document.getElementById('id_presentacion');
+                $(select).empty();
+                let option = '<option value="" selected>SELECCIONE PRESENTACION</option>';
+                const es_unico = presentaciones.length === 1;
+                if (es_unico) {
+                    option += `<option selected value="${presentaciones[0].id_presentacion}" >${presentaciones[0].descripcion}</option>`;
+                } else {
+                    presentaciones.forEach(function (e) {
+                        option += `<option value="${e.id_presentacion}" >${e.descripcion}</option>`;
+                    })
+                }
+                $(select).append(option);
+                $(select).selectpicker('refresh');
             }
-            $(select).append(option);
-            $(select).selectpicker('refresh');
+
 
         }
     </script>

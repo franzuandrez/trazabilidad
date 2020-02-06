@@ -5,7 +5,9 @@
 @endsection
 
 @section('contenido')
-
+    <div class="col-lg-12 col-lg-push-2 col-sm-12   col-sm-push-3   col-md-12   col-md-push-3  col-xs-12">
+        <h3>REGISTRO DE PARAMETROS EN LAMINADO Y PRECOCCION DE SOPAS INSTANTANEAS</h3>
+    </div>
     @component('componentes.nav',['operation'=>'Ingreso',
     'menu_icon'=>'fa fa-cube',
     'submenu_icon'=>'fa fa-tasks',

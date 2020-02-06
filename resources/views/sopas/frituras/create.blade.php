@@ -5,13 +5,15 @@
 @endsection
 
 @section('contenido')
-
+    <div class="col-lg-12 col-lg-push-3 col-sm-12   col-sm-push-3   col-md-12   col-md-push-3  col-xs-12">
+        <h3>REGISTRO DE PARAMETROS EN FRITURA DE SOPAS INSTANTANEAS</h3>
+    </div>
     @component('componentes.nav',['operation'=>'Ingreso',
     'menu_icon'=>'fa fa-cube',
     'submenu_icon'=>'fa fa-fire',
     'operation_icon'=>'fa-plus',])
         @slot('menu')
-            Produccion
+            Control
         @endslot
         @slot('submenu')
             Frituras de Sopas
@@ -202,7 +204,7 @@
             <button class="btn btn-default" type="button" onclick="guardar()">
                 <span class=" fa fa-check"></span> GUARDAR
             </button>
-            <a href="{{url('sopas/frituras')}}">
+            <a href="{{url('sopas/fritura')}}">
                 <button class="btn btn-default" type="button">
                     <span class="fa fa-remove"></span>
                     CANCELAR

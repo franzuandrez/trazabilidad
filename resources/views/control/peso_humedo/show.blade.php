@@ -22,14 +22,15 @@
 
 
 
-
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <label for="turno">NO ORDEN DE PRODUCCION</label>
-            <input type="text" name="no_orden_produccion"
+            <label for="turno">NO CONTROL</label>
+            <input type="text"
                    id="no_orden_produccion"
+                   onkeydown="if(event.keyCode==13)iniciar_mezcla_harina()"
                    readonly
-                   value="{{$humedo->no_orden}}"
+                   value="{{$humedo->id_control}}"
+                   name="no_orden_produccion" value="{{old('no_orden_produccion')}}"
                    class="form-control">
         </div>
     </div>
