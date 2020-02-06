@@ -25,15 +25,19 @@
     {!!Form::open(array('url'=>'control/laminado/create','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
 
-    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+    <input type="hidden" id="id_control" name="id_control">
+
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <label for="turno">NO ORDEN DE PRODUCCION</label>
         <div class="input-group">
-            <input type="text" name="no_orden_produccion"
+            <input type="text"
+                   id="no_orden_produccion"
                    onkeydown="if(event.keyCode==13)iniciar_control_laminado()"
-                   id="no_orden_produccion" value="{{old('no_orden_produccion')}}"
+                   name="no_orden_produccion" value="{{old('no_orden_produccion')}}"
                    class="form-control">
             <div class="input-group-btn">
                 <button
+                    id="btn_buscar_orden"
                     onclick="iniciar_control_laminado()"
                     onkeydown="iniciar_control_laminado()"
                     type="button" class="btn btn-default">
@@ -42,24 +46,13 @@
                 </button>
             </div>
         </div>
+
     </div>
 
 
-    <div class="col-lg-4 col-sm-4 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="turno">TURNO</label>
-            <select class="form-control selectpicker"
-                    id="id_turno"
-                    name="id_turno" disabled>
-                <option value="" selected>SELECCIONE UN TURNO</option>
-                <option value="1">TURNO 1</option>
-                <option value="2">TURNO 2</option>
-            </select>
-        </div>
-    </div>
 
 
-    <div class="col-lg-4 col-sm-4 col-md-6 col-xs-12">
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="id_producto">PRODUCTO</label>
             <select class="form-control selectpicker valor"
@@ -72,15 +65,39 @@
         </div>
     </div>
 
-    <div class="col-lg-4 col-sm-4 col-md-6 col-xs-12">
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="lote">LOTE</label>
+
             <select class="form-control selectpicker valor"
                     disabled
                     required
                     id="lote" name="lote">
                 <option value="" selected>SELECCIONE LOTE</option>
             </select>
+
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <label for="turno">TURNO</label>
+        <div class="input-group">
+            <select class="form-control selectpicker "
+                    id="id_turno" name="id_turno" disabled>
+                <option value="" selected>SELECCIONE UN TURNO</option>
+                <option value="1">TURNO 1</option>
+                <option value="2">TURNO 2</option>
+            </select>
+            <div class="input-group-btn">
+                <button
+                    data-toggle="tooltip"
+                    title="Iniciar"
+                        onclick="inicio_formulario()"
+                    type="button" class="btn btn-default">
+                    <i class="fa fa-check"
+                       aria-hidden="true"></i>
+                </button>
+            </div>
         </div>
     </div>
 
@@ -91,7 +108,7 @@
 
         </div>
     </div>
-    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="temperatura">VALOR</label>
             <input id="temperatura_inicial" type="text"
@@ -103,7 +120,7 @@
         </div>
     </div>
 
-    <div class="col-lg-3 col-sm-3col-md-3 col-xs-12">
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="temperatura">OBSERVACIONES</label>
             <input id="temperatura_observaciones"
@@ -122,7 +139,7 @@
 
         </div>
     </div>
-    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="temperatura">VALOR</label>
             <input id="espesor_inicial"
@@ -133,28 +150,27 @@
         </div>
     </div>
 
-    <div class="col-lg-3 col-sm-3col-md-3 col-xs-12">
-        <div class="form-group">
-            <label for="temperatura">OBSERVACIONES</label>
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <label for="temperatura">OBSERVACIONES</label>
+        <div class="input-group">
             <input id="espesor_observaciones"
                    disabled
                    type="text" name="espesor_observaciones" value="{{old('espesor_observaciones')}}"
                    class="form-control">
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-3  col-xs-4">
-        <br>
-        <div class="form-group">
-            <button id="btnAdd"
+            <div class="input-group-btn">
+                <button
+                    data-toggle="tooltip"
+                    title="Iniciar"
                     onclick="agregar_a_table()"
-                    class="btn btn-default block" style="margin-top: 5px;" type="button">
-                <span class=" fa fa-plus"></span></button>
-            <button id="btnLimpiar" class="btn btn-default block" style="margin-top: 5px;" type="button">
-                <span class=" fa fa-trash"></span></button>
+                    type="button" class="btn btn-default">
+                    <i class="fa fa-plus"
+                       aria-hidden="true"></i>
+                </button>
+            </div>
+
         </div>
-
-
     </div>
+
 
 
 
@@ -246,6 +262,7 @@
     </script>
     <script>
         var gl_detalle_insumos = null;
+
         function guardar() {
 
             document.getElementById('no_orden_produccion').disabled = false;
@@ -259,7 +276,7 @@
             let option = '<option value="" selected>   SELECCIONE PRODUCTO </option>';
             gl_detalle_insumos.forEach(function (e) {
                 option += `
-                <option  value="${e.id_producto}" > ${e.producto.descripcion} </option>
+                <option  value="${e.id_producto}" > ${e.control_trazabilidad.producto.descripcion}   /    ${e.presentacion.descripcion} </option>
                 `
             });
             $(select).append(option);
@@ -280,10 +297,10 @@
                 const es_unico_lote = filtered.length == 1;
 
                 if (es_unico_lote) {
-                    option += `<option selected value="${filtered[0].lote}" >${filtered[0].lote}</option>`;
+                    option += `<option selected value="${filtered[0].control_trazabilidad.lote}" >${filtered[0].control_trazabilidad.lote}</option>`;
                 } else {
                     filtered.forEach(function (e) {
-                        option += `<option value="${e.lote}" >${e.lote}</option>`;
+                        option += `<option value="${e.control_trazabilidad.lote}" >${e.control_trazabilidad.lote}</option>`;
                     })
                 }
                 $(select).append(option);
@@ -292,6 +309,7 @@
 
 
         }
+
 
         async function iniciar_control_laminado() {
 
@@ -303,16 +321,69 @@
             if (response.status == 0) {
                 alert(response.message);
             } else {
-                const fields = detalle();
-                gl_detalle_insumos = response.data.data.control_trazabilidad.detalle_insumos;
+                gl_detalle_insumos = response.data.data;
+                document.getElementById('id_producto').disabled = false;
+                document.getElementById('lote').disabled = false;
                 document.getElementById('id_turno').disabled = false;
+                $('#id_producto').selectpicker('refresh');
+                $('#lote').selectpicker('refresh');
                 $('#id_turno').selectpicker('refresh');
-                habilitar_formulario(fields);
                 cargar_productos();
                 document.getElementById('no_orden_produccion').disabled = true;
             }
 
 
+        }
+        function deshabilitar_encabezado() {
+            document.getElementById('no_orden_produccion').disabled = true;
+            document.getElementById('id_producto').disabled = true;
+            document.getElementById('id_turno').disabled = true;
+            document.getElementById('btn_buscar_orden').disabled = true;
+            document.getElementById('lote').disabled = true;
+            $('#id_producto').selectpicker('refresh');
+            $('#lote').selectpicker('refresh');
+            $('#id_turno').selectpicker('refresh');
+        }
+
+
+        function get_id_control() {
+
+            const id_producto = document.getElementById('id_producto').value;
+            const id_control = gl_detalle_insumos.find(e => e.id_producto == id_producto).id_control;
+            document.getElementById('id_control').value = id_control;
+            return id_control;
+        }
+
+        function inicio_formulario() {
+            const id_producto = document.getElementById('id_producto').value;
+
+            if (id_producto == "") {
+                alert("Seleccione producto");
+                return;
+            }
+            const id_control = gl_detalle_insumos.find(e => e.id_producto == id_producto).id_control;
+            return $.ajax(
+                {
+                    type: "POST",
+                    url: "{{url('control/laminado/iniciar_formulario')}}",
+                    data: {
+                        id_control: id_control,
+                    },
+                    success: function (response) {
+
+                        if (response.status === 1) {
+                            habilitar_formulario(detalle());
+                            deshabilitar_encabezado();
+                        } else {
+                            alert(response.message);
+                        }
+
+                    },
+                    error: function (error) {
+                        console.log(error)
+                    }
+                }
+            );
         }
 
         function detalle() {
@@ -358,11 +429,12 @@
                 const request = getRequest(fields);
                 const url = "{{url('control/laminado/insertar_detalle')}}";
                 const url_borrar = "'{{url('control/laminado/borrar_detalle')}}'";
-                const response = await insertar_detalle(request, no_orden_produccion, url);
+                const response = await insertar_detalle(request, get_id_control(), url);
                 if (response.status == 1) {
                     const url_update_enc = "{{url('control/laminado/nuevo_registro')}}";
                     const id_turno = document.getElementById('id_turno').value;
-                    insertar_registros(url_update_enc, array_registros('turno', id_turno), no_orden_produccion);
+                    insertar_registros(url_update_enc, array_registros('turno', id_turno), get_id_control());
+
                     add_to_table(fields, response.id, 'detalles', url_borrar);
                     limpiar()
                 } else {

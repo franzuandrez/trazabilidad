@@ -136,8 +136,8 @@ class LaminadoController extends Controller
 
         try {
 
-            $orden_produccion = $request->get('no_orden_produccion');
-            $LaminadoEnc = Laminado_Enc::where('no_orden', $orden_produccion)
+            $orden_produccion = $request->get('id_control');
+            $LaminadoEnc = Laminado_Enc::where('id_control', $orden_produccion)
                 ->firstOrFail();
             $LaminadoEnc->observaciones = $request->get('observacion_correctiva');
             $LaminadoEnc->save();
@@ -185,41 +185,57 @@ class LaminadoController extends Controller
 
         $linea_chaomin = OrdenProduccion::verificar_linea_chaomin($no_orden_produccion);
 
-        $laminado = Laminado_Enc::where('no_orden', $no_orden_produccion)
-            ->first();
-
 
         if ($linea_chaomin['status'] == 0) {
             $response = $linea_chaomin;
         } else {
-            if ($linea_chaomin['data']->estado == 0) {
-                $response = [
-                    'status' => 0,
-                    'message' => 'Linea chaomin aun en proceso'
-                ];
-            } else {
-                if ($laminado != null) {
-                    $response = [
-                        'status' => 0,
-                        'message' => 'Mezcla de harina ya iniciada'
-                    ];
-                } else {
-                    $laminado = new Laminado_Enc();
-                    $laminado->no_orden = $no_orden_produccion;
-                    $laminado->id_usuario = \Auth::user()->id;
-                    $laminado->save();
-                    $response = [
-                        'status' => 1,
-                        'message' => 'Laminado iniciado correctamente',
-                        'data' => $linea_chaomin
-                    ];
 
-                }
-            }
+            $response = [
+                'status' => 1,
+                'message' => 'Siguiente paso',
+                'data' => $linea_chaomin
+            ];
+
 
         }
 
         return response()->json($response);
+    }
+
+    public function iniciar_formulario(Request $request)
+    {
+
+        $id_control = $request->get('id_control');
+
+
+        $laminado = Laminado_Enc::where('id_control', $id_control)
+            ->first();
+
+        if ($laminado == null) {
+            $laminado = new Laminado_Enc();
+            $laminado->id_usuario = \Auth::user()->id;
+            $laminado->id_control = $id_control;
+            $laminado->id_responsable = \Auth::user()->id;
+            $laminado->save();
+
+            $response = [
+                'status' => 1,
+                'message' => "Iniciada correctamente",
+                'data' => $laminado
+            ];
+
+        } else {
+            $response = [
+                'status' => 0,
+                'message' => "Laminado  ya iniciado",
+                'data' => $laminado
+            ];
+        }
+
+
+        return response()
+            ->json($response);
+
     }
 
     public function insertar_detalle(Request $request)
@@ -229,7 +245,7 @@ class LaminadoController extends Controller
         try {
             $no_orden_produccion = $request->get('no_orden_produccion');
 
-            $laminado = Laminado_Enc::where('no_orden', $no_orden_produccion)
+            $laminado = Laminado_Enc::where('id_control', $no_orden_produccion)
                 ->first();
 
             $response = RealTimeService::insertar_detalle(
@@ -277,7 +293,7 @@ class LaminadoController extends Controller
 
 
         $response = RealTimeService::actualizar_modelo(
-            Laminado_Enc::where('no_orden', $id_model)->first(), $fields
+            Laminado_Enc::where('id_control', $id_model)->first(), $fields
         );
 
 

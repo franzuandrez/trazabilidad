@@ -12,8 +12,8 @@
                     @include('componentes.column-sort',[
                           'sort'=>$sort,
                           'sortField'=>$sortField,
-                          'field'=>'no_orden',
-                          'titulo'=>'NO ORDEN PRODUCCION '])
+                          'field'=>'id_control',
+                          'titulo'=>'CONTROL '])
 
                 </th>
                 <th>
@@ -50,7 +50,7 @@
 
                         </td>
                         <td>
-                            {{$laminado->no_orden}}
+                            {{$laminado->id_control}}
                         </td>
                         <td>
                             Turno {{$laminado->turno}}

@@ -304,6 +304,7 @@ Route::post('control/mezcla_harina/{id}', 'MezclaHarinaController@destroy')->nam
 Route::get('control/laminado', 'LaminadoController@index')->name('control.laminado.index');
 Route::get('control/laminado/create', 'LaminadoController@create')->name('laminado.create');
 Route::post('control/laminado/iniciar_laminado', 'LaminadoController@iniciar_laminado')->name('laminado.iniciar_laminado');
+Route::post('control/laminado/iniciar_formulario', 'LaminadoController@iniciar_formulario')->name('laminado.iniciar_formulario');
 Route::post('control/laminado/insertar_detalle', 'LaminadoController@insertar_detalle')->name('laminado.insertar_detalle');
 Route::post('control/laminado/nuevo_registro', 'LaminadoController@nuevo_registro')->name('laminado.nuevo_registro');
 Route::post('control/laminado/borrar_detalle', 'LaminadoController@borrar_detalle')->name('laminado.borrar_detalle');
