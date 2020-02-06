@@ -15,4 +15,19 @@ class LineaSopa extends Model
     protected $dates = [
         'fecha_hora'
     ];
+
+    protected $with = [
+        'presentacion'
+    ];
+
+    public function control_trazabilidad()
+    {
+        return $this->belongsTo(Operacion::class, 'id_control', 'id_control');
+    }
+
+
+    public function presentacion()
+    {
+        return $this->belongsTo(Presentacion::class, 'id_presentacion', 'id_presentacion');
+    }
 }

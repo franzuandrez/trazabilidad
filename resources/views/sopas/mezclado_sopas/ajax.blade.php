@@ -36,11 +36,11 @@
 
     @component('componentes.alert-no-selecction')
         @slot('mensaje')
-            SELECCIONAR RECEPCION
+            SELECCIONAR MEZCLADO SOPAS
         @endslot
     @endcomponent
     <div id="content">
-        @include('recepcion.materia_prima.index')
+        @include('sopas.mezclado_sopas.index')
     </div>
     <div class="loading">
         <i class="fa fa-refresh fa-spin "></i><br/>
@@ -49,5 +49,5 @@
 @endsection
 @section('scripts')
     <script src="{{asset('js/ajax-crud.js')}}"></script>
-    <script src="{{asset('js-brc/recepciones/index.js')}}"></script>
+    <script src="{{asset('js-brc/generico/index.js')}}"></script>
 @endsection

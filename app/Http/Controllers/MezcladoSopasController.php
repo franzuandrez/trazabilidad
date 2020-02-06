@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\tools\OrdenProduccion;
+use App\Http\tools\RealTimeService;
+use App\MezclaHarina_Enc;
+use App\MezclaSopaDet;
+use App\MezclaSopaEnc;
 use App\Recepcion;
 use App\User;
 use Illuminate\Http\Request;
@@ -17,33 +22,32 @@ class MezcladoSopasController extends Controller
     {
         $this->middleware('auth');
     }
+
     public function index(Request $request)
     {
         //
         $search = $request->get('search') == null ? '' : $request->get('search');
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
-        $sortField = $request->get('field') == null ? 'orden_compra' : $request->get('field');
+        $sortField = $request->get('field') == null ? 'fecha_hora' : $request->get('field');
 
 
-        $recepciones = Recepcion::join('proveedores', 'proveedores.id_proveedor', '=', 'recepcion_encabezado.id_proveedor')
-            ->join('productos', 'productos.id_producto', '=', 'recepcion_encabezado.id_producto')
-            ->select('recepcion_encabezado.*', 'productos.descripcion as producto', 'proveedores.razon_social as proveedor')
+        $sopas = MezclaSopaEnc::select('mezclado_sopas_enc.*', 'users.nombre as usuario')
+            ->join('users', 'users.id', '=', 'mezclado_sopas_enc.id_usuario')
             ->where(function ($query) use ($search) {
-                $query->where('proveedores.razon_social', 'LIKE', '%' . $search . '%')
-                    ->orWhere('productos.descripcion', 'LIKE', '%' . $search . '%')
-                    ->orWhere('recepcion_encabezado.orden_compra', 'LIKE', '%' . $search . '%');
-
+                $query->where('mezclado_sopas_enc.id_turno', 'LIKE', '%' . $search . '%')
+                    ->orWhere('users.nombre', 'LIKE', '%' . $search . '%')
+                    ->orWhere('mezclado_sopas_enc.fecha_hora', 'LIKE', '%' . $search . '%');
             })
             ->orderBy($sortField, $sort)
             ->paginate(20);
 
         if ($request->ajax()) {
             return view('sopas.mezclado_sopas.index',
-                compact('recepciones', 'sort', 'sortField', 'search'));
+                compact('sopas', 'sort', 'sortField', 'search'));
         } else {
 
             return view('sopas.mezclado_sopas.ajax',
-                compact('recepciones', 'sort', 'sortField', 'search'));
+                compact('sopas', 'sort', 'sortField', 'search'));
         }
     }
 
@@ -64,18 +68,34 @@ class MezcladoSopasController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         //
+        try {
+
+            $orden_produccion = $request->get('id_control');
+            $mezlcado_sopas = MezclaSopaEnc::where('id_control', $orden_produccion)
+                ->firstOrFail();
+            $mezlcado_sopas->observaciones = $request->get('observaciones_generales');
+            $mezlcado_sopas->save();
+            return redirect()->route('mezclado_sopas.index')
+                ->with('success', 'Mezcla de Sopas ingresada corrrectamente');
+        } catch (\Exception $ex) {
+            DD($ex);
+            return redirect()->back()
+                ->withErrors(['No se ha podido completar su petición, codigo de error :  ' . $ex->getCode()]);
+        }
+
+
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -86,7 +106,7 @@ class MezcladoSopasController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -97,8 +117,8 @@ class MezcladoSopasController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -109,11 +129,137 @@ class MezcladoSopasController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         //
+    }
+
+    public function iniciar_mezclado_sopas(Request $request)
+    {
+        $no_orden_produccion = $request->get('no_orden_produccion');
+
+
+        $linea_chaomin = OrdenProduccion::verificar_linea_sopas($no_orden_produccion);
+
+
+        if ($linea_chaomin['status'] == 0) {
+            $response = $linea_chaomin;
+        } else {
+            $response = [
+                'status' => 1,
+                'message' => 'Mezclado de sopas iniciado correctamente',
+                'data' => $linea_chaomin
+            ];
+
+
+        }
+
+        return response()->json($response);
+    }
+
+
+    public function iniciar_formulario(Request $request)
+    {
+
+        $id_control = $request->get('id_control');
+        $id_producto = $request->get('id_producto');
+
+
+        $mezclado = MezclaSopaEnc::where('id_control', $id_control)
+            ->first();
+
+        if ($mezclado == null) {
+            $mezclado = new MezclaSopaEnc();
+            $mezclado->id_usuario = \Auth::user()->id;
+            $mezclado->id_control = $id_control;
+            $mezclado->fecha_hora = \Carbon\Carbon::now();
+            $mezclado->id_producto = $id_producto;
+            $mezclado->save();
+
+            $response = [
+                'status' => 1,
+                'message' => "Iniciado correctamente",
+                'data' => $mezclado
+            ];
+
+        } else {
+            $response = [
+                'status' => 0,
+                'message' => "Mezclado  ya iniciado",
+                'data' => $mezclado
+            ];
+        }
+
+
+        return response()
+            ->json($response);
+
+    }
+
+    public function insertar_detalle(Request $request)
+    {
+
+
+        try {
+            $no_orden_produccion = $request->get('no_orden_produccion');
+
+            $peso_humedo = MezclaSopaEnc::where('id_control', $no_orden_produccion)
+                ->first();
+
+            $response = RealTimeService::insertar_detalle(
+                MezclaSopaDet::query()->getModel(),
+                $request->fields,
+                'id_mezclado_sopas_enc',
+                $peso_humedo->id_mezclado);
+
+        } catch (\Exception $ex) {
+            $response = [
+                'status' => 0,
+                'message' => $ex->getMessage(),
+            ];
+        }
+
+
+        return response()->json($response);
+    }
+
+    public function borrar_detalle(Request $request)
+    {
+
+
+        try {
+            $detalle = MezclaSopaDet::findOrFail($request->id);
+
+            $response = RealTimeService::borrar_detalle($detalle);
+
+        } catch (\Exception $ex) {
+            $response = [
+                'status' => 0,
+                'message' => $ex->getMessage()
+            ];
+        }
+
+        return response()->json($response);
+
+
+    }
+
+    public function nuevo_registro(Request $request)
+    {
+        $id_model = $request->id_model;
+        $fields = $request->fields;
+
+
+        $response = RealTimeService::actualizar_modelo(
+            MezclaSopaEnc::where('id_control', $id_model)->first(), $fields
+        );
+
+
+        return response()->json($response);
+
+
     }
 }

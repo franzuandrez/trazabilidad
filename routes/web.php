@@ -413,10 +413,17 @@ Route::post('produccion/frituras/{id}', 'FrituraSopasController@destroy')->name(
 Route::get('sopas/mezclado_sopas', 'MezcladoSopasController@index')->name('mezclado_sopas.index');
 Route::get('sopas/mezclado_sopas/create', 'MezcladoSopasController@create')->name('mezclado_sopas.create');
 Route::post('sopas/mezclado_sopas/create', 'MezcladoSopasController@store')->name('mezclado_sopas.store');
+Route::post('sopas/mezclado_sopas/iniciar_mezclado_sopas', 'MezcladoSopasController@iniciar_mezclado_sopas')->name('mezclado_sopas.iniciar_laminado');
+Route::post('sopas/mezclado_sopas/iniciar_formulario', 'MezcladoSopasController@iniciar_formulario')->name('mezclado_sopas.iniciar_formulario');
+Route::post('sopas/mezclado_sopas/insertar_detalle', 'MezcladoSopasController@insertar_detalle')->name('mezclado_sopas.insertar_detalle');
+Route::post('sopas/mezclado_sopas/nuevo_registro', 'MezcladoSopasController@nuevo_registro')->name('mezclado_sopas.nuevo_registro');
+Route::post('sopas/mezclado_sopas/borrar_detalle', 'MezcladoSopasController@borrar_detalle')->name('mezclado_sopas.borrar_detalle');
 Route::get('sopas/mezclado_sopas/{id}/edit', 'MezcladoSopasController@edit')->name('mezclado_sopas.edit');
 Route::patch('sopas/mezclado_sopas/{id}', 'MezcladoSopasController@update')->name('mezclado_sopas.update');
 Route::get('sopas/mezclado_sopas/{id}', 'MezcladoSopasController@show')->name('mezclado_sopas.show');
 Route::post('sopas/mezclado_sopas/{id}', 'MezcladoSopasController@destroy')->name('mezclado_sopas.destroy');
+
+
 
 Route::get('sopas/peso_pasta', 'PesoPastaController@index')->name('peso_pasta.index');
 Route::get('sopas/peso_pasta/create', 'PesoPastaController@create')->name('peso_pasta.create');
@@ -433,3 +440,7 @@ Route::post('sopas/liberacion/create', 'LineaSopaController@store')->name('sopas
 Route::post('sopas/liberacion/verficar_no_orden_produccion', 'LineaSopaController@verficar_no_orden_produccion')->name('chaomin.verficar_no_orden_produccion');
 Route::post('sopas/liberacion/iniciar', 'LineaSopaController@iniciar_linea_sopas')->name('sopas.iniciar_linea_sopas');
 Route::post('sopas/liberacion/nuevo_registro', 'LineaSopaController@nuevo_registro')->name('sopas.nuevo_registro');
+
+
+
+

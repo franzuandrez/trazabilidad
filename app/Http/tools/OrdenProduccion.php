@@ -6,6 +6,7 @@ namespace App\Http\tools;
 
 use App\Correlativo;
 use App\LineaChaomin;
+use App\LineaSopa;
 use App\Requisicion;
 use Carbon\Carbon;
 use DB;
@@ -70,6 +71,33 @@ class OrdenProduccion
 
     }
 
+
+    public static function verificar_linea_sopas($no_orden_produccion)
+    {
+        $controles = DB::table('control_trazabilidad_orden_produccion')
+            ->where('no_orden_produccion', $no_orden_produccion)
+            ->get();
+
+        $linea_sopa = LineaSopa::with('control_trazabilidad.producto')
+            ->whereIn('id_control', $controles->pluck('id_control')->toArray())
+            ->get();
+
+        if (count($linea_sopa) > 0) {
+            $response = [
+                'status' => 1,
+                'message' => 'Linea chaomin iniciada',
+                'data' => $linea_sopa
+            ];
+        } else {
+            $response = [
+                'status' => 0,
+                'message' => 'Linea no existente',
+                'data' => ''
+            ];
+        }
+
+        return $response;
+    }
 
     public static function verificar_linea_chaomin_por_producto($no_orden_produccion, $id_producto)
     {

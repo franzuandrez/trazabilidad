@@ -22,33 +22,79 @@
     {!!Form::open(array('url'=>'sopas/mezclado_sopas/create','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
 
-    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-        <div class="form-group">
-            <label for="turno">NO ORDEN DE PRODUCCION</label>
-            <input type="text" name="NO_ORDEN_PRODUCCION" value="{{old('NO_ORDEN_PRODUCCION')}}"
-                   class="form-control">
+    <input type="hidden" id="id_control" name="id_control">
 
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <label for="turno">NO ORDEN DE PRODUCCION</label>
+        <div class="input-group">
+            <input type="text"
+                   id="no_orden_produccion"
+                   onkeydown="if(event.keyCode==13)iniciar_mezclado_sopas()"
+                   name="no_orden_produccion" value="{{old('no_orden_produccion')}}"
+                   class="form-control">
+            <div class="input-group-btn">
+                <button
+                    id="btn_buscar_orden"
+                    onclick="iniciar_mezclado_sopas()"
+                    onkeydown="iniciar_mezclado_sopas()"
+                    type="button" class="btn btn-default">
+                    <i class="fa fa-search"
+                       aria-hidden="true"></i>
+                </button>
+            </div>
         </div>
+
     </div>
+
+
+
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="presentacion">PRESENTACIÓN</label>
-            <select class="form-control selectpicker" data-live-search="true" id="presentacion" name="presentacion">
-                <option value="" selected>SELECCIONE UN CODIGO</option>
-                <option value="1" >JUMBO SAMYANG</option>
-                <option value="2" >PAQUETE</option>
-                <option value="3" >VASO 64 g</option>
-                <option value="4" >HAN RAN</option>
-                <option value="5" >SABAROSITA</option>
+            <label for="id_producto">PRODUCTO</label>
+            <select class="form-control selectpicker valor"
+                    disabled
+                    required
+                    onchange="cargar_lotes(this.value)"
+                    id="id_producto" name="id_producto">
+                <option value="" selected>SELECCIONE UN PRODUCTO</option>
             </select>
         </div>
     </div>
+
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="turno">TURNO</label>
-            <input id="turno" type="text"
-                   class="form-control">
+            <label for="lote">LOTE</label>
+
+            <select class="form-control selectpicker valor"
+                    disabled
+                    required
+                    id="lote" name="lote">
+                <option value="" selected>SELECCIONE LOTE</option>
+            </select>
+
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <label for="turno">TURNO</label>
+        <div class="input-group">
+            <select class="form-control selectpicker "
+                    id="id_turno" name="id_turno" disabled>
+                <option value="" selected>SELECCIONE UN TURNO</option>
+                <option value="1">TURNO 1</option>
+                <option value="2">TURNO 2</option>
+            </select>
+            <div class="input-group-btn">
+                <button
+                    data-toggle="tooltip"
+                    title="Iniciar"
+                    onclick="inicio_formulario()"
+                    type="button" class="btn btn-default">
+                    <i class="fa fa-check"
+                       aria-hidden="true"></i>
+                </button>
+            </div>
         </div>
     </div>
 
@@ -61,14 +107,18 @@
                     <div class="form-group">
                         <label for="no_bach">NO. BACH</label>
                         <input id="no_bach" type="text" name="no_bach"
-
+                               disabled=""
+                               required
                                class="form-control">
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                     <label for="hora_inicio">HORA INICIO</label>
                     <div class="input-group">
-                        <input id="hora_inicio" type="text" class="form-control timepicker" name="hora_inicio">
+                        <input id="hora_inicio"
+                               disabled
+                               required
+                               type="text" class="form-control timepicker" name="hora_inicio">
 
                         <div class="input-group-addon">
                             <i class="fa fa-clock-o"></i>
@@ -78,7 +128,10 @@
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                     <label for="hora_finalizo">HORA FINALIZO</label>
                     <div class="input-group">
-                        <input id="hora_finalizo" type="text" class="form-control timepicker" name="hora_finalizo">
+                        <input id="hora_finalizo"
+                               disabled
+                               required
+                               type="text" class="form-control timepicker" name="hora_finalizo">
 
                         <div class="input-group-addon">
                             <i class="fa fa-clock-o"></i>
@@ -88,8 +141,10 @@
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                     <div class="form-group">
                         <label for="tiempo_alta">TIEMPO DE VELOCIDAD ALTA</label>
-                        <input id="tiempo_alta" type="text" name="tiempo_alta"
-
+                        <input id="tiempo_alta"
+                               disabled
+                               type="text" name="tiempo_alta"
+                               required
                                class="form-control">
                     </div>
                 </div>
@@ -97,7 +152,8 @@
                     <div class="form-group">
                         <label for="tiempo_baja">TIEMPO DE VELOCIDAD BAJA</label>
                         <input id="tiempo_baja" type="text" name="tiempo_baja"
-
+                               disabled
+                               required
                                class="form-control">
                     </div>
                 </div>
@@ -105,7 +161,7 @@
                     <div class="form-group">
                         <label for="observaciones">OBSERVACIONES</label>
                         <input id="observaciones" type="text" name="observaciones"
-
+                               disabled
                                class="form-control">
                     </div>
                 </div>
@@ -113,7 +169,9 @@
                 <div class="col-lg-2 col-sm-4 col-md-2 col-xs-2">
                     <br>
                     <div class="form-group">
-                        <button id="btnAdd" class="btn btn-default block" style="margin-top: 5px;" type="button">
+                        <button id="btnAdd" class="btn btn-default block"
+                                onclick="agregar_a_table()"
+                                style="margin-top: 5px;" type="button">
                             <span class=" fa fa-plus"></span></button>
                     </div>
                 </div>
@@ -150,8 +208,12 @@
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <button class="btn btn-default" type="submit">
-                <span class=" fa fa-check"></span> GUARDAR
+            <button class="btn btn-default"
+                    onclick="guardar()"
+                    type="button">
+                <span class=" fa fa-check"></span>
+                GUARDAR
+
             </button>
             <a href="{{url('sopas/mezclado_sopas')}}">
                 <button class="btn btn-default" type="button">
@@ -166,73 +228,156 @@
 
 @endsection
 @section('scripts')
+    <script src="{{asset('js-brc/tools/nuevo_registro.js')}}"></script>
     <script>
         $(function () {
             //Timepicker
             $('.timepicker').timepicker({
-                showInputs: false
+                showInputs: false,
+                minuteStep: 1,
+                format: 'HH:mm',
+                showMeridian: false,
             });
         })
 
-    </script>
-
-    <script>
-        $('.date').datepicker({
-            format: 'yyyy-mm-dd',
-            autoclose: true,
-            setDate: new Date()
-
-        });
-        $(document).ready(function () {
-
-            $("#btnAdd").click(function () {
-                addToTable();
-            });
-
-        });
         $(window).keydown(function (event) {
             if (event.keyCode == 13) {
                 event.preventDefault();
                 return false;
             }
         });
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
     </script>
     <script>
-        function cargarProveedores() {
-            //NOT IMPLEMENTED
+
+        var gl_detalle_insumos = null;
+
+        function guardar() {
+
+            document.getElementById('no_orden_produccion').disabled = false;
+            $('form').submit();
         }
 
-        function addToTable() {
-            if ($("#no_bach").val() != "" && $("#hora_inicio").val() != "" && $("#hora_finalizo").val() != "" && $("#tiempo_alta").val() != "" && $("#tiempo_baja").val() != "" && $("#observaciones").val() != "") {
-                let no_bach = $("#no_bach");
-                let hora_inicio = $("#hora_inicio");
-                let hora_finalizo = $("#hora_finalizo");
-                let tiempo_alta = $("#tiempo_alta");
-                let tiempo_baja = $("#tiempo_baja");
-                let observaciones = $("#observaciones");
-                let row =
-                    `<tr>
-            <td><button onclick=removeFromTable(this) type="button" class="btn btn-warning">x</button></td>
-            <td><input type="hidden" value='${no_bach.val()}' name=no_bach[]>${no_bach.val()}</td>
-            <td><input type="hidden" value='${hora_inicio.val()}' name=hora_inicio[]>${hora_inicio.val()}</td>
-            <td><input type="hidden" value='${hora_finalizo.val()}' name=hora_finalizo[]>${hora_finalizo.val()}</td>
-            <td ><input type="hidden" value ='${tiempo_alta.val()}'  name=tiempo_alta[] >${tiempo_alta.val()}</td>
-            <td ><input type="hidden" value ='${tiempo_baja.val()}'  name=tiempo_baja[] >${tiempo_baja.val()}</td>
-            <td ><input type="hidden" value ='${observaciones.val()}'  name=observaciones[] >${observaciones.val()}</td>
-            </tr>`;
+        function cargar_productos() {
 
-                $("#detalles").append(row);
-                no_bach.val('');
-                hora_inicio.val('');
-                hora_finalizo.val('');
-                tiempo_alta.val('');
-                tiempo_baja.val('');
-                observaciones.val('');
-            } else {
-                $('#modal-default').modal('show');
-                return false;
+            const select = document.getElementById('id_producto');
+            $(select).empty();
+            let option = '<option value="" selected>   SELECCIONE PRODUCTO </option>';
+            gl_detalle_insumos.forEach(function (e) {
+                option += `
+                <option  value="${e.id_producto}" > ${e.control_trazabilidad.producto.descripcion}   /    ${e.presentacion.descripcion} </option>
+                `
+            });
+            $(select).append(option);
+            $(select).selectpicker('refresh');
+        }
+
+        function cargar_lotes(id) {
+
+            if (id != "") {
+                const select = document.getElementById('lote');
+                $(select).empty();
+                let option = '<option value="" selected>SELECCIONE LOTE</option>';
+                var id_producto = id;
+                const filtered = gl_detalle_insumos.filter(function (e) {
+                    return e.id_producto == id_producto;
+                });
+
+                const es_unico_lote = filtered.length == 1;
+
+                if (es_unico_lote) {
+                    option += `<option selected value="${filtered[0].control_trazabilidad.lote}" >${filtered[0].control_trazabilidad.lote}</option>`;
+                } else {
+                    filtered.forEach(function (e) {
+                        option += `<option value="${e.control_trazabilidad.lote}" >${e.control_trazabilidad.lote}</option>`;
+                    })
+                }
+                $(select).append(option);
+                $(select).selectpicker('refresh');
             }
+
+
         }
+
+        async function iniciar_mezclado_sopas() {
+
+
+            const no_orden_produccion = document.getElementById('no_orden_produccion').value;
+            const url = "{{url('sopas/mezclado_sopas/iniciar_mezclado_sopas')}}";
+            const response = await iniciar(url, no_orden_produccion);
+
+            console.log(response);
+            if (response.status === 0) {
+                alert(response.message);
+            } else {
+                gl_detalle_insumos = response.data.data;
+                document.getElementById('id_producto').disabled = false;
+                document.getElementById('lote').disabled = false;
+                document.getElementById('id_turno').disabled = false;
+                $('#id_producto').selectpicker('refresh');
+                $('#lote').selectpicker('refresh');
+                $('#id_turno').selectpicker('refresh');
+                cargar_productos();
+                document.getElementById('no_orden_produccion').disabled = true;
+            }
+
+
+        }
+
+        function deshabilitar_encabezado() {
+
+            document.getElementById('no_orden_produccion').disabled = true;
+            document.getElementById('id_producto').disabled = true;
+            document.getElementById('btn_buscar_orden').disabled = true;
+            document.getElementById('lote').disabled = true;
+            document.getElementById('id_turno').disabled = true;
+            $('#id_producto').selectpicker('refresh');
+            $('#lote').selectpicker('refresh');
+            $('#id_turno').selectpicker('refresh');
+
+        }
+
+        function inicio_formulario() {
+
+            const id_producto = document.getElementById('id_producto').value;
+
+            if (id_producto == "") {
+                alert("Seleccione producto");
+                return;
+            }
+            const id_control = gl_detalle_insumos.find(e => e.id_producto == id_producto).id_control;
+            return $.ajax(
+                {
+                    type: "POST",
+                    url: "{{url('sopas/mezclado_sopas/iniciar_formulario')}}",
+                    data: {
+                        id_control: id_control,
+                        id_producto:id_producto
+                    },
+                    success: function (response) {
+
+                        if (response.status === 1) {
+                            habilitar_formulario(detalle());
+                            deshabilitar_encabezado();
+                        } else {
+                            alert(response.message);
+                        }
+
+                    },
+                    error: function (error) {
+                        console.log(error)
+                    }
+                }
+            );
+
+
+        }
+
 
         function removeFromTable(element) {
             //Removemos la fila
@@ -242,97 +387,80 @@
             let tdNextNext = tdNext.next();
         }
 
-        function justNumbers(e) {
-            var keynum = window.event ? window.event.keyCode : e.which;
-            if ((keynum == 8) || (keynum == 46))
-                return true;
-
-            return /\d/.test(String.fromCharCode(keynum));
-        }
-
         function limpiar() {
 
-            document.getElementById('id_producto').value = "";
-            document.getElementById('producto').value = "";
-            document.getElementById('proveedor').value = "";
-            document.getElementById('id_proveedor').value = "";
-            document.getElementById('producto').readOnly = false;
-            document.getElementById('buscar').disabled = false;
-        }
-
-        function mostrarProductosCargados() {
-
-            setTimeout(function () {
-                $('#modal-productos').modal();
-            }, 1000);
-        }
-
-        function mostrarAlertaNotFound() {
-            $('#not_found').modal();
-        }
-
-        function habilitar() {
-
-            document.getElementById('aceptar_producto').disabled = false;
+            const fields = detalle();
+            limpiar_formulario(fields)
 
         }
 
-        function setProducto() {
-
-            let infoProd = getProductoSelected();
-            if (infoProd.length != 0) {
-                cargarProducto(infoProd);
-            } else {
+        function detalle() {
 
 
+            const no_batch = document.getElementById('no_bach');
+            const hora_inicio_mezcla = document.getElementById('hora_inicio');
+            const hora_fin_mezcla = document.getElementById('hora_finalizo');
+            const tiempo_velocidad_alta = document.getElementById('tiempo_alta');
+            const tiempo_velocidad_baja = document.getElementById('tiempo_baja');
+            const observaciones = document.getElementById('observaciones');
+
+
+            const fields = [
+                ["no_batch", no_batch],
+                ["hora_inicio_mezcla", hora_inicio_mezcla],
+                ["hora_fin_mezcla", hora_fin_mezcla],
+                ["tiempo_velocidad_alta", tiempo_velocidad_alta],
+                ["tiempo_velocidad_baja", tiempo_velocidad_baja],
+                ["observaciones", observaciones]
+
+            ];
+
+            return fields;
+
+
+        }
+
+
+        function get_id_control() {
+
+            const id_producto = document.getElementById('id_producto').value;
+            const id_control = gl_detalle_insumos.find(e => e.id_producto == id_producto).id_control;
+            document.getElementById('id_control').value = id_control;
+            return id_control;
+        }
+
+        async function agregar_a_table() {
+
+
+            const no_orden_produccion = get_no_orden_produccion();
+            const no_orden_disabled = document.getElementById('no_orden_produccion').disabled;
+            const no_orden_valida = no_orden_disabled && no_orden_produccion != "";
+            const fields = detalle();
+
+            if (existe_campo_vacio(fields)) {
+                alert("Campos incompletos");
+                return;
             }
+            if (no_orden_valida) {
 
-
-        }
-
-        function descomponerInput(input) {
-            const POSICION_CODIGO = 1;
-            const POSICION_FECHA = 2;
-            const POSICION_LOTE = 3;
-
-            var codigoBarras = input.value;
-            var removerParentesis = codigoBarras.replace(/\([0-9]*\)/g, '-');
-            var codigoSplited = removerParentesis.split('-');
-
-            var codigo = codigoSplited[POSICION_CODIGO];
-            var fecha = codigoSplited[POSICION_FECHA];
-            var lote = codigoSplited[POSICION_LOTE];
-
-            if (event.keyCode == 13) {
-                document.getElementById('lote').value = lote;
-                document.getElementById('producto').value = codigo;
-                document.getElementById('no_1').focus();
-            }
-        }
-
-        function getProductoSelected() {
-            var productos = document.getElementsByName('id_prod');
-            var id_prod = null;
-            var descripcion = null;
-            var id_prov = null;
-            var razon_social = null;
-
-            var arrayProductos = Object.keys(productos).map(function (key) {
-                return [Number(key), productos[key]];
-            });
-
-
-            arrayProductos.forEach(function (prod) {
-                if (prod[1].checked) {
-                    var childrens = prod[1].parentElement.parentElement.children;
-                    id_prod = childrens[0].firstChild.value;
-                    descripcion = childrens[2].innerText;
-                    razon_social = childrens[3].innerText;
-                    id_prov = childrens[3].firstChild.value;
-
+                const request = getRequest(fields);
+                const url = "{{url('sopas/mezclado_sopas/insertar_detalle')}}";
+                const url_borrar = "'{{url('sopas/mezclado_sopas/borrar_detalle')}}'";
+                const response = await insertar_detalle(request, get_id_control(), url);
+                if (response.status == 1) {
+                    add_to_table(fields, response.id, 'detalles', url_borrar);
+                    limpiar()
+                } else {
+                    alert(response.message);
                 }
-            });
-            return [id_prod, descripcion, id_prov, razon_social];
+            } else {
+                alert("Orden de produccion no valida");
+            }
+
+
         }
+
+
     </script>
 @endsection
+
