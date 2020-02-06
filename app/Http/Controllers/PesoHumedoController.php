@@ -168,6 +168,7 @@ class PesoHumedoController extends Controller
         return response()->json($response);
     }
 
+
     public function iniciar_formulario(Request $request)
     {
 
@@ -203,7 +204,6 @@ class PesoHumedoController extends Controller
             ->json($response);
 
     }
-
     public function insertar_detalle(Request $request)
     {
 

@@ -76,8 +76,8 @@ class PesoSecoController extends Controller
         //
         try {
 
-            $orden_produccion = $request->get('no_orden_produccion');
-            $LaminadoEnc = PesoSecoEnc::where('no_orden', $orden_produccion)
+            $orden_produccion = $request->get('id_control');
+            $LaminadoEnc = PesoSecoEnc::where('id_control', $orden_produccion)
                 ->firstOrFail();
             $LaminadoEnc->observaciones = $request->get('observacion_correctiva');
             $LaminadoEnc->save();
@@ -149,41 +149,56 @@ class PesoSecoController extends Controller
 
         $linea_chaomin = OrdenProduccion::verificar_linea_chaomin($no_orden_produccion);
 
-        $peso_seco = PesoSecoEnc::where('no_orden', $no_orden_produccion)
-            ->first();
 
 
         if ($linea_chaomin['status'] == 0) {
             $response = $linea_chaomin;
         } else {
-            if ($linea_chaomin['data']->estado == 0) {
-                $response = [
-                    'status' => 0,
-                    'message' => 'Linea chaomin aun en proceso'
-                ];
-            } else {
-                if ($peso_seco != null) {
-                    $response = [
-                        'status' => 0,
-                        'message' => 'Peso Seco ya iniciado'
-                    ];
-                } else {
-                    $peso_seco = new PesoSecoEnc();
-                    $peso_seco->no_orden = $no_orden_produccion;
-                    $peso_seco->id_usuario = \Auth::user()->id;
-                    $peso_seco->save();
-                    $response = [
-                        'status' => 1,
-                        'message' => 'Peso Seco iniciado correctamente',
-                        'data' => $linea_chaomin
-                    ];
 
-                }
-            }
+            $response = [
+                'status' => 1,
+                'message' => 'Peso Seco iniciado correctamente',
+                'data' => $linea_chaomin
+            ];
 
         }
 
         return response()->json($response);
+    }
+
+    public function iniciar_formulario(Request $request)
+    {
+
+        $id_control = $request->get('id_control');
+
+
+        $humedo = PesoSecoEnc::where('id_control', $id_control)
+            ->first();
+
+        if ($humedo == null) {
+            $humedo = new PesoSecoEnc();
+            $humedo->id_usuario = \Auth::user()->id;
+            $humedo->id_control = $id_control;
+            $humedo->save();
+
+            $response = [
+                'status' => 1,
+                'message' => "Iniciado correctamente",
+                'data' => $humedo
+            ];
+
+        } else {
+            $response = [
+                'status' => 0,
+                'message' => "Peso Seco  ya iniciado",
+                'data' => $humedo
+            ];
+        }
+
+
+        return response()
+            ->json($response);
+
     }
 
     public function insertar_detalle(Request $request)
@@ -193,7 +208,7 @@ class PesoSecoController extends Controller
         try {
             $no_orden_produccion = $request->get('no_orden_produccion');
 
-            $peso_seco = PesoSecoEnc::where('no_orden', $no_orden_produccion)
+            $peso_seco = PesoSecoEnc::where('id_control', $no_orden_produccion)
                 ->first();
 
             $response = RealTimeService::insertar_detalle(

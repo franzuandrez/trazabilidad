@@ -332,6 +332,7 @@ Route::get('control/peso_seco/create', 'PesoSecoController@create')->name('peso_
 Route::post('control/peso_seco/create', 'PesoSecoController@store')->name('peso_seco.store');
 Route::post('control/peso_seco/iniciar_laminado', 'PesoSecoController@iniciar_laminado')->name('peso_seco.iniciar_laminado');
 Route::post('control/peso_seco/insertar_detalle', 'PesoSecoController@insertar_detalle')->name('peso_seco.insertar_detalle');
+Route::post('control/peso_seco/iniciar_formulario', 'PesoSecoController@iniciar_formulario')->name('peso_seco.iniciar_formulario');
 Route::post('control/peso_seco/nuevo_registro', 'PesoSecoController@nuevo_registro')->name('peso_seco.nuevo_registro');
 Route::post('control/peso_seco/borrar_detalle', 'PesoSecoController@borrar_detalle')->name('peso_seco.borrar_detalle');
 Route::get('control/peso_seco/{id}/edit', 'PesoSecoController@edit')->name('peso_seco.edit');

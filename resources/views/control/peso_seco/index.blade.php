@@ -13,8 +13,8 @@
                     @include('componentes.column-sort',['modulo'=>'recepcion/materia_prima',
                           'sort'=>$sort,
                           'sortField'=>$sortField,
-                          'field'=>'no_orden',
-                          'titulo'=>'no. orden producciuon'])
+                          'field'=>'id_control',
+                          'titulo'=>'CONTROL'])
 
                 </th>
                 <th>
@@ -51,7 +51,7 @@
 
                         </td>
                         <td>
-                            {{$seco->no_orden}}
+                            {{$seco->id_control}}
                         </td>
                         <td>
                             Turno {{$seco->turno}}
