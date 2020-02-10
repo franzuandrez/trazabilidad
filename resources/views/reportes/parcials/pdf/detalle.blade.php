@@ -1,11 +1,11 @@
 @foreach( $reporte_detalle['details'] as  $key=> $detail)
     <table class="table-detalle">
         <tr>
-            <th colspan="{{ $detail['headers']->count()}}">{{$key}}</th>
+            <th class="table-name"  colspan="{{ $detail['headers']->count()}}">{{$key}}</th>
         </tr>
         <tr>
             @foreach( $detail['headers'] as  $header)
-                <th>{{$header}}</th>
+                <th class="">{{$header}}</th>
             @endforeach
         </tr>
         @foreach( $detail['detail'] as  $det)

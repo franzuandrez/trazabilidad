@@ -2,14 +2,14 @@
     @if (!$loop->first)
         <table class="table-headers">
             <tr>
-                <th colspan="2">
+                <th colspan="2"  class="table-name">
                     {{$key}}
                 </th>
             </tr>
             @foreach( $header as $h )
                 @if($h!=null)
                     <tr>
-                        <th>{{$h->field}}</th>
+                        <th  class="field">{{$h->field}}</th>
                         @if($h->value=="0")
                             <td>NO</td>
                         @elseif($h->value == "1")
