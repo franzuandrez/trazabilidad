@@ -1,9 +1,4 @@
-@component('componentes.search',
-['search'=>$search,
-  'sort'=>$sort,
-  'sortField'=>$sortField,
-'modulo'=>'recepcion/transito'])
-@endcomponent
+@include('recepcion.transito.search_with_specific_field')
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
         <div class="table-responsive">
@@ -13,32 +8,32 @@
 
                 </th>
                 <th>
-                    @component('componentes.column-sort',['modulo'=>'recepcion/transito',
+                    @include('recepcion.transito.sort',['modulo'=>'recepcion/transito',
                         'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
                           'field'=>'orden_compra',
                           'titulo'=>'NO. DOCUMENTO'])
-                    @endcomponent
+
                 </th>
                 <th>
-                    @component('componentes.column-sort',['modulo'=>'recepcion/transito',
-                        'search'=>$search,
-                          'sort'=>$sort,
-                          'sortField'=>$sortField,
-                          'field'=>'proveedores.nombre_comercial',
-                          'titulo'=>'proveedor'])
-                    @endcomponent
+                    @include('recepcion.transito.sort',['modulo'=>'recepcion/transito',
+                           'search'=>$search,
+                             'sort'=>$sort,
+                             'sortField'=>$sortField,
+                             'field'=>'proveedores.nombre_comercial',
+                             'titulo'=>'proveedor'])
+
                 </th>
 
                 <th>
-                    @component('componentes.column-sort',['modulo'=>'recepcion/transito',
-                        'search'=>$search,
-                          'sort'=>$sort,
-                          'sortField'=>$sortField,
-                          'field'=>'fecha_ingreso',
-                          'titulo'=>'FECHA INGRESO'])
-                    @endcomponent
+                    @include('recepcion.transito.sort',['modulo'=>'recepcion/transito',
+                      'search'=>$search,
+                        'sort'=>$sort,
+                        'sortField'=>$sortField,
+                        'field'=>'fecha_ingreso',
+                        'titulo'=>'FECHA INGRESO'])
+
                 </th>
 
                 </thead>
@@ -70,7 +65,8 @@
       $movimientos_en_transito->appends([
           'search' => $search,
           'sort'=>$sort,
-          'field'=>$sortField
+          'field'=>$sortField,
+          'campo_busqueda'=>$campo_busqueda
       ])->links()
     }}
 </div>

@@ -412,11 +412,13 @@ class RecepcionController extends Controller
         $search = $request->get('search') == null ? '' : $request->get('search');
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
         $sortField = $request->get('field') == null ? 'orden_compra' : $request->get('field');
+        $campo_busqueda = $request->get('campo_busqueda') == null ? '1' : $request->get('campo_busqueda');
+
 
         $movimientos_en_transito = Recepcion::join('proveedores', 'proveedores.id_proveedor', '=', 'recepcion_encabezado.id_proveedor')
             ->esDocumentoMateriaPrima()
-            ->estaEnRampa()
             ->select('recepcion_encabezado.*')
+            ->where('rmi_encabezado.rampa',$campo_busqueda)
             ->where(function ($query) use ($search) {
                 $query->where('proveedores.nombre_comercial', 'LIKE', '%' . $search . '%')
                     ->orWhere('recepcion_encabezado.orden_compra', 'LIKE', '%' . $search . '%');
@@ -426,13 +428,15 @@ class RecepcionController extends Controller
             ->paginate(20);
 
 
+
         if ($request->ajax()) {
             return view('recepcion.transito.index',
                 [
                     'movimientos_en_transito' => $movimientos_en_transito,
                     'search' => $search,
                     'sort' => $sort,
-                    'sortField' => $sortField
+                    'sortField' => $sortField,
+                    'campo_busqueda' => $campo_busqueda,
                 ]);
         } else {
             return view('recepcion.transito.ajax',
@@ -440,7 +444,8 @@ class RecepcionController extends Controller
                     'movimientos_en_transito' => $movimientos_en_transito,
                     'search' => $search,
                     'sort' => $sort,
-                    'sortField' => $sortField
+                    'sortField' => $sortField,
+                    'campo_busqueda' => $campo_busqueda,
                 ]
             );
         }
@@ -455,25 +460,41 @@ class RecepcionController extends Controller
         try {
             $recepcion = Recepcion::findOrFail($id);
 
+            $rmi_encabezado =  $recepcion
+                ->rmi_encabezado;
 
-            $id_rmi = $recepcion
-                ->rmi_encabezado->id_rmi_encabezado;
+            $paso_calidad  = $rmi_encabezado->rampa =="0";
+            $id_rmi = $rmi_encabezado->id_rmi_encabezado;
+
+            if($paso_calidad){
+                $movimientos = RMIDetalle::select('*', DB::raw('sum(cantidad) as total'))
+                    ->where('id_rmi_encabezado', $id_rmi)
+                    ->groupBy('id_producto')
+                    ->groupBy('lote')
+                    ->get();
+                return view('recepcion.transito.show_liberada',
+                    [
+                        'recepcion' => $recepcion,
+                        'movimientos' => $movimientos
+                    ]
+                );
+            }else{
+
+                $movimientos = RMIDetalle::select('*', DB::raw('sum(cantidad) as total'))
+                    ->where('id_rmi_encabezado', $id_rmi)
+                    ->estaEnRampa()
+                    ->groupBy('id_producto')
+                    ->groupBy('lote')
+                    ->get();
+                return view('recepcion.transito.ingreso',
+                    [
+                        'recepcion' => $recepcion,
+                        'movimientos' => $movimientos
+                    ]
+                );
+            }
 
 
-            $movimientos = RMIDetalle::select('*', DB::raw('sum(cantidad) as total'))
-                ->where('id_rmi_encabezado', $id_rmi)
-                ->estaEnRampa()
-                ->groupBy('id_producto')
-                ->groupBy('lote')
-                ->get();
-
-
-            return view('recepcion.transito.ingreso',
-                [
-                    'recepcion' => $recepcion,
-                    'movimientos' => $movimientos
-                ]
-            );
         } catch (\Exception $e) {
 
 
@@ -502,9 +523,9 @@ class RecepcionController extends Controller
             $diferencias = $request->get('diferencia');
             $i = 0;
             foreach ($idsMovimiento as $key => $mov) {
-                $rmi_detalle =    RMIDetalle::find($mov);
+                $rmi_detalle = RMIDetalle::find($mov);
 
-                if($diferencias[$key]>0){
+                if ($diferencias[$key] > 0) {
                     $this->ingresar_bodega_desecho(
                         $diferencias[$key],
                         $rmi_detalle,
@@ -543,7 +564,7 @@ class RecepcionController extends Controller
 
     }
 
-    private function ingresar_bodega_desecho($cantidad,RMIDetalle $rmi_detalle, $observaciones)
+    private function ingresar_bodega_desecho($cantidad, RMIDetalle $rmi_detalle, $observaciones)
     {
         $ubicacion = Sector::where('sistema', 1)->first();
         $usuario_autoriza = Auth::user();
@@ -566,7 +587,6 @@ class RecepcionController extends Controller
 
     private function ingresoCalidad($rmi_detalle, $cantidad)
     {
-
 
 
         $rmi_detalle->control = 1;
@@ -669,22 +689,38 @@ class RecepcionController extends Controller
 
             $recepcion = Recepcion::findOrFail($id);
 
-            $id_rmi = $recepcion
-                ->rmi_encabezado->id_rmi_encabezado;
 
-            $movimientos = RMIDetalle::select('*', DB::raw('sum(cantidad) as total'))
-                ->where('id_rmi_encabezado', $id_rmi)
-                ->estaEnRampa()
-                ->groupBy('id_producto')
-                ->groupBy('lote')
-                ->get();
+            $rmi_encabezado= $recepcion
+                ->rmi_encabezado;
+            $paso_calidad  = $rmi_encabezado->rampa =="0";
+            $id_rmi = $rmi_encabezado->id_rmi_encabezado;
 
-            return view('recepcion.transito.show',
-                [
-                    'recepcion' => $recepcion,
-                    'movimientos' => $movimientos
-                ]
-            );
+            if($paso_calidad){
+                $movimientos = RMIDetalle::select('*', DB::raw('sum(cantidad) as total'))
+                    ->where('id_rmi_encabezado', $id_rmi)
+                    ->groupBy('id_producto')
+                    ->groupBy('lote')
+                    ->get();
+                return view('recepcion.transito.show_liberada',
+                    [
+                        'recepcion' => $recepcion,
+                        'movimientos' => $movimientos
+                    ]
+                );
+            }else{
+                $movimientos = RMIDetalle::select('*', DB::raw('sum(cantidad) as total'))
+                    ->where('id_rmi_encabezado', $id_rmi)
+                    ->estaEnRampa()
+                    ->groupBy('id_producto')
+                    ->groupBy('lote')
+                    ->get();
+                return view('recepcion.transito.show',
+                    [
+                        'recepcion' => $recepcion,
+                        'movimientos' => $movimientos
+                    ]
+                );
+            }
         } catch (\Exception $e) {
 
 
