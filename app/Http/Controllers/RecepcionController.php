@@ -418,7 +418,7 @@ class RecepcionController extends Controller
         $movimientos_en_transito = Recepcion::join('proveedores', 'proveedores.id_proveedor', '=', 'recepcion_encabezado.id_proveedor')
             ->esDocumentoMateriaPrima()
             ->select('recepcion_encabezado.*')
-            ->where('rmi_encabezado.rampa',$campo_busqueda)
+            ->where('rmi_encabezado.rampa', $campo_busqueda)
             ->where(function ($query) use ($search) {
                 $query->where('proveedores.nombre_comercial', 'LIKE', '%' . $search . '%')
                     ->orWhere('recepcion_encabezado.orden_compra', 'LIKE', '%' . $search . '%');
@@ -426,7 +426,6 @@ class RecepcionController extends Controller
             ->groupBy('recepcion_encabezado.orden_compra')
             ->orderBy($sortField, $sort)
             ->paginate(20);
-
 
 
         if ($request->ajax()) {
@@ -460,13 +459,13 @@ class RecepcionController extends Controller
         try {
             $recepcion = Recepcion::findOrFail($id);
 
-            $rmi_encabezado =  $recepcion
+            $rmi_encabezado = $recepcion
                 ->rmi_encabezado;
 
-            $paso_calidad  = $rmi_encabezado->rampa =="0";
+            $paso_calidad = $rmi_encabezado->rampa == "0";
             $id_rmi = $rmi_encabezado->id_rmi_encabezado;
 
-            if($paso_calidad){
+            if ($paso_calidad) {
                 $movimientos = RMIDetalle::select('*', DB::raw('sum(cantidad) as total'))
                     ->where('id_rmi_encabezado', $id_rmi)
                     ->groupBy('id_producto')
@@ -478,7 +477,7 @@ class RecepcionController extends Controller
                         'movimientos' => $movimientos
                     ]
                 );
-            }else{
+            } else {
 
                 $movimientos = RMIDetalle::select('*', DB::raw('sum(cantidad) as total'))
                     ->where('id_rmi_encabezado', $id_rmi)
@@ -513,6 +512,10 @@ class RecepcionController extends Controller
             DB::beginTransaction();
             $recepcion = Recepcion::findOrFail($id);
             $observaciones = $request->get('observaciones');
+
+            $rmi_encabezado = $recepcion->rmi_encabezado;
+            $rmi_encabezado->observaciones = $observaciones;
+            $rmi_encabezado->update();
 
             //INGRESO DEL PRODUCTO CHEQUEADO POR CONTROL DE CALIDAD
             $idsMovimiento = [];
@@ -690,12 +693,12 @@ class RecepcionController extends Controller
             $recepcion = Recepcion::findOrFail($id);
 
 
-            $rmi_encabezado= $recepcion
+            $rmi_encabezado = $recepcion
                 ->rmi_encabezado;
-            $paso_calidad  = $rmi_encabezado->rampa =="0";
+            $paso_calidad = $rmi_encabezado->rampa == "0";
             $id_rmi = $rmi_encabezado->id_rmi_encabezado;
 
-            if($paso_calidad){
+            if ($paso_calidad) {
                 $movimientos = RMIDetalle::select('*', DB::raw('sum(cantidad) as total'))
                     ->where('id_rmi_encabezado', $id_rmi)
                     ->groupBy('id_producto')
@@ -707,7 +710,7 @@ class RecepcionController extends Controller
                         'movimientos' => $movimientos
                     ]
                 );
-            }else{
+            } else {
                 $movimientos = RMIDetalle::select('*', DB::raw('sum(cantidad) as total'))
                     ->where('id_rmi_encabezado', $id_rmi)
                     ->estaEnRampa()
