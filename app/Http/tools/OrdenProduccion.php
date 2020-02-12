@@ -30,7 +30,7 @@ class OrdenProduccion
                 ->format('Ymd');
 
         if ($cantidad > 0) {
-            $no_orden_produccion = $no_orden_produccion . $cantidad;
+            $no_orden_produccion = $no_orden_produccion . '-' . $cantidad;
         }
 
         return $no_orden_produccion;
