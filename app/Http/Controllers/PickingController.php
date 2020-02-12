@@ -459,6 +459,7 @@ class PickingController extends Controller
                     $reserva->id_requisicion = $detalle_requisicion->requision_encabezado->id;
                     $reserva->id_bodega = $ubicacion->bodega->id_bodega;
                     $reserva->ubicacion = $ubicacion->codigo_barras;
+                    $reserva->id_ubicacion = $ubicacion->id_sector;
                     $reserva->estado = 'P';
 
                     $esLoteConsumido = $cantidadEntrante >= $cantidadDisponible['total'];
