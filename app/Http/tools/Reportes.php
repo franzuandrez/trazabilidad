@@ -83,7 +83,7 @@ class Reportes
     public function setTitle($title)
     {
 
-        $this->title = $title;
+        $this->title = strtoupper($title);
         return $this;
 
     }
