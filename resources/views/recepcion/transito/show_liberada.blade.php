@@ -50,6 +50,18 @@
                    class="form-control">
         </div>
     </div>
+    @if($rmi_encabezado->observaciones !== null )
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="observaciones">OBSERVACIONES</label>
+                <input type="text"
+                       readonly
+                       name="observaciones"
+                       value="{{$recepcion->rmi_encabezado->observaciones}}"
+                       class="form-control">
+            </div>
+        </div>
+    @endif
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
 
     </div>
@@ -71,7 +83,7 @@
                 <tbody>
                 @foreach( $movimientos as $key => $mov)
 
-                    <tr id="mov-{{$mov->id_rmi_detalle}}" class="row-producto">
+                    <tr id="mov-{{$mov->id_rmi_detalle}}" class="row-producto {{$mov->total-$mov->cantidad_entrante >0 ?'danger':'default'}}">
                         <td>
                             {{$mov->producto->descripcion}}
                         </td>
@@ -91,7 +103,7 @@
                         <td>
                             {{$mov->cantidad_entrante}}
                         </td>
-                        <td>
+                        <td >
                             {{$mov->total-$mov->cantidad_entrante}}
                         </td>
 

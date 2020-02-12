@@ -474,7 +474,8 @@ class RecepcionController extends Controller
                 return view('recepcion.transito.show_liberada',
                     [
                         'recepcion' => $recepcion,
-                        'movimientos' => $movimientos
+                        'movimientos' => $movimientos,
+                        'rmi_encabezado' => $rmi_encabezado
                     ]
                 );
             } else {
@@ -707,7 +708,8 @@ class RecepcionController extends Controller
                 return view('recepcion.transito.show_liberada',
                     [
                         'recepcion' => $recepcion,
-                        'movimientos' => $movimientos
+                        'movimientos' => $movimientos,
+                        'rmi_encabezado' => $rmi_encabezado
                     ]
                 );
             } else {
