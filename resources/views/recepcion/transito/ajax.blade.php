@@ -27,12 +27,15 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
 
-
-                @component('componentes.btn-ingresar',['url'=>'javascript:editar()'])
-                @endcomponent
+            @component('componentes.btn-ingresar',['url'=>'javascript:editar()'])
+            @endcomponent
 
             @can('role-list')
                 @component('componentes.btn-ver',['url'=>'javascript:ver()'])
+                @endcomponent
+            @endcan
+            @can('generar_reporte')
+                @component('componentes.btn-reporte',['url'=>'javascript:generico("transito/reporte")'])
                 @endcomponent
             @endcan
         </div>
