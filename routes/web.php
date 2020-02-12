@@ -379,6 +379,7 @@ Route::post('produccion/requisiciones/borrar_de_reserva', 'RequisicionController
 Route::get('produccion/requisiciones/en_reserva/{id_producto}', 'RequisicionController@en_reserva')->name('produccion.requisiciones.en_reserva');
 Route::get('produccion/requisiciones/borrar_reservas', 'RequisicionController@borrar_reservas')->name('produccion.requisiciones.borras_reservas');
 Route::get('produccion/requisiciones/{id}', 'RequisicionController@show')->name('produccion.requisiciones.show');
+Route::get('produccion/requisiciones/reporte/{id}', 'ReporteProduccionController@reporte_requisicion')->name('produccion.requisiciones.show');
 Route::post('produccion/requisiciones/{id}', 'RequisicionController@destroy')->name('produccion.requisiciones.destroy');
 
 Route::get('produccion/picking/', 'PickingController@index')->name('produccion.picking.index');

@@ -38,6 +38,10 @@
                 @component('componentes.btn-eliminar',['url'=>'javascript:eliminar()'])
                 @endcomponent
             @endcan
+            @can('generar_reporte')
+                @component('componentes.btn-reporte',['url'=>'javascript:reporte("requisiciones/reporte")'])
+                @endcomponent
+            @endcan
         </div>
     </div>
 
