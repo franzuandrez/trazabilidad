@@ -52,6 +52,13 @@ class Reportes
 
         $headers = $this->except($model);
         $attributes = collect($model == null ? [] : $model->getAttributes());
+
+        $attributes->each(function ($item, $key) use ($headers) {
+            if (!Arr::exists($headers, $key) && !in_array($key, $this->except)) {
+                $headers->put($key, $key);
+            }
+        });
+
         $maped = $headers->map(function ($item, $key) use ($attributes) {
             if (Arr::exists($attributes, $key)) {
                 return (object)[
