@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actividad;
+use App\Asistencia;
 use App\DetalleInsumo;
 use App\Operacion;
 use App\OperariosInvolucrados;
@@ -48,8 +49,6 @@ class OperacionController extends Controller
             })
             ->orderBy($sortField, $sort)
             ->paginate(20);
-
-
 
 
         if ($request->ajax()) {
@@ -245,6 +244,64 @@ class OperacionController extends Controller
         ]);
     }
 
+    public function edit($id)
+    {
+
+        $control = Operacion::with('producto')
+            ->with('asistencias')
+            ->with('actividades')
+            ->with('detalle_insumos')
+            ->findOrFail($id);
+
+        $actividades = Actividad::actived()
+            ->get();
+
+
+
+
+        return view('produccion.control_trazabilidad.edit', [
+            'control' => $control,
+            'actividades' => $actividades
+        ]);
+
+
+    }
+
+
+    public function finalizar_asistencia(Request $request)
+    {
+        $id_control = $request->get('id_control');
+        $id_colaborador = $request->get('id_colaborador');
+        $id_actividad = $request->get('id_actividad');
+
+        try {
+            $now = Carbon::now();;
+            $asistencia = Asistencia::where('id_control', $id_control)
+                ->where('id_colaborador', $id_colaborador)
+                ->where('id_actividad', $id_actividad)
+                ->firstOrFail();
+            $asistencia->fecha_hora_fin = $now;
+            $asistencia->update();
+
+            $response = [
+                'status' => 1,
+                'message' => 'Finalizado correctamente',
+                'data'=>$now->format('h:i:s')
+
+            ];
+
+        } catch (\Exception $e) {
+            $response = [
+                'status' => 0,
+                'message' => $e->getMessage(),
+            ];
+
+        }
+
+        return response()->json($response);
+
+
+    }
 
     public function verificar_proximo_lote(Request $request)
     {

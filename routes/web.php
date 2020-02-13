@@ -360,9 +360,11 @@ Route::get('produccion/trazabilidad_chao_mein/create', 'OperacionController@crea
 Route::get('produccion/trazabilidad_chao_mein/verificar_proximo_lote', 'OperacionController@verificar_proximo_lote')->name('produccion.operacion.verificar_proximo_lote');
 Route::get('produccion/trazabilidad_chao_mein/verificar_existencia_lote', 'OperacionController@verificar_existencia_lote')->name('produccion.operacion.verificar_existencia_lote');
 Route::post('produccion/trazabilidad_chao_mein/create', 'OperacionController@store')->name('produccion.operacion.store');
+Route::post('produccion/trazabilidad_chao_mein/finalizar_asistencia', 'OperacionController@finalizar_asistencia')->name('produccion.operacion.finalizar_asistencia');
 Route::get('produccion/trazabilidad_chao_mein/buscar_producto', 'OperacionController@buscar_producto')->name('produccion.operacion.buscar_producto');
 Route::get('produccion/trazabilidad_chao_mein/buscar_orden_produccion', 'OperacionController@buscar_orden_produccion')->name('produccion.operacion.buscar_orden_produccion');
 Route::get('produccion/trazabilidad_chao_mein/{id}', 'OperacionController@show')->name('produccion.operacion.show');
+Route::get('produccion/trazabilidad_chao_mein/{id}/edit', 'OperacionController@edit')->name('produccion.operacion.edit');
 Route::get('produccion/trazabilidad_chao_mein/reporte/{id}', 'ReporteControlTrazabilidadController@reporte_control_trazabilidad')->name('produccion.operacion.reporte');
 
 

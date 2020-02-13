@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Asistencia extends Model
 {
-    //
+    //DEPRECATED INSTEAD USE OperariosInvolucrados
 
     protected $table = 'actividades_colaboradores';
     protected $primaryKey = 'id';
@@ -17,7 +17,14 @@ class Asistencia extends Model
         'id_control',
         'fecha_hora_asociacion',
         'fecha_asistencia',
+        'fecha_hora_fin',
         'asistio'
+    ];
+
+    protected $dates = [
+        'fecha_hora_fin',
+        'fecha_hora_asociacion',
+        'fecha_asistencia'
     ];
 
 }

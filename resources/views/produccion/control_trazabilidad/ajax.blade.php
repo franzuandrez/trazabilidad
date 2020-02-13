@@ -34,6 +34,10 @@
                 @component('componentes.btn-ver',['url'=>'javascript:ver("trazabilidad_chao_mein")'])
                 @endcomponent
             @endcan
+            @can('role-edit')
+                @component('componentes.btn-edit',['url'=>'javascript:editar("trazabilidad_chao_mein")'])
+                @endcomponent
+            @endcan
             @can('generar_reporte')
                 @component('componentes.btn-reporte',['url'=>'javascript:reporte("trazabilidad_chao_mein/reporte")'])
                 @endcomponent

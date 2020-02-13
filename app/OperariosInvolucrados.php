@@ -17,12 +17,14 @@ class OperariosInvolucrados extends Model
         'id_control',
         'fecha_hora_asociacion',
         'fecha_asistencia',
+        'fecha_hora_fin',
         'asistio'
     ];
 
     public $dates = [
         'fecha_hora_asociacion',
-        'fecha_asistencia'
+        'fecha_asistencia',
+        'fecha_hora_fin',
     ];
     public $with = [
         'actividad',
