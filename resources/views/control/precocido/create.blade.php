@@ -178,7 +178,6 @@
 
             <thead style="background-color: #01579B;  color: #fff;">
             <tr>
-                <th>OPCION</th>
                 <th>PRODUCTO</th>
                 <th>LOTE</th>
                 <th>HORA INICIO</th>

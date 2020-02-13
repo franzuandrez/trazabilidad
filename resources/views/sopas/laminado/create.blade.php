@@ -205,7 +205,6 @@
                     <table id="detalles" class=" table-striped table-bordered table-condensed table-hover">
 
                         <thead style="background-color: #01579B;  color: #fff;">
-                        <th>OPCION</th>
                         <th>HORA (CADA 15 MIN)</th>
                         <th>VELOCIDAD DE LAMINADO (RPM)</th>
                         <th>ESPESOR DE LAMINA 0.98 A 1.03 MM</th>

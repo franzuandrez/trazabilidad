@@ -101,10 +101,9 @@
     </div>
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-        <div class="">
-            <div class="tab-content">
-            </div>
-            <div class="tab-pane" id="tab_3">
+
+
+
 
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
                     <div class="form-group">
@@ -172,9 +171,8 @@
                 </div>
                 <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
 
-                    <table id="detalles" class=" table-striped table-bordered table-condensed table-hover">
+                    <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
                         <thead style="background-color: #01579B;  color: #fff;">
-                        <th>OPCION</th>
                         <th>HORA (CADA 15 MIN)</th>
                         <th>INICIAL 130 A 135 °C</th>
                         <th>FINAL 140 A 160 °C</th>
@@ -194,25 +192,25 @@
                                class="form-control">
                     </div>
                 </div>
+
+        <input type="hidden" id="hora">
+        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+            <div class="form-group">
+                <button class="btn btn-default" type="button" onclick="guardar()">
+                    <span class=" fa fa-check"></span> GUARDAR
+                </button>
+                <a href="{{url('sopas/fritura')}}">
+                    <button class="btn btn-default" type="button">
+                        <span class="fa fa-remove"></span>
+                        CANCELAR
+                    </button>
+                </a>
+
             </div>
         </div>
     </div>
 
-    <input type="hidden" id="hora">
-    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-        <div class="form-group">
-            <button class="btn btn-default" type="button" onclick="guardar()">
-                <span class=" fa fa-check"></span> GUARDAR
-            </button>
-            <a href="{{url('sopas/fritura')}}">
-                <button class="btn btn-default" type="button">
-                    <span class="fa fa-remove"></span>
-                    CANCELAR
-                </button>
-            </a>
 
-        </div>
-    </div>
     {!!Form::close()!!}
 
 @endsection

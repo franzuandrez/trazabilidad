@@ -80,11 +80,7 @@ function add_to_table(fields, id, table, url) {
 
 
     let row = `<tr>
-            <td><button onclick="remover_elemento(this,${id},${url})"
-             type="button" 
-             class="btn btn-warning">
-             x
-             </button> </td>`;
+            `;
 
     fields.forEach(function (e) {
 

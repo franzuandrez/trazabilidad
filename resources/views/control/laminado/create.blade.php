@@ -181,7 +181,6 @@
             <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
 
                 <thead style="background-color: #01579B;  color: #fff;">
-                <th>OPCION</th>
                 <th>HORA</th>
                 <th>PRODUCTO</th>
                 <th>LOTE</th>
