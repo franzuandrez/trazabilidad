@@ -205,16 +205,49 @@
                         </tr>
                         </thead>
                         <tbody id="tbody_insumos">
-                        @foreach($control->detalle_insumos as $insumo )
+                        @foreach($control->detalle_insumos as $insumo)
                             <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>
+                                    {{$insumo->producto->descripcion}}
+                                </td>
+                                <td>
+                                    @if($insumo->color==1)
+                                        <input type="checkbox" checked onclick="return false">
+                                    @else
+                                        <input type="checkbox" onclick="return false">
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($insumo->olor==1)
+                                        <input type="checkbox" checked onclick="return false">
+                                    @else
+                                        <input type="checkbox" onclick="return false">
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($insumo->impresion==1)
+                                        <input type="checkbox" checked onclick="return false">
+                                    @else
+                                        <input type="checkbox" onclick="return false">
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($insumo->ausencia_material_extranio==1)
+                                        <input type="checkbox" checked onclick="return false">
+                                    @else
+                                        <input type="checkbox" onclick="return false">
+                                    @endif
+                                </td>
+                                <td>
+                                    {{$insumo->lote}}
+                                </td>
+                                <td>
+                                    {{$insumo->cantidad}}
+                                </td>
+                                <td>
+                                    {{$insumo->fecha_vencimiento->format('d/m/Y')}}
+                                </td>
+
                             </tr>
                         @endforeach
                         </tbody>
@@ -506,7 +539,7 @@
 
                 },
                 error: function (e) {
-                    console.log(e);
+
                     alert(e);
                     $('.loading').hide();
                 }
@@ -642,7 +675,8 @@
                 type: "get",
                 success: function (response) {
                     if (response.status === 1) {
-                        agregar_insumo(response.data.id_detalle_insumo);
+
+                        agregar_insumo(response.data);
                         limpiar_insumo();
                         set_id_orden(response.data.id_control);
                     } else {
@@ -926,7 +960,7 @@
             }
         }
 
-        function agregar_insumo(id) {
+        function agregar_insumo(insumo) {
 
             const descripcion = document.getElementById('descripcion_producto_mp').value;
             const lote = document.getElementById('lote_producto_mp').value;
@@ -935,7 +969,7 @@
 
             let row = `
                     <tr>
-                        <td>     <input type="hidden" name="id_insumo[]" value="${id}">   ${descripcion}</td>
+                        <td>     <input type="hidden" name="id_insumo[]" value="${insumo.id_detalle_insumo}">   ${descripcion}</td>
                         <td>        <input type="hidden" name="color[]" value="0">
                                       <input type="checkbox" onclick="asignar(this)">
                         </td>
@@ -958,7 +992,7 @@
                                            ${cantidad}
                         </td>
                         <td>
-
+                                 ${moment(insumo.fecha_vencimiento).format('D/M/Y')}
                         </td>
                     </tr>
             `;

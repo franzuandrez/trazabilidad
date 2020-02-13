@@ -194,31 +194,34 @@ class OperacionController extends Controller
 
 
             $actividades = $request->id_actividad;
-
-            foreach ($actividades as $key => $actividad) {
-                $operario_involucrado = new OperariosInvolucrados();
-                $operario_involucrado->id_colaborador = $request->id_colaborador[$key];
-                $operario_involucrado->id_actividad = $actividad;
-                $operario_involucrado->id_control = $operacion->id_control;
-                $operario_involucrado->fecha_hora_asociacion = Carbon::now();
-                $operario_involucrado->save();
+            if (is_iterable($actividades)) {
+                foreach ($actividades as $key => $actividad) {
+                    $operario_involucrado = new OperariosInvolucrados();
+                    $operario_involucrado->id_colaborador = $request->id_colaborador[$key];
+                    $operario_involucrado->id_actividad = $actividad;
+                    $operario_involucrado->id_control = $operacion->id_control;
+                    $operario_involucrado->fecha_hora_asociacion = Carbon::now();
+                    $operario_involucrado->save();
+                }
             }
 
-            $insumos = $request->id_insumo;
 
-            foreach ($insumos as $key => $insumo) {
-                $detalle_insumo = DetalleInsumo::find($insumo);
-                $detalle_insumo->color = $request->color[$key];
-                $detalle_insumo->olor = $request->olor[$key];
-                $detalle_insumo->impresion = $request->impresion[$key];
-                $detalle_insumo->ausencia_material_extranio = $request->ausencia_me[$key];
-                $detalle_insumo->save();
+            $insumos = $request->id_insumo;
+            if (is_iterable($insumos)) {
+                foreach ($insumos as $key => $insumo) {
+                    $detalle_insumo = DetalleInsumo::find($insumo);
+                    $detalle_insumo->color = $request->color[$key];
+                    $detalle_insumo->olor = $request->olor[$key];
+                    $detalle_insumo->impresion = $request->impresion[$key];
+                    $detalle_insumo->ausencia_material_extranio = $request->ausencia_me[$key];
+                    $detalle_insumo->save();
+                }
             }
 
             DB::commit();
             return redirect()
                 ->route('produccion.operacion.index')
-                ->with('success', 'Orden creada correctamente');
+                ->with('success', 'Guardado correctamente');
 
         } catch (\Exception $ex) {
 
@@ -257,8 +260,6 @@ class OperacionController extends Controller
             ->get();
 
 
-
-
         return view('produccion.control_trazabilidad.edit', [
             'control' => $control,
             'actividades' => $actividades
@@ -286,7 +287,7 @@ class OperacionController extends Controller
             $response = [
                 'status' => 1,
                 'message' => 'Finalizado correctamente',
-                'data'=>$now->format('h:i:s')
+                'data' => $now->format('h:i:s')
 
             ];
 
@@ -351,7 +352,9 @@ class OperacionController extends Controller
             $no_orden_produccion = explode(',', $request->no_orden_produccion);
             $id_producto = $request->id_producto;
             $cantidad_reservada = $reserva == null ? 0 : floatval($reserva->cantidad);
+
             $cantidad_disponible = floatval($proximo_lote->data->siguiente_lote->cantidad - $cantidad_reservada);
+
             $es_cantidad_suficiente = $cantidad_disponible >= $cantidad_solicitada;
             if ($es_cantidad_suficiente) {
 
@@ -472,7 +475,10 @@ class OperacionController extends Controller
             ->get()->pluck('id')->toArray();;
 
         $reservas = ReservaPicking::whereIn('id_requisicion', $requisicion)
+            ->select('reserva_lotes.*', DB::raw('sum(cantidad) as cantidad'))
             ->where('id_producto', $id_producto)
+            ->groupBy('id_producto')
+            ->groupBy('lote')
             ->orderBy('fecha_vencimiento', 'asc')
             ->get();
 
