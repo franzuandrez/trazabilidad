@@ -13,7 +13,7 @@
 
         }
         .title{
-            font-size: 25px;
+            font-size: 15px;
         }
         table{
             border-collapse: collapse;
@@ -32,6 +32,10 @@
             border-collapse: collapse;
             background-color: #fff;
             font-weight: bold;
+        }
+        .empresa {
+            font-size: 20px;
+            width: 150px;
         }
     </style>
 
