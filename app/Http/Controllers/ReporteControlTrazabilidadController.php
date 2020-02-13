@@ -29,7 +29,11 @@ class ReporteControlTrazabilidadController extends Controller
                 'control_trazabilidad.id_control',
                 'control_trazabilidad.id_turno',
                 'control_trazabilidad.lote',
-                'control_trazabilidad.no_orden_produccion',
+                DB::raw(
+                    "(select GROUP_CONCAT(no_orden_produccion)as no_orden_produccion 
+                    from  control_trazabilidad_orden_produccion where id_control = control_trazabilidad.id_control )
+                    as no_orden_produccion "
+                ),
                 'productos.descripcion as id_producto', 'users.nombre as id_usuario'
             )
             ->first();
@@ -68,7 +72,7 @@ class ReporteControlTrazabilidadController extends Controller
                     'OPERARIOS INVOLUCRADOS' => $control_trazabilidad
                         ->asistencias()
                         ->select(
-                            DB::raw('concat(colaboradores.nombre,colaboradores.apellido) as id_colaborador'),
+                            DB::raw('concat(colaboradores.nombre,"  ",colaboradores.apellido) as id_colaborador'),
                             'actividades.descripcion as id_actividad'
                         )
                         ->join('colaboradores', 'colaboradores.id_colaborador', '=', 'actividades_colaboradores.id_colaborador')
