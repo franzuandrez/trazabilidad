@@ -28,7 +28,8 @@
 
             @component('componentes.btn-create',['url'=>url('control/chaomin/create')])
             @endcomponent
-
+            @component('componentes.btn-edit',['url'=>'javascript:editar()'])
+            @endcomponent
             @component('componentes.btn-ver',['url'=>'javascript:ver()'])
             @endcomponent
         </div>

@@ -74,8 +74,6 @@ class ChaomeanController extends Controller
     {
 
 
-
-
         try {
             $id_chaomin = $request->get('id_chaomin');
             $linea_chaomin = LineaChaomin::where('id_chaomin', $id_chaomin)
@@ -84,7 +82,7 @@ class ChaomeanController extends Controller
             $linea_chaomin->estado = 1;
             $linea_chaomin->save();
 
-            RealTimeService::guardar($linea_chaomin, $request->except(['no_orden_produccion', '_token','id_chaomin','producto']));
+            RealTimeService::guardar($linea_chaomin, $request->except(['no_orden_produccion', '_token', 'id_chaomin', 'producto']));
             return redirect()->route('chaomin.index')
                 ->with('success', 'Linea  Finalizada correctamente');
         } catch (\Exception $ex) {
@@ -120,6 +118,14 @@ class ChaomeanController extends Controller
     public function edit($id)
     {
         //
+
+        $chaomin = LineaChaomin::with('producto')
+        ->findOrFail($id);
+
+
+        return view('control.chaomin.edit', [
+            'chaomin' => $chaomin
+        ]);
     }
 
     /**
@@ -207,7 +213,7 @@ class ChaomeanController extends Controller
             ->where('no_orden_produccion', $no_orden_produccion)
             ->first();
 
-        $chaomin = LineaChaomin::where('id_control', $control->id_control)
+     $chaomin = LineaChaomin::where('id_control', $control->id_control)
             ->first();
 
         if ($chaomin == null) {
