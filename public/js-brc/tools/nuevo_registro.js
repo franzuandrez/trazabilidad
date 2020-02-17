@@ -47,7 +47,7 @@ function registros() {
 
 
     return Array.prototype.slice.call(document.getElementsByClassName('valor'))
-        .filter(e => e.value != "")
+        .filter(e => e.value !== "" && e.tagName !== "DIV" && e.name !== "")
         .map(e =>
             formato_registro(e.name, e.value)
         )
