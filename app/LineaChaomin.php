@@ -19,6 +19,7 @@ class LineaChaomin extends Model
     protected $fillable = [
         'no_orden_produccion',
         'id_presentacion',
+        'id_producto',
         'id_turno',
         'cant_solucion_carga',
         'cant_carga_salida',
@@ -104,5 +105,10 @@ class LineaChaomin extends Model
     {
 
         return $this->belongsTo(Presentacion::class, 'id_presentacion', 'id_presentacion');
+    }
+
+    public function producto()
+    {
+        return $this->belongsTo(Producto::class, 'id_producto', 'id_producto');
     }
 }
