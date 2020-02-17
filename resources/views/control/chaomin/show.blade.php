@@ -44,9 +44,10 @@
 
                 @foreach( $presentaciones as $presentacion )
                     @if($chaomin->id_presentacion == $presentacion->id_presentacion)
-                        <option value="{{$presentacion->id_presentacion}}" selected>{{$presentacion->descripcion}}</option>
+                        <option value="{{$presentacion->id_presentacion}}"
+                                selected>{{$presentacion->descripcion}}</option>
                     @else
-                        <option value="{{$presentacion->id_presentacion}}" >{{$presentacion->descripcion}}</option>
+                        <option value="{{$presentacion->id_presentacion}}">{{$presentacion->descripcion}}</option>
                     @endif
                 @endforeach
             </select>
@@ -704,38 +705,48 @@
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <label for="label_generico">EXTRACTOR ACTIVO</label>
+            <label for="label_generico"> </label>
+        </div>
+    </div>
+
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <div class="form-group">
+            <label for="label_generico">EXTRACTOR ACTIVO (SI)</label>
         </div>
     </div>
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
-            <label for="dato_inicial">DATO INICIAL</label>
-            <!--<select name="id_localidad" class="form-control selectpicker" id="localidades" >-->
-            <select class="form-control selectpicker" data-live-search="true" id="extractor_activo_inicial"
-                    disabled
+            <label for="dato_inicial">VALOR</label>
+
+            <select class="form-control selectpicker valor"
+                    id="extractor_activo_inicial"
                     name="extractor_activo_inicial"
-                    onchange="ValidacionCombox(this,  document.getElementById('extractor_activo_final'), document.getElementById('extractor_activo_observacion') , document.getElementById('ventilacion_inicial') )">
-                <option value="" selected>{{ $chaomin->extractor_activo_inicial}}</option>
-                <option value="SI">SI</option>
-                <option value="NO">NO</option>
+                    disabled
+                    onchange="document.getElementById('extractor_activo_observaciones').focus()">
+                <option value="1" {{$chaomin->extractor_activo_inicial==0?'':'selected'}}>SI</option>
+                <option value="0" {{$chaomin->extractor_activo_inicial==1?'':'selected'}}>NO</option>
             </select>
+
+
         </div>
     </div>
 
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="extractor_activo_observaciones">OBSERVACIONES</label>
-            <input type="text" name="extractor_activo_observacion" id="extractor_activo_observacion" readonly
-                   readonly
-                   value="{{$chaomin->extractor_activo_observacion}}"
-                   class="form-control">
+            <input type="text" name="extractor_activo_observaciones"
+                   disabled
+                   onkeydown="if(event.keyCode==9||event.keyCode==13)
+                       next(this,'ventilacion_inicial','extractor_activo_observaciones')"
+                   id="extractor_activo_observaciones"
+                   {{$chaomin->extractor_activo_observaciones==null?'':'disabled'}}
+                   value="{{$chaomin->extractor_activo_observaciones}}"
+                   class="form-control valor">
         </div>
     </div>
 
 
 
-
-    <!---***********************-->
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
             <label for="label_generico"> </label>
@@ -749,51 +760,35 @@
     </div>
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
-            <label for="dato_inicial">DATO INICIAL</label>
-            <select class="form-control selectpicker" data-live-search="true" id="ventilacion_inicial"
+            <label for="dato_inicial">VALOR</label>
+            <select class="form-control selectpicker valor"
+                    id="ventilacion_inicial"
                     name="ventilacion_inicial"
                     disabled
-                    onchange="ValidacionCombox(this,  document.getElementById('ventilacion_final'), document.getElementById('ventilacion_observacion') , document.getElementById('verificacion_codificacion_lote') )">
-                <!--<option value="" selected>SELECCIONE UNA OPCION</option>-->
-                <option value="" selected>{{ $chaomin->ventilacion_inicial}}</option>
-                <option value="SI">SI</option>
-                <option value="NO">NO</option>
+                    onchange="document.getElementById('ventilacion_observacion').focus()">
+                <option value="1" {{$chaomin->ventilacion_inicial==0?'':'selected'}}>SI</option>
+                <option value="0" {{$chaomin->ventilacion_inicial==1?'':'selected'}}>NO</option>
             </select>
         </div>
     </div>
 
-
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="extractor_activo_observaciones">OBSERVACIONES</label>
-            <input type="text" name="ventilacion_observacion" id="ventilacion_observacion" readonly
-                   readonly
+            <input type="text" name="ventilacion_observacion"
+                   onkeydown="if(event.keyCode==9||event.keyCode==13)
+                       next(this,'verificacion_codificacion_lote','ventilacion_observacion')"
+                   id="ventilacion_observacion"
+                   {{$chaomin->ventilacion_observacion==null?'':'disabled'}}
                    value="{{$chaomin->ventilacion_observacion}}"
-                   class="form-control">
+                   class="form-control valor">
         </div>
     </div>
 
 
-    <!--
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="ventilacion_ideal">VENTILACIÓN IDEAL (ACORDE A PRODUCTO) SI</label>
-            <input type="text" name="ventilacion_ideal" value="{{old('ventilacion_ideal')}}"
-                   class="form-control">
-        </div>
-    </div>
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="ventilacion_ideal_observaciones">OBSERVACIONES</label>
-            <input type="text" name="ventilacion_ideal_observaciones" value="{{old('ventilacion_ideal_observaciones')}}"
-                   class="form-control">
-        </div>
-    </div>
-    -->
 
 
 
-    <!---***********************-->
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
             <label for="label_generico"> </label>
@@ -809,65 +804,50 @@
         <div class="form-group">
             <label for="dato_inicial">LOTE: CODMMDDAATUR</label>
             <input type="text" name="verificacion_codificacion_lote" id="verificacion_codificacion_lote"
-                   readonly
+                   onkeydown="if(event.keyCode==9||event.keyCode==13)
+                       next(this,'verificacion_codificacion_lote','ventilacion_observacion')"
+                   {{$chaomin->verificacion_codificacion_lote==null?'':'disabled'}}
                    value="{{$chaomin->verificacion_codificacion_lote}}"
-                   class="form-control">
+                   class="form-control valor">
         </div>
     </div>
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="dato_final">VENCE: DD/MM/AAAA</label>
-            <input type="text" name="verificacion_codificacion_vence" id="verificacion_codificacion_vence" readonly
-                   readonly
-                   value="{{$chaomin->verificacion_codificacion_vence}}"
-                   class="form-control">
+            <div class="input-group date">
+                <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                </div>
+                <input type="text" name="verificacion_codificacion_vence" id="verificacion_codificacion_vence"
+                       {{$chaomin->verificacion_codificacion_vence==null?'':'disabled'}}
+                       value="{{$chaomin->verificacion_codificacion_vence}}"
+                       onkeydown="if(event.keyCode==9||event.keyCode==13)
+                       next(this,'verificacion_codificacion_obs','verificacion_codificacion_vence')"
+
+
+                       class="form-control valor form-control pull-right">
+            </div>
         </div>
     </div>
+
+
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="verificacion_codificacion_obs">OBSERVACIONES</label>
-            <input type="text" name="verificacion_codificacion_obs" id="verificacion_codificacion_obs" readonly
-                   readonly
+            <input type="text" name="verificacion_codificacion_obs" id="verificacion_codificacion_obs"
+                   onkeydown="if(event.keyCode==9||event.keyCode==13)
+                       next(this,'maquina_inicial_1','verificacion_codificacion_obs')"
+                   disabled
+                   {{$chaomin->verificacion_codificacion_obs==null?'':'disabled'}}
                    value="{{$chaomin->verificacion_codificacion_obs}}"
-                   class="form-control">
+                   class="form-control valor">
         </div>
     </div>
 
 
 
-    <!--
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="sello_1">SELLOS (CUALITATIVO) MAQ. #1</label>
-            <input type="text" name="sello_1" value="{{old('sello_1')}}"
-                   class="form-control">
-        </div>
-    </div>
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="sellor_1_observaciones">OBSERVACIONES</label>
-            <input type="text" name="sellor_1_observaciones" value="{{old('sellor_1_observaciones')}}"
-                   class="form-control">
-        </div>
-    </div>
 
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="sello_2">SELLOS (CUALITATIVO) MAQ. #2</label>
-            <input type="text" name="sello_2" value="{{old('sello_2')}}"
-                   class="form-control">
-        </div>
-    </div>
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="sellor_2_observaciones">OBSERVACIONES</label>
-            <input type="text" name="sellor_2_observaciones" value="{{old('sellor_2_observaciones')}}"
-                   class="form-control">
-        </div>
-    </div>
--->
 
-    <!---***********************-->
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
             <label for="label_generico"> </label>
@@ -876,37 +856,62 @@
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <label for="label_generico">SELLOS CUALITATIVO</label>
+            <label for="label_generico">SELLOS CUALITATIVO (MAQUINA #1)</label>
         </div>
     </div>
     <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
         <div class="form-group">
-            <label for="dato_final">MAQUINA</label>
-            <select class="form-control selectpicker" data-live-search="true" id="id_maquina" disabled="" name="id_maquina">
-                <option value="" selected>{{ $chaomin->id_maquina}}</option>
-                <option value="1">MAQ # 1</option>
-                <option value="2">MAQ # 2</option>
+            <label for="dato_final">VALOR</label>
+            <select class="form-control selectpicker valor" id="maquina_inicial_1"
+                    onchange="document.getElementById('sellos_observaciones_1').focus()"
+                    disabled
+                    name="maquina_inicial_1">
+                <option value="1" {{$chaomin->maquina_inicial_1==0?'':'selected'}} >SI</option>
+                <option value="0" {{$chaomin->maquina_inicial_1==1?'':'selected'}}>NO</option>
             </select>
         </div>
     </div>
+
     <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
         <div class="form-group">
-            <label for="dato_inicial">DATO INICIAL</label>
-            <input type="text" name="maquina_inicial" id="maquina_inicial"
-                   readonly
-                   value="{{$chaomin->maquina_inicial}}"
-                   class="form-control">
+            <label for="sellos_observaciones_1">OBSERVACIONES</label>
+            <input type="text" name="sellos_observaciones" id="sellos_observaciones"
+                   onkeydown="if(event.keyCode==9||event.keyCode==13)
+                       next(this,'maquina_inicial_2','sellos_observaciones_1')"
+                   {{$chaomin->sellos_observaciones==null?'':'disabled'}}
+                   value="{{$chaomin->sellos_observaciones}}"
+                   disabled
+                   class="form-control valor">
+        </div>
+    </div>
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <div class="form-group">
+            <label for="label_generico">SELLOS CUALITATIVO (MAQUINA #2)</label>
+        </div>
+    </div>
+    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+        <div class="form-group">
+            <label for="dato_final">VALOR</label>
+            <select class="form-control selectpicker valor"
+                    disabled
+                    onchange="document.getElementById('sellos_observaciones_2').focus()"
+                    id="maquina_inicial_2" name="maquina_inicial_2">
+                <option value="1" {{$chaomin->verificacion_codificacion_obs==0?'':'selected'}} >SI</option>
+                <option value="0" {{$chaomin->verificacion_codificacion_obs==1?'':'selected'}} >NO</option>
+            </select>
         </div>
     </div>
 
-
     <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
         <div class="form-group">
-            <label for="extractor_activo_observaciones">OBSERVACIONES</label>
-            <input type="text" name="sellos_observaciones" id="sellos_observaciones"
-                   readonly
-                   value="{{$chaomin->sellos_observaciones}}"
-                   class="form-control">
+            <label for="sellos_observaciones_2">OBSERVACIONES</label>
+            <input type="text" name="sellos_observaciones_2" id="sellos_observaciones_2"
+                   onkeydown="if(event.keyCode==9||event.keyCode==13)
+                       next(this,'observaciones_acciones','sellos_observaciones_2')"
+                   {{$chaomin->sellos_observaciones_2==null?'':'disabled'}}
+                   disabled
+                   value="{{$chaomin->sellos_observaciones_2}}"
+                   class="form-control valor">
         </div>
     </div>
 
@@ -919,12 +924,11 @@
     </div>
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <label for="observaciones">OBSERVACIONES/ACCIONES CORRECTIVAS</label>
-            <input type="text" name="observaciones_acciones" id="observaciones_acciones"
-                   readonly
+            <label for="observaciones_acciones">OBSERVACIONES/ACCIONES CORRECTIVAS</label>
+            <input type="text" name="observaciones_acciones"
+                   id="observaciones_acciones"
                    value="{{$chaomin->observaciones_acciones}}"
-
-                   class="form-control">
+                   class="form-control valor">
 
         </div>
     </div>
@@ -933,13 +937,11 @@
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <button class="btn btn-default" type="submit">
-                <span class=" fa fa-check"></span> GUARDAR
-            </button>
+
             <a href="{{url('control/chaomin')}}">
                 <button class="btn btn-default" type="button">
-                    <span class="fa fa-remove"></span>
-                    CANCELAR
+                    <span class="fa fa-backward"></span>
+                    REGRESAR
                 </button>
             </a>
 
