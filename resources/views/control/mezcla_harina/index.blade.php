@@ -21,6 +21,15 @@
                           'titulo'=>'CONTROL'])
                     @endcomponent
                 </th>
+                <th>
+                    @component('componentes.column-sort',['modulo'=>'control/chaomin',
+                         'search'=>$search,
+                          'sort'=>$sort,
+                          'sortField'=>$sortField,
+                          'field'=>'productos.descripcion',
+                          'titulo'=>'PRODUCTO'])
+                    @endcomponent
+                </th>
 
 
                 <th>
@@ -50,6 +59,9 @@
                         </td>
                         <td>
                             {{$linea->id_control}}
+                        </td>
+                        <td>
+                            {{$linea->producto}}
                         </td>
 
                         <td>

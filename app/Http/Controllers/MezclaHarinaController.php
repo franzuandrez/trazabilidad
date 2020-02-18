@@ -22,16 +22,23 @@ class MezclaHarinaController extends Controller
         $sortField = $request->get('field') == null ? 'no_orden' : $request->get('field');
 
 
-        $lineas = MezclaHarina_Enc::select('enc_mezclaharina.*', 'users.nombre as usuario')
+        $lineas = MezclaHarina_Enc::select(
+            'enc_mezclaharina.*',
+            DB::raw("date_format(fecha_hora,'%d/%m/%Y %h:%i:%s') as fecha_hora"),
+            'users.nombre as usuario',
+            'productos.descripcion as producto'
+        )
             ->leftJoin('users', 'users.id', '=', 'enc_mezclaharina.id_usuario')
+            ->join('control_trazabilidad', 'control_trazabilidad.id_control', '=', 'enc_mezclaharina.id_control')
+            ->join('productos', 'productos.id_producto', '=', 'control_trazabilidad.id_producto')
             ->where(function ($query) use ($search) {
                 $query->where('enc_mezclaharina.no_orden', 'LIKE', '%' . $search . '%')
                     ->orWhere('enc_mezclaharina.fecha_hora', 'LIKE', '%' . $search . '%')
+                    ->orWhere('productos.descripcion', 'LIKE', '%' . $search . '%')
                     ->orWhere('users.nombre', 'LIKE', '%' . $search . '%');
             })
             ->orderBy($sortField, $sort)
             ->paginate(20);
-
 
         if ($request->ajax()) {
 
