@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 @section('style')
     <link rel="stylesheet" href="{{asset('css/bootstrap-datepicker.css')}}">
+    <link rel="stylesheet" href="{{asset('css/loading.css')}}">
 @endsection
 
 @section('contenido')
@@ -91,8 +92,8 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="_solucion_inicial">VALOR</label>
-            <input id="solucion_inicial" type="text" name="solucion_inicial"
-
+            <input id="solucion_inicial" name="solucion_inicial"
+                   type="number" step="any"
                    required
                    class="form-control">
         </div>
@@ -121,8 +122,8 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="_solucion_inicial">VALOR</label>
-            <input id="ph_inicial" type="text" name="ph_inicial"
-
+            <input id="ph_inicial" name="ph_inicial"
+                   type="number" step="any"
                    required
                    class="form-control">
         </div>
@@ -132,7 +133,7 @@
         <label for="observacion">OBSERVACIONES</label>
         <div class="input-group">
             <input id="ph_observacion" type="text" name="ph_observacion"
-
+                   onkeydown="if(event.keyCode==13 ||event.keyCode==9)agregar_a_table()"
                    class="form-control">
             <div class="input-group-btn">
                 <button
@@ -156,7 +157,7 @@
 
 
 
-
+    @include('componentes.loading')
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
 
@@ -195,7 +196,7 @@
         <div class="form-group">
             <label for="observacion_correctiva">OBSERVACIONES Y/O ACCION CORRECTIVA</label>
             <input type="text" name="observacion"
-                  value="{{$mezcla_harina->observaciones}}"
+                   value="{{$mezcla_harina->observaciones}}"
                    id="observacion" value="{{old('observacion')}}"
                    class="form-control">
         </div>
@@ -380,7 +381,8 @@
         function limpiar() {
 
             const fields = detalle();
-            limpiar_formulario(fields)
+            limpiar_formulario(fields);
+            document.getElementById('hora_carga').focus();
 
         }
 
@@ -436,6 +438,7 @@
             }
             if (no_orden_valida) {
 
+                $('.loading').show();
                 const request = getRequest(fields);
                 const url = "{{url('control/mezcla_harina/insertar_detalle')}}";
                 const url_borrar = "'{{url('control/mezcla_harina/borrar_detalle')}}'";
@@ -443,9 +446,11 @@
                 if (response.status == 1) {
                     add_to_table(fields, response.id, 'detalles', url_borrar);
                     limpiar()
+                    document.getElementById('hora_carga').focus();
                 } else {
                     alert(response.message);
                 }
+                $('.loading').hide();
             } else {
                 alert("Orden de produccion no valida");
             }
