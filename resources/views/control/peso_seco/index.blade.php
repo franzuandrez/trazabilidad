@@ -21,6 +21,14 @@
                     @include('componentes.column-sort',['modulo'=>'recepcion/materia_prima',
                           'sort'=>$sort,
                           'sortField'=>$sortField,
+                          'field'=>'productos.descripcion',
+                          'titulo'=>'producto'])
+
+                </th>
+                <th>
+                    @include('componentes.column-sort',['modulo'=>'recepcion/materia_prima',
+                          'sort'=>$sort,
+                          'sortField'=>$sortField,
                           'field'=>'turno',
                           'titulo'=>'turno'])
 
@@ -52,6 +60,9 @@
                         </td>
                         <td>
                             {{$seco->id_control}}
+                        </td>
+                        <td>
+                            {{$seco->producto}}
                         </td>
                         <td>
                             Turno {{$seco->turno}}

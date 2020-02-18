@@ -9,7 +9,7 @@ use App\PesoSecoEnc;
 use App\Recepcion;
 use App\User;
 use Illuminate\Http\Request;
-
+use DB;
 class PesoSecoController extends Controller
 {
     /**
@@ -30,10 +30,18 @@ class PesoSecoController extends Controller
         $sortField = $request->get('field') == null ? 'fecha_ingreso' : $request->get('field');
 
 
-        $secos = PesoSecoEnc::select('peso_seco_enc.*', 'users.nombre as usuario')
+        $secos = PesoSecoEnc::select(
+            'peso_seco_enc.*',
+            'users.nombre as usuario',
+            'productos.descripcion as producto',
+            DB::raw("date_format(fecha_ingreso,'%d/%m/%Y %h:%i:%s') as fecha_ingreso")
+        )
             ->join('users', 'users.id', '=', 'peso_seco_enc.id_usuario')
+            ->join('control_trazabilidad', 'control_trazabilidad.id_control', '=', 'peso_seco_enc.id_control')
+            ->join('productos', 'productos.id_producto', '=', 'control_trazabilidad.id_producto')
             ->where(function ($query) use ($search) {
-                $query->where('peso_seco_enc.no_orden', 'LIKE', '%' . $search . '%')
+                $query->where('productos.descripcion', 'LIKE', '%' . $search . '%')
+                    ->orWhere('peso_seco_enc.id_control', 'LIKE', '%' . $search . '%')
                     ->orWhere('peso_seco_enc.fecha_ingreso', 'LIKE', '%' . $search . '%')
                     ->orWhere('peso_seco_enc.turno', 'LIKE', '%' . $search . '%')
                     ->orWhere('users.nombre', 'LIKE', '%' . $search . '%');
