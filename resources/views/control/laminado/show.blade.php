@@ -21,33 +21,39 @@
     @endcomponent
 
 
-    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+
+    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
-            <label for="turno">NO CONTROL</label>
-            <input type="text"
-                   id="no_orden_produccion"
-                   onkeydown="if(event.keyCode==13)iniciar_mezcla_harina()"
-                   readonly
-                   value="{{$laminado->id_control}}"
-                   name="no_orden_produccion" value="{{old('no_orden_produccion')}}"
-                   class="form-control">
-        </div>
-    </div>
-
-
-
-    <div class="col-lg-4 col-sm-4 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="turno">TURNO</label>
-            <input id="temperatura_inicial" type="text"
+            <label for="producto">PRODUCTO</label>
+            <input class="form-control selectpicker valor"
+                   disabled
                    required
-                   readonly
-                   name="temperatura_inicial"
-                   value="{{$laminado->turno}}"
+                   id="id_producto" name="id_producto"
+                   value="{{$laminado->control_trazabilidad->liberacion_linea->producto->descripcion}}">
+
+        </div>
+    </div>
+    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
+        <div class="form-group">
+            <label for="producto">PRESENTACION</label>
+            <input class="form-control selectpicker valor"
+                   disabled
+                   required
+                   id="id_producto" name="id_producto"
+                   value="{{$laminado->control_trazabilidad->liberacion_linea->presentacion->descripcion}}">
+
+        </div>
+    </div>
+    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
+        <div class="form-group">
+            <label for="lote">LOTE</label>
+            <input id="lote" type="text" name="lote"
+                   disabled
+
+                   value="{{$laminado->lote}}"
                    class="form-control">
         </div>
     </div>
-
 
 
 
@@ -60,8 +66,7 @@
 
                 <thead style="background-color: #01579B;  color: #fff;">
                 <th>HORA</th>
-                <th>PRODUCTO</th>
-                <th>LOTE</th>
+
                 <th>TEMPERATURA</th>
                 <th>OBSERVACIONES</th>
                 <th>ESPESOR</th>
@@ -71,8 +76,7 @@
                 @foreach($laminado->detalle as $detalle)
                     <tr>
                         <td>{{$detalle->hora}}</td>
-                        <td>{{$detalle->producto->descripcion}}</td>
-                        <td>{{$detalle->lote_producto}}</td>
+
                         <td>{{$detalle->temperatura_inicio}}</td>
                         <td>{{$detalle->temperatura_observaciones}}</td>
                         <td>{{$detalle->espesor_inicio}}</td>
