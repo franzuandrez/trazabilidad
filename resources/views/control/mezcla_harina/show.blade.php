@@ -22,22 +22,49 @@
 
 
 
-    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
-            <label for="turno">NO CONTROL</label>
-            <input type="text"
-                   id="no_orden_produccion"
-                   onkeydown="if(event.keyCode==13)iniciar_mezcla_harina()"
-                   readonly
-                   value="{{$mezcla_harina->id_control}}"
-                   name="no_orden_produccion" value="{{old('no_orden_produccion')}}"
+            <label for="producto">PRODUCTO</label>
+            <input class="form-control selectpicker valor"
+                   disabled
+                   required
+                   id="id_producto" name="id_producto"
+                   value="{{$mezcla_harina->control_trazabilidad->liberacion_linea->producto->descripcion}}">
+
+        </div>
+    </div>
+    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
+        <div class="form-group">
+            <label for="producto">PRESENTACION</label>
+            <input class="form-control selectpicker valor"
+                   disabled
+                   required
+                   id="id_producto" name="id_producto"
+                   value="{{$mezcla_harina->control_trazabilidad->liberacion_linea->presentacion->descripcion}}">
+
+        </div>
+    </div>
+    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
+        <div class="form-group">
+            <label for="lote">LOTE</label>
+            <input id="lote" type="text" name="lote"
+                   disabled
+
+                   value="{{$mezcla_harina->lote}}"
                    class="form-control">
         </div>
     </div>
 
 
-
-
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <div class="form-group">
+            <label for="observacion_correctiva">OBSERVACIONES Y/O ACCION CORRECTIVA</label>
+            <input type="text" name="observacion" id="observacion"
+                   readonly
+                   value="{{$mezcla_harina->observaciones}}"
+                   class="form-control">
+        </div>
+    </div>
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
 
@@ -45,8 +72,7 @@
 
             <thead style="background-color: #01579B;  color: #fff;">
             <tr>
-                <th>PRODUCTO</th>
-                <th>LOTE</th>
+
                 <th>HORA CARGA</th>
                 <th>HORA DESCARGA</th>
                 <th>SOLUCION INICAL</th>
@@ -58,8 +84,6 @@
             <tbody>
             @foreach($mezcla_harina->detalle as $detalle)
                 <tr>
-                    <td>{{$detalle->producto->descripcion}}</td>
-                    <td>{{$detalle->lote}}</td>
                     <td>{{$detalle->hora_carga}}</td>
                     <td>{{$detalle->hora_descarga}}</td>
                     <td>{{$detalle->solucion_inicial}}</td>
@@ -72,15 +96,7 @@
             </tbody>
         </table>
     </div>
-    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-        <div class="form-group">
-            <label for="observacion_correctiva">OBSERVACIONES Y/O ACCION CORRECTIVA</label>
-            <input type="text" name="observacion" id="observacion"
-                   readonly
-                   value="{{$mezcla_harina->observaciones}}"
-                   class="form-control">
-        </div>
-    </div>
+
 
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
