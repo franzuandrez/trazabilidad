@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\tools\Reportes;
 use App\LineaChaomin;
+use App\MezclaHarina_Det;
+use App\MezclaHarina_Enc;
 use Carbon\Carbon;
+use DB;
 
 class ReporteLineaChaomein extends Controller
 {
@@ -82,4 +85,63 @@ class ReporteLineaChaomein extends Controller
         return $pdf->stream($reporte_encabezado->getTitle());
     }
 
+
+    public function reporte_mezcla_harina($id)
+    {
+
+
+        $reporte_encabezado = new Reportes();
+        $mezcla_harina_enc = MezclaHarina_Enc::where('enc_mezclaharina.id_Enc_mezclaharina', $id)
+            ->select(
+                'productos.descripcion as PRODUCTO',
+                'presentaciones.descripcion as PRESENTACION',
+                'enc_mezclaharina.lote as LOTE',
+                DB::raw("date_format(enc_mezclaharina.fecha_hora,'%d/%m/%Y %h:%i:%s') as FECHA"),
+                'users.nombre as RESPONSABLE'
+            )
+            ->join('control_trazabilidad', 'control_trazabilidad.id_control', '=', 'enc_mezclaharina.id_control')
+            ->join('users', 'users.id', '=', 'enc_mezclaharina.id_usuario')
+            ->join('productos', 'productos.id_producto', '=', 'control_trazabilidad.id_producto')
+            ->join('chaomin', 'chaomin.id_control', '=', 'control_trazabilidad.id_control')
+            ->join('presentaciones', 'presentaciones.id_presentacion', '=', 'chaomin.id_presentacion')
+            ->firstOrFail();
+
+        $reporte_encabezado->setTitle('CONTROL DE MEZCLA DE HARINA Y SOLUCION DE CHAO MEIN')
+            ->setCreatedAt(Carbon::now())
+            ->setSubtitle('CONTROL DE MEZCLA DE HARINA Y SOLUCION DE CHAO MEIN')
+            ->setExcept(['id_producto', 'lote', 'id_det_mezclaharina', 'id_Enc_mezclaharina']);
+
+
+        $mezcla_harina_det = MezclaHarina_Det::where('id_Enc_mezclaharina', $id)
+            ->select('det_mezclaharina.*', 'users.nombre as id_usuario')
+            ->join('users', 'users.id', '=', 'det_mezclaharina.id_usuario')
+            ->get();
+
+
+        $reporte_detalle = $reporte_encabezado->mapers(
+            [
+                'headers' =>
+                    [
+                        'MEZCLA HARINA' => $mezcla_harina_enc,
+
+                    ],
+                'details' => [
+                    'LAMINADORA CONTINUA' => $mezcla_harina_det
+                ]
+            ]
+        );
+
+        $reporte_encabezado->setHeader($reporte_detalle['headers']->first());
+        $view = \View::make('reportes.chaomein.mezcla_harina',
+            [
+                'reporte_encabezado' => $reporte_encabezado,
+                'reporte_detalle' => $reporte_detalle
+            ]
+        )->render();
+
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($view);
+        $pdf->setPaper('A4', 'vertical');
+        return $pdf->stream($reporte_encabezado->getTitle());
+    }
 }

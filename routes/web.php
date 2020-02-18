@@ -299,6 +299,7 @@ Route::post('control/mezcla_harina/insertar_detalle', 'MezclaHarinaController@in
 Route::post('control/mezcla_harina/borrar_detalle', 'MezclaHarinaController@borrar_detalle')
     ->name('mezcla_harina.borrar_detalle');
 Route::get('control/mezcla_harina/{id}/edit', 'MezclaHarinaController@edit')->name('mezcla_harina.edit');
+Route::get('control/mezcla_harina/reporte/{id}', 'ReporteLineaChaomein@reporte_mezcla_harina')->name('reporte_mezcla_harina');
 Route::patch('control/mezcla_harina/{id}', 'MezclaHarinaController@update')->name('mezcla_harina.update');
 Route::get('control/mezcla_harina/{id}', 'MezclaHarinaController@show')->name('mezcla_harina.show');
 Route::post('control/mezcla_harina/{id}', 'MezclaHarinaController@destroy')->name('mezcla_harina.destroy');
