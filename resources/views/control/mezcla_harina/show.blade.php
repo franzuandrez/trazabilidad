@@ -88,7 +88,7 @@
 
             <a href="{{url('control/mezcla_harina')}}">
                 <button class="btn btn-default" type="button">
-                    <span class="fa fa-remove"></span>
+                    <span class="fa fa-backward"></span>
                     REGRESAR
                 </button>
             </a>
