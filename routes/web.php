@@ -280,6 +280,7 @@ Route::post('control/chaomin/iniciar', 'ChaomeanController@iniciar_linea_chaomei
 Route::post('control/chaomin/nuevo_registro', 'ChaomeanController@nuevo_registro')->name('chaomin.nuevo_registro');
 Route::post('control/chaomin/create', 'ChaomeanController@store')->name('chaomin.store');
 Route::get('control/chaomin/{id}/edit', 'ChaomeanController@edit')->name('chaomin.edit');
+Route::get('control/chaomin/reporte/{id}', 'ReporteLineaChaomein@reporte_linea_chaomein')->name('chaomin.reporte');
 Route::patch('control/chaomin/{id}', 'ChaomeanController@update')->name('chaomin.update');
 Route::get('control/chaomin/{id}', 'ChaomeanController@show')->name('chaomin.show');
 

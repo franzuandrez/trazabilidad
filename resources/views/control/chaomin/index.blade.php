@@ -22,12 +22,21 @@
                     @endcomponent
                 </th>
                 <th>
-                    @component('componentes.column-sort',['modulo'=>'registro/sectores',
+                    @component('componentes.column-sort',['modulo'=>'control/chaomin',
                     'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
-                          'field'=>'id_turno',
-                          'titulo'=>'TURNO'])
+                          'field'=>'producto',
+                          'titulo'=>'producto'])
+                    @endcomponent
+                </th>
+                <th>
+                    @component('componentes.column-sort',['modulo'=>'control/chaomin',
+                    'search'=>$search,
+                          'sort'=>$sort,
+                          'sortField'=>$sortField,
+                          'field'=>'verificacion_codificacion_lote',
+                          'titulo'=>'LOTE'])
                     @endcomponent
                 </th>
                 <th>
@@ -37,6 +46,15 @@
                           'sortField'=>$sortField,
                           'field'=>'id_presentacion',
                           'titulo'=>'PRESENTACION'])
+                    @endcomponent
+                </th>
+                <th>
+                    @component('componentes.column-sort',['modulo'=>'registro/sectores',
+                    'search'=>$search,
+                          'sort'=>$sort,
+                          'sortField'=>$sortField,
+                          'field'=>'id_turno',
+                          'titulo'=>'TURNO'])
                     @endcomponent
                 </th>
                 <th>
@@ -77,6 +95,16 @@
                         <td>
                             {{$linea->id_control}}
                         </td>
+
+                        <td>
+                            {{$linea->producto}}
+                        </td>
+                        <td>
+                            {{$linea->verificacion_codificacion_lote}}
+                        </td>
+                        <td>
+                            {{$linea->presentacion}}
+                        </td>
                         <td>
                             @if($linea->id_turno == 1)
                                 TURNO 1
@@ -86,9 +114,6 @@
 
                         </td>
                         <td>
-                            {{$linea->presentacion}}
-                        </td>
-                        <td>
                             {{$linea->fecha->format('d/m/Y H:i:s')}}
                         </td>
                         <td>
@@ -96,9 +121,9 @@
                         </td>
                         <td>
                             @if($linea->estado == 1)
-                                <span  class="label label-success">  Liberada</span>
+                                <span class="label label-success">  Liberada</span>
                             @else
-                                <span  class="label label-warning"> En proceso</span>
+                                <span class="label label-warning"> En proceso</span>
                             @endif
 
                         </td>

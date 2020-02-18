@@ -32,6 +32,10 @@
             @endcomponent
             @component('componentes.btn-ver',['url'=>'javascript:ver()'])
             @endcomponent
+            @can('generar_reporte')
+                @component('componentes.btn-reporte',['url'=>'javascript:reporte("chaomin/reporte")'])
+                @endcomponent
+            @endcan
         </div>
     </div>
 

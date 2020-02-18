@@ -36,3 +36,13 @@ function editar() {
         window.location.href = "chaomin" + "/" + id_chaomin + "/edit";
     }
 }
+
+function reporte(url) {
+    let id_chaomin = getChaominSelected();
+
+    if (id_chaomin == null) {
+        $('#errorToEdit').modal();
+    } else {
+        window.location.href = url + "/" + id_chaomin;
+    }
+}

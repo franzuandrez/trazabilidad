@@ -25,15 +25,22 @@ class ChaomeanController extends Controller
         //
         $search = $request->get('search') == null ? '' : $request->get('search');
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
-        $sortField = $request->get('field') == null ? 'no_orden_produccion' : $request->get('field');
+        $sortField = $request->get('field') == null ? 'id_control' : $request->get('field');
 
-
-        $lineas = LineaChaomin::select('chaomin.*', 'presentaciones.descripcion as presentacion', 'users.nombre as responsable')
+        $lineas = LineaChaomin::select(
+            'chaomin.*',
+            'presentaciones.descripcion as presentacion',
+            'productos.descripcion as producto',
+            'users.nombre as responsable'
+        )
             ->leftJoin('presentaciones', 'presentaciones.id_presentacion', '=', 'chaomin.id_presentacion')
+            ->leftJoin('productos', 'productos.id_producto', '=', 'chaomin.id_producto')
             ->join('users', 'users.id', '=', 'chaomin.responsable')
             ->where(function ($query) use ($search) {
-                $query->where('chaomin.no_orden_produccion', 'LIKE', '%' . $search . '%')
+                $query->where('chaomin.id_control', 'LIKE', '%' . $search . '%')
                     ->orWhere('chaomin.id_turno', 'LIKE', '%' . $search . '%')
+                    ->orWhere('chaomin.verificacion_codificacion_lote', 'LIKE', '%' . $search . '%')
+                    ->orWhere('productos.descripcion', 'LIKE', '%' . $search . '%')
                     ->orWhere('presentaciones.descripcion', 'LIKE', '%' . $search . '%')
                     ->orWhere('users.nombre', 'LIKE', '%' . $search . '%')
                     ->orWhere('chaomin.id_turno', 'LIKE', '%' . $search . '%');
@@ -79,7 +86,12 @@ class ChaomeanController extends Controller
             $linea_chaomin = LineaChaomin::where('id_chaomin', $id_chaomin)
                 ->firstOrFail();
             $linea_chaomin->observaciones_acciones = $request->observaciones_acciones;
-            $linea_chaomin->estado = 1;
+            $finalizo_liberacion = $request->get('verificacion_codificacion_lote') !== null
+                &&
+                $request->get('verificacion_codificacion_lote') !== "";
+            if ($finalizo_liberacion) {
+                $linea_chaomin->estado = 1;
+            }
             $linea_chaomin->save();
 
             RealTimeService::guardar($linea_chaomin, $request->except(['no_orden_produccion', '_token', 'id_chaomin', 'producto']));
@@ -120,7 +132,7 @@ class ChaomeanController extends Controller
         //
 
         $chaomin = LineaChaomin::with('producto')
-        ->findOrFail($id);
+            ->findOrFail($id);
 
 
         return view('control.chaomin.edit', [
@@ -213,7 +225,7 @@ class ChaomeanController extends Controller
             ->where('no_orden_produccion', $no_orden_produccion)
             ->first();
 
-     $chaomin = LineaChaomin::where('id_control', $control->id_control)
+        $chaomin = LineaChaomin::where('id_control', $control->id_control)
             ->first();
 
         if ($chaomin == null) {
