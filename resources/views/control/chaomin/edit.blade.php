@@ -874,8 +874,8 @@
             <select class="form-control selectpicker valor"
                     onchange="document.getElementById('sellos_observaciones_2').focus()"
                     id="maquina_inicial_2" name="maquina_inicial_2">
-                <option value="1" {{$chaomin->verificacion_codificacion_obs==0?'':'selected'}} >SI</option>
-                <option value="0" {{$chaomin->verificacion_codificacion_obs==1?'':'selected'}} >NO</option>
+                <option value="1" {{$chaomin->maquina_inicial_2==0?'':'selected'}} >SI</option>
+                <option value="0" {{$chaomin->maquina_inicial_2==1?'':'selected'}} >NO</option>
             </select>
         </div>
     </div>
