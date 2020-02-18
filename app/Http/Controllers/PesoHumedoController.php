@@ -7,8 +7,9 @@ use App\Http\tools\RealTimeService;
 use App\PesoHumedoDet;
 use App\PesoHumedoEnc;
 use App\User;
-use Illuminate\Http\Request;
 use DB;
+use Illuminate\Http\Request;
+
 class PesoHumedoController extends Controller
 {
     /**
@@ -125,6 +126,16 @@ class PesoHumedoController extends Controller
     public function edit($id)
     {
         //
+
+        $peso_humedo = PesoHumedoEnc::with('control_trazabilidad')
+            ->with('control_trazabilidad.producto')
+            ->with('control_trazabilidad.liberacion_linea')
+            ->findOrFail($id);
+
+
+        return view('control.peso_humedo.edit', [
+            'peso_humedo' => $peso_humedo
+        ]);
     }
 
     /**

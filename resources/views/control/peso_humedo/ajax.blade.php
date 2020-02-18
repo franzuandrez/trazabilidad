@@ -26,6 +26,8 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             @component('componentes.btn-create',['url'=>url('control/peso_humedo/create')])
             @endcomponent
+            @component('componentes.btn-edit',['url'=>'javascript:editar("peso_humedo")'])
+            @endcomponent
             @component('componentes.btn-ver',['url'=>'javascript:ver("peso_humedo")'])
             @endcomponent
         </div>

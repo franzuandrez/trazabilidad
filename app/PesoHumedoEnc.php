@@ -22,13 +22,20 @@ class PesoHumedoEnc extends Model
         'no_orden',
 
     ];
-    protected $with =[
+    protected $with = [
         'detalle'
     ];
 
-    public function detalle(){
+    public function detalle()
+    {
 
-        return $this->hasMany(PesoHumedoDet::class,'id_peso_humedo_enc','id_peso_humedo');
+        return $this->hasMany(PesoHumedoDet::class, 'id_peso_humedo_enc', 'id_peso_humedo');
+    }
+
+    public function control_trazabilidad()
+    {
+
+        return $this->belongsTo(Operacion::class, 'id_control', 'id_control');
     }
 
 }
