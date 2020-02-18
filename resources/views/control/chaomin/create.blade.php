@@ -1003,7 +1003,7 @@
                    onkeydown="if(event.keyCode==9||event.keyCode==13)
                        next(this,'maquina_inicial_2','sellos_observaciones_1')"
                    value="{{old('sellos_observaciones')}}"
-                   class="form-control">
+                   class="form-control valor">
         </div>
     </div>
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
