@@ -109,6 +109,16 @@ class LaminadoController extends Controller
     {
         //
 
+        $laminado = Laminado_Enc::with('control_trazabilidad')
+            ->with('control_trazabilidad.liberacion_linea')
+            ->findOrFail($id);
+
+
+
+        return view('control.laminado.edit',
+            [
+                'laminado' => $laminado
+            ]);
 
     }
 
