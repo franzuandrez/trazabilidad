@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\DetalleLotes;
 use App\Http\tools\OrdenProduccion;
 use App\Http\tools\RealTimeService;
 use App\MezclaHarina_Det;
@@ -83,7 +82,6 @@ class MezclaHarinaController extends Controller
     }
 
 
-
     /**
      * Display the specified resource.
      *
@@ -108,6 +106,15 @@ class MezclaHarinaController extends Controller
     public function edit($id)
     {
         //
+        $mezcla_harina = MezclaHarina_Enc::with('control_trazabilidad')
+            ->with('control_trazabilidad.producto')
+            ->with('control_trazabilidad.liberacion_linea')
+            ->findOrFail($id);
+
+
+        return view('control.mezcla_harina.edit', [
+            'mezcla_harina' => $mezcla_harina
+        ]);
     }
 
     /**
