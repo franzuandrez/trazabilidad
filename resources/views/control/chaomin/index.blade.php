@@ -71,7 +71,7 @@
                     'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
-                          'field'=>'responsable',
+                          'field'=>'users.nombre',
                           'titulo'=>'RESPONSABLE'])
                     @endcomponent
                 </th>
