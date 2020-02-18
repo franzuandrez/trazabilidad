@@ -82,58 +82,7 @@ class MezclaHarinaController extends Controller
 
     }
 
-    private function GuardarDetalle($request, $id_enc_MezclaHarina)
-    {
 
-
-        //$detalleMezclaHarina = $request->get('id_producto');
-        $detalleMezclaHarina = $request->get('id_producto');
-
-        if (is_iterable($detalleMezclaHarina)) {
-
-
-            foreach ($detalleMezclaHarina as $key => $value) {
-                $detalleLote = MezclaHarina_Det::create([
-                    'id_producto' => $value,
-                    'codigo_producto' => $request->get('codigo_producto')[$key],
-                    'lote' => $request->get('lote')[$key],
-                    'hora_carga' => $request->get('hora_carga')[$key],
-                    'hora_descarga' => $request->get('hora_descarga')[$key],
-                    'solucion_inicial' => $request->get('solucion_inicial')[$key],
-                    'solucion_final' => $request->get('solucion_final')[$key],
-                    'solucion_observacion' => $request->get('solucion_observacion')[$key],
-                    'ph_inicial' => $request->get('ph_inicial')[$key],
-                    'ph_final' => $request->get('ph_final')[$key],
-                    'ph_observacion' => $request->get('ph_observacion')[$key],
-                    'id_enc_mezclaharina' => $id_enc_MezclaHarina
-                ]);
-            }
-        }
-
-    }
-
-    private function saveDetalleLotes($request, $id_recepcion)
-    {
-
-
-        $productos = $request->get('descripcion_producto');
-
-        if (is_iterable($productos)) {
-
-
-            foreach ($productos as $key => $value) {
-
-                $detalleLote = DetalleLotes::create([
-                    'id_producto' => $value,
-                    'cantidad' => $request->get('cantidad')[$key],
-                    'no_lote' => $request->get('no_lote')[$key],
-                    'fecha_vencimiento' => $request->get('fecha_vencimiento')[$key],
-                    'id_recepcion_enc' => $id_recepcion
-                ]);
-            }
-        }
-
-    }
 
     /**
      * Display the specified resource.
