@@ -315,6 +315,7 @@ Route::post('control/laminado/create', 'LaminadoController@store')->name('lamina
 Route::get('control/laminado/{id}/edit', 'LaminadoController@edit')->name('laminado.edit');
 Route::patch('control/laminado/{id}', 'LaminadoController@update')->name('laminado.update');
 Route::get('control/laminado/{id}', 'LaminadoController@show')->name('laminado.show');
+Route::get('control/laminado/reporte/{id}', 'ReporteLineaChaomein@reporte_laminado')->name('laminado.show');
 Route::post('control/laminado/{id}', 'LaminadoController@destroy')->name('laminado.destroy');
 
 Route::get('control/peso_humedo', 'PesoHumedoController@index')->name('peso_humedo.index');
