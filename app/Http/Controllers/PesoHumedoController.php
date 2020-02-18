@@ -6,10 +6,9 @@ use App\Http\tools\OrdenProduccion;
 use App\Http\tools\RealTimeService;
 use App\PesoHumedoDet;
 use App\PesoHumedoEnc;
-use App\Recepcion;
 use App\User;
 use Illuminate\Http\Request;
-
+use DB;
 class PesoHumedoController extends Controller
 {
     /**
@@ -30,8 +29,15 @@ class PesoHumedoController extends Controller
         $sortField = $request->get('field') == null ? 'fecha_ingreso' : $request->get('field');
 
 
-        $humedos = PesoHumedoEnc::select('peso_humedo_enc.*', 'users.nombre as usuario')
+        $humedos = PesoHumedoEnc::select(
+            'peso_humedo_enc.*',
+            'users.nombre as usuario',
+            'productos.descripcion as producto',
+            DB::raw("date_format(fecha_ingreso,'%d/%m/%Y %h:%i:%s') as fecha_ingreso")
+        )
             ->join('users', 'users.id', '=', 'peso_humedo_enc.id_usuario')
+            ->join('control_trazabilidad', 'control_trazabilidad.id_control', '=', 'peso_humedo_enc.id_control')
+            ->join('productos', 'productos.id_producto', '=', 'control_trazabilidad.id_producto')
             ->where(function ($query) use ($search) {
                 $query->where('peso_humedo_enc.no_orden', 'LIKE', '%' . $search . '%')
                     ->orWhere('peso_humedo_enc.fecha_ingreso', 'LIKE', '%' . $search . '%')
@@ -204,6 +210,7 @@ class PesoHumedoController extends Controller
             ->json($response);
 
     }
+
     public function insertar_detalle(Request $request)
     {
 
