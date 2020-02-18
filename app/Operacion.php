@@ -61,4 +61,10 @@ class Operacion extends Model
 
         return $this->belongsToMany(Requisicion::class, 'control_trazabilidad_orden_produccion', 'id_control', 'id_requisicion');
     }
+
+    public function liberacion_linea()
+    {
+
+        return $this->hasOne(LineaChaomin::class, 'id_control', 'id_control');
+    }
 }
