@@ -329,6 +329,7 @@ Route::post('control/peso_humedo/borrar_detalle', 'PesoHumedoController@borrar_d
 Route::get('control/peso_humedo/{id}/edit', 'PesoHumedoController@edit')->name('peso_humedo.edit');
 Route::patch('control/peso_humedo/{id}', 'PesoHumedoController@update')->name('peso_humedo.update');
 Route::get('control/peso_humedo/{id}', 'PesoHumedoController@show')->name('peso_humedo.show');
+Route::get('control/peso_humedo/reporte/{id}', 'ReporteLineaChaomein@reporte_peso_humedo')->name('peso_humedo.reporte');
 Route::post('control/peso_humedo/{id}', 'PesoHumedoController@destroy')->name('peso_humedo.destroy');
 
 Route::get('control/peso_seco', 'PesoSecoController@index')->name('peso_seco.index');
