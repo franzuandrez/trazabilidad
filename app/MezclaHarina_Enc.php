@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class MezclaHarina_Enc extends Model
 {
-    protected $table ='enc_mezclaharina';
+    protected $table = 'enc_mezclaharina';
     protected $primaryKey = 'id_Enc_mezclaharina';
     public $timestamps = false;
 
@@ -20,11 +20,17 @@ class MezclaHarina_Enc extends Model
     ];
 
     protected $with = [
-      'detalle'
+        'detalle'
     ];
+
     public function detalle()
     {
 
-        return $this->hasMany(MezclaHarina_Det::class,'id_Enc_mezclaharina','id_Enc_mezclaharina');
+        return $this->hasMany(MezclaHarina_Det::class, 'id_Enc_mezclaharina', 'id_Enc_mezclaharina');
+    }
+
+    public function control_trazabilidad()
+    {
+        return $this->belongsTo(Operacion::class, 'id_control', 'id_control');
     }
 }
