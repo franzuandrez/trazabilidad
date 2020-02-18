@@ -20,6 +20,14 @@
                     @include('componentes.column-sort',[
                           'sort'=>$sort,
                           'sortField'=>$sortField,
+                          'field'=>'productos.descripcion',
+                          'titulo'=>'PRODUCTO '])
+
+                </th>
+                <th>
+                    @include('componentes.column-sort',[
+                          'sort'=>$sort,
+                          'sortField'=>$sortField,
                           'field'=>'turno',
                           'titulo'=>'turno'])
 
@@ -51,6 +59,9 @@
                         </td>
                         <td>
                             {{$laminado->id_control}}
+                        </td>
+                        <td>
+                            {{$laminado->producto}}
                         </td>
                         <td>
                             Turno {{$laminado->turno}}

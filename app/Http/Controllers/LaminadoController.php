@@ -7,12 +7,9 @@ use App\Http\tools\OrdenProduccion;
 use App\Http\tools\RealTimeService;
 use App\Laminado_Det;
 use App\Laminado_Enc;
-use App\MezclaHarina_Det;
-use App\MezclaHarina_Enc;
-use App\Recepcion;
 use App\User;
-use Illuminate\Http\Request;
 use DB;
+use Illuminate\Http\Request;
 
 class LaminadoController extends Controller
 {
@@ -34,11 +31,19 @@ class LaminadoController extends Controller
         $sortField = $request->get('field') == null ? 'fecha_ingreso' : $request->get('field');
 
 
-        $laminados = Laminado_Enc::select('laminado_enc.*', 'users.nombre as usuario')
+        $laminados = Laminado_Enc::select(
+            'laminado_enc.*',
+            DB::raw("date_format(fecha_ingreso,'%d/%m/%Y %h:%i:%s') as fecha_ingreso"),
+            'users.nombre as usuario',
+            'productos.descripcion as producto'
+        )
             ->join('users', 'users.id', '=', 'laminado_enc.id_usuario')
+            ->join('control_trazabilidad', 'control_trazabilidad.id_control', '=', 'laminado_enc.id_control')
+            ->join('productos', 'productos.id_producto', '=', 'control_trazabilidad.id_producto')
             ->where(function ($query) use ($search) {
-                $query->where('laminado_enc.no_orden', 'LIKE', '%' . $search . '%')
+                $query->where('productos.descripcion', 'LIKE', '%' . $search . '%')
                     ->orWhere('laminado_enc.turno', 'LIKE', '%' . $search . '%')
+                    ->orWhere('laminado_enc.id_control', 'LIKE', '%' . $search . '%')
                     ->orWhere('users.nombre', 'LIKE', '%' . $search . '%')
                     ->orWhere('laminado_enc.fecha_ingreso', 'LIKE', '%' . $search . '%');
             })
