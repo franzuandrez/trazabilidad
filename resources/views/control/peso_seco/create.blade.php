@@ -6,7 +6,16 @@
 
 @section('contenido')
     <div class="col-lg-12 col-lg-push-4 col-sm-12   col-sm-push-4   col-md-12   col-md-push-4  col-xs-12">
-        <h3>CONTROL DE PESO SECO DE CHAO MEIN</h3>
+        <h3>CONTROL DE PESO SECO DE CHAO MEIN
+            <button
+                data-toggle="tooltip"
+                title="Informacion"
+                onclick="ver_informacion()"
+                type="button" class="btn btn-default btn-sm">
+                <i class="fa fa-info"
+                   aria-hidden="true"></i>
+            </button>
+        </h3>
     </div>
     @component('componentes.nav',['operation'=>'Crear',
     'menu_icon'=>'fa fa-check-square-o',
@@ -24,7 +33,7 @@
     {!!Form::open(array('url'=>'control/peso_seco/create','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
 
-
+    @include('control.peso_seco.tabla_informativa')
     <input type="hidden" id="id_control" name="id_control">
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <label for="turno">NO ORDEN DE PRODUCCION</label>
@@ -441,7 +450,10 @@
             limpiar_formulario(fields)
 
         }
+        function ver_informacion() {
 
+            $('#informacion').modal()
+        }
 
     </script>
 @endsection

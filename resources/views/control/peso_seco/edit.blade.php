@@ -7,7 +7,16 @@
 
 @section('contenido')
     <div class="col-lg-12 col-lg-push-4 col-sm-12   col-sm-push-4   col-md-12   col-md-push-4  col-xs-12">
-        <h3>CONTROL DE PESO SECO DE CHAO MEIN</h3>
+        <h3>CONTROL DE PESO SECO DE CHAO MEIN
+            <button
+                data-toggle="tooltip"
+                title="Informacion"
+                onclick="ver_informacion()"
+                type="button" class="btn btn-default btn-sm">
+                <i class="fa fa-info"
+                   aria-hidden="true"></i>
+            </button>
+        </h3>
     </div>
     @component('componentes.nav',['operation'=>'Crear',
     'menu_icon'=>'fa fa-check-square-o',
@@ -31,7 +40,7 @@
            value="{{$peso_seco->id_control}}">
 
 
-
+    @include('control.peso_seco.tabla_informativa')
 
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
@@ -123,7 +132,7 @@
         </div>
 
 
-        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-10">
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
             <label for="observaciones">OBSERVACIONES</label>
             <div class="input-group">
                 <input id="observaciones" type="text" name="observaciones"
@@ -430,7 +439,10 @@
             limpiar_formulario(fields);
             document.getElementById('no_1').focus();
         }
+        function ver_informacion() {
 
+            $('#informacion').modal()
+        }
 
     </script>
 @endsection
