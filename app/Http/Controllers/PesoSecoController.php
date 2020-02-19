@@ -273,7 +273,7 @@ class PesoSecoController extends Controller
 
 
         $response = RealTimeService::actualizar_modelo(
-            PesoSecoEnc::where('no_orden', $id_model)->first(), $fields
+            PesoSecoEnc::where('id_control', $id_model)->first(), $fields
         );
 
 
