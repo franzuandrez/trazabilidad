@@ -21,28 +21,46 @@
     @endcomponent
 
 
-    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
-            <label for="turno">NO ORDEN DE PRODUCCION</label>
-            <input type="text" name="no_orden_produccion"
-                   id="no_orden_produccion"
-                   readonly
-                   value="{{$humedo->no_orden}}"
-                   class="form-control">
+            <label for="id_producto">PRODUCTO</label>
+            <select class="form-control selectpicker valor"
+                    disabled
+                    required
+                    id="id_producto" name="id_producto">
+                <option value="{{$humedo->control_trazabilidad->id_producto}}" selected>
+                    {{$humedo->control_trazabilidad->liberacion_linea->presentacion->descripcion}}
+                </option>
+            </select>
         </div>
     </div>
 
-
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="turno">TURNO</label>
-            <input id="cortadora" type="text"
-                   readonly
+            <input class="form-control selectpicker"
+                   id="id_turno"
                    value="{{$humedo->turno}}"
-                   class="form-control">
+                   name="id_turno" disabled>
+
+        </div>
+    </div>
+    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
+        <div class="form-group">
+            <label for="lote">LOTE</label>
+            <input class="form-control selectpicker valor"
+                   disabled
+                   id="lote" name="lote"
+                   value="{{$humedo->lote}}"
+            >
+
+
         </div>
     </div>
 
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <hr>
+    </div>
 
 
 
@@ -53,8 +71,6 @@
             <thead style="background-color: #01579B;  color: #fff;">
             <tr>
                 <th>HORA</th>
-                <th>PRODUCTO</th>
-                <th>LOTE</th>
                 <th>NO. 1</th>
                 <th>NO. 2</th>
                 <th>NO. 3</th>
@@ -69,8 +85,6 @@
             @foreach( $humedo->detalle as $detalle )
                 <tr>
                     <td>{{$detalle->hora}}</td>
-                    <td>{{$detalle->producto()->first()->descripcion}}</td>
-                    <td>{{$detalle->lote}}</td>
                     <td>{{$detalle->muestra_no1}}</td>
                     <td>{{$detalle->muestra_no2}}</td>
                     <td>{{$detalle->muestra_no3}}</td>
