@@ -6,10 +6,10 @@ use App\Http\tools\OrdenProduccion;
 use App\Http\tools\RealTimeService;
 use App\PesoSecoDet;
 use App\PesoSecoEnc;
-use App\Recepcion;
 use App\User;
-use Illuminate\Http\Request;
 use DB;
+use Illuminate\Http\Request;
+
 class PesoSecoController extends Controller
 {
     /**
@@ -125,6 +125,16 @@ class PesoSecoController extends Controller
     public function edit($id)
     {
         //
+        $peso_seco = PesoSecoEnc::with('control_trazabilidad')
+            ->with('control_trazabilidad.producto')
+            ->with('control_trazabilidad.liberacion_linea')
+            ->findOrFail($id);
+
+
+        return view('control.peso_seco.edit', [
+            'peso_seco' => $peso_seco
+        ]);
+
     }
 
     /**
@@ -156,7 +166,6 @@ class PesoSecoController extends Controller
 
 
         $linea_chaomin = OrdenProduccion::verificar_linea_chaomin($no_orden_produccion);
-
 
 
         if ($linea_chaomin['status'] == 0) {

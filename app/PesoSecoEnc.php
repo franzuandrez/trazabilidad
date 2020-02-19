@@ -21,12 +21,19 @@ class PesoSecoEnc extends Model
     ];
 
     protected $with = [
-      'detalle'
+        'detalle'
     ];
+
     public function detalle()
     {
 
         return $this->hasMany(PesoSecoDet::class, 'id_peso_seco_enc', 'id_peso_seco');
+    }
+
+    public function control_trazabilidad()
+    {
+
+        return $this->belongsTo(Operacion::class, 'id_control', 'id_control');
     }
 
 }
