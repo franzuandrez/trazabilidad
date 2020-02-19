@@ -10,6 +10,8 @@ use App\MezclaHarina_Det;
 use App\MezclaHarina_Enc;
 use App\PesoHumedoDet;
 use App\PesoHumedoEnc;
+use App\PesoSecoDet;
+use App\PesoSecoEnc;
 use Carbon\Carbon;
 use DB;
 
@@ -211,7 +213,7 @@ class ReporteLineaChaomein extends Controller
     {
         $reporte_encabezado = new Reportes();
 
-        $peso_humedo = PesoHumedoEnc::where('id_peso_humedo',$id)
+        $peso_humedo = PesoHumedoEnc::where('id_peso_humedo', $id)
             ->select(
                 'productos.descripcion as PRODUCTO',
                 'presentaciones.descripcion as PRESENTACION',
@@ -229,7 +231,7 @@ class ReporteLineaChaomein extends Controller
         $reporte_encabezado->setTitle('CONTROL DE PESO HUMEDO DE PASTA PARA CHAO MEIN')
             ->setCreatedAt(Carbon::now())
             ->setSubtitle('CONTROL DE PESO HUMEDO DE PASTA PARA CHAO MEIN')
-            ->setExcept(['producto', 'lote','id_peso_humedo_enc','id_peso_humedo_det']);
+            ->setExcept(['producto', 'lote', 'id_peso_humedo_enc', 'id_peso_humedo_det']);
 
         $peso_humedo_det = PesoHumedoDet::where('id_peso_humedo_enc', $id)
             ->select('peso_humedo_det.*', 'users.nombre as id_usuario')
@@ -261,4 +263,62 @@ class ReporteLineaChaomein extends Controller
         $pdf->setPaper('A4', 'vertical');
         return $pdf->stream($reporte_encabezado->getTitle());
     }
+
+
+    public function reporte_peso_seco($id)
+    {
+
+        $reporte_encabezado = new Reportes();
+        $peso_seco = PesoSecoEnc::where('id_peso_seco', $id)
+            ->select(
+                'productos.descripcion as PRODUCTO',
+                'presentaciones.descripcion as PRESENTACION',
+                'peso_seco_enc.lote as LOTE',
+                DB::raw("date_format(peso_seco_enc.fecha_ingreso,'%d/%m/%Y %h:%i:%s') as FECHA"),
+                'users.nombre as RESPONSABLE'
+            )
+            ->join('control_trazabilidad', 'control_trazabilidad.id_control', '=', 'peso_seco_enc.id_control')
+            ->join('productos', 'productos.id_producto', '=', 'control_trazabilidad.id_producto')
+            ->join('users', 'users.id', '=', 'peso_seco_enc.id_usuario')
+            ->join('chaomin', 'chaomin.id_control', '=', 'control_trazabilidad.id_control')
+            ->join('presentaciones', 'presentaciones.id_presentacion', '=', 'chaomin.id_presentacion')
+            ->firstOrFail();
+
+        $reporte_encabezado->setTitle('CONTROL DE PESO SECO DE  CHAO MEIN')
+            ->setCreatedAt(Carbon::now())
+            ->setSubtitle('CONTROL DE PESO SECO DE  CHAO MEIN')
+            ->setExcept(['producto', 'lote', 'id_peso_seco_enc', 'id_peso_seco_det']);
+
+        $peso_seco_det = PesoSecoDet::where('id_peso_seco_enc', $id)
+            ->select('peso_seco_det.*', 'users.nombre as id_usuario')
+            ->join('users', 'users.id', '=', 'peso_seco_det.id_usuario')
+            ->get();
+
+        $reporte_detalle = $reporte_encabezado->mapers(
+            [
+                'headers' =>
+                    [
+                        'PESO SECO' => $peso_seco,
+
+                    ],
+                'details' => [
+                    'MUESTRAS' => $peso_seco_det
+                ]
+            ]
+        );
+
+        $reporte_encabezado->setHeader($reporte_detalle['headers']->first());
+        $view = \View::make('reportes.chaomein.peso_seco',
+            [
+                'reporte_encabezado' => $reporte_encabezado,
+                'reporte_detalle' => $reporte_detalle
+            ]
+        )->render();
+
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($view);
+        $pdf->setPaper('A4', 'vertical');
+        return $pdf->stream($reporte_encabezado->getTitle());
+    }
+
 }

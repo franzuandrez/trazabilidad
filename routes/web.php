@@ -343,6 +343,7 @@ Route::post('control/peso_seco/borrar_detalle', 'PesoSecoController@borrar_detal
 Route::get('control/peso_seco/{id}/edit', 'PesoSecoController@edit')->name('peso_seco.edit');
 Route::patch('control/peso_seco/{id}', 'PesoSecoController@update')->name('peso_seco.update');
 Route::get('control/peso_seco/{id}', 'PesoSecoController@show')->name('peso_seco.show');
+Route::get('control/peso_seco/reporte/{id}', 'ReporteLineaChaomein@reporte_peso_seco')->name('peso_seco.reporte_peso_seco');
 Route::post('control/peso_seco/{id}', 'PesoSecoController@destroy')->name('peso_seco.destroy');
 
 Route::get('control/precocido', 'PrecocidoController@index')->name('precocido.index');
