@@ -27,7 +27,8 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             @component('componentes.btn-create',['url'=>url('control/precocido/create')])
             @endcomponent
-
+            @component('componentes.btn-edit',['url'=>'javascript:editar("precocido")'])
+            @endcomponent
             @component('componentes.btn-ver',['url'=>'javascript:ver("precocido")'])
             @endcomponent
         </div>

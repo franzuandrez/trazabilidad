@@ -7,8 +7,9 @@ use App\Http\tools\RealTimeService;
 use App\PrecocidoDet;
 use App\PrecocidoEnc;
 use App\User;
-use Illuminate\Http\Request;
 use DB;
+use Illuminate\Http\Request;
+
 class PrecocidoController extends Controller
 {
     /**
@@ -131,6 +132,14 @@ class PrecocidoController extends Controller
     public function edit($id)
     {
         //
+
+        $precocido = PrecocidoEnc::with('control_trazabilidad')
+            ->with('control_trazabilidad.producto')
+            ->findOrFail($id);
+
+        return view('control.precocido.edit', [
+            'precocido' => $precocido
+        ]);
     }
 
     /**

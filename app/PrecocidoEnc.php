@@ -20,14 +20,20 @@ class PrecocidoEnc extends Model
         'no_orden'
     ];
 
-    protected $with=[
+    protected $with = [
         'detalle'
     ];
+
     public function detalle()
     {
 
         return $this->hasMany(PrecocidoDet::class, 'id_precocido_enc', 'id_precocido_enc');
     }
 
+
+    public function control_trazabilidad()
+    {
+        return $this->belongsTo(Operacion::class, 'id_control', 'id_control');
+    }
 
 }
