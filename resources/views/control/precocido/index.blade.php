@@ -22,6 +22,15 @@
                         'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
+                          'field'=>'productos.descripcion',
+                          'titulo'=>'producto'])
+
+                </th>
+                <th>
+                    @include('componentes.column-sort',['modulo'=>'recepcion/materia_prima',
+                        'search'=>$search,
+                          'sort'=>$sort,
+                          'sortField'=>$sortField,
                           'field'=>'turno',
                           'titulo'=>'turno'])
 
@@ -55,6 +64,9 @@
                         </td>
                         <td>
                             {{$precocido->id_control}}
+                        </td>
+                        <td>
+                            {{$precocido->producto}}
                         </td>
                         <td>
                             Turno {{$precocido->turno}}
