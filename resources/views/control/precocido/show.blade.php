@@ -13,7 +13,7 @@
     'submenu_icon'=>'fa fa-cutlery',
     'operation_icon'=>'fa-eye',])
         @slot('menu')
-            Controla
+            Control
         @endslot
         @slot('submenu')
             Pre-cocido de Pasta
