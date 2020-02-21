@@ -357,6 +357,7 @@ Route::post('control/precocido/borrar_detalle', 'PrecocidoController@borrar_deta
 Route::get('control/precocido/{id}/edit', 'PrecocidoController@edit')->name('precocido.edit');
 Route::patch('control/precocido/{id}', 'PrecocidoController@update')->name('precocido.update');
 Route::get('control/precocido/{id}', 'PrecocidoController@show')->name('precocido.show');
+Route::get('control/precocido/reporte/{id}', 'ReporteLineaChaomein@reporte_precocido')->name('precocido.reporte_precocido');
 Route::post('control/precocido/{id}', 'PrecocidoController@destroy')->name('precocido.destroy');
 
 

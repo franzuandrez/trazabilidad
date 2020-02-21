@@ -31,6 +31,8 @@
             @endcomponent
             @component('componentes.btn-ver',['url'=>'javascript:ver("precocido")'])
             @endcomponent
+            @component('componentes.btn-reporte',['url'=>'javascript:reporte("precocido/reporte")'])
+            @endcomponent
         </div>
     </div>
 
