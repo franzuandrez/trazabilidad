@@ -2,11 +2,21 @@
 @section('style')
     <link rel="stylesheet" href="{{asset('css/bootstrap-datepicker.css')}}">
     <link rel="stylesheet" href="{{asset('css/bootstrap-timepicker.css')}}">
+    <link rel="stylesheet" href="{{asset('css/loading.css')}}">
 @endsection
 
 @section('contenido')
-    <div class="col-lg-12 col-lg-push-4 col-sm-12   col-sm-push-4   col-md-12   col-md-push-4  col-xs-12">
-        <h3>CONTROL DE PRE-COCIDO DE PASTA PARA CHAO MEIN</h3>
+    <div class="col-lg-12 col-lg-push-4 col-sm-12     col-md-12    col-xs-12">
+        <h3>CONTROL DE PRE-COCIDO DE PASTA PARA CHAO MEIN
+            <button
+                data-toggle="tooltip"
+                title="Informacion"
+                onclick="ver_informacion()"
+                type="button" class="btn btn-default btn-sm">
+                <i class="fa fa-info"
+                   aria-hidden="true"></i>
+            </button>
+        </h3>
     </div>
     @component('componentes.nav',['operation'=>'Ingreso',
     'menu_icon'=>'fa fa-check-square-o',
@@ -20,7 +30,8 @@
         @endslot
     @endcomponent
 
-
+    @include('componentes.loading')
+    @include('control.precocido.tabla_informativa')
     {!!Form::open(array('url'=>'control/precocido/create','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
     <input type="hidden" id="id_control" name="id_control">
@@ -442,6 +453,9 @@
 
         }
 
+        function ver_informacion() {
 
+            $('#informacion').modal()
+        }
     </script>
 @endsection
