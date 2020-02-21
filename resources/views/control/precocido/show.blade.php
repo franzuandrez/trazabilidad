@@ -6,7 +6,7 @@
 
 @section('contenido')
     <div class="col-lg-12 col-lg-push-4 col-sm-12   col-sm-push-4   col-md-12   col-md-push-4  col-xs-12">
-        <h3>CONTROL DE PRE-COCIDO DE PASTA PARA  CHAO MEIN</h3>
+        <h3>CONTROL DE PRE-COCIDO DE PASTA PARA CHAO MEIN</h3>
     </div>
     @component('componentes.nav',['operation'=>'Ver',
     'menu_icon'=>'fa fa-check-square-o',
@@ -21,29 +21,46 @@
     @endcomponent
 
 
-    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-        <div class="form-group">
-            <label for="no_orden_produccion">NO ORDEN DE PRODUCCION</label>
-            <input type="text" name="no_orden_produccion"
-                   id="no_orden_produccion"
-                   readonly
-                   value = "{{$precocido->no_orden}}"
-                   class="form-control">
 
+    <div class="col-lg-4 col-sm-4 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="id_producto">PRODUCTO</label>
+            <select class="form-control selectpicker valor"
+                    disabled
+                    required
+                    id="id_producto" name="id_producto">
+                <option value="{{$precocido->control_trazabilidad->id_producto}}" selected>
+                    {{$precocido->control_trazabilidad->liberacion_linea->presentacion->descripcion}}
+                </option>
+            </select>
+        </div>
+    </div>
+
+    <div class="col-lg-4 col-sm-4 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="lote">LOTE</label>
+            <input class="form-control selectpicker valor"
+                   disabled
+                   id="lote"
+                   value="{{$precocido->lote}}"
+                   name="lote">
         </div>
     </div>
     <div class="col-lg-4 col-sm-4 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="turno">TURNO</label>
-            <input type="text" name="no_orden_produccion"
-                   id="no_orden_produccion"
-                   readonly
+            <input class="form-control selectpicker"
+                   id="id_turno"
+                   name="id_turno"
                    value="{{$precocido->turno}}"
-                   class="form-control">
+                   disabled>
+
         </div>
     </div>
 
-
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <hr>
+    </div>
 
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
