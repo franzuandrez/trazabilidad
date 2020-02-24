@@ -7,8 +7,9 @@ use App\Http\tools\RealTimeService;
 use App\MezclaSopaDet;
 use App\MezclaSopaEnc;
 use App\User;
-use Illuminate\Http\Request;
 use DB;
+use Illuminate\Http\Request;
+
 class MezcladoSopasController extends Controller
 {
     /**
@@ -92,7 +93,7 @@ class MezcladoSopasController extends Controller
             return redirect()->route('mezclado_sopas.index')
                 ->with('success', 'Mezcla de Sopas ingresada corrrectamente');
         } catch (\Exception $ex) {
-            DD($ex);
+
             return redirect()->back()
                 ->withErrors(['No se ha podido completar su petición, codigo de error :  ' . $ex->getCode()]);
         }
@@ -120,6 +121,17 @@ class MezcladoSopasController extends Controller
     public function edit($id)
     {
         //
+
+        $mezlcado_sopas = MezclaSopaEnc::with('control_trazabilidad')
+            ->with('control_trazabilidad.producto')
+            ->with('control_trazabilidad.liberacion_sopas')
+            ->findOrFail($id);
+
+
+        return view('sopas.mezclado_sopas.edit', [
+            'mezclado_sopas' => $mezlcado_sopas
+        ]);
+
     }
 
     /**

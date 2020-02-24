@@ -27,6 +27,8 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             @component('componentes.btn-create',['url'=>url('sopas/mezclado_sopas/create')])
             @endcomponent
+            @component('componentes.btn-edit',['url'=>'javascript:editar("mezclado_sopas")'])
+            @endcomponent
 
         </div>
     </div>
