@@ -4,13 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\tools\OrdenProduccion;
 use App\Http\tools\RealTimeService;
-use App\MezclaHarina_Enc;
 use App\MezclaSopaDet;
 use App\MezclaSopaEnc;
-use App\Recepcion;
 use App\User;
 use Illuminate\Http\Request;
-
+use DB;
 class MezcladoSopasController extends Controller
 {
     /**
@@ -31,15 +29,24 @@ class MezcladoSopasController extends Controller
         $sortField = $request->get('field') == null ? 'fecha_hora' : $request->get('field');
 
 
-        $sopas = MezclaSopaEnc::select('mezclado_sopas_enc.*', 'users.nombre as usuario')
+        $sopas = MezclaSopaEnc::select(
+            'mezclado_sopas_enc.*',
+            DB::raw("date_format(fecha_hora,'%d/%m/%Y %h:%i:%s') as fecha_hora"),
+            'users.nombre as usuario',
+            'productos.descripcion as producto'
+        )
             ->join('users', 'users.id', '=', 'mezclado_sopas_enc.id_usuario')
+            ->join('control_trazabilidad', 'control_trazabilidad.id_control', '=', 'mezclado_sopas_enc.id_control')
+            ->join('productos', 'productos.id_producto', '=', 'control_trazabilidad.id_producto')
             ->where(function ($query) use ($search) {
                 $query->where('mezclado_sopas_enc.id_turno', 'LIKE', '%' . $search . '%')
                     ->orWhere('users.nombre', 'LIKE', '%' . $search . '%')
+                    ->orWhere('productos.descripcion', 'LIKE', '%' . $search . '%')
                     ->orWhere('mezclado_sopas_enc.fecha_hora', 'LIKE', '%' . $search . '%');
             })
             ->orderBy($sortField, $sort)
             ->paginate(20);
+
 
         if ($request->ajax()) {
             return view('sopas.mezclado_sopas.index',

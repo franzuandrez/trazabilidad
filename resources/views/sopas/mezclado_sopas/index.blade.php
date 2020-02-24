@@ -26,6 +26,15 @@
                         'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
+                          'field'=>'productos.descripcion',
+                          'titulo'=>'producto'])
+                    @endcomponent
+                </th>
+                <th>
+                    @component('componentes.column-sort',['modulo'=>'recepcion/materia_prima',
+                        'search'=>$search,
+                          'sort'=>$sort,
+                          'sortField'=>$sortField,
                           'field'=>'id_turno',
                           'titulo'=>'turno'])
                     @endcomponent
@@ -60,6 +69,9 @@
                         </td>
                         <td>
                             {{$sopa->id_control}}
+                        </td>
+                        <td>
+                            {{$sopa->producto}}
                         </td>
                         <td>
                             Turno {{$sopa->id_turno}}
