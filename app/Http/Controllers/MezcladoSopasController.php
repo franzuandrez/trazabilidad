@@ -42,6 +42,7 @@ class MezcladoSopasController extends Controller
                 $query->where('mezclado_sopas_enc.id_turno', 'LIKE', '%' . $search . '%')
                     ->orWhere('users.nombre', 'LIKE', '%' . $search . '%')
                     ->orWhere('productos.descripcion', 'LIKE', '%' . $search . '%')
+                    ->orWhere('mezclado_sopas_enc.id_control', 'LIKE', '%' . $search . '%')
                     ->orWhere('mezclado_sopas_enc.fecha_hora', 'LIKE', '%' . $search . '%');
             })
             ->orderBy($sortField, $sort)
