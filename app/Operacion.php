@@ -67,4 +67,9 @@ class Operacion extends Model
 
         return $this->hasOne(LineaChaomin::class, 'id_control', 'id_control');
     }
+
+    public function liberacion_sopas()
+    {
+        return $this->hasOne(LineaSopa::class, 'id_control', 'id_control');
+    }
 }
