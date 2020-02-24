@@ -2,6 +2,7 @@
 @section('style')
     <link rel="stylesheet" href="{{asset('css/bootstrap-datepicker.css')}}">
     <link rel="stylesheet" href="{{asset('css/bootstrap-timepicker.css')}}">
+    <link rel="stylesheet" href="{{asset('css/tools.css')}}">
 @endsection
 
 @section('contenido')
@@ -101,110 +102,103 @@
     </div>
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-        <div class="">
-            <div class="tab-content">
+        <hr>
+    </div>
+
+
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+            <label for="no_bach">NO. BACH</label>
+            <div class="input-group-text">
+                <input id="no_bach" type="text" name="no_bach"
+                       disabled=""
+                       required
+                       class="form-control">
             </div>
-            <div class="tab-pane" id="tab_3">
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="no_bach">NO. BACH</label>
-                        <input id="no_bach" type="text" name="no_bach"
-                               disabled=""
-                               required
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <label for="hora_inicio">HORA INICIO</label>
-                    <div class="input-group">
-                        <input id="hora_inicio"
-                               disabled
-                               required
-                               type="text" class="form-control timepicker" name="hora_inicio">
+        </div>
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+            <label for="hora_inicio">HORA INICIO</label>
+            <div class="input-group">
+                <input id="hora_inicio"
+                       disabled
+                       required
+                       type="text" class="form-control timepicker" name="hora_inicio">
 
-                        <div class="input-group-addon">
-                            <i class="fa fa-clock-o"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <label for="hora_finalizo">HORA FINALIZO</label>
-                    <div class="input-group">
-                        <input id="hora_finalizo"
-                               disabled
-                               required
-                               type="text" class="form-control timepicker" name="hora_finalizo">
-
-                        <div class="input-group-addon">
-                            <i class="fa fa-clock-o"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="tiempo_alta">TIEMPO DE VELOCIDAD ALTA</label>
-                        <input id="tiempo_alta"
-                               disabled
-                               type="text" name="tiempo_alta"
-                               required
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="tiempo_baja">TIEMPO DE VELOCIDAD BAJA</label>
-                        <input id="tiempo_baja" type="text" name="tiempo_baja"
-                               disabled
-                               required
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="observaciones">OBSERVACIONES</label>
-                        <input id="observaciones" type="text" name="observaciones"
-                               disabled
-                               class="form-control">
-                    </div>
-                </div>
-
-                <div class="col-lg-2 col-sm-4 col-md-2 col-xs-2">
-                    <br>
-                    <div class="form-group">
-                        <button id="btnAdd" class="btn btn-default block"
-                                onclick="agregar_a_table()"
-                                style="margin-top: 5px;" type="button">
-                            <span class=" fa fa-plus"></span></button>
-                    </div>
-                </div>
-
-
-                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
-
-                    <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
-
-                        <thead style="background-color: #01579B;  color: #fff;">
-                        <th>NO. BACH</th>
-                        <th>HORA INICIO</th>
-                        <th>HORA FINALIZO</th>
-                        <th>TIEMPO VELOCIDAD ALTA</th>
-                        <th>TIEMPO VELOCIDAD BAJA</th>
-                        <th>OBSERVACIONES</th>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-                    <div class="form-group">
-                        <label for="observaciones_generales">OBSERVACIONES</label>
-                        <input type="text" name="observaciones_generales" value="{{old('observaciones_generales')}}"
-                               class="form-control">
-                    </div>
+                <div class="input-group-addon">
+                    <i class="fa fa-clock-o"></i>
                 </div>
             </div>
         </div>
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+            <label for="hora_finalizo">HORA FINALIZO</label>
+            <div class="input-group">
+                <input id="hora_finalizo"
+                       disabled
+                       required
+                       type="text" class="form-control timepicker" name="hora_finalizo">
+                <div class="input-group-addon">
+                    <i class="fa fa-clock-o"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="tiempo_alta">TIEMPO DE VELOCIDAD ALTA</label>
+                <input id="tiempo_alta"
+                       disabled
+                       type="text" name="tiempo_alta"
+                       required
+                       class="form-control">
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="tiempo_baja">TIEMPO DE VELOCIDAD BAJA</label>
+                <input id="tiempo_baja" type="text" name="tiempo_baja"
+                       disabled
+                       required
+                       class="form-control">
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+            <label for="observaciones">OBSERVACIONES</label>
+            <div class="input-group">
+                <input id="observaciones" type="text" name="observaciones"
+                       disabled
+                       class="form-control">
+                <div class="input-group-btn">
+                    <button id="btnAdd" class="btn btn-default block"
+                            onclick="agregar_a_table()"
+                            type="button">
+                        <span class=" fa fa-plus"></span></button>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
+
+            <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
+
+                <thead style="background-color: #01579B;  color: #fff;">
+                <th>NO. BACH</th>
+                <th>HORA INICIO</th>
+                <th>HORA FINALIZO</th>
+                <th>TIEMPO VELOCIDAD ALTA</th>
+                <th>TIEMPO VELOCIDAD BAJA</th>
+                <th>OBSERVACIONES</th>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+
     </div>
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <div class="form-group">
+            <label for="observaciones_generales">OBSERVACIONES</label>
+            <input type="text" name="observaciones_generales" value="{{old('observaciones_generales')}}"
+                   class="form-control">
+        </div>
     </div>
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
@@ -358,7 +352,7 @@
                     url: "{{url('sopas/mezclado_sopas/iniciar_formulario')}}",
                     data: {
                         id_control: id_control,
-                        id_producto:id_producto
+                        id_producto: id_producto
                     },
                     success: function (response) {
 
