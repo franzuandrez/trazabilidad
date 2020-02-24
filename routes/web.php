@@ -433,6 +433,7 @@ Route::post('sopas/mezclado_sopas/borrar_detalle', 'MezcladoSopasController@borr
 Route::get('sopas/mezclado_sopas/{id}/edit', 'MezcladoSopasController@edit')->name('mezclado_sopas.edit');
 Route::patch('sopas/mezclado_sopas/{id}', 'MezcladoSopasController@update')->name('mezclado_sopas.update');
 Route::get('sopas/mezclado_sopas/{id}', 'MezcladoSopasController@show')->name('mezclado_sopas.show');
+Route::get('sopas/mezclado_sopas/reporte/{id}', 'ReporteLineaSopas@reporte_mezclado_sopas')->name('mezclado_sopas.show');
 Route::post('sopas/mezclado_sopas/{id}', 'MezcladoSopasController@destroy')->name('mezclado_sopas.destroy');
 
 

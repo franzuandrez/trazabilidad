@@ -29,6 +29,8 @@
             @endcomponent
             @component('componentes.btn-edit',['url'=>'javascript:editar("mezclado_sopas")'])
             @endcomponent
+            @component('componentes.btn-reporte',['url'=>'javascript:reporte("mezclado_sopas/reporte")'])
+            @endcomponent
 
         </div>
     </div>
