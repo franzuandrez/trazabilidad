@@ -184,13 +184,25 @@ function existe_campo_vacio(fields) {
         return e[1].value == "" && e[1].required;
     });
 
-    const existe_campo_vacio = filtered.length > 0;
+    const campo_vacio = get_campo_vacio(fields);
+    const existe_campo_vacio = campo_vacio != null;
 
-    if (existe_campo_vacio) {
-        filtered[0][1].focus();
-    }
+
 
     return existe_campo_vacio;
+}
+
+function get_campo_vacio(fields) {
+    const filtered = fields.filter(function (e) {
+
+        return e[1].value == "" && e[1].required;
+    });
+
+    const existe_campo_vacio = filtered.length > 0;
+    if (existe_campo_vacio) {
+        return filtered[0][1];
+    }
+    return null;
 }
 
 function iniciar_formulario(no_orden_produccion) {
