@@ -321,7 +321,8 @@ class ProductoController extends Controller
                 $results = $reader->noHeading()->get();
 
                 $results = $results->slice(1);
-                $results = $results->where(0, '<>', null);
+                 $results = $results->where(2, '<>', '');
+
                 foreach ($results as $key => $value) {
 
 
@@ -352,8 +353,14 @@ class ProductoController extends Controller
                             return redirect()->back()->withErrors(['Formato de excel no valido']);
                         } else {
                             $codigo_barras = $value[0];
-                            $codigo_barras = $this->getCodigoBarras($codigo_barras);
-                            $existeProducto = Producto::where('codigo_barras', $codigo_barras)->exists();
+                            $codigo_interno_cliente = $value[1];
+                            $codigo_interno = $value[2];
+                            $descripcion = $value[3];
+
+
+                            $codigo_barras = trim($codigo_barras) == "" ? trim($codigo_barras) : $this->getCodigoBarras($codigo_barras);
+                            $existeProducto = $this->existe_producto($codigo_barras, $codigo_interno);
+
                             if ($tipo_producto == "MIX") {
                                 $tipo_producto_asignado = $value[7];
                             } else {
@@ -371,11 +378,9 @@ class ProductoController extends Controller
                                     ->route('productos.index')
                                     ->withErrors(['El número de las columnas no coincide con ninguno de los formatos establecidos']);
                             }
-                            $codigo_interno_cliente = $value[1];
-                            $codigo_interno = $value[2];
-                            $descripcion = $value[3];
+
                             if ($existeProducto) {
-                                $producto = Producto::where('codigo_barras', $codigo_barras)->first();
+                                $producto = $this->get_producto($codigo_barras, $codigo_interno);
                                 $producto->codigo_interno = $codigo_interno;
                                 $producto->descripcion = $descripcion;
                                 $producto->tipo_producto = $tipo_producto_asignado;
@@ -499,6 +504,37 @@ class ProductoController extends Controller
 
     }
 
+    private function existe_producto($codigo_barras, $codigo_interno)
+    {
+
+        if ($codigo_barras != "") {
+            $existe_producto = Producto::where('codigo_barras', $codigo_barras)->exists();
+            return $existe_producto;
+        }
+        if ($codigo_interno != "") {
+            $existe_producto = Producto::where('codigo_barras', $codigo_interno)->exists();
+            return $existe_producto;
+        }
+        return 0;
+    }
+
+    private function get_producto($codigo_barras, $codigo_interno)
+    {
+
+        if ($codigo_barras != "") {
+            $producto = Producto::where('codigo_barras', $codigo_barras)->first();
+            return $producto;
+
+        }
+
+        if ($codigo_interno != "") {
+            $producto = Producto::where('codigo_interno', $codigo_interno)->first();
+            return $producto;
+        }
+
+        return null;
+
+    }
 
     private function importarFormatoB($row, $tipo_producto = null, $dimensional, $presentacion)
     {
