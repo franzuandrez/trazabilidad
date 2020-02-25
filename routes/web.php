@@ -462,6 +462,7 @@ Route::post('sopas/laminado/borrar_detalle', 'LaminadoSopasController@borrar_det
 Route::get('sopas/laminado/{id}/edit', 'LaminadoSopasController@edit')->name('sopas.laminado..edit');
 Route::patch('sopas/laminado/{id}', 'LaminadoSopasController@update')->name('sopas.laminado..update');
 Route::get('sopas/laminado/{id}', 'LaminadoSopasController@show')->name('sopas.laminado..show');
+Route::get('sopas/laminado/reporte/{id}', 'ReporteLineaSopas@reporte_laminado')->name('sopas.laminado..reporte_laminado');
 Route::post('sopas/laminado/{id}', 'LaminadoSopasController@destroy')->name('sopas.laminado.destroy');
 
 
