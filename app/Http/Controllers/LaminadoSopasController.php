@@ -109,6 +109,14 @@ class LaminadoSopasController extends Controller
     public function show($id)
     {
         //
+        $laminado = LaminadoSopasEnc::with('control_trazabilidad')
+            ->with('control_trazabilidad.producto')
+            ->with('control_trazabilidad.liberacion_sopas')
+            ->findOrFail($id);
+
+        return view('sopas.laminado.show', [
+            'laminado' => $laminado
+        ]);
     }
 
     /**

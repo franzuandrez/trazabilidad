@@ -29,6 +29,8 @@
             @endcomponent
             @component('componentes.btn-edit',['url'=>"javascript:editar('laminado')"])
             @endcomponent
+            @component('componentes.btn-ver',['url'=>"javascript:ver('laminado')"])
+            @endcomponent
 
 
         </div>
