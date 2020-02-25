@@ -27,6 +27,8 @@
             @endcomponent
             @component('componentes.btn-edit',['url'=>"javascript:editar('peso_pasta')"])
             @endcomponent
+            @component('componentes.btn-ver',['url'=>"javascript:ver('peso_pasta')"])
+            @endcomponent
 
         </div>
     </div>

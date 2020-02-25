@@ -110,6 +110,15 @@ class PesoPastaController extends Controller
     public function show($id)
     {
         //
+        $peso = PesoPastaSopasEnc::with('control_trazabilidad')
+            ->with('control_trazabilidad.producto')
+            ->with('control_trazabilidad.liberacion_sopas')
+            ->findOrFail($id);
+
+
+        return view('sopas.peso_pasta.show', [
+            'peso' => $peso
+        ]);
 
     }
 
