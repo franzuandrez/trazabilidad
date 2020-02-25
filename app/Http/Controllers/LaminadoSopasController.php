@@ -9,7 +9,7 @@ use App\LaminadoSopasEnc;
 use App\Recepcion;
 use App\User;
 use Illuminate\Http\Request;
-
+use DB;
 class LaminadoSopasController extends Controller
 {
     /**
@@ -29,11 +29,20 @@ class LaminadoSopasController extends Controller
         $sortField = $request->get('field') == null ? 'fecha_hora' : $request->get('field');
 
 
-        $laminados = LaminadoSopasEnc::select('laminado_sopas_enc.*', 'users.nombre as usuario')
+        $laminados = LaminadoSopasEnc::select(
+            'laminado_sopas_enc.*',
+            DB::raw("date_format(fecha_hora,'%d/%m/%Y %h:%i:%s') as fecha_hora"),
+            'users.nombre as usuario',
+            'productos.descripcion as producto'
+        )
             ->join('users', 'users.id', '=', 'laminado_sopas_enc.id_usuario')
+            ->join('control_trazabilidad', 'control_trazabilidad.id_control', '=', 'laminado_sopas_enc.id_control')
+            ->join('productos', 'productos.id_producto', '=', 'control_trazabilidad.id_producto')
             ->where(function ($query) use ($search) {
                 $query->where('laminado_sopas_enc.id_turno', 'LIKE', '%' . $search . '%')
                     ->orWhere('users.nombre', 'LIKE', '%' . $search . '%')
+                    ->orWhere('laminado_sopas_enc.id_control', 'LIKE', '%' . $search . '%')
+                    ->orWhere('productos.descripcion', 'LIKE', '%' . $search . '%')
                     ->orWhere('laminado_sopas_enc.fecha_hora', 'LIKE', '%' . $search . '%');
             })
             ->orderBy($sortField, $sort)

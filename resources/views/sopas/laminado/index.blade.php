@@ -26,6 +26,15 @@
                         'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
+                          'field'=>'productos.descripcion',
+                          'titulo'=>'producto'])
+                    @endcomponent
+                </th>
+                <th>
+                    @component('componentes.column-sort',['modulo'=>'recepcion/materia_prima',
+                        'search'=>$search,
+                          'sort'=>$sort,
+                          'sortField'=>$sortField,
                           'field'=>'id_turno',
                           'titulo'=>'turno'])
                     @endcomponent
@@ -59,6 +68,9 @@
                         </td>
                         <td>
                             {{$laminado->id_control}}
+                        </td>
+                        <td>
+                            {{$laminado->producto}}
                         </td>
                         <td>
                             Turno {{$laminado->id_turno}}
