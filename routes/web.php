@@ -420,6 +420,7 @@ Route::post('sopas/fritura/borrar_detalle', 'FrituraSopasController@borrar_detal
 Route::get('sopas/fritura/{id}/edit', 'FrituraSopasController@edit')->name('fritura.edit');
 Route::patch('sopas/fritura/{id}', 'FrituraSopasController@update')->name('fritura.update');
 Route::get('sopas/fritura/{id}', 'FrituraSopasController@show')->name('fritura.show');
+Route::get('sopas/fritura/reporte/{id}', 'ReporteLineaSopas@reporte_fritura')->name('fritura.reporte_fritura');
 Route::post('sopas/fritura/{id}', 'FrituraSopasController@destroy')->name('fritura.destroy');
 
 Route::get('sopas/mezclado_sopas', 'MezcladoSopasController@index')->name('mezclado_sopas.index');
