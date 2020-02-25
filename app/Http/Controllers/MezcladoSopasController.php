@@ -110,6 +110,16 @@ class MezcladoSopasController extends Controller
     public function show($id)
     {
         //
+        $mezlcado_sopas = MezclaSopaEnc::with('control_trazabilidad')
+            ->with('control_trazabilidad.producto')
+            ->with('control_trazabilidad.liberacion_sopas')
+            ->findOrFail($id);
+
+
+        return view('sopas.mezclado_sopas.show', [
+            'mezclado_sopas' => $mezlcado_sopas
+        ]);
+
     }
 
     /**
