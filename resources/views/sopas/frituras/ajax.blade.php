@@ -29,6 +29,8 @@
             @endcomponent
             @component('componentes.btn-edit',['url'=>'javascript:editar("fritura")'])
             @endcomponent
+            @component('componentes.btn-ver',['url'=>'javascript:ver("fritura")'])
+            @endcomponent
 
         </div>
     </div>

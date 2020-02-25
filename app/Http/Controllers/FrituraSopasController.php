@@ -99,6 +99,15 @@ class FrituraSopasController extends Controller
     public function show($id)
     {
         //
+        $fritura = FrituraSopasEnc::with('control_trazabilidad')
+            ->with('control_trazabilidad.producto')
+            ->with('control_trazabilidad.liberacion_sopas')
+            ->findOrFail($id);
+
+
+        return view('sopas.frituras.show', [
+            'fritura' => $fritura
+        ]);
     }
 
     /**
