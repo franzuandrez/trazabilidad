@@ -6,8 +6,6 @@ use App\FrituraSopasDet;
 use App\FrituraSopasEnc;
 use App\Http\tools\OrdenProduccion;
 use App\Http\tools\RealTimeService;
-use App\LaminadoSopasEnc;
-use App\Recepcion;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -112,6 +110,16 @@ class FrituraSopasController extends Controller
     public function edit($id)
     {
         //
+
+        $fritura = FrituraSopasEnc::with('control_trazabilidad')
+            ->with('control_trazabilidad.producto')
+            ->with('control_trazabilidad.liberacion_sopas')
+            ->findOrFail($id);
+
+
+        return view('sopas.frituras.edit', [
+            'fritura' => $fritura
+        ]);
     }
 
     /**
