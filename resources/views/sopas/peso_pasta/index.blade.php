@@ -13,8 +13,16 @@
                     @include('componentes.column-sort',['modulo'=>'recepcion/materia_prima',
                           'sort'=>$sort,
                           'sortField'=>$sortField,
-                          'field'=>'control',
-                          'titulo'=>'id_control'])
+                          'field'=>'id_control',
+                          'titulo'=>'control'])
+
+                </th>
+                <th>
+                    @include('componentes.column-sort',['modulo'=>'recepcion/materia_prima',
+                          'sort'=>$sort,
+                          'sortField'=>$sortField,
+                          'field'=>'producto.descripcion',
+                          'titulo'=>'producto'])
 
                 </th>
                 <th>
@@ -52,6 +60,9 @@
                         </td>
                         <td>
                             {{$peso->id_control}}
+                        </td>
+                        <td>
+                            {{$peso->producto}}
                         </td>
                         <td>
                             Turno {{$peso->id_turno}}
