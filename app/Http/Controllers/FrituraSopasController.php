@@ -8,7 +8,7 @@ use App\Http\tools\OrdenProduccion;
 use App\Http\tools\RealTimeService;
 use App\User;
 use Illuminate\Http\Request;
-
+use DB;
 class FrituraSopasController extends Controller
 {
     /**
@@ -29,11 +29,20 @@ class FrituraSopasController extends Controller
         $sortField = $request->get('field') == null ? 'fecha_hora' : $request->get('field');
 
 
-        $frituras = FrituraSopasEnc::select('fritura_sopas_enc.*', 'users.nombre as usuario')
+        $frituras = FrituraSopasEnc:: select(
+            'fritura_sopas_enc.*',
+            DB::raw("date_format(fecha_hora,'%d/%m/%Y %h:%i:%s') as fecha_hora"),
+            'users.nombre as usuario',
+            'productos.descripcion as producto'
+        )
             ->join('users', 'users.id', '=', 'fritura_sopas_enc.id_usuario')
+            ->join('control_trazabilidad', 'control_trazabilidad.id_control', '=', 'fritura_sopas_enc.id_control')
+            ->join('productos', 'productos.id_producto', '=', 'control_trazabilidad.id_producto')
             ->where(function ($query) use ($search) {
                 $query->where('fritura_sopas_enc.id_turno', 'LIKE', '%' . $search . '%')
                     ->orWhere('users.nombre', 'LIKE', '%' . $search . '%')
+                    ->orWhere('productos.descripcion', 'LIKE', '%' . $search . '%')
+                    ->orWhere('fritura_sopas_enc.id_control', 'LIKE', '%' . $search . '%')
                     ->orWhere('fritura_sopas_enc.fecha_hora', 'LIKE', '%' . $search . '%');
             })
             ->orderBy($sortField, $sort)
