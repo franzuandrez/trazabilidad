@@ -2,6 +2,8 @@
 @section('style')
     <link rel="stylesheet" href="{{asset('css/bootstrap-datepicker.css')}}">
     <link rel="stylesheet" href="{{asset('css/bootstrap-timepicker.css')}}">
+    <link rel="stylesheet" href="{{asset('css/loading.css')}}">
+    <link rel="stylesheet" href="{{asset('css/tools.css')}}">
 @endsection
 
 @section('contenido')
@@ -68,12 +70,11 @@
         <div class="form-group">
             <label for="lote">LOTE</label>
 
-            <select class="form-control selectpicker valor"
+            <input class="form-control selectpicker valor"
                     disabled
                     required
                     id="lote" name="lote">
-                <option value="" selected>SELECCIONE LOTE</option>
-            </select>
+
 
         </div>
     </div>
@@ -101,136 +102,136 @@
     </div>
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-        <div class="">
-            <div class="tab-content">
+            <hr>
+    </div>
+
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+
+
+        <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="velocidad_laminado">VELOCIDAD DE LAMINADO (RPM)</label>
+                <input id="velocidad_laminado" type="text" name="velocidad_laminado"
+                       disabled
+                       required
+                       class="form-control">
             </div>
-            <div class="tab-pane" id="tab_3">
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="velocidad_laminado">VELOCIDAD DE LAMINADO (RPM)</label>
-                        <input id="velocidad_laminado" type="text" name="velocidad_laminado"
-                                disabled
-                               required
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="espesor_lamina">ESPESOR DE LÁMINA 0.98 A 1.03 MM</label>
-                        <input id="espesor_lamina" type="text" name="espesor_lamina"
-                               disabled
-                               required
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="presicion">PRESICIÓN REGULADOR DE VALOR (0.2 A 0.3 MPA)</label>
-                        <input id="presicion" type="text" name="presicion"
-                               disabled
-                               required
-                               class="form-control">
-                    </div>
-                </div>
+        </div>
+        <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="espesor_lamina">ESPESOR DE LÁMINA 0.98 A 1.03 MM</label>
+                <input id="espesor_lamina" type="text" name="espesor_lamina"
+                       disabled
+                       required
+                       class="form-control">
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="presicion">PRESICIÓN REGULADOR DE VALOR (0.2 A 0.3 MPA)</label>
+                <input id="presicion" type="text" name="presicion"
+                       disabled
+                       required
+                       class="form-control">
+            </div>
+        </div>
 
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="indice_precoccion">INDICE PRECOCCIÓN (CUALITATIVO)</label>
-                        <input id="indice_precoccion" type="text" name="indice_precoccion"
-                               disabled
-                               required
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="temperatura_inicio">TEMPERATURA DE PRECOCCIÓN MAS DE 90 C INICIO</label>
-                        <input id="temperatura_inicio" type="text" name="temperatura_inicio"
-                               disabled
-                               required
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="temperatura_salida">TEMPERATURA DE PRECOCCIÓN MAS DE 90 C SALIDA</label>
-                        <input id="temperatura_salida" type="text" name="temperatura_salida"
-                               disabled
-                               required
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="tiempo_precoccion">TIEMPO DE PRECOCCIÓN 2:00 A 2:55 MIN. (CADA 30 MIN)</label>
-                        <input id="tiempo_precoccion" type="text" name="tiempo_precoccion"
-                               disabled
-                               required
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="velocidad_cotres">VELOCIDAD (COTRES * MIN)</label>
-                        <input id="velocidad_cotres" type="text" name="velocidad_cotres"
-                               disabled
-                               required
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <label for="observaciones">OBSERVACIONES</label>
-                    <div class="input-group">
+        <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="indice_precoccion">INDICE PRECOCCIÓN (CUALITATIVO)</label>
+                <input id="indice_precoccion" type="text" name="indice_precoccion"
+                       disabled
+                       required
+                       class="form-control">
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="temperatura_inicio">TEMPERATURA DE PRECOCCIÓN MAS DE 90 C INICIO</label>
+                <input id="temperatura_inicio" type="text" name="temperatura_inicio"
+                       disabled
+                       required
+                       class="form-control">
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="temperatura_salida">TEMPERATURA DE PRECOCCIÓN MAS DE 90 C SALIDA</label>
+                <input id="temperatura_salida" type="text" name="temperatura_salida"
+                       disabled
+                       required
+                       class="form-control">
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="tiempo_precoccion">TIEMPO DE PRECOCCIÓN 2:00 A 2:55 MIN. (CADA 30 MIN)</label>
+                <input id="tiempo_precoccion" type="text" name="tiempo_precoccion"
+                       disabled
+                       required
+                       class="form-control">
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="velocidad_cotres">VELOCIDAD (COTRES * MIN)</label>
+                <input id="velocidad_cotres" type="text" name="velocidad_cotres"
+                       disabled
+                       required
+                       class="form-control">
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+            <label for="observaciones">OBSERVACIONES</label>
+            <div class="input-group">
 
-                        <input id="observaciones" type="text" name="observaciones"
-                               disabled
-                               class="form-control">
-                        <div class="input-group-btn">
-                            <button
-                                id="btn_buscar_orden"
-                                onclick="agregar_a_table()"
-                                onkeydown="agregar_a_table()"
-                                type="button" class="btn btn-default">
-                                <i class="fa fa-plus"
-                                   aria-hidden="true"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <input type="hidden" name="hora" id="hora">
-
-
-                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
-
-                    <table id="detalles" class=" table-striped table-bordered table-condensed table-hover">
-
-                        <thead style="background-color: #01579B;  color: #fff;">
-                        <th>HORA (CADA 15 MIN)</th>
-                        <th>VELOCIDAD DE LAMINADO (RPM)</th>
-                        <th>ESPESOR DE LAMINA 0.98 A 1.03 MM</th>
-                        <th>PRESIÓN REGULADOR DE VAPOR (0.2 A 0.3 MPA)</th>
-                        <th>INDICE PRECOCCIÓN (CUALITATIVO)</th>
-                        <th>TEMPERATURA DE INICIO</th>
-                        <th>TEMPERATURA DE SALIDA</th>
-                        <th>TIEMPO DE PRECOCCIÓN 2:00 A 2:55 MIN</th>
-                        <th>VELOCIDAD (COTRES * MIN)</th>
-                        <th>OBSERVACIONES</th>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-                    <div class="form-group">
-                        <label for="acciones">ACCIONES/CORRECTIVAS</label>
-                        <input type="text" name="acciones" value="{{old('acciones')}}"
-                               class="form-control">
-                    </div>
+                <input id="observaciones" type="text" name="observaciones"
+                       disabled
+                       class="form-control">
+                <div class="input-group-btn">
+                    <button
+                        id="btn_buscar_orden"
+                        onclick="agregar_a_table()"
+                        onkeydown="agregar_a_table()"
+                        type="button" class="btn btn-default">
+                        <i class="fa fa-plus"
+                           aria-hidden="true"></i>
+                    </button>
                 </div>
             </div>
         </div>
+        <input type="hidden" name="hora" id="hora">
+
+
+        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
+
+            <table id="detalles" class=" table-striped table-bordered table-condensed table-hover">
+
+                <thead style="background-color: #01579B;  color: #fff;">
+                <th>HORA (CADA 15 MIN)</th>
+                <th>VELOCIDAD DE LAMINADO (RPM)</th>
+                <th>ESPESOR DE LAMINA 0.98 A 1.03 MM</th>
+                <th>PRESIÓN REGULADOR DE VAPOR (0.2 A 0.3 MPA)</th>
+                <th>INDICE PRECOCCIÓN (CUALITATIVO)</th>
+                <th>TEMPERATURA DE INICIO</th>
+                <th>TEMPERATURA DE SALIDA</th>
+                <th>TIEMPO DE PRECOCCIÓN 2:00 A 2:55 MIN</th>
+                <th>VELOCIDAD (COTRES * MIN)</th>
+                <th>OBSERVACIONES</th>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+            <div class="form-group">
+                <label for="acciones">ACCIONES/CORRECTIVAS</label>
+                <input type="text" name="acciones" value="{{old('acciones')}}"
+                       class="form-control">
+            </div>
+        </div>
     </div>
-    </div>
+    @include('componentes.loading')
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
@@ -239,7 +240,7 @@
                 class="btn btn-default" type="button">
                 <span class=" fa fa-check"></span> GUARDAR
             </button>
-            <a href="{{url('produccion/laminado')}}">
+            <a href="{{url('sopas/laminado')}}">
                 <button class="btn btn-default" type="button">
                     <span class="fa fa-remove"></span>
                     CANCELAR
@@ -332,7 +333,7 @@
 
         async function iniciar_laminado() {
 
-
+            $('.loading').show();
             const no_orden_produccion = document.getElementById('no_orden_produccion').value;
             const url = "{{url('sopas/laminado/iniciar_laminado')}}";
             const response = await iniciar(url, no_orden_produccion);
@@ -352,7 +353,7 @@
                 document.getElementById('no_orden_produccion').disabled = true;
             }
 
-
+            $('.loading').hide();
         }
 
         function deshabilitar_encabezado() {
@@ -383,7 +384,7 @@
                     url: "{{url('sopas/laminado/iniciar_formulario')}}",
                     data: {
                         id_control: id_control,
-                        id_producto:id_producto
+                        id_producto: id_producto
                     },
                     success: function (response) {
 
