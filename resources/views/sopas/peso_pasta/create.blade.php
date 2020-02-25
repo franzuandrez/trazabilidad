@@ -2,6 +2,8 @@
 @section('style')
     <link rel="stylesheet" href="{{asset('css/bootstrap-datepicker.css')}}">
     <link rel="stylesheet" href="{{asset('css/bootstrap-timepicker.css')}}">
+    <link rel="stylesheet" href="{{asset('css/tools.css')}}">
+    <link rel="stylesheet" href="{{asset('css/loading.css')}}">
 @endsection
 
 @section('contenido')
@@ -47,7 +49,7 @@
     </div>
 
 
-
+    @include('componentes.loading')
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="turno">TURNO</label>
@@ -96,7 +98,10 @@
     </div>
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-        <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+            <hr>
+    </div>
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="no_1">NO. 1</label>
                 <input id="no_1" type="text" name="no_1"
@@ -105,7 +110,7 @@
                        class="form-control">
             </div>
         </div>
-        <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="no_2">NO. 2</label>
                 <input id="no_2" type="text" name="no_2"
@@ -114,7 +119,7 @@
                        class="form-control">
             </div>
         </div>
-        <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="no_3">NO. 3</label>
                 <input id="no_3" type="text" name="no_3"
@@ -123,7 +128,7 @@
                        class="form-control">
             </div>
         </div>
-        <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="no_4">NO. 4</label>
                 <input id="no_4" type="text" name="no_4"
@@ -133,7 +138,7 @@
             </div>
         </div>
 
-        <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="no_5">Largo Fideo</label>
                 <input id="no_5" type="text" name="no_5"
@@ -144,7 +149,7 @@
         </div>
 
 
-        <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
             <label for="observaciones">OBSERVACIONES</label>
             <div class="input-group">
                 <input id="observaciones" type="text" name="observaciones"
@@ -298,12 +303,13 @@
 
         async function iniciar_laminado() {
 
-
+            $('.loading').show();
             const no_orden_produccion = document.getElementById('no_orden_produccion').value;
             const url = "{{url('sopas/peso_pasta/inciar_peso')}}";
             const response = await iniciar(url, no_orden_produccion);
 
-            console.log(response);
+
+
             if (response.status === 0) {
                 alert(response.message);
             } else {
@@ -317,6 +323,7 @@
                 cargar_productos();
                 document.getElementById('no_orden_produccion').disabled = true;
             }
+            $('.loading').hide();
 
 
         }
@@ -437,6 +444,7 @@
             }
             if (no_orden_valida) {
 
+                $('.loading').show();
                 const request = getRequest(fields);
                 const url = "{{url('sopas/peso_pasta/insertar_detalle')}}";
                 const url_borrar = "'{{url('sopas/peso_pasta/borrar_detalle')}}'";
@@ -447,6 +455,7 @@
                 } else {
                     alert(response.message);
                 }
+                $('.loading').hide();
             } else {
                 alert("Orden de produccion no valida");
             }
