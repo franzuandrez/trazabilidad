@@ -63,7 +63,7 @@
                 @foreach($laminados as $laminado)
                     <tr>
                         <td>
-                            <input type="radio" name="id_recepcion_enc" value="{{$laminado->id_laminado_sopas_enc}}">
+                            <input type="radio" name="id_item" value="{{$laminado->id_laminado_sopas_enc}}">
 
                         </td>
                         <td>

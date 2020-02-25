@@ -27,13 +27,16 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             @component('componentes.btn-create',['url'=>url('sopas/laminado/create')])
             @endcomponent
+            @component('componentes.btn-edit',['url'=>"javascript:editar('laminado')"])
+            @endcomponent
+
 
         </div>
     </div>
 
     @component('componentes.alert-no-selecction')
         @slot('mensaje')
-            SELECCIONAR RECEPCION
+            SELECCIONAR FORMULARIO DE LAMINADO
         @endslot
     @endcomponent
     <div id="content">

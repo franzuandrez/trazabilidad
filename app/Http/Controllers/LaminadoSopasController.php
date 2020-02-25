@@ -6,10 +6,10 @@ use App\Http\tools\OrdenProduccion;
 use App\Http\tools\RealTimeService;
 use App\LaminadoSopasDet;
 use App\LaminadoSopasEnc;
-use App\Recepcion;
 use App\User;
-use Illuminate\Http\Request;
 use DB;
+use Illuminate\Http\Request;
+
 class LaminadoSopasController extends Controller
 {
     /**
@@ -21,6 +21,7 @@ class LaminadoSopasController extends Controller
     {
         $this->middleware('auth');
     }
+
     public function index(Request $request)
     {
         //
@@ -76,7 +77,7 @@ class LaminadoSopasController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -102,7 +103,7 @@ class LaminadoSopasController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -113,19 +114,30 @@ class LaminadoSopasController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
         //
+        $laminado = LaminadoSopasEnc::with('control_trazabilidad')
+            ->with('control_trazabilidad.producto')
+            ->with('control_trazabilidad.liberacion_sopas')
+            ->findOrFail($id);
+
+
+
+        return view('sopas.laminado.edit', [
+            'laminado' => $laminado
+        ]);
+
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -136,7 +148,7 @@ class LaminadoSopasController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
