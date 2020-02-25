@@ -2,10 +2,12 @@
 @section('style')
     <link rel="stylesheet" href="{{asset('css/bootstrap-datepicker.css')}}">
     <link rel="stylesheet" href="{{asset('css/bootstrap-timepicker.css')}}">
+    <link rel="stylesheet" href="{{asset('css/tools.css')}}">
+    <link rel="stylesheet" href="{{asset('css/loading.css')}}">
 @endsection
 
 @section('contenido')
-    <div class="col-lg-12 col-lg-push-3 col-sm-12   col-sm-push-3   col-md-12   col-md-push-3  col-xs-12">
+    <div class="col-lg-12 col-lg-push-3 col-sm-12    col-md-12    col-xs-12">
         <h3>REGISTRO DE PARAMETROS EN FRITURA DE SOPAS INSTANTANEAS</h3>
     </div>
     @component('componentes.nav',['operation'=>'Ingreso',
@@ -24,7 +26,7 @@
     {!!Form::open(array('url'=>'sopas/fritura/create','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
 
-    <input type="hidden" id="id_control" name="id_control">
+    <input type="hidden" id="id_control" name="id_control" >
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <label for="turno">NO ORDEN DE PRODUCCION</label>
@@ -101,6 +103,9 @@
     </div>
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <hr>
+    </div>
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
 
 
 
@@ -164,6 +169,13 @@
                                 onkeydown="agregar_a_table()"
                                 type="button" class="btn btn-default">
                                 <i class="fa fa-plus"
+                                   aria-hidden="true"></i>
+                            </button>
+                            <button
+                                onclick="limpiar()"
+                                onkeydown="limpiar()"
+                                type="button" class="btn btn-default">
+                                <i class="fa fa-trash"
                                    aria-hidden="true"></i>
                             </button>
                         </div>
@@ -295,7 +307,7 @@
 
         async function iniciar_laminado() {
 
-
+            $('.loading').show();
             const no_orden_produccion = document.getElementById('no_orden_produccion').value;
             const url = "{{url('sopas/fritura/iniciar_fritura')}}";
             const response = await iniciar(url, no_orden_produccion);
@@ -314,7 +326,7 @@
                 cargar_productos();
                 document.getElementById('no_orden_produccion').disabled = true;
             }
-
+            $('.loading').hide();
 
         }
 
@@ -380,6 +392,7 @@
 
             const fields = detalle();
             limpiar_formulario(fields)
+            document.getElementById('inicial').focus();
 
         }
 
