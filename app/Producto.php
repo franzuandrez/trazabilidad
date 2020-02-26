@@ -58,6 +58,12 @@ class Producto extends Model
         return $query->where('productos.tipo_producto', 'PT');
     }
 
+    public function scopeEsProductoProceso($query)
+    {
+
+        return $query->where('productos.tipo_producto', 'PP');
+    }
+
     public function scopeEsMateriaPrima($query)
     {
 
@@ -97,8 +103,7 @@ class Producto extends Model
     {
         return $this
             ->belongsToMany(Presentacion::class, 'producto_presentacion', 'id_producto', 'id_presentacion')
-            ->groupBy('id_presentacion')
-            ;
+            ->groupBy('id_presentacion');
     }
 
 
