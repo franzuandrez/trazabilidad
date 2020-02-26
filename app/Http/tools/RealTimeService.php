@@ -30,10 +30,14 @@ class RealTimeService
                     'query' => DB::getQueryLog(),
                 ];
             } else {
-                $rows = DB::table($model->getTable())
+                $model = $model
+                    ->newQueryWithoutRelationships()
                     ->where($model->getKeyName(), $model->getKey())
-                    ->update($nuevos_registro);
-                if ($rows > 0) {
+                    ->first();
+                $model->{array_keys($nuevos_registro)[0]} = array_values($nuevos_registro)[0];
+                $rows = $model->save();
+
+                if ($rows) {
                     $response = [
                         'status' => 1,
                         'message' => 'Insertado correctamente',
@@ -43,7 +47,7 @@ class RealTimeService
                     $response = [
                         'status' => 0,
                         'message' => 'No se ha podido insertar el registro',
-                        'query' => DB::getQueryLog(),
+                        'query' =>  DB::getQueryLog(),
                     ];
                 }
             }
