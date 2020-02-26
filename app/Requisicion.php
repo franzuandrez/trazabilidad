@@ -3,10 +3,16 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Requisicion extends Model
 {
     //
+    use LogsActivity;
+    public static $logAttributes = [
+        '*'
+    ];
+    protected static $logOnlyDirty = true;
 
     protected $table = 'requisicion_encabezado';
     protected $primaryKey = 'id';
