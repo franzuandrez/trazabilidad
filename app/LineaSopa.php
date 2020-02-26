@@ -30,4 +30,10 @@ class LineaSopa extends Model
     {
         return $this->belongsTo(Presentacion::class, 'id_presentacion', 'id_presentacion');
     }
+
+    public function producto()
+    {
+
+        return $this->belongsTo(Producto::class, 'id_producto', 'id_producto');
+    }
 }

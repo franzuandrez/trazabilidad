@@ -475,6 +475,7 @@ Route::post('sopas/liberacion/create', 'LineaSopaController@store')->name('sopas
 Route::post('sopas/liberacion/verficar_no_orden_produccion', 'LineaSopaController@verficar_no_orden_produccion')->name('chaomin.verficar_no_orden_produccion');
 Route::post('sopas/liberacion/iniciar', 'LineaSopaController@iniciar_linea_sopas')->name('sopas.iniciar_linea_sopas');
 Route::post('sopas/liberacion/nuevo_registro', 'LineaSopaController@nuevo_registro')->name('sopas.nuevo_registro');
+Route::get('sopas/liberacion/{id}/edit', 'LineaSopaController@edit')->name('sopas.liberacion.edit');
 
 
 

@@ -28,7 +28,8 @@
 
             @component('componentes.btn-create',['url'=>url('sopas/liberacion/create')])
             @endcomponent
-
+            @component('componentes.btn-edit',['url'=>"javascript:editar('liberacion')"])
+            @endcomponent
             @component('componentes.btn-ver',['url'=>'javascript:ver("liberacion")'])
             @endcomponent
         </div>

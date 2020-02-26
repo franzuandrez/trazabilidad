@@ -6,8 +6,8 @@ use App\Http\tools\RealTimeService;
 use App\LineaSopa;
 use App\Operacion;
 use App\Producto;
-use Illuminate\Http\Request;
 use DB;
+use Illuminate\Http\Request;
 
 class LineaSopaController extends Controller
 {
@@ -169,7 +169,7 @@ class LineaSopaController extends Controller
             $linea_chaomin->estado = 1;
             $linea_chaomin->save();
 
-            RealTimeService::guardar($linea_chaomin, $request->except(['no_orden_produccion', '_token','id_sopa','producto']));
+            RealTimeService::guardar($linea_chaomin, $request->except(['no_orden_produccion', '_token', 'id_sopa', 'producto']));
             return redirect()->route('sopas.liberacion')
                 ->with('success', 'Linea  Finalizada correctamente');
         } catch (\Exception $ex) {
@@ -180,4 +180,16 @@ class LineaSopaController extends Controller
 
     }
 
+
+    public function edit($id)
+    {
+        $sopa = LineaSopa::with('producto')
+            ->findOrFail($id);
+
+
+        return view('sopas.liberacion.edit', [
+            'sopa' => $sopa
+        ]);
+
+    }
 }
