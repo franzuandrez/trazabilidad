@@ -192,4 +192,16 @@ class LineaSopaController extends Controller
         ]);
 
     }
+
+    public function show($id)
+    {
+
+        $sopa = LineaSopa::with('producto')
+            ->findOrFail($id);
+
+
+        return view('sopas.liberacion.show', [
+            'sopa' => $sopa
+        ]);
+    }
 }

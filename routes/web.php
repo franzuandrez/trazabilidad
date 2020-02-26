@@ -476,6 +476,7 @@ Route::post('sopas/liberacion/verficar_no_orden_produccion', 'LineaSopaControlle
 Route::post('sopas/liberacion/iniciar', 'LineaSopaController@iniciar_linea_sopas')->name('sopas.iniciar_linea_sopas');
 Route::post('sopas/liberacion/nuevo_registro', 'LineaSopaController@nuevo_registro')->name('sopas.nuevo_registro');
 Route::get('sopas/liberacion/{id}/edit', 'LineaSopaController@edit')->name('sopas.liberacion.edit');
+Route::get('sopas/liberacion/{id}', 'LineaSopaController@show')->name('sopas.liberacion.show');
 
 
 
