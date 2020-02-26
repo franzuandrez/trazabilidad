@@ -29,6 +29,8 @@
             @endcomponent
             @component('componentes.btn-ver',['url'=>"javascript:ver('peso_pasta')"])
             @endcomponent
+            @component('componentes.btn-reporte',['url'=>"javascript:reporte('peso_pasta/reporte')"])
+            @endcomponent
 
         </div>
     </div>

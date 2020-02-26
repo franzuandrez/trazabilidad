@@ -450,6 +450,7 @@ Route::post('sopas/peso_pasta/borrar_detalle', 'PesoPastaController@borrar_detal
 Route::get('sopas/peso_pasta/{id}/edit', 'PesoPastaController@edit')->name('peso_pasta.edit');
 Route::patch('sopas/peso_pasta/{id}', 'PesoPastaController@update')->name('peso_pasta.update');
 Route::get('sopas/peso_pasta/{id}', 'PesoPastaController@show')->name('peso_pasta.show');
+Route::get('sopas/peso_pasta/reporte/{id}', 'ReporteLineaSopas@reporte_peso_pasta')->name('peso_pasta.reporte_peso_pasta');
 Route::post('sopas/peso_pasta/{id}', 'PesoPastaController@destroy')->name('peso_pasta.destroy');
 
 Route::get('sopas/laminado', 'LaminadoSopasController@index')->name('sopas.laminado..index');
