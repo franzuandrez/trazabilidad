@@ -3,6 +3,7 @@
     <link rel="stylesheet" href="{{asset('css/bootstrap-datepicker.css')}}">
     <link rel="stylesheet" href="{{asset('css/bootstrap-timepicker.css')}}">
     <link rel="stylesheet" href="{{asset('css/loading.css')}}">
+    <link rel="stylesheet" href="{{asset('css/tools.css')}}">
 
 
 @endsection
@@ -426,7 +427,7 @@
             const fields = detalle();
 
             if (existe_campo_vacio(fields)) {
-                alert("Campos incompletos");
+                get_campo_vacio(fields).focus();
                 return;
             }
             if (no_orden_valida) {
@@ -458,8 +459,8 @@
 
         function limpiar() {
 
-            const fields = detalle();
-            limpiar_formulario(fields)
+            const fields = detalle().filter(e => e[0] !== "id_producto" & e[0] !== "lote");
+            limpiar_formulario(fields);
             document.getElementById('no_1').focus();
         }
 

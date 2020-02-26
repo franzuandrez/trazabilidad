@@ -190,6 +190,7 @@ class PesoHumedoController extends Controller
     {
 
         $id_control = $request->get('id_control');
+        $lote = $request->get('lote');
 
 
         $humedo = PesoHumedoEnc::where('id_control', $id_control)
@@ -199,7 +200,7 @@ class PesoHumedoController extends Controller
             $humedo = new PesoHumedoEnc();
             $humedo->id_usuario = \Auth::user()->id;
             $humedo->id_control = $id_control;
-            $humedo->cortador_no = $request->cortador_no;
+            $humedo->lote = $lote;
             $humedo->save();
 
             $response = [

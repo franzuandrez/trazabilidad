@@ -22,7 +22,7 @@
 
 
 
-    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+    <div class="col-lg-6 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
             <label for="turno">NO CONTROL</label>
             <input type="text"
@@ -30,21 +30,12 @@
                    onkeydown="if(event.keyCode==13)iniciar_mezcla_harina()"
                    readonly
                    value="{{$humedo->id_control}}"
-                   name="no_orden_produccion" value="{{old('no_orden_produccion')}}"
+                   name="no_orden_produccion"
                    class="form-control">
         </div>
     </div>
 
 
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="cortadora">CORTADORA NO.</label>
-            <input id="cortadora" type="text"
-                   readonly
-                   value="{{$humedo->cortador_no}}"
-                   class="form-control">
-        </div>
-    </div>
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
@@ -82,7 +73,7 @@
             @foreach( $humedo->detalle as $detalle )
                 <tr>
                     <td>{{$detalle->hora}}</td>
-                    <td>{{$detalle->producto()->first()->descripcion}}</td>
+                    <td>{{$humedo->control_trazabilidad->liberacion_linea->presentacion->descripcion}}</td>
                     <td>{{$detalle->lote}}</td>
                     <td>{{$detalle->muestra_no1}}</td>
                     <td>{{$detalle->muestra_no2}}</td>

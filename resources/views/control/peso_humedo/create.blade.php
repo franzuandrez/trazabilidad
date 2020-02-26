@@ -2,18 +2,22 @@
 @section('style')
     <link rel="stylesheet" href="{{asset('css/bootstrap-datepicker.css')}}">
     <link rel="stylesheet" href="{{asset('css/bootstrap-timepicker.css')}}">
+    <link rel="stylesheet" href="{{asset('css/tools.css')}}">
+    <link rel="stylesheet" href="{{asset('css/loading.css')}}">
 @endsection
 
 @section('contenido')
     <div class="col-lg-12 col-lg-push-3col-sm-12   col-sm-push-3   col-md-12   col-md-push-3  col-xs-12">
-        <h3>CONTROL DE PESO HUMEDO DE PASTA PARA CHAO MEIN  <button
+        <h3>CONTROL DE PESO HUMEDO DE PASTA PARA CHAO MEIN
+            <button
                 data-toggle="tooltip"
                 title="Informacion"
                 onclick="ver_informacion()"
                 type="button" class="btn btn-default btn-sm">
                 <i class="fa fa-info"
                    aria-hidden="true"></i>
-            </button>  </h3>
+            </button>
+        </h3>
     </div>
     @component('componentes.nav',['operation'=>'Ingreso',
     'menu_icon'=>'fa fa-check-square-o',
@@ -85,12 +89,12 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <label for="lote">LOTE</label>
         <div class="input-group">
-            <select class="form-control selectpicker valor"
-                    disabled
-                    required
-                    id="lote" name="lote">
-                <option value="" selected>SELECCIONE LOTE</option>
-            </select>
+            <input class="form-control selectpicker valor"
+                   disabled
+                   required
+                   id="lote"
+                   name="lote">
+
             <div class="input-group-btn">
                 <button
                     onclick="inicia_formulario()"
@@ -102,49 +106,66 @@
             </div>
         </div>
     </div>
-
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-        <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+        <hr>
+    </div>
+    @include('componentes.loading')
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="no_1">NO. 1</label>
-                <input id="no_1" type="text" name="no_1"
+                <input id="no_1"  name="no_1"
+                       type="number"
+                       step="any"
                        required
                        disabled
                        class="form-control">
             </div>
         </div>
-        <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="no_2">NO. 2</label>
-                <input id="no_2" type="text" name="no_2"
+                <input id="no_2"
+                       type="number"
+                       step="any"
+                       name="no_2"
                        required
                        disabled
                        class="form-control">
             </div>
         </div>
-        <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="no_3">NO. 3</label>
-                <input id="no_3" type="text" name="no_3"
+                <input id="no_3"
+                       type="number"
+                       step="any"
+                       name="no_3"
                        required
                        disabled
                        class="form-control">
             </div>
         </div>
-        <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="no_4">NO. 4</label>
-                <input id="no_4" type="text" name="no_4"
+                <input id="no_4"
+                       name="no_4"
+                       type="number"
+                       step="any"
                        required
                        disabled
                        class="form-control">
             </div>
         </div>
 
-        <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="no_5">NO. 5</label>
-                <input id="no_5" type="text" name="no_5"
+                <input id="no_5"
+                       type="number"
+                       step="any"
+                       name="no_5"
                        required
                        disabled
                        class="form-control">
@@ -152,7 +173,7 @@
         </div>
 
 
-        <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
             <label for="observaciones">OBSERVACIONES</label>
             <div class="input-group">
                 <input id="observaciones" type="text" name="observaciones"
@@ -161,7 +182,7 @@
                 <div class="input-group-btn">
                     <button class="btn btn-default block"
                             onclick="agregar_a_table()"
-                           type="button">
+                            type="button">
                         <span class=" fa fa-plus"></span></button>
                     <button
                         onclick="limpiar()"
@@ -260,7 +281,7 @@
             let option = '<option value="" selected>   SELECCIONE PRODUCTO </option>';
             gl_detalle_insumos.forEach(function (e) {
                 option += `
-                <option  value="${e.id_producto}" > ${e.control_trazabilidad.producto.descripcion}   /    ${e.presentacion.descripcion} </option>
+                <option  value="${e.id_producto}" >${e.presentacion.descripcion} </option>
                 `
             });
             $(select).append(option);
@@ -298,18 +319,32 @@
 
 
             const id_producto = document.getElementById('id_producto').value;
+            const lote = document.getElementById('lote').value;
+            const turno = document.getElementById('id_turno').value;
+
 
             if (id_producto == "") {
                 alert("Seleccione producto");
                 return;
             }
+            if (lote === "") {
+                alert("Lote en blanco");
+                return;
+            }
+
+            if (turno === "") {
+                alert("Seleccione Turno");
+                return;
+            }
             const id_control = gl_detalle_insumos.find(e => e.id_producto == id_producto).id_control;
-            return $.ajax(
+            $('.loading').show();
+            $.ajax(
                 {
                     type: "POST",
                     url: "{{url('control/peso_humedo/iniciar_formulario')}}",
                     data: {
                         id_control: id_control,
+                        lote: lote,
                     },
                     success: function (response) {
 
@@ -319,10 +354,12 @@
                         } else {
                             alert(response.message);
                         }
+                        $('.loading').hide();
 
                     },
                     error: function (error) {
-                        console.log(error)
+                        console.log(error);
+                        $('.loading').hide();
                     }
                 }
             );
@@ -331,7 +368,7 @@
 
         async function iniciar_control_peso_humedo() {
 
-
+            $('.loading').show();
             const no_orden_produccion = document.getElementById('no_orden_produccion').value;
             const url = "{{url('control/peso_humedo/iniciar_laminado')}}";
             const response = await iniciar(url, no_orden_produccion);
@@ -343,14 +380,14 @@
                 document.getElementById('id_producto').disabled = false;
                 document.getElementById('lote').disabled = false;
                 document.getElementById('id_turno').disabled = false;
-                document.getElementById('cortadora').disabled = false;
+
                 $('#id_producto').selectpicker('refresh');
                 $('#lote').selectpicker('refresh');
                 $('#id_turno').selectpicker('refresh');
                 cargar_productos();
                 document.getElementById('no_orden_produccion').disabled = true;
             }
-
+            $('.loading').hide();
 
         }
 
@@ -389,7 +426,6 @@
             document.getElementById('no_orden_produccion').disabled = true;
             document.getElementById('id_producto').disabled = true;
             document.getElementById('btn_buscar_orden').disabled = true;
-            document.getElementById('cortadora').disabled = true;
             document.getElementById('lote').disabled = true;
             document.getElementById('id_turno').disabled = true;
             $('#id_producto').selectpicker('refresh');
@@ -416,11 +452,12 @@
             const fields = detalle();
 
             if (existe_campo_vacio(fields)) {
-                alert("Campos incompletos");
+                get_campo_vacio(fields).focus();
                 return;
             }
             if (no_orden_valida) {
 
+                $('.loading').show();
                 const request = getRequest(fields);
                 const url = "{{url('control/peso_humedo/insertar_detalle')}}";
                 const url_borrar = "'{{url('control/peso_humedo/borrar_detalle')}}'";
@@ -428,10 +465,8 @@
                 if (response.status == 1) {
                     const url_update_enc = "{{url('control/peso_humedo/nuevo_registro')}}";
                     const id_turno = document.getElementById('id_turno').value;
-                    const cortadora = document.getElementById('cortadora').value;
                     const registros = [
                         formato_registro('turno', id_turno),
-                        formato_registro('cortador_no', cortadora)
                     ];
                     insertar_registros(url_update_enc, registros, get_id_control());
                     add_to_table(fields, response.id, 'detalles', url_borrar);
@@ -439,6 +474,7 @@
                 } else {
                     alert(response.message);
                 }
+                $('.loading').hide();
             } else {
                 alert("Orden de produccion no valida");
             }
@@ -448,10 +484,11 @@
 
         function limpiar() {
 
-            const fields = detalle();
-            limpiar_formulario(fields)
-
+            const fields = detalle().filter(e => e[0] !== "id_producto" & e[0] !== "lote");
+            limpiar_formulario(fields);
+            document.getElementById('no_1').focus();
         }
+
         function ver_informacion() {
 
             $('#informacion').modal()
