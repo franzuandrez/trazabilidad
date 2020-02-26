@@ -8,7 +8,7 @@
 @endsection
 
 @section('contenido')
-    <div class="col-lg-12 col-lg-push-3 col-sm-12   col-sm-push-4   col-md-12   col-md-push-4  col-xs-12">
+    <div class="col-lg-12 col-lg-push-3 col-sm-12     col-md-12    col-xs-12">
         <h3>LIBERACION DE LINEA DE SOPAS INSTANTANEAS</h3>
     </div>
 
