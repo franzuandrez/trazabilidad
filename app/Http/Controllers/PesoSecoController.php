@@ -187,6 +187,7 @@ class PesoSecoController extends Controller
     {
 
         $id_control = $request->get('id_control');
+        $lote = $request->get('lote');
 
 
         $humedo = PesoSecoEnc::where('id_control', $id_control)
@@ -196,6 +197,7 @@ class PesoSecoController extends Controller
             $humedo = new PesoSecoEnc();
             $humedo->id_usuario = \Auth::user()->id;
             $humedo->id_control = $id_control;
+            $humedo->lote = $lote;
             $humedo->save();
 
             $response = [

@@ -2,6 +2,8 @@
 @section('style')
     <link rel="stylesheet" href="{{asset('css/bootstrap-datepicker.css')}}">
     <link rel="stylesheet" href="{{asset('css/bootstrap-timepicker.css')}}">
+    <link rel="stylesheet" href="{{asset('css/tools.css')}}">
+    <link rel="stylesheet" href="{{asset('css/loading.css')}}">
 @endsection
 
 @section('contenido')
@@ -34,6 +36,7 @@
     {{Form::token()}}
 
     @include('control.peso_seco.tabla_informativa')
+    @include('componentes.loading')
     <input type="hidden" id="id_control" name="id_control">
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <label for="turno">NO ORDEN DE PRODUCCION</label>
@@ -78,7 +81,6 @@
             <select class="form-control selectpicker valor"
                     disabled
                     required
-                    onchange="cargar_lotes(this.value)"
                     id="id_producto" name="id_producto">
                 <option value="" selected>SELECCIONE UN PRODUCTO</option>
             </select>
@@ -88,12 +90,10 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <label for="lote">LOTE</label>
         <div class="input-group">
-            <select class="form-control selectpicker valor"
-                    disabled
-                    required
-                    id="lote" name="lote">
-                <option value="" selected>SELECCIONE LOTE</option>
-            </select>
+            <input class="form-control selectpicker valor"
+                   disabled
+                   required
+                   id="lote" name="lote">
             <div class="input-group-btn">
                 <button
                     onclick="inicia_formulario()"
@@ -106,108 +106,124 @@
 
         </div>
     </div>
-
-
-
-    <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="no_1">NO. 1</label>
-            <input id="no_1" type="text" name="no_1"
-                   required
-                   disabled
-                   class="form-control">
-        </div>
-    </div>
-    <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="no_2">NO. 2</label>
-            <input id="no_2" type="text" name="no_2"
-                   required
-                   disabled
-                   class="form-control">
-        </div>
-    </div>
-    <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="no_3">NO. 3</label>
-            <input id="no_3" type="text" name="no_3"
-                   required
-                   disabled
-                   class="form-control">
-        </div>
-    </div>
-    <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="no_4">NO. 4</label>
-            <input id="no_4" type="text" name="no_4"
-                   required
-                   disabled
-                   class="form-control">
-        </div>
-    </div>
-
-    <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="no_5">NO. 5</label>
-            <input id="no_5" type="text" name="no_5"
-                   required
-                   disabled
-                   class="form-control">
-        </div>
-    </div>
-
-
-
-    <div class="col-lg-3 col-sm-6 col-md-6 col-xs-10">
-        <label for="observaciones">OBSERVACIONES</label>
-        <div class="input-group">
-            <input id="observaciones" type="text" name="observaciones"
-                   disabled
-                   class="form-control">
-            <div class="input-group-btn">
-                <button class="btn btn-default block"
-                        onclick="agregar_a_table()"
-                        type="button">
-                    <span class=" fa fa-plus"></span></button>
-                <button
-                    onclick="limpiar()"
-                    class="btn btn-default block" type="button">
-                    <span class=" fa fa-trash"></span></button>
-            </div>
-        </div>
-    </div>
-    <input type="hidden" name="hora" id="hora">
-
-
-
-    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
-
-        <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
-
-            <thead style="background-color: #01579B;  color: #fff;">
-            <tr>
-
-                <th>HORA</th>
-                <th>PRODUCTO</th>
-                <th>LOTE</th>
-                <th>NO. 1</th>
-                <th>NO. 2</th>
-                <th>NO. 3</th>
-                <th>NO. 4</th>
-                <th>NO. 5</th>
-                <th>OBSERVACIONES</th>
-            </tr>
-
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <hr>
     </div>
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-        <div class="form-group">
-            <label for="observacion_correctiva">OBSERVACIONES Y/O ACCION CORRECTIVA</label>
-            <input type="text" name="observacion_correctiva" value="{{old('observacion_correctiva')}}"
-                   class="form-control">
+
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="no_1">NO. 1</label>
+                <input id="no_1"
+                       type="number"
+                       step="any"
+                       name="no_1"
+                       required
+                       disabled
+                       class="form-control">
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="no_2">NO. 2</label>
+                <input id="no_2"
+                       type="number"
+                       step="any"
+                       name="no_2"
+                       required
+                       disabled
+                       class="form-control">
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="no_3">NO. 3</label>
+                <input id="no_3"
+                       type="number"
+                       step="any"
+                       name="no_3"
+                       required
+                       disabled
+                       class="form-control">
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="no_4">NO. 4</label>
+                <input id="no_4"
+                       type="number"
+                       step="any"
+                       name="no_4"
+                       required
+                       disabled
+                       class="form-control">
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="no_5">NO. 5</label>
+                <input id="no_5"
+                       type="number"
+                       step="any"
+                       name="no_5"
+                       required
+                       disabled
+                       class="form-control">
+            </div>
+        </div>
+
+
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+            <label for="observaciones">OBSERVACIONES</label>
+            <div class="input-group">
+                <input id="observaciones" type="text" name="observaciones"
+                       disabled
+                       class="form-control">
+                <div class="input-group-btn">
+                    <button class="btn btn-default block"
+                            onclick="agregar_a_table()"
+                            type="button">
+                        <span class=" fa fa-plus"></span></button>
+                    <button
+                        onclick="limpiar()"
+                        class="btn btn-default block" type="button">
+                        <span class=" fa fa-trash"></span></button>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="hora" id="hora">
+
+
+        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
+
+            <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
+
+                <thead style="background-color: #01579B;  color: #fff;">
+                <tr>
+
+                    <th>HORA</th>
+                    <th>PRODUCTO</th>
+                    <th>LOTE</th>
+                    <th>NO. 1</th>
+                    <th>NO. 2</th>
+                    <th>NO. 3</th>
+                    <th>NO. 4</th>
+                    <th>NO. 5</th>
+                    <th>OBSERVACIONES</th>
+                </tr>
+
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+            <div class="form-group">
+                <label for="observacion_correctiva">OBSERVACIONES Y/O ACCION CORRECTIVA</label>
+                <input type="text" name="observacion_correctiva" value="{{old('observacion_correctiva')}}"
+                       class="form-control">
+            </div>
         </div>
     </div>
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
@@ -262,7 +278,7 @@
             let option = '<option value="" selected>   SELECCIONE PRODUCTO </option>';
             gl_detalle_insumos.forEach(function (e) {
                 option += `
-                <option  value="${e.id_producto}" > ${e.control_trazabilidad.producto.descripcion}   /    ${e.presentacion.descripcion} </option>
+                <option  value="${e.id_producto}" >  ${e.presentacion.descripcion} </option>
                 `
             });
             $(select).append(option);
@@ -298,7 +314,7 @@
 
         async function iniciar_control_peso_seco() {
 
-
+            $('.loading').show();
             const no_orden_produccion = document.getElementById('no_orden_produccion').value;
             const url = "{{url('control/peso_seco/iniciar_laminado')}}";
             const response = await iniciar(url, no_orden_produccion);
@@ -317,7 +333,7 @@
                 document.getElementById('no_orden_produccion').disabled = true;
             }
 
-
+            $('.loading').hide();
         }
 
         function detalle() {
@@ -362,18 +378,30 @@
 
 
             const id_producto = document.getElementById('id_producto').value;
+            const lote = document.getElementById('lote').value;
+            const turno = document.getElementById('id_turno').value;
 
-            if (id_producto == "") {
+            if (id_producto === "") {
                 alert("Seleccione producto");
                 return;
             }
+            if (lote === "") {
+                alert("Lote en blanco");
+                return;
+            }
+            if (turno === "") {
+                alert("Seleccione Turno");
+                return;
+            }
+            $('.loading').show();
             const id_control = gl_detalle_insumos.find(e => e.id_producto == id_producto).id_control;
-             $.ajax(
+            $.ajax(
                 {
                     type: "POST",
                     url: "{{url('control/peso_seco/iniciar_formulario')}}",
                     data: {
                         id_control: id_control,
+                        lote: lote,
                     },
                     success: function (response) {
 
@@ -383,7 +411,7 @@
                         } else {
                             alert(response.message);
                         }
-
+                        $('.loading').hide();
                     },
                     error: function (error) {
                         console.log(error)
@@ -403,11 +431,12 @@
             const fields = detalle();
 
             if (existe_campo_vacio(fields)) {
-                alert("Campos incompletos");
+                get_campo_vacio(fields).focus();
                 return;
             }
             if (no_orden_valida) {
 
+                $('.loading').show();
                 const request = getRequest(fields);
                 const url = "{{url('control/peso_seco/insertar_detalle')}}";
                 const url_borrar = "'{{url('control/peso_seco/borrar_detalle')}}'";
@@ -424,6 +453,7 @@
                 } else {
                     alert(response.message);
                 }
+                $('.loading').hide();
             } else {
                 alert("Orden de produccion no valida");
             }
@@ -446,10 +476,12 @@
 
         function limpiar() {
 
-            const fields = detalle();
-            limpiar_formulario(fields)
+            const fields = detalle().filter(e => e[0] !== "id_producto" & e[0] !== "lote");
+            limpiar_formulario(fields);
+            document.getElementById('no_1').focus();
 
         }
+
         function ver_informacion() {
 
             $('#informacion').modal()

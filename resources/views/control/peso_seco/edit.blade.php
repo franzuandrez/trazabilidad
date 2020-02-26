@@ -3,10 +3,11 @@
     <link rel="stylesheet" href="{{asset('css/bootstrap-datepicker.css')}}">
     <link rel="stylesheet" href="{{asset('css/bootstrap-timepicker.css')}}">
     <link rel="stylesheet" href="{{asset('css/loading.css')}}">
+    <link rel="stylesheet" href="{{asset('css/tools.css')}}">
 @endsection
 
 @section('contenido')
-    <div class="col-lg-12 col-lg-push-4 col-sm-12   col-sm-push-4   col-md-12   col-md-push-4  col-xs-12">
+    <div class="col-lg-12 col-lg-push-4 col-sm-12     col-md-12    col-xs-12">
         <h3>CONTROL DE PESO SECO DE CHAO MEIN
             <button
                 data-toggle="tooltip"
@@ -87,36 +88,41 @@
         <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="no_1">NO. 1</label>
-                <input id="no_1" type="text" name="no_1"
+                <input id="no_1" name="no_1"
                        required
-
+                       type="number"
+                       step="any"
                        class="form-control">
             </div>
         </div>
         <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="no_2">NO. 2</label>
-                <input id="no_2" type="text" name="no_2"
+                <input id="no_2" name="no_2"
                        required
-
+                       type="number"
+                       step="any"
                        class="form-control">
             </div>
         </div>
         <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="no_3">NO. 3</label>
-                <input id="no_3" type="text" name="no_3"
+                <input id="no_3" name="no_3"
                        required
-
+                       type="number"
+                       step="any"
                        class="form-control">
             </div>
         </div>
         <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="no_4">NO. 4</label>
-                <input id="no_4" type="text" name="no_4"
+                <input id="no_4"
+                       type="number"
+                       step="any"
+                       name="no_4"
                        required
-
                        class="form-control">
             </div>
         </div>
@@ -124,7 +130,10 @@
         <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="no_5">NO. 5</label>
-                <input id="no_5" type="text" name="no_5"
+                <input id="no_5"
+                       type="number"
+                       step="any"
+                       name="no_5"
                        required
 
                        class="form-control">
