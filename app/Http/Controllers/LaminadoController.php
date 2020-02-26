@@ -114,7 +114,6 @@ class LaminadoController extends Controller
             ->findOrFail($id);
 
 
-
         return view('control.laminado.edit',
             [
                 'laminado' => $laminado
@@ -221,6 +220,7 @@ class LaminadoController extends Controller
     {
 
         $id_control = $request->get('id_control');
+        $lote = $request->get('lote');
 
 
         $laminado = Laminado_Enc::where('id_control', $id_control)
@@ -231,6 +231,7 @@ class LaminadoController extends Controller
             $laminado->id_usuario = \Auth::user()->id;
             $laminado->id_control = $id_control;
             $laminado->id_responsable = \Auth::user()->id;
+            $laminado->lote = $lote;
             $laminado->save();
 
             $response = [

@@ -3,6 +3,7 @@
     <link rel="stylesheet" href="{{asset('css/bootstrap-datepicker.css')}}">
     <link rel="stylesheet" href="{{asset('css/bootstrap-timepicker.css')}}">
     <link rel="stylesheet" href="{{asset('css/loading.css')}}">
+    <link rel="stylesheet" href="{{asset('css/tools.css')}}">
 @endsection
 
 @section('contenido')
@@ -67,139 +68,143 @@
         </div>
     </div>
 
-
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-        <div class="form-group">
-            <label for="temperatura">TEMPERATURA REPOSO 34-36 °C</label>
-
-        </div>
+        <hr>
     </div>
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="temperatura">VALOR</label>
-            <input id="temperatura_inicial"
-                   required
-                   type="number" step="any"
-                   name="temperatura_inicial"
-                   onkeydown="if(event.keyCode==13)validacion(this,34,36,document.getElementById('temperatura_final'),document.getElementById('temperatura_observaciones'))"
-                   class="form-control">
-        </div>
-    </div>
-
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="temperatura">OBSERVACIONES</label>
-            <input id="temperatura_observaciones"
-
-                   type="text" name="temperatura_observaciones" value="{{old('temperatura_observaciones')}}"
-                   class="form-control">
-        </div>
-    </div>
-
-    <input type="hidden" id="hora" name="hora" required>
-
-
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-        <div class="form-group">
-            <label for="temperatura">ESPESOR 1.25 A 1.30 (milimetros)</label>
 
-        </div>
-    </div>
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="temperatura">VALOR</label>
-            <input id="espesor_inicial"
-                   type="number" step="any"
-                   name="espesor_inicial"
-                   required
-                   class="form-control">
-        </div>
-    </div>
+        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+            <div class="form-group">
+                <label for="temperatura">TEMPERATURA REPOSO 34-36 °C</label>
 
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <label for="temperatura">OBSERVACIONES</label>
-        <div class="input-group">
-            <input id="espesor_observaciones"
-                   type="text" name="espesor_observaciones" value="{{old('espesor_observaciones')}}"
-                   onkeydown="if(event.keyCode==13)agregar_a_table()"
-                   class="form-control">
-            <div class="input-group-btn">
-                <button
-                    data-toggle="tooltip"
-                    title="Agregar"
-                    onclick="agregar_a_table()"
-                    type="button" class="btn btn-default">
-                    <i class="fa fa-plus"
-                       aria-hidden="true"></i>
-                </button>
-                <button
-                    data-toggle="tooltip"
-                    title="Limpiar"
-                    onclick="limpiar()"
-                    type="button" class="btn btn-default">
-                    <i class="fa fa-trash"
-                       aria-hidden="true"></i>
-                </button>
             </div>
-
         </div>
-    </div>
-
-    @include('componentes.loading')
-
-
-    <div class="tab-pane" id="tab_3">
-
-        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
-
-            <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
-
-                <thead style="background-color: #01579B;  color: #fff;">
-                <th>HORA</th>
-                <th>PRODUCTO</th>
-                <th>LOTE</th>
-                <th>TEMPERATURA</th>
-                <th>OBSERVACIONES</th>
-                <th>ESPESOR</th>
-                <th>OBSERVACIONES</th>
-                </thead>
-                <tbody>
-                @foreach( $laminado->detalle as $detalle )
-                    <tr>
-                        <td>
-                            {{$detalle->hora}}
-                        </td>
-                        <td>
-                            {{$laminado->control_trazabilidad->liberacion_linea->presentacion->descripcion}}
-                        </td>
-                        <td>
-                            {{$detalle->lote_producto}}
-                        </td>
-                        <td>
-                            {{$detalle->temperatura_inicio}}
-                        </td>
-                        <td>
-                            {{$detalle->temperatura_observaciones}}
-                        </td>
-                        <td>
-                            {{$detalle->espesor_inicio}}
-                        </td>
-                        <td>
-                            {{$detalle->espesor_observaciones}}
-                        </td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="temperatura">VALOR</label>
+                <input id="temperatura_inicial"
+                       required
+                       type="number" step="any"
+                       name="temperatura_inicial"
+                       onkeydown="if(event.keyCode==13)validacion(this,34,36,document.getElementById('temperatura_final'),document.getElementById('temperatura_observaciones'))"
+                       class="form-control">
+            </div>
         </div>
+
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="temperatura">OBSERVACIONES</label>
+                <input id="temperatura_observaciones"
+
+                       type="text" name="temperatura_observaciones" value="{{old('temperatura_observaciones')}}"
+                       class="form-control">
+            </div>
+        </div>
+
+        <input type="hidden" id="hora" name="hora" required>
+
+
+        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+            <div class="form-group">
+                <label for="temperatura">ESPESOR 1.25 A 1.30 (milimetros)</label>
+
+            </div>
+        </div>
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="temperatura">VALOR</label>
+                <input id="espesor_inicial"
+                       type="number" step="any"
+                       name="espesor_inicial"
+                       required
+                       class="form-control">
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <label for="temperatura">OBSERVACIONES</label>
+            <div class="input-group">
+                <input id="espesor_observaciones"
+                       type="text" name="espesor_observaciones" value="{{old('espesor_observaciones')}}"
+                       onkeydown="if(event.keyCode==13)agregar_a_table()"
+                       class="form-control">
+                <div class="input-group-btn">
+                    <button
+                        data-toggle="tooltip"
+                        title="Agregar"
+                        onclick="agregar_a_table()"
+                        type="button" class="btn btn-default">
+                        <i class="fa fa-plus"
+                           aria-hidden="true"></i>
+                    </button>
+                    <button
+                        data-toggle="tooltip"
+                        title="Limpiar"
+                        onclick="limpiar()"
+                        type="button" class="btn btn-default">
+                        <i class="fa fa-trash"
+                           aria-hidden="true"></i>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+        @include('componentes.loading')
+
+
+        <div class="tab-pane" id="tab_3">
+
+            <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
+
+                <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
+
+                    <thead style="background-color: #01579B;  color: #fff;">
+                    <th>HORA</th>
+                    <th>PRODUCTO</th>
+                    <th>LOTE</th>
+                    <th>TEMPERATURA</th>
+                    <th>OBSERVACIONES</th>
+                    <th>ESPESOR</th>
+                    <th>OBSERVACIONES</th>
+                    </thead>
+                    <tbody>
+                    @foreach( $laminado->detalle as $detalle )
+                        <tr>
+                            <td>
+                                {{$detalle->hora}}
+                            </td>
+                            <td>
+                                {{$laminado->control_trazabilidad->liberacion_linea->presentacion->descripcion}}
+                            </td>
+                            <td>
+                                {{$detalle->lote_producto}}
+                            </td>
+                            <td>
+                                {{$detalle->temperatura_inicio}}
+                            </td>
+                            <td>
+                                {{$detalle->temperatura_observaciones}}
+                            </td>
+                            <td>
+                                {{$detalle->espesor_inicio}}
+                            </td>
+                            <td>
+                                {{$detalle->espesor_observaciones}}
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
     </div>
-
-
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
             <label for="observacion_correctiva">OBSERVACIONES Y/O ACCION CORRECTIVA</label>
             <input type="text" name="observacion_correctiva"
-                    value="{{$laminado->observaciones}}"
+                   value="{{$laminado->observaciones}}"
                    class="form-control">
         </div>
     </div>
@@ -421,7 +426,7 @@
             const fields = detalle();
 
             if (existe_campo_vacio(fields)) {
-                alert("Campos incompletos");
+                get_campo_vacio(fields).focus();
                 return;
             }
             if (no_orden_valida) {
@@ -450,7 +455,7 @@
 
         function limpiar() {
 
-            const fields = detalle();
+            const fields = detalle().filter(e => e[0] != "id_producto" && e[0] != "lote_producto");
             limpiar_formulario(fields);
             document.getElementById('temperatura_inicial').focus();
         }

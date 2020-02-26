@@ -2,10 +2,12 @@
 @section('style')
     <link rel="stylesheet" href="{{asset('css/bootstrap-datepicker.css')}}">
     <link rel="stylesheet" href="{{asset('css/bootstrap-timepicker.css')}}">
+    <link rel="stylesheet" href="{{asset('css/tools.css')}}">
+    <link rel="stylesheet" href="{{asset('css/loading.css')}}">
 @endsection
 
 @section('contenido')
-    <div class="col-lg-12 col-lg-push-4 col-sm-12   col-sm-push-4   col-md-12   col-md-push-4  col-xs-12">
+    <div class="col-lg-12 col-lg-push-4 col-sm-12    col-md-12   col-xs-12">
         <h3>CONTROL DE LAMINADO DE CHAO MEIN</h3>
     </div>
 
@@ -51,14 +53,13 @@
 
 
 
-
+    @include('componentes.loading')
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="id_producto">PRODUCTO</label>
             <select class="form-control selectpicker valor"
                     disabled
                     required
-                    onchange="cargar_lotes(this.value)"
                     id="id_producto" name="id_producto">
                 <option value="" selected>SELECCIONE UN PRODUCTO</option>
             </select>
@@ -68,14 +69,10 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="lote">LOTE</label>
-
-            <select class="form-control selectpicker valor"
-                    disabled
-                    required
-                    id="lote" name="lote">
-                <option value="" selected>SELECCIONE LOTE</option>
-            </select>
-
+            <input class="form-control selectpicker valor"
+                   disabled
+                   required
+                   id="lote" name="lote">
         </div>
     </div>
 
@@ -92,7 +89,7 @@
                 <button
                     data-toggle="tooltip"
                     title="Iniciar"
-                        onclick="inicio_formulario()"
+                    onclick="inicio_formulario()"
                     type="button" class="btn btn-default">
                     <i class="fa fa-check"
                        aria-hidden="true"></i>
@@ -101,101 +98,115 @@
         </div>
     </div>
 
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <hr>
+    </div>
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-        <div class="form-group">
-            <label for="temperatura">TEMPERATURA REPOSO 34-36 °C</label>
+        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+            <div class="form-group">
+                <label for="temperatura">TEMPERATURA REPOSO 34-36 °C</label>
 
-        </div>
-    </div>
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="temperatura">VALOR</label>
-            <input id="temperatura_inicial" type="text"
-                   required
-                   disabled
-                   name="temperatura_inicial"
-                   onkeydown="if(event.keyCode==13)validacion(this,34,36,document.getElementById('temperatura_final'),document.getElementById('temperatura_observaciones'))"
-                   class="form-control">
-        </div>
-    </div>
-
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="temperatura">OBSERVACIONES</label>
-            <input id="temperatura_observaciones"
-                   disabled
-                   type="text" name="temperatura_observaciones" value="{{old('temperatura_observaciones')}}"
-                   class="form-control">
-        </div>
-    </div>
-
-    <input type="hidden" id="hora" name="hora" required>
-
-
-    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-        <div class="form-group">
-            <label for="temperatura">ESPESOR 1.25 A 1.30 (milimetros)</label>
-
-        </div>
-    </div>
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="temperatura">VALOR</label>
-            <input id="espesor_inicial"
-                   disabled
-                   type="text" name="espesor_inicial"
-                   required
-                   class="form-control">
-        </div>
-    </div>
-
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <label for="temperatura">OBSERVACIONES</label>
-        <div class="input-group">
-            <input id="espesor_observaciones"
-                   disabled
-                   type="text" name="espesor_observaciones" value="{{old('espesor_observaciones')}}"
-                   class="form-control">
-            <div class="input-group-btn">
-                <button
-                    data-toggle="tooltip"
-                    title="Iniciar"
-                    onclick="agregar_a_table()"
-                    type="button" class="btn btn-default">
-                    <i class="fa fa-plus"
-                       aria-hidden="true"></i>
-                </button>
             </div>
-
         </div>
-    </div>
-
-
-
-
-    <div class="tab-pane" id="tab_3">
-
-        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
-
-            <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
-
-                <thead style="background-color: #01579B;  color: #fff;">
-                <th>HORA</th>
-                <th>PRODUCTO</th>
-                <th>LOTE</th>
-                <th>TEMPERATURA</th>
-                <th>OBSERVACIONES</th>
-                <th>ESPESOR</th>
-                <th>OBSERVACIONES</th>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="temperatura">VALOR</label>
+                <input id="temperatura_inicial"
+                       type="number"
+                       step="any"
+                       required
+                       disabled
+                       name="temperatura_inicial"
+                       onkeydown="if(event.keyCode==13)validacion(this,34,36,document.getElementById('temperatura_final'),document.getElementById('temperatura_observaciones'))"
+                       class="form-control">
+            </div>
         </div>
+
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="temperatura">OBSERVACIONES</label>
+                <input id="temperatura_observaciones"
+                       disabled
+                       type="text" name="temperatura_observaciones" value="{{old('temperatura_observaciones')}}"
+                       class="form-control">
+            </div>
+        </div>
+
+        <input type="hidden" id="hora" name="hora" required>
+
+
+        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+            <div class="form-group">
+                <label for="temperatura">ESPESOR 1.25 A 1.30 (milimetros)</label>
+
+            </div>
+        </div>
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="temperatura">VALOR</label>
+                <input id="espesor_inicial"
+                       disabled
+                       type="number"
+                       step="any"
+                       name="espesor_inicial"
+                       required
+                       class="form-control">
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <label for="temperatura">OBSERVACIONES</label>
+            <div class="input-group">
+                <input id="espesor_observaciones"
+                       disabled
+                       type="text" name="espesor_observaciones" value="{{old('espesor_observaciones')}}"
+                       class="form-control">
+                <div class="input-group-btn">
+                    <button
+                        data-toggle="tooltip"
+                        title="Agregar"
+                        onclick="agregar_a_table()"
+                        type="button" class="btn btn-default">
+                        <i class="fa fa-plus"
+                           aria-hidden="true"></i>
+                    </button>
+                    <button
+                        data-toggle="tooltip"
+                        title="Limpiar"
+                        onclick="limpiar()"
+                        type="button" class="btn btn-default">
+                        <i class="fa fa-trash"
+                           aria-hidden="true"></i>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="tab-pane" id="tab_3">
+
+            <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
+
+                <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
+
+                    <thead style="background-color: #01579B;  color: #fff;">
+                    <th>HORA</th>
+                    <th>PRODUCTO</th>
+                    <th>LOTE</th>
+                    <th>TEMPERATURA</th>
+                    <th>OBSERVACIONES</th>
+                    <th>ESPESOR</th>
+                    <th>OBSERVACIONES</th>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
     </div>
-
-
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
             <label for="observacion_correctiva">OBSERVACIONES Y/O ACCION CORRECTIVA</label>
@@ -275,7 +286,7 @@
             let option = '<option value="" selected>   SELECCIONE PRODUCTO </option>';
             gl_detalle_insumos.forEach(function (e) {
                 option += `
-                <option  value="${e.id_producto}" > ${e.control_trazabilidad.producto.descripcion}   /    ${e.presentacion.descripcion} </option>
+                <option  value="${e.id_producto}" > ${e.presentacion.descripcion} </option>
                 `
             });
             $(select).append(option);
@@ -312,7 +323,7 @@
 
         async function iniciar_control_laminado() {
 
-
+            $('.loading').show();
             const no_orden_produccion = document.getElementById('no_orden_produccion').value;
             const url = "{{url('control/laminado/iniciar_laminado')}}";
             const response = await iniciar(url, no_orden_produccion);
@@ -331,8 +342,9 @@
                 document.getElementById('no_orden_produccion').disabled = true;
             }
 
-
+            $('.loading').hide();
         }
+
         function deshabilitar_encabezado() {
             document.getElementById('no_orden_produccion').disabled = true;
             document.getElementById('id_producto').disabled = true;
@@ -355,18 +367,30 @@
 
         function inicio_formulario() {
             const id_producto = document.getElementById('id_producto').value;
+            const lote = document.getElementById('lote').value;
+            const id_turno = document.getElementById('id_turno').value;
 
             if (id_producto == "") {
                 alert("Seleccione producto");
                 return;
             }
+            if (lote == "") {
+                alert("Lote en blanco");
+                return;
+            }
+            if (id_turno == "") {
+                alert("Seleccione Turno");
+                return;
+            }
             const id_control = gl_detalle_insumos.find(e => e.id_producto == id_producto).id_control;
+            $('.loading').show();
             return $.ajax(
                 {
                     type: "POST",
                     url: "{{url('control/laminado/iniciar_formulario')}}",
                     data: {
                         id_control: id_control,
+                        lote: lote,
                     },
                     success: function (response) {
 
@@ -376,10 +400,12 @@
                         } else {
                             alert(response.message);
                         }
+                        $('.loading').hide();
 
                     },
                     error: function (error) {
-                        console.log(error)
+                        console.log(error);
+                        $('.loading').hide();
                     }
                 }
             );
@@ -420,11 +446,11 @@
             const fields = detalle();
 
             if (existe_campo_vacio(fields)) {
-                alert("Campos incompletos");
+                get_campo_vacio(fields).focus();
                 return;
             }
             if (no_orden_valida) {
-
+                $('.loading').show();
                 const request = getRequest(fields);
                 const url = "{{url('control/laminado/insertar_detalle')}}";
                 const url_borrar = "'{{url('control/laminado/borrar_detalle')}}'";
@@ -439,6 +465,7 @@
                 } else {
                     alert(response.message);
                 }
+                $('.loading').hide();
             } else {
                 alert("Orden de produccion no valida");
             }
@@ -448,8 +475,9 @@
 
         function limpiar() {
 
-            const fields = detalle();
+            const fields = detalle().filter(e => e[0] != "id_producto" && e[0] != "lote_producto");
             limpiar_formulario(fields)
+            document.getElementById('temperatura_inicial').focus();
 
         }
 
