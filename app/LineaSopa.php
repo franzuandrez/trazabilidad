@@ -3,11 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class LineaSopa extends Model
 {
     //
-
+    use LogsActivity;
     protected $table = 'sopas';
     protected $primaryKey = 'id_sopa';
     public $timestamps = false;
@@ -20,6 +21,10 @@ class LineaSopa extends Model
         'presentacion'
     ];
 
+    public static $logAttributes = [
+        '*'
+    ];
+    protected static $logOnlyDirty = true;
     public function control_trazabilidad()
     {
         return $this->belongsTo(Operacion::class, 'id_control', 'id_control');
