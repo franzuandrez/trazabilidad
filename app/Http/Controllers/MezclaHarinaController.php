@@ -171,6 +171,7 @@ class MezclaHarinaController extends Controller
     {
 
         $id_control = $request->get('id_control');
+        $lote = $request->get('lote');
 
 
         $harina = MezclaHarina_Enc::where('id_control', $id_control)
@@ -181,6 +182,7 @@ class MezclaHarinaController extends Controller
             $harina->id_usuario = \Auth::user()->id;
             $harina->id_control = $id_control;
             $harina->id_responsable_maquina = \Auth::user()->id;
+            $harina->lote =$lote;
             $harina->save();
 
             $response = [

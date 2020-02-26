@@ -1,6 +1,9 @@
 @extends('layouts.admin')
 @section('style')
     <link rel="stylesheet" href="{{asset('css/bootstrap-datepicker.css')}}">
+    <link rel="stylesheet" href="{{asset('css/loading.css')}}">
+    <link rel="stylesheet" href="{{asset('css/tools.css')}}">
+
 @endsection
 
 @section('contenido')
@@ -57,7 +60,6 @@
             <select class="form-control selectpicker valor"
                     disabled
                     required
-                    onchange="cargar_lotes(this.value)"
                     id="id_producto" name="id_producto">
                 <option value="" selected>SELECCIONE UN PRODUCTO</option>
             </select>
@@ -68,12 +70,10 @@
 
         <label for="lote">LOTE</label>
         <div class="input-group">
-            <select class="form-control selectpicker valor"
+            <input class="form-control selectpicker valor"
                     disabled
                     required
                     id="lote" name="lote">
-                <option value="" selected>SELECCIONE LOTE</option>
-            </select>
             <div class="input-group-btn">
                 <button
                     onclick="iniciar_formulario()"
@@ -86,129 +86,139 @@
         </div>
     </div>
 
-
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <label for="hora_carga">HORA CARGA</label>
-        <div class="input-group">
-            <input id="hora_carga" type="text"
-                   disabled
-                   required
-                   class="form-control timepicker" name="hora_carga">
-            <div class="input-group-addon">
-                <i class="fa fa-clock-o"></i>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <label for="hora_descarga">HORA DESCARGA</label>
-        <div class="input-group">
-            <input id="hora_descarga" type="text"
-                   disabled
-                   required
-                   class="form-control timepicker" name="hora_descarga">
-            <div class="input-group-addon">
-                <i class="fa fa-clock-o"></i>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="col-lg-12 col-sm-12 col-md-12  col-xs-12">
-        <div class="form-group">
-            <label for="solucion">LBS DE SOLUCIÓN (158.4 A 168.5)</label>
-        </div>
-    </div>
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="_solucion_inicial">VALOR</label>
-            <input id="solucion_inicial" type="text" name="solucion_inicial"
-                   disabled
-                   required
-                   class="form-control">
-        </div>
-    </div>
-
-    <div class="col-lg-6 col-sm-6 col-md-6  col-xs-12">
-        <div class="form-group">
-            <label for="observacion">OBSERVACIONES</label>
-            <input id="solucion_observacion"
-                   disabled
-                   type="text" name="solucion_observacion"
-                   class="form-control">
-        </div>
-    </div>
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="_solucion_final"> </label>
-        </div>
+    @include('componentes.loading')
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <hr>
     </div>
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-        <div class="form-group">
-            <label for="ph">PH (8-11 PPM)</label>
-        </div>
-    </div>
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="_solucion_inicial">VALOR</label>
-            <input id="ph_inicial" type="text" name="ph_inicial"
-                   disabled
-                   required
-                   class="form-control">
-        </div>
-    </div>
 
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <label for="observacion">OBSERVACIONES</label>
-        <div class="input-group">
-            <input id="ph_observacion" type="text" name="ph_observacion"
-                   disabled
-                   class="form-control">
-            <div class="input-group-btn">
-                <button
-                    onclick="agregar_a_table()"
-                    onkeydown="agregar_a_table()"
-                    type="button" class="btn btn-default">
-                    <i class="fa fa-plus"
-                       aria-hidden="true"></i>
-                </button>
-                <button
-                    onclick="limpiar()"
-                    onkeydown="limpiar()"
-                    type="button" class="btn btn-default">
-                    <i class="fa fa-trash"
-                       aria-hidden="true"></i>
-                </button>
+
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <label for="hora_carga">HORA CARGA</label>
+            <div class="input-group">
+                <input id="hora_carga" type="text"
+                       disabled
+                       required
+                       class="form-control timepicker" name="hora_carga">
+                <div class="input-group-addon">
+                    <i class="fa fa-clock-o"></i>
+                </div>
             </div>
         </div>
-    </div>
+
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <label for="hora_descarga">HORA DESCARGA</label>
+            <div class="input-group">
+                <input id="hora_descarga" type="text"
+                       disabled
+                       required
+                       class="form-control timepicker" name="hora_descarga">
+                <div class="input-group-addon">
+                    <i class="fa fa-clock-o"></i>
+                </div>
+            </div>
+        </div>
 
 
+        <div class="col-lg-12 col-sm-12 col-md-12  col-xs-12">
+            <div class="form-group">
+                <label for="solucion">LBS DE SOLUCIÓN (158.4 A 168.5)</label>
+            </div>
+        </div>
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="_solucion_inicial">VALOR</label>
+                <input id="solucion_inicial"
+                       type="number"
+                       step="any"
+                       name="solucion_inicial"
+                       disabled
+                       required
+                       class="form-control">
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-sm-6 col-md-6  col-xs-12">
+            <div class="form-group">
+                <label for="observacion">OBSERVACIONES</label>
+                <input id="solucion_observacion"
+                       disabled
+                       type="text" name="solucion_observacion"
+                       class="form-control">
+            </div>
+        </div>
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="_solucion_final"> </label>
+            </div>
+        </div>
+
+        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+            <div class="form-group">
+                <label for="ph">PH (8-11 PPM)</label>
+            </div>
+        </div>
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="_solucion_inicial">VALOR</label>
+                <input id="ph_inicial" name="ph_inicial"
+                       disabled
+                       required
+                       type="number"
+                       step="any"
+                       class="form-control">
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <label for="observacion">OBSERVACIONES</label>
+            <div class="input-group">
+                <input id="ph_observacion" type="text" name="ph_observacion"
+                       disabled
+                       class="form-control">
+                <div class="input-group-btn">
+                    <button
+                        onclick="agregar_a_table()"
+                        onkeydown="agregar_a_table()"
+                        type="button" class="btn btn-default">
+                        <i class="fa fa-plus"
+                           aria-hidden="true"></i>
+                    </button>
+                    <button
+                        onclick="limpiar()"
+                        onkeydown="limpiar()"
+                        type="button" class="btn btn-default">
+                        <i class="fa fa-trash"
+                           aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
 
 
+        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
 
+            <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
 
-    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
+                <thead style="background-color: #01579B;  color: #fff;">
+                <tr>
 
-        <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
+                    <th>PRODUCTO</th>
+                    <th>LOTE</th>
+                    <th>HORA CARGA</th>
+                    <th>HORA DESCARGA</th>
+                    <th>SOLUCION INICAL</th>
+                    <th>OBSERVACIONES</th>
+                    <th>PH INICIAL</th>
+                    <th>OBSERVACIONES</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
 
-            <thead style="background-color: #01579B;  color: #fff;">
-            <tr>
-
-                <th>PRODUCTO</th>
-                <th>LOTE</th>
-                <th>HORA CARGA</th>
-                <th>HORA DESCARGA</th>
-                <th>SOLUCION INICAL</th>
-                <th>OBSERVACIONES</th>
-                <th>PH INICIAL</th>
-                <th>OBSERVACIONES</th>
-            </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
     </div>
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
@@ -283,7 +293,7 @@
             let option = '<option value="" selected>   SELECCIONE PRODUCTO </option>';
             gl_detalle_insumos.forEach(function (e) {
                 option += `
-                <option  value="${e.id_producto}" > ${e.control_trazabilidad.producto.descripcion}   /    ${e.presentacion.descripcion} </option>
+                <option  value="${e.id_producto}" >   ${e.presentacion.descripcion} </option>
                 `
             });
             $(select).append(option);
@@ -319,7 +329,7 @@
 
         async function iniciar_mezcla_harina() {
 
-
+            $('.loading').show();
             const no_orden_produccion = document.getElementById('no_orden_produccion').value;
             const url = "{{url('control/mezcla_harina/iniciar_harina')}}";
             const response = await iniciar(url, no_orden_produccion);
@@ -335,7 +345,7 @@
                 cargar_productos();
                 document.getElementById('no_orden_produccion').disabled = true;
             }
-
+            $('.loading').hide();
 
         }
 
@@ -353,11 +363,17 @@
         function iniciar_formulario() {
 
             const id_producto = document.getElementById('id_producto').value;
+            const lote = document.getElementById('lote').value;
 
             if (id_producto == "") {
                 alert("Seleccione producto");
                 return;
             }
+            if (lote == "") {
+                alert("Lote en blanco");
+                return;
+            }
+            $('.loading').show();
             const id_control = gl_detalle_insumos.find(e => e.id_producto == id_producto).id_control;
             return $.ajax(
                 {
@@ -365,6 +381,7 @@
                     url: "{{url('control/mezcla_harina/iniciar_formulario')}}",
                     data: {
                         id_control: id_control,
+                        lote:lote
                     },
                     success: function (response) {
 
@@ -374,10 +391,11 @@
                         } else {
                             alert(response.message);
                         }
-
+                        $('.loading').hide();
                     },
                     error: function (error) {
                         console.log(error)
+                        $('.loading').hide();
                     }
                 }
             );
@@ -396,8 +414,9 @@
 
         function limpiar() {
 
-            const fields = detalle();
-            limpiar_formulario(fields)
+            const fields = detalle().filter(e => e[0] != "id_producto" & e[0] != "lote");
+            limpiar_formulario(fields);
+            document.getElementById('hora_carga').focus();
 
         }
 
@@ -452,7 +471,7 @@
                 return;
             }
             if (no_orden_valida) {
-
+                $('.loading').show();
                 const request = getRequest(fields);
                 const url = "{{url('control/mezcla_harina/insertar_detalle')}}";
                 const url_borrar = "'{{url('control/mezcla_harina/borrar_detalle')}}'";
@@ -463,6 +482,7 @@
                 } else {
                     alert(response.message);
                 }
+                $('.loading').hide();
             } else {
                 alert("Orden de produccion no valida");
             }

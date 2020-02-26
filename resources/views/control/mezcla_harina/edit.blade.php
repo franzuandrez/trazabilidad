@@ -2,6 +2,7 @@
 @section('style')
     <link rel="stylesheet" href="{{asset('css/bootstrap-datepicker.css')}}">
     <link rel="stylesheet" href="{{asset('css/loading.css')}}">
+    <link rel="stylesheet" href="{{asset('css/tools.css')}}">
 @endsection
 
 @section('contenido')
@@ -56,104 +57,107 @@
         </div>
     </div>
 
-
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <label for="hora_carga">HORA CARGA</label>
-        <div class="input-group">
-            <input id="hora_carga" type="text"
-
-                   required
-                   class="form-control timepicker" name="hora_carga">
-            <div class="input-group-addon">
-                <i class="fa fa-clock-o"></i>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <label for="hora_descarga">HORA DESCARGA</label>
-        <div class="input-group">
-            <input id="hora_descarga" type="text"
-
-                   required
-                   class="form-control timepicker" name="hora_descarga">
-            <div class="input-group-addon">
-                <i class="fa fa-clock-o"></i>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="col-lg-12 col-sm-12 col-md-12  col-xs-12">
-        <div class="form-group">
-            <label for="solucion">LBS DE SOLUCIÓN (158.4 A 168.5)</label>
-        </div>
-    </div>
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="_solucion_inicial">VALOR</label>
-            <input id="solucion_inicial" name="solucion_inicial"
-                   type="number" step="any"
-                   required
-                   class="form-control">
-        </div>
-    </div>
-
-    <div class="col-lg-6 col-sm-6 col-md-6  col-xs-12">
-        <div class="form-group">
-            <label for="observacion">OBSERVACIONES</label>
-            <input id="solucion_observacion"
-
-                   type="text" name="solucion_observacion"
-                   class="form-control">
-        </div>
-    </div>
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="_solucion_final"> </label>
-        </div>
-    </div>
-
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-        <div class="form-group">
-            <label for="ph">PH (8-11 PPM)</label>
-        </div>
+        <hr>
     </div>
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="_solucion_inicial">VALOR</label>
-            <input id="ph_inicial" name="ph_inicial"
-                   type="number" step="any"
-                   required
-                   class="form-control">
-        </div>
-    </div>
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <label for="hora_carga">HORA CARGA</label>
+            <div class="input-group">
+                <input id="hora_carga" type="text"
 
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <label for="observacion">OBSERVACIONES</label>
-        <div class="input-group">
-            <input id="ph_observacion" type="text" name="ph_observacion"
-                   onkeydown="if(event.keyCode==13 ||event.keyCode==9)agregar_a_table()"
-                   class="form-control">
-            <div class="input-group-btn">
-                <button
-                    onclick="agregar_a_table()"
-                    onkeydown="agregar_a_table()"
-                    type="button" class="btn btn-default">
-                    <i class="fa fa-plus"
-                       aria-hidden="true"></i>
-                </button>
-                <button
-                    onclick="limpiar()"
-                    onkeydown="limpiar()"
-                    type="button" class="btn btn-default">
-                    <i class="fa fa-trash"
-                       aria-hidden="true"></i>
-                </button>
+                       required
+                       class="form-control timepicker" name="hora_carga">
+                <div class="input-group-addon">
+                    <i class="fa fa-clock-o"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <label for="hora_descarga">HORA DESCARGA</label>
+            <div class="input-group">
+                <input id="hora_descarga" type="text"
+
+                       required
+                       class="form-control timepicker" name="hora_descarga">
+                <div class="input-group-addon">
+                    <i class="fa fa-clock-o"></i>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-12 col-sm-12 col-md-12  col-xs-12">
+            <div class="form-group">
+                <label for="solucion">LBS DE SOLUCIÓN (158.4 A 168.5)</label>
+            </div>
+        </div>
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="_solucion_inicial">VALOR</label>
+                <input id="solucion_inicial" name="solucion_inicial"
+                       type="number" step="any"
+                       required
+                       class="form-control">
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-sm-6 col-md-6  col-xs-12">
+            <div class="form-group">
+                <label for="observacion">OBSERVACIONES</label>
+                <input id="solucion_observacion"
+
+                       type="text" name="solucion_observacion"
+                       class="form-control">
+            </div>
+        </div>
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="_solucion_final"> </label>
+            </div>
+        </div>
+
+        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+            <div class="form-group">
+                <label for="ph">PH (8-11 PPM)</label>
+            </div>
+        </div>
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="_solucion_inicial">VALOR</label>
+                <input id="ph_inicial" name="ph_inicial"
+                       type="number" step="any"
+                       required
+                       class="form-control">
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <label for="observacion">OBSERVACIONES</label>
+            <div class="input-group">
+                <input id="ph_observacion" type="text" name="ph_observacion"
+                       onkeydown="if(event.keyCode==13 ||event.keyCode==9)agregar_a_table()"
+                       class="form-control">
+                <div class="input-group-btn">
+                    <button
+                        onclick="agregar_a_table()"
+                        onkeydown="agregar_a_table()"
+                        type="button" class="btn btn-default">
+                        <i class="fa fa-plus"
+                           aria-hidden="true"></i>
+                    </button>
+                    <button
+                        onclick="limpiar()"
+                        onkeydown="limpiar()"
+                        type="button" class="btn btn-default">
+                        <i class="fa fa-trash"
+                           aria-hidden="true"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-
 
 
 
@@ -253,7 +257,7 @@
     <script>
 
         var gl_detalle_insumos = @json([$mezcla_harina->control_trazabilidad]);
-
+        limpiar();
         function guardar() {
 
             document.getElementById('no_orden_produccion').disabled = false;
@@ -380,7 +384,7 @@
 
         function limpiar() {
 
-            const fields = detalle();
+            const fields = detalle().filter(e => e[0] != "id_producto" & e[0] != "lote");
             limpiar_formulario(fields);
             document.getElementById('hora_carga').focus();
 
@@ -445,7 +449,7 @@
                 const response = await insertar_detalle(request, get_id_control(), url);
                 if (response.status == 1) {
                     add_to_table(fields, response.id, 'detalles', url_borrar);
-                    limpiar()
+                    limpiar();
                     document.getElementById('hora_carga').focus();
                 } else {
                     alert(response.message);
