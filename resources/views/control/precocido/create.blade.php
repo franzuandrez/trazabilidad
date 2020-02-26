@@ -3,6 +3,7 @@
     <link rel="stylesheet" href="{{asset('css/bootstrap-datepicker.css')}}">
     <link rel="stylesheet" href="{{asset('css/bootstrap-timepicker.css')}}">
     <link rel="stylesheet" href="{{asset('css/loading.css')}}">
+    <link rel="stylesheet" href="{{asset('css/tools.css')}}">
 @endsection
 
 @section('contenido')
@@ -35,7 +36,7 @@
     {!!Form::open(array('url'=>'control/precocido/create','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
     <input type="hidden" id="id_control" name="id_control">
-    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+    <div class="col-lg-6 col-sm-12 col-md-12 col-xs-12">
         <label for="turno">NO ORDEN DE PRODUCCION</label>
         <div class="input-group">
             <input type="text" name="no_orden_produccion" value="{{old('no_orden_produccion')}}"
@@ -54,7 +55,7 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-4 col-sm-4 col-md-6 col-xs-12">
+    <div class="col-lg-6 col-sm-4 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="turno">TURNO</label>
             <select class="form-control selectpicker"
@@ -68,28 +69,25 @@
     </div>
 
 
-    <div class="col-lg-4 col-sm-4 col-md-6 col-xs-12">
+    <div class="col-lg-6 col-sm-4 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="id_producto">PRODUCTO</label>
             <select class="form-control selectpicker valor"
                     disabled
                     required
-                    onchange="cargar_lotes(this.value)"
                     id="id_producto" name="id_producto">
                 <option value="" selected>SELECCIONE UN PRODUCTO</option>
             </select>
         </div>
     </div>
 
-    <div class="col-lg-4 col-sm-4 col-md-6 col-xs-12">
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <label for="lote">LOTE</label>
         <div class="input-group">
-            <select class="form-control selectpicker valor"
-                    disabled
-                    required
-                    id="lote" name="lote">
-                <option value="" selected>SELECCIONE LOTE</option>
-            </select>
+            <input class="form-control selectpicker valor"
+                   disabled
+                   required
+                   id="lote" name="lote">
             <div class="input-group-btn">
                 <button
                     onclick="inicia_formulario()"
@@ -101,109 +99,116 @@
             </div>
         </div>
     </div>
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <hr>
+    </div>
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
 
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+            <label for="hora_inicio">HORA INICIO</label>
+            <div class="input-group">
+                <input id="hora_inicio" type="text"
+                       disabled
+                       required
+                       class="form-control timepicker" name="hora_inicio">
 
-    <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
-        <label for="hora_inicio">HORA INICIO</label>
-        <div class="input-group">
-            <input id="hora_inicio" type="text"
-                   disabled
-                   required
-                   class="form-control timepicker" name="hora_inicio">
-
-            <div class="input-group-addon">
-                <i class="fa fa-clock-o"></i>
+                <div class="input-group-addon">
+                    <i class="fa fa-clock-o"></i>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
-        <label for="hora_salida">HORA SALIDA</label>
-        <div class="input-group">
-            <input id="hora_salida"
-                   disabled
-                   required
-                   type="text" class="form-control timepicker" name="hora_salida">
-            <div class="input-group-addon">
-                <i class="fa fa-clock-o"></i>
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+            <label for="hora_salida">HORA SALIDA</label>
+            <div class="input-group">
+                <input id="hora_salida"
+                       disabled
+                       required
+                       type="text" class="form-control timepicker" name="hora_salida">
+                <div class="input-group-addon">
+                    <i class="fa fa-clock-o"></i>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="tiempo_efectivo">TIEMPO EFECTIVO</label>
-            <input id="tiempo_efectivo" type="text"
-                   disabled
-                   required
-                   name="tiempo_efectivo"
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="tiempo_efectivo">TIEMPO EFECTIVO</label>
+                <input id="tiempo_efectivo"
+                       type="number"
+                       step="any"
+                       disabled
+                       required
+                       name="tiempo_efectivo"
 
-                   class="form-control">
+                       class="form-control">
+            </div>
         </div>
-    </div>
-    <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="alcance_presion">ALCANCE PRESIÓN</label>
-            <input id="alcance_presion" type="text" name="alcance_presion"
-                   disabled
-                   required
-                   class="form-control">
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="alcance_presion">ALCANCE PRESIÓN</label>
+                <input id="alcance_presion"
+                       type="number"
+                       step="any"
+                       name="alcance_presion"
+                       disabled
+                       required
+                       class="form-control">
+            </div>
         </div>
-    </div>
-    <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="temperatura">TEMPERATURA A (98-106 C)</label>
-            <input id="temperatura" type="text" name="temperatura"
-                   disabled
-                   required
-                   class="form-control">
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="temperatura">TEMPERATURA A (98-106 C)</label>
+                <input id="temperatura"
+                       type="number"
+                       step="any"
+                       name="temperatura"
+                       disabled
+                       required
+                       class="form-control">
+            </div>
         </div>
-    </div>
 
 
-    <div class="col-lg-2 col-sm-6 col-md-6 col-xs-10">
-        <div class="form-group">
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
             <label for="observaciones">OBSERVACIONES</label>
-            <input id="observaciones" type="text" name="observaciones"
-                   disabled
-                   class="form-control">
+            <div class="input-group">
+                <input id="observaciones" type="text" name="observaciones"
+                       disabled
+                       class="form-control">
+                <div class="input-group-btn">
+                    <button class="btn btn-default block" type="button"
+                            onclick="agregar_a_table()"
+                    >
+                        <span class=" fa fa-plus"></span></button>
+                    <button
+                        onclick="limpiar()"
+                        class="btn btn-default block" type="button">
+                        <span class=" fa fa-trash"></span></button>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
+
+            <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
+
+                <thead style="background-color: #01579B;  color: #fff;">
+                <tr>
+                    <th>PRODUCTO</th>
+                    <th>LOTE</th>
+                    <th>HORA INICIO</th>
+                    <th>HORA SALIDA</th>
+                    <th>TIEMPO EFECTIVO</th>
+                    <th>ALCANCE RPESION</th>
+                    <th>TEMPERATURA</th>
+                    <th>OBSERVACIONES</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
         </div>
     </div>
-
-    <div class="col-lg-2 col-sm-4 col-md-2 col-xs-2">
-        <br>
-        <div class="form-group">
-            <button class="btn btn-default block" style="margin-top: 5px;" type="button"
-                    onclick="agregar_a_table()"
-            >
-                <span class=" fa fa-plus"></span></button>
-            <button
-                onclick="limpiar()"
-                class="btn btn-default block" style="margin-top: 5px;" type="button">
-                <span class=" fa fa-trash"></span></button>
-        </div>
-    </div>
-
-
-    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
-
-        <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
-
-            <thead style="background-color: #01579B;  color: #fff;">
-            <tr>
-                <th>PRODUCTO</th>
-                <th>LOTE</th>
-                <th>HORA INICIO</th>
-                <th>HORA SALIDA</th>
-                <th>TIEMPO EFECTIVO</th>
-                <th>ALCANCE RPESION</th>
-                <th>TEMPERATURA</th>
-                <th>OBSERVACIONES</th>
-            </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-    </div>
-
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
@@ -273,6 +278,7 @@
             $('#lote').selectpicker('refresh');
             $('#id_turno').selectpicker('refresh');
         }
+
         function cargar_productos() {
 
             const select = document.getElementById('id_producto');
@@ -280,7 +286,7 @@
             let option = '<option value="" selected>   SELECCIONE PRODUCTO </option>';
             gl_detalle_insumos.forEach(function (e) {
                 option += `
-                <option  value="${e.id_producto}" > ${e.control_trazabilidad.producto.descripcion}   /    ${e.presentacion.descripcion} </option>
+                <option  value="${e.id_producto}" >  ${e.presentacion.descripcion} </option>
                 `
             });
             $(select).append(option);
@@ -326,18 +332,30 @@
 
         function inicia_formulario() {
             const id_producto = document.getElementById('id_producto').value;
+            const lote = document.getElementById('lote').value;
+            const turno = document.getElementById('id_turno').value;
 
-            if (id_producto == "") {
+            if (id_producto === "") {
                 alert("Seleccione producto");
                 return;
             }
+            if (turno === "") {
+                alert("Seleccione turno");
+                return;
+            }
+            if (lote === "") {
+                alert("Lote en blanco");
+                return;
+            }
             const id_control = gl_detalle_insumos.find(e => e.id_producto == id_producto).id_control;
+            $('.loading').show();
             $.ajax(
                 {
                     type: "POST",
                     url: "{{url('control/precocido/iniciar_formulario')}}",
                     data: {
                         id_control: id_control,
+                        lote: lote,
                     },
                     success: function (response) {
 
@@ -347,10 +365,11 @@
                         } else {
                             alert(response.message);
                         }
-
+                        $('.loading').hide();
                     },
                     error: function (error) {
-                        console.log(error)
+                        console.log(error);
+                        $('.loading').hide();
                     }
                 }
             );
@@ -359,7 +378,7 @@
 
         async function iniciar_control_precocido() {
 
-
+            $('.loading').show();
             const no_orden_produccion = document.getElementById('no_orden_produccion').value;
             const url = "{{url('control/precocido/iniciar_laminado')}}";
             const response = await iniciar(url, no_orden_produccion);
@@ -378,7 +397,7 @@
                 document.getElementById('no_orden_produccion').disabled = true;
             }
 
-
+            $('.loading').hide();
         }
 
         function detalle() {
@@ -418,11 +437,11 @@
             const fields = detalle();
 
             if (existe_campo_vacio(fields)) {
-                alert("Campos incompletos");
+                get_campo_vacio(fields).focus();
                 return;
             }
             if (no_orden_valida) {
-
+                $('.loading').show();
                 const request = getRequest(fields);
                 const url = "{{url('control/precocido/insertar_detalle')}}";
                 const url_borrar = "'{{url('control/precocido/borrar_detalle')}}'";
@@ -439,6 +458,7 @@
                 } else {
                     alert(response.message);
                 }
+                $('.loading').hide();
             } else {
                 alert("Orden de produccion no valida");
             }
@@ -448,8 +468,9 @@
 
         function limpiar() {
 
-            const fields = detalle();
-            limpiar_formulario(fields)
+            const fields = detalle().filter(e => e[0] !== "id_producto" & e[0] !== "lote");
+            limpiar_formulario(fields);
+
 
         }
 

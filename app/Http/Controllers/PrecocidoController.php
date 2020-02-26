@@ -89,7 +89,7 @@ class PrecocidoController extends Controller
 
         try {
 
-            $orden_produccion = $request->get('no_orden_produccion');
+            $orden_produccion = $request->get('id_control');
             $LaminadoEnc = PrecocidoEnc::where('id_control', $orden_produccion)
                 ->firstOrFail();
             $LaminadoEnc->observaciones = $request->get('observacion_correctiva');
@@ -192,6 +192,7 @@ class PrecocidoController extends Controller
     public function iniciar_formulario(Request $request)
     {
         $id_control = $request->get('id_control');
+        $lote = $request->get('lote');
 
 
         $humedo = PrecocidoEnc::where('id_control', $id_control)
@@ -201,6 +202,7 @@ class PrecocidoController extends Controller
             $humedo = new PrecocidoEnc();
             $humedo->id_usuario = \Auth::user()->id;
             $humedo->id_control = $id_control;
+            $humedo->lote = $lote;
             $humedo->save();
 
             $response = [

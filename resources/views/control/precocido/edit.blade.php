@@ -3,6 +3,7 @@
     <link rel="stylesheet" href="{{asset('css/bootstrap-datepicker.css')}}">
     <link rel="stylesheet" href="{{asset('css/bootstrap-timepicker.css')}}">
     <link rel="stylesheet" href="{{asset('css/loading.css')}}">
+    <link rel="stylesheet" href="{{asset('css/tools.css')}}">
 @endsection
 
 @section('contenido')
@@ -76,114 +77,118 @@
 
         </div>
     </div>
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <hr>
+    </div>
 
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+            <label for="hora_inicio">HORA INICIO</label>
+            <div class="input-group">
+                <input id="hora_inicio" type="text"
+                       required
+                       class="form-control timepicker" name="hora_inicio">
 
-    <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
-        <label for="hora_inicio">HORA INICIO</label>
-        <div class="input-group">
-            <input id="hora_inicio" type="text"
-                   required
-                   class="form-control timepicker" name="hora_inicio">
-
-            <div class="input-group-addon">
-                <i class="fa fa-clock-o"></i>
+                <div class="input-group-addon">
+                    <i class="fa fa-clock-o"></i>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
-        <label for="hora_salida">HORA SALIDA</label>
-        <div class="input-group">
-            <input id="hora_salida"
-                   required
-                   type="text" class="form-control timepicker" name="hora_salida">
-            <div class="input-group-addon">
-                <i class="fa fa-clock-o"></i>
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+            <label for="hora_salida">HORA SALIDA</label>
+            <div class="input-group">
+                <input id="hora_salida"
+                       required
+                       type="text" class="form-control timepicker" name="hora_salida">
+                <div class="input-group-addon">
+                    <i class="fa fa-clock-o"></i>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="tiempo_efectivo">TIEMPO EFECTIVO</label>
-            <input id="tiempo_efectivo" type="text"
-                   required
-                   name="tiempo_efectivo"
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="tiempo_efectivo">TIEMPO EFECTIVO</label>
+                <input id="tiempo_efectivo" type="text"
+                       required
+                       name="tiempo_efectivo"
 
-                   class="form-control">
-        </div>
-    </div>
-    <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="alcance_presion">ALCANCE PRESIÓN</label>
-            <input id="alcance_presion" type="text" name="alcance_presion"
-                   required
-                   class="form-control">
-        </div>
-    </div>
-    <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="temperatura">TEMPERATURA A (98-106 C)</label>
-            <input id="temperatura" type="text" name="temperatura"
-
-                   required
-                   class="form-control">
-        </div>
-    </div>
-
-
-    <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
-        <label for="observaciones">OBSERVACIONES</label>
-        <div class="input-group">
-            <input id="observaciones" type="text" name="observaciones"
-
-                   class="form-control">
-            <div class="input-group-btn">
-                <button class="btn btn-default block" type="button"
-                        onclick="agregar_a_table()"
-                        onkeydown="agregar_a_table()"
-                >
-                    <span class=" fa fa-plus"></span></button>
-                <button
-                    onclick="limpiar()"
-                    onkeydown="limpiar()"
-                    class="btn btn-default block" type="button">
-                    <span class=" fa fa-trash"></span></button>
+                       class="form-control">
             </div>
         </div>
-    </div>
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="alcance_presion">ALCANCE PRESIÓN</label>
+                <input id="alcance_presion" type="text" name="alcance_presion"
+                       required
+                       class="form-control">
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="temperatura">TEMPERATURA A (98-106 C)</label>
+                <input id="temperatura" type="text" name="temperatura"
 
-    @include('componentes.loading')
+                       required
+                       class="form-control">
+            </div>
+        </div>
 
-    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
 
-        <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+            <label for="observaciones">OBSERVACIONES</label>
+            <div class="input-group">
+                <input id="observaciones" type="text" name="observaciones"
 
-            <thead style="background-color: #01579B;  color: #fff;">
-            <tr>
-                <th>PRODUCTO</th>
-                <th>LOTE</th>
-                <th>HORA INICIO</th>
-                <th>HORA SALIDA</th>
-                <th>TIEMPO EFECTIVO</th>
-                <th>ALCANCE RPESION</th>
-                <th>TEMPERATURA</th>
-                <th>OBSERVACIONES</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach( $precocido->detalle as $detalle )
+                       class="form-control">
+                <div class="input-group-btn">
+                    <button class="btn btn-default block" type="button"
+                            onclick="agregar_a_table()"
+                            onkeydown="agregar_a_table()"
+                    >
+                        <span class=" fa fa-plus"></span></button>
+                    <button
+                        onclick="limpiar()"
+                        onkeydown="limpiar()"
+                        class="btn btn-default block" type="button">
+                        <span class=" fa fa-trash"></span></button>
+                </div>
+            </div>
+        </div>
+
+        @include('componentes.loading')
+
+        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
+
+            <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
+
+                <thead style="background-color: #01579B;  color: #fff;">
                 <tr>
-                    <td>{{$precocido->control_trazabilidad->liberacion_linea->presentacion->descripcion}}</td>
-                    <td>{{$detalle->lote}}</td>
-                    <td>{{$detalle->hora_inicio}}</td>
-                    <td>{{$detalle->hora_salida}}</td>
-                    <td>{{$detalle->tiempo_efectivo}}</td>
-                    <td>{{$detalle->alcance_presion}}</td>
-                    <td>{{$detalle->temperatura}}</td>
-                    <td>{{$detalle->observaciones}}</td>
+                    <th>PRODUCTO</th>
+                    <th>LOTE</th>
+                    <th>HORA INICIO</th>
+                    <th>HORA SALIDA</th>
+                    <th>TIEMPO EFECTIVO</th>
+                    <th>ALCANCE RPESION</th>
+                    <th>TEMPERATURA</th>
+                    <th>OBSERVACIONES</th>
                 </tr>
-            @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                @foreach( $precocido->detalle as $detalle )
+                    <tr>
+                        <td>{{$precocido->control_trazabilidad->liberacion_linea->presentacion->descripcion}}</td>
+                        <td>{{$detalle->lote}}</td>
+                        <td>{{$detalle->hora_inicio}}</td>
+                        <td>{{$detalle->hora_salida}}</td>
+                        <td>{{$detalle->tiempo_efectivo}}</td>
+                        <td>{{$detalle->alcance_presion}}</td>
+                        <td>{{$detalle->temperatura}}</td>
+                        <td>{{$detalle->observaciones}}</td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
 
 
@@ -401,7 +406,7 @@
             const fields = detalle();
 
             if (existe_campo_vacio(fields)) {
-                alert("Campos incompletos");
+               get_campo_vacio(fields).focus();
                 return;
             }
             if (no_orden_valida) {
@@ -432,10 +437,11 @@
 
         function limpiar() {
 
-            const fields = detalle();
+            const fields = detalle().filter(e => e[0] !== "id_producto" & e[0] !== "lote");
             limpiar_formulario(fields)
 
         }
+
         function ver_informacion() {
 
             $('#informacion').modal()
