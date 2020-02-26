@@ -32,6 +32,8 @@
             @endcomponent
             @component('componentes.btn-ver',['url'=>'javascript:ver("liberacion")'])
             @endcomponent
+            @component('componentes.btn-reporte',['url'=>'javascript:reporte("liberacion/reporte")'])
+            @endcomponent
         </div>
     </div>
 

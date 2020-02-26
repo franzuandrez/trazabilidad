@@ -477,6 +477,7 @@ Route::post('sopas/liberacion/iniciar', 'LineaSopaController@iniciar_linea_sopas
 Route::post('sopas/liberacion/nuevo_registro', 'LineaSopaController@nuevo_registro')->name('sopas.nuevo_registro');
 Route::get('sopas/liberacion/{id}/edit', 'LineaSopaController@edit')->name('sopas.liberacion.edit');
 Route::get('sopas/liberacion/{id}', 'LineaSopaController@show')->name('sopas.liberacion.show');
+Route::get('sopas/liberacion/reporte/{id}', 'ReporteLineaSopas@linea_sopas')->name('sopas.liberacion.linea_sopas');
 
 
 

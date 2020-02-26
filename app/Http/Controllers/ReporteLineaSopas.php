@@ -7,6 +7,7 @@ use App\FrituraSopasEnc;
 use App\Http\tools\Reportes;
 use App\LaminadoSopasDet;
 use App\LaminadoSopasEnc;
+use App\LineaSopa;
 use App\MezclaSopaDet;
 use App\MezclaSopaEnc;
 use App\PesoPastaSopasDet;
@@ -24,6 +25,70 @@ class ReporteLineaSopas extends Controller
         $this->middleware('auth');
     }
 
+
+    public function linea_sopas($id){
+
+        $linea_encabezado = LineaSopa::where('sopas.id_sopa', $id)
+            ->without('presentacion')
+            ->without('control_trazabilidad')
+            ->select(
+                'productos.descripcion as PRODUCTO',
+                'sopas.lote as LOTE',
+                'presentaciones.descripcion as PRESENTACION',
+                'users.nombre as RESPONSABLE',
+                'sopas.id_turno as TURNO'
+            )
+            ->join('productos', 'productos.id_producto', '=', 'sopas.id_producto')
+            ->join('users', 'users.id', '=', 'sopas.id_usuario')
+            ->join('presentaciones', 'presentaciones.id_presentacion', '=', 'sopas.id_presentacion')
+            ->first();
+
+        $linea_detalle =LineaSopa::where('sopas.id_sopa',$id)->first();
+        $reporte_encabezado = new Reportes();
+
+        $reporte_encabezado->setTitle("liberacion para linea de sopas instantaneas")
+            ->setCreatedAt(Carbon::now())
+            ->setExcept([
+                'id_producto',
+                'id_sopa',
+                'id_control',
+                'id_presentacion',
+                'estado',
+                'fecha_hora',
+                'id_usuario',
+                'id_turno',
+                'lote'
+            ])
+            ->setSubtitle("liberacion para linea de sopas instantaneas");
+        $reporte_detalle = $reporte_encabezado->mapers(
+            [
+                'headers' =>
+                    [
+                        'ENCABEZADO' => $linea_encabezado,
+                        'DETALLE' => $linea_detalle,
+
+                    ],
+                'details' => [
+
+                ]
+            ]
+        );
+        $reporte_encabezado->setHeader($reporte_detalle['headers']->first());
+
+        $view = \View::make('reportes.chaomein.linea_chaomein',
+            [
+                'reporte_encabezado' => $reporte_encabezado,
+                'reporte_detalle' => $reporte_detalle
+            ]
+        )->render();
+
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($view);
+        $pdf->setPaper('A4', 'vertical');
+        return $pdf->stream($reporte_encabezado->getTitle());
+
+
+    }
 
     public function reporte_mezclado_sopas($id)
     {
