@@ -321,6 +321,9 @@ class RequisicionController extends Controller
             } else {
                 $requisicion->estado = 'B';
                 $requisicion->update();
+                DB::table('requisicion_detalle')
+                    ->where('id_requisicion_encabezado', $id)
+                    ->update(['estado' => 'B']);
                 $response = [
                     'status' => 1,
                     'message' => 'Requisicion dada de baja correctamente'
