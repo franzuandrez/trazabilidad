@@ -111,9 +111,15 @@ class MezclaHarinaController extends Controller
             ->with('control_trazabilidad.liberacion_linea')
             ->findOrFail($id);
 
+        $tiempo = floatval($mezcla_harina->control_trazabilidad->liberacion_linea->mezcla_seca_inicial)
+            +
+            floatval($mezcla_harina->control_trazabilidad->liberacion_linea->mezcla_alta_inicial)
+            +
+            floatval($mezcla_harina->control_trazabilidad->liberacion_linea->mezcla_baja_inicial);
 
         return view('control.mezcla_harina.edit', [
-            'mezcla_harina' => $mezcla_harina
+            'mezcla_harina' => $mezcla_harina,
+            'tiempo'=>$tiempo
         ]);
     }
 
@@ -182,7 +188,7 @@ class MezclaHarinaController extends Controller
             $harina->id_usuario = \Auth::user()->id;
             $harina->id_control = $id_control;
             $harina->id_responsable_maquina = \Auth::user()->id;
-            $harina->lote =$lote;
+            $harina->lote = $lote;
             $harina->save();
 
             $response = [
@@ -252,6 +258,37 @@ class MezclaHarinaController extends Controller
 
         return response()->json($response);
 
+
+    }
+
+
+    public function actualizar_detalle(Request $request)
+    {
+
+        $id = $request->id;
+        $hora_descarga = $request->hora_descarga;;;;
+        $observaciones = $request->observaciones;;;;
+
+
+        try {
+            $mezcla = MezclaHarina_Det::findOrFail($id);
+            $mezcla->hora_descarga = $hora_descarga;
+            $mezcla->solucion_observacion = $observaciones;
+            $mezcla->update();
+
+            $response = [
+                'status' => 1,
+                'message' => 'Actualizado correctamente'
+            ];
+        } catch (\Exception $ex) {
+            $response = [
+                'status' => 0,
+                'message' => $ex->getMessage()
+            ];
+        }
+
+
+        return response()->json($response);
 
     }
 

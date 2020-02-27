@@ -296,6 +296,8 @@ Route::post('control/mezcla_harina/iniciar_formulario', 'MezclaHarinaController@
     ->name('mezcla_harina.iniciar_formulario');
 Route::post('control/mezcla_harina/insertar_detalle', 'MezclaHarinaController@insertar_detalle')
     ->name('mezcla_harina.insertar_detalle');
+Route::post('control/mezcla_harina/actualizar_detalle', 'MezclaHarinaController@actualizar_detalle')
+    ->name('mezcla_harina.actualizar_detalle');
 Route::post('control/mezcla_harina/borrar_detalle', 'MezclaHarinaController@borrar_detalle')
     ->name('mezcla_harina.borrar_detalle');
 Route::get('control/mezcla_harina/{id}/edit', 'MezclaHarinaController@edit')->name('mezcla_harina.edit');

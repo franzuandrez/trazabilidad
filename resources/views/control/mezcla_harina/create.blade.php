@@ -27,7 +27,7 @@
     {!!Form::open(array('url'=>'control/mezcla_harina/create','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
 
-
+    <input id="tiempo_optimo" type="hidden">
     <input type="hidden" id="id_control" name="id_control">
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <label for="turno">NO ORDEN DE PRODUCCION</label>
@@ -71,9 +71,9 @@
         <label for="lote">LOTE</label>
         <div class="input-group">
             <input class="form-control selectpicker valor"
-                    disabled
-                    required
-                    id="lote" name="lote">
+                   disabled
+                   required
+                   id="lote" name="lote">
             <div class="input-group-btn">
                 <button
                     onclick="iniciar_formulario()"
@@ -94,7 +94,7 @@
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
 
 
-        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12" style="display: none">
             <label for="hora_carga">HORA CARGA</label>
             <div class="input-group">
                 <input id="hora_carga" type="text"
@@ -107,12 +107,11 @@
             </div>
         </div>
 
-        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12" style="display: none">
             <label for="hora_descarga">HORA DESCARGA</label>
             <div class="input-group">
                 <input id="hora_descarga" type="text"
                        disabled
-                       required
                        class="form-control timepicker" name="hora_descarga">
                 <div class="input-group-addon">
                     <i class="fa fa-clock-o"></i>
@@ -203,7 +202,7 @@
 
                 <thead style="background-color: #01579B;  color: #fff;">
                 <tr>
-
+                    <td></td>
                     <th>PRODUCTO</th>
                     <th>LOTE</th>
                     <th>HORA CARGA</th>
@@ -252,15 +251,12 @@
 @endsection
 @section('scripts')
     <script src="{{asset('js-brc/tools/nuevo_registro.js')}}"></script>
+    <script src="{{asset('js/moment.min.js')}}"></script>
+    <script src="{{asset('js/moment-with-locales.js')}}"></script>
     <script>
         $(function () {
             //Timepicker
-            $('.timepicker').timepicker({
-                showInputs: false,
-                minuteStep: 1,
-                format: 'HH:mm',
-                showMeridian: false,
-            });
+
         })
 
         $(window).keydown(function (event) {
@@ -381,13 +377,15 @@
                     url: "{{url('control/mezcla_harina/iniciar_formulario')}}",
                     data: {
                         id_control: id_control,
-                        lote:lote
+                        lote: lote
                     },
                     success: function (response) {
 
                         if (response.status === 1) {
                             habilitar_formulario(detalle());
                             deshabilitar_encabezado();
+                            const linea = gl_detalle_insumos.find(e => e.id_producto == id_producto);
+                            document.getElementById('tiempo_optimo').value = parseFloat(linea.mezcla_seca_inicial) + parseFloat(linea.mezcla_alta_inicial) + parseFloat(linea.mezcla_baja_inicial);
                         } else {
                             alert(response.message);
                         }
@@ -465,6 +463,7 @@
             const no_orden_disabled = document.getElementById('no_orden_produccion').disabled;
             const no_orden_valida = no_orden_disabled && no_orden_produccion != "";
             const fields = detalle();
+            document.getElementById('hora_carga').value = moment().format('HH:mm:ss');
 
             if (existe_campo_vacio(fields)) {
                 alert("Campos incompletos");
@@ -477,7 +476,7 @@
                 const url_borrar = "'{{url('control/mezcla_harina/borrar_detalle')}}'";
                 const response = await insertar_detalle(request, get_id_control(), url);
                 if (response.status == 1) {
-                    add_to_table(fields, response.id, 'detalles', url_borrar);
+                    add_to_table_harina(fields, response.id, 'detalles', url_borrar);
                     limpiar()
                 } else {
                     alert(response.message);
@@ -490,6 +489,83 @@
 
         }
 
+        function add_to_table_harina(fields, id, table, url) {
+
+
+            let row = `<tr>
+                <td> <button  type="button"
+                    class="btn btn-success"
+                    onclick="marcar_hora_descarga(${id},this)">
+                    <span class="fa fa-check"></span></button> </td>
+            `;
+            fields.forEach(function (e) {
+
+                let value = e[1].value;
+                let text = '';
+                if (e[1].tagName === "SELECT") {
+                    text = $('#' + e[1].id + ' option:selected').text();
+
+                } else {
+
+                    text = value;
+                }
+                row += `
+                <td > <input type="hidden" value="${value}"  id="${e[0]}-${id}"  name="${e[0]}[]" >
+                  ${text}
+                  </td>
+        `
+                ;
+            });
+
+            row += '</tr>';
+            $('#' + table).append(row);
+
+        }
+
+
+        function marcar_hora_descarga(id, ele) {
+
+            let hora_descarga = document.getElementById('hora_descarga-' + id);
+
+            let segundo_optimos = parseFloat(document.getElementById('tiempo_optimo').value);
+
+
+            let hora_carga = moment(moment().format('YYYY-MM-DD') + " " + document.getElementById('hora_carga-' + id).value);
+            let hora_carga2 = moment(moment().format('YYYY-MM-DD') + " " + document.getElementById('hora_carga-' + id).value);
+            var observaciones = document.getElementById('solucion_observacion-' + id).value;
+            let hora_top = hora_carga2.add(segundo_optimos, 'seconds');
+            if (hora_top.isBefore(moment())) {
+                observaciones = observaciones + " ,excedente de " + moment().diff(hora_carga.add(segundo_optimos, 'seconds'), 'seconds') + " segundos";
+                document.getElementById('solucion_observacion-' + id).parentNode.innerText = observaciones;
+
+            }
+            hora_descarga.parentNode.innerText = moment().format('HH:mm:ss');
+            hora_descarga.value = moment().format('HH:mm:ss');
+            $('.loading').show();
+            $.ajax({
+
+                url: "{{url('control/mezcla_harina/actualizar_detalle')}}",
+                data: {
+                    id: id,
+                    hora_descarga: moment().format('HH:mm:ss'),
+                    observaciones: observaciones
+                },
+                type: 'POST',
+                success: function (response) {
+
+                    if (response.status == 0) {
+                        alert(response.message);
+                    }
+                    $(ele).remove();
+                    $('.loading').hide();
+                },
+                error: function (err) {
+                    $('.loading').hide();
+                }
+            })
+
+
+        }
 
     </script>
 @endsection
