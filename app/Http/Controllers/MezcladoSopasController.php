@@ -196,6 +196,8 @@ class MezcladoSopasController extends Controller
 
         $id_control = $request->get('id_control');
         $id_producto = $request->get('id_producto');
+        $lote = $request->get('lote');
+        $turno = $request->get('turno');
 
 
         $mezclado = MezclaSopaEnc::where('id_control', $id_control)
@@ -206,6 +208,8 @@ class MezcladoSopasController extends Controller
             $mezclado->id_usuario = \Auth::user()->id;
             $mezclado->id_control = $id_control;
             $mezclado->fecha_hora = \Carbon\Carbon::now();
+            $mezclado->lote = $lote;
+            $mezclado->id_turno = $turno;
             $mezclado->id_producto = $id_producto;
             $mezclado->save();
 

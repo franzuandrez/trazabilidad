@@ -3,6 +3,7 @@
     <link rel="stylesheet" href="{{asset('css/bootstrap-datepicker.css')}}">
     <link rel="stylesheet" href="{{asset('css/bootstrap-timepicker.css')}}">
     <link rel="stylesheet" href="{{asset('css/tools.css')}}">
+    <link rel="stylesheet" href="{{asset('css/loading.css')}}">
 @endsection
 
 @section('contenido')
@@ -24,7 +25,7 @@
 
     {!!Form::open(array('url'=>'sopas/mezclado_sopas/create','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
-
+    @include('componentes.loading')
     <input type="hidden" id="id_control" name="id_control">
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
@@ -58,7 +59,6 @@
             <select class="form-control selectpicker valor"
                     disabled
                     required
-                    onchange="cargar_lotes(this.value)"
                     id="id_producto" name="id_producto">
                 <option value="" selected>SELECCIONE UN PRODUCTO</option>
             </select>
@@ -68,13 +68,10 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="lote">LOTE</label>
-
-            <select class="form-control selectpicker valor"
+            <input class="form-control selectpicker valor"
                     disabled
                     required
                     id="lote" name="lote">
-                <option value="" selected>SELECCIONE LOTE</option>
-            </select>
 
         </div>
     </div>
@@ -265,7 +262,7 @@
             let option = '<option value="" selected>   SELECCIONE PRODUCTO </option>';
             gl_detalle_insumos.forEach(function (e) {
                 option += `
-                <option  value="${e.id_producto}" > ${e.control_trazabilidad.producto.descripcion}   /    ${e.presentacion.descripcion} </option>
+                <option  value="${e.id_producto}" >   ${e.presentacion.descripcion} </option>
                 `
             });
             $(select).append(option);
@@ -301,7 +298,7 @@
 
         async function iniciar_mezclado_sopas() {
 
-
+            $('.loading').show();
             const no_orden_produccion = document.getElementById('no_orden_produccion').value;
             const url = "{{url('sopas/mezclado_sopas/iniciar_mezclado_sopas')}}";
             const response = await iniciar(url, no_orden_produccion);
@@ -321,7 +318,7 @@
                 document.getElementById('no_orden_produccion').disabled = true;
             }
 
-
+            $('.loading').hide();
         }
 
         function deshabilitar_encabezado() {
@@ -340,11 +337,22 @@
         function inicio_formulario() {
 
             const id_producto = document.getElementById('id_producto').value;
+            const lote = document.getElementById('lote').value;
+            const turno = document.getElementById('id_turno').value;
 
-            if (id_producto == "") {
+            if (id_producto === "") {
                 alert("Seleccione producto");
                 return;
             }
+            if (turno === "") {
+                alert("Seleccione turno");
+                return;
+            }
+            if (lote === "") {
+                alert("Lote en blanco");
+                return;
+            }
+            $('.loading').show();
             const id_control = gl_detalle_insumos.find(e => e.id_producto == id_producto).id_control;
             return $.ajax(
                 {
@@ -352,7 +360,9 @@
                     url: "{{url('sopas/mezclado_sopas/iniciar_formulario')}}",
                     data: {
                         id_control: id_control,
-                        id_producto: id_producto
+                        id_producto: id_producto,
+                        lote:lote,
+                        turno:turno
                     },
                     success: function (response) {
 
@@ -362,10 +372,11 @@
                         } else {
                             alert(response.message);
                         }
-
+                        $('.loading').hide();
                     },
                     error: function (error) {
-                        console.log(error)
+                        console.log(error);
+                        $('.loading').hide();
                     }
                 }
             );
@@ -386,7 +397,7 @@
 
             const fields = detalle();
             limpiar_formulario(fields)
-
+            document.getElementById('no_bach').focus();
         }
 
         function detalle() {
@@ -433,11 +444,11 @@
             const fields = detalle();
 
             if (existe_campo_vacio(fields)) {
-                alert("Campos incompletos");
+               get_campo_vacio(fields).focus();
                 return;
             }
             if (no_orden_valida) {
-
+                $('.loading').show();
                 const request = getRequest(fields);
                 const url = "{{url('sopas/mezclado_sopas/insertar_detalle')}}";
                 const url_borrar = "'{{url('sopas/mezclado_sopas/borrar_detalle')}}'";
@@ -448,6 +459,7 @@
                 } else {
                     alert(response.message);
                 }
+                $('.loading').hide();
             } else {
                 alert("Orden de produccion no valida");
             }
