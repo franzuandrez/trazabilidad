@@ -78,8 +78,9 @@
         <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="inicial">INICIAL 130 A 135 °C</label>
-                <input id="inicial" type="text" name="inicial"
-
+                <input id="inicial"  name="inicial"
+                       type="number"
+                       step="any"
                        required
                        class="form-control">
             </div>
@@ -87,8 +88,9 @@
         <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="final">FINAL 140 A 160 °C</label>
-                <input id="final" type="text" name="final"
-
+                <input id="final"name="final"
+                       type="number"
+                       step="any"
                        required
                        class="form-control">
             </div>
@@ -97,8 +99,10 @@
         <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="general">GENERAL 150 A 161 °C</label>
-                <input id="general" type="text" name="general"
-
+                <input id="general"
+                       type="number"
+                       step="any"
+                       name="general"
                        required
                        class="form-control">
             </div>
@@ -106,8 +110,10 @@
         <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="set">SET 160 A 165 °C</label>
-                <input id="set" type="text" name="set"
-
+                <input id="set"
+                       type="number"
+                       step="any"
+                       name="set"
                        required
                        class="form-control">
             </div>
@@ -115,8 +121,10 @@
         <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="tiempo">TIEMPO DE FRITURA 1:30 A 2:20 MIN</label>
-                <input id="tiempo" type="text" name="tiempo"
-
+                <input id="tiempo"
+                       type="number"
+                       step="any"
+                       name="tiempo"
                        required
                        class="form-control">
             </div>
@@ -124,8 +132,8 @@
         <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
             <label for="observaciones">OBSERVACIONES</label>
             <div class="input-group">
-                <input id="observaciones" type="text" name="observaciones"
-
+                <input id="observaciones"
+                       name="observaciones"
                        class="form-control">
                 <div class="input-group-btn">
                     <button

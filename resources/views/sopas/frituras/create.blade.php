@@ -26,8 +26,8 @@
     {!!Form::open(array('url'=>'sopas/fritura/create','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
 
-    <input type="hidden" id="id_control" name="id_control" >
-
+    <input type="hidden" id="id_control" name="id_control">
+    @include('.componentes.loading')
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <label for="turno">NO ORDEN DE PRODUCCION</label>
         <div class="input-group">
@@ -59,7 +59,6 @@
             <select class="form-control selectpicker valor"
                     disabled
                     required
-                    onchange="cargar_lotes(this.value)"
                     id="id_producto" name="id_producto">
                 <option value="" selected>SELECCIONE UN PRODUCTO</option>
             </select>
@@ -69,14 +68,10 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="lote">LOTE</label>
-
-            <select class="form-control selectpicker valor"
-                    disabled
-                    required
-                    id="lote" name="lote">
-                <option value="" selected>SELECCIONE LOTE</option>
-            </select>
-
+            <input class="form-control selectpicker valor"
+                  disabled
+                  required
+                  id="lote" name="lote">
         </div>
     </div>
 
@@ -108,102 +103,115 @@
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
 
 
+        <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="inicial">INICIAL 130 A 135 °C</label>
+                <input id="inicial"
+                       type="number"
+                       step="any"
+                       name="inicial"
+                       disabled
+                       required
+                       class="form-control">
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="final">FINAL 140 A 160 °C</label>
+                <input id="final"
+                       type="number"
+                       step="any"
+                       name="final"
+                       disabled
+                       required
+                       class="form-control">
+            </div>
+        </div>
 
+        <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="general">GENERAL 150 A 161 °C</label>
+                <input id="general"
+                       type="number"
+                       step="any"
+                       name="general"
+                       disabled
+                       required
+                       class="form-control">
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="set">SET 160 A 165 °C</label>
+                <input id="set"
+                       type="number"
+                       step="any"
+                       name="set"
+                       disabled
+                       required
+                       class="form-control">
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="tiempo">TIEMPO DE FRITURA 1:30 A 2:20 MIN</label>
+                <input id="tiempo"
+                       type="number"
+                       step="any"
+                       name="tiempo"
+                       disabled
+                       required
+                       class="form-control">
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+            <label for="observaciones">OBSERVACIONES</label>
+            <div class="input-group">
+                <input id="observaciones" type="text" name="observaciones"
+                       disabled
+                       class="form-control">
+                <div class="input-group-btn">
+                    <button
+                        id="btn_buscar_orden"
+                        onclick="agregar_a_table()"
+                        onkeydown="agregar_a_table()"
+                        type="button" class="btn btn-default">
+                        <i class="fa fa-plus"
+                           aria-hidden="true"></i>
+                    </button>
+                    <button
+                        onclick="limpiar()"
+                        onkeydown="limpiar()"
+                        type="button" class="btn btn-default">
+                        <i class="fa fa-trash"
+                           aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
 
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="inicial">INICIAL 130 A 135 °C</label>
-                        <input id="inicial" type="text" name="inicial"
-                               disabled
-                               required
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="final">FINAL 140 A 160 °C</label>
-                        <input id="final" type="text" name="final"
-                               disabled
-                               required
-                               class="form-control">
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="general">GENERAL 150 A 161 °C</label>
-                        <input id="general" type="text" name="general"
-                               disabled
-                               required
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="set">SET 160 A 165 °C</label>
-                        <input id="set" type="text" name="set"
-                               disabled
-                               required
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="tiempo">TIEMPO DE FRITURA 1:30 A 2:20 MIN</label>
-                        <input id="tiempo" type="text" name="tiempo"
-                               disabled
-                               required
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <label for="observaciones">OBSERVACIONES</label>
-                    <div class="input-group">
-                        <input id="observaciones" type="text" name="observaciones"
-                               disabled
-                               class="form-control">
-                        <div class="input-group-btn">
-                            <button
-                                id="btn_buscar_orden"
-                                onclick="agregar_a_table()"
-                                onkeydown="agregar_a_table()"
-                                type="button" class="btn btn-default">
-                                <i class="fa fa-plus"
-                                   aria-hidden="true"></i>
-                            </button>
-                            <button
-                                onclick="limpiar()"
-                                onkeydown="limpiar()"
-                                type="button" class="btn btn-default">
-                                <i class="fa fa-trash"
-                                   aria-hidden="true"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
-
-                    <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
-                        <thead style="background-color: #01579B;  color: #fff;">
-                        <th>HORA (CADA 15 MIN)</th>
-                        <th>INICIAL 130 A 135 °C</th>
-                        <th>FINAL 140 A 160 °C</th>
-                        <th>GENERAL 150 A 160 °C</th>
-                        <th>SET 160 A 161 °C</th>
-                        <th>TIEMPO DE FRITURA 1:30 A 2:20 MIN</th>
-                        <th>OBSERVACIONES</th>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-                    <div class="form-group">
-                        <label for="acciones">ACCIONES/CORRECTIVAS</label>
-                        <input type="text" name="acciones" value="{{old('acciones')}}"
-                               class="form-control">
-                    </div>
-                </div>
+            <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
+                <thead style="background-color: #01579B;  color: #fff;">
+                <th>HORA (CADA 15 MIN)</th>
+                <th>INICIAL 130 A 135 °C</th>
+                <th>FINAL 140 A 160 °C</th>
+                <th>GENERAL 150 A 160 °C</th>
+                <th>SET 160 A 161 °C</th>
+                <th>TIEMPO DE FRITURA 1:30 A 2:20 MIN</th>
+                <th>OBSERVACIONES</th>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+            <div class="form-group">
+                <label for="acciones">ACCIONES/CORRECTIVAS</label>
+                <input type="text" name="acciones" value="{{old('acciones')}}"
+                       class="form-control">
+            </div>
+        </div>
 
         <input type="hidden" id="hora">
         <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
@@ -346,19 +354,32 @@
         function inicio_formulario() {
 
             const id_producto = document.getElementById('id_producto').value;
+            const turno = document.getElementById('id_turno').value;
+            const lote = document.getElementById('lote').value;
 
-            if (id_producto == "") {
+            if (id_producto === "") {
                 alert("Seleccione producto");
                 return;
             }
+            if (lote === "") {
+                alert("Lote en blanco");
+                return;
+            }
+            if (turno === "") {
+                alert("Seleccione Turno");
+                return;
+            }
             const id_control = gl_detalle_insumos.find(e => e.id_producto == id_producto).id_control;
+            $('.loading').show();
             return $.ajax(
                 {
                     type: "POST",
                     url: "{{url('sopas/fritura/iniciar_formulario')}}",
                     data: {
                         id_control: id_control,
-                        id_producto: id_producto
+                        id_producto: id_producto,
+                        lote: lote,
+                        turno: turno,
                     },
                     success: function (response) {
 
@@ -368,10 +389,11 @@
                         } else {
                             alert(response.message);
                         }
-
+                        $('.loading').hide();
                     },
                     error: function (error) {
-                        console.log(error)
+                        console.log(error);
+                        $('.loading').hide();
                     }
                 }
             );
@@ -442,11 +464,11 @@
             const fields = detalle();
             document.getElementById('hora').value = moment().format('HH:mm:ss');
             if (existe_campo_vacio(fields)) {
-                alert("Campos incompletos");
+                get_campo_vacio(fields).focus();
                 return;
             }
             if (no_orden_valida) {
-
+                $('.loading').show();
                 const request = getRequest(fields);
                 const url = "{{url('sopas/fritura/insertar_detalle')}}";
                 const url_borrar = "'{{url('sopas/fritura/borrar_detalle')}}'";
@@ -457,6 +479,7 @@
                 } else {
                     alert(response.message);
                 }
+                $('.loading').hide();
             } else {
                 alert("Orden de produccion no valida");
             }
