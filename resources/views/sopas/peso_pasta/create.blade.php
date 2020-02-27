@@ -8,8 +8,19 @@
 
 @section('contenido')
     <div class="col-lg-12 col-lg-push-3 col-sm-12     col-md-12    col-xs-12">
-        <h3>CONTROL DE PESO DE PASTA DE SOPAS INSTANTANEAS</h3>
+        <h3>CONTROL DE PESO DE PASTA DE SOPAS INSTANTANEAS
+            <button
+                data-toggle="tooltip"
+                title="Informacion"
+                onclick="ver_informacion()"
+                type="button" class="btn btn-default btn-sm">
+                <i class="fa fa-info"
+                   aria-hidden="true"></i>
+            </button>
+        </h3>
+
     </div>
+    @include('sopas.peso_pasta.tabla_informativa')
     @component('componentes.nav',['operation'=>'Ingreso',
     'menu_icon'=>'fa fa-check-square-o',
     'submenu_icon'=>'fa fa-signal',
@@ -484,6 +495,9 @@
 
         }
 
+        function ver_informacion() {
 
+            $('#informacion').modal()
+        }
     </script>
 @endsection

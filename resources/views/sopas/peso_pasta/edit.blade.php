@@ -8,8 +8,19 @@
 
 @section('contenido')
     <div class="col-lg-12 col-lg-push-3 col-sm-12     col-md-12    col-xs-12">
-        <h3>CONTROL DE PESO DE PASTA DE SOPAS INSTANTANEAS</h3>
+        <h3>CONTROL DE PESO DE PASTA DE SOPAS INSTANTANEAS
+            <button
+                data-toggle="tooltip"
+                title="Informacion"
+                onclick="ver_informacion()"
+                type="button" class="btn btn-default btn-sm">
+                <i class="fa fa-info"
+                   aria-hidden="true"></i>
+            </button>
+        </h3>
+
     </div>
+    @include('sopas.peso_pasta.tabla_informativa')
     @component('componentes.nav',['operation'=>'Continuar',
     'menu_icon'=>'fa fa-check-square-o',
     'submenu_icon'=>'fa fa-signal',
@@ -111,7 +122,7 @@
             </div>
         </div>
 
-        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12" style="display: none">
             <div class="form-group">
                 <label for="no_5">Largo Fideo</label>
                 <input id="no_5" type="text" name="no_5"
@@ -155,7 +166,6 @@
                     <th>NO. 2</th>
                     <th>NO. 3</th>
                     <th>NO. 4</th>
-                    <th>Largo Fideo</th>
                     <th>OBSERVACIONES</th>
                 </tr>
 
@@ -168,7 +178,6 @@
                         <td>{{$detalle->no_2}}</td>
                         <td>{{$detalle->no_3}}</td>
                         <td>{{$detalle->no_4}}</td>
-                        <td>{{$detalle->largo_fideo}}</td>
                         <td>{{$detalle->observaciones}}</td>
                     </tr>
                 @endforeach
@@ -382,7 +391,7 @@
             const no_2 = document.getElementById('no_2');
             const no_3 = document.getElementById('no_3');
             const no_4 = document.getElementById('no_4');
-            const largo_fideo = document.getElementById('no_5');
+
             const observaciones = document.getElementById('observaciones');
 
 
@@ -392,7 +401,7 @@
                 ["no_2", no_2],
                 ["no_3", no_3],
                 ["no_4", no_4],
-                ["largo_fideo", largo_fideo],
+
                 ["observaciones", observaciones],
 
             ];
@@ -444,6 +453,9 @@
 
         }
 
+        function ver_informacion() {
 
+            $('#informacion').modal()
+        }
     </script>
 @endsection
