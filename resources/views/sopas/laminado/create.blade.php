@@ -110,7 +110,10 @@
         <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="velocidad_laminado">VELOCIDAD DE LAMINADO (RPM)</label>
-                <input id="velocidad_laminado" type="text" name="velocidad_laminado"
+                <input id="velocidad_laminado"
+                       type="number"
+                       step="any"
+                       name="velocidad_laminado"
                        disabled
                        required
                        class="form-control">
@@ -119,7 +122,10 @@
         <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="espesor_lamina">ESPESOR DE LÁMINA 0.98 A 1.03 MM</label>
-                <input id="espesor_lamina" type="text" name="espesor_lamina"
+                <input id="espesor_lamina"
+                       type="number"
+                       step="any"
+                       name="espesor_lamina"
                        disabled
                        required
                        class="form-control">
@@ -128,7 +134,10 @@
         <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="presicion">PRESICIÓN REGULADOR DE VALOR (0.2 A 0.3 MPA)</label>
-                <input id="presicion" type="text" name="presicion"
+                <input id="presicion"
+                       type="number"
+                       step="any"
+                       name="presicion"
                        disabled
                        required
                        class="form-control">
@@ -138,7 +147,10 @@
         <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="indice_precoccion">INDICE PRECOCCIÓN (CUALITATIVO)</label>
-                <input id="indice_precoccion" type="text" name="indice_precoccion"
+                <input id="indice_precoccion"
+                       type="number"
+                       step="any"
+                       name="indice_precoccion"
                        disabled
                        required
                        class="form-control">
@@ -147,7 +159,10 @@
         <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="temperatura_inicio">TEMPERATURA DE PRECOCCIÓN MAS DE 90 C INICIO</label>
-                <input id="temperatura_inicio" type="text" name="temperatura_inicio"
+                <input id="temperatura_inicio"
+                       type="number"
+                       step="any"
+                       name="temperatura_inicio"
                        disabled
                        required
                        class="form-control">
@@ -156,7 +171,10 @@
         <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="temperatura_salida">TEMPERATURA DE PRECOCCIÓN MAS DE 90 C SALIDA</label>
-                <input id="temperatura_salida" type="text" name="temperatura_salida"
+                <input id="temperatura_salida"
+                       type="number"
+                       step="any"
+                       name="temperatura_salida"
                        disabled
                        required
                        class="form-control">
@@ -165,7 +183,10 @@
         <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="tiempo_precoccion">TIEMPO DE PRECOCCIÓN 2:00 A 2:55 MIN. (CADA 30 MIN)</label>
-                <input id="tiempo_precoccion" type="text" name="tiempo_precoccion"
+                <input id="tiempo_precoccion"
+                       type="number"
+                       step="any"
+                       name="tiempo_precoccion"
                        disabled
                        required
                        class="form-control">
@@ -174,7 +195,10 @@
         <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="velocidad_cotres">VELOCIDAD (COTRES * MIN)</label>
-                <input id="velocidad_cotres" type="text" name="velocidad_cotres"
+                <input id="velocidad_cotres"
+                       type="number"
+                       step="any"
+                       name="velocidad_cotres"
                        disabled
                        required
                        class="form-control">
