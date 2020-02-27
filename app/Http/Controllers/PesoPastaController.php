@@ -6,10 +6,10 @@ use App\Http\tools\OrdenProduccion;
 use App\Http\tools\RealTimeService;
 use App\PesoPastaSopasDet;
 use App\PesoPastaSopasEnc;
-use App\Recepcion;
 use App\User;
-use Illuminate\Http\Request;
 use DB;
+use Illuminate\Http\Request;
+
 class PesoPastaController extends Controller
 {
     /**
@@ -21,6 +21,7 @@ class PesoPastaController extends Controller
     {
         $this->middleware('auth');
     }
+
     public function index(Request $request)
     {
         //
@@ -76,7 +77,7 @@ class PesoPastaController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -98,13 +99,12 @@ class PesoPastaController extends Controller
         }
 
 
-
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -125,7 +125,7 @@ class PesoPastaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -147,8 +147,8 @@ class PesoPastaController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -159,7 +159,7 @@ class PesoPastaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -196,6 +196,8 @@ class PesoPastaController extends Controller
 
         $id_control = $request->get('id_control');
         $id_producto = $request->get('id_producto');
+        $lote = $request->get('lote');
+        $turno = $request->get('turno');
 
 
         $laminado = PesoPastaSopasEnc::where('id_control', $id_control)
@@ -207,6 +209,8 @@ class PesoPastaController extends Controller
             $laminado->id_control = $id_control;
             $laminado->fecha_hora = \Carbon\Carbon::now();
             $laminado->id_producto = $id_producto;
+            $laminado->lote = $lote;
+            $laminado->id_turno = $turno;
             $laminado->save();
 
             $response = [

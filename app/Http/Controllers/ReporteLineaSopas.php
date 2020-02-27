@@ -288,7 +288,7 @@ class ReporteLineaSopas extends Controller
         $reporte_encabezado->setTitle('REGISTRO DE PARAMETROS EN FRITURA  DE SOPAS INSTANTANEAS')
             ->setCreatedAt(Carbon::now())
             ->setSubtitle('REGISTRO DE PARAMETROS EN FRITURA  DE SOPAS INSTANTANEAS')
-            ->setExcept(['fecha_hora', 'lote', 'id_peso_pasta_enc', 'id_peso_pasta_det', 'id_usuario']);
+            ->setExcept(['fecha_hora', 'lote', 'id_peso_pasta_enc', 'id_peso_pasta_det', 'id_usuario','largo_fideo']);
 
         $peso_detalle = PesoPastaSopasDet::where('id_peso_pasta_enc', $id)
             ->select('peso_pasta_det.*', 'users.nombre as USUARIO')

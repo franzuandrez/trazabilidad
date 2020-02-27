@@ -25,7 +25,7 @@
 
     {!!Form::open(array('url'=>'sopas/peso_pasta/create','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
-
+    @include('componentes.loading')
     <input type="hidden" id="id_control" name="id_control">
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <label for="turno">NO ORDEN DE PRODUCCION</label>
@@ -69,7 +69,6 @@
             <select class="form-control selectpicker valor"
                     disabled
                     required
-                    onchange="cargar_lotes(this.value)"
                     id="id_producto" name="id_producto">
                 <option value="" selected>SELECCIONE UN PRODUCTO</option>
             </select>
@@ -79,12 +78,10 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <label for="lote">LOTE</label>
         <div class="input-group">
-            <select class="form-control selectpicker valor"
+            <input class="form-control selectpicker valor"
                     disabled
                     required
                     id="lote" name="lote">
-                <option value="" selected>SELECCIONE LOTE</option>
-            </select>
             <div class="input-group-btn">
                 <button
                     onclick="inicio_formulario()"
@@ -104,7 +101,10 @@
         <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="no_1">NO. 1</label>
-                <input id="no_1" type="text" name="no_1"
+                <input id="no_1"
+                       step="any"
+                       type="number"
+                       name="no_1"
                        required
                        disabled
                        class="form-control">
@@ -113,7 +113,10 @@
         <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="no_2">NO. 2</label>
-                <input id="no_2" type="text" name="no_2"
+                <input id="no_2"
+                       step="any"
+                       type="number"
+                       name="no_2"
                        required
                        disabled
                        class="form-control">
@@ -122,7 +125,10 @@
         <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="no_3">NO. 3</label>
-                <input id="no_3" type="text" name="no_3"
+                <input id="no_3"
+                       step="any"
+                       type="number"
+                       name="no_3"
                        required
                        disabled
                        class="form-control">
@@ -131,18 +137,20 @@
         <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="no_4">NO. 4</label>
-                <input id="no_4" type="text" name="no_4"
+                <input id="no_4"
+                       step="any"
+                       type="number"
+                       name="no_4"
                        required
                        disabled
                        class="form-control">
             </div>
         </div>
 
-        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12" style="display: none">
             <div class="form-group">
                 <label for="no_5">Largo Fideo</label>
                 <input id="no_5" type="text" name="no_5"
-                       required
                        disabled
                        class="form-control">
             </div>
@@ -178,13 +186,11 @@
                 <thead style="background-color: #01579B;  color: #fff;">
                 <tr>
                     <th>HORA</th>
-                    <th>PRODUCTO</th>
-                    <th>LOTE</th>
+
                     <th>NO. 1</th>
                     <th>NO. 2</th>
                     <th>NO. 3</th>
                     <th>NO. 4</th>
-                    <th>NO. 5</th>
                     <th>OBSERVACIONES</th>
                 </tr>
 
@@ -267,7 +273,7 @@
             let option = '<option value="" selected>   SELECCIONE PRODUCTO </option>';
             gl_detalle_insumos.forEach(function (e) {
                 option += `
-                <option  value="${e.id_producto}" > ${e.control_trazabilidad.producto.descripcion}   /    ${e.presentacion.descripcion} </option>
+                <option  value="${e.id_producto}" > ${e.presentacion.descripcion} </option>
                 `
             });
             $(select).append(option);
@@ -344,11 +350,22 @@
         function inicio_formulario() {
 
             const id_producto = document.getElementById('id_producto').value;
+            const lote = document.getElementById('lote').value;
+            const turno = document.getElementById('id_turno').value;
 
-            if (id_producto == "") {
+            if (id_producto === "") {
                 alert("Seleccione producto");
                 return;
             }
+            if (turno === "") {
+                alert("Seleccione Turno");
+                return;
+            }
+            if (lote === "") {
+                alert("Lote en blanco");
+                return;
+            }
+            $('.loading').show();
             const id_control = gl_detalle_insumos.find(e => e.id_producto == id_producto).id_control;
             return $.ajax(
                 {
@@ -356,7 +373,9 @@
                     url: "{{url('sopas/peso_pasta/iniciar_formulario')}}",
                     data: {
                         id_control: id_control,
-                        id_producto: id_producto
+                        id_producto: id_producto,
+                        lote:lote,
+                        turno:turno,
                     },
                     success: function (response) {
 
@@ -366,10 +385,13 @@
                         } else {
                             alert(response.message);
                         }
+                        $('.loading').hide();
+
 
                     },
                     error: function (error) {
-                        console.log(error)
+                        console.log(error);
+                        $('.loading').hide();
                     }
                 }
             );
@@ -401,7 +423,7 @@
             const no_2 = document.getElementById('no_2');
             const no_3 = document.getElementById('no_3');
             const no_4 = document.getElementById('no_4');
-            const largo_fideo = document.getElementById('no_5');
+
             const observaciones = document.getElementById('observaciones');
 
 
@@ -411,7 +433,6 @@
                 ["no_2", no_2],
                 ["no_3", no_3],
                 ["no_4", no_4],
-                ["largo_fideo", largo_fideo],
                 ["observaciones", observaciones],
 
             ];
@@ -439,7 +460,7 @@
             const fields = detalle();
             document.getElementById('hora').value = moment().format('HH:mm:ss');
             if (existe_campo_vacio(fields)) {
-                alert("Campos incompletos");
+                get_campo_vacio(fields).focus();
                 return;
             }
             if (no_orden_valida) {
