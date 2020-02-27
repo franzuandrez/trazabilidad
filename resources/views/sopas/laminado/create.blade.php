@@ -59,7 +59,6 @@
             <select class="form-control selectpicker valor"
                     disabled
                     required
-                    onchange="cargar_lotes(this.value)"
                     id="id_producto" name="id_producto">
                 <option value="" selected>SELECCIONE UN PRODUCTO</option>
             </select>
@@ -297,7 +296,7 @@
             let option = '<option value="" selected>   SELECCIONE PRODUCTO </option>';
             gl_detalle_insumos.forEach(function (e) {
                 option += `
-                <option  value="${e.id_producto}" > ${e.control_trazabilidad.producto.descripcion}   /    ${e.presentacion.descripcion} </option>
+                <option  value="${e.id_producto}" >   ${e.presentacion.descripcion} </option>
                 `
             });
             $(select).append(option);
@@ -372,11 +371,22 @@
         function inicio_formulario() {
 
             const id_producto = document.getElementById('id_producto').value;
+            const lote = document.getElementById('lote').value;
+            const turno = document.getElementById('id_turno').value;
 
-            if (id_producto == "") {
+            if (id_producto === "") {
                 alert("Seleccione producto");
                 return;
             }
+            if (lote === "") {
+                alert("Lote en blanco");
+                return;
+            }
+            if (turno === "") {
+                alert("Seleccione Turno");
+                return;
+            }
+            $('.loading').show();
             const id_control = gl_detalle_insumos.find(e => e.id_producto == id_producto).id_control;
             return $.ajax(
                 {
@@ -384,7 +394,9 @@
                     url: "{{url('sopas/laminado/iniciar_formulario')}}",
                     data: {
                         id_control: id_control,
-                        id_producto: id_producto
+                        id_producto: id_producto,
+                        lote:lote,
+                        turno:turno,
                     },
                     success: function (response) {
 
@@ -394,10 +406,11 @@
                         } else {
                             alert(response.message);
                         }
-
+                        $('.loading').hide();
                     },
                     error: function (error) {
-                        console.log(error)
+                        console.log(error);
+                        $('.loading').hide();
                     }
                 }
             );
@@ -417,8 +430,8 @@
         function limpiar() {
 
             const fields = detalle();
-            limpiar_formulario(fields)
-
+            limpiar_formulario(fields);
+            document.getElementById('velocidad_laminado').focus();
         }
 
         function detalle() {
@@ -473,11 +486,12 @@
             const fields = detalle();
             document.getElementById('hora').value = moment().format('HH:mm:ss');
             if (existe_campo_vacio(fields)) {
-                alert("Campos incompletos");
+                get_campo_vacio(fields).focus();
                 return;
             }
             if (no_orden_valida) {
 
+                $('.loading').show();
                 const request = getRequest(fields);
                 const url = "{{url('sopas/laminado/insertar_detalle')}}";
                 const url_borrar = "'{{url('sopas/laminado/borrar_detalle')}}'";
@@ -488,6 +502,7 @@
                 } else {
                     alert(response.message);
                 }
+                $('.loading').hide();
             } else {
                 alert("Orden de produccion no valida");
             }

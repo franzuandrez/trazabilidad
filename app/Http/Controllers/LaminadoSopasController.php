@@ -194,6 +194,8 @@ class LaminadoSopasController extends Controller
 
         $id_control = $request->get('id_control');
         $id_producto = $request->get('id_producto');
+        $lote = $request->get('lote');
+        $turno = $request->get('turno');
 
 
         $laminado = LaminadoSopasEnc::where('id_control', $id_control)
@@ -205,6 +207,8 @@ class LaminadoSopasController extends Controller
             $laminado->id_control = $id_control;
             $laminado->fecha_hora = \Carbon\Carbon::now();
             $laminado->id_producto = $id_producto;
+            $laminado->lote = $lote;
+            $laminado->id_turno = $turno;
             $laminado->save();
 
             $response = [
