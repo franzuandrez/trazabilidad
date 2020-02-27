@@ -223,7 +223,6 @@
 
 
 
-
     <!---***********************-->
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
@@ -234,14 +233,14 @@
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <label for="label_generico">% COMPUESTOS SOLARES LIBRES (0 A 24)</label>
+            <label for="label_generico">FRIO</label>
 
         </div>
     </div>
 
     <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
         <div class="form-group">
-            <label for="compuestos_polares_libres_frio">FRIO</label>
+            <label for="compuestos_polares_libres_frio">% COMPUESTOS SOLARES LIBRES (0 A 24)</label>
             <input type="number" step="any" name="compuestos_polares_libres_frio" id="compuestos_polares_libres_frio"
                    {{$sopa->compuestos_polares_libres_frio==null?'':'disabled'}}
                    value="{{$sopa->compuestos_polares_libres_frio}}"
@@ -249,72 +248,9 @@
                    class="form-control valor">
         </div>
     </div>
-
     <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
         <div class="form-group">
-            <label for="compuestos_polares_libres_antes">ANTES</label>
-            <input type="number" step="any" name="compuestos_polares_libres_antes" id="compuestos_polares_libres_antes"
-                   {{$sopa->compuestos_polares_libres_antes==null?'':'disabled'}}
-                   value="{{$sopa->compuestos_polares_libres_antes}}"
-                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'compuestos_polares_libres_durante','compuestos_polares_libres_antes')"
-                   class="form-control valor">
-        </div>
-    </div>
-
-    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
-        <div class="form-group">
-            <label for="compuestos_polares_libres_durante">DURANTE</label>
-            <input type="number" step="any" name="compuestos_polares_libres_durante"
-                   id="compuestos_polares_libres_durante"
-                   {{$sopa->compuestos_polares_libres_durante==null?'':'disabled'}}
-                   value="{{$sopa->compuestos_polares_libres_durante}}"
-                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'compuestos_polares_libres_despues','compuestos_polares_libres_durante')"
-                   class="form-control valor">
-        </div>
-    </div>
-
-
-    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
-        <div class="form-group">
-            <label for="compuestos_polares_libres_despues">DESP</label>
-            <input type="number" step="any" name="compuestos_polares_libres_despues"
-                   id="compuestos_polares_libres_despues"
-                   {{$sopa->compuestos_polares_libres_despues==null?'':'disabled'}}
-                   value="{{$sopa->compuestos_polares_libres_despues}}"
-                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'compuestos_polares_libres_observaciones','compuestos_polares_libres_despues')"
-                   class="form-control valor">
-        </div>
-    </div>
-
-    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-        <div class="form-group">
-            <label for="compuestos_polares_libres_observaciones">OBSERVACIONES</label>
-            <input type="number" step="any" name="compuestos_polares_libres_observaciones"
-                   id="compuestos_polares_libres_observaciones"
-                   {{$sopa->compuestos_polares_libres_observaciones==null?'':'disabled'}}
-                   value="{{$sopa->compuestos_polares_libres_observaciones}}"
-                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'indice_acidez_frio','compuestos_polares_libres_observaciones')"
-                   class="form-control valor">
-        </div>
-    </div>
-
-
-    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-        <div class="form-group">
-            <label for="label_generico "> </label>
-        </div>
-    </div>
-
-    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-        <div class="form-group">
-            <label for="label_generico">INDICE DE ACIDEZ (0 A 2 )</label>
-
-        </div>
-    </div>
-
-    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
-        <div class="form-group">
-            <label for="indice_acidez_frio">FRIO</label>
+            <label for="indice_acidez_frio">INDICE DE ACIDEZ (0 A 2 )</label>
             <input type="number" step="any" name="indice_acidez_frio" id="indice_acidez_frio"
                    {{$sopa->indice_acidez_frio==null?'':'disabled'}}
                    value="{{$sopa->indice_acidez_frio}}"
@@ -325,7 +261,48 @@
 
     <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
         <div class="form-group">
-            <label for="indice_acidez_antes">ANTES</label>
+            <label for="temperatura_aceite_frio">TEMPERATURA DE ACEITE</label>
+            <input type="number" step="any" name="temperatura_aceite_frio" id="temperatura_aceite_frio"
+                   {{$sopa->temperatura_aceite_frio==null?'':'disabled'}}
+                   value="{{$sopa->temperatura_aceite_frio}}"
+                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'temperatura_aceite_antes','temperatura_aceite_frio')"
+                   class="form-control valor">
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <div class="form-group">
+            <label for="label_generico "> </label>
+        </div>
+    </div>
+
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <div class="form-group">
+            <label for="label_generico">ANTES</label>
+
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+        <div class="form-group">
+            <label for="compuestos_polares_libres_antes">COMPUESTOS SOLARES LIBRES (0 A 24)</label>
+            <input type="number" step="any" name="compuestos_polares_libres_antes" id="compuestos_polares_libres_antes"
+                   {{$sopa->compuestos_polares_libres_antes==null?'':'disabled'}}
+                   value="{{$sopa->compuestos_polares_libres_antes}}"
+                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'compuestos_polares_libres_durante','compuestos_polares_libres_antes')"
+                   class="form-control valor">
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+        <div class="form-group">
+            <label for="indice_acidez_antes">INDICE DE ACIDEZ (0 A 2 )</label>
             <input type="number" step="any" name="indice_acidez_antes" id="indice_acidez_antes"
                    {{$sopa->indice_acidez_antes==null?'':'disabled'}}
                    value="{{$sopa->indice_acidez_antes}}"
@@ -336,7 +313,47 @@
 
     <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
         <div class="form-group">
-            <label for="indice_acidez_durante">DURANTE</label>
+            <label for="temperatura_aceite_antes">
+                TEMPERATURA DE ACEITE
+            </label>
+            <input type="number" step="any" name="temperatura_aceite_antes" id="temperatura_aceite_antes"
+                   {{$sopa->temperatura_aceite_antes==null?'':'disabled'}}
+                   value="{{$sopa->temperatura_aceite_antes}}"
+                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'temperatura_aceite_durante','temperatura_aceite_antes')"
+                   class="form-control valor">
+        </div>
+    </div>
+
+
+
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <div class="form-group">
+            <label for="label_generico "> </label>
+        </div>
+    </div>
+
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <div class="form-group">
+            <label for="label_generico">DURANTE</label>
+
+        </div>
+    </div>
+
+
+    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+        <div class="form-group">
+            <label for="compuestos_polares_libres_durante">COMPUESTOS SOLARES LIBRES (0 A 24)</label>
+            <input type="number" step="any" name="compuestos_polares_libres_durante" id="compuestos_polares_libres_durante"
+                   {{$sopa->compuestos_polares_libres_durante==null?'':'disabled'}}
+                   value="{{$sopa->compuestos_polares_libres_durante}}"
+                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'compuestos_polares_libres_despues','compuestos_polares_libres_durante')"
+                   class="form-control valor">
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+        <div class="form-group">
+            <label for="indice_acidez_durante">INDICE DE ACIDEZ (0 A 2 )</label>
             <input type="number" step="any" name="indice_acidez_durante" id="indice_acidez_durante"
                    {{$sopa->indice_acidez_durante==null?'':'disabled'}}
                    value="{{$sopa->indice_acidez_durante}}"
@@ -345,6 +362,42 @@
         </div>
     </div>
 
+
+
+    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+        <div class="form-group">
+            <label for="temperatura_aceite_durante">
+                TEMPERATURA DE ACEITE
+            </label>
+            <input type="number" step="any" name="temperatura_aceite_durante" id="temperatura_aceite_durante"
+                   {{$sopa->temperatura_aceite_durante==null?'':'disabled'}}
+                   value="{{$sopa->temperatura_aceite_durante}}"
+                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'temperatura_aceite_despues','temperatura_aceite_durante')"
+                   class="form-control valor">
+        </div>
+    </div>
+
+
+
+
+
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <div class="form-group">
+            <label for="label_generico">DESPUES</label>
+
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+        <div class="form-group">
+            <label for="compuestos_polares_libres_despues">DESP</label>
+            <input type="number" step="any" name="compuestos_polares_libres_despues" id="compuestos_polares_libres_despues"
+                   {{$sopa->compuestos_polares_libres_despues==null?'':'disabled'}}
+                   value="{{$sopa->compuestos_polares_libres_despues}}"
+                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'compuestos_polares_libres_observaciones','compuestos_polares_libres_despues')"
+                   class="form-control valor">
+        </div>
+    </div>
 
     <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
         <div class="form-group">
@@ -356,63 +409,6 @@
                    class="form-control valor">
         </div>
     </div>
-
-    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-        <div class="form-group">
-            <label for="indice_acidez_observaciones">OBSERVACIONES</label>
-            <input type="number" step="any" name="indice_acidez_observaciones" id="indice_acidez_observaciones"
-                   {{$sopa->indice_acidez_observaciones==null?'':'disabled'}}
-                   value="{{$sopa->indice_acidez_observaciones}}"
-                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'temperatura_aceite_frio','indice_acidez_observaciones')"
-                   class="form-control valor">
-        </div>
-    </div>
-    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-        <div class="form-group">
-            <label for="label_generico "> </label>
-        </div>
-    </div>
-
-    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-        <div class="form-group">
-            <label for="label_generico">TEMPERATURA DE ACEITE</label>
-
-        </div>
-    </div>
-
-    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
-        <div class="form-group">
-            <label for="temperatura_aceite_frio">FRIO</label>
-            <input type="number" step="any" name="temperatura_aceite_frio" id="temperatura_aceite_frio"
-                   {{$sopa->temperatura_aceite_frio==null?'':'disabled'}}
-                   value="{{$sopa->temperatura_aceite_frio}}"
-                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'temperatura_aceite_antes','temperatura_aceite_frio')"
-                   class="form-control valor">
-        </div>
-    </div>
-
-    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
-        <div class="form-group">
-            <label for="temperatura_aceite_antes">ANTES</label>
-            <input type="number" step="any" name="temperatura_aceite_antes" id="temperatura_aceite_antes"
-                   {{$sopa->temperatura_aceite_antes==null?'':'disabled'}}
-                   value="{{$sopa->temperatura_aceite_antes}}"
-                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'temperatura_aceite_durante','temperatura_aceite_antes')"
-                   class="form-control valor">
-        </div>
-    </div>
-
-    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
-        <div class="form-group">
-            <label for="temperatura_aceite_durante">DURANTE</label>
-            <input type="number" step="any" name="temperatura_aceite_durante" id="temperatura_aceite_durante"
-                   {{$sopa->temperatura_aceite_durante==null?'':'disabled'}}
-                   value="{{$sopa->temperatura_aceite_durante}}"
-                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'temperatura_aceite_despues','temperatura_aceite_durante')"
-                   class="form-control valor">
-        </div>
-    </div>
-
 
     <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
         <div class="form-group">
@@ -427,18 +423,37 @@
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <label for="temperatura_aceite_obsevaciones">OBSERVACIONES</label>
-            <input type="number" step="any" name="temperatura_aceite_obsevaciones" id="temperatura_aceite_obsevaciones"
-                   {{$sopa->temperatura_aceite_obsevaciones==null?'':'disabled'}}
-                   value="{{$sopa->temperatura_aceite_obsevaciones}}"
-                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'porcentaje_solucion','temperatura_aceite_obsevaciones')"
+            <label for="compuestos_polares_libres_observaciones">OBSERVACIONES/COMPUESTOS SOLARES LIBRES </label>
+            <input type="number" step="any" name="compuestos_polares_libres_observaciones" id="compuestos_polares_libres_observaciones"
+                   {{$sopa->compuestos_polares_libres_observaciones==null?'':'disabled'}}
+                   value="{{$sopa->compuestos_polares_libres_observaciones}}"
+                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'indice_acidez_frio','compuestos_polares_libres_observaciones')"
+                   class="form-control valor">
+        </div>
+    </div>
+
+
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <div class="form-group">
+            <label for="indice_acidez_observaciones">OBSERVACIONES /
+                INDICE DE ACIDEZ (0 A 2 )
+            </label>
+            <input type="number" step="any" name="indice_acidez_observaciones" id="indice_acidez_observaciones"
+                   {{$sopa->indice_acidez_observaciones==null?'':'disabled'}}
+                   value="{{$sopa->indice_acidez_observaciones}}"
+                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'temperatura_aceite_frio','indice_acidez_observaciones')"
                    class="form-control valor">
         </div>
     </div>
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <label for="label_generico"> </label>
+            <label for="temperatura_aceite_obsevaciones">OBSERVACIONES/ TEMPERATURA DE ACEITE </label>
+            <input type="number" step="any" name="temperatura_aceite_obsevaciones" id="temperatura_aceite_obsevaciones"
+                   {{$sopa->temperatura_aceite_obsevaciones==null?'':'disabled'}}
+                   value="{{$sopa->temperatura_aceite_obsevaciones}}"
+                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'porcentaje_solucion','temperatura_aceite_obsevaciones')"
+                   class="form-control valor">
         </div>
     </div>
 

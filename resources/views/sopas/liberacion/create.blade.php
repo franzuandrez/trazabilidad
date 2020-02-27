@@ -2,6 +2,8 @@
 
 @section('style')
     <link rel="stylesheet" href="{{asset('css/bootstrap-datepicker.css')}}">
+    <link rel="stylesheet" href="{{asset('css/tools.css')}}">
+    <link rel="stylesheet" href="{{asset('css/loading.css')}}">
 
 @endsection
 
@@ -25,7 +27,7 @@
 
     {!!Form::open(array('url'=>'sopas/liberacion/create','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
-
+    @include('componentes.loading')
 
     <input type="hidden" id="id_sopa" name="id_sopa">
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
@@ -257,24 +259,62 @@
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <label for="label_generico">% COMPUESTOS SOLARES LIBRES (0 A 24)</label>
+            <label for="label_generico">FRIO</label>
 
         </div>
     </div>
 
     <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
         <div class="form-group">
-            <label for="compuestos_polares_libres_frio">FRIO</label>
+            <label for="compuestos_polares_libres_frio">% COMPUESTOS SOLARES LIBRES (0 A 24)</label>
             <input type="number" step="any" name="compuestos_polares_libres_frio" id="compuestos_polares_libres_frio"
                    value="{{old('mezcla_baja_inicial')}}" disabled
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'compuestos_polares_libres_antes','compuestos_polares_libres_frio')"
                    class="form-control valor">
         </div>
     </div>
+    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+        <div class="form-group">
+            <label for="indice_acidez_frio">INDICE DE ACIDEZ (0 A 2 )</label>
+            <input type="number" step="any" name="indice_acidez_frio" id="indice_acidez_frio"
+                   value="{{old('mezcla_baja_inicial')}}" disabled
+                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'indice_acidez_antes','indice_acidez_frio')"
+                   class="form-control valor">
+        </div>
+    </div>
 
     <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
         <div class="form-group">
-            <label for="compuestos_polares_libres_antes">ANTES</label>
+            <label for="temperatura_aceite_frio">TEMPERATURA DE ACEITE</label>
+            <input type="number" step="any" name="temperatura_aceite_frio" id="temperatura_aceite_frio"
+                   value="{{old('mezcla_baja_inicial')}}" disabled
+                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'temperatura_aceite_antes','temperatura_aceite_frio')"
+                   class="form-control valor">
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <div class="form-group">
+            <label for="label_generico "> </label>
+        </div>
+    </div>
+
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <div class="form-group">
+            <label for="label_generico">ANTES</label>
+
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+        <div class="form-group">
+            <label for="compuestos_polares_libres_antes">COMPUESTOS SOLARES LIBRES (0 A 24)</label>
             <input type="number" step="any" name="compuestos_polares_libres_antes" id="compuestos_polares_libres_antes"
                    value="{{old('mezcla_baja_inicial')}}" disabled
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'compuestos_polares_libres_durante','compuestos_polares_libres_antes')"
@@ -284,7 +324,45 @@
 
     <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
         <div class="form-group">
-            <label for="compuestos_polares_libres_durante">DURANTE</label>
+            <label for="indice_acidez_antes">INDICE DE ACIDEZ (0 A 2 )</label>
+            <input type="number" step="any" name="indice_acidez_antes" id="indice_acidez_antes"
+                   value="{{old('mezcla_baja_inicial')}}" disabled
+                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'indice_acidez_durante','indice_acidez_antes')"
+                   class="form-control valor">
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+        <div class="form-group">
+            <label for="temperatura_aceite_antes">
+                TEMPERATURA DE ACEITE
+            </label>
+            <input type="number" step="any" name="temperatura_aceite_antes" id="temperatura_aceite_antes"
+                   value="{{old('mezcla_baja_inicial')}}" disabled
+                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'temperatura_aceite_durante','temperatura_aceite_antes')"
+                   class="form-control valor">
+        </div>
+    </div>
+
+
+
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <div class="form-group">
+            <label for="label_generico "> </label>
+        </div>
+    </div>
+
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <div class="form-group">
+            <label for="label_generico">DURANTE</label>
+
+        </div>
+    </div>
+
+
+    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+        <div class="form-group">
+            <label for="compuestos_polares_libres_durante">COMPUESTOS SOLARES LIBRES (0 A 24)</label>
             <input type="number" step="any" name="compuestos_polares_libres_durante" id="compuestos_polares_libres_durante"
                    value="{{old('mezcla_baja_inicial')}}" disabled
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'compuestos_polares_libres_despues','compuestos_polares_libres_durante')"
@@ -292,6 +370,40 @@
         </div>
     </div>
 
+    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+        <div class="form-group">
+            <label for="indice_acidez_durante">INDICE DE ACIDEZ (0 A 2 )</label>
+            <input type="number" step="any" name="indice_acidez_durante" id="indice_acidez_durante"
+                   value="{{old('indice_acidez_durante')}}" disabled
+                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'indice_acidez_despues','indice_acidez_durante')"
+                   class="form-control valor">
+        </div>
+    </div>
+
+
+
+    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+        <div class="form-group">
+            <label for="temperatura_aceite_durante">
+                TEMPERATURA DE ACEITE
+            </label>
+            <input type="number" step="any" name="temperatura_aceite_durante" id="temperatura_aceite_durante"
+                   value="{{old('mezcla_baja_inicial')}}" disabled
+                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'temperatura_aceite_despues','temperatura_aceite_durante')"
+                   class="form-control valor">
+        </div>
+    </div>
+
+
+
+
+
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <div class="form-group">
+            <label for="label_generico">DESPUES</label>
+
+        </div>
+    </div>
 
     <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
         <div class="form-group">
@@ -303,61 +415,6 @@
         </div>
     </div>
 
-    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-        <div class="form-group">
-            <label for="compuestos_polares_libres_observaciones">OBSERVACIONES</label>
-            <input type="number" step="any" name="compuestos_polares_libres_observaciones" id="compuestos_polares_libres_observaciones"
-                   value="{{old('indice_acidez_frio')}}" disabled
-                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'indice_acidez_frio','compuestos_polares_libres_observaciones')"
-                   class="form-control valor">
-        </div>
-    </div>
-
-
-    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-        <div class="form-group">
-            <label for="label_generico "> </label>
-        </div>
-    </div>
-
-    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-        <div class="form-group">
-            <label for="label_generico">INDICE DE ACIDEZ (0 A 2 )</label>
-
-        </div>
-    </div>
-
-    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
-        <div class="form-group">
-            <label for="indice_acidez_frio">FRIO</label>
-            <input type="number" step="any" name="indice_acidez_frio" id="indice_acidez_frio"
-                   value="{{old('mezcla_baja_inicial')}}" disabled
-                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'indice_acidez_antes','indice_acidez_frio')"
-                   class="form-control valor">
-        </div>
-    </div>
-
-    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
-        <div class="form-group">
-            <label for="indice_acidez_antes">ANTES</label>
-            <input type="number" step="any" name="indice_acidez_antes" id="indice_acidez_antes"
-                   value="{{old('mezcla_baja_inicial')}}" disabled
-                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'indice_acidez_durante','indice_acidez_antes')"
-                   class="form-control valor">
-        </div>
-    </div>
-
-    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
-        <div class="form-group">
-            <label for="indice_acidez_durante">DURANTE</label>
-            <input type="number" step="any" name="indice_acidez_durante" id="indice_acidez_durante"
-                   value="{{old('indice_acidez_durante')}}" disabled
-                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'indice_acidez_despues','indice_acidez_durante')"
-                   class="form-control valor">
-        </div>
-    </div>
-
-
     <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
         <div class="form-group">
             <label for="indice_acidez_despues">DESP</label>
@@ -367,59 +424,6 @@
                    class="form-control valor">
         </div>
     </div>
-
-    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-        <div class="form-group">
-            <label for="indice_acidez_observaciones">OBSERVACIONES</label>
-            <input type="number" step="any" name="indice_acidez_observaciones" id="indice_acidez_observaciones"
-                   value="{{old('indice_acidez_frio')}}" disabled
-                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'temperatura_aceite_frio','indice_acidez_observaciones')"
-                   class="form-control valor">
-        </div>
-    </div>
-    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-        <div class="form-group">
-            <label for="label_generico "> </label>
-        </div>
-    </div>
-
-    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-        <div class="form-group">
-            <label for="label_generico">TEMPERATURA DE ACEITE</label>
-
-        </div>
-    </div>
-
-    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
-        <div class="form-group">
-            <label for="temperatura_aceite_frio">FRIO</label>
-            <input type="number" step="any" name="temperatura_aceite_frio" id="temperatura_aceite_frio"
-                   value="{{old('mezcla_baja_inicial')}}" disabled
-                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'temperatura_aceite_antes','temperatura_aceite_frio')"
-                   class="form-control valor">
-        </div>
-    </div>
-
-    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
-        <div class="form-group">
-            <label for="temperatura_aceite_antes">ANTES</label>
-            <input type="number" step="any" name="temperatura_aceite_antes" id="temperatura_aceite_antes"
-                   value="{{old('mezcla_baja_inicial')}}" disabled
-                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'temperatura_aceite_durante','temperatura_aceite_antes')"
-                   class="form-control valor">
-        </div>
-    </div>
-
-    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
-        <div class="form-group">
-            <label for="temperatura_aceite_durante">DURANTE</label>
-            <input type="number" step="any" name="temperatura_aceite_durante" id="temperatura_aceite_durante"
-                   value="{{old('mezcla_baja_inicial')}}" disabled
-                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'temperatura_aceite_despues','temperatura_aceite_durante')"
-                   class="form-control valor">
-        </div>
-    </div>
-
 
     <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
         <div class="form-group">
@@ -433,7 +437,30 @@
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <label for="temperatura_aceite_obsevaciones">OBSERVACIONES</label>
+            <label for="compuestos_polares_libres_observaciones">OBSERVACIONES/COMPUESTOS SOLARES LIBRES </label>
+            <input type="number" step="any" name="compuestos_polares_libres_observaciones" id="compuestos_polares_libres_observaciones"
+                   value="{{old('indice_acidez_frio')}}" disabled
+                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'indice_acidez_frio','compuestos_polares_libres_observaciones')"
+                   class="form-control valor">
+        </div>
+    </div>
+
+
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <div class="form-group">
+            <label for="indice_acidez_observaciones">OBSERVACIONES /
+                INDICE DE ACIDEZ (0 A 2 )
+            </label>
+            <input type="number" step="any" name="indice_acidez_observaciones" id="indice_acidez_observaciones"
+                   value="{{old('indice_acidez_frio')}}" disabled
+                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'temperatura_aceite_frio','indice_acidez_observaciones')"
+                   class="form-control valor">
+        </div>
+    </div>
+
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <div class="form-group">
+            <label for="temperatura_aceite_obsevaciones">OBSERVACIONES/ TEMPERATURA DE ACEITE </label>
             <input type="number" step="any" name="temperatura_aceite_obsevaciones" id="temperatura_aceite_obsevaciones"
                    value="{{old('indice_acidez_frio')}}" disabled
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'porcentaje_solucion','temperatura_aceite_obsevaciones')"
@@ -449,8 +476,7 @@
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <label for="label_generico">% DE SOLUCION 30%</label>
-
+            <label for="label_generico">% DE SOLUCION 30% - 31% (90 A 93.1)</label>
         </div>
     </div>
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
@@ -528,7 +554,7 @@
 
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
-            <label for="medidas_molde_superior">SUPERIOR</label>
+            <label for="medidas_molde_superior">SUPERIOR/LARGO</label>
             <input type="number" step="any" name="medidas_molde_superior"
                    id="medidas_molde_superior"
                    value="{{old('medidas_molde_superior')}}"
@@ -541,7 +567,7 @@
 
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
-            <label for="medidas_molde_inferior">INFERIOR</label>
+            <label for="medidas_molde_inferior">INFERIOR/ANCHO</label>
             <input type="text" name="medidas_molde_inferior" id="medidas_molde_inferior"
                    disabled=""
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'medidas_molde_altura','medidas_molde_inferior')"
@@ -577,7 +603,7 @@
 
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
-            <label for="medidas_nido_superior">SUPERIOR</label>
+            <label for="medidas_nido_superior">SUPERIOR/LARGO</label>
             <input type="number" step="any" name="medidas_nido_superior" id="medidas_nido_superior"
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'medidas_nido_inferior','medidas_nido_superior')"
                    value="{{old('medidas_nido_superior')}}" disabled
@@ -587,7 +613,7 @@
 
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
-            <label for="medidas_nido_inferior">INFERIOR</label>
+            <label for="medidas_nido_inferior">INFERIOR/ANCHO</label>
             <input type="text" name="medidas_nido_inferior" id="medidas_nido_inferior" disabled
                    value="{{old('medidas_nido_altura')}}"
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'medidas_nido_altura','medidas_nido_inferior')"
@@ -864,7 +890,7 @@
 
         async function iniciar_linea_sopas(e) {
 
-
+            $('.loading').show();
             let url = "{{url('sopas/liberacion/verficar_no_orden_produccion')}}";
             let no_orden_produccion = document.getElementById('no_orden_produccion').value;
             let response = await iniciar(url, no_orden_produccion);
@@ -884,7 +910,7 @@
                 gl_productos = response.data;
 
             }
-
+            $('.loading').hide();
 
         }
 
@@ -910,7 +936,7 @@
                 alert("Especifique no orden de producccion");
                 return;
             }
-
+            $('.loading').show();
             $.ajax(
                 {
                     type: "POST",
@@ -939,10 +965,11 @@
                             alert(response.message);
                         }
 
-
+                        $('.loading').hide();
                     },
                     error: function (error) {
                         console.log(error)
+                        $('.loading').hide();
                     }
                 }
             );
