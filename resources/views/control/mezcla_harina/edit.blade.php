@@ -6,7 +6,7 @@
 @endsection
 
 @section('contenido')
-    <div class="col-lg-12 col-lg-push-3 col-sm-12   col-sm-push-3   col-md-12   col-md-push-3  col-xs-12">
+    <div class="col-lg-12 col-lg-push-3 col-sm-12     col-md-12   col-xs-12">
         <h3>CONTROL MEZCLA DE HARINA Y SOLUCION CHAO MEIN</h3>
     </div>
 
@@ -33,7 +33,7 @@
            value="{{$mezcla_harina->id_control}}">
 
     <input id="tiempo_optimo" type="hidden"
-      value="{{$tiempo}}"
+           value="{{$tiempo}}"
     >
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
@@ -76,7 +76,7 @@
             </div>
         </div>
 
-        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12" style="display: none" >
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12" style="display: none">
             <label for="hora_descarga">HORA DESCARGA</label>
             <div class="input-group">
                 <input id="hora_descarga" type="text"
@@ -186,15 +186,42 @@
             <tbody>
             @foreach($mezcla_harina->detalle as $detalle)
                 <tr>
-                    <td></td>
+                    <td>
+                        @if($detalle->hora_descarga == null || $detalle->hora_descarga=="")
+                            <button type="button"
+                                    class="btn btn-success"
+                                    onclick="marcar_hora_descarga('{{$detalle->id_det_mezclaharina}}',this)">
+                                <span class="fa fa-check"></span></button>
+                        @endif
+                    </td>
                     <td>{{$mezcla_harina->control_trazabilidad->liberacion_linea->presentacion->descripcion}}</td>
                     <td>{{$detalle->lote}}</td>
-                    <td>{{$detalle->hora_carga}}</td>
-                    <td>{{$detalle->hora_descarga}}</td>
-                    <td>{{$detalle->solucion_inicial}}</td>
-                    <td>{{$detalle->solucion_observacion}}</td>
-                    <td>{{$detalle->ph_inicial}}</td>
-                    <td>{{$detalle->ph_observacion}}</td>
+                    <td>
+                        {{$detalle->hora_carga}}
+                        <input type="hidden"
+                              id="hora_carga-{{$detalle->id_det_mezclaharina}}"
+                        >
+                    </td>
+                    <td>{{$detalle->hora_descarga}}
+                        <input type="hidden"
+                               id="hora_descarga-{{$detalle->id_det_mezclaharina}}"
+                        >
+                    </td>
+                    <td>{{$detalle->solucion_inicial}}
+                    </td>
+                    <td>
+                        {{$detalle->solucion_observacion}}
+                        <input type="hidden"
+                               id="solucion_observacion-{{$detalle->id_det_mezclaharina}}"
+                        >
+                    </td>
+                    <td>{{$detalle->ph_inicial}}
+                    </td>
+                    <td>{{$detalle->ph_observacion}}
+                        <input type="hidden"
+                               id="ph_observacion-{{$detalle->id_det_mezclaharina}}"
+                        >
+                    </td>
                 </tr>
             @endforeach
             </tbody>
@@ -255,6 +282,7 @@
 
         var gl_detalle_insumos = @json([$mezcla_harina->control_trazabilidad]);
         limpiar();
+
         function guardar() {
 
             document.getElementById('no_orden_produccion').disabled = false;
@@ -458,6 +486,7 @@
 
 
         }
+
         function add_to_table_harina(fields, id, table, url) {
 
 
