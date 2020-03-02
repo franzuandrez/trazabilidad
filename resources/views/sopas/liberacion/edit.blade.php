@@ -343,7 +343,8 @@
     <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
         <div class="form-group">
             <label for="compuestos_polares_libres_durante">COMPUESTOS SOLARES LIBRES (0 A 24)</label>
-            <input type="number" step="any" name="compuestos_polares_libres_durante" id="compuestos_polares_libres_durante"
+            <input type="number" step="any" name="compuestos_polares_libres_durante"
+                   id="compuestos_polares_libres_durante"
                    {{$sopa->compuestos_polares_libres_durante==null?'':'disabled'}}
                    value="{{$sopa->compuestos_polares_libres_durante}}"
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'compuestos_polares_libres_despues','compuestos_polares_libres_durante')"
@@ -390,8 +391,9 @@
 
     <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
         <div class="form-group">
-            <label for="compuestos_polares_libres_despues">DESP</label>
-            <input type="number" step="any" name="compuestos_polares_libres_despues" id="compuestos_polares_libres_despues"
+            <label for="compuestos_polares_libres_despues">COMPUESTOS SOLARES LIBRES (0 A 24)</label>
+            <input type="number" step="any" name="compuestos_polares_libres_despues"
+                   id="compuestos_polares_libres_despues"
                    {{$sopa->compuestos_polares_libres_despues==null?'':'disabled'}}
                    value="{{$sopa->compuestos_polares_libres_despues}}"
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'compuestos_polares_libres_observaciones','compuestos_polares_libres_despues')"
@@ -401,7 +403,9 @@
 
     <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
         <div class="form-group">
-            <label for="indice_acidez_despues">DESP</label>
+            <label for="indice_acidez_despues">
+                INDICE DE ACIDEZ (0 A 2 )
+            </label>
             <input type="number" step="any" name="indice_acidez_despues" id="indice_acidez_despues"
                    {{$sopa->indice_acidez_despues==null?'':'disabled'}}
                    value="{{$sopa->indice_acidez_despues}}"
@@ -412,7 +416,9 @@
 
     <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
         <div class="form-group">
-            <label for="temperatura_aceite_despues">DESP</label>
+            <label for="temperatura_aceite_despues">
+                TEMPERATURA DE ACEITE
+            </label>
             <input type="number" step="any" name="temperatura_aceite_despues" id="temperatura_aceite_despues"
                    {{$sopa->temperatura_aceite_despues==null?'':'disabled'}}
                    value="{{$sopa->temperatura_aceite_despues}}"
@@ -424,7 +430,8 @@
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
             <label for="compuestos_polares_libres_observaciones">OBSERVACIONES/COMPUESTOS SOLARES LIBRES </label>
-            <input type="number" step="any" name="compuestos_polares_libres_observaciones" id="compuestos_polares_libres_observaciones"
+            <input type="text" name="compuestos_polares_libres_observaciones"
+                   id="compuestos_polares_libres_observaciones"
                    {{$sopa->compuestos_polares_libres_observaciones==null?'':'disabled'}}
                    value="{{$sopa->compuestos_polares_libres_observaciones}}"
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'indice_acidez_frio','compuestos_polares_libres_observaciones')"
@@ -438,7 +445,7 @@
             <label for="indice_acidez_observaciones">OBSERVACIONES /
                 INDICE DE ACIDEZ (0 A 2 )
             </label>
-            <input type="number" step="any" name="indice_acidez_observaciones" id="indice_acidez_observaciones"
+            <input type="text" name="indice_acidez_observaciones" id="indice_acidez_observaciones"
                    {{$sopa->indice_acidez_observaciones==null?'':'disabled'}}
                    value="{{$sopa->indice_acidez_observaciones}}"
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'temperatura_aceite_frio','indice_acidez_observaciones')"
@@ -449,7 +456,7 @@
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
             <label for="temperatura_aceite_obsevaciones">OBSERVACIONES/ TEMPERATURA DE ACEITE </label>
-            <input type="number" step="any" name="temperatura_aceite_obsevaciones" id="temperatura_aceite_obsevaciones"
+            <input type="text" name="temperatura_aceite_obsevaciones" id="temperatura_aceite_obsevaciones"
                    {{$sopa->temperatura_aceite_obsevaciones==null?'':'disabled'}}
                    value="{{$sopa->temperatura_aceite_obsevaciones}}"
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'porcentaje_solucion','temperatura_aceite_obsevaciones')"
@@ -506,7 +513,7 @@
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="verificacion_codificado_lote">LOTE </label>
-            <input type="number" step="any" name="verificacion_codificado_lote" id="verificacion_codificado_lote"
+            <input type="text"  name="verificacion_codificado_lote" id="verificacion_codificado_lote"
                    {{$sopa->verificacion_codificado_lote==null?'':'disabled'}}
                    value="{{$sopa->verificacion_codificado_lote}}"
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'verificacion_codificado_vence','verificacion_codificado_lote')"
@@ -517,11 +524,16 @@
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="verificacion_codificado_vence">VENCE</label>
-            <input type="text" name="verificacion_codificado_vence" id="verificacion_codificado_vence"
-                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'medidas_molde_superior','verificacion_codificado_vence')"
-                   {{$sopa->verificacion_codificado_vence==null?'':'disabled'}}
-                   value="{{$sopa->verificacion_codificado_vence}}"
-                   class="form-control valor">
+            <div class="input-group date">
+                <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                </div>
+                <input type="text" name="verificacion_codificado_vence" id="verificacion_codificado_vence"
+                       onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'medidas_molde_superior','verificacion_codificado_vence')"
+                       {{$sopa->verificacion_codificado_vence==null?'':'disabled'}}
+                       value="{{$sopa->verificacion_codificado_vence}}"
+                       class="form-control valor form-control pull-right">
+            </div>
         </div>
     </div>
 

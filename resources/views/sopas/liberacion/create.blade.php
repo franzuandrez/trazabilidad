@@ -200,7 +200,8 @@
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="temperatura_del_aceite_set_observaciones">OBSERVACIONES</label>
-            <input type="text" name="temperatura_del_aceite_set_observaciones" id="temperatura_del_aceite_set_observaciones" disabled
+            <input type="text" name="temperatura_del_aceite_set_observaciones"
+                   id="temperatura_del_aceite_set_observaciones" disabled
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'ph_solucion','temperatura_del_aceite_set_observaciones')"
                    value="{{old('mezcla_seca_observacion')}}"
                    class="form-control valor">
@@ -363,7 +364,8 @@
     <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
         <div class="form-group">
             <label for="compuestos_polares_libres_durante">COMPUESTOS SOLARES LIBRES (0 A 24)</label>
-            <input type="number" step="any" name="compuestos_polares_libres_durante" id="compuestos_polares_libres_durante"
+            <input type="number" step="any" name="compuestos_polares_libres_durante"
+                   id="compuestos_polares_libres_durante"
                    value="{{old('mezcla_baja_inicial')}}" disabled
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'compuestos_polares_libres_despues','compuestos_polares_libres_durante')"
                    class="form-control valor">
@@ -407,8 +409,11 @@
 
     <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
         <div class="form-group">
-            <label for="compuestos_polares_libres_despues">DESP</label>
-            <input type="number" step="any" name="compuestos_polares_libres_despues" id="compuestos_polares_libres_despues"
+            <label for="compuestos_polares_libres_despues">
+                COMPUESTOS SOLARES LIBRES (0 A 24)
+            </label>
+            <input type="number" step="any" name="compuestos_polares_libres_despues"
+                   id="compuestos_polares_libres_despues"
                    value="{{old('mezcla_baja_inicial')}}" disabled
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'compuestos_polares_libres_observaciones','compuestos_polares_libres_despues')"
                    class="form-control valor">
@@ -417,7 +422,9 @@
 
     <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
         <div class="form-group">
-            <label for="indice_acidez_despues">DESP</label>
+            <label for="indice_acidez_despues">
+                INDICE DE ACIDEZ (0 A 2 )
+            </label>
             <input type="number" step="any" name="indice_acidez_despues" id="indice_acidez_despues"
                    value="{{old('indice_acidez_despues')}}" disabled
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'indice_acidez_observaciones','indice_acidez_despues')"
@@ -427,7 +434,9 @@
 
     <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
         <div class="form-group">
-            <label for="temperatura_aceite_despues">DESP</label>
+            <label for="temperatura_aceite_despues">
+                TEMPERATURA DE ACEITE
+            </label>
             <input type="number" step="any" name="temperatura_aceite_despues" id="temperatura_aceite_despues"
                    value="{{old('mezcla_baja_inicial')}}" disabled
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'temperatura_aceite_obsevaciones','temperatura_aceite_despues')"
@@ -438,7 +447,8 @@
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
             <label for="compuestos_polares_libres_observaciones">OBSERVACIONES/COMPUESTOS SOLARES LIBRES </label>
-            <input type="number" step="any" name="compuestos_polares_libres_observaciones" id="compuestos_polares_libres_observaciones"
+            <input type="text" name="compuestos_polares_libres_observaciones"
+                   id="compuestos_polares_libres_observaciones"
                    value="{{old('indice_acidez_frio')}}" disabled
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'indice_acidez_frio','compuestos_polares_libres_observaciones')"
                    class="form-control valor">
@@ -451,7 +461,7 @@
             <label for="indice_acidez_observaciones">OBSERVACIONES /
                 INDICE DE ACIDEZ (0 A 2 )
             </label>
-            <input type="number" step="any" name="indice_acidez_observaciones" id="indice_acidez_observaciones"
+            <input type="text" name="indice_acidez_observaciones" id="indice_acidez_observaciones"
                    value="{{old('indice_acidez_frio')}}" disabled
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'temperatura_aceite_frio','indice_acidez_observaciones')"
                    class="form-control valor">
@@ -461,7 +471,7 @@
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
             <label for="temperatura_aceite_obsevaciones">OBSERVACIONES/ TEMPERATURA DE ACEITE </label>
-            <input type="number" step="any" name="temperatura_aceite_obsevaciones" id="temperatura_aceite_obsevaciones"
+            <input type="text" name="temperatura_aceite_obsevaciones" id="temperatura_aceite_obsevaciones"
                    value="{{old('indice_acidez_frio')}}" disabled
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'porcentaje_solucion','temperatura_aceite_obsevaciones')"
                    class="form-control valor">
@@ -520,7 +530,7 @@
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="verificacion_codificado_lote">LOTE </label>
-            <input type="number" step="any" name="verificacion_codificado_lote" id="verificacion_codificado_lote"
+            <input type="text" name="verificacion_codificado_lote" id="verificacion_codificado_lote"
                    value="{{old('ancho_cartucho_inicial')}}" disabled
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'verificacion_codificado_vence','verificacion_codificado_lote')"
                    class="form-control valor">
@@ -530,10 +540,15 @@
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="verificacion_codificado_vence">VENCE</label>
-            <input type="text" name="verificacion_codificado_vence" id="verificacion_codificado_vence" disabled
-                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'medidas_molde_superior','verificacion_codificado_vence')"
-                   value="{{old('ancho_cartucho_observacion')}}"
-                   class="form-control valor">
+            <div class="input-group date">
+                <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                </div>
+                <input type="text" name="verificacion_codificado_vence" id="verificacion_codificado_vence" disabled
+                       onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'medidas_molde_superior','verificacion_codificado_vence')"
+                       value="{{old('ancho_cartucho_observacion')}}"
+                       class="form-control valor form-control pull-right">
+            </div>
         </div>
     </div>
 
@@ -704,7 +719,8 @@
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="tiempo_precedore_2_observacion">OBSERVACIONES</label>
-            <input type="text" name="verificacion_material_observaciones" id="verificacion_material_observaciones" disabled
+            <input type="text" name="verificacion_material_observaciones" id="verificacion_material_observaciones"
+                   disabled
                    onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'observaciones_acciones','verificacion_material_observaciones')"
                    value="{{old('tiempo_precocedora_2_observacion')}}"
                    class="form-control valor">
