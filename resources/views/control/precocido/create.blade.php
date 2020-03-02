@@ -104,7 +104,7 @@
     </div>
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
 
-        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12" style="display: none" >
             <label for="hora_inicio">HORA INICIO</label>
             <div class="input-group">
                 <input id="hora_inicio" type="text"
@@ -117,12 +117,11 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12"  style="display: none">
             <label for="hora_salida">HORA SALIDA</label>
             <div class="input-group">
                 <input id="hora_salida"
                        disabled
-                       required
                        type="text" class="form-control timepicker" name="hora_salida">
                 <div class="input-group-addon">
                     <i class="fa fa-clock-o"></i>
@@ -194,12 +193,13 @@
 
                 <thead style="background-color: #01579B;  color: #fff;">
                 <tr>
+                    <th></th>
                     <th>PRODUCTO</th>
                     <th>LOTE</th>
                     <th>HORA INICIO</th>
                     <th>HORA SALIDA</th>
                     <th>TIEMPO EFECTIVO</th>
-                    <th>ALCANCE RPESION</th>
+                    <th>ALCANCE PRESIÓN</th>
                     <th>TEMPERATURA</th>
                     <th>OBSERVACIONES</th>
                 </tr>
@@ -231,15 +231,7 @@
 @endsection
 @section('scripts')
     <script>
-        $(function () {
-            //Timepicker
-            $('.timepicker').timepicker({
-                showInputs: false,
-                minuteStep: 1,
-                format: 'HH:mm',
-                showMeridian: false,
-            });
-        })
+
 
     </script>
     <script src="{{asset('js/moment.min.js')}}"></script>
@@ -435,7 +427,7 @@
             const no_orden_valida = no_orden_disabled && no_orden_produccion != "";
 
             const fields = detalle();
-
+            document.getElementById('hora_inicio').value = moment().format('HH:ss');
             if (existe_campo_vacio(fields)) {
                 get_campo_vacio(fields).focus();
                 return;
@@ -453,7 +445,7 @@
                         formato_registro('turno', id_turno),
                     ];
                     insertar_registros(url_update_enc, registros, get_id_control());
-                    add_to_table(fields, response.id, 'detalles', url_borrar);
+                    add_to_table_harina(fields, response.id, 'detalles', url_borrar);
                     limpiar()
                 } else {
                     alert(response.message);
@@ -477,6 +469,72 @@
         function ver_informacion() {
 
             $('#informacion').modal()
+        }
+
+        function add_to_table_harina(fields, id, table, url) {
+
+
+            let row = `<tr>
+                <td> <button  type="button"
+                    class="btn btn-success"
+                    onclick="marcar_hora_descarga(${id},this)">
+                    <span class="fa fa-check"></span></button> </td>
+            `;
+            fields.forEach(function (e) {
+
+                let value = e[1].value;
+                let text = '';
+                if (e[1].tagName === "SELECT") {
+                    text = $('#' + e[1].id + ' option:selected').text();
+
+                } else {
+
+                    text = value;
+                }
+                row += `
+                <td > <input type="hidden" value="${value}"  id="${e[0]}-${id}"  name="${e[0]}[]" >
+                  ${text}
+                  </td>
+        `
+                ;
+            });
+
+            row += '</tr>';
+            $('#' + table).append(row);
+
+        }
+
+
+        function marcar_hora_descarga(id, ele) {
+
+            let hora_descarga = document.getElementById('hora_salida-' + id);
+
+
+            hora_descarga.parentNode.innerText = moment().format('HH:mm:ss');
+            hora_descarga.value = moment().format('HH:mm:ss');
+            $('.loading').show();
+            $.ajax({
+
+                url: "{{url('control/precocido/actualizar_detalle')}}",
+                data: {
+                    id: id,
+                    hora_descarga: moment().format('HH:mm:ss'),
+                },
+                type: 'POST',
+                success: function (response) {
+
+                    if (response.status == 0) {
+                        alert(response.message);
+                    }
+                    $(ele).remove();
+                    $('.loading').hide();
+                },
+                error: function (err) {
+                    $('.loading').hide();
+                }
+            })
+
+
         }
     </script>
 @endsection

@@ -74,7 +74,7 @@
                 <th>HORA INICIO</th>
                 <th>HORA SALIDA</th>
                 <th>TIEMPO EFECTIVO</th>
-                <th>ALCANCE PRESION</th>
+                <th>ALCANCE PRESIÓN</th>
                 <th>TEMPERATURA</th>
                 <th>OBSERVACIONES</th>
             </tr>
