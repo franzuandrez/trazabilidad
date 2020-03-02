@@ -436,13 +436,39 @@
 
         }
 
+        let ultimo_registro = null;
+
+
+        function mostrar_observaciones(hora) {
+            let observaciones = '';
+            if (ultimo_registro != null) {
+
+                ultimo_registro = moment(moment().format('Y-M-D') + " " + ultimo_registro);
+
+                if (ultimo_registro.clone().add('15', 'minutes').isAfter(hora, 'minute')) {
+                    observaciones = hora.clone().diff(ultimo_registro.add('15', 'minutes'), 'minutes') + " minutos antes";
+                }
+                if (ultimo_registro.clone().add('15', 'minutes').isBefore(hora, 'minute')) {
+                    observaciones = "Excede " + ultimo_registro.clone().add('15', 'minutes').diff(hora, 'minutes') + " minutos";
+                }
+                document.getElementById('temperatura_observaciones').value = document.getElementById('temperatura_observaciones').value + " " + observaciones;
+
+
+            }
+        }
+
         async function agregar_a_table() {
 
+            const hora = moment();
+
+            mostrar_observaciones(hora);
+
+            ultimo_registro = hora.clone().format('HH:mm:ss');
 
             const no_orden_produccion = get_no_orden_produccion();
             const no_orden_disabled = document.getElementById('no_orden_produccion').disabled;
             const no_orden_valida = no_orden_disabled && no_orden_produccion != "";
-            document.getElementById('hora').value = moment().format('HH:mm:ss');
+            document.getElementById('hora').value = hora.format('HH:mm:ss');
             const fields = detalle();
 
             if (existe_campo_vacio(fields)) {
