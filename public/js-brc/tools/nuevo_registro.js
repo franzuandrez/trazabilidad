@@ -244,3 +244,22 @@ function borrar_detalle(id, url) {
         }
     );
 }
+
+
+function mostrar_observaciones(hora,ultimo_registro) {
+    let observaciones = '';
+    if (ultimo_registro != null) {
+
+        ultimo_registro = moment(moment().format('Y-MM-DD') + " " + ultimo_registro);
+
+        if (ultimo_registro.clone().add('15', 'minutes').isAfter(hora, 'minute')) {
+            observaciones = hora.clone().diff(ultimo_registro.add('15', 'minutes'), 'minutes') + " minutos antes";
+        }
+        if (ultimo_registro.clone().add('15', 'minutes').isBefore(hora, 'minute')) {
+            observaciones = "Excede " + ultimo_registro.clone().add('15', 'minutes').diff(hora, 'minutes') + " minutos";
+        }
+
+
+    }
+    return observaciones;
+}
