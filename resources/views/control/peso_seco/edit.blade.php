@@ -390,6 +390,8 @@
 
         }
 
+        let ultimo_registro = @json($peso_seco->detalle->last()->hora);
+
         async function agregar_a_table() {
 
 
@@ -403,6 +405,14 @@
                 alert("Campos incompletos");
                 return;
             }
+
+
+            const hora = moment();
+
+            let observaciones = mostrar_observaciones(hora, ultimo_registro);
+            document.getElementById('observaciones').value = document.getElementById('observaciones').value + " " + observaciones;
+            ultimo_registro = hora.clone().format('HH:mm:ss');
+
             if (no_orden_valida) {
                 $('.loading').show();
                 const request = getRequest(fields);
@@ -448,6 +458,7 @@
             limpiar_formulario(fields);
             document.getElementById('no_1').focus();
         }
+
         function ver_informacion() {
 
             $('#informacion').modal()
