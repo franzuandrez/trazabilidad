@@ -288,4 +288,33 @@ class PrecocidoController extends Controller
 
 
     }
+
+    public function actualizar_detalle(Request $request)
+    {
+
+        $id = $request->id;
+        $hora_descarga = $request->hora_descarga;;;;
+        $observaciones = $request->observaciones;;;;
+
+
+        try {
+            $mezcla = PrecocidoDet::findOrFail($id);
+            $mezcla->hora_salida = $hora_descarga;
+            $mezcla->update();
+
+            $response = [
+                'status' => 1,
+                'message' => 'Actualizado correctamente'
+            ];
+        } catch (\Exception $ex) {
+            $response = [
+                'status' => 0,
+                'message' => $ex->getMessage()
+            ];
+        }
+
+
+        return response()->json($response);
+
+    }
 }

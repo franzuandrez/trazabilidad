@@ -427,7 +427,7 @@
             const no_orden_valida = no_orden_disabled && no_orden_produccion != "";
 
             const fields = detalle();
-            document.getElementById('hora_inicio').value = moment().format('HH:ss');
+            document.getElementById('hora_inicio').value = moment().format('HH:mm:ss');
             if (existe_campo_vacio(fields)) {
                 get_campo_vacio(fields).focus();
                 return;
