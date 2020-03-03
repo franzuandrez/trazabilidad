@@ -417,7 +417,15 @@
             return id_control;
         }
 
+        let ultimo_registro = @json($peso_humedo->detalle->last()->hora);
+
         async function agregar_a_table() {
+
+            const hora = moment();
+
+            let observaciones = mostrar_observaciones(hora, ultimo_registro);
+            document.getElementById('observaciones').value = document.getElementById('observaciones').value + " " + observaciones;
+            ultimo_registro = hora.clone().format('HH:mm:ss');
 
 
             const no_orden_produccion = get_no_orden_produccion();

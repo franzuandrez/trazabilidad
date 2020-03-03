@@ -114,7 +114,7 @@
         <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="no_1">NO. 1</label>
-                <input id="no_1"  name="no_1"
+                <input id="no_1" name="no_1"
                        type="number"
                        step="any"
                        required
@@ -442,7 +442,16 @@
             return id_control;
         }
 
+        let ultimo_registro = null;
+
+
         async function agregar_a_table() {
+
+            const hora = moment();
+
+            let observaciones = mostrar_observaciones(hora, ultimo_registro);
+            document.getElementById('observaciones').value = document.getElementById('observaciones').value + " " + observaciones;
+            ultimo_registro = hora.clone().format('HH:mm:ss');
 
 
             const no_orden_produccion = get_no_orden_produccion();
