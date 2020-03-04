@@ -418,6 +418,8 @@
             document.getElementById('id_control').value = id_control;
             return id_control;
         }
+        let ultimo_registro = @json($fritura->detalle->last()->hora);
+
 
         async function agregar_a_table() {
 
@@ -426,6 +428,16 @@
             const no_orden_disabled = document.getElementById('no_orden_produccion').disabled;
             const no_orden_valida = no_orden_disabled && no_orden_produccion != "";
             const fields = detalle();
+
+
+            const hora = moment();
+
+            let observaciones = mostrar_observaciones(hora, ultimo_registro);
+            document.getElementById('observaciones').value = document.getElementById('observaciones').value + " " + observaciones;
+            ultimo_registro = hora.clone().format('HH:mm:ss');
+
+
+
             document.getElementById('hora').value = moment().format('HH:mm:ss');
             if (existe_campo_vacio(fields)) {
                 get_campo_vacio(fields).focus();

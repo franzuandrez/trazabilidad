@@ -69,9 +69,9 @@
         <div class="form-group">
             <label for="lote">LOTE</label>
             <input class="form-control selectpicker valor"
-                  disabled
-                  required
-                  id="lote" name="lote">
+                   disabled
+                   required
+                   id="lote" name="lote">
         </div>
     </div>
 
@@ -455,6 +455,8 @@
             return id_control;
         }
 
+        let ultimo_registro = null;
+
         async function agregar_a_table() {
 
 
@@ -463,6 +465,14 @@
             const no_orden_valida = no_orden_disabled && no_orden_produccion != "";
             const fields = detalle();
             document.getElementById('hora').value = moment().format('HH:mm:ss');
+
+
+            const hora = moment();
+
+            let observaciones = mostrar_observaciones(hora, ultimo_registro);
+            document.getElementById('observaciones').value = document.getElementById('observaciones').value + " " + observaciones;
+            ultimo_registro = hora.clone().format('HH:mm:ss');
+
             if (existe_campo_vacio(fields)) {
                 get_campo_vacio(fields).focus();
                 return;
