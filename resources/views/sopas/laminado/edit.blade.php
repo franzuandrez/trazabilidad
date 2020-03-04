@@ -7,7 +7,7 @@
 @endsection
 
 @section('contenido')
-    <div class="col-lg-12 col-lg-push-2 col-sm-12   col-sm-push-3   col-md-12   col-md-push-3  col-xs-12">
+    <div class="col-lg-12 col-lg-push-2 col-sm-12     col-md-12  col-xs-12">
         <h3>REGISTRO DE PARAMETROS EN LAMINADO Y PRECOCCION DE SOPAS INSTANTANEAS</h3>
     </div>
     @component('componentes.nav',['operation'=>'Ingreso',
@@ -463,6 +463,9 @@
             return id_control;
         }
 
+        let ultimo_registro = @json($laminado->detalle->last()->hora);
+
+
         async function agregar_a_table() {
 
 
@@ -475,6 +478,14 @@
                 get_campo_vacio(fields).focus();
                 return;
             }
+
+            const hora = moment();
+
+            let observaciones = mostrar_observaciones(hora, ultimo_registro);
+            document.getElementById('observaciones').value = document.getElementById('observaciones').value + " " + observaciones;
+            ultimo_registro = hora.clone().format('HH:mm:ss');
+
+
             if (no_orden_valida) {
 
                 $('.loading').show();
