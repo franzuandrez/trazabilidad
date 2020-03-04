@@ -73,7 +73,10 @@ class ReporteControlTrazabilidadController extends Controller
                         ->asistencias()
                         ->select(
                             DB::raw('concat(colaboradores.nombre,"  ",colaboradores.apellido) as id_colaborador'),
-                            'actividades.descripcion as id_actividad'
+                            'actividades.descripcion as id_actividad',
+                            DB::raw('date_format(actividades_colaboradores.fecha_hora_asociacion ,"%d/%m/%Y %H:%i:%s") as INICIO'),
+                            DB::raw('date_format(actividades_colaboradores.fecha_hora_fin ,"%d/%m/%Y %H:%i:%s") as FIN')
+
                         )
                         ->join('colaboradores', 'colaboradores.id_colaborador', '=', 'actividades_colaboradores.id_colaborador')
                         ->join('actividades', 'actividades.id_actividad', '=', 'actividades_colaboradores.id_actividad')
