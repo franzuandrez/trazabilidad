@@ -7,7 +7,7 @@
 @endsection
 
 @section('contenido')
-    <div class="col-lg-12 col-lg-push-3 col-sm-12   col-sm-push-3   col-md-12   col-md-push-3  col-xs-12">
+    <div class="col-lg-12 col-lg-push-3 col-sm-12    col-md-12     col-xs-12">
         <h3>CONTROL MEZCLADO DE SOPAS INSTANTANEAS</h3>
     </div>
     @component('componentes.nav',['operation'=>'Ingreso',
@@ -27,6 +27,7 @@
     {{Form::token()}}
     @include('componentes.loading')
     <input type="hidden" id="id_control" name="id_control">
+    <input type="hidden" id="tiempo_optimo" name="tiempo_optimo">
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <label for="turno">NO ORDEN DE PRODUCCION</label>
@@ -114,7 +115,7 @@
                        class="form-control">
             </div>
         </div>
-        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12" style="display: none;">
             <label for="hora_inicio">HORA INICIO</label>
             <div class="input-group">
                 <input id="hora_inicio"
@@ -127,12 +128,11 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12"  style="display: none">
             <label for="hora_finalizo">HORA FINALIZO</label>
             <div class="input-group">
                 <input id="hora_finalizo"
                        disabled
-                       required
                        type="text" class="form-control timepicker" name="hora_finalizo">
                 <div class="input-group-addon">
                     <i class="fa fa-clock-o"></i>
@@ -177,6 +177,7 @@
             <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
 
                 <thead style="background-color: #01579B;  color: #fff;">
+                <th></th>
                 <th>NO. BACH</th>
                 <th>HORA INICIO</th>
                 <th>HORA FINALIZO</th>
@@ -221,16 +222,10 @@
 @endsection
 @section('scripts')
     <script src="{{asset('js-brc/tools/nuevo_registro.js')}}"></script>
+    <script src="{{asset('js/moment.min.js')}}"></script>
+    <script src="{{asset('js/moment-with-locales.js')}}"></script>
     <script>
-        $(function () {
-            //Timepicker
-            $('.timepicker').timepicker({
-                showInputs: false,
-                minuteStep: 1,
-                format: 'HH:mm',
-                showMeridian: false,
-            });
-        })
+
 
         $(window).keydown(function (event) {
             if (event.keyCode == 13) {
@@ -303,7 +298,7 @@
             const url = "{{url('sopas/mezclado_sopas/iniciar_mezclado_sopas')}}";
             const response = await iniciar(url, no_orden_produccion);
 
-            console.log(response);
+
             if (response.status === 0) {
                 alert(response.message);
             } else {
@@ -369,6 +364,8 @@
                         if (response.status === 1) {
                             habilitar_formulario(detalle());
                             deshabilitar_encabezado();
+                            const linea = gl_detalle_insumos.find(e => e.id_producto == id_producto);
+                            document.getElementById('tiempo_optimo').value = parseFloat(linea.tiempos_mezcla_seco) + parseFloat(linea.tiempos_mezcla_alta) + parseFloat(linea.tiempos_mezcla_baja);
                         } else {
                             alert(response.message);
                         }
@@ -442,7 +439,7 @@
             const no_orden_disabled = document.getElementById('no_orden_produccion').disabled;
             const no_orden_valida = no_orden_disabled && no_orden_produccion != "";
             const fields = detalle();
-
+            document.getElementById('hora_inicio').value = moment().format('HH:mm:ss');
             if (existe_campo_vacio(fields)) {
                get_campo_vacio(fields).focus();
                 return;
@@ -454,7 +451,7 @@
                 const url_borrar = "'{{url('sopas/mezclado_sopas/borrar_detalle')}}'";
                 const response = await insertar_detalle(request, get_id_control(), url);
                 if (response.status == 1) {
-                    add_to_table(fields, response.id, 'detalles', url_borrar);
+                    add_to_table_harina(fields, response.id, 'detalles', url_borrar);
                     limpiar()
                 } else {
                     alert(response.message);
@@ -467,6 +464,83 @@
 
         }
 
+        function add_to_table_harina(fields, id, table, url) {
+
+
+            let row = `<tr>
+                <td> <button  type="button"
+                    class="btn btn-success"
+                    onclick="marcar_hora_descarga(${id},this)">
+                    <span class="fa fa-check"></span></button> </td>
+            `;
+            fields.forEach(function (e) {
+
+                let value = e[1].value;
+                let text = '';
+                if (e[1].tagName === "SELECT") {
+                    text = $('#' + e[1].id + ' option:selected').text();
+
+                } else {
+
+                    text = value;
+                }
+                row += `
+                <td > <input type="hidden" value="${value}"  id="${e[0]}-${id}"  name="${e[0]}[]" >
+                  ${text}
+                  </td>
+        `
+                ;
+            });
+
+            row += '</tr>';
+            $('#' + table).append(row);
+
+        }
+
+
+        function marcar_hora_descarga(id, ele) {
+
+            let hora_descarga = document.getElementById('hora_fin_mezcla-' + id);
+
+            let segundo_optimos = parseFloat(document.getElementById('tiempo_optimo').value);
+
+
+            let hora_carga = moment(moment().format('YYYY-MM-DD') + " " + document.getElementById('hora_inicio_mezcla-' + id).value);
+            let hora_carga2 = moment(moment().format('YYYY-MM-DD') + " " + document.getElementById('hora_inicio_mezcla-' + id).value);
+            var observaciones = document.getElementById('observaciones-' + id).value;
+            let hora_top = hora_carga2.add(segundo_optimos, 'seconds');
+            if (hora_top.isBefore(moment())) {
+                observaciones = observaciones + " ,excedente de " + moment().diff(hora_carga.add(segundo_optimos, 'seconds'), 'seconds') + " segundos";
+                document.getElementById('observaciones-' + id).parentNode.innerText = observaciones;
+
+            }
+            hora_descarga.parentNode.innerText = moment().format('HH:mm:ss');
+            hora_descarga.value = moment().format('HH:mm:ss');
+            $('.loading').show();
+            $.ajax({
+
+                url: "{{url('sopas/mezclado_sopas/actualizar_detalle')}}",
+                data: {
+                    id: id,
+                    hora_descarga: moment().format('HH:mm:ss'),
+                    observaciones: observaciones
+                },
+                type: 'POST',
+                success: function (response) {
+
+                    if (response.status == 0) {
+                        alert(response.message);
+                    }
+                    $(ele).remove();
+                    $('.loading').hide();
+                },
+                error: function (err) {
+                    $('.loading').hide();
+                }
+            })
+
+
+        }
 
     </script>
 @endsection

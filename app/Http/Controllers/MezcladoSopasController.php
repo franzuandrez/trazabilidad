@@ -138,8 +138,13 @@ class MezcladoSopasController extends Controller
             ->findOrFail($id);
 
 
+        $tiempo_optimo = floatval($mezlcado_sopas->control_trazabilidad->liberacion_sopas->tiempos_mezcla_seco)
+            + floatval($mezlcado_sopas->control_trazabilidad->liberacion_sopas->tiempos_mezcla_alta)
+            + floatval($mezlcado_sopas->control_trazabilidad->liberacion_sopas->tiempos_mezcla_baja);
+
         return view('sopas.mezclado_sopas.edit', [
-            'mezclado_sopas' => $mezlcado_sopas
+            'mezclado_sopas' => $mezlcado_sopas,
+            'tiempo_optimo' => $tiempo_optimo
         ]);
 
     }
@@ -258,6 +263,36 @@ class MezcladoSopasController extends Controller
 
 
         return response()->json($response);
+    }
+
+
+    public function actualizar_detalle(Request $request)
+    {
+        $id = $request->id;
+        $hora_descarga = $request->hora_descarga;;;;
+        $observaciones = $request->observaciones;;;;
+
+
+        try {
+            $mezcla = MezclaSopaDet::findOrFail($id);
+            $mezcla->hora_fin_mezcla = $hora_descarga;
+            $mezcla->observaciones = $observaciones;
+            $mezcla->update();
+
+            $response = [
+                'status' => 1,
+                'message' => 'Actualizado correctamente'
+            ];
+        } catch (\Exception $ex) {
+            $response = [
+                'status' => 0,
+                'message' => $ex->getMessage()
+            ];
+        }
+
+
+        return response()->json($response);
+
     }
 
     public function borrar_detalle(Request $request)
