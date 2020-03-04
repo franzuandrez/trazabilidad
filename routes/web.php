@@ -287,6 +287,27 @@ Route::get('control/chaomin/{id}', 'ChaomeanController@show')->name('chaomin.sho
 Route::get('control/chaomin', 'ChaomeanController@index')->name('chaomin.index');
 
 
+Route::get('control/verificacion_materias', 'VerificacionMateriasController@index')->name('verificacion_materias.index');
+Route::get('control/verificacion_materias/create', 'VerificacionMateriasController@create')->name('insertar_detalle.create');
+Route::post('control/verificacion_materias/create', 'VerificacionMateriasController@store')->name('insertar_detalle.store');
+Route::post('control/verificacion_materias/iniciar_harina', 'VerificacionMateriasController@iniciar_harina')
+    ->name('insertar_detalle.iniciar_harina');
+Route::post('control/verificacion_materias/iniciar_formulario', 'VerificacionMateriasController@iniciar_formulario')
+    ->name('insertar_detalle.iniciar_formulario');
+Route::post('control/verificacion_materias/insertar_detalle', 'VerificacionMateriasController@insertar_detalle')
+    ->name('insertar_detalle.insertar_detalle');
+Route::post('control/verificacion_materias/actualizar_detalle', 'VerificacionMateriasController@actualizar_detalle')
+    ->name('insertar_detalle.actualizar_detalle');
+Route::post('control/verificacion_materias/borrar_detalle', 'VerificacionMateriasController@borrar_detalle')
+    ->name('verificacion_materias.borrar_detalle');
+
+Route::get('control/verificacion_materias/{id}/edit', 'VerificacionMateriasController@edit')->name('verificacion_materias.edit');
+Route::get('control/verificacion_materias/reporte/{id}', 'ReporteLineaChaomein@reporte_verificacion_materias')->name('reporte_verificacion_materias');
+Route::patch('control/verificacion_materias/{id}', 'VerificacionMateriasController@update')->name('verificacion_materias.update');
+Route::get('control/verificacion_materias/{id}', 'VerificacionMateriasController@show')->name('verificacion_materias.show');
+Route::post('control/verificacion_materias/{id}', 'VerificacionMateriasController@destroy')->name('verificacion_materias.destroy');
+
+
 Route::get('control/mezcla_harina', 'MezclaHarinaController@index')->name('mezcla_harina.index');
 Route::get('control/mezcla_harina/create', 'MezclaHarinaController@create')->name('mezcla_harina.create');
 Route::post('control/mezcla_harina/create', 'MezclaHarinaController@store')->name('mezcla_harina.store');
@@ -353,6 +374,7 @@ Route::get('control/precocido/create', 'PrecocidoController@create')->name('prec
 Route::post('control/precocido/create', 'PrecocidoController@store')->name('precocido.store');
 Route::post('control/precocido/iniciar_laminado', 'PrecocidoController@iniciar_laminado')->name('precocido.iniciar_laminado');
 Route::post('control/precocido/insertar_detalle', 'PrecocidoController@insertar_detalle')->name('precocido.insertar_detalle');
+Route::post('control/precocido/actualizar_detalle', 'PrecocidoController@actualizar_detalle')->name('precocido.actualizar_detalle');
 Route::post('control/precocido/iniciar_formulario', 'PrecocidoController@iniciar_formulario')->name('precocido.iniciar_formulario');
 Route::post('control/precocido/nuevo_registro', 'PrecocidoController@nuevo_registro')->name('precocido.nuevo_registro');
 Route::post('control/precocido/borrar_detalle', 'PrecocidoController@borrar_detalle')->name('precocido.borrar_detalle');
@@ -407,10 +429,6 @@ Route::get('produccion/mezcladora/{id}', 'MezcladoraController@show')->name('mez
 Route::post('produccion/mezcladora/{id}', 'MezcladoraController@destroy')->name('mezcladora.destroy');
 
 
-
-
-
-
 Route::get('sopas/fritura', 'FrituraSopasController@index')->name('fritura.index');
 Route::get('sopas/fritura/create', 'FrituraSopasController@create')->name('fritura.create');
 Route::post('sopas/fritura/create', 'FrituraSopasController@store')->name('fritura.store');
@@ -431,6 +449,7 @@ Route::post('sopas/mezclado_sopas/create', 'MezcladoSopasController@store')->nam
 Route::post('sopas/mezclado_sopas/iniciar_mezclado_sopas', 'MezcladoSopasController@iniciar_mezclado_sopas')->name('mezclado_sopas.iniciar_laminado');
 Route::post('sopas/mezclado_sopas/iniciar_formulario', 'MezcladoSopasController@iniciar_formulario')->name('mezclado_sopas.iniciar_formulario');
 Route::post('sopas/mezclado_sopas/insertar_detalle', 'MezcladoSopasController@insertar_detalle')->name('mezclado_sopas.insertar_detalle');
+Route::post('sopas/mezclado_sopas/actualizar_detalle', 'MezcladoSopasController@actualizar_detalle')->name('mezclado_sopas.actualizar_detalle');
 Route::post('sopas/mezclado_sopas/nuevo_registro', 'MezcladoSopasController@nuevo_registro')->name('mezclado_sopas.nuevo_registro');
 Route::post('sopas/mezclado_sopas/borrar_detalle', 'MezcladoSopasController@borrar_detalle')->name('mezclado_sopas.borrar_detalle');
 Route::get('sopas/mezclado_sopas/{id}/edit', 'MezcladoSopasController@edit')->name('mezclado_sopas.edit');
@@ -438,7 +457,6 @@ Route::patch('sopas/mezclado_sopas/{id}', 'MezcladoSopasController@update')->nam
 Route::get('sopas/mezclado_sopas/{id}', 'MezcladoSopasController@show')->name('mezclado_sopas.show');
 Route::get('sopas/mezclado_sopas/reporte/{id}', 'ReporteLineaSopas@reporte_mezclado_sopas')->name('mezclado_sopas.show');
 Route::post('sopas/mezclado_sopas/{id}', 'MezcladoSopasController@destroy')->name('mezclado_sopas.destroy');
-
 
 
 Route::get('sopas/peso_pasta', 'PesoPastaController@index')->name('peso_pasta.index');
@@ -470,7 +488,6 @@ Route::get('sopas/laminado/reporte/{id}', 'ReporteLineaSopas@reporte_laminado')-
 Route::post('sopas/laminado/{id}', 'LaminadoSopasController@destroy')->name('sopas.laminado.destroy');
 
 
-
 Route::get('sopas/liberacion', 'LineaSopaController@index')->name('sopas.liberacion');
 Route::get('sopas/liberacion/create', 'LineaSopaController@create')->name('sopas.create');
 Route::post('sopas/liberacion/create', 'LineaSopaController@store')->name('sopas.store');
@@ -482,5 +499,5 @@ Route::get('sopas/liberacion/{id}', 'LineaSopaController@show')->name('sopas.lib
 Route::get('sopas/liberacion/reporte/{id}', 'ReporteLineaSopas@linea_sopas')->name('sopas.liberacion.linea_sopas');
 
 
-
+Route::get('consultas/trazabilidad', 'ConsultaTrazabilidadController@index')->name('consulta.trazabilidad');
 

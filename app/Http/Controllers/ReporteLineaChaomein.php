@@ -14,6 +14,8 @@ use App\PesoSecoDet;
 use App\PesoSecoEnc;
 use App\PrecocidoDet;
 use App\PrecocidoEnc;
+use App\VerificacionMateriaDet;
+use App\VerificacionMateriaEnc;
 use Carbon\Carbon;
 use DB;
 
@@ -153,6 +155,69 @@ class ReporteLineaChaomein extends Controller
         return $pdf->stream($reporte_encabezado->getTitle());
     }
 
+
+    public function reporte_verificacion_materias($id)
+    {
+
+        $reporte_encabezado = new Reportes();
+        $mezcla_harina_enc = VerificacionMateriaEnc::where('verificacion_materias_enc.id_verificacion', $id)
+            ->select(
+                'productos.descripcion as PRODUCTO',
+                'verificacion_materias_enc.id_turno as TURNO',
+                DB::raw("date_format(verificacion_materias_enc.fecha,'%d/%m/%Y %h:%i:%s') as FECHA"),
+                'users.nombre as RESPONSABLE'
+            )
+            ->join('control_trazabilidad', 'control_trazabilidad.id_control', '=', 'verificacion_materias_enc.id_control')
+            ->join('users', 'users.id', '=', 'verificacion_materias_enc.id_usuario')
+            ->join('productos', 'productos.id_producto', '=', 'control_trazabilidad.id_producto')
+            ->join('chaomin', 'chaomin.id_control', '=', 'control_trazabilidad.id_control')
+            ->join('presentaciones', 'presentaciones.id_presentacion', '=', 'chaomin.id_presentacion')
+            ->firstOrFail();
+
+
+        $reporte_encabezado->setTitle('VERIFICACION DE MATERIA EN MEZCLADORA')
+            ->setCreatedAt(Carbon::now())
+            ->setSubtitle('VERIFICACION DE MATERIA EN MEZCLADORA')
+            ->setExcept(['id_producto', 'lote', 'id_verificacion_det', 'id_verificacion_enc','fecha_hora']);
+
+
+        $mezcla_harina_det = VerificacionMateriaDet::where('id_verificacion_enc', $id)
+            ->select(
+                'verificacion_materias_det.*',
+                'users.nombre as id_usuario'
+            )
+            ->join('users', 'users.id', '=', 'verificacion_materias_det.id_usuario')
+            ->get();
+
+
+
+        $reporte_detalle = $reporte_encabezado->mapers(
+            [
+                'headers' =>
+                    [
+                        'MEZCLA HARINA' => $mezcla_harina_enc,
+
+                    ],
+                'details' => [
+                    'DETALLE' => $mezcla_harina_det
+                ]
+            ]
+        );
+
+        $reporte_encabezado->setHeader($reporte_detalle['headers']->first());
+        $view = \View::make('reportes.chaomein.mezcla_harina',
+            [
+                'reporte_encabezado' => $reporte_encabezado,
+                'reporte_detalle' => $reporte_detalle
+            ]
+        )->render();
+
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($view);
+        $pdf->setPaper('A4', 'vertical');
+        return $pdf->stream($reporte_encabezado->getTitle());
+
+    }
 
     public function reporte_laminado($id)
     {
@@ -344,7 +409,7 @@ class ReporteLineaChaomein extends Controller
         $reporte_encabezado->setTitle('CONTROL DE PRECOCIDO  DE PASTA PARA CHAO MEIN')
             ->setCreatedAt(Carbon::now())
             ->setSubtitle('CONTROL DE PRECOCIDO DE PASTA PARA CHAO MEIN')
-            ->setExcept(['id_producto', 'lote', 'id_precocido_det', 'id_precocido_enc','responsable']);
+            ->setExcept(['id_producto', 'lote', 'id_precocido_det', 'id_precocido_enc', 'responsable']);
 
 
         $peso_humedo_det = PrecocidoDet::where('id_precocido_enc', $id)
@@ -363,7 +428,6 @@ class ReporteLineaChaomein extends Controller
                 ]
             ]
         );
-
 
 
         $reporte_encabezado->setHeader($reporte_detalle['headers']->first());

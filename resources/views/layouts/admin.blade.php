@@ -279,6 +279,9 @@
                         <li><a href="{{url('control/chaomin')}}"><i class="fa fa-line-chart"></i>Liberacion Linea
                                 chao mein</a>
                         </li>
+                        <li><a href="{{url('control/verificacion_materias')}}"><i class="fa fa-line-chart"></i>Verificacion_materia prima
+                             </a>
+                        </li>
                         <li><a href="{{url('control/mezcla_harina')}}"><i class="fa fa-spoon"></i>Mezcla de
                                 Harina</a>
                         </li>
@@ -302,7 +305,8 @@
                         </li>
                         <li><a href="{{url('sopas/mezclado_sopas')}}"><i class="fa fa-balance-scale"></i>Mezclado de
                                 Sopas</a></li>
-                        <li><a href="{{url('sopas/laminado')}}"><i class="fa fa-balance-scale"></i>Laminado y Precoccion</a></li>
+                        <li><a href="{{url('sopas/laminado')}}"><i class="fa fa-balance-scale"></i>Laminado y Precoccion</a>
+                        </li>
                         <li><a href="{{url('sopas/fritura')}}"><i class="fa fa-balance-scale"></i>Fritura</a></li>
                         <li><a href="{{url('sopas/peso_pasta')}}"><i class="fa fa-industry"></i>Peso de la Pasta</a>
                         </li>
