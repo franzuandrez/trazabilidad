@@ -462,6 +462,7 @@
             return id_control;
         }
 
+        var ultimo_registro = null;
         async function agregar_a_table() {
 
 
@@ -474,6 +475,13 @@
                 get_campo_vacio(fields).focus();
                 return;
             }
+            const hora = moment();
+
+            let observaciones = mostrar_observaciones(hora, ultimo_registro);
+            document.getElementById('observaciones').value = document.getElementById('observaciones').value + " " + observaciones;
+            ultimo_registro = hora.clone().format('HH:mm:ss');
+
+
             if (no_orden_valida) {
 
                 $('.loading').show();
