@@ -11,10 +11,10 @@
         <h3>VERIFICACION DE MATERIA PRIMA EN MEZCLADORA</h3>
     </div>
 
-    @component('componentes.nav',['operation'=>'Crear',
+    @component('componentes.nav',['operation'=>'Continuar',
     'menu_icon'=>'fa fa-check-square-o',
-    'submenu_icon'=>'fa fa-th',
-    'operation_icon'=>'fa-plus',])
+    'submenu_icon'=>'fa fa fa-check-circle',
+    'operation_icon'=>'fa-pencil',])
         @slot('menu')
             Control
         @endslot
