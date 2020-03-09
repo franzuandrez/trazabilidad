@@ -10,10 +10,10 @@
         <h3>LIBERACION DE LINEA PARA CHAO MEIN</h3>
     </div>
 
-    @component('componentes.nav',['operation'=>'Crear',
+    @component('componentes.nav',['operation'=>'Continuar',
     'menu_icon'=>'fa fa-check-square-o',
     'submenu_icon'=>'a fa-line-chart',
-    'operation_icon'=>'fa-plus',])
+    'operation_icon'=>'fa-step-forward',])
         @slot('menu')
             Control
         @endslot

@@ -24,53 +24,35 @@
     {!!Form::open(array('url'=>'control/chaomin/create','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
 
-    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="turno">NO ORDEN DE PRODUCCION</label>
-            <input type="text" name="no_orden_produccion"
+            <label for="producto">PRODUCTO</label>
+            <input type="text"
                    readonly
-                   value="{{$chaomin->no_orden_produccion}}"
-                   class="form-control">
-
+                   id="producto"
+                   value="{{$chaomin->producto->descripcion}}"
+                   class="form-control valor">
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <label for="id_presentacion">PRESENTACION</label>
+        <div class="form-group">
+            <input type="text"
+                   readonly
+                   id="id_presentacion"
+                   value="{{$chaomin->presentacion->descripcion}}"
+                   class="form-control valor">
         </div>
     </div>
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <label for="turno">TURNO</label>
         <div class="form-group">
-            <label for="presentacion">PRESENTACION</label>
-            <select name="id_presentacion"
-                    disabled
-                    class="form-control selectpicker" id="id_presentacion">
-
-                @foreach( $presentaciones as $presentacion )
-                    @if($chaomin->id_presentacion == $presentacion->id_presentacion)
-                        <option value="{{$presentacion->id_presentacion}}"
-                                selected>{{$presentacion->descripcion}}</option>
-                    @else
-                        <option value="{{$presentacion->id_presentacion}}">{{$presentacion->descripcion}}</option>
-                    @endif
-                @endforeach
-            </select>
-        </div>
-    </div>
-
-
-
-
-
-
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="turno">TURNO</label>
-            <select class="form-control selectpicker" data-live-search="true" id="id_turno"
-                    disabled
-                    name="id_turno">
-                <option value="" selected>SELECCIONE UN TURNO</option>
-                <option value="TURNO 1">TURNO 1</option>
-                <option value="TURNO 2">TURNO 2</option>
-                <option value="" selected>{{ $chaomin->id_turno}}</option>
-                class="form-control selectpicker" id="id_presentacion">
-            </select>
+            <input type="text"
+                   readonly
+                   id="id_presentacion"
+                   value="{{$chaomin->id_turno}}"
+                   class="form-control valor">
         </div>
     </div>
 
