@@ -6,10 +6,10 @@
 
 @section('contenido')
 
-    @component('componentes.nav',['operation'=>'Ver',
-    'menu_icon'=>'fa-arrow-circle-o-right',
+    @component('componentes.nav',['operation'=>'pickear',
+    'menu_icon'=>' fa fa fa-cube ',
     'submenu_icon'=>'fa fa-hand-rock-o',
-    'operation_icon'=>'fa-eye',])
+    'operation_icon'=>'fa-angle-up',])
         @slot('menu')
             Produccion
         @endslot
