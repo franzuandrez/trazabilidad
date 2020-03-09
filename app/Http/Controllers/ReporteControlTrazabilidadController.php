@@ -29,6 +29,8 @@ class ReporteControlTrazabilidadController extends Controller
                 'control_trazabilidad.id_control',
                 'control_trazabilidad.id_turno',
                 'control_trazabilidad.lote',
+                'control_trazabilidad.cantidad_programada as CANTIDAD PROGRAMADA',
+                'control_trazabilidad.cantidad_producida AS CANTIDAD PRODUCIDA',
                 DB::raw(
                     "(select GROUP_CONCAT(no_orden_produccion)as no_orden_produccion 
                     from  control_trazabilidad_orden_produccion where id_control = control_trazabilidad.id_control )

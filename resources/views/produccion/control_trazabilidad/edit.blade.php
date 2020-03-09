@@ -120,6 +120,17 @@
                    class="form-control">
         </div>
     </div>
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="cantidad_produccion">CANTIDAD PRODUCCION</label>
+            <input type="text"
+                   name="cantidad_produccion"
+                   id="cantidad_produccion"
+                   {{$control->cantidad_producida !=null && $control->cantidad_producida !="" ? 'disabled':''}}
+                    value="{{$control->cantidad_producida }}"
+                   class="form-control">
+        </div>
+    </div>
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <ul class="nav nav-tabs">
