@@ -273,6 +273,30 @@ Route::get('recepcion/kardex', 'MovimientoController@index')->name('movimientos.
 Route::get('recepcion/kardex/reporte', 'MovimientoController@reporte_excel')->name('movimientos.bodegas.excel');
 Route::get('movimientos/existencia/productos', 'MovimientoController@existencia')->name('movimientos.existencia.productos');
 
+
+
+Route::get('control/verificacion_materias_chao', 'VerificacionMateriasChaoController@index')->name('verificacion_materias_chao.index');
+Route::get('control/verificacion_materias_chao/create', 'VerificacionMateriasChaoController@create')->name('verificacion_materias_chao.insertar_detalle.create');
+Route::post('control/verificacion_materias_chao/create', 'VerificacionMateriasChaoController@store')->name('verificacion_materias_chao.insertar_detalle.store');
+Route::post('control/verificacion_materias_chao/iniciar_harina', 'VerificacionMateriasChaoController@iniciar_harina')
+    ->name('verificacion_materias_chao.iniciar_harina');
+Route::post('control/verificacion_materias_chao/iniciar_formulario', 'VerificacionMateriasChaoController@iniciar_formulario')
+    ->name('verificacion_materias_chao.iniciar_formulario');
+Route::post('control/verificacion_materias_chao/insertar_detalle', 'VerificacionMateriasChaoController@insertar_detalle')
+    ->name('verificacion_materias_chao.insertar_detalle');
+Route::post('control/verificacion_materias_chao/actualizar_detalle', 'VerificacionMateriasChaoController@actualizar_detalle')
+    ->name('verificacion_materias_chao.actualizar_detalle');
+Route::post('control/verificacion_materias_chao/borrar_detalle', 'VerificacionMateriasChaoController@borrar_detalle')
+    ->name('verificacion_materias_chao.borrar_detalle');
+
+Route::get('control/verificacion_materias_chao/{id}/edit', 'VerificacionMateriasChaoController@edit')->name('verificacion_materias_chao.edit');
+Route::get('control/verificacion_materias_chao/reporte/{id}', 'ReporteLineaChaomein@reporte_verificacion_materias_chao')->name('reporte_verificacion_materias_chao');
+Route::patch('control/verificacion_materias_chao/{id}', 'VerificacionMateriasChaoController@update')->name('verificacion_materias_chao.update');
+Route::get('control/verificacion_materias_chao/{id}', 'VerificacionMateriasChaoController@show')->name('verificacion_materias_chao.show');
+Route::post('control/verificacion_materias_chao/{id}', 'VerificacionMateriasChaoController@destroy')->name('verificacion_materias_chao.destroy');
+
+
+
 Route::get('control/chaomin', 'ChaomeanController@index')->name('chaomin.index');
 Route::get('control/chaomin/create', 'ChaomeanController@create')->name('chaomin.create');
 Route::post('control/chaomin/verficar_no_orden_produccion', 'ChaomeanController@verficar_no_orden_produccion')->name('chaomin.verficar_no_orden_produccion');

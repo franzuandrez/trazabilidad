@@ -29,7 +29,7 @@ class Operacion extends Model
         'id_usuario',
     ];
 
-    protected $with = ['requisiciones'];
+    protected $with = ['requisiciones','detalle_insumos'];
 
     public function detalle_insumos()
     {

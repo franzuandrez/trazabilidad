@@ -197,6 +197,11 @@ class OperacionController extends Controller
                 ->first();
 
 
+            if ($request->get('cantidad_produccion') != null) {
+                $operacion->cantidad_producida = $request->get('cantidad_produccion');
+                $operacion->save();
+            }
+
             $actividades = $request->id_actividad;
             if (is_iterable($actividades)) {
                 foreach ($actividades as $key => $actividad) {
