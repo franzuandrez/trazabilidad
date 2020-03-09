@@ -5,7 +5,7 @@
 @endsection
 
 @section('contenido')
-    <div class="col-lg-12 col-lg-push-4 col-sm-12   col-sm-push-4   col-md-12   col-md-push-4  col-xs-12">
+    <div class="col-lg-12 col-lg-push-4 col-sm-12   col-md-12    col-xs-12">
         <h3>CONTROL DE LAMINADO DE CHAO MEIN</h3>
     </div>
     @component('componentes.nav',['operation'=>'Ver',
