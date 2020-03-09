@@ -19,7 +19,7 @@
     @component('componentes.nav',['operation'=>'Editar',
     'menu_icon'=>' fa fa fa-cube ',
     'submenu_icon'=>'fa fa-list-alt ',
-    'operation_icon'=>'fa-edit',])
+    'operation_icon'=>'fa-pencil',])
         @slot('menu')
             Produccion
         @endslot
