@@ -4,6 +4,10 @@
 
 @endsection
 @section('contenido')
+    <div class="col-lg-12 col-lg-push-4 col-sm-12   col-sm-push-4   col-md-12   col-md-push-4  col-xs-12">
+        <h3>CONTROL DE TRAZABILIDAD</h3>
+    </div>
+
     @component('componentes.nav',['operation'=>'Ver',
     'menu_icon'=>' fa fa fa-cube ',
     'submenu_icon'=>' fa fa-list-alt  ',
