@@ -13,7 +13,7 @@
 
     @component('componentes.nav',['operation'=>'Crear',
     'menu_icon'=>'fa fa-check-square-o',
-    'submenu_icon'=>'fa fa-th',
+    'submenu_icon'=>'fa  fa-check',
     'operation_icon'=>'fa-plus',])
         @slot('menu')
             Control

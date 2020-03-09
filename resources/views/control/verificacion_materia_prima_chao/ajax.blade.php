@@ -12,7 +12,7 @@
 
     @component('componentes.nav',['operation'=>'LIST',
     'menu_icon'=>'fa fa-check-square-o',
-    'submenu_icon'=>'fa fa-th',
+    'submenu_icon'=>'fa  fa-check',
     'operation_icon'=>'',])
         @slot('menu')
             Control

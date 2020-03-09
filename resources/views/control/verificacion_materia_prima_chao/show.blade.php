@@ -11,10 +11,10 @@
         <h3>VERIFICACION DE MATERIA PRIMAS PARA SOLUCION DE CHAO MEIN</h3>
     </div>
 
-    @component('componentes.nav',['operation'=>'Crear',
+    @component('componentes.nav',['operation'=>'Ver',
     'menu_icon'=>'fa fa-check-square-o',
-    'submenu_icon'=>'fa fa-th',
-    'operation_icon'=>'fa-plus',])
+    'submenu_icon'=>'fa fa  fa-check',
+    'operation_icon'=>'fa-eye',])
         @slot('menu')
             Control
         @endslot
@@ -101,7 +101,7 @@
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
             <label for="observacion_correctiva">OBSERVACIONES Y/O ACCION CORRECTIVA</label>
-            <input type="text" name="observacion_correctiva" value="{{old('observacion_correctiva')}}"
+            <input type="text" name="observacion_correctiva" value="{{old('observacion_correctiva')}}" readonly
                    class="form-control">
         </div>
     </div>
