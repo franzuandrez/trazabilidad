@@ -249,70 +249,131 @@
                 </ul>
             @endcan
 
-            <ul class="nav navbar-nav">
-                <li class="dropdown">
-                    <a href="#" data-toggle="dropdown" style="background-color: #01579B;  color: #fff;">Produccion<b
-                            class="caret"></b></a>
-                    <ul class="dropdown-menu">
+            @can('produccion')
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" style="background-color: #01579B;  color: #fff;">Produccion<b
+                                class="caret"></b></a>
+                        <ul class="dropdown-menu">
 
-                        <li><a href="{{url('produccion/requisiciones')}}"><i class="fa fa-pencil-square"
-                                                                             aria-hidden="true"></i>
-                                Requisiciones</a></li>
-                        <li><a href="{{url('produccion/picking')}}"><i class="fa fa-hand-rock-o"></i>Picking</a>
-                        </li>
+                            @can('requisiciones')
+                                <li><a href="{{url('produccion/requisiciones')}}"><i class="fa fa-pencil-square"
+                                                                                     aria-hidden="true"></i>
+                                        Requisiciones</a></li>
+                            @endcan
+                            @can('picking')
+                                <li><a href="{{url('produccion/picking')}}"><i class="fa fa-hand-rock-o"></i>Picking</a>
+                                </li>
+                            @endcan
 
-                        <li><a href="{{url('produccion/trazabilidad_chao_mein')}}"><i class="fa fa-list-alt"
-                                                                                      aria-hidden="true"></i>
-                                Control Trazabilidad</a></li>
+                            @can('control_trazabilidad')
+                                <li><a href="{{url('produccion/trazabilidad_chao_mein')}}"><i class="fa fa-list-alt"
+                                                                                              aria-hidden="true"></i>
+                                        Control Trazabilidad</a></li>
+                            @endcan
 
-                    </ul>
-                </li>
-            </ul>
+                        </ul>
+                    </li>
+                </ul>
+            @endcan
 
+            @can('control_chaomein')
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
 
-            <ul class="nav navbar-nav">
-                <li class="dropdown">
-                    <a href="#" data-toggle="dropdown" style="background-color: #01579B;  color: #fff;">Control
-                        Chao mein<b
-                            class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{url('control/chaomin')}}"><i class="fa fa-line-chart"></i>Liberacion Linea
-                                chao mein</a>
-                        </li>
-                        <li><a href="{{url('control/verificacion_materias')}}"><i class="fa fa-line-chart"></i>Verificacion_materia prima
-                             </a>
-                        </li>
-                        <li><a href="{{url('control/mezcla_harina')}}"><i class="fa fa-spoon"></i>Mezcla de
-                                Harina</a>
-                        </li>
-                        <li><a href="{{url('control/laminado')}}"><i class="fa fa-th"></i>Laminado</a></li>
-                        <li><a href="{{url('control/peso_humedo')}}"><i class="fa fa-signal"></i>Peso Humedo</a>
-                        </li>
-                        <li><a href="{{url('control/peso_seco')}}"><i class="fa fa-bar-chart"></i>Peso Seco</a></li>
-                        <li><a href="{{url('control/precocido')}}"><i class="fa fa-cutlery"></i>Pre-cocido de Pasta</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav">
-                <li class="dropdown">
-                    <a href="#" data-toggle="dropdown" style="background-color: #01579B;  color: #fff;">Control
-                        Sopas<b
-                            class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{url('sopas/liberacion')}}"><i class="fa fa-line-chart"></i>Liberacion Linea Sopas
-                                Instantaneas</a>
-                        </li>
-                        <li><a href="{{url('sopas/mezclado_sopas')}}"><i class="fa fa-balance-scale"></i>Mezclado de
-                                Sopas</a></li>
-                        <li><a href="{{url('sopas/laminado')}}"><i class="fa fa-balance-scale"></i>Laminado y Precoccion</a>
-                        </li>
-                        <li><a href="{{url('sopas/fritura')}}"><i class="fa fa-balance-scale"></i>Fritura</a></li>
-                        <li><a href="{{url('sopas/peso_pasta')}}"><i class="fa fa-industry"></i>Peso de la Pasta</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
+                        <a href="#" data-toggle="dropdown" style="background-color: #01579B;  color: #fff;">Control
+                            Chao mein<b
+                                class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            @can('verificacion_materia_chaomein')
+                                <li><a href="{{url('control/verificacion_materias_chao')}}"><i
+                                            class="fa  fa-check"></i>
+                                        Verificacion de materias primas chao mein
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('liberacion_chaomein')
+                                <li><a href="{{url('control/chaomin')}}"><i class="fa fa fa-line-chart"></i>Liberacion
+                                        Linea
+                                        chao mein</a>
+                                </li>
+                            @endcan
+                            @can('verficacion_materia_mezcladora')
+                                <li><a href="{{url('control/verificacion_materias')}}"><i
+                                            class="fa fa-check-circle"></i>Verificacion
+                                        materias
+                                        primas en mezcladora
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('mezcla_harina_chaomein')
+                                <li><a href="{{url('control/mezcla_harina')}}"><i class="fa fa-spoon"></i>Mezcla de
+                                        Harina</a>
+                                </li>
+                            @endcan
+                            @can('laminado_chaomein')
+                                <li><a href="{{url('control/laminado')}}"><i class="fa fa-th"></i>Laminado</a></li>
+                            @endcan
+                            @can('peso_humedo_chaomein')
+                                <li><a href="{{url('control/peso_humedo')}}"><i class="fa fa-signal"></i>Peso Humedo</a>
+                                </li>
+                            @endcan
+                            @can('peso_seco_chaomein')
+                                <li><a href="{{url('control/peso_seco')}}"><i class="fa fa-bar-chart"></i>Peso Seco</a>
+                                </li>
+                            @endcan
+                            @can('precocido_pasta')
+                                <li><a href="{{url('control/precocido')}}"><i class="fa fa-cutlery"></i>Pre-cocido de
+                                        Pasta</a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                </ul>
+            @endcan
+            @can('control_sopas')
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" style="background-color: #01579B;  color: #fff;">Control
+                            Sopas<b
+                                class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            @can('verificacion_materia_sopas')
+                                <li><a href="{{url('sopas/verificacion_materias_sopas')}}"><i
+                                            class="fa fa-check-square"></i>
+                                        Verificacion de Materia primas en Sopas
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('liberacion_sopas')
+                                <li><a href="{{url('sopas/liberacion')}}"><i class="fa fa-flag-o"></i>Liberacion
+                                        Linea
+                                        Sopas
+                                        Instantaneas</a>
+                                </li>
+                            @endcan
+                            @can('mezclado_sopas')
+                                <li><a href="{{url('sopas/mezclado_sopas')}}"><i class="fa fa-spinner"></i>Mezclado
+                                        de
+                                        Sopas</a></li>
+                            @endcan
+                            @can('laminado_sopas')
+                                <li><a href="{{url('sopas/laminado')}}"><i class="fa  fa-th-large"></i>Laminado y
+                                        Precoccion</a>
+                                </li>
+                            @endcan
+                            @can('fritura_ropas')
+                                <li><a href="{{url('sopas/fritura')}}"><i class="fa  fa fa fa-fire  "></i>Fritura</a>
+                                </li>
+                            @endcan
+                            @can('peso_pasta')
+                                <li><a href="{{url('sopas/peso_pasta')}}"><i class="fa fa fa-industry"></i>Peso de la Pasta</a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                </ul>
+            @endcan
 
             @can('usuarios')
                 <ul class="nav navbar-nav">
