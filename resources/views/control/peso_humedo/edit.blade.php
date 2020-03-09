@@ -21,10 +21,10 @@
             </button>
         </h3>
     </div>
-    @component('componentes.nav',['operation'=>'Ingreso',
+    @component('componentes.nav',['operation'=>'Continuar',
     'menu_icon'=>'fa fa-check-square-o',
     'submenu_icon'=>'fa fa-signal',
-    'operation_icon'=>'fa-plus',])
+    'operation_icon'=>'fa-pencil',])
         @slot('menu')
             Control
         @endslot
