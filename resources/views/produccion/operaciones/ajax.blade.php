@@ -13,7 +13,7 @@
 
     @component('componentes.nav',['operation'=>'LIST',
     'menu_icon'=>'fa fa-cube',
-    'submenu_icon'=>'fa fa-hand-rock-o',
+    'submenu_icon'=>'fa fa fa-pencil-square',
     'operation_icon'=>'',])
         @slot('menu')
             Produccion

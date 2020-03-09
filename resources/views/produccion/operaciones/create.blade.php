@@ -5,7 +5,7 @@
 @section('contenido')
     @component('componentes.nav',['operation'=>'Crear',
     'menu_icon'=>' fa fa fa-cube ',
-    'submenu_icon'=>' fa fa fa-hand-rock-o  ',
+    'submenu_icon'=>' fa fa fa-pencil-square ',
     'operation_icon'=>'fa-plus',])
         @slot('menu')
             Produccion
