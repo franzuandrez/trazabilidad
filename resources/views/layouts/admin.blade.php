@@ -285,13 +285,7 @@
                             Chao mein<b
                                 class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            @can('verificacion_materia_chaomein')
-                                <li><a href="{{url('control/verificacion_materias_chao')}}"><i
-                                            class="fa  fa-check"></i>
-                                        Verificacion de materias primas chao mein
-                                    </a>
-                                </li>
-                            @endcan
+
                             @can('liberacion_chaomein')
                                 <li><a href="{{url('control/chaomin')}}"><i class="fa fa fa-line-chart"></i>Liberacion
                                         Linea
@@ -318,6 +312,10 @@
                                 <li><a href="{{url('control/peso_humedo')}}"><i class="fa fa-signal"></i>Peso Humedo</a>
                                 </li>
                             @endcan
+                            @can('peso_humedo_chaomein')
+                                <li><a href="{{url('control/secado')}}"><i class="fa fa-signal"></i>Secado</a>
+                                </li>
+                            @endcan
                             @can('peso_seco_chaomein')
                                 <li><a href="{{url('control/peso_seco')}}"><i class="fa fa-bar-chart"></i>Peso Seco</a>
                                 </li>
@@ -338,13 +336,7 @@
                             Sopas<b
                                 class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            @can('verificacion_materia_sopas')
-                                <li><a href="{{url('sopas/verificacion_materias_sopas')}}"><i
-                                            class="fa fa-check-square"></i>
-                                        Verificacion de Materia primas en Sopas
-                                    </a>
-                                </li>
-                            @endcan
+
                             @can('liberacion_sopas')
                                 <li><a href="{{url('sopas/liberacion')}}"><i class="fa fa-flag-o"></i>Liberacion
                                         Linea
@@ -367,7 +359,8 @@
                                 </li>
                             @endcan
                             @can('peso_pasta')
-                                <li><a href="{{url('sopas/peso_pasta')}}"><i class="fa fa fa-industry"></i>Peso de la Pasta</a>
+                                <li><a href="{{url('sopas/peso_pasta')}}"><i class="fa fa fa-industry"></i>Peso de la
+                                        Pasta</a>
                                 </li>
                             @endcan
                         </ul>

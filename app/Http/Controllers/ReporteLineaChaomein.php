@@ -14,6 +14,8 @@ use App\PesoSecoDet;
 use App\PesoSecoEnc;
 use App\PrecocidoDet;
 use App\PrecocidoEnc;
+use App\SecadoDet;
+use App\SecadoEnc;
 use App\VerificacionMateriaChaoDet;
 use App\VerificacionMateriaChaoEnc;
 use App\VerificacionMateriaDet;
@@ -397,6 +399,60 @@ class ReporteLineaChaomein extends Controller
         return $pdf->stream($reporte_encabezado->getTitle());
     }
 
+    public function reporte_secado($id)
+    {
+        $reporte_encabezado = new Reportes();
+
+        $peso_humedo = SecadoEnc::where('id_secado_enc', $id)
+            ->select(
+                'productos.descripcion as PRODUCTO',
+                'presentaciones.descripcion as PRESENTACION',
+                'secado_enc.lote as LOTE',
+                DB::raw("date_format(secado_enc.fecha_ingreso,'%d/%m/%Y %h:%i:%s') as FECHA"),
+                'users.nombre as RESPONSABLE'
+            )
+            ->join('control_trazabilidad', 'control_trazabilidad.id_control', '=', 'secado_enc.id_control')
+            ->join('productos', 'productos.id_producto', '=', 'control_trazabilidad.id_producto')
+            ->join('users', 'users.id', '=', 'secado_enc.id_usuario')
+            ->join('chaomin', 'chaomin.id_control', '=', 'control_trazabilidad.id_control')
+            ->join('presentaciones', 'presentaciones.id_presentacion', '=', 'chaomin.id_presentacion')
+            ->firstOrFail();
+
+        $reporte_encabezado->setTitle('CONTROL SECADO PARA CHAO MEIN')
+            ->setCreatedAt(Carbon::now())
+            ->setSubtitle('CONTROL SECADO  DE PASTA PARA CHAO MEIN')
+            ->setExcept(['producto', 'lote', 'id_secado_enc', 'id_secado_det']);
+
+        $peso_humedo_det = SecadoDet::where('id_secado_enc', $id)
+            ->select('secado_det.*', 'users.nombre as id_usuario')
+            ->join('users', 'users.id', '=', 'secado_det.id_usuario')
+            ->get();
+        $reporte_detalle = $reporte_encabezado->mapers(
+            [
+                'headers' =>
+                    [
+                        'SECADO' => $peso_humedo,
+
+                    ],
+                'details' => [
+                    'MUESTRA' => $peso_humedo_det
+                ]
+            ]
+        );
+
+        $reporte_encabezado->setHeader($reporte_detalle['headers']->first());
+        $view = \View::make('reportes.chaomein.secado',
+            [
+                'reporte_encabezado' => $reporte_encabezado,
+                'reporte_detalle' => $reporte_detalle
+            ]
+        )->render();
+
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($view);
+        $pdf->setPaper('A4', 'landscape');
+        return $pdf->stream($reporte_encabezado->getTitle());
+    }
 
     public function reporte_peso_seco($id)
     {

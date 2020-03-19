@@ -390,7 +390,7 @@ Route::post('control/secado/borrar_detalle', 'SecadoController@borrar_detalle')-
 Route::get('control/secado/{id}/edit', 'SecadoController@edit')->name('secado.edit');
 Route::patch('control/secado/{id}', 'SecadoController@update')->name('secado.update');
 Route::get('control/secado/{id}', 'SecadoController@show')->name('secado.show');
-Route::get('control/secado/reporte/{id}', 'SecadoController@reporte_peso_humedo')->name('secado.reporte');
+Route::get('control/secado/reporte/{id}', 'ReporteLineaChaomein@reporte_secado')->name('secado.reporte');
 Route::post('control/secado/{id}', 'SecadoController@destroy')->name('secado.destroy');
 
 Route::get('control/peso_seco', 'PesoSecoController@index')->name('peso_seco.index');
