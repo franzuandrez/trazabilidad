@@ -530,4 +530,117 @@ class OperacionController extends Controller
 
     }
 
+
+    public function get_produto_proceso(Request $request)
+    {
+
+
+        try {
+            $data = $this->get_control_pp($request);
+
+            $response = [
+                'status' => 1,
+                'message' => 'Encontrado correctamente',
+                'data' => $data
+            ];
+        } catch (\Exception $ex) {
+            $response = [
+                'status' => 0,
+                'message' => 'Producto y Lote no encontrado',
+                'data' => ''
+            ];
+        }
+
+        return response()->json($response);
+    }
+
+
+    public function verificar_existencia_lote_pp(Request $request)
+    {
+
+        $data = $this->get_control_pp($request);
+        $cantidad = $request->cantidad;
+        $cantidad_disponible = $data['control']->cantidad_programada;
+
+        if ($cantidad <= $cantidad_disponible) {
+
+
+            $no_orden_produccion = explode(',', $request->no_orden_produccion);
+            $id_producto = $request->id_producto;
+
+            $id_control = $this->get_id_control_trazabilidad($no_orden_produccion, $id_producto);
+
+            $orden_produccion = Operacion::whereIn('id_control', $id_control)
+                ->where('id_producto', $id_producto)
+                ->first();
+
+            $existe_orden_produccion = ($orden_produccion) != null;
+            if (!$existe_orden_produccion) {
+                $orden_produccion = $this->save_orden_produccion($request);
+            }
+            DB::table('control_trazabilidad_orden_produccion')
+                ->where('id_control', $orden_produccion->id_control)
+                ->delete();
+            foreach ($no_orden_produccion as $orden) {
+                $requisicion = Requisicion::where('no_orden_produccion', $orden)->first();
+
+                DB::table('control_trazabilidad_orden_produccion')
+                    ->insert([
+                        'id_control' => $orden_produccion->id_control,
+                        'no_orden_produccion' => $requisicion->no_orden_produccion,
+                        'id_requisicion' => $requisicion->id,
+                        'id_producto' => $id_producto
+                    ]);
+            }
+            $detalle_insumo = new DetalleInsumo();
+            $detalle_insumo->id_control = $orden_produccion->id_control;
+            $detalle_insumo->id_producto = $data['producto']->id_producto;
+            $detalle_insumo->color = 0;
+            $detalle_insumo->olor = 0;
+            $detalle_insumo->impresion = 0;
+            $detalle_insumo->ausencia_material_extranio = 0;
+            $detalle_insumo->lote = $request->lote;
+            $detalle_insumo->fecha_vencimiento = $data['control']->fecha_vencimiento;
+            $detalle_insumo->cantidad = $cantidad;
+            $detalle_insumo->save();
+            $response = [
+                'status' => 1,
+                'message' => 'Ingresado correctamente',
+                'data' => $detalle_insumo
+                    ->with('producto')
+                    ->orderBy('id_detalle_insumo', 'desc')
+                    ->first()
+            ];
+
+        } else {
+            $response = [
+                'status' => 0,
+                'message' => 'La cantidad tiene un excedente',
+                'data' => ''
+            ];
+
+        }
+
+        return response()->json($response);
+
+    }
+
+
+    private function get_control_pp(Request $request)
+    {
+        $codigo_producto = $request->codigo;
+        $lote = $request->lote;
+        $producto = Producto::where('codigo_interno', $codigo_producto)
+            ->esProductoProceso()
+            ->firstOrFail();
+
+        $control = Operacion::where('id_producto', $producto->id_producto)
+            ->where('lote', $lote)->firstOrFail();
+
+        return [
+            'control' => $control,
+            'producto' => $producto
+        ];
+    }
+
 }

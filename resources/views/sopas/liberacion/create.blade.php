@@ -13,8 +13,8 @@
     </div>
 
     @component('componentes.nav',['operation'=>'Crear',
-    'menu_icon'=>'fa fa-check-square-o',
-    'submenu_icon'=>'a fa-line-chart',
+    'menu_icon'=>'fa  fa fa-dot-circle-o',
+    'submenu_icon'=>'fa fa fa-flag-o',
     'operation_icon'=>'fa-plus',])
         @slot('menu')
             Control

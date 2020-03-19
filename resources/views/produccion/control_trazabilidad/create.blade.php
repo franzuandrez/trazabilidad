@@ -183,53 +183,117 @@
             <div class="tab-pane active" id="insumos">
                 <br>
                 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label>CODIGO PRODUCTO</label>
-                        <input type="text"
-                               name="codigo_producto_mp"
-                               id="codigo_producto_mp"
-                               onkeydown="if(event.keyCode==13)buscar_producto_mp_pp()"
-                               placeholder="CODIGO PRODUCTO"
-                               class="form-control">
+                    <label for="tipo_producto">TIPO PRODUCTO</label>
+                    <select class="form-control selectpicker"
+                            onchange="seleccionar_tipo_producto()"
+                            id="tipo_producto">
+                        <option value="MP">MATERIA PRIMA</option>
+                        <option value="PP">PRODUCTO PROCESO</option>
+                    </select>
+                </div>
+                <div id="modulo_materia_prima">
+                    <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+                        <div class="form-group">
+                            <label>CODIGO PRODUCTO</label>
+                            <input type="text"
+                                   name="codigo_producto_mp"
+                                   id="codigo_producto_mp"
+                                   onkeydown="if(event.keyCode==13)buscar_producto_mp_pp()"
+                                   placeholder="CODIGO PRODUCTO"
+                                   class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="lote_producto_mp">LOTE</label>
+                            <input type="text"
+                                   readonly
+                                   name="lote_producto_mp"
+                                   id="lote_producto_mp"
+                                   class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="descripcion_producto_mp">DESCRIPCION</label>
+                            <input type="text"
+                                   readonly
+                                   name="descripcion_producto_mp"
+                                   id="descripcion_producto_mp"
+                                   class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+                        <label for="cantidad_producto_mp">CANTIDAD</label>
+                        <div class="input-group">
+                            <input type="text"
+                                   readonly
+                                   onkeydown="if(event.keyCode==13)verificar_existencia_lote()"
+                                   name="cantidad_producto_mp"
+                                   id="cantidad_producto_mp"
+                                   class="form-control">
+                            <div class="input-group-btn">
+                                <button
+                                    type="button"
+                                    onclick="verificar_existencia_lote()"
+                                    class="btn btn-default">
+                                    <i class="fa fa-plus"
+                                       aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="descripcion_producto_mp">DESCRIPCION</label>
-                        <input type="text"
-                               readonly
-                               name="descripcion_producto_mp"
-                               id="descripcion_producto_mp"
-                               class="form-control">
+                <div id="modulo_proceso" style="display: none">
+                    <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+                        <div class="form-group">
+                            <label>CODIGO PRODUCTO</label>
+                            <input type="text"
+                                   name="codigo_producto_pp"
+                                   id="codigo_producto_pp"
+                                   onkeydown="if(event.keyCode==13)buscar_producto_mp_pp()"
+                                   placeholder="CODIGO PRODUCTO"
+                                   class="form-control">
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="lote_producto_mp">LOTE</label>
-                        <input type="text"
-                               readonly
-                               name="lote_producto_mp"
-                               id="lote_producto_mp"
-                               class="form-control">
+                    <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="lote_producto_pp">LOTE</label>
+                            <input type="text"
+                                   name="lote_producto_pp"
+                                   placeholder="LOTE"
+                                   id="lote_producto_pp"
+                                   class="form-control">
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                    <label for="cantidad_producto_mp">CANTIDAD</label>
-                    <div class="input-group">
-                        <input type="text"
-                               readonly
-                               onkeydown="if(event.keyCode==13)verificar_existencia_lote()"
-                               name="cantidad_producto_mp"
-                               id="cantidad_producto_mp"
-                               class="form-control">
-                        <div class="input-group-btn">
-                            <button
-                                type="button"
-                                onclick="verificar_existencia_lote()"
-                                class="btn btn-default">
-                                <i class="fa fa-plus"
-                                   aria-hidden="true"></i>
-                            </button>
+                    <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="descripcion_producto_pp">DESCRIPCION</label>
+                            <input type="text"
+                                   readonly
+                                   name="descripcion_producto_pp"
+                                   id="descripcion_producto_pp"
+                                   class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+                        <label for="cantidad_producto_pp">CANTIDAD</label>
+                        <div class="input-group">
+                            <input type="text"
+                                   readonly
+                                   onkeydown="if(event.keyCode==13)verificar_existencia_lote_pp()"
+                                   name="cantidad_producto_pp"
+                                   id="cantidad_producto_pp"
+                                   class="form-control">
+                            <div class="input-group-btn">
+                                <button
+                                    type="button"
+                                    onclick="verificar_existencia_lote_pp()"
+                                    class="btn btn-default">
+                                    <i class="fa fa-plus"
+                                       aria-hidden="true"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -597,6 +661,79 @@
             ;
         }
 
+        var cantidad_producto_pp = 0;
+
+        function buscar_producto_pp() {
+            const no_orden_produccion_element = document.getElementById('ordenes');
+            const no_orden_produccion_valida = no_orden_produccion_element.value !== "" && (no_orden_produccion_element.disabled || no_orden_produccion_element.readOnly);
+
+            if (!no_orden_produccion_valida) {
+                alert(" No. orden no valido ");
+                return;
+            }
+            const codigo_barras = document.getElementById('codigo_producto_pp').value;
+            const lote = document.getElementById('lote_producto_pp').value;
+            const query = "?codigo=" + codigo_barras + "&lote=" + lote;
+            $('.loading').show();
+            $.ajax({
+                url: "{{url('produccion/trazabilidad_chao_mein/buscar_producto_pp')}}" + query,
+                type: "GET",
+                success: function (response) {
+                    console.log(response);
+
+                    document.getElementById('descripcion_producto_pp').value = response.data.producto.descripcion;
+                    document.getElementById('cantidad_producto_pp').readOnly = false;
+                    cantidad_producto_pp = response.data.control.cantidad_programada;
+                    $('.loading').hide();
+                }, error: function (e) {
+                    alert("Algo salió mal , error: " + e.responseJSON.message);
+                    $('.loading').hide();
+                }
+            })
+            ;
+        }
+
+        function verificar_existencia_lote_pp() {
+
+            let cantidad_pp = document.getElementById('cantidad_producto_pp').value;
+            if (cantidad_pp > cantidad_producto_pp) {
+                alert("La cantidad excede la existencia");
+                return;
+            }
+            const no_orden_produccion_element = document.getElementById('ordenes');
+            const codigo_barras = document.getElementById('codigo_producto_pp').value;
+            const lote = document.getElementById('lote_producto_pp').value;
+            const cantidad = document.getElementById('cantidad_producto_pp').value;
+            const id_producto = document.getElementById('id_producto').value;
+            const fecha_vencimiento = document.getElementById('best_by').value;
+            const turno = document.getElementById('turno').value;
+            const lote_pt = document.getElementById('lote').value;
+            const cantidad_programada = document.getElementById('cantidad_programada').value;
+
+            let query = "?codigo=" + codigo_barras + "&no_orden_produccion=";
+            query += no_orden_produccion_element.value + "&lote=" + lote + "&cantidad=" + cantidad;
+            query += "&id_producto=" + id_producto + "&turno=" + turno + "&best_by=" + fecha_vencimiento;
+            query += "&cantidad_programada=" + cantidad_programada + "&lote_pt=" + lote_pt;
+            $('.loading').show();
+            $.ajax({
+                url: "{{url('produccion/trazabilidad_chao_mein/verificar_existencia_lote_pp')}}" + query,
+                type: "get",
+                success: function (response) {
+                    console.log(response);
+                    if (response.status === 1) {
+                        agregar_insumo_pp(response.data.id_detalle_insumo);
+                        limpiar_insumo_pp();
+                        set_id_orden(response.data.id_control);
+                    } else {
+                        alert(response.message);
+                    }
+                    $('.loading').hide();
+                }, error: function (e) {
+                    console.log(e);
+                    $('.loading').hide();
+                }
+            });
+        }
 
         function verificar_existencia_lote() {
 
@@ -955,6 +1092,44 @@
 
         }
 
+        function agregar_insumo_pp(id) {
+            const descripcion = document.getElementById('descripcion_producto_pp').value;
+            const lote = document.getElementById('lote_producto_pp').value;
+            const cantidad = document.getElementById('cantidad_producto_pp').value;
+
+
+            let row = `
+                    <tr>
+                        <td>     <input type="hidden" name="id_insumo[]" value="${id}">   ${descripcion}</td>
+                        <td>        <input type="hidden" name="color[]" value="0">
+                                      <input type="checkbox" onclick="asignar(this)">
+                        </td>
+                        <td>
+                             <input type="hidden" name="olor[]" value="0">
+                                      <input type="checkbox" onclick="asignar(this)">
+                        </td>
+                        <td>
+                                  <input type="hidden" name="impresion[]" value="0">
+                                      <input type="checkbox" onclick="asignar(this)">
+                        </td>
+                        <td>
+                                    <input type="hidden" name="ausencia_me[]" value="0">
+                                      <input type="checkbox" onclick="asignar(this)">
+                        </td>
+                        <td>              <input type="hidden" name="lote_pt[]" value="${lote}">
+                                          ${lote}
+                        </td>
+                        <td>                <input type="hidden" name="cantidad[]" value="${cantidad}">
+                                           ${cantidad}
+                        </td>
+                        <td>
+
+                        </td>
+                    </tr>
+            `;
+
+            $('#tbody_insumos').append(row);
+        }
 
         function limpiar_insumo() {
 
@@ -965,6 +1140,26 @@
             document.getElementById('cantidad_producto_mp').readOnly = true;
             document.getElementById('codigo_producto_mp').focus();
 
+        }
+        function limpiar_insumo_pp() {
+            document.getElementById('codigo_producto_pp').value = "";
+            document.getElementById('descripcion_producto_pp').value = "";
+            document.getElementById('lote_producto_pp').value = "";
+            document.getElementById('cantidad_producto_pp').value = "";
+            document.getElementById('cantidad_producto_pp').readOnly = true;
+            document.getElementById('codigo_producto_pp').focus();
+        }
+
+        function seleccionar_tipo_producto() {
+
+            const option_selected = $('#tipo_producto option:selected').val();
+            if (option_selected == "MP") {
+                document.getElementById('modulo_materia_prima').style.display = 'block';
+                document.getElementById('modulo_proceso').style.display = 'none';
+            } else {
+                document.getElementById('modulo_materia_prima').style.display = 'none';
+                document.getElementById('modulo_proceso').style.display = 'block';
+            }
         }
     </script>
 @endsection

@@ -12,8 +12,8 @@
 
 
     @component('componentes.nav',['operation'=>'LIST',
-    'menu_icon'=>'fa fa-check-square-o',
-    'submenu_icon'=>'a fa-line-chart',
+    'menu_icon'=>'fa  fa fa fa-dot-circle-o ',
+    'submenu_icon'=>' fa fa-flag-o',
     'operation_icon'=>'',])
         @slot('menu')
             Control
