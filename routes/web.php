@@ -379,6 +379,20 @@ Route::get('control/peso_humedo/{id}', 'PesoHumedoController@show')->name('peso_
 Route::get('control/peso_humedo/reporte/{id}', 'ReporteLineaChaomein@reporte_peso_humedo')->name('peso_humedo.reporte');
 Route::post('control/peso_humedo/{id}', 'PesoHumedoController@destroy')->name('peso_humedo.destroy');
 
+Route::get('control/secado', 'SecadoController@index')->name('secado.index');
+Route::get('control/secado/create', 'SecadoController@create')->name('secado.create');
+Route::post('control/secado/create', 'SecadoController@store')->name('secado.store');
+Route::post('control/secado/iniciar_laminado', 'SecadoController@iniciar_laminado')->name('secado.iniciar_laminado');
+Route::post('control/secado/iniciar_formulario', 'SecadoController@iniciar_formulario')->name('secado.iniciar_formulario');
+Route::post('control/secado/insertar_detalle', 'SecadoController@insertar_detalle')->name('secado.insertar_detalle');
+Route::post('control/secado/nuevo_registro', 'SecadoController@nuevo_registro')->name('secado.nuevo_registro');
+Route::post('control/secado/borrar_detalle', 'SecadoController@borrar_detalle')->name('secado.borrar_detalle');
+Route::get('control/secado/{id}/edit', 'SecadoController@edit')->name('secado.edit');
+Route::patch('control/secado/{id}', 'SecadoController@update')->name('secado.update');
+Route::get('control/secado/{id}', 'SecadoController@show')->name('secado.show');
+Route::get('control/secado/reporte/{id}', 'SecadoController@reporte_peso_humedo')->name('secado.reporte');
+Route::post('control/secado/{id}', 'SecadoController@destroy')->name('secado.destroy');
+
 Route::get('control/peso_seco', 'PesoSecoController@index')->name('peso_seco.index');
 Route::get('control/peso_seco/create', 'PesoSecoController@create')->name('peso_seco.create');
 Route::post('control/peso_seco/create', 'PesoSecoController@store')->name('peso_seco.store');
