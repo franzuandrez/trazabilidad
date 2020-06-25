@@ -502,10 +502,13 @@
             let hora_carga2 = moment(moment().format('YYYY-MM-DD') + " " + document.getElementById('hora_inicio_mezcla-' + id).value);
             var observaciones = document.getElementById('observaciones-' + id).value;
             let hora_top = hora_carga2.add(segundo_optimos, 'seconds');
-            if (hora_top.isBefore(moment())) {
-                observaciones = observaciones + " ,excedente de " + moment().diff(hora_carga.add(segundo_optimos, 'seconds'), 'seconds') + " segundos";
+            if (hora_top.isBefore(moment(),'minutes')) {
+                observaciones = observaciones + " excedente de " + moment().diff(hora_carga.add(segundo_optimos, 'seconds'), 'minutes') + " minutos";
                 document.getElementById('observaciones-' + id).parentNode.innerText = observaciones;
-
+            }
+            if (hora_top.isAfter(moment(),'minutes')) {
+                observaciones = observaciones + "  " + moment().diff(hora_carga.add(segundo_optimos, 'seconds'), 'minutes') + " minutos antes";
+                document.getElementById('observaciones-' + id).parentNode.innerText = observaciones;
             }
             hora_descarga.parentNode.innerText = moment().format('HH:mm:ss');
             hora_descarga.value = moment().format('HH:mm:ss');
