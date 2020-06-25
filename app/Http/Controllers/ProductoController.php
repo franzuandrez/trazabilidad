@@ -327,22 +327,27 @@ class ProductoController extends Controller
 
 
                     if ($tipo_producto == "PT") {
-                        $producto = Producto::where('codigo_interno', $value[0])
+                        $producto = Producto::where('codigo_interno', $value[2])
                             ->first();
-
                         if ($producto != null) {
-                            $producto->descripcion = $value[1];
-                            $producto->unidad_medida = $value[2];
+                            $producto->codigo_barras = $value[0];
+                            $producto->codigo_dun = $value[1];
+                            $producto->descripcion = $value[3];
+                            $producto->cantidad_unidades = $value[4];
+                            $producto->unidad_medida = $value[5];
                             $producto->tipo_producto = "PT";
-                            $producto->dias_vencimiento = $value[3];
+                            $producto->dias_vencimiento = $value[6];
                             $producto->update();
                         } else {
                             $producto = new Producto();
-                            $producto->codigo_interno = $value[0];
-                            $producto->descripcion = $value[1];
-                            $producto->unidad_medida = $value[2];
+                            $producto->codigo_barras = $value[0];
+                            $producto->codigo_dun = $value[1];
+                            $producto->codigo_interno = $value[2];
+                            $producto->descripcion = $value[3];
+                            $producto->cantidad_unidades = $value[4];
+                            $producto->unidad_medida = $value[5];
                             $producto->tipo_producto = "PT";
-                            $producto->dias_vencimiento = $value[3];
+                            $producto->dias_vencimiento = $value[6];
                             $producto->save();
                         }
 
