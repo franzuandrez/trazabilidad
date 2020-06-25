@@ -253,7 +253,7 @@ function mostrar_observaciones(hora,ultimo_registro,tiempo=15) {
         ultimo_registro = moment(moment().format('Y-MM-DD') + " " + ultimo_registro);
 
         if (ultimo_registro.clone().add(tiempo, 'minutes').isAfter(hora, 'minute')) {
-            observaciones = hora.clone().diff(ultimo_registro.add(tiempo ,'minutes'), 'minutes') + " minutos antes";
+            observaciones = ultimo_registro.clone().add(tiempo, 'minutes').diff(hora, 'minutes') + " minutos antes";
         }
         if (ultimo_registro.clone().add(tiempo, 'minutes').isBefore(hora, 'minute')) {
             observaciones = "Excede " + ultimo_registro.clone().add(tiempo, 'minutes').diff(hora, 'minutes') + " minutos";

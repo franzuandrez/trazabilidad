@@ -535,11 +535,11 @@
             var observaciones = document.getElementById('solucion_observacion-' + id).value;
             let hora_top = hora_carga2.add(segundo_optimos, 'seconds');
             if (hora_top.isBefore(moment(),'minutes')) {
-                observaciones = observaciones + " excedente de " + moment().diff(hora_carga.add(segundo_optimos, 'seconds'), 'minutes') + " minutos";
+                observaciones = observaciones + " excedente de " + hora_carga.add(segundo_optimos, 'seconds').diff(moment(), 'minutes') + " minutos";
                 document.getElementById('solucion_observacion-' + id).parentNode.innerText = observaciones;
             }
             if (hora_top.isAfter(moment(),'minutes')) {
-                observaciones = observaciones + "  " + moment().diff(hora_carga.add(segundo_optimos, 'seconds'), 'minutes') + " minutos antes";
+                observaciones = observaciones + "  " + hora_carga.add(segundo_optimos, 'seconds').diff(moment(), 'minutes') + " minutos antes";
                 document.getElementById('solucion_observacion-' + id).parentNode.innerText = observaciones;
             }
             hora_descarga.parentNode.innerText = moment().format('HH:mm:ss');

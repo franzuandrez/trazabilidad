@@ -1064,5 +1064,16 @@
             $(select).selectpicker('refresh');
 
         }
+
+        function continuar_liberacion() {
+
+            const total_faltante = Array.prototype.slice.call(document.getElementsByClassName('valor')).filter(e => e.value == "" && e.tagName != "DIV").length;
+            if (total_faltante > 0) {
+                buscar_siguiente();
+                start_job("{{url('sopas/liberacion/nuevo_registro')}}", document.getElementById('id_sopa').value);
+            }
+        }
+
+        continuar_liberacion();
     </script>
 @endsection

@@ -251,7 +251,7 @@
                             <input type="text"
                                    name="codigo_producto_pp"
                                    id="codigo_producto_pp"
-                                   onkeydown="if(event.keyCode==13)buscar_producto_mp_pp()"
+
                                    placeholder="CODIGO PRODUCTO"
                                    class="form-control">
                         </div>
