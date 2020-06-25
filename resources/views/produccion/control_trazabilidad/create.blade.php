@@ -262,6 +262,7 @@
                             <input type="text"
                                    name="lote_producto_pp"
                                    placeholder="LOTE"
+                                   onkeydown="if(event.keyCode==13)buscar_producto_pp()"
                                    id="lote_producto_pp"
                                    class="form-control">
                         </div>
