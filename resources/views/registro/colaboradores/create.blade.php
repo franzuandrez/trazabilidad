@@ -20,7 +20,7 @@
             <label for=codigo_barras"">
                 CODIGO
             </label>
-            <input type="text" name="codigo_barras" value="{{old('codigo_barras')}}" required
+            <input type="text" name="codigo_barras" value="{{old('codigo_barras')}}" readonly
                    class="form-control">
         </div>
     </div>

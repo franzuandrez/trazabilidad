@@ -25,7 +25,6 @@ class ColaboradorRequest extends FormRequest
     {
         return [
             //
-            'codigo_barras' => 'required',
             'nombre' => 'required',
             'apellido' => 'required'
         ];

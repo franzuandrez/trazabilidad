@@ -21,6 +21,7 @@
                 CODIGO
             </label>
             <input type="text" name="codigo_barras" value="{{$colaborador->codigo_barras}}" required
+                   readonly
                    class="form-control">
         </div>
     </div>
