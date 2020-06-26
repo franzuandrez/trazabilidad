@@ -274,7 +274,6 @@ Route::get('recepcion/kardex/reporte', 'MovimientoController@reporte_excel')->na
 Route::get('movimientos/existencia/productos', 'MovimientoController@existencia')->name('movimientos.existencia.productos');
 
 
-
 Route::get('control/verificacion_materias_chao', 'VerificacionMateriasChaoController@index')->name('verificacion_materias_chao.index');
 Route::get('control/verificacion_materias_chao/create', 'VerificacionMateriasChaoController@create')->name('verificacion_materias_chao.insertar_detalle.create');
 Route::post('control/verificacion_materias_chao/create', 'VerificacionMateriasChaoController@store')->name('verificacion_materias_chao.insertar_detalle.store');
@@ -294,7 +293,6 @@ Route::get('control/verificacion_materias_chao/reporte/{id}', 'ReporteLineaChaom
 Route::patch('control/verificacion_materias_chao/{id}', 'VerificacionMateriasChaoController@update')->name('verificacion_materias_chao.update');
 Route::get('control/verificacion_materias_chao/{id}', 'VerificacionMateriasChaoController@show')->name('verificacion_materias_chao.show');
 Route::post('control/verificacion_materias_chao/{id}', 'VerificacionMateriasChaoController@destroy')->name('verificacion_materias_chao.destroy');
-
 
 
 Route::get('control/chaomin', 'ChaomeanController@index')->name('chaomin.index');
@@ -540,3 +538,5 @@ Route::get('sopas/liberacion/reporte/{id}', 'ReporteLineaSopas@linea_sopas')->na
 
 Route::get('consultas/trazabilidad', 'ConsultaTrazabilidadController@index')->name('consulta.trazabilidad');
 
+Route::get('reimpresion', 'ReimpresionController@index')->name('reimpresion.index');
+Route::post('reimpresion/reimprimir', 'ReimpresionController@reimprimir')->name('reimpresion.reimprimir');
