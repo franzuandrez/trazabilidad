@@ -424,6 +424,8 @@
 @section('scripts')
     <script src="{{asset('js/moment.min.js')}}">
     </script>
+    <script src="{{asset('js/moment-with-locales.js')}}">
+    </script>
     <script src="{{asset('js-brc/tools/lectura_codigo.js')}}">
     </script>
     <script>
@@ -722,7 +724,7 @@
                 success: function (response) {
                     console.log(response);
                     if (response.status === 1) {
-                        agregar_insumo_pp(response.data.id_detalle_insumo);
+                        agregar_insumo_pp(response.data.id_detalle_insumo,response.data.fecha_vencimiento);
                         limpiar_insumo_pp();
                         set_id_orden(response.data.id_control);
                     } else {
@@ -767,9 +769,10 @@
                 type: "get",
                 success: function (response) {
                     if (response.status === 1) {
-                        agregar_insumo(response.data.id_detalle_insumo);
+                        agregar_insumo(response.data.id_detalle_insumo,response.data.fecha_vencimiento);
                         limpiar_insumo();
                         set_id_orden(response.data.id_control);
+
                     } else {
                         alert(response.message);
                     }
@@ -1051,12 +1054,12 @@
             }
         }
 
-        function agregar_insumo(id) {
+        function agregar_insumo(id,fecha_vencimiento) {
 
             const descripcion = document.getElementById('descripcion_producto_mp').value;
             const lote = document.getElementById('lote_producto_mp').value;
             const cantidad = document.getElementById('cantidad_producto_mp').value;
-
+            let fecha_ven = moment(fecha_vencimiento).format('DD/MM/Y');
 
             let row = `
                     <tr>
@@ -1083,7 +1086,8 @@
                                            ${cantidad}
                         </td>
                         <td>
-
+                                           <input type="hidden" name="fecha_vencimiento[]" value="${fecha_ven}">
+                                           ${fecha_ven}
                         </td>
                     </tr>
             `;
@@ -1093,12 +1097,12 @@
 
         }
 
-        function agregar_insumo_pp(id) {
+        function agregar_insumo_pp(id,fecha_vencimiento) {
             const descripcion = document.getElementById('descripcion_producto_pp').value;
             const lote = document.getElementById('lote_producto_pp').value;
             const cantidad = document.getElementById('cantidad_producto_pp').value;
 
-
+            let fecha_ven = moment(fecha_vencimiento).format('DD/MM/Y');
             let row = `
                     <tr>
                         <td>     <input type="hidden" name="id_insumo[]" value="${id}">   ${descripcion}</td>
@@ -1124,7 +1128,8 @@
                                            ${cantidad}
                         </td>
                         <td>
-
+                              <input type="hidden" name="fecha_ven[]" value="${fecha_ven}">
+                                                                       ${fecha_ven}
                         </td>
                     </tr>
             `;
