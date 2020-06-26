@@ -139,6 +139,8 @@ class ProductoController extends Controller
         $producto->fecha_creacion = \Carbon\Carbon::now();
         $producto->estado = 1;
         $producto->unidad_medida = $request->get('unidad_medida');
+        $producto->codigo_dun = $request->get('codigo_dun');
+        $producto->cantidad_unidades = $request->get('cantidad_unidades');
         $producto->creado_por = \Auth::user()->id;
         $producto->save();
         $producto->presentaciones()->sync($request->id_presentacion);
@@ -203,6 +205,8 @@ class ProductoController extends Controller
             $producto->codigo_interno_cliente = $request->get('codigo_interno_cliente');
             $producto->unidad_medida = $request->get('unidad_medida');
             $producto->fecha_actualizacion = \Carbon\Carbon::now();
+            $producto->codigo_dun = $request->get('codigo_dun');
+            $producto->cantidad_unidades = $request->get('cantidad_unidades');
             $producto->update();
 
             $producto->presentaciones()->sync($request->id_presentacion);

@@ -129,6 +129,20 @@
             </select>
         </div>
     </div>
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="codigo_dun">CODIGO DUN 14</label>
+            <input type="text" name="codigo_dun" value="{{$producto->codigo_dun}}"
+                   class="form-control">
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="cantidad_unidades">CANTIDAD DE UNIDADES</label>
+            <input type="number" name="cantidad_unidades" value="{{$producto->cantidad_unidades}}"
+                   class="form-control">
+        </div>
+    </div>
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
             <button class="btn btn-default" type="submit">
