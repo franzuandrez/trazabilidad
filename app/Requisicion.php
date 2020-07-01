@@ -5,6 +5,43 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
+/**
+ * App\Requisicion
+ *
+ * @property int $id
+ * @property string|null $no_requision
+ * @property string|null $no_orden_produccion
+ * @property \Illuminate\Support\Carbon|null $fecha_ingreso
+ * @property int|null $id_usuario_ingreso
+ * @property int|null $id_usuario_aprobo
+ * @property string|null $estado
+ * @property string|null $fecha_actualizacion
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\RequisicionDetalle[] $detalle
+ * @property-read int|null $detalle_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\ReservaPicking[] $reservas
+ * @property-read int|null $reservas_count
+ * @property-read \App\User|null $usuario_aprobo
+ * @property-read \App\User|null $usuario_ingreso
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Requisicion deUsuarioRecepcion($type)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Requisicion despachada()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Requisicion enProceso()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Requisicion enReserva()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Requisicion newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Requisicion newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Requisicion noDeBaja()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Requisicion query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Requisicion whereEstado($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Requisicion whereFechaActualizacion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Requisicion whereFechaIngreso($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Requisicion whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Requisicion whereIdUsuarioAprobo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Requisicion whereIdUsuarioIngreso($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Requisicion whereNoOrdenProduccion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Requisicion whereNoRequision($value)
+ * @mixin \Eloquent
+ */
 class Requisicion extends Model
 {
     //

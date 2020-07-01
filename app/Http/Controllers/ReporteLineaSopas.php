@@ -33,7 +33,6 @@ class ReporteLineaSopas extends Controller
             ->without('control_trazabilidad')
             ->select(
                 'productos.descripcion as PRODUCTO',
-                'sopas.lote as LOTE',
                 'presentaciones.descripcion as PRESENTACION',
                 'users.nombre as RESPONSABLE',
                 'sopas.id_turno as TURNO'

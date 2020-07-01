@@ -4,6 +4,69 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Movimiento
+ *
+ * @property int $id_movimiento
+ * @property string|null $numero_documento
+ * @property \App\User|null $usuario
+ * @property int|null $tipo_movimiento
+ * @property float|null $cantidad
+ * @property int|null $id_producto
+ * @property string|null $fecha_hora_movimiento
+ * @property string|null $ubicacion
+ * @property string|null $lote
+ * @property string|null $fecha_vencimiento
+ * @property string|null $clave_autorizacion
+ * @property int|null $usuario_autorizo
+ * @property string|null $estado
+ * @property int|null $id_localidad
+ * @property int|null $id_bodega
+ * @property int|null $id_sector
+ * @property int|null $id_pasillo
+ * @property int|null $id_rack
+ * @property int|null $id_nivel
+ * @property int|null $id_posicion
+ * @property int|null $id_bin
+ * @property string|null $observaciones
+ * @property-read \App\Bin|null $bin
+ * @property-read \App\Bodega|null $bodega
+ * @property-read \App\Localidad|null $localidad
+ * @property-read \App\Nivel|null $nivel
+ * @property-read \App\Recepcion $orden_compra
+ * @property-read \App\Pasillo|null $pasillo
+ * @property-read \App\Posicion|null $posicion
+ * @property-read \App\Producto|null $producto
+ * @property-read \App\Rack|null $rack
+ * @property-read \App\Sector|null $sector
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Movimiento enTransito()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Movimiento newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Movimiento newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Movimiento query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Movimiento whereCantidad($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Movimiento whereClaveAutorizacion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Movimiento whereEstado($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Movimiento whereFechaHoraMovimiento($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Movimiento whereFechaVencimiento($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Movimiento whereIdBin($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Movimiento whereIdBodega($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Movimiento whereIdLocalidad($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Movimiento whereIdMovimiento($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Movimiento whereIdNivel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Movimiento whereIdPasillo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Movimiento whereIdPosicion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Movimiento whereIdProducto($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Movimiento whereIdRack($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Movimiento whereIdSector($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Movimiento whereLote($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Movimiento whereNumeroDocumento($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Movimiento whereObservaciones($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Movimiento whereTipoMovimiento($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Movimiento whereUbicacion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Movimiento whereUsuario($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Movimiento whereUsuarioAutorizo($value)
+ * @mixin \Eloquent
+ */
 class Movimiento extends Model
 {
     //

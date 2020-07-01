@@ -5,6 +5,32 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
+/**
+ * App\Posicion
+ *
+ * @property int $id_posicion
+ * @property int|null $id_nivel
+ * @property string|null $codigo_barras
+ * @property string|null $descripcion
+ * @property string|null $estado
+ * @property int|null $codigo_interno
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Bin[] $bines
+ * @property-read int|null $bines_count
+ * @property-read \App\Nivel|null $nivel
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Posicion actived()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Posicion newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Posicion newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Posicion query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Posicion whereCodigoBarras($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Posicion whereCodigoInterno($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Posicion whereDescripcion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Posicion whereEstado($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Posicion whereIdNivel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Posicion whereIdPosicion($value)
+ * @mixin \Eloquent
+ */
 class Posicion extends Model
 {
     //

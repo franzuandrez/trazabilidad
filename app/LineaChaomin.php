@@ -5,6 +5,129 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
+/**
+ * App\LineaChaomin
+ *
+ * @property int $id_chaomin
+ * @property int|null $id_control
+ * @property int|null $id_producto
+ * @property string|null $no_orden_produccion
+ * @property string|null $id_presentacion
+ * @property string|null $id_turno
+ * @property string|null $cant_solucion_carga
+ * @property string|null $cantidad_solucion_observacion
+ * @property string|null $ph_solucion_inicial
+ * @property string|null $ph_solucion_observacion
+ * @property string|null $mezcla_seca_inicial
+ * @property string|null $mezcla_seca_observacion
+ * @property string|null $mezcla_alta_inicial
+ * @property string|null $mezcla_alta_observacion
+ * @property string|null $mezcla_baja_inicial
+ * @property string|null $mezcla_baja_observacion
+ * @property string|null $temperatura_reposo_inicial
+ * @property string|null $temperatura_reposo_observacion
+ * @property string|null $ancho_cartucho_inicial
+ * @property string|null $ancho_cartucho_observacion
+ * @property string|null $temperatura_precocedora_1_inicial
+ * @property string|null $temperatura_precocedora_1_observacion
+ * @property string|null $tiempo_precocedora_1_inicial
+ * @property string|null $tiempo_precocedora_1_observacion
+ * @property string|null $temperatura_precocedora_2_inicial
+ * @property string|null $temperatura_precocedora_2_observacion
+ * @property string|null $tiempo_precocedora_2_inicial
+ * @property string|null $tiempo_precocedora_2_observacion
+ * @property string|null $temperatura_central_inicial
+ * @property string|null $temperatura_central_observaciones
+ * @property string|null $velocidad_pass200_inicial
+ * @property string|null $velocidad_pass200_observaciones
+ * @property string|null $velocidad_pasc180_inicial
+ * @property string|null $velocidad_pasc180_observaciones
+ * @property string|null $velocidad_pask180_inicial
+ * @property string|null $velocidad_pask180_observaciones
+ * @property string|null $velocidad_pasi180_inicial
+ * @property string|null $velocidad_pasi180_observaciones
+ * @property string|null $velocidad_pasm160_inicial
+ * @property string|null $velocidad_pasm160_observaciones
+ * @property string|null $extractor_activo_inicial
+ * @property string|null $extractor_activo_observaciones
+ * @property string|null $ventilacion_inicial
+ * @property string|null $verificacion_codificacion_lote
+ * @property string|null $verificacion_codificacion_vence
+ * @property string|null $verificacion_codificacion_obs
+ * @property string|null $ventilacion_observacion
+ * @property \Illuminate\Support\Carbon|null $fecha
+ * @property string|null $responsable
+ * @property string|null $maquina_inicial_1
+ * @property string|null $sellos_observaciones
+ * @property string|null $maquina_inicial_2
+ * @property string|null $sellos_observaciones_2
+ * @property string|null $estado
+ * @property string|null $observaciones_acciones
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
+ * @property-read \App\Operacion|null $control_trazabilidad
+ * @property-read \App\Presentacion|null $presentacion
+ * @property-read \App\Producto|null $producto
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereAnchoCartuchoInicial($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereAnchoCartuchoObservacion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereCantSolucionCarga($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereCantidadSolucionObservacion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereEstado($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereExtractorActivoInicial($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereExtractorActivoObservaciones($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereFecha($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereIdChaomin($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereIdControl($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereIdPresentacion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereIdProducto($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereIdTurno($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereMaquinaInicial1($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereMaquinaInicial2($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereMezclaAltaInicial($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereMezclaAltaObservacion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereMezclaBajaInicial($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereMezclaBajaObservacion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereMezclaSecaInicial($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereMezclaSecaObservacion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereNoOrdenProduccion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereObservacionesAcciones($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin wherePhSolucionInicial($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin wherePhSolucionObservacion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereResponsable($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereSellosObservaciones($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereSellosObservaciones2($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereTemperaturaCentralInicial($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereTemperaturaCentralObservaciones($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereTemperaturaPrecocedora1Inicial($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereTemperaturaPrecocedora1Observacion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereTemperaturaPrecocedora2Inicial($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereTemperaturaPrecocedora2Observacion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereTemperaturaReposoInicial($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereTemperaturaReposoObservacion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereTiempoPrecocedora1Inicial($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereTiempoPrecocedora1Observacion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereTiempoPrecocedora2Inicial($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereTiempoPrecocedora2Observacion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereVelocidadPasc180Inicial($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereVelocidadPasc180Observaciones($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereVelocidadPasi180Inicial($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereVelocidadPasi180Observaciones($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereVelocidadPask180Inicial($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereVelocidadPask180Observaciones($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereVelocidadPasm160Inicial($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereVelocidadPasm160Observaciones($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereVelocidadPass200Inicial($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereVelocidadPass200Observaciones($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereVentilacionInicial($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereVentilacionObservacion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereVerificacionCodificacionLote($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereVerificacionCodificacionObs($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LineaChaomin whereVerificacionCodificacionVence($value)
+ * @mixin \Eloquent
+ */
 class LineaChaomin extends Model
 {
     //

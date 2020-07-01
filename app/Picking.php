@@ -4,6 +4,27 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Picking
+ *
+ * @property int $id_picking
+ * @property int|null $id_usuario
+ * @property \Illuminate\Support\Carbon|null $fecha_inicio
+ * @property \Illuminate\Support\Carbon|null $fecha_fin
+ * @property string|null $estado
+ * @property int|null $id_requisicion
+ * @property-read \App\User|null $bodeguero
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Picking newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Picking newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Picking query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Picking whereEstado($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Picking whereFechaFin($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Picking whereFechaInicio($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Picking whereIdPicking($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Picking whereIdRequisicion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Picking whereIdUsuario($value)
+ * @mixin \Eloquent
+ */
 class Picking extends Model
 {
     //

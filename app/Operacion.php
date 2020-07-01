@@ -4,6 +4,49 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Operacion
+ *
+ * @property int $id_control
+ * @property int|null $id_producto
+ * @property int|null $id_turno
+ * @property string|null $hora_inicio
+ * @property string|null $hora_fin
+ * @property \Illuminate\Support\Carbon|null $fecha_vencimiento
+ * @property float|null $cantidad_producida
+ * @property float|null $cantidad_programada
+ * @property string|null $lote
+ * @property string|null $no_orden_produccion
+ * @property int|null $id_usuario
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\OperariosInvolucrados[] $asistencias
+ * @property-read int|null $asistencias_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\DetalleInsumo[] $detalle_insumos
+ * @property-read int|null $detalle_insumos_count
+ * @property-read \App\LineaChaomin|null $liberacion_linea
+ * @property-read \App\LineaSopa|null $liberacion_sopas
+ * @property-read \App\Producto|null $producto
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Requisicion[] $requisiciones
+ * @property-read int|null $requisiciones_count
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Operacion newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Operacion newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Operacion query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Operacion whereCantidadProducida($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Operacion whereCantidadProgramada($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Operacion whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Operacion whereFechaVencimiento($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Operacion whereHoraFin($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Operacion whereHoraInicio($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Operacion whereIdControl($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Operacion whereIdProducto($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Operacion whereIdTurno($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Operacion whereIdUsuario($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Operacion whereLote($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Operacion whereNoOrdenProduccion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Operacion whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class Operacion extends Model
 {
     //

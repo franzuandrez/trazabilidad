@@ -4,6 +4,33 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\PrecocidoEnc
+ *
+ * @property int $id_precocido_enc
+ * @property string|null $turno
+ * @property string|null $fecha_ingreso
+ * @property int|null $id_usuario
+ * @property string|null $observaciones
+ * @property string|null $no_orden
+ * @property int|null $id_control
+ * @property string|null $lote
+ * @property-read \App\Operacion|null $control_trazabilidad
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\PrecocidoDet[] $detalle
+ * @property-read int|null $detalle_count
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\PrecocidoEnc newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\PrecocidoEnc newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\PrecocidoEnc query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\PrecocidoEnc whereFechaIngreso($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\PrecocidoEnc whereIdControl($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\PrecocidoEnc whereIdPrecocidoEnc($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\PrecocidoEnc whereIdUsuario($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\PrecocidoEnc whereLote($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\PrecocidoEnc whereNoOrden($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\PrecocidoEnc whereObservaciones($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\PrecocidoEnc whereTurno($value)
+ * @mixin \Eloquent
+ */
 class PrecocidoEnc extends Model
 {
     //

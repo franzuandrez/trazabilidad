@@ -5,6 +5,35 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
+/**
+ * App\RequisicionDetalle
+ *
+ * @property int $id
+ * @property int $id_requisicion_encabezado
+ * @property string|null $orden_requisicion
+ * @property string|null $orden_produccion
+ * @property int|null $id_producto
+ * @property float|null $cantidad
+ * @property string|null $estado
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
+ * @property-read \App\Producto|null $producto
+ * @property-read \App\Requisicion $requision_encabezado
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\RequisicionDetalle despachado()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\RequisicionDetalle newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\RequisicionDetalle newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\RequisicionDetalle proceso()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\RequisicionDetalle query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\RequisicionDetalle reservado()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\RequisicionDetalle whereCantidad($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\RequisicionDetalle whereEstado($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\RequisicionDetalle whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\RequisicionDetalle whereIdProducto($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\RequisicionDetalle whereIdRequisicionEncabezado($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\RequisicionDetalle whereOrdenProduccion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\RequisicionDetalle whereOrdenRequisicion($value)
+ * @mixin \Eloquent
+ */
 class RequisicionDetalle extends Model
 {
     //

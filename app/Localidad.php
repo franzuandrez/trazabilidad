@@ -5,6 +5,34 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
+/**
+ * App\Localidad
+ *
+ * @property int $id_localidad
+ * @property string|null $codigo_barras
+ * @property string|null $descripcion
+ * @property string|null $direccion
+ * @property int|null $id_encargado
+ * @property string|null $estado
+ * @property int|null $codigo_interno
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Bodega[] $bodegas
+ * @property-read int|null $bodegas_count
+ * @property-read \App\User|null $encargado
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Localidad actived()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Localidad newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Localidad newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Localidad query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Localidad whereCodigoBarras($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Localidad whereCodigoInterno($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Localidad whereDescripcion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Localidad whereDireccion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Localidad whereEstado($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Localidad whereIdEncargado($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Localidad whereIdLocalidad($value)
+ * @mixin \Eloquent
+ */
 class Localidad extends Model
 {
     //

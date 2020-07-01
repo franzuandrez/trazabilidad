@@ -4,6 +4,35 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\OperariosInvolucrados
+ *
+ * @property int $id
+ * @property int|null $id_colaborador
+ * @property int|null $id_actividad
+ * @property int|null $id_control
+ * @property \Illuminate\Support\Carbon|null $fecha_hora_asociacion
+ * @property \Illuminate\Support\Carbon|null $fecha_asistencia
+ * @property string|null $asistio
+ * @property string|null $no_orden_produccion
+ * @property \Illuminate\Support\Carbon|null $fecha_hora_fin
+ * @property-read \App\Actividad|null $actividad
+ * @property-read \App\Colaborador|null $colaborador
+ * @property-read \App\Operacion|null $operacion
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\OperariosInvolucrados newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\OperariosInvolucrados newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\OperariosInvolucrados query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\OperariosInvolucrados whereAsistio($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\OperariosInvolucrados whereFechaAsistencia($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\OperariosInvolucrados whereFechaHoraAsociacion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\OperariosInvolucrados whereFechaHoraFin($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\OperariosInvolucrados whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\OperariosInvolucrados whereIdActividad($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\OperariosInvolucrados whereIdColaborador($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\OperariosInvolucrados whereIdControl($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\OperariosInvolucrados whereNoOrdenProduccion($value)
+ * @mixin \Eloquent
+ */
 class OperariosInvolucrados extends Model
 {
     //
