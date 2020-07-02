@@ -2,24 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\DetalleLotes;
+
 use App\Http\Requests\MateriaPrimaRequest;
-use App\Http\Tools\Impresiones;
-use App\Http\tools\Movimientos;
-use App\InspeccionEmpaqueEtiqueta;
-use App\InspeccionVehiculo;
-use App\Movimiento;
 use App\Producto;
 use App\Proveedor;
 use App\Recepcion;
+use App\Repository\MovimientoRepository;
+use App\Repository\RecepcionRepository;
 use App\RMIDetalle;
-use App\RMIEncabezado;
 use App\Sector;
 use App\User;
-use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+
 
 class RecepcionController extends Controller
 {
@@ -97,30 +92,8 @@ class RecepcionController extends Controller
 
         try {
             DB::beginTransaction();
-
-            //Insertar recepcion encabezado.
-
-            $recepcion = new Recepcion();
-            $recepcion->id_proveedor = $request->get('id_proveedor');
-            $recepcion->fecha_ingreso = Carbon::now();
-            $recepcion->documento_proveedor = $request->get('documento_proveedor');
-            $recepcion->orden_compra = $request->get('orden_compra');
-            $recepcion->usuario_recepcion = \Auth::user()->id;
-            $recepcion->save();
-
-
-            $this->saveInspeccionVehiculo($request, $recepcion->id_recepcion_enc);
-
-
-            $this->saveInspeccionEmpaque($request, $recepcion->id_recepcion_enc);
-
-
-            $this->saveDetalleLotes($request, $recepcion->id_recepcion_enc);
-
-            $id_rmi_encabezado = $this->saveRMIEncabezado($recepcion->orden_compra, 'MP');
-
-            $this->saveRMIDetalle($request, $id_rmi_encabezado, 'RAMPA');
-
+            $recepcion = new RecepcionRepository();
+            $recepcion->saveRecepcion($request);
             DB::commit();
 
             return redirect()->route('recepcion.materia_prima.index')
@@ -137,198 +110,6 @@ class RecepcionController extends Controller
 
     }
 
-    private function getValueCheched($value)
-    {
-
-        return $value != 1 ? 0 : 1;
-
-    }
-
-    private function saveInspeccionVehiculo($request, $id_recepcion)
-    {
-
-        $proveedor_aprobado = $this->getValueCheched($request->get('proveedor_aprobado'));
-        $producto_acorde_compra = $this->getValueCheched($request->get('producto_acorde_compra'));
-        $cantidad_acorde_compra = $this->getValueCheched($request->get('cantidad_acorde_compra'));
-        $certificado_existente = $this->getValueCheched($request->get('certificado_existente'));
-        $certificado_correspondiente_lote = $this->getValueCheched($request->get('certificado_correspondiente_lote'));
-        $certificado_correspondiente_especificacion = $this->getValueCheched($request->get('certificado_correspondiente_especificacion'));
-        $sin_polvo = $this->getValueCheched($request->get('sin_polvo'));
-        $sin_material_ajeno = $this->getValueCheched($request->get('sin_material_ajeno'));
-        $ausencia_plagas = $this->getValueCheched($request->get('ausencia_plagas'));
-        $sin_humedad = $this->getValueCheched($request->get('sin_humedad'));
-        $sin_oxido = $this->getValueCheched($request->get('sin_oxido'));
-        $ausencia_olores_extranios = $this->getValueCheched($request->get('ausencia_olores_extranios'));
-        $ausencia_material_extranio = $this->getValueCheched($request->get('ausencia_material_extranio'));
-        $cerrado = $this->getValueCheched($request->get('cerrado'));
-        $sin_agujeros = $this->getValueCheched($request->get('sin_agujeros'));
-        $observaciones_vehiculo = $request->get('observaciones_vehiculo');
-
-        $inspeccionVehiculo = new InspeccionVehiculo();
-        $inspeccionVehiculo->id_recepcion_enc = $id_recepcion;
-        $inspeccionVehiculo->proveedor_aprobado = $proveedor_aprobado;
-        $inspeccionVehiculo->producto_acorde_compra = $producto_acorde_compra;
-        $inspeccionVehiculo->cantidad_acorde_compra = $cantidad_acorde_compra;
-        $inspeccionVehiculo->certificado_existente = $certificado_existente;
-        $inspeccionVehiculo->certificado_correspondiente_lote = $certificado_correspondiente_lote;
-        $inspeccionVehiculo->certificado_correspondiente_especificacion = $certificado_correspondiente_especificacion;
-        $inspeccionVehiculo->sin_polvo = $sin_polvo;
-        $inspeccionVehiculo->sin_material_ajeno = $sin_material_ajeno;
-        $inspeccionVehiculo->ausencia_plagas = $ausencia_plagas;
-        $inspeccionVehiculo->sin_humedad = $sin_humedad;
-        $inspeccionVehiculo->sin_oxido = $sin_oxido;
-        $inspeccionVehiculo->ausencia_olores_extranios = $ausencia_olores_extranios;
-        $inspeccionVehiculo->ausencia_material_extranio = $ausencia_material_extranio;
-        $inspeccionVehiculo->sin_agujeros = $sin_agujeros;
-        $inspeccionVehiculo->cerrado = $cerrado;
-        $inspeccionVehiculo->observaciones = $observaciones_vehiculo;
-        $inspeccionVehiculo->save();
-
-
-    }
-
-    private function saveInspeccionEmpaque($request, $id_recepcion)
-    {
-
-
-        $no_golpeado = $this->getValueCheched($request->get('no_golpeado'));
-        $sin_roturas = $this->getValueCheched($request->get('sin_roturas'));
-        $cerrado = $this->getValueCheched($request->get('empaque_cerrado'));
-        $seco_limpio = $this->getValueCheched($request->get('seco_limpio'));
-        $sin_material_extranio = $this->getValueCheched($request->get('sin_material_extranio'));
-        $debidamente_identificado = $this->getValueCheched($request->get('debidamente_identificado'));
-        $debidamente_legible = $this->getValueCheched($request->get('debidamente_legible'));
-        $no_lote_presente = $this->getValueCheched($request->get('no_lote_presente'));
-        $no_lote_legible = $this->getValueCheched($request->get('no_lote_legible'));
-        $fecha_vencimiento_legible = $this->getValueCheched($request->get('fecha_vencimiento_legible'));
-        $fecha_vencimiento_vigente = $this->getValueCheched($request->get('fecha_vencimiento_vigente'));
-        $contenido_neto_declarado = $this->getValueCheched($request->get('contenido_neto_declarado'));
-        $observaciones = $request->get('observaciones_empaque');
-
-        $inspeccionEmpaque = new InspeccionEmpaqueEtiqueta();
-        $inspeccionEmpaque->no_golpeado = $no_golpeado;
-        $inspeccionEmpaque->sin_roturas = $sin_roturas;
-        $inspeccionEmpaque->cerrado = $cerrado;
-        $inspeccionEmpaque->seco_limpio = $seco_limpio;
-        $inspeccionEmpaque->sin_material_extranio = $sin_material_extranio;
-        $inspeccionEmpaque->debidamente_identificado = $debidamente_identificado;
-        $inspeccionEmpaque->identificacion_legible = $debidamente_legible;
-        $inspeccionEmpaque->no_lote_presente = $no_lote_presente;
-        $inspeccionEmpaque->no_lote_legible = $no_lote_legible;
-        $inspeccionEmpaque->fecha_vencimiento_legible = $fecha_vencimiento_legible;
-        $inspeccionEmpaque->fecha_vencimiento_vigente = $fecha_vencimiento_vigente;
-        $inspeccionEmpaque->contenido_neto_declarado = $contenido_neto_declarado;
-        $inspeccionEmpaque->observaciones = $observaciones;
-        $inspeccionEmpaque->id_recepcion_enc = $id_recepcion;
-        $inspeccionEmpaque->save();
-
-
-    }
-
-    private function saveDetalleLotes($request, $id_recepcion)
-    {
-
-
-        $productos = $request->get('id_producto');
-
-        if (is_iterable($productos)) {
-
-
-            foreach ($productos as $key => $value) {
-
-                $detalleLote = DetalleLotes::create([
-                    'id_producto' => $value,
-                    'cantidad' => $request->get('cantidad')[$key],
-                    'no_lote' => $request->get('no_lote')[$key],
-                    'fecha_vencimiento' => $request->get('fecha_vencimiento')[$key],
-                    'id_recepcion_enc' => $id_recepcion
-                ]);
-            }
-        }
-
-    }
-
-    private function saveMovimientos($request, $recepcion)
-    {
-
-        $productos = $request->get('id_producto');
-        if (is_iterable($productos)) {
-
-            foreach ($productos as $key => $value) {
-
-                $movimiento = new Movimiento();
-                $movimiento->numero_documento = $recepcion->orden_compra;
-                $movimiento->usuario = Auth::user()->id;
-                $movimiento->tipo_movimiento = 1; //Entrada
-                $movimiento->cantidad = $request->get('cantidad')[$key];
-                $movimiento->id_producto = $value;
-                $movimiento->fecha_hora_movimiento = Carbon::now();
-                $movimiento->ubicacion = 0;
-                $movimiento->lote = $request->get('no_lote')[$key];;
-                $movimiento->fecha_vencimiento = $request->get('fecha_vencimiento')[$key];
-                $movimiento->clave_autorizacion = '1234';
-                $movimiento->estado = 1;
-                $movimiento->save();
-            }
-        }
-
-
-    }
-
-    private function saveRMIEncabezado($documento, $tipo_documento)
-    {
-
-        $rmi_encabezado = new RMIEncabezado();
-        $rmi_encabezado->fecha_ingreso = \Carbon\Carbon::now();
-        $rmi_encabezado->usuario_ingreso = Auth::user()->id;
-        $rmi_encabezado->documento = $documento;
-        $rmi_encabezado->tipo_documento = $tipo_documento;
-        $rmi_encabezado->estado = 'R';
-        $rmi_encabezado->save();
-
-        return $rmi_encabezado->id_rmi_encabezado;
-
-    }
-
-    private function saveRMIDetalle($request, $id_rmi_encabezado, $ubicacion)
-    {
-        $productos = $request->get('id_producto');
-
-        if (is_iterable($productos)) {
-
-            $valueUbicacion = $this->getValueEstado($ubicacion);
-            foreach ($productos as $key => $value) {
-
-                $detalleLote = RMIDetalle::create([
-                    'id_producto' => $value,
-                    'cantidad' => $request->get('cantidad')[$key],
-                    'lote' => $request->get('no_lote')[$key],
-                    'fecha_vencimiento' => $request->get('fecha_vencimiento')[$key],
-                    'id_rmi_encabezado' => $id_rmi_encabezado,
-                    'rampa' => $valueUbicacion[0],
-                    'control' => $valueUbicacion[1],
-                    'mp' => $valueUbicacion[2]
-                ]);
-            }
-
-        }
-
-
-    }
-
-    private function getValueEstado($ubicacion = 'RAMPA')
-    {
-
-
-        if ($ubicacion == 'RAMPA') {
-            return [1, 0, 0];
-        } else if ($ubicacion == 'CONTROL') {
-            return [0, 1, 0];
-        } else if ($ubicacion == 'MP') {
-            return [0, 0, 1];
-        }
-
-    }
 
     public function show($id)
     {
@@ -380,15 +161,17 @@ class RecepcionController extends Controller
 
             DB::beginTransaction();
             $recepcion = Recepcion::findOrFail($id);
+            $recepcionRepository = new RecepcionRepository();
+            $recepcionRepository->setRecepcionEncabezado($recepcion);
+            $recepcionRepository->setIdsProductos($request->get('id_producto'));
+            $recepcionRepository->setLotes($request->get('no_lote'));
+            $recepcionRepository->setCantidades($request->get('cantidad'));
+            $recepcionRepository->setFechasVencimiento($request->get('fecha_vencimiento'));
 
-            if (is_iterable($request->get('id_producto'))) {
-                $recepcion->estado = 'T';
-            }
-            $recepcion->update();
-            $this->saveDetalleLotes($request, $recepcion->id_recepcion_enc);
-            $this->saveRMIDetalle($request, $recepcion->rmi_encabezado->id_rmi_encabezado, 'RAMPA');
 
-
+            $recepcionRepository->setEstadoByIdProducto($request->id_producto);
+            $recepcionRepository->saveDetalleLotes();
+            $recepcionRepository->saveRMIDetalle('RAMPA');
             DB::commit();
 
             return redirect()->route('recepcion.materia_prima.index')
@@ -458,19 +241,13 @@ class RecepcionController extends Controller
 
         try {
             $recepcion = Recepcion::findOrFail($id);
-
-            $rmi_encabezado = $recepcion
-                ->rmi_encabezado;
-
+            $rmi_encabezado = $recepcion->rmi_encabezado;
+            $recepcionRepository = new RecepcionRepository();
+            $recepcionRepository->setRecepcionEncabezado($recepcion);
+            $movimientos = $recepcionRepository->getMovimientosRmiDetalle();
             $paso_calidad = $rmi_encabezado->rampa == "0";
-            $id_rmi = $rmi_encabezado->id_rmi_encabezado;
 
             if ($paso_calidad) {
-                $movimientos = RMIDetalle::select('*', DB::raw('sum(cantidad) as total'))
-                    ->where('id_rmi_encabezado', $id_rmi)
-                    ->groupBy('id_producto')
-                    ->groupBy('lote')
-                    ->get();
                 return view('recepcion.transito.show_liberada',
                     [
                         'recepcion' => $recepcion,
@@ -478,21 +255,13 @@ class RecepcionController extends Controller
                         'rmi_encabezado' => $rmi_encabezado
                     ]
                 );
-            } else {
-
-                $movimientos = RMIDetalle::select('*', DB::raw('sum(cantidad) as total'))
-                    ->where('id_rmi_encabezado', $id_rmi)
-                    ->estaEnRampa()
-                    ->groupBy('id_producto')
-                    ->groupBy('lote')
-                    ->get();
-                return view('recepcion.transito.ingreso',
-                    [
-                        'recepcion' => $recepcion,
-                        'movimientos' => $movimientos
-                    ]
-                );
             }
+            return view('recepcion.transito.ingreso',
+                [
+                    'recepcion' => $recepcion,
+                    'movimientos' => $movimientos
+                ]
+            );
 
 
         } catch (\Exception $e) {
@@ -512,49 +281,11 @@ class RecepcionController extends Controller
         try {
             DB::beginTransaction();
             $recepcion = Recepcion::findOrFail($id);
+            $recepcionRepository = new RecepcionRepository();
             $observaciones = $request->get('observaciones');
-
-            $rmi_encabezado = $recepcion->rmi_encabezado;
-            $rmi_encabezado->observaciones = $observaciones;
-            $rmi_encabezado->update();
-
-            //INGRESO DEL PRODUCTO CHEQUEADO POR CONTROL DE CALIDAD
-            $idsMovimiento = [];
-            if (count($request->get('id_movimiento')) > 0) {
-                $idsMovimiento = $request->get('id_movimiento');
-            }
-            $cantidadesEntrantes = $request->get('cantidad_entrante');
-            $diferencias = $request->get('diferencia');
-            $i = 0;
-            foreach ($idsMovimiento as $key => $mov) {
-                $rmi_detalle = RMIDetalle::find($mov);
-
-                if ($diferencias[$key] > 0) {
-                    $this->ingresar_bodega_desecho(
-                        $diferencias[$key],
-                        $rmi_detalle,
-                        $observaciones
-                    );
-                }
-                if ($cantidadesEntrantes[$key] > 0) {
-                    $this->ingresoCalidad($rmi_detalle, $cantidadesEntrantes[$key]);
-                } else {
-                    $i++;
-                }
-            }
-
-            $isOrdenCompleta = $i == 0;
-            if ($isOrdenCompleta) {
-                $rmi_encabezado = $recepcion->rmi_encabezado;
-                $rmi_encabezado->rampa = 0;
-                $rmi_encabezado->control = 1;
-                $rmi_encabezado->update();
-            }
-
-
-            //MANEJO DE ETIQUETAS DE IMPRESION.
-            $impresiones = $request->get('imprimir');
-            Impresiones::imprimir($idsMovimiento, env('IP_IMPRESION'), 'R', $impresiones);
+            $recepcionRepository->setRecepcionEncabezado($recepcion);
+            $recepcionRepository->setObservacionesToRMIEncabezazdo($observaciones);
+            $recepcionRepository->ingresarToControlCalidad($request);
 
             DB::commit();
             return redirect()->route('recepcion.transito.index')
@@ -568,143 +299,18 @@ class RecepcionController extends Controller
 
     }
 
-    private function ingresar_bodega_desecho($cantidad, RMIDetalle $rmi_detalle, $observaciones)
-    {
-        $ubicacion = Sector::where('sistema', 1)->first();
-        $usuario_autoriza = Auth::user();
-        $movimiento = new Movimientos();
-
-        $movimiento
-            ->ingreso_producto(
-                $ubicacion,
-                $rmi_detalle->producto,
-                $rmi_detalle->lote,
-                $rmi_detalle->fecha_vencimiento,
-                $cantidad,
-                $rmi_detalle->rmi_encabezado->documento,
-                $usuario_autoriza,
-                $observaciones
-            );
-
-
-    }
-
-    private function ingresoCalidad($rmi_detalle, $cantidad)
-    {
-
-
-        $rmi_detalle->control = 1;
-        $rmi_detalle->cantidad_entrante = $rmi_detalle->cantidad_entrante + $cantidad;
-        $rmi_detalle->rampa = 0;
-        $rmi_detalle->update();
-
-
-    }
-
-    private function guardarMovimientos($bodega_destino,
-                                        $bodega_origen,
-                                        $ids = [],
-                                        $cantidades = [],
-                                        $numero_documento)
-    {
-
-
-        try {
-            DB::beginTransaction();
-
-
-            $movimientos = Movimiento::whereIn('id_movimiento', $ids)
-                ->orderBy('id_movimiento', 'asc')
-                ->get();
-
-
-            foreach ($movimientos as $key => $mov) {
-
-
-                $cantidad = $cantidades[$key];
-                $lote = $mov->lote;
-                $fecha_vencimiento = $mov->fecha_vencimiento;
-                $movimiento = new Movimiento();
-                $movimiento->numero_documento = $numero_documento;
-                $movimiento->usuario = \Auth::user()->id;
-                $movimiento->tipo_movimiento = 2;
-                $movimiento->cantidad = $cantidad;
-                $movimiento->id_producto = $mov->id_producto;
-                $movimiento->fecha_hora_movimiento = Carbon::now();
-                $movimiento->ubicacion = $bodega_origen; //ORIGEN
-                $movimiento->lote = $lote;
-                $movimiento->fecha_vencimiento = $fecha_vencimiento;
-                $movimiento->clave_autorizacion = $mov->clave_autorizacion;
-                $movimiento->estado = 2;
-                $movimiento->save();
-
-
-                $movimiento = new Movimiento();
-                $movimiento->numero_documento = $numero_documento;
-                $movimiento->usuario = \Auth::user()->id;
-                $movimiento->tipo_movimiento = 1;
-                $movimiento->cantidad = $cantidad;
-                $movimiento->id_producto = $mov->id_producto;
-                $movimiento->fecha_hora_movimiento = Carbon::now();
-                $movimiento->ubicacion = $bodega_destino; //DESTINO
-                $movimiento->lote = $lote;
-                $movimiento->fecha_vencimiento = $fecha_vencimiento;
-                $movimiento->clave_autorizacion = $mov->clave_autorizacion;
-                $movimiento->estado = 1;
-                $movimiento->save();
-
-
-            }
-            DB::commit();
-
-            return true;
-
-        } catch (\Exception $e) {
-
-            DB::rollback();
-
-            return false;
-        }
-
-
-    }
-
-    private function totalProductoPorBodega($id_bodega, $orden)
-    {
-
-        $movimientos = Movimiento::join('tipo_movimiento', 'tipo_movimiento.id_movimiento', '=', 'movimientos.tipo_movimiento')
-            ->select((DB::raw('sum(factor * cantidad) as total')))
-            ->where('numero_documento', $orden)
-            ->where('ubicacion', $id_bodega)
-            ->groupBy('id_producto')
-            ->groupBy('lote')
-            ->get();
-
-
-        $movimientos = $movimientos->where('total', '>', 0)->count();
-        return $movimientos;
-
-    }
-
     public function show_transito($id)
     {
 
         try {
 
             $recepcion = Recepcion::findOrFail($id);
-
-
-            $rmi_encabezado = $recepcion
-                ->rmi_encabezado;
+            $rmi_encabezado = $recepcion->rmi_encabezado;
+            $recepcionRepository = new RecepcionRepository();
+            $recepcionRepository->setRecepcionEncabezado($recepcion);
+            $movimientos = $recepcionRepository->getMovimientosRmiDetalle();
             $paso_calidad = $rmi_encabezado->rampa == "0";
-            $id_rmi = $rmi_encabezado->id_rmi_encabezado;
-
             if ($paso_calidad) {
-                $movimientos = RMIDetalle::select('*', DB::raw('sum(cantidad) as total'))
-                    ->where('id_rmi_encabezado', $id_rmi)
-                    ->groupBy('id_producto')
-                    ->groupBy('lote')
-                    ->get();
                 return view('recepcion.transito.show_liberada',
                     [
                         'recepcion' => $recepcion,
@@ -713,12 +319,6 @@ class RecepcionController extends Controller
                     ]
                 );
             } else {
-                $movimientos = RMIDetalle::select('*', DB::raw('sum(cantidad) as total'))
-                    ->where('id_rmi_encabezado', $id_rmi)
-                    ->estaEnRampa()
-                    ->groupBy('id_producto')
-                    ->groupBy('lote')
-                    ->get();
                 return view('recepcion.transito.show',
                     [
                         'recepcion' => $recepcion,
@@ -784,7 +384,8 @@ class RecepcionController extends Controller
 
         try {
             $orden = Recepcion::findOrFail($id);
-            if ($orden->rmi_encabezado->control != 1) {
+            $estaPendienteDeAsignarUbicacion = $orden->rmi_encabezado->control == 1;
+            if (!$estaPendienteDeAsignarUbicacion) {
                 return redirect()
                     ->route('recepcion.ubicacion.index')
                     ->withErrors(['Orden ya procesada']);
@@ -826,42 +427,31 @@ class RecepcionController extends Controller
 
         $usuario_autoriza = User::where('username', $request->get('user_acepted'))->first();
         $productos = $request->get('id_producto');
+        $cantidades = $request->get('cantidad');
+        $lotes = $lote = $request->get('lote');
+        $ubicaciones = $request->get('ubicacion');
+        $movimientoRepository = new MovimientoRepository();
 
-        DB::beginTransaction();
 
         try {
-            foreach ($productos as $key => $id_producto) {
+            DB::beginTransaction();
+            $movimientoRepository->setUsuarioAutoriza($usuario_autoriza);
+            $movimientoRepository->setIdsProductos($productos);
+            $movimientoRepository->setCantidades($cantidades);
+            $movimientoRepository->setLotes($lotes);
+            $movimientoRepository->setIdsUbicaciones($ubicaciones);
+            $movimientoRepository->setNoDocumento($rmi_encabezado->documento);
+            $movimientoRepository->ubicarProductos();
 
-                $producto = Producto::findOrFail($id_producto);
-                $ubicacion = Sector::where('id_sector', $request->get('ubicacion')[$key])->first();
+            $rmi_encabezado->mp = 1;
+            $rmi_encabezado->control = 0;
+            $rmi_encabezado->update();
 
-                $lote = $request->get('lote')[$key];
 
-                $cantidad = $request->get('cantidad')[$key];
-
-                $fecha_vencimiento = $rmi_encabezado
-                    ->rmi_detalle
-                    ->where('lote', $lote)
-                    ->where('id_producto', $id_producto)
-                    ->first()
-                    ->fecha_vencimiento;
-
-                $movimiento = new Movimientos();
-                $movimiento
-                    ->ingreso_producto(
-                        $ubicacion, $producto, $lote, $fecha_vencimiento, $cantidad, $rmi_encabezado->documento, $usuario_autoriza
-                    );
-
-                $rmi_encabezado->mp = 1;
-                $rmi_encabezado->control = 0;
-                $rmi_encabezado->update();
-
-            }
             DB::commit();
             return redirect()->route('recepcion.ubicacion.index')
                 ->with('success', 'Producto ubicado correctamente');
         } catch (\Exception $e) {
-
             DB::rollback();
 
             return redirect()->route('recepcion.ubicacion.index')
