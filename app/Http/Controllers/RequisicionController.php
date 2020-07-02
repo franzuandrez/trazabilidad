@@ -4,20 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Bodega;
 use App\Http\tools\Movimientos;
-use App\Http\tools\OrdenProduccion;
+use App\Repository\RequisicionRepository;
+use App\Repository\OrdenProduccionRepository;
 use App\Requisicion;
 use App\RequisicionDetalle;
-use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 
 class RequisicionController extends Controller
 {
     //
-    const ESTADO_ORDEN_EXISTENTE = 0;
-    const ESTADO_ORDEN_NUEVA = 1;
+
     private $productos_no_agregados = [];
 
     public function __construct()
@@ -57,19 +55,14 @@ class RequisicionController extends Controller
     public function create()
     {
 
-        $bodegas = Bodega::actived()
-            ->get();
-        $no_orden_produccion = OrdenProduccion::obtener_nueva_no_orden();
-
-
-        $requisicion = Requisicion::enProceso()
-            ->where('id_usuario_ingreso', Auth::user()->id)
-            ->get();
-
+        $bodegas = Bodega::actived()->get();
+        $requisicionRepository = new RequisicionRepository();
+        $no_orden_produccion = OrdenProduccionRepository::obtener_nuevo_numero_de_orden();
+        $requisiciones = $requisicionRepository->get_mis_requisiciones_proceso();
 
         return view('produccion.operaciones.create', [
             'bodegas' => $bodegas,
-            'requisicion' => $requisicion,
+            'requisicion' => $requisiciones,
             'no_orden_produccion' => $no_orden_produccion
         ]);
     }
@@ -79,29 +72,16 @@ class RequisicionController extends Controller
 
 
         try {
-
-            DB::beginTransaction();
+            $requisicionRepository = new RequisicionRepository();
             $id = $request->get('id_requisicion');
-
-            $operacion = Requisicion::findOrFail($id);
-            $operacion->estado = 'R';
-            $operacion->fecha_actualizacion = Carbon::now();
-            $operacion->update();
-
-            DB::table('requisicion_detalle')->where('id_requisicion_encabezado', $operacion->id)
-                ->update(['estado' => 'R']);
-
-
-            DB::commit();
+            $requisicionRepository->finalizar_proceso_de_creacion($id);
             return redirect()->route('produccion.requisiciones.index')
                 ->with('success', 'Operacion realizada correctamente');
 
         } catch (\Exception $ex) {
 
-            DB::rollback();
-
             return redirect()->route('produccion.requisiciones.index')
-                ->withErrors(['Algo salio mal, intentelo más tarde']);
+                ->withErrors(['Algo salio mal, nuevamente']);
         }
     }
 
@@ -180,40 +160,21 @@ class RequisicionController extends Controller
     public function verificarOrdenRequisicion($orden_requisicion)
     {
 
-        $response = [];
-        $orden = Requisicion::where('no_requision', $orden_requisicion)
-            ->first();
+        $requisicionRepository = new RequisicionRepository();
+        $requisicionRepository->setOrdenRequisicion($orden_requisicion);
+        $response = $requisicionRepository->verificar_orden_requisicion();
 
-        if ($orden != null) {
-
-            $response = [self::ESTADO_ORDEN_EXISTENTE, $orden->estado];
-        } else {
-            $requisicion = new Requisicion();
-            $requisicion->no_requision = $orden_requisicion;
-            $requisicion->id_usuario_ingreso = Auth::user()->id;
-            $requisicion->fecha_ingreso = Carbon::now();
-            $requisicion->save();
-            $response = [self::ESTADO_ORDEN_NUEVA, $requisicion->id];
-        }
         return $response;
 
     }
 
     public function verificarOrdenProduccion($orden_produccion, $id)
     {
-        $response = [];
-        $orden = Requisicion::where('no_orden_produccion', $orden_produccion)
-            ->first();
 
-        if ($orden != null) {
+        $requisicionRepository = new RequisicionRepository();
+        $requisicionRepository->setNumeroOrdenProduccion($orden_produccion);
+        $response = $requisicionRepository->verificar_orden_produccion($id);
 
-            $response = [self::ESTADO_ORDEN_EXISTENTE, $orden->estado];
-        } else {
-            $requisicion = Requisicion::findOrFail($id);
-            $requisicion->no_orden_produccion = $orden_produccion;
-            $requisicion->update();
-            $response = [self::ESTADO_ORDEN_NUEVA, $requisicion->id];
-        }
         return $response;
     }
 
@@ -222,17 +183,14 @@ class RequisicionController extends Controller
 
 
         try {
-            $requisicion = Requisicion::findOrFail($request->get('id'));
+            $id = $request->get('id');
+            $requisicionRepository = new RequisicionRepository();
+            $requisicionRepository->setRequisicion(Requisicion::findOrFail($id));
+            $requisicionRepository->setIdsProductosAReservar([$request->get('id_producto')]);
+            $requisicionRepository->setCantidadesAReservar([$request->get('cantidad')]);
+            $reserva = $requisicionRepository->reservar_productos()->first();
 
-            $requisicion_detalle = new RequisicionDetalle();
-            $requisicion_detalle->id_requisicion_encabezado = $requisicion->id;
-            $requisicion_detalle->orden_requisicion = $requisicion->no_requision;
-            $requisicion_detalle->orden_produccion = $requisicion->no_orden_produccion;
-            $requisicion_detalle->id_producto = $request->get('id_producto');
-            $requisicion_detalle->cantidad = $request->get('cantidad');
-            $requisicion_detalle->estado = 'P';
-            $requisicion_detalle->save();
-            $response = [1, $requisicion_detalle->id];
+            $response = [1, $reserva->id];
         } catch (\Exception $ex) {
             $response = [0, $ex->getMessage()];
         }
@@ -249,13 +207,8 @@ class RequisicionController extends Controller
 
         $id = $request->get('id');
 
-        try {
-            $requisicion_detalle = RequisicionDetalle::destroy($id);
-            $response = [1];
-        } catch (\Exception $e) {
-
-            $response = [0];
-        }
+        $requisicionRepository = new RequisicionRepository();
+        $response = $requisicionRepository->deshacer_reservas([$id]);
 
         return $response;
     }
@@ -265,31 +218,22 @@ class RequisicionController extends Controller
     {
 
         $productos = [$id];
-        $totalEnRequisiciones = RequisicionDetalle::whereIn('id_producto', $productos)
-            ->where(function ($query) {
-                $query->reservado()
-                    ->orWhere
-                    ->proceso();
-            })
-            ->sum('cantidad');
 
-        return $totalEnRequisiciones;
+        $requisicionRepository = new RequisicionRepository();
+        $total_producto_en_reserva = $requisicionRepository->get_total_producto_en_reserva($productos);
+
+        return $total_producto_en_reserva;
 
     }
 
     public function borrar_reservas()
     {
 
+
+        $requisicionRepository = new RequisicionRepository();
         try {
             DB::beginTransaction();
-            $requisicion = Requisicion::deUsuarioRecepcion(Auth::user()->id)
-                ->enProceso()
-                ->first();
-            $id_requisicion = $requisicion->id;
-            $requisicion->delete();
-            DB::table('requisicion_detalle')
-                ->where('id_requisicion_encabezado', $id_requisicion)
-                ->delete();
+            $requisicionRepository->borrar_requision_en_proceso();
             DB::commit();
             $response = [1];
         } catch (\Exception $e) {
@@ -310,26 +254,9 @@ class RequisicionController extends Controller
         try {
 
             $requisicion = Requisicion::findOrFail($id);
-
-            $total_leidas = $requisicion->reservas()->where('leido', 'S')->count();
-
-            if ($total_leidas > 0) {
-                $response = [
-                    'status' => 0,
-                    'message' => 'La requisicion ya inicio el proceso de picking'
-                ];
-            } else {
-                $requisicion->estado = 'B';
-                $requisicion->update();
-                DB::table('requisicion_detalle')
-                    ->where('id_requisicion_encabezado', $id)
-                    ->update(['estado' => 'B']);
-                $response = [
-                    'status' => 1,
-                    'message' => 'Requisicion dada de baja correctamente'
-                ];
-            }
-
+            $requisicionRepository = new RequisicionRepository();
+            $requisicionRepository->setRequisicion($requisicion);
+            $response = $requisicionRepository->dar_baja_requisicion();
 
         } catch (\Exception $ex) {
             $response = [
