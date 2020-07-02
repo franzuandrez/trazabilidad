@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Http\tools;
+namespace App\Repository;
 
 
 use App\Correlativo;
@@ -11,11 +11,11 @@ use App\Requisicion;
 use Carbon\Carbon;
 use DB;
 
-class OrdenProduccion
+class OrdenProduccionRepository
 {
 
 
-    public static function obtener_nueva_no_orden()
+    public static function obtener_nuevo_numero_de_orden()
     {
         $no_orden_produccion = Correlativo::where('modulo', 'PRODUCCION')
             ->first();

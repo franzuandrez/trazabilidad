@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\tools\OrdenProduccion;
+use App\Repository\OrdenProduccionRepository;
 use App\Http\tools\RealTimeService;
 use App\LaminadoSopasDet;
 use App\LaminadoSopasEnc;
@@ -170,7 +170,7 @@ class LaminadoSopasController extends Controller
         $no_orden_produccion = $request->get('no_orden_produccion');
 
 
-        $linea_chaomin = OrdenProduccion::verificar_linea_sopas($no_orden_produccion);
+        $linea_chaomin = OrdenProduccionRepository::verificar_linea_sopas($no_orden_produccion);
 
 
         if ($linea_chaomin['status'] == 0) {
