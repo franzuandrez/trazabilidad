@@ -13,7 +13,7 @@ class Impresiones
 {
     private static $file = "C:\\ImpresionRed\\imprimir.txt";
 
-    public static function imprimir($ids, $ip, $tipo, $impresiones)
+    public static function imprimirFromRMIDetalle($ids, $ip, $tipo, $impresiones)
     {
 
         $movimientos = RMIDetalle::whereIn('id_rmi_detalle', $ids)
