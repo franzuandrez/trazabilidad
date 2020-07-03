@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 /**
  * @property int $cantidad
  * @property string $numero_documento
- * @property string $fecha_vencimiento
+ * @property array $fechas_vencimiento
  * @property string $lote
  * @property array $lotes
  * @property array $observaciones
@@ -38,7 +38,16 @@ class MovimientoRepository
     private $observaciones = '';
     private $usuario_autoriza = '';
     private $cantidad = 0;
-    private $fecha_vencimiento;
+    private $fechas_vencimiento = [];
+
+    /**
+     * @param array $fechas_vencimiento
+     */
+    public function setFechasVencimiento(array $fechas_vencimiento): void
+    {
+        $this->fechas_vencimiento = $fechas_vencimiento;
+    }
+
     private $lote = '';
     private $numero_documento = '';
     private $lotes = [];
@@ -137,12 +146,12 @@ class MovimientoRepository
     {
         $productos = $this->idsProductos;
         foreach ($productos as $key => $id_producto) {
-            $this->ubicarProducto($key, $id_producto, '');
+            $this->ubicarProducto($key, $id_producto);
         }
     }
 
 
-    private function ubicarProducto($key, $id_producto, $fecha_vencimiento)
+    private function ubicarProducto($key, $id_producto)
     {
 
         $sector = Sector::where('id_sector', $this->idsUbicaciones[$key])->first();;
@@ -151,7 +160,7 @@ class MovimientoRepository
         $this->producto = $producto;
         $this->lote = $this->lotes[$key];
         $this->cantidad = $this->cantidades[$key];
-        $this->fecha_vencimiento = $fecha_vencimiento;
+        $this->fecha_vencimiento = $this->fechas_vencimiento[$key];;
         $this->ingreso_producto();
     }
 

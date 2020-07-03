@@ -430,6 +430,7 @@ class RecepcionController extends Controller
         $cantidades = $request->get('cantidad');
         $lotes = $lote = $request->get('lote');
         $ubicaciones = $request->get('ubicacion');
+        $fechas_vencimiento = $request->get('fecha_vencimiento');
         $movimientoRepository = new MovimientoRepository();
 
 
@@ -438,6 +439,7 @@ class RecepcionController extends Controller
             $movimientoRepository->setUsuarioAutoriza($usuario_autoriza);
             $movimientoRepository->setIdsProductos($productos);
             $movimientoRepository->setCantidades($cantidades);
+            $movimientoRepository->setFechasVencimiento($fechas_vencimiento);
             $movimientoRepository->setLotes($lotes);
             $movimientoRepository->setIdsUbicaciones($ubicaciones);
             $movimientoRepository->setNoDocumento($rmi_encabezado->documento);

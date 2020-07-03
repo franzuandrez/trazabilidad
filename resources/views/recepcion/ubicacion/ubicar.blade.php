@@ -82,6 +82,11 @@
                    class="form-control">
         </div>
     </div>
+
+    <input type="hidden"
+           readonly
+           id="fecha_vencimiento"
+           class="form-control">
     <div class="loading">
         <i class="fa fa-refresh fa-spin "></i><br/>
         <span>Cargando</span>
@@ -294,6 +299,7 @@
             if (typeof producto != 'undefined') {
                 document.getElementById('lote').value = producto.lote;
                 document.getElementById('descripcion').value = producto.producto.descripcion;
+                document.getElementById('fecha_vencimiento').value = producto.fecha_vencimiento;
                 document.getElementById('ubicacion').focus();
                 gl_cantidad_disponible = parseFloat(producto.total);
                 gl_id_producto = producto.id_producto;
@@ -346,6 +352,7 @@
 
 
             let nombre_bodega = document.getElementById('ubicacion').value;
+            let fecha_vencimiento = document.getElementById('fecha_vencimiento').value;
 
             let codigo_ubicacion = document.getElementById('codigo_ubicacion').value;
             let codigo_bodega = document.getElementById('codigo_bodega').value;
@@ -362,6 +369,7 @@
                                 <input type="hidden" value ='${cantidad}'  class="${gl_id_producto}-${lote}"  name=cantidad[] >${cantidad}
                                 <input type="hidden" value ='${codigo_ubicacion}'  name=ubicacion[] >
                                 <input type="hidden" value ='${codigo_bodega}'  name=bodega[] >
+                                <input type="hidden" value ='${fecha_vencimiento}'  name=fecha_vencimiento[] >
                             </td>
 
                  </tr>`;
