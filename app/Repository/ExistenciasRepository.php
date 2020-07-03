@@ -1,18 +1,23 @@
 <?php
 
 
-namespace App\Http\tools;
+namespace App\Repository;
 
 
 use App\Movimiento;
 use App\Producto;
 use DB;
+use Illuminate\Database\Eloquent\Collection;
 
-class Existencias
+/**
+ * Class ExistenciasRepository
+ * @package App\Repository
+ */
+class ExistenciasRepository
 {
     /**
      * @param $codigo_producto
-     * @return mixed
+     * @return Collection
      *  Devuelve la existencia del producto solicitado ordenado
      * por el lote proximo a vencer, agrupado por bodegas.
      */
