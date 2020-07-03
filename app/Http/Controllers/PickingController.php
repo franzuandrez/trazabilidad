@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\tools\Existencias;
+use App\Repository\ExistenciasRepository;
 use App\Http\tools\Movimientos;
 use App\Picking;
+use App\Repository\PickingRepository;
 use App\Requisicion;
 use App\ReservaPicking;
 use App\Sector;
@@ -18,7 +19,7 @@ class PickingController extends Controller
     //
     protected $productos;
 
-    public function __construct(Existencias $exitencias)
+    public function __construct(ExistenciasRepository $exitencias)
     {
         $this->productos = $exitencias;
         $this->middleware('auth');
@@ -64,14 +65,13 @@ class PickingController extends Controller
 
         if ($requisicion->estado !== "D") {
             $validarOrdenProductos = false;
-            $this->crearOrdenPicking($requisicion);
+            $pickingRepository = new PickingRepository();
+            $pickingRepository->setOrdenRequisicion($requisicion);
+            $pickingRepository->crear_oden_picking();
+            $debeRecalcularseListadoDeLotesADespachar = $pickingRepository->debeRecalcularseReserva();
 
-            $debeRecalcular = $this->debeRecalcular($requisicion);
-
-
-            if ($requisicion->reservas->isEmpty() || $debeRecalcular) {
-
-                $this->recalcular($requisicion);
+            if ($debeRecalcularseListadoDeLotesADespachar) {
+                $pickingRepository->recalcularReservas();
                 return $this->despachar($id, $request);
             }
 
@@ -366,10 +366,10 @@ class PickingController extends Controller
             ->toArray();
 
         //Borrar las reservas que no ha sido leidas.
+
         DB::table('reserva_lotes')
             ->whereIn('id_reserva', $ids_reservas)
             ->delete();
-
     }
 
 
@@ -421,8 +421,7 @@ class PickingController extends Controller
                 'requisicion_detalle.estado',
                 \DB::raw('sum(cantidad) as cantidad'))
             ->groupBy('id_producto')
-            ->get()
-            ;
+            ->get();
 
         foreach ($detalles_requisicion as $detalle_requisicion) {
 
