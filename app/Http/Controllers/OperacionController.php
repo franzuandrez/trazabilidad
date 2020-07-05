@@ -37,6 +37,10 @@ class OperacionController extends Controller
     }
 
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index(Request $request)
     {
 
@@ -86,6 +90,10 @@ class OperacionController extends Controller
     }
 
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function buscar_producto(Request $request)
     {
 
@@ -111,6 +119,10 @@ class OperacionController extends Controller
     }
 
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function buscar_orden_produccion(Request $request)
     {
 
@@ -138,6 +150,9 @@ class OperacionController extends Controller
 
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function create()
     {
 
@@ -153,6 +168,11 @@ class OperacionController extends Controller
 
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
     public function store(Request $request)
     {
 
@@ -191,6 +211,10 @@ class OperacionController extends Controller
 
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function show($id)
     {
 
@@ -202,6 +226,10 @@ class OperacionController extends Controller
         ]);
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function edit($id)
     {
 
@@ -224,6 +252,10 @@ class OperacionController extends Controller
     }
 
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function finalizar_asistencia(Request $request)
     {
         $id_control = $request->get('id_control');
@@ -257,6 +289,10 @@ class OperacionController extends Controller
 
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function verificar_proximo_lote(Request $request)
     {
 
@@ -285,6 +321,10 @@ class OperacionController extends Controller
     }
 
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function verificar_existencia_lote_pp(Request $request)
     {
 
