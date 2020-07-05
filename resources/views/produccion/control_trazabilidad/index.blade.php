@@ -45,7 +45,12 @@
                            'titulo'=>'Fecha'])
 
                 </th>
+                <th>
+                    @include('componentes.column-sort',[
+                           'field'=>'control_trazabilidad.status',
+                           'titulo'=>'Estado'])
 
+                </th>
                 </thead>
                 <tbody>
                 @foreach($operaciones as $operacion)
@@ -78,6 +83,17 @@
                         </td>
                         <td>
                             {{$operacion->created_at->format('d/m/Y H:i:s')}}
+                        </td>
+                        <td>
+                            @if($operacion->status==1)
+                                <label class="label label-warning">
+                                    En proceso
+                                </label>
+                            @else
+                                <label class="label-success label">
+                                    Iniciado
+                                </label>
+                            @endif
                         </td>
                     </tr>
 

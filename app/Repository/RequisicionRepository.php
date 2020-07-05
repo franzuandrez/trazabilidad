@@ -246,6 +246,7 @@ class RequisicionRepository
 
     /**
      * @return array
+     * @throws \Exception
      */
     public function dar_baja_requisicion()
     {

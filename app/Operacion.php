@@ -45,6 +45,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Operacion whereLote($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Operacion whereNoOrdenProduccion($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Operacion whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Operacion whereStatus($value)
  * @mixin \Eloquent
  */
 class Operacion extends Model
@@ -70,9 +71,10 @@ class Operacion extends Model
         'lote',
         'no_orden_produccion',
         'id_usuario',
+        'status'
     ];
 
-    protected $with = ['requisiciones','detalle_insumos'];
+    protected $with = ['requisiciones', 'detalle_insumos'];
 
     public function detalle_insumos()
     {
