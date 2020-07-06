@@ -55,14 +55,8 @@ class OperacionController extends Controller
             ->toArray();
 
 
-        $operaciones = Operacion::join('productos', 'productos.id_producto', '=', 'control_trazabilidad.id_producto')
-            ->where(function ($query) use ($search, $id_control) {
-                $query->where('productos.descripcion', 'LIKE', '%' . $search . '%')
-                    ->orWhere('productos.codigo_interno', 'LIKE', '%' . $search . '%')
-                    ->orWhereIn('control_trazabilidad.id_control', $id_control)
-                    ->orWhere('control_trazabilidad.lote', 'LIKE', '%' . $search . '%');
-            })
-            ->orderBy($sortField, $sort)
+        $operaciones = $this->trazabilidad_repository
+            ->searchControlesDeTrazabilidad($search, $sortField, $sort, $id_control)
             ->paginate(20);
 
 

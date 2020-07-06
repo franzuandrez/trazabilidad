@@ -281,6 +281,31 @@ class TrazabilidadRepository
         $this->producto = $producto;
     }
 
+
+    /**
+     * @param $search
+     * @param $sortField
+     * @param $sort
+     * @param array $extras
+     * @return \Illuminate\Database\Query\Builder
+     */
+    public function searchControlesDeTrazabilidad($search, $sortField, $sort, $extras = [])
+    {
+
+        $operaciones = Operacion::join('productos', 'productos.id_producto', '=', 'control_trazabilidad.id_producto')
+            ->where(function ($query) use ($search, $extras) {
+                $query->where('productos.descripcion', 'LIKE', '%' . $search . '%')
+                    ->orWhere('productos.codigo_interno', 'LIKE', '%' . $search . '%')
+                    ->orWhereIn('control_trazabilidad.id_control', $extras)
+                    ->orWhere('control_trazabilidad.lote', 'LIKE', '%' . $search . '%');
+            })
+            ->orderBy($sortField, $sort);
+
+        return $operaciones;
+
+    }
+
+
     public function getRequisicionByNoOrdenProduccion($orden_produccion)
     {
         $requisicion = Requisicion::select('estado', 'id', 'no_requision', 'no_orden_produccion')

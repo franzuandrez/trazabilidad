@@ -244,12 +244,12 @@
                                     </a>
                                 </li>
                             @endcan
-                                <li>
-                                    <a href="{{url('reimpresion')}}">
-                                        <i class="fa fa-print" aria-hidden="true"></i>
-                                        Reimpresión
-                                    </a>
-                                </li>
+                            <li>
+                                <a href="{{url('reimpresion')}}">
+                                    <i class="fa fa-print" aria-hidden="true"></i>
+                                    Reimpresión
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 </ul>
@@ -277,16 +277,21 @@
                                                                                               aria-hidden="true"></i>
                                         Control Trazabilidad</a></li>
                             @endcan
-
-                            <li><a href="{{url('produccion/trazabilidad_chao_mein')}}">
+                            <li><a href="{{url('produccion/devoluciones')}}">
+                                    <i class="fa fa-backward"
+                                       aria-hidden="true"></i>
+                                    Devolucion
+                                </a>
+                            </li>
+                            <li><a href="{{url('produccion/entrega_pt')}}">
                                     <i class="fa fa-archive"
                                        aria-hidden="true"></i>
                                     Entrega PT
                                 </a></li>
-                            <li><a href="{{url('produccion/trazabilidad_chao_mein')}}">
+                            <li><a href="{{url('produccion/recepcion_pt')}}">
                                     <i class="fa fa-step-forward"
                                        aria-hidden="true"></i>
-                                   &nbsp; Recepción PT
+                                    &nbsp; Recepción PT
                                 </a></li>
 
                         </ul>

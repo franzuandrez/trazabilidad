@@ -454,6 +454,8 @@ Route::get('produccion/requisiciones/{id}', 'RequisicionController@show')->name(
 Route::get('produccion/requisiciones/reporte/{id}', 'ReporteProduccionController@reporte_requisicion')->name('produccion.requisiciones.show');
 Route::post('produccion/requisiciones/{id}', 'RequisicionController@destroy')->name('produccion.requisiciones.destroy');
 
+Route::get('produccion/devoluciones', 'DevolucionController@index')->name('produccion.devoluciones.index');
+
 Route::get('produccion/picking/', 'PickingController@index')->name('produccion.picking.index');
 Route::get('produccion/picking/{id}/despachar', 'PickingController@despachar')->name('produccion.picking.despachar');
 Route::get('produccion/picking/{id}', 'PickingController@show')->name('produccion.picking.show');
