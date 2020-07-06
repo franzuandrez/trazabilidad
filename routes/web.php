@@ -455,6 +455,8 @@ Route::get('produccion/requisiciones/reporte/{id}', 'ReporteProduccionController
 Route::post('produccion/requisiciones/{id}', 'RequisicionController@destroy')->name('produccion.requisiciones.destroy');
 
 Route::get('produccion/devoluciones', 'DevolucionController@index')->name('produccion.devoluciones.index');
+Route::get('produccion/devoluciones/{id}/devolucion', 'DevolucionController@devolucion')->name('produccion.devoluciones.devolucion');
+Route::patch('produccion/devoluciones/{id}', 'DevolucionController@devolver')->name('produccion.devoluciones.devolver');
 
 Route::get('produccion/picking/', 'PickingController@index')->name('produccion.picking.index');
 Route::get('produccion/picking/{id}/despachar', 'PickingController@despachar')->name('produccion.picking.despachar');

@@ -27,7 +27,7 @@
 
 
             @can('role-edit')
-                @component('componentes.btn-edit',['url'=>'javascript:editar("devoluciones")'])
+                @component('componentes.btn-edit',['url'=>'javascript:editar("devoluciones","devolucion")'])
                 @endcomponent
             @endcan
 
