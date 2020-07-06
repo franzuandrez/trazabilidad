@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property Producto $producto
  * @property string $fecha_vencimiento
+ * @property float $cantidad_utilizada
  * @property string $numero_orden_produccion
  * @property array $ids_colaboradores
  * @property array $ids_actividades
@@ -29,6 +30,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property array $olores
  * @property array $impresiones
  * @property array $ausencia_material_extranios
+ * @property array $cantidades_utilizadas;
  * @property Operacion|Model $control_trazabilidad
  * @property Requisicion $requisicion
  **/
@@ -47,6 +49,8 @@ class TrazabilidadRepository
     private $ids_colaboradores = [];
     private $ids_actividades = [];
     private $ids_insumos = [];
+    private $cantidades_utilizadas = [];
+    private $cantidad_utilizada = 0;
     private $colores = [];
     private $olores = [];
     private $impresiones = [];
@@ -66,6 +70,38 @@ class TrazabilidadRepository
     public function setRequisicion($requisicion): void
     {
         $this->requisicion = $requisicion;
+    }
+
+    /**
+     * @return float
+     */
+    public function getCantidadUtilizada()
+    {
+        return $this->cantidad_utilizada;
+    }
+
+    /**
+     * @param float $cantidad_utilizada
+     */
+    public function setCantidadUtilizada($cantidad_utilizada): void
+    {
+        $this->cantidad_utilizada = $cantidad_utilizada;
+    }
+
+    /**
+     * @return array
+     */
+    public function getCantidadesUtilizadas()
+    {
+        return $this->cantidades_utilizadas;
+    }
+
+    /**
+     * @param array $cantidad_utilizadas
+     */
+    public function setCantidadesUtilizadas($cantidad_utilizadas): void
+    {
+        $this->cantidades_utilizadas = $cantidad_utilizadas;
     }
 
 
@@ -401,7 +437,9 @@ class TrazabilidadRepository
     {
 
         $insumos = $this->getIdsInsumos();
+
         if (is_iterable($insumos)) {
+            $total_insumos = count($insumos);
             foreach ($insumos as $key => $id_insumo) {
                 $color = $this->getColores()[$key];
                 $olor = $this->getOlores()[$key];
@@ -761,6 +799,42 @@ class TrazabilidadRepository
 
         return $response;
 
+    }
+
+
+    public function finalizarControlTrazabilidad()
+    {
+        $this->registrarCantidadProducidaSiExiste();
+        $this->registarCantidadUtilizadas();
+        $control_trazabilidad = $this->getControlTrazabilidad();
+        if ($control_trazabilidad->status == self::STATUS_CREADA) {
+            $control_trazabilidad->status = self::STATUS_FINALIZADA;
+            $control_trazabilidad->save();
+        }
+
+    }
+
+    public function registrarCantidadProducidaSiExiste()
+    {
+
+        $cantidad = $this->getCantidadUtilizada();
+        if ($cantidad != "" && $cantidad != 0 && $cantidad != null) {
+            $control_trazabilidad = $this->getControlTrazabilidad();
+            if ($control_trazabilidad != null) {
+                $control_trazabilidad->cantidad_producida = $cantidad;
+                $control_trazabilidad->save();
+            }
+        }
+    }
+
+    public function registarCantidadUtilizadas()
+    {
+        $insumos = $this->getIdsInsumos();
+        foreach ($insumos as $key => $insumo) {
+            $detalle = DetalleInsumo::find($insumo);
+            $detalle->cantidad_utilizada = $this->getCantidadesUtilizadas()[$key];
+            $detalle->save();
+        }
     }
 
 

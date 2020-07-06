@@ -801,4 +801,68 @@
         $(element).find('td')[0].innerText = hour;
 
     }
+
+    function registar_cantidad_utilizada(cantidad_limite, element) {
+
+        return setInputFilter(element, function (value) {
+            return value <= cantidad_limite;
+        });
+
+    }
+
+
+    function finalizar_control_trazabilidad() {
+
+        let colaboradores_sin_finalizar = document.getElementsByClassName('colaborador_pendiente_finalizar').length;
+
+        if (colaboradores_sin_finalizar > 0) {
+            alert("Existen colaboradores pendientes de finalizar");
+            return;
+        }
+
+        let cantidadesSinConfirmar = getCantidadesUtilizadasSinConfirmar();
+        if (cantidadesSinConfirmar.length > 0) {
+            alert("Cantidades pendientes de confirmar");
+            getCantidadesUtilizadasSinConfirmar()[0].focus();
+            return;
+        }
+
+        let cantidad_produccion = document.getElementById('cantidad_produccion').value;
+        if (cantidad_produccion === "") {
+            alert("Cantidad de produccion vacía");
+            document.getElementById('cantidad_produccion').focus();
+            return;
+        }
+
+        $('form').submit();
+    }
+
+    function setInputFilter(input, inputFilter) {
+
+        const events = ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"];
+        events.forEach(function (event) {
+            input.addEventListener(event, function () {
+                if (inputFilter(this.value)) {
+                    this.oldValue = this.value;
+                    this.oldSelectionStart = this.selectionStart;
+                    this.oldSelectionEnd = this.selectionEnd;
+                } else if (this.hasOwnProperty("oldValue")) {
+                    this.value = this.oldValue;
+                    this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+                } else {
+                    this.value = "";
+                }
+            });
+        });
+    }
+
+    function getCantidadesUtilizadasSinConfirmar() {
+
+        let cantidades = Array.prototype.slice.call(document.getElementsByClassName('cantidad_utilizada'));
+
+        return cantidades.filter(function (e) {
+            return e.value === "";
+        });
+    }
+
 </script>

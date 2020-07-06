@@ -431,8 +431,11 @@ Route::post('produccion/trazabilidad_chao_mein/create', 'OperacionController@sto
 Route::post('produccion/trazabilidad_chao_mein/finalizar_asistencia', 'OperacionController@finalizar_asistencia')->name('produccion.operacion.finalizar_asistencia');
 Route::get('produccion/trazabilidad_chao_mein/buscar_producto', 'OperacionController@buscar_producto')->name('produccion.operacion.buscar_producto');
 Route::get('produccion/trazabilidad_chao_mein/buscar_orden_produccion', 'OperacionController@buscar_orden_produccion')->name('produccion.operacion.buscar_orden_produccion');
+Route::get('produccion/trazabilidad_chao_mein/finalizar/{id}', 'OperacionController@get_finalizar_control_trazabilidad')->name('produccion.get_finalizar');
+Route::post('produccion/trazabilidad_chao_mein/finalizar/{id}', 'OperacionController@save_finalizar_control_trazabilidad')->name('produccion.save_finalizar');
 Route::get('produccion/trazabilidad_chao_mein/{id}', 'OperacionController@show')->name('produccion.operacion.show');
 Route::get('produccion/trazabilidad_chao_mein/{id}/edit', 'OperacionController@edit')->name('produccion.operacion.edit');
+
 Route::get('produccion/trazabilidad_chao_mein/reporte/{id}', 'ReporteControlTrazabilidadController@reporte_control_trazabilidad')->name('produccion.operacion.reporte');
 
 Route::get('produccion/requisiciones', 'RequisicionController@index')->name('produccion.requisiciones.index');
@@ -540,3 +543,9 @@ Route::get('consultas/trazabilidad', 'ConsultaTrazabilidadController@index')->na
 
 Route::get('reimpresion', 'ReimpresionController@index')->name('reimpresion.index');
 Route::post('reimpresion/reimprimir', 'ReimpresionController@reimprimir')->name('reimpresion.reimprimir');
+
+
+Route::get('produccion/entrega_pt', 'EntregaPTController@index_entrega_pt')->name('produccion.index_entrega_pt');
+Route::get('produccion/recepcion_pt', 'EntregaPTController@index_recepcion_pt')->name('produccion.index_recepcion_pt');
+Route::get('produccion/entrega_pt/create', 'EntregaPTController@create_entrega_pt')->name('produccion.create_entrega_pt');
+Route::get('produccion/recepcion_pt/create', 'EntregaPTController@create_recepcion_pt')->name('produccion.create_recepcion_pt');

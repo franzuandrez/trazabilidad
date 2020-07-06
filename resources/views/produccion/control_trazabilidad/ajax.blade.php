@@ -38,6 +38,10 @@
                 @component('componentes.btn-ver',['url'=>'javascript:ver("trazabilidad_chao_mein")'])
                 @endcomponent
             @endcan
+            @can('role-edit')
+                <a href="javascript:ver('trazabilidad_chao_mein/finalizar')" data-placement="top" title="Finalizar" data-toggle="tooltip"><img
+                        src="{{asset('imagenes_web/confirmar.png')}}" width="50" height="50"></a>
+            @endcan
             @can('generar_reporte')
                 @component('componentes.btn-reporte',['url'=>'javascript:reporte("trazabilidad_chao_mein/reporte")'])
                 @endcomponent

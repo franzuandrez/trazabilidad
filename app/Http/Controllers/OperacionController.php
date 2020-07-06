@@ -26,6 +26,7 @@ class OperacionController extends Controller
 {
     //
 
+
     private $trazabilidad_repository = null;
     private $producto_repository = null;
 
@@ -193,6 +194,7 @@ class OperacionController extends Controller
             $this->trazabilidad_repository->registrarOperariosInvolucrados();
             $this->trazabilidad_repository->saveInsumos();
             $this->trazabilidad_repository->marcarIniciadoControlTrazabilidad();
+            $this->trazabilidad_repository->registrarCantidadProducidaSiExiste();
 
             DB::commit();
             return redirect()
@@ -220,6 +222,18 @@ class OperacionController extends Controller
 
         $operacion = Operacion::findOrFail($id);
 
+        if ($operacion->status == 1) {
+            return redirect()
+                ->back()
+                ->withErrors(['Control de trazabilidad en proceso']);
+
+        }
+
+        if ($operacion->status == 3) {
+            return view('produccion.control_trazabilidad.finalizado', [
+                'control' => $operacion
+            ]);
+        }
 
         return view('produccion.control_trazabilidad.show', [
             'operacion' => $operacion
@@ -242,7 +256,17 @@ class OperacionController extends Controller
         $actividades = Actividad::actived()
             ->get();
 
+        if ($control->status == 1) {
+            return redirect()
+                ->back()
+                ->withErrors(['Control de trazabilidad en proceso']);
 
+        }
+        if ($control->status == 3) {
+            return view('produccion.control_trazabilidad.finalizado', [
+                'control' => $control
+            ]);
+        }
         return view('produccion.control_trazabilidad.edit', [
             'control' => $control,
             'actividades' => $actividades
@@ -345,6 +369,79 @@ class OperacionController extends Controller
 
 
         return response()->json($response);
+
+    }
+
+    public function get_finalizar_control_trazabilidad($id)
+    {
+        $control = Operacion::with('producto')
+            ->with('asistencias')
+            ->with('actividades')
+            ->with('detalle_insumos')
+            ->findOrFail($id);
+
+
+        if ($control->status == 1) {
+            return redirect()
+                ->back()
+                ->withErrors(['Control de trazabilidad en proceso']);
+
+        }
+
+        if ($control->status == 3) {
+            return view('produccion.control_trazabilidad.finalizado', [
+                'control' => $control
+            ]);
+        }
+        $actividades = Actividad::actived()
+            ->get();
+
+        return view('produccion.control_trazabilidad.finalizar', [
+            'control' => $control,
+            'actividades' => $actividades
+        ]);
+
+
+    }
+
+
+    public function save_finalizar_control_trazabilidad($id, Request $request)
+    {
+
+
+        try {
+            $this
+                ->trazabilidad_repository
+                ->getControlTrazabilidadById($id);
+
+            $this
+                ->trazabilidad_repository
+                ->setIdsInsumos($request->insumo);
+
+            $this
+                ->trazabilidad_repository
+                ->setCantidadesUtilizadas($request->cantidad_utilizada);
+
+            $this
+                ->trazabilidad_repository
+                ->setCantidadUtilizada($request->cantidad_produccion);
+
+            $this
+                ->trazabilidad_repository
+                ->finalizarControlTrazabilidad();
+
+            return redirect()
+                ->route('produccion.operacion.index')
+                ->with('success', 'Control de trazabilidad finalizado correctamente');
+
+        } catch (\Exception $e) {
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->withErrors(['No ha sido posible finalizar el control de trazabilidad ', $e->getMessage()]);
+        }
+
 
     }
 

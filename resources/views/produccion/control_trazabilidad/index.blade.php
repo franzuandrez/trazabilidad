@@ -89,9 +89,13 @@
                                 <label class="label label-warning">
                                     En proceso
                                 </label>
-                            @else
+                            @elseif($operacion->status==2)
                                 <label class="label-success label">
                                     Iniciado
+                                </label>
+                            @else
+                                <label class="label-primary label">
+                                    Finalizado
                                 </label>
                             @endif
                         </td>
