@@ -11,43 +11,58 @@ class RealTimeService
 {
 
 
-    public static function guardar(Model $model, $nuevos_registro)
+    protected static function getOnlyNuevosRegistros($registros)
     {
-
-        $nuevos_registro = collect($nuevos_registro)
+        $nuevos_registro = collect($registros)
             ->filter(function ($item) {
                 return $item != "" && $item != null;
             })->toArray();
 
+        return $nuevos_registro;
+    }
+
+    protected static function setNuevosRegistrosToModel($nuevos_registro, Model $model)
+    {
+
+        $model = $model
+            ->newQueryWithoutRelationships()
+            ->where($model->getKeyName(), $model->getKey())
+            ->first();
+
+        foreach ($nuevos_registro as $key => $value) {
+            $model->{$key} = $value;
+        }
+        $rows = $model->save();
+        return $rows;
+    }
+
+    public static function guardar(Model $model, $nuevos_registro)
+    {
+
+        $nuevos_registro = self::getOnlyNuevosRegistros($nuevos_registro);
+
         try {
-            DB::enableQueryLog();
+
             $nothing_to_update = count($nuevos_registro) == 0;
 
             if ($nothing_to_update) {
                 $response = [
                     'status' => 1,
                     'message' => 'Insertado correctamente',
-                    'query' => DB::getQueryLog(),
                 ];
             } else {
-                $model = $model
-                    ->newQueryWithoutRelationships()
-                    ->where($model->getKeyName(), $model->getKey())
-                    ->first();
-                $model->{array_keys($nuevos_registro)[0]} = array_values($nuevos_registro)[0];
-                $rows = $model->save();
-
+                $rows = self::setNuevosRegistrosToModel($nuevos_registro, $model);
                 if ($rows) {
                     $response = [
                         'status' => 1,
                         'message' => 'Insertado correctamente',
-                        'query' => DB::getQueryLog(),
+
                     ];
                 } else {
                     $response = [
                         'status' => 0,
                         'message' => 'No se ha podido insertar el registro',
-                        'query' =>  DB::getQueryLog(),
+
                     ];
                 }
             }
