@@ -117,4 +117,10 @@ class Operacion extends Model
     {
         return $this->hasOne(LineaSopa::class, 'id_control', 'id_control');
     }
+
+    public function creado_por()
+    {
+        return $this->belongsTo(User::class, 'id_usuario', 'id');
+    }
+
 }
