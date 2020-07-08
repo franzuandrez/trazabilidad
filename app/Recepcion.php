@@ -89,7 +89,8 @@ class Recepcion extends Model
 
     public $with = [
         'proveedor',
-        'rmi_encabezado'
+        'rmi_encabezado',
+        'recepcionado_por'
     ];
 
     protected static $logOnlyDirty = true;
@@ -99,7 +100,7 @@ class Recepcion extends Model
      * ------------------------------------------RELATIONSHIPS ---------------------------------------
      *
      */
-    public function usuario_recepcion()
+    public function recepcionado_por()
     {
 
         return $this->belongsTo('App\User', 'usuario_recepcion');
