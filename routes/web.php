@@ -543,7 +543,7 @@ Route::get('sopas/liberacion/{id}', 'LineaSopaController@show')->name('sopas.lib
 Route::get('sopas/liberacion/reporte/{id}', 'ReporteLineaSopas@linea_sopas')->name('sopas.liberacion.linea_sopas');
 
 
-Route::get('consultas/trazabilidad', 'ConsultaTrazabilidadController@index')->name('consulta.trazabilidad');
+Route::get('operaciones/consultas/trazabilidad', 'ConsultaTrazabilidadController@index')->name('consulta.trazabilidad');
 
 Route::get('reimpresion', 'ReimpresionController@index')->name('reimpresion.index');
 Route::post('reimpresion/reimprimir', 'ReimpresionController@reimprimir')->name('reimpresion.reimprimir');

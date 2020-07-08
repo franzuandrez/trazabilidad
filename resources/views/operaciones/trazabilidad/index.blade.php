@@ -1,6 +1,20 @@
 @extends('layouts.admin')
 @section('style')
     <link href="{{asset('css/loading.css')}}" rel="stylesheet">
+    <style>
+        .event-detail {
+
+            height: 160px;
+            overflow-y: auto;
+
+        }
+
+        thead > tr {
+            position: sticky;
+            top: 0;
+            background-color: #ffffff;
+        }
+    </style>
 @endsection
 @section('contenido')
     @include('componentes.alert-success')
@@ -11,12 +25,18 @@
     'submenu_icon'=>'fa fa-hand-lizard-o',
     'operation_icon'=>'',])
         @slot('menu')
-            Registro
+            Operaciones
         @endslot
         @slot('submenu')
-            Actividades
+            Consulta trazabilidad
         @endslot
     @endcomponent
+
+
+    <div id="content">
+        @include('operaciones.trazabilidad.ajax')
+    </div>
+
 
 @endsection
 
