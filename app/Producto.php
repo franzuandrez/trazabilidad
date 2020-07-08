@@ -71,7 +71,7 @@ class Producto extends Model
     protected $primaryKey = 'id_producto';
     public $timestamps = false;
 
-    public $with = ['presentaciones'];
+
     protected $fillable = [
         'codigo_barras',
         'codigo_interno',
