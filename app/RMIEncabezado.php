@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * App\RMIEncabezado
@@ -37,6 +38,11 @@ use Illuminate\Database\Eloquent\Model;
 class RMIEncabezado extends Model
 {
     //
+    use LogsActivity;
+    public static $logAttributes = [
+        '*'
+    ];
+    protected static $logOnlyDirty = true;
     protected $table = 'rmi_encabezado';
     protected $primaryKey = 'id_rmi_encabezado';
     public $timestamps = false;
