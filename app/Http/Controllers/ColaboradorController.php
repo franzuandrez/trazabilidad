@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Colaborador;
 use App\Http\Requests\ColaboradorRequest;
+use App\Http\tools\GeneradorCodigos;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -105,7 +106,7 @@ class ColaboradorController extends Controller
         }
 
         $colaborador = new Colaborador();
-        $colaborador->codigo_barras = $this->codigo_barras();
+        $colaborador->codigo_barras = GeneradorCodigos::getCodigoColaborador();
         $colaborador->nombre = $request->get('nombre');
         $colaborador->apellido = $request->get('apellido');
         $colaborador->telefono = $request->get('telefono');
@@ -304,36 +305,7 @@ class ColaboradorController extends Controller
 
     }
 
-    private function codigo_verificador_colaborador($codigo)
-    {
 
-        $sum = collect(str_split($codigo))
-            ->map(function ($item, $key) {
-                if ($key % 2 == 0) {
-                    return $item * 3;
-                } else {
-                    return $item * 1;
-                }
-            })->sum();
 
-        $decena = ceil($sum / 10) * 10;
-        $codigo_verificador = intval($decena - $sum);
 
-        return $codigo_verificador;
-    }
-
-    private function codigo_barras()
-    {
-
-        $total = Colaborador::count() + 1;
-
-        $correlativo = str_pad($total, 10, '0', STR_PAD_LEFT);
-        $ai = '8018';
-        $codigo_empresa = '0754842';
-
-        $codigo_chequeo = $this->codigo_verificador_colaborador($codigo_empresa . $correlativo);
-
-        return $ai . $codigo_empresa . $correlativo . $codigo_chequeo;
-
-    }
 }
