@@ -3,19 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Actividad;
-use App\Asistencia;
-use App\DetalleInsumo;
 use App\Operacion;
-use App\OperariosInvolucrados;
-use App\Producto;
 use App\Repository\ProductoRepository;
 use App\Repository\TrazabilidadRepository;
-use App\Requisicion;
-use App\ReservaPicking;
-use Auth;
-use Carbon\Carbon;
 use DB;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 
 /**
@@ -40,7 +34,7 @@ class OperacionController extends Controller
 
     /**
      * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
     public function index(Request $request)
     {
@@ -146,7 +140,7 @@ class OperacionController extends Controller
     }
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
     public function create()
     {
@@ -209,7 +203,7 @@ class OperacionController extends Controller
 
     /**
      * @param $id
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
     public function show($id)
     {
@@ -236,7 +230,7 @@ class OperacionController extends Controller
 
     /**
      * @param $id
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
     public function edit($id)
     {
@@ -382,7 +376,7 @@ class OperacionController extends Controller
 
         }
 
-        if ($control->status == 3) {
+        if ($control->status == 3 || $control->status == 4) {
             return view('produccion.control_trazabilidad.finalizado', [
                 'control' => $control
             ]);
