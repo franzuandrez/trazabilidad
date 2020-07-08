@@ -95,6 +95,11 @@ class Requisicion extends Model
             ->orderBy('id_ubicacion', 'asc');
     }
 
+    public function movimientos()
+    {
+        return $this->hasMany(Movimiento::class,'numero_documento','no_orden_produccion');
+    }
+
     public function scopeEnProceso($query)
     {
         return $query->where('estado', 'P');
@@ -113,7 +118,7 @@ class Requisicion extends Model
 
     public function scopeNoDeBaja($query)
     {
-        return $query->where('requisicion_encabezado.estado','!=', 'B');
+        return $query->where('requisicion_encabezado.estado', '!=', 'B');
     }
 
     public function scopeDeUsuarioRecepcion($query, $type)
