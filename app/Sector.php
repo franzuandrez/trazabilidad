@@ -59,9 +59,7 @@ class Sector extends Model
         'estado',
         'codigo_interno'
     ];
-    protected $with = [
-        'pasillos'
-    ];
+
     protected static $logOnlyDirty = true;
 
     public function scopeActived($query){
