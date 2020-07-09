@@ -124,7 +124,7 @@ class GeneradorCodigos
         self::$numero_serial = $numero_serial;
         self::$digito_verificador = $codigo_verificador;
         self::$codigo_generado = $codigo_SSCC;
-
+        self::$digito_indicador = $digito_indicador;
         return $codigo_SSCC;
     }
 
