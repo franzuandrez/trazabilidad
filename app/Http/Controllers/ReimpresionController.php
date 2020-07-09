@@ -25,6 +25,7 @@ class ReimpresionController extends Controller
         $sortField = $request->get('field') == null ? 'CORRELATIVO' : $request->get('field');
 
         $impresiones = Impresion::NoReimpresion()
+            ->esRecepcion()
             ->where(function ($query) use ($search) {
                 $query->where('DESCRIPCION_PRODUCTO', 'LIKE', '%' . $search . '%')
                     ->orWhere('CODIGO_BARRAS', 'LIKE', '%' . $search . '%')

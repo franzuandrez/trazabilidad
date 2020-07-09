@@ -60,7 +60,7 @@ class Impresion extends Model
         'REIMPRESION'
     ];
 
-    protected $dates =[
+    protected $dates = [
         'FECHA_VENCIMIENTO'
     ];
 
@@ -69,6 +69,11 @@ class Impresion extends Model
     {
 
         return $query->where('tb_imprimir.REIMPRESION', '0');
+    }
+
+    public function scopeEsRecepcion($query)
+    {
+        return $query->where('tb_imprimir.tipo', 'R');
     }
 
 }
