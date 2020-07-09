@@ -13,7 +13,7 @@ class Impresiones
 {
     private static $file = "C:\\ImpresionRed\\imprimir.txt";
 
-    public static function imprimirFromRMIDetalle($ids, $ip, $tipo, $impresiones)
+    public static function imprimirFromRMIDetalle($ids, $tipo, $impresiones)
     {
 
         $movimientos = RMIDetalle::whereIn('id_rmi_detalle', $ids)
@@ -24,10 +24,9 @@ class Impresiones
         foreach ($movimientos as $key => $mov) {
 
             if ($impresiones[$key] > 0) {
-
                 $producto = Producto::find($mov->id_producto);
                 $imprimir = new \App\Impresion();
-                $imprimir->IP = $ip;
+                $imprimir->IP = env('IP_IMPRESION');
                 $imprimir->CODIGO_BARRAS = $producto->codigo_barras;
                 $imprimir->DESCRIPCION_PRODUCTO = $producto->descripcion;
                 $imprimir->LOTE = $mov->lote;
@@ -39,7 +38,7 @@ class Impresiones
             }
 
         }
-        self::crearArchivo();
+        self::activarTriggerParaLaImpresora();
 
     }
 
@@ -59,9 +58,10 @@ class Impresiones
         $reimprimir->ID_USUARIO = \Auth::user()->id;
         $reimprimir->save();
 
+        self::activarTriggerParaLaImpresora();
     }
 
-    private static function crearArchivo()
+    private static function activarTriggerParaLaImpresora()
     {
 
         $file = fopen(self::$file, 'w');

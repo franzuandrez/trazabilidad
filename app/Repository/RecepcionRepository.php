@@ -374,7 +374,7 @@ class RecepcionRepository
 
     private function imprimir()
     {
-        Impresiones::imprimirFromRMIDetalle($this->idsRmiDetalle, env('IP_IMPRESION'), 'R', $this->cantidad_impresiones);
+        Impresiones::imprimirFromRMIDetalle($this->idsRmiDetalle, 'R', $this->cantidad_impresiones);
     }
 
 }
