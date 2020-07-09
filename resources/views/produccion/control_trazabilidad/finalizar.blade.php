@@ -138,7 +138,7 @@
                 <input type="text"
                        name="cantidad_etiquetas_corrugado"
                        id="cantidad_etiquetas_corrugado"
-                       disabled
+                       readonly
                        class="form-control">
             </div>
         </div>
@@ -148,7 +148,7 @@
                 <input type="text"
                        name="cantidad_etiquetas_unidades"
                        id="cantidad_etiquetas_unidades"
-                       disabled
+                       readonly
                        class="form-control">
             </div>
         </div>
