@@ -130,6 +130,30 @@
                    class="form-control">
         </div>
     </div>
+
+    @if($control->producto->tipo_producto == 'PT')
+        <div class="col-lg-3 col-sm-3 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="cantidad_etiquetas_corrugado">{{$control->producto->unidad_medida}}</label>
+                <input type="text"
+                       name="cantidad_etiquetas_corrugado"
+                       id="cantidad_etiquetas_corrugado"
+                       disabled
+                       class="form-control">
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-3 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="cantidad_etiquetas_unidades">UNIDADES</label>
+                <input type="text"
+                       name="cantidad_etiquetas_unidades"
+                       id="cantidad_etiquetas_unidades"
+                       disabled
+                       class="form-control">
+            </div>
+        </div>
+    @endif
+
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <ul class="nav nav-tabs">
             <li class="active">
@@ -222,4 +246,52 @@
 @endsection
 @section('scripts')
     @include('produccion.control_trazabilidad.main_script')
+    <script>
+        function mostrar_cantidad_impresiones() {
+
+            let control_trazabilidad = getControlTrazabilidad();
+            let cantidad_produccion_no_seteada = control_trazabilidad.cantidad_producida == null;
+            let es_producto_terminado = control_trazabilidad.producto.tipo_producto === 'PT';
+            if (es_producto_terminado) {
+                if (cantidad_produccion_no_seteada) {
+                    calcular_cantidad_impresiones(control_trazabilidad.producto);
+                } else {
+                    setear_cantidad_impresiones_corrugados(control_trazabilidad.producto, control_trazabilidad.cantidad_producida);
+                }
+            }
+        }
+
+
+        function calcular_cantidad_impresiones(producto) {
+
+            let element = document.getElementById("cantidad_produccion");
+
+            element.addEventListener("keyup", function () {
+                setear_cantidad_impresiones_corrugados(producto, document.getElementById("cantidad_produccion").value);
+            });
+        }
+
+        function setear_cantidad_impresiones_corrugados(producto, cantidad_producida) {
+
+            let factor = producto.cantidad_unidades;
+            let total_etiquetas_corrugados = parseInt(cantidad_producida / factor);
+            let total_etiquetas_unidades = parseInt(cantidad_producida % factor);
+            document.getElementById('cantidad_etiquetas_corrugado').value = total_etiquetas_corrugados;
+            setear_cantidad_impresiones_unidades(total_etiquetas_unidades);
+
+        }
+
+        function setear_cantidad_impresiones_unidades(total_etiquetas_unidades) {
+            document.getElementById('cantidad_etiquetas_unidades').value = total_etiquetas_unidades;
+        }
+
+        function getControlTrazabilidad() {
+
+            let control_trazabilidad = [];
+            control_trazabilidad = @json($control);
+            return control_trazabilidad;
+        }
+
+        mostrar_cantidad_impresiones();
+    </script>
 @endsection
