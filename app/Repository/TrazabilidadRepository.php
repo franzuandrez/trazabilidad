@@ -6,6 +6,7 @@ namespace App\Repository;
 
 use App\Asistencia;
 use App\DetalleInsumo;
+use App\Http\tools\Impresiones;
 use App\Operacion;
 use App\OperariosInvolucrados;
 use App\Producto;
@@ -836,6 +837,12 @@ class TrazabilidadRepository
             $control_trazabilidad->status = self::STATUS_FINALIZADA;
             $control_trazabilidad->save();
         }
+
+        $producto = $this->getControlTrazabilidad()->producto;
+        if ($producto->tipo_producto == 'PT') {
+            Impresiones::imprimir_corrugado($control_trazabilidad);
+        }
+
 
     }
 

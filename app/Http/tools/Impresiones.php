@@ -5,6 +5,7 @@ namespace App\Http\tools;
 
 
 use App\Impresion;
+use App\ImpresionCorrugado;
 use App\Movimiento;
 use App\Producto;
 use App\RMIDetalle;
@@ -59,6 +60,53 @@ class Impresiones
         $reimprimir->save();
 
         self::activarTriggerParaLaImpresora();
+    }
+
+
+    public static function imprimir_corrugado($control_trazabilidad)
+    {
+
+
+        $producto = $control_trazabilidad->producto;
+        $cantidad_impresiones = intval($control_trazabilidad->cantidad_producida / $producto->cantidad_unidades);
+
+        $lote = $control_trazabilidad->lote;
+        $fecha_vencimiento = $control_trazabilidad->fecha_vencimiento;
+        $cantidad = 1;
+
+        $impresion_producto = self::imprimir($producto, $lote, $fecha_vencimiento, $cantidad, 'T', true);
+
+        for ($i = 0; $i < $cantidad_impresiones; $i++) {
+            GeneradorCodigos::getCodigoCorrugado();
+            $corrugado = new ImpresionCorrugado();
+            $corrugado->identificador_aplicacion = GeneradorCodigos::CODIGO_SSCC;
+            $corrugado->digito_indicador = GeneradorCodigos::getDigitoIndicador();;
+            $corrugado->prefijo_compania = GeneradorCodigos::CODIGO_EMPRESA;
+            $corrugado->numerio_serial = GeneradorCodigos::getNumeroSerial();
+            $corrugado->id_tb_imprimir = $impresion_producto->CORRELATIVO;
+            $corrugado->ip = env('IP_IMPRESION');
+            $corrugado->save();
+        }
+        self::activarTriggerParaLaImpresora();
+
+    }
+
+    public static function imprimir($producto, $lote, $fecha_vencimiento, $cantidad, $tipo, $es_pt = false)
+    {
+        $imprimir = new Impresion();
+        $imprimir->IP = env('IP_IMPRESION');
+        $imprimir->CODIGO_BARRAS = $es_pt ? $producto->codigo_dun : $producto->codigo_barras;
+        $imprimir->DESCRIPCION_PRODUCTO = $producto->descripcion;
+        $imprimir->LOTE = $lote;
+        $imprimir->FECHA_VENCIMIENTO = $fecha_vencimiento;
+        $imprimir->COPIAS = $cantidad;
+        $imprimir->TIPO = $tipo;
+        $imprimir->IMPRESO = 'N';
+        $imprimir->REIMPRESION = 0;
+        $imprimir->ID_USUARIO = \Auth::user()->id;
+        $imprimir->save();
+
+        return $imprimir;
     }
 
     private static function activarTriggerParaLaImpresora()
