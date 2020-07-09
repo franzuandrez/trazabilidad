@@ -74,4 +74,11 @@ class ReimpresionController extends Controller
             'Guardado correctamente'
         ]);
     }
+
+    public function procesar_impresiones_pendientes()
+    {
+
+        Impresiones::procesarImpresionesPendientes();
+
+    }
 }

@@ -547,6 +547,7 @@ Route::get('operaciones/consultas/trazabilidad', 'ConsultaTrazabilidadController
 
 Route::get('reimpresion', 'ReimpresionController@index')->name('reimpresion.index');
 Route::post('reimpresion/reimprimir', 'ReimpresionController@reimprimir')->name('reimpresion.reimprimir');
+Route::get('reimpresion/procesar_pendientes', 'ReimpresionController@procesar_impresiones_pendientes')->name('reimpresion.reimprimir');
 
 
 Route::get('produccion/entrega_pt', 'EntregaPTController@index_entrega_pt')->name('produccion.index_entrega_pt');

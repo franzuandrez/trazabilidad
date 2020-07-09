@@ -109,6 +109,11 @@ class Impresiones
         return $imprimir;
     }
 
+    public static function procesarImpresionesPendientes()
+    {
+        self::activarTriggerParaLaImpresora();
+    }
+
     private static function activarTriggerParaLaImpresora()
     {
 
