@@ -53,26 +53,20 @@
                          'titulo'=>'LOTE'])
 
                 </th>
-                <th>
-                    @include('recepcion.kardex.sort',[
-                    'filtro' => $filtro,
-                        'search'=>$search,
-                         'sort'=>$sort,
-                         'sortField'=>$sortField,
-                         'field'=>'entrada',
-                         'titulo'=>' + ENT.'])
 
-                </th>
-                <th>
-                    @include('recepcion.kardex.sort',[
-                    'filtro' => $filtro,
-                        'search'=>$search,
-                         'sort'=>$sort,
-                         'sortField'=>$sortField,
-                         'field'=>'salida',
-                         'titulo'=>'- SAL.'])
 
-                </th>
+                @foreach( $tipos_movimiento as $tipo )
+                    <th>
+                        @include('recepcion.kardex.sort',[
+                        'filtro' => $filtro,
+                            'search'=>$search,
+                             'sort'=>$sort,
+                             'sortField'=>$sortField,
+                             'field'=>$tipo->descripcion,
+                             'titulo'=> ($tipo->factor==1?'+':'-').' '. substr($tipo->descripcion,0,3)])
+
+                    </th>
+                @endforeach
                 <th>
                     @include('recepcion.kardex.sort',[
                         'filtro' => $filtro,
@@ -110,12 +104,13 @@
                         <td>
                             {{$producto->lote}}
                         </td>
-                        <td>
-                            {{$producto->entrada}}
-                        </td>
-                        <td>
-                            {{$producto->salida}}
-                        </td>
+                        @foreach( $tipos_movimiento as $tipo )
+                            <td>
+                                {{$producto->{$tipo->descripcion} }}
+                            </td>
+                        @endforeach
+
+
                         <td>
                             {{$producto->total}}
                         </td>

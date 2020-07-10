@@ -7,6 +7,7 @@ use App\Http\tools\Movimientos;
 use App\Movimiento;
 use App\Recepcion;
 use App\RMIDetalle;
+use App\TipoMovimiento;
 use DB;
 use Excel;
 use Illuminate\Database\Eloquent\Builder;
@@ -62,6 +63,8 @@ class MovimientoController extends Controller
             ->orderBy($this->sortField, $this->sort)
             ->get();
 
+        $tipos_movimiento = TipoMovimiento::all();
+
 
         if ($request->ajax()) {
             return view('recepcion.kardex.index',
@@ -75,7 +78,8 @@ class MovimientoController extends Controller
                     'producto' => $this->producto,
                     'lote' => $this->lote,
                     'start' => $this->start,
-                    'end' => $this->end
+                    'end' => $this->end,
+                    'tipos_movimiento' => $tipos_movimiento,
                 ]
             );
         } else {
@@ -90,7 +94,8 @@ class MovimientoController extends Controller
                     'producto' => $this->producto,
                     'lote' => $this->lote,
                     'start' => $this->start,
-                    'end' => $this->end
+                    'end' => $this->end,
+                    'tipos_movimiento' => $tipos_movimiento,
                 ]
             );
         }
@@ -135,7 +140,8 @@ class MovimientoController extends Controller
                 $sheet->loadView('recepcion.kardex.excel',
                     [
                         'collection' => $productos,
-                        'parametros' => $request
+                        'parametros' => $request,
+                        'tipos_movimiento' => TipoMovimiento::all()
                     ]);
             });
         })->export('xlsx');
@@ -177,7 +183,7 @@ class MovimientoController extends Controller
         $rmi_encabezado = $rmi_encabezado->get()
             ->pluck('id_rmi_encabezado');
 
-
+        $query = $this->getTiposMovimientoQuery(true);
         $productos = RMIDetalle::join('productos', 'rmi_detalle.id_producto', '=', 'productos.id_producto')
             ->select(DB::raw('0 as id_bodega'),
                 'productos.descripcion as producto',
@@ -186,8 +192,7 @@ class MovimientoController extends Controller
                 'rmi_detalle.lote as lote',
                 DB::raw("'AREA TRANSITO' as bodega"),
                 DB::raw("'AREA TRANSITO' as ubicacion"),
-                DB::raw('sum(cantidad_entrante) as entrada'),
-                DB::raw(' "0"  as salida'),
+                DB::raw($query),
                 DB::raw('sum(cantidad_entrante) as total'
                 ))
             ->whereIn('id_rmi_encabezado', $rmi_encabezado)
@@ -228,11 +233,11 @@ class MovimientoController extends Controller
     private function producto_en_bodega()
     {
 
-
+        $query = $this->getTiposMovimientoQuery();
         $productos = Movimiento::join('productos', 'movimientos.id_producto', '=', 'productos.id_producto')
             ->join('tipo_movimiento', 'tipo_movimiento.id_movimiento', '=', 'movimientos.tipo_movimiento')
             ->leftJoin('bodegas', 'movimientos.id_bodega', '=', 'bodegas.id_bodega')
-            ->leftJoin('sectores','movimientos.id_sector','=','sectores.id_sector')
+            ->leftJoin('sectores', 'movimientos.id_sector', '=', 'sectores.id_sector')
             ->select('movimientos.id_bodega as id_bodega',
                 'productos.descripcion as producto',
                 'productos.codigo_interno as codigo_interno',
@@ -240,8 +245,7 @@ class MovimientoController extends Controller
                 'movimientos.lote as lote',
                 'bodegas.descripcion as bodega',
                 'sectores.descripcion as ubicacion',
-                DB::raw('sum( if(factor=1, cantidad  * factor,0) ) as entrada'),
-                DB::raw('sum( if(factor<>1, cantidad  * factor * -1,0) ) as salida'),
+                DB::raw($query),
                 DB::raw('sum( cantidad  * factor ) as total')
             );
 
@@ -277,9 +281,34 @@ class MovimientoController extends Controller
             ->groupBy('movimientos.id_sector');
 
 
-
         return $productos;
 
+    }
+
+    private function getTiposMovimientoQuery($es_transito = false)
+    {
+
+        if ($es_transito) {
+
+            $query = TipoMovimiento::all()->map(function ($item) {
+                if ($item->id_movimiento == 1) {
+                    return ('sum(cantidad_entrante) as ' . $item->descripcion);;
+                }
+                return (' "0"  as ' . $item->descripcion);
+
+            });
+        } else {
+            $query = TipoMovimiento::all()->map(function ($item) {
+                return (('sum( if(tipo_movimiento=' . $item->id_movimiento . ', cantidad  ,0) ) as ' . $item->descripcion));
+            });
+        }
+        $query = $query->reduce(function ($item, $carry) {
+            return $item . $carry . ',';
+        }, "");
+        $query = rtrim($query, ',');
+
+
+        return $query;
     }
 
 }

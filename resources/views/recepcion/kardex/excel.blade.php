@@ -5,7 +5,7 @@
 <body style="width: auto; height: auto;">
 <table style=" border-collapse: collapse;">
     @php
-
+        $max_width = count($tipos_movimiento) + 6;
     @endphp
     <thead>
     <td colspan="1"><img src="img/empresa.png"></td>
@@ -13,20 +13,22 @@
     <tr>
     </tr>
     <tr>
-        <td style="border: 1px solid #000" colspan="8" align="center"><b>EXISTENCIAS</b></td>
+        <td style="border: 1px solid #000" colspan="{{$max_width}}" align="center"><b>EXISTENCIAS</b>
+        </td>
     </tr>
     <tr>
         <td style="border: 1px solid #000"><strong>GENERADO </strong></td>
-        <td style="border: 1px solid #000" colspan="7">{{\Carbon\Carbon::now()->format('d/m/Y H:i:s')}}</td>
+        <td style="border: 1px solid #000"
+            colspan="{{$max_width -1}}">{{\Carbon\Carbon::now()->format('d/m/Y H:i:s')}}</td>
     </tr>
     <tr>
         <td style="border: 1px solid #000"><strong>USUARIO</strong></td>
-        <td style="border: 1px solid #000" colspan="7">{{\Auth::user()->nombre}}</td>
+        <td style="border: 1px solid #000" colspan="{{$max_width-1}}">{{\Auth::user()->nombre}}</td>
     </tr>
     @if($parametros->start != null && $parametros->end != null)
         <tr>
             <td style="border: 1px solid #000"><strong>FECHA</strong></td>
-            <td style="border: 1px solid #000" colspan="7">
+            <td style="border: 1px solid #000" colspan="{{$max_width-1}}">
                 {{\Carbon\Carbon::createFromFormat('Y-m-d',$parametros->start)->format('d/m/Y')}}
                 -
                 {{\Carbon\Carbon::createFromFormat('Y-m-d',$parametros->end)->format('d/m/Y')}}
@@ -38,12 +40,12 @@
         @if($parametros->id_select_search==0)
             <tr>
                 <td style="border: 1px solid #000"><strong>AREA</strong></td>
-                <td style="border: 1px solid #000" colspan="7">TRANSITO</td>
+                <td style="border: 1px solid #000" colspan="{{$max_width-1}}">TRANSITO</td>
             </tr>
         @else
             <tr>
                 <td style="border: 1px solid #000"><strong>AREA</strong></td>
-                <td style="border: 1px solid #000" colspan="7">{{$collection->first()->bodega}}</td>
+                <td style="border: 1px solid #000" colspan="{{$max_width-1}}">{{$collection->first()->bodega}}</td>
             </tr>
         @endif
     @endif
@@ -52,7 +54,7 @@
     @if($parametros->lote !=null)
         <tr>
             <td style="border: 1px solid #000"><strong>LOTE</strong></td>
-            <td style="border: 1px solid #000" colspan="7">{{$parametros->lote}}</td>
+            <td style="border: 1px solid #000" colspan="{{$max_width-1}}">{{$parametros->lote}}</td>
         </tr>
     @endif
 
@@ -61,7 +63,7 @@
 <table style=" border-collapse: collapse;">
     @php
 
-        $colspan = 3;
+        $colspan = count($tipos_movimiento);
     @endphp
 
     <thead>
@@ -82,8 +84,10 @@
                 $colspan -= 1;
             @endphp
         @endif
-        <th width="20" style="border: 1px solid #000">ENT</th>
-        <th width="20" style="border: 1px solid #000">SAL</th>
+
+        @foreach($tipos_movimiento as $tipo)
+            <th width="20" style="border: 1px solid #000">{{ substr($tipo->descripcion,0,3)}}</th>
+        @endforeach
         <th width="20" style="border: 1px solid #000" colspan="{{$colspan}}">FINAL</th>
     </tr>
     </thead>
@@ -116,12 +120,11 @@
                     {{$producto->lote}}
                 </td>
             @endif
-            <td style="border: 1px solid #000000">
-                {{$producto->entrada}}
-            </td>
-            <td style="border: 1px solid #000000">
-                {{$producto->salida}}
-            </td>
+            @foreach($tipos_movimiento as $tipo)
+                <td style="border: 1px solid #000000">
+                    {{$producto->{$tipo->descripcion} }}
+                </td>
+            @endforeach
             <td colspan="{{$colspan}}" style="border: 1px solid #000000">
                 {{$producto->total}}
             </td>
