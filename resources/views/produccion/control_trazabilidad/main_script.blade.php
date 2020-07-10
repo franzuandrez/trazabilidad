@@ -38,6 +38,28 @@
             return;
         }
 
+        let lote = document.getElementById('lote_produccion').value;
+
+        if (lote === "") {
+            alert("Lote en blanco");
+            document.getElementById('lote_produccion').focus();
+            return;
+        }
+        let cantidad_programada = document.getElementById('cantidad_programada').value;
+
+        if (cantidad_programada === "") {
+            alert("Cantidad programada en blanco");
+            document.getElementById('cantidad_programada').focus();
+            return;
+        }
+        let turno = document.getElementById('turno').value;
+
+        if (turno === "") {
+            alert("turno  en blanco");
+            document.getElementById('turno').focus();
+            return;
+        }
+
         $('form').submit();
 
     }
@@ -64,8 +86,8 @@
         document.getElementById('ordenes').value = "";
         document.getElementById('no_orden_produccion').readOnly = false;
         document.getElementById('no_orden_produccion').focus();
-        document.getElementById('lote').value = "";
-        document.getElementById('lote').readOnly = true;
+        document.getElementById('lote_produccion').value = "";
+        document.getElementById('lote_produccion').readOnly = true;
         document.getElementById('turno').value = "";
         document.getElementById('turno').readOnly = true;
         document.getElementById('cantidad_programada').value = "";
@@ -129,8 +151,8 @@
                             agregar_orden_produccion();
                             set_id_orden(control_trazabilidad.id_control);
                             document.getElementById('id_requisicion').value = orden_produccion.id;
-                            document.getElementById('lote').readOnly = false;
-                            document.getElementById('lote').focus();
+                            document.getElementById('lote_produccion').readOnly = false;
+                            document.getElementById('lote_produccion').focus();
                             document.getElementById('turno').readOnly = false;
                             document.getElementById('cantidad_programada').readOnly = false;
                             document.getElementById('no_orden_produccion').value = "";
@@ -282,8 +304,8 @@
 
     function verificar_existencia_lote_pp() {
 
-        let cantidad_pp = document.getElementById('cantidad_producto_pp').value;
-        if (cantidad_pp > cantidad_producto_pp) {
+        let cantidad_pp = parseFloat(document.getElementById('cantidad_producto_pp').value);
+        if (cantidad_pp > parseFloat(cantidad_producto_pp)) {
             alert("La cantidad excede la existencia");
             return;
         }
@@ -294,7 +316,7 @@
         const id_producto = document.getElementById('id_producto').value;
         const fecha_vencimiento = document.getElementById('best_by').value;
         const turno = document.getElementById('turno').value;
-        const lote_pt = document.getElementById('lote').value;
+        const lote_pt = document.getElementById('lote_produccion').value;
         const cantidad_programada = document.getElementById('cantidad_programada').value;
         const id_control = document.getElementById('id_control').value;
 
@@ -341,7 +363,7 @@
         const id_producto = document.getElementById('id_producto').value;
         const fecha_vencimiento = document.getElementById('best_by').value;
         const turno = document.getElementById('turno').value;
-        const lote_pt = document.getElementById('lote').value;
+        const lote_pt = document.getElementById('lote_produccion').value;
         const cantidad_programada = document.getElementById('cantidad_programada').value;
         const id_control = document.getElementById('id_control').value;
 
@@ -804,8 +826,10 @@
 
     function registar_cantidad_utilizada(cantidad_limite, element) {
 
+
         return setInputFilter(element, function (value) {
-            return value <= cantidad_limite;
+
+            return parseFloat(value) <= parseFloat(cantidad_limite);
         });
 
     }

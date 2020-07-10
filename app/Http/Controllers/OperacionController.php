@@ -7,6 +7,7 @@ use App\Operacion;
 use App\Repository\ProductoRepository;
 use App\Repository\TrazabilidadRepository;
 use DB;
+use Exception;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -126,7 +127,7 @@ class OperacionController extends Controller
                 ->trazabilidad_repository
                 ->buscarOrdenProduccion($search, $id_producto, $id_control);
 
-        } catch (\Exception $ex) {
+        } catch (Exception $ex) {
             $response = [
                 'status' => 0,
                 'message' => 'Algo salio mal ' . $ex->getMessage(),
@@ -160,7 +161,7 @@ class OperacionController extends Controller
     /**
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
-     * @throws \Exception
+     * @throws Exception
      */
     public function store(Request $request)
     {
@@ -181,15 +182,19 @@ class OperacionController extends Controller
             $this->trazabilidad_repository->setAusenciaMaterialExtranios($request->ausencia_me);
             $this->trazabilidad_repository->registrarOperariosInvolucrados();
             $this->trazabilidad_repository->saveInsumos();
+            $this->trazabilidad_repository->setLote($request->lote_produccion);
+            $this->trazabilidad_repository->setCantidadProgramada($request->cantidad_programada);
+            $this->trazabilidad_repository->setTurno($request->turno);
             $this->trazabilidad_repository->marcarIniciadoControlTrazabilidad();
             $this->trazabilidad_repository->registrarCantidadProducidaSiExiste();
+            $this->trazabilidad_repository->saveControlTrazabilidad();
 
             DB::commit();
             return redirect()
                 ->route('produccion.operacion.index')
                 ->with('success', 'Guardado correctamente');
 
-        } catch (\Exception $ex) {
+        } catch (Exception $ex) {
 
             DB::rollback();
 
@@ -288,7 +293,7 @@ class OperacionController extends Controller
 
             ];
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $response = [
                 'status' => 0,
                 'message' => $e->getMessage(),
@@ -330,6 +335,28 @@ class OperacionController extends Controller
         return $response;
 
 
+    }
+
+    public function get_produto_proceso(Request $request)
+    {
+
+
+        try {
+            $control = $this->trazabilidad_repository
+                ->getControlTrazabilidadOfProductoProceso($request->lote, $request->codigo);
+            $response = [
+                'status' => 1,
+                'message' => 'Encontrado correctamente',
+                'data' => $control
+            ];
+        } catch (Exception $ex) {
+            $response = [
+                'status' => 0,
+                'message' => 'Producto y Lote no encontrado',
+                'data' => ''
+            ];
+        }
+        return response()->json($response);
     }
 
 
@@ -422,7 +449,7 @@ class OperacionController extends Controller
                 ->route('produccion.operacion.index')
                 ->with('success', 'Control de trazabilidad finalizado correctamente');
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
 
             return redirect()
                 ->back()

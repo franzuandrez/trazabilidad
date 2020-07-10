@@ -34,6 +34,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property array $cantidades_utilizadas;
  * @property Operacion|Model $control_trazabilidad
  * @property Requisicion $requisicion
+ * @property string $lote
+ * @property string $turno
+ * @property float $cantidad_programada
  **/
 class TrazabilidadRepository
 {
@@ -57,7 +60,57 @@ class TrazabilidadRepository
     private $impresiones = [];
     private $ausencia_material_extranios = [];
     private $requisicion = null;
+    private $lote = '';
+    private $turno = '';
+    private $cantidad_programada = '';
 
+    /**
+     * @return string
+     */
+    public function getLote(): string
+    {
+        return $this->lote;
+    }
+
+    /**
+     * @param string $lote
+     */
+    public function setLote(string $lote): void
+    {
+        $this->lote = $lote;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTurno(): string
+    {
+        return $this->turno;
+    }
+
+    /**
+     * @param string $turno
+     */
+    public function setTurno(string $turno): void
+    {
+        $this->turno = $turno;
+    }
+
+    /**
+     * @return float
+     */
+    public function getCantidadProgramada(): float
+    {
+        return $this->cantidad_programada;
+    }
+
+    /**
+     * @param float $cantidad_programada
+     */
+    public function setCantidadProgramada(float $cantidad_programada): void
+    {
+        $this->cantidad_programada = $cantidad_programada;
+    }
 
     /**
      * @return Requisicion
@@ -867,6 +920,17 @@ class TrazabilidadRepository
             $detalle->cantidad_utilizada = $this->getCantidadesUtilizadas()[$key];
             $detalle->save();
         }
+    }
+
+
+    public function saveControlTrazabilidad()
+    {
+        //TODO revisar refactorización
+        $control_trazabilidad = $this->getControlTrazabilidad();
+        $control_trazabilidad->lote = $this->getLote();
+        $control_trazabilidad->cantidad_programada = $this->getCantidadProgramada();
+        $control_trazabilidad->id_turno = $this->getTurno();
+        $control_trazabilidad->save();
     }
 
 

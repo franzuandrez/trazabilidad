@@ -89,8 +89,8 @@
         <div class="form-group">
             <label for="lote_pt">LOTE</label>
             <input type="text"
-                   name="lote_pt"
-                   id="lote"
+                   name="lote_produccion"
+                   id="lote_produccion"
                    value="{{$control->lote}}"
                    readonly
                    class="form-control">
