@@ -126,7 +126,7 @@ class DevolucionController extends Controller
             $this->movimiento_repository->setLotes($lotes);
             $this->movimiento_repository->setIdsUbicaciones($ubicaciones);
             $this->movimiento_repository->setNoDocumento($control_trazabilidad->id_control);
-            $this->movimiento_repository->ubicarProductos();
+            $this->movimiento_repository->ubicarProductos(3);
 
             DB::commit();
             return redirect()->route('produccion.devoluciones.index')

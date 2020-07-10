@@ -142,16 +142,16 @@ class MovimientoRepository
     }
 
 
-    public function ubicarProductos()
+    public function ubicarProductos($tipo = 1)
     {
         $productos = $this->idsProductos;
         foreach ($productos as $key => $id_producto) {
-            $this->ubicarProducto($key, $id_producto);
+            $this->ubicarProducto($key, $id_producto, $tipo);
         }
     }
 
 
-    private function ubicarProducto($key, $id_producto)
+    private function ubicarProducto($key, $id_producto, $tipo = 1)
     {
 
         $sector = Sector::where('id_sector', $this->idsUbicaciones[$key])->first();;
@@ -161,7 +161,7 @@ class MovimientoRepository
         $this->lote = $this->lotes[$key];
         $this->cantidad = $this->cantidades[$key];
         $this->fecha_vencimiento = $this->fechas_vencimiento[$key];;
-        $this->ingreso_producto();
+        $this->ingreso_producto($tipo);
     }
 
 
@@ -186,10 +186,10 @@ class MovimientoRepository
     }
 
 
-    public function ingreso_producto()
+    public function ingreso_producto($tipo_movimiento = 1)
     {
 
-        $this->generar_movimiento(1);
+        $this->generar_movimiento($tipo_movimiento);
 
     }
 
