@@ -134,10 +134,10 @@
     </div>
     <div class="col-lg-4 col-sm-6 col-md-4 col-xs-12">
         <div class="form-group">
-            <label for="lote_pt">LOTE</label>
+            <label for="lote_produccion">LOTE</label>
             <input type="text"
-                   name="lote_pt"
-                   id="lote"
+                   name="lote_produccion"
+                   id="lote_produccion"
                    readonly
                    class="form-control">
         </div>
