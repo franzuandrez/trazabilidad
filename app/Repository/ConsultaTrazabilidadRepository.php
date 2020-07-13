@@ -7,10 +7,12 @@ namespace App\Repository;
 use App\Operacion;
 use App\Producto;
 use App\Recepcion;
-
+use App\RMIEncabezado;
+use Spatie\Activitylog\Models\Activity;
 use App\RMIDetalle;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
+
 
 /**
  * @property Collection $requisiciones
@@ -37,6 +39,8 @@ class ConsultaTrazabilidadRepository
     const CONTROL_TRAZABILIDAD_CODE = 'CT';
     const REQUISICION_CODE = 'REQ';
     const RECEPCION_CODE = 'REC';
+    const CONTROL_CALIDAD_CODE = 'CCAL';
+    const ASIGNACION_UBICACION_CODE = 'AUBI_REC';
 
     private $eventos = null;
 
@@ -197,9 +201,9 @@ class ConsultaTrazabilidadRepository
 
     }
 
-    private function trazabilidadHaciAtrasFormat()
-    {
 
+    private function agregarEventoControlTrazabilidad()
+    {
 
         $evento = $this
             ->getEvento(self::CONTROL_TRAZABILIDAD_CODE,
@@ -207,8 +211,10 @@ class ConsultaTrazabilidadRepository
                 $this->getControlTrazabilidad());
 
         $this->agregarEvento($evento);
+    }
 
-
+    private function agregarEventosRequisiciones()
+    {
         foreach ($this->getRequisiciones() as $requisicion) {
             $evento = $this
                 ->getEvento(self::REQUISICION_CODE,
@@ -216,7 +222,10 @@ class ConsultaTrazabilidadRepository
                     $requisicion);
             $this->agregarEvento($evento);
         }
+    }
 
+    private function agregarEventoRecepciones()
+    {
         foreach ($this->getRecepciones() as $recepcion) {
             $evento = $this
                 ->getEvento(self::RECEPCION_CODE,
@@ -224,17 +233,105 @@ class ConsultaTrazabilidadRepository
                     $recepcion);
             $this->agregarEvento($evento);
         }
+    }
 
-        $sorted = $this->getEventos()->sortByDesc(function ($item) {
+    private function getEventosOrdenadosPorFecha()
+    {
+        return $this->getEventos()->sortByDesc(function ($item) {
             return $item->fecha->getTimestamp();
         })
             ->values()
             ->groupBy(function ($item) {
                 return $item->fecha->format(self::FORMATO_FECHA);
             });
+    }
+
+    private function agregarEventoControlCalidad($control_calidad_and_asignaciones)
+    {
+        $calidad = $control_calidad_and_asignaciones['fechas']
+            ->map(function ($item) {
+                return $item->first();
+            });
+
+        foreach ($calidad as $control_calidad) {
+            $rmi_encabezado = $control_calidad_and_asignaciones['rmi_encabezados']->where('id_rmi_encabezado', $control_calidad->subject_id)->first();
+            $evento = $this
+                ->getEvento(self::CONTROL_CALIDAD_CODE,
+                    $control_calidad->created_at,
+                    [
+                        'control_calidad' => $rmi_encabezado,
+                        'fecha' => $control_calidad
+                    ]);
+            $this->agregarEvento($evento);
+        }
+
+    }
+
+    private function agregarEventoAsignacion($control_calidad_and_asignaciones)
+    {
+        $asignaciones = $control_calidad_and_asignaciones['fechas']
+            ->map(function ($item) {
+                if (count($item) == 2) {
+                    return $item[1];
+                }
+            });
+
+        foreach ($asignaciones as $asignacion) {
+            $rmi_encabezado = $control_calidad_and_asignaciones['rmi_encabezados']->where('id_rmi_encabezado', $asignacion->subject_id)->first();
+            $evento = $this
+                ->getEvento(self::ASIGNACION_UBICACION_CODE,
+                    $asignacion->created_at,
+                    [
+                        'asignacion' => $rmi_encabezado,
+                        'fecha' => $asignacion
+                    ]);
+            $this->agregarEvento($evento);
+        }
+    }
+
+    private function agregarEventoControlCalidadAndAsignacion()
+    {
+
+        $control_calidad_and_asignaciones = $controles_de_calidad = $this->getControlCalidadAndAsignacionUbicacion();
 
 
-        return $sorted;
+        $this->agregarEventoAsignacion($control_calidad_and_asignaciones);
+        $this->agregarEventoControlCalidad($control_calidad_and_asignaciones);
+
+    }
+
+    private function getControlCalidadAndAsignacionUbicacion()
+    {
+
+        $rmi_encabezados = ($this->getRecepciones()->pluck('rmi_encabezado'));
+        $fechas = Activity::
+        with('causer')->
+        where('subject_type', RMIEncabezado::class)
+            ->where('description', 'updated')
+            ->whereIn('subject_id', $rmi_encabezados->pluck('id_rmi_encabezado'))
+            ->orderBy('id', 'asc')
+            ->get()
+            ->groupBy('subject_id');
+
+
+        return [
+            'rmi_encabezados' => $rmi_encabezados,
+            'fechas' => $fechas
+        ];
+    }
+
+    private function trazabilidadHaciAtrasFormat()
+    {
+
+
+        $this->agregarEventoControlTrazabilidad();
+        $this->agregarEventosRequisiciones();
+        $this->agregarEventoControlCalidadAndAsignacion();
+        $this->agregarEventoRecepciones();
+
+        $eventos = $this->getEventosOrdenadosPorFecha();
+
+        return $eventos;
     }
 
 

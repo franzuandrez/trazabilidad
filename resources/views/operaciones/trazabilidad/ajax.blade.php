@@ -17,6 +17,10 @@
                         @include('operaciones.trazabilidad.control_trazabilidad')
                     @elseif($evento->tipo=='REQ')
                         @include('operaciones.trazabilidad.requisicion')
+                    @elseif($evento->tipo=='CCAL')
+                        @include('operaciones.trazabilidad.control_calidad')
+                    @elseif($evento->tipo=='AUBI_REC')
+                        @include('operaciones.trazabilidad.asignacion_ubicacion')
                     @elseif($evento->tipo=='REC')
                         @include('operaciones.trazabilidad.recepcion')
                     @endif
