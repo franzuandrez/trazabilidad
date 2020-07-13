@@ -64,6 +64,7 @@ class ReporteControlTrazabilidadController extends Controller
                             'detalle_insumos.impresion',
                             'detalle_insumos.ausencia_material_extranio',
                             'detalle_insumos.cantidad',
+                            'detalle_insumos.cantidad_utilizada',
                             'detalle_insumos.lote',
                             DB::raw("date_format(detalle_insumos.fecha_vencimiento,'%d/%m/%Y') as fecha_vencimiento")
 
