@@ -83,6 +83,7 @@ class Impresiones
             $corrugado->digito_indicador = GeneradorCodigos::getDigitoIndicador();;
             $corrugado->prefijo_compania = GeneradorCodigos::CODIGO_EMPRESA;
             $corrugado->numerio_serial = GeneradorCodigos::getNumeroSerial();
+            $corrugado->codigo_verificador =GeneradorCodigos::getDigitoVerificador();
             $corrugado->id_tb_imprimir = $impresion_producto->CORRELATIVO;
             $corrugado->ip = env('IP_IMPRESION');
             $corrugado->save();
