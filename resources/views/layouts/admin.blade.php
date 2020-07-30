@@ -380,17 +380,21 @@
                     </li>
                 </ul>
             @endcan
-
-            <ul class="nav navbar-nav">
-                <li class="dropdown">
-                    <a href="#" data-toggle="dropdown"
-                       style="background-color: #01579B;  color: #fff;">Configuraciones<b
-                            class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{url('configuraciones/impresion')}}"><i class=" fa fa-wrench"></i>Impresion</a>
-                        </li>
-                    </ul>
-            </ul>
+            @can('configuraciones')
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown"
+                           style="background-color: #01579B;  color: #fff;">Configuraciones<b
+                                class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            @can('configuracion_impresion')
+                                <li><a href="{{url('configuraciones/impresion')}}"><i
+                                            class=" fa fa-wrench"></i>Impresion</a>
+                                </li>
+                            @endcan
+                        </ul>
+                </ul>
+            @endcan
 
             @can('usuarios')
                 <ul class="nav navbar-nav">

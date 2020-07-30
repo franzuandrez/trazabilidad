@@ -8,8 +8,8 @@
     @include('componentes.alert-error')
 
     @component('componentes.nav',['operation'=>'LIST',
-    'menu_icon'=>'fa fa-check-square-o',
-    'submenu_icon'=>'a fa-line-chart',
+    'menu_icon'=>'fa fa-cogs',
+    'submenu_icon'=>'a fa-print',
     'operation_icon'=>'',])
         @slot('menu')
             Configuracion
