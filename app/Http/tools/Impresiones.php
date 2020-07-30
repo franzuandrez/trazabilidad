@@ -8,6 +8,7 @@ use App\Impresion;
 use App\ImpresionCorrugado;
 use App\Movimiento;
 use App\Producto;
+use App\Repository\ConfiguracionesRepository;
 use App\RMIDetalle;
 
 class Impresiones
@@ -27,7 +28,7 @@ class Impresiones
             if ($impresiones[$key] > 0) {
                 $producto = Producto::find($mov->id_producto);
                 $imprimir = new \App\Impresion();
-                $imprimir->IP = env('IP_IMPRESION');
+                $imprimir->IP = (new ConfiguracionesRepository())->getIpImpresora()->valor;
                 $imprimir->CODIGO_BARRAS = $producto->codigo_barras;
                 $imprimir->DESCRIPCION_PRODUCTO = $producto->descripcion;
                 $imprimir->LOTE = $mov->lote;
@@ -83,9 +84,9 @@ class Impresiones
             $corrugado->digito_indicador = GeneradorCodigos::getDigitoIndicador();;
             $corrugado->prefijo_compania = GeneradorCodigos::CODIGO_EMPRESA;
             $corrugado->numerio_serial = GeneradorCodigos::getNumeroSerial();
-            $corrugado->codigo_verificador =GeneradorCodigos::getDigitoVerificador();
+            $corrugado->codigo_verificador = GeneradorCodigos::getDigitoVerificador();
             $corrugado->id_tb_imprimir = $impresion_producto->CORRELATIVO;
-            $corrugado->ip = env('IP_IMPRESION');
+            $corrugado->ip =  (new ConfiguracionesRepository())->getIpImpresora()->valor;
             $corrugado->save();
         }
         self::activarTriggerParaLaImpresora();
@@ -95,7 +96,7 @@ class Impresiones
     public static function imprimir($producto, $lote, $fecha_vencimiento, $cantidad, $tipo, $es_pt = false)
     {
         $imprimir = new Impresion();
-        $imprimir->IP = env('IP_IMPRESION');
+        $imprimir->IP =  (new ConfiguracionesRepository())->getIpImpresora()->valor;
         $imprimir->CODIGO_BARRAS = $es_pt ? $producto->codigo_dun : $producto->codigo_barras;
         $imprimir->DESCRIPCION_PRODUCTO = $producto->descripcion;
         $imprimir->LOTE = $lote;

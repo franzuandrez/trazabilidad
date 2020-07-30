@@ -554,3 +554,7 @@ Route::get('produccion/entrega_pt', 'EntregaPTController@index_entrega_pt')->nam
 Route::get('produccion/recepcion_pt', 'EntregaPTController@index_recepcion_pt')->name('produccion.index_recepcion_pt');
 Route::get('produccion/entrega_pt/create', 'EntregaPTController@create_entrega_pt')->name('produccion.create_entrega_pt');
 Route::get('produccion/recepcion_pt/create', 'EntregaPTController@create_recepcion_pt')->name('produccion.create_recepcion_pt');
+
+
+Route::get('configuraciones/impresion', 'ConfiguracionesController@impresion')->name('configuraciones.index');
+Route::post('configuraciones/impresion/create', 'ConfiguracionesController@store_impresion')->name('configuraciones.impresion.store');
