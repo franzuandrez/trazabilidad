@@ -94,6 +94,9 @@ class GeneradorCodigos
 
 
         self::$codigo_generado = $codigo_colaborador;
+        self::$numero_serial = $correlativo;
+        self::$digito_verificador = $codigo_verificador;
+        self::$digito_indicador = $digito_indicador;
         return $codigo_colaborador;
     }
 
