@@ -283,16 +283,7 @@
                                     Devolucion
                                 </a>
                             </li>
-                            <li><a href="{{url('produccion/entrega_pt')}}">
-                                    <i class="fa fa-archive"
-                                       aria-hidden="true"></i>
-                                    Entrega PT
-                                </a></li>
-                            <li><a href="{{url('produccion/recepcion_pt')}}">
-                                    <i class="fa fa-step-forward"
-                                       aria-hidden="true"></i>
-                                    &nbsp; Recepción PT
-                                </a></li>
+
 
                         </ul>
                     </li>
@@ -389,6 +380,17 @@
                     </li>
                 </ul>
             @endcan
+
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="#" data-toggle="dropdown"
+                       style="background-color: #01579B;  color: #fff;">Configuraciones<b
+                            class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{url('configuraciones/impresion')}}"><i class=" fa fa-wrench"></i>Impresion</a>
+                        </li>
+                    </ul>
+            </ul>
 
             @can('usuarios')
                 <ul class="nav navbar-nav">
