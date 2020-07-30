@@ -115,7 +115,7 @@ class TrazabilidadRepository
     /**
      * @return Requisicion
      */
-    public function getRequisicion(): Requisicion
+    public function getRequisicion()
     {
         return $this->requisicion;
     }
