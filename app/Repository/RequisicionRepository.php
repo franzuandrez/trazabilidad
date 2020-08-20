@@ -349,4 +349,18 @@ class RequisicionRepository
 
     }
 
+    public function getOrdenesSugeridas()
+    {
+
+        $ordenes_sugeridas = Requisicion::where('estado', '=', 'D')
+            ->whereBetween('fecha_ingreso', [
+                Carbon::yesterday(),
+                Carbon::tomorrow()
+            ])
+            ->get();
+
+        return $ordenes_sugeridas;
+    }
+
+
 }

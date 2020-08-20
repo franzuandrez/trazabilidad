@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Actividad;
 use App\Operacion;
 use App\Repository\ProductoRepository;
+use App\Repository\RequisicionRepository;
 use App\Repository\TrazabilidadRepository;
 use DB;
 use Exception;
@@ -24,11 +25,14 @@ class OperacionController extends Controller
 
     private $trazabilidad_repository = null;
     private $producto_repository = null;
+    private $requisicion_respository = null;
 
-    public function __construct(TrazabilidadRepository $trazabilidad_repository, ProductoRepository $producto_repository)
+    public function __construct(TrazabilidadRepository $trazabilidad_repository, ProductoRepository $producto_repository, RequisicionRepository $requisicionRepository)
     {
         $this->trazabilidad_repository = $trazabilidad_repository;
         $this->producto_repository = $producto_repository;
+        $this->requisicion_respository = $requisicionRepository;
+
         $this->middleware('auth');
     }
 
@@ -147,11 +151,12 @@ class OperacionController extends Controller
     {
 
         $actividades = Actividad::actived()->get();
-
+        $ordenes = $this->requisicion_respository->getOrdenesSugeridas();
 
         return view('produccion.control_trazabilidad.create',
             [
-                'actividades' => $actividades
+                'actividades' => $actividades,
+                'ordenes_sugeridas' => $ordenes
             ]
         );
 
