@@ -134,7 +134,7 @@
     @if($control->producto->tipo_producto == 'PT')
         <div class="col-lg-3 col-sm-3 col-md-6 col-xs-12">
             <div class="form-group">
-                <label for="cantidad_etiquetas_corrugado">{{$control->producto->unidad_medida}}</label>
+                <label for="cantidad_etiquetas_corrugado">UNIDAD DE DISTRIBUCION</label>
                 <input type="text"
                        name="cantidad_etiquetas_corrugado"
                        id="cantidad_etiquetas_corrugado"
