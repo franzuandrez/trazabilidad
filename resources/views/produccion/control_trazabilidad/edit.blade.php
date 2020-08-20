@@ -148,7 +148,7 @@
         <div class="tab-content">
             <div class="tab-pane active" id="insumos">
                 <br>
-                @include('produccion.control_trazabilidad.panel_agregar_insumos')
+                @include('produccion.control_trazabilidad.listado_insumos')
             </div>
             <div class="tab-pane " id="involucrados">
                 <br>
@@ -169,7 +169,7 @@
         <div class="form-group">
             <button class="btn btn-default"
                     type="button"
-                    onclick="guardar()"
+                    onclick="asociar()"
             >
                 <span class=" fa fa-check"></span> GUARDAR
             </button>

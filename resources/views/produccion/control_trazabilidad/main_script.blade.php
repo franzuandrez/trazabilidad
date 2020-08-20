@@ -24,13 +24,19 @@
 
     });
 
-    function guardar() {
 
+    function asociar() {
         const total_asociaciones = $('#asociaciones').children().length;
-        if (total_asociaciones == 0) {
+        if (total_asociaciones === 0) {
             alert("Debe agregar a los operarios involucrados");
             return;
         }
+        $('form').submit();
+    }
+
+    function guardar() {
+
+
         const total_insumos = $('#tbody_insumos').children().length;
 
         if (total_insumos == 0) {
@@ -197,6 +203,7 @@
                             <input type="hidden" name='id_producto_mp[]' value="${insumo.producto.id_producto}">
                             ${insumo.producto.codigo_interno}
                         </td>
+
                         <td>
                              <input type="hidden" name="color[]" value="0">
                              <input type="checkbox" onclick="asignar(this)">
@@ -211,6 +218,8 @@
                             </td>
                         <td><input type="hidden" name=ausencia_me[] value=0>
                         <input type="checkbox" onclick="asignar(this)"></td>
+
+
                         <td><input type="hidden" name=lote[] value="${insumo.lote}" >${insumo.lote}</td>
                         <td><input type="hidden" name=cantidad[] value="${insumo.cantidad}">${insumo.cantidad}</td>
                         <td><input type="hidden" name=fecha_vencimiento[] value="${(insumo.fecha_vencimiento)}">  ${moment(insumo.fecha_vencimiento).format('DD/MM/Y')} </td>
@@ -672,21 +681,7 @@
         let row = `
                     <tr>
                         <td>     <input type="hidden" name="id_insumo[]" value="${id}">   ${descripcion}</td>
-                        <td>        <input type="hidden" name="color[]" value="0">
-                                      <input type="checkbox" onclick="asignar(this)">
-                        </td>
-                        <td>
-                             <input type="hidden" name="olor[]" value="0">
-                                      <input type="checkbox" onclick="asignar(this)">
-                        </td>
-                        <td>
-                                  <input type="hidden" name="impresion[]" value="0">
-                                      <input type="checkbox" onclick="asignar(this)">
-                        </td>
-                        <td>
-                                    <input type="hidden" name="ausencia_me[]" value="0">
-                                      <input type="checkbox" onclick="asignar(this)">
-                        </td>
+
                         <td>              <input type="hidden" name="lote_pt[]" value="${lote}">
                                           ${lote}
                         </td>

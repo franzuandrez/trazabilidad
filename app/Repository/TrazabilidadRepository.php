@@ -517,8 +517,9 @@ class TrazabilidadRepository
 
         $insumos = $this->getIdsInsumos();
 
+
         if (is_iterable($insumos)) {
-            $total_insumos = count($insumos);
+
             foreach ($insumos as $key => $id_insumo) {
                 $color = $this->getColores()[$key];
                 $olor = $this->getOlores()[$key];

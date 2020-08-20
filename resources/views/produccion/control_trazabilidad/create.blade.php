@@ -166,7 +166,7 @@
     <div class="col-lg-4 col-sm-6 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="cantidad_programada">CANTIDAD PROGRAMADA</label>
-            <input type="text"
+            <input type="number"
                    name="cantidad_programada"
                    id="cantidad_programada"
                    readonly
@@ -181,21 +181,29 @@
                     INSUMOS
                 </a>
             </li>
-            <li class="">
-                <a href="#involucrados" data-toggle="tab" aria-expanded="false">
-                    OPERARIOS INVOLUCRADOS
-                </a>
-            </li>
+
         </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="insumos">
                 <br>
                 @include('produccion.control_trazabilidad.panel_agregar_insumos')
+                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+
+                    <table class="table table-bordered table-responsive">
+                        <thead style="background-color: #01579B;  color: #fff;">
+                        <tr>
+                            <th>MP</th>
+                            <th>NO LOTE</th>
+                            <th>CANTIDAD</th>
+                            <th>FECHA VENC.</th>
+                        </tr>
+                        </thead>
+                        <tbody id="tbody_insumos">
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <div class="tab-pane " id="involucrados">
-                <br>
-                @include('produccion.control_trazabilidad.panel_agregar_colaboradores')
-            </div>
+
         </div>
 
     </div>
