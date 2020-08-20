@@ -29,54 +29,6 @@
     @endcomponent
 
 
-
-    <div class="row">
-
-
-        @component('componentes.search-select'
-             ,[
-             'busqueda'=>'AREA',
-             'default'=>'AREA TRANSITO',
-             'elements'=>$bodegas])
-        @endcomponent
-        <div class="col-lg-4 col-md-4 col-sm-5 col-xs-10 filtro-no-active" id="filtro">
-            <div class="form-group">
-                <label for="id_filtro">FILTRO</label>
-                <select name="id_filtro"
-                        id="id_filtro"
-                        onchange="filtrar()"
-                        class="form-control selectpicker"
-                >
-                    <option value="2" selected>TODAS</option>
-                    <option value="0">NO LIBERADO</option>
-                    <option value="1">LIBERADO</option>
-
-                </select>
-            </div>
-        </div>
-
-    </div>
-    <div class="row">
-        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
-            <div class="form-group">
-                <label for="Fecha">RANGO FECHA
-                </label>
-                <div class="input-daterange input-group fj-date" id="datepicker">
-                    <input style="height:35px" type="text" id="start"
-                           value=""
-                           onchange="next('end')"
-                           class="input-sm form-control"
-                           name="start"/>
-                    <span class="input-group-addon">a</span>
-                    <input style="height:35px"
-                           type="text" id="end"
-                           value=""
-                           onchange="next('producto')"
-                           class="input-sm form-control" name="end"/>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="row">
         <div class="col-lg-2 col-sm-3 col-md-3 col-xs-12">
             <div class="form-group">
@@ -135,8 +87,55 @@
             </div>
         </div>
 
+    </div>
+    <div class="row">
+
+
+        @component('componentes.search-select'
+             ,[
+             'busqueda'=>'AREA',
+             'default'=>'AREA TRANSITO',
+             'elements'=>$bodegas])
+        @endcomponent
+        <div class="col-lg-4 col-md-4 col-sm-5 col-xs-10 filtro-no-active" id="filtro">
+            <div class="form-group">
+                <label for="id_filtro">FILTRO</label>
+                <select name="id_filtro"
+                        id="id_filtro"
+                        onchange="filtrar()"
+                        class="form-control selectpicker"
+                >
+                    <option value="2" selected>TODAS</option>
+                    <option value="0">NO LIBERADO</option>
+                    <option value="1">LIBERADO</option>
+
+                </select>
+            </div>
+        </div>
 
     </div>
+    <div class="row">
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="Fecha">RANGO FECHA
+                </label>
+                <div class="input-daterange input-group fj-date" id="datepicker">
+                    <input style="height:35px" type="text" id="start"
+                           value=""
+                           onchange="next('end')"
+                           class="input-sm form-control"
+                           name="start"/>
+                    <span class="input-group-addon">a</span>
+                    <input style="height:35px"
+                           type="text" id="end"
+                           value=""
+                           onchange="next('producto')"
+                           class="input-sm form-control" name="end"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="content">
 
         @include('recepcion.kardex.index')
