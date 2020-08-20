@@ -8,7 +8,7 @@
 
 @section('contenido')
     <div class="col-lg-12 col-lg-push-4 col-sm-12   col-sm-push-4   col-md-12   col-md-push-4  col-xs-12">
-        <h3>CONTROL  SECADO
+        <h3>CONTROL SECADO
         </h3>
     </div>
     @component('componentes.nav',['operation'=>'Crear',
@@ -237,8 +237,14 @@
             </div>
         </div>
         <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
-            <div class="form-group">
-                <label for="humedad_pasta">HUMEDAD PASTA</label>
+            <label for="humedad_pasta">HUMEDAD PASTA</label>
+            <div class="input-group">
+                        <span class="input-group-addon">
+                            <b>N/A</b>
+                          <input type="checkbox"
+                            onclick="setNoAplica('humedad_pasta',this)"
+                          >
+                        </span>
                 <input id="humedad_pasta"
                        type="number"
                        step="any"
@@ -249,89 +255,92 @@
             </div>
         </div>
 
-        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
-            <div class="form-group">
-                <label for="ambiente_humedad">AMBIENTE HUMEDAD</label>
-                <input id="ambiente_humedad"
-                       type="number"
-                       step="any"
-                       name="ambiente_humedad"
-                       required
-                       disabled
-                       class="form-control">
+
+    </div>
+
+    <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="ambiente_humedad">AMBIENTE HUMEDAD</label>
+            <input id="ambiente_humedad"
+                   type="number"
+                   step="any"
+                   name="ambiente_humedad"
+                   required
+                   disabled
+                   class="form-control">
+        </div>
+    </div>
+    <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="ambiente_temperatura">AMBIENTE TEMP</label>
+            <input id="ambiente_temperatura"
+                   type="number"
+                   step="any"
+                   name="ambiente_temp"
+                   required
+                   disabled
+                   class="form-control">
+        </div>
+    </div>
+    <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+        <label for="observaciones">OBSERVACIONES</label>
+        <div class="input-group">
+            <input id="observaciones" type="text" name="observaciones"
+                   disabled
+                   onkeydown="if(event.keyCode==13)agregar_a_table()"
+                   class="form-control">
+            <div class="input-group-btn">
+                <button class="btn btn-default block"
+                        onclick="agregar_a_table()"
+                        type="button">
+                    <span class=" fa fa-plus"></span></button>
+                <button
+                    onclick="limpiar()"
+                    class="btn btn-default block" type="button">
+                    <span class=" fa fa-trash"></span></button>
             </div>
         </div>
-        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
-            <div class="form-group">
-                <label for="ambiente_temperatura">AMBIENTE TEMP</label>
-                <input id="ambiente_temperatura"
-                       type="number"
-                       step="any"
-                       name="ambiente_temp"
-                       required
-                       disabled
-                       class="form-control">
-            </div>
+    </div>
+    <input type="hidden" name="hora" id="hora">
+
+
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
+
+        <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
+
+            <thead style="background-color: #01579B;  color: #fff;">
+            <tr>
+
+                <th>HORA</th>
+                <th>PRINCIPAL SET</th>
+                <th>PRINCIPAL REAL</th>
+                <th>INICIAL AR</th>
+                <th>INICIAL AB</th>
+                <th>CENTRAL AR</th>
+                <th>CENTRAL AB</th>
+                <th>FINAL AR</th>
+                <th>FINAL AB</th>
+                <th>VELOCIDAD</th>
+                <th>TASA SALIDA</th>
+                <th>HUMEDAD EN SECADORA</th>
+                <th>HUMEDAD PASTA</th>
+                <th>AMBIENTE HUMEDAD</th>
+                <th>AMBIENTE TEMP</th>
+                <th>OBSERVACIONES</th>
+            </tr>
+
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <div class="form-group">
+            <label for="observacion_correctiva">OBSERVACIONES Y/O ACCION CORRECTIVA</label>
+            <input type="text" name="observacion_correctiva" value="{{old('observacion_correctiva')}}"
+                   class="form-control">
         </div>
-        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
-            <label for="observaciones">OBSERVACIONES</label>
-            <div class="input-group">
-                <input id="observaciones" type="text" name="observaciones"
-                       disabled
-                       onkeydown="if(event.keyCode==13)agregar_a_table()"
-                       class="form-control">
-                <div class="input-group-btn">
-                    <button class="btn btn-default block"
-                            onclick="agregar_a_table()"
-                            type="button">
-                        <span class=" fa fa-plus"></span></button>
-                    <button
-                        onclick="limpiar()"
-                        class="btn btn-default block" type="button">
-                        <span class=" fa fa-trash"></span></button>
-                </div>
-            </div>
-        </div>
-        <input type="hidden" name="hora" id="hora">
-
-
-        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
-
-            <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
-
-                <thead style="background-color: #01579B;  color: #fff;">
-                <tr>
-
-                    <th>HORA</th>
-                    <th>PRINCIPAL SET</th>
-                    <th>PRINCIPAL REAL</th>
-                    <th>INICIAL AR</th>
-                    <th>INICIAL AB</th>
-                    <th>CENTRAL AR</th>
-                    <th>CENTRAL AB</th>
-                    <th>FINAL AR</th>
-                    <th>FINAL AB</th>
-                    <th>VELOCIDAD</th>
-                    <th>TASA SALIDA</th>
-                    <th>HUMEDAD EN SECADORA</th>
-                    <th>HUMEDAD PASTA</th>
-                    <th>AMBIENTE HUMEDAD</th>
-                    <th>AMBIENTE TEMP</th>
-                    <th>OBSERVACIONES</th>
-                </tr>
-
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </div>
-        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-            <div class="form-group">
-                <label for="observacion_correctiva">OBSERVACIONES Y/O ACCION CORRECTIVA</label>
-                <input type="text" name="observacion_correctiva" value="{{old('observacion_correctiva')}}"
-                       class="form-control">
-            </div>
-        </div>
+    </div>
     </div>
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
@@ -371,6 +380,20 @@
             }
         });
         var gl_detalle_insumos = null;
+
+
+        function setNoAplica(id,element) {
+
+            if(element.checked){
+                document.getElementById(id).value = 0;
+                document.getElementById(id).disabled = true;
+            }else{
+                document.getElementById(id).value = '';
+                document.getElementById(id).disabled = false;
+            }
+
+
+        }
 
         function guardar() {
 
@@ -548,7 +571,6 @@
         async function agregar_a_table() {
 
 
-
             const no_orden_produccion = get_no_orden_produccion();
             const no_orden_disabled = document.getElementById('no_orden_produccion').disabled;
             const no_orden_valida = no_orden_disabled && no_orden_produccion != "";
@@ -562,7 +584,7 @@
 
             const hora = moment();
 
-            let observaciones = mostrar_observaciones(hora, ultimo_registro,30);
+            let observaciones = mostrar_observaciones(hora, ultimo_registro, 30);
             document.getElementById('observaciones').value = document.getElementById('observaciones').value + " " + observaciones;
             ultimo_registro = hora.clone().format('HH:mm:ss');
             if (no_orden_valida) {

@@ -8,7 +8,7 @@
 
 @section('contenido')
     <div class="col-lg-12 col-lg-push-4 col-sm-12   col-sm-push-4   col-md-12   col-md-push-4  col-xs-12">
-        <h3>CONTROL  SECADO
+        <h3>CONTROL SECADO
         </h3>
     </div>
     @component('componentes.nav',['operation'=>'Crear',
@@ -213,17 +213,25 @@
             </div>
         </div>
         <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
-            <div class="form-group">
-                <label for="humedad_pasta">HUMEDAD PASTA</label>
+            <label for="humedad_pasta">HUMEDAD PASTA</label>
+            <div class="input-group">
+                        <span class="input-group-addon">
+                            <b>N/A</b>
+                          <input type="checkbox"
+                                 onclick="setNoAplica('humedad_pasta',this)"
+                          >
+                        </span>
                 <input id="humedad_pasta"
                        type="number"
                        step="any"
                        name="humedad_pasta"
                        required
-
+                       disabled
                        class="form-control">
             </div>
+            <br>
         </div>
+
 
         <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
@@ -237,6 +245,7 @@
                        class="form-control">
             </div>
         </div>
+
         <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="ambiente_temperatura">AMBIENTE TEMP</label>
@@ -370,7 +379,21 @@
             }
         });
 
+        function setNoAplica(id, element) {
+
+            if (element.checked) {
+                document.getElementById(id).value = 0;
+                document.getElementById(id).disabled = true;
+            } else {
+                document.getElementById(id).value = '';
+                document.getElementById(id).disabled = false;
+            }
+
+
+        }
+
         let ultimo_registro = @json($peso_seco->detalle->last()->hora);
+
         function guardar() {
 
             document.getElementById('no_orden_produccion').disabled = false;
@@ -546,7 +569,6 @@
         async function agregar_a_table() {
 
 
-
             const no_orden_produccion = get_no_orden_produccion();
             const no_orden_disabled = document.getElementById('no_orden_produccion').disabled;
             const no_orden_valida = no_orden_disabled && no_orden_produccion != "";
@@ -560,7 +582,7 @@
 
             const hora = moment();
 
-            let observaciones = mostrar_observaciones(hora, ultimo_registro,30);
+            let observaciones = mostrar_observaciones(hora, ultimo_registro, 30);
             document.getElementById('observaciones').value = document.getElementById('observaciones').value + " " + observaciones;
             ultimo_registro = hora.clone().format('HH:mm:ss');
             if (no_orden_valida) {
