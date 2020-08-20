@@ -930,6 +930,7 @@ class TrazabilidadRepository
         $control_trazabilidad->lote = $this->getLote();
         $control_trazabilidad->cantidad_programada = $this->getCantidadProgramada();
         $control_trazabilidad->id_turno = $this->getTurno();
+        $control_trazabilidad->fecha_vencimiento = Carbon::createFromFormat('d/m/Y', $this->getFechaVencimiento())->format('Y-m-d');;
         $control_trazabilidad->save();
     }
 

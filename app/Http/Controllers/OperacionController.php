@@ -187,6 +187,7 @@ class OperacionController extends Controller
             $this->trazabilidad_repository->setTurno($request->turno);
             $this->trazabilidad_repository->marcarIniciadoControlTrazabilidad();
             $this->trazabilidad_repository->registrarCantidadProducidaSiExiste();
+            $this->trazabilidad_repository->setFechaVencimiento($request->best_by);
             $this->trazabilidad_repository->saveControlTrazabilidad();
 
             DB::commit();
