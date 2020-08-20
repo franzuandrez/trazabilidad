@@ -160,6 +160,7 @@
             <div class="input-group">
                 <input id="espesor_observaciones"
                        disabled
+                       onkeydown="if(event.keyCode==13)agregar_a_table()"
                        type="text" name="espesor_observaciones" value="{{old('espesor_observaciones')}}"
                        class="form-control">
                 <div class="input-group-btn">

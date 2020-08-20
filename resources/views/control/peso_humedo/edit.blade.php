@@ -136,7 +136,7 @@
             <label for="observaciones">OBSERVACIONES</label>
             <div class="input-group">
                 <input id="observaciones" type="text" name="observaciones"
-
+                       onkeydown="if(event.keyCode==13)agregar_a_table()"
                        class="form-control">
                 <div class="input-group-btn">
                     <button class="btn btn-default block"

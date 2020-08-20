@@ -175,6 +175,7 @@
             <div class="input-group">
                 <input id="ph_observacion" type="text" name="ph_observacion"
                        disabled
+                       onkeydown="if(event.keyCode==13)agregar_a_table()"
                        class="form-control">
                 <div class="input-group-btn">
                     <button
