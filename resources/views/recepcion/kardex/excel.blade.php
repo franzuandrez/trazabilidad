@@ -68,22 +68,25 @@
 
     <thead>
     <tr style="border: 1px solid #000">
-        @if($parametros->id_select_search==null)
-            <th width="20" style="border: 1px solid #000">UBICACION</th>
-            @php
-                $colspan -= 1;
-            @endphp
-        @endif
-        <th width="35" style="border: 1px solid #000">CODIGO INTERNO</th>
         <th width="35" style="border: 1px solid #000">PRODUCTO</th>
-        <th width="35" style="border: 1px solid #000">MEDIDA</th>
-
         @if($parametros->lote ==null)
             <th width="20" style="border: 1px solid #000">LOTE</th>
             @php
                 $colspan -= 1;
             @endphp
         @endif
+        <th width="35" style="border: 1px solid #000">CODIGO INTERNO</th>
+        @if($parametros->id_select_search==null)
+            <th width="20" style="border: 1px solid #000">UBICACION</th>
+            @php
+                $colspan -= 1;
+            @endphp
+        @endif
+
+
+        <th width="35" style="border: 1px solid #000">MEDIDA</th>
+
+
 
         @foreach($tipos_movimiento as $tipo)
             <th width="20" style="border: 1px solid #000">{{ substr($tipo->descripcion,0,3)}}</th>
@@ -96,6 +99,18 @@
 
     @foreach($collection as $producto)
         <tr>
+            <td style="border: 1px solid #000000">
+                {{$producto->producto}}
+            </td>
+            @if($parametros->lote ==null)
+                <td style="border: 1px solid #000000">
+                    {{$producto->lote}}
+                </td>
+            @endif
+            <td style="border: 1px solid #000000">
+                {{$producto->codigo_interno}}
+            </td>
+
             @if($parametros->id_select_search==null)
                 <td style="border: 1px solid #000000">
                     @if($producto->id_bodega == 0)
@@ -106,20 +121,10 @@
                 </td>
             @endif
             <td style="border: 1px solid #000000">
-                {{$producto->codigo_interno}}
-            </td>
-            <td style="border: 1px solid #000000">
-                {{$producto->producto}}
-            </td>
-            <td style="border: 1px solid #000000">
                 {{$producto->unidad_medida}}
             </td>
 
-            @if($parametros->lote ==null)
-                <td style="border: 1px solid #000000">
-                    {{$producto->lote}}
-                </td>
-            @endif
+
             @foreach($tipos_movimiento as $tipo)
                 <td style="border: 1px solid #000000">
                     {{$producto->{$tipo->descripcion} }}
