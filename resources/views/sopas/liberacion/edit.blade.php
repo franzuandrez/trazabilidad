@@ -42,16 +42,7 @@
                    class="form-control valor">
         </div>
     </div>
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <label for="id_presentacion">PRESENTACION</label>
-        <div class="form-group">
-            <input type="text"
-                   readonly
-                   id="id_presentacion"
-                   value="{{$sopa->presentacion->descripcion}}"
-                   class="form-control valor">
-        </div>
-    </div>
+
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <label for="turno">TURNO</label>

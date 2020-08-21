@@ -56,7 +56,6 @@
         <div class="form-group">
             <label for="producto">PRODUCTO</label>
             <select name="producto" class="form-control selectpicker "
-                    onchange="cargar_presentaciones(this.value)"
                     disabled="" id="producto">
                 <option value="">SELECCIONAR PRODUCTO</option>
 
@@ -64,17 +63,7 @@
         </div>
     </div>
 
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <label for="presentacion">PRESENTACION</label>
-        <div class="form-group">
-            <select name="id_presentacion" class="form-control selectpicker "
-                    onchange="cambiar_combobox('id_turno')"
-                    disabled="" id="id_presentacion">
-                <option value="">SELECCIONAR PRESENTACION</option>
 
-            </select>
-        </div>
-    </div>
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <label for="turno">TURNO</label>
@@ -915,11 +904,11 @@
             } else {
 
                 document.getElementById('no_orden_produccion').disabled = true;
-                document.getElementById('id_presentacion').disabled = false;
+
                 document.getElementById('id_turno').disabled = false;
                 document.getElementById('producto').disabled = false;
                 $('#id_turno').selectpicker('refresh');
-                $('#id_presentacion').selectpicker('refresh');
+
                 $('#producto').selectpicker('refresh');
 
                 cargar_productos(response.data);
@@ -932,14 +921,11 @@
 
         function iniciar_liberacion() {
 
-            const id_presentacion = document.getElementById('id_presentacion').value;
+
             const id_producto = document.getElementById('producto').value;
             const id_turno = document.getElementById('id_turno').value;
             const no_orden_produccion = document.getElementById('no_orden_produccion').value;
-            if (id_presentacion === "") {
-                alert("Seleccione presentacion");
-                return;
-            }
+
             if (id_producto === "") {
                 alert("Seleccione Producto");
                 return;
@@ -958,7 +944,6 @@
                     type: "POST",
                     url: "{{url('sopas/liberacion/iniciar')}}",
                     data: {
-                        id_presentacion: id_presentacion,
                         id_producto: id_producto,
                         no_orden_produccion: no_orden_produccion,
                         id_turno: id_turno
@@ -967,13 +952,13 @@
 
                         if (response.status == 1) {
                             habilitar_formulario();
-                            document.getElementById('id_presentacion').disabled = true;
+
                             document.getElementById('producto').disabled = true;
                             document.getElementById('id_turno').disabled = true;
                             document.getElementById('no_orden_produccion').disabled = true;
                             document.getElementById('btn_buscar_orden').disabled = true;
                             $('#id_turno').selectpicker('refresh');
-                            $('#id_presentacion').selectpicker('refresh');
+
                             $('#producto').selectpicker('refresh');
                             document.getElementById('id_sopa').value = response.data.id_sopa;
                             start_job("{{url('sopas/liberacion/nuevo_registro')}}", document.getElementById('id_sopa').value);

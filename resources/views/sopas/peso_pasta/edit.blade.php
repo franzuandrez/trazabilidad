@@ -52,7 +52,7 @@
                 <option
                     value="{{$peso->control_trazabilidad->id_producto}}"
                     selected>
-                    {{$peso->control_trazabilidad->liberacion_sopas->presentacion->descripcion}}
+                    {{$peso->control_trazabilidad->liberacion_sopas->producto->descripcion}}
                 </option>
             </select>
         </div>

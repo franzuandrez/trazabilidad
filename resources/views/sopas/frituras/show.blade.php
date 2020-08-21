@@ -42,7 +42,7 @@
                     required
                     id="id_producto" name="id_producto">
                 <option value="{{$fritura->control_trazabilidad->id_producto}}" selected>
-                    {{$fritura->control_trazabilidad->liberacion_sopas->presentacion->descripcion}}
+                    {{$fritura->control_trazabilidad->liberacion_sopas->producto->descripcion}}
                 </option>
             </select>
         </div>

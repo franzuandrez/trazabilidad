@@ -44,7 +44,7 @@
                     id="id_producto" name="id_producto">
                 <option value="{{$mezclado_sopas->control_trazabilidad->id_producto}}"
                         selected>
-                    {{$mezclado_sopas->control_trazabilidad->liberacion_sopas->presentacion->descripcion}}
+                    {{$mezclado_sopas->control_trazabilidad->liberacion_sopas->producto->descripcion}}
                 </option>
             </select>
         </div>

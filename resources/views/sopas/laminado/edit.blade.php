@@ -43,7 +43,7 @@
                     id="id_producto"
                     name="id_producto">
                 <option value="{{$laminado->control_trazabilidad->id_producto}}" selected>
-                    {{$laminado->control_trazabilidad->liberacion_sopas->presentacion->descripcion}}
+                    {{$laminado->control_trazabilidad->liberacion_sopas->producto->descripcion}}
                 </option>
             </select>
         </div>

@@ -21,12 +21,12 @@ class LineaSopaController extends Controller
         $sortField = $request->get('field') == null ? 'id_control' : $request->get('field');
 
 
-        $sopas = LineaSopa::select('sopas.*', 'presentaciones.descripcion as presentacion', 'users.nombre as responsable')
-            ->leftJoin('presentaciones', 'presentaciones.id_presentacion', '=', 'sopas.id_presentacion')
+        $sopas = LineaSopa::select('sopas.*', 'productos.descripcion as presentacion', 'users.nombre as responsable')
+            ->leftJoin('productos', 'productos.id_producto', '=', 'sopas.id_producto')
             ->join('users', 'users.id', '=', 'sopas.id_usuario')
             ->where(function ($query) use ($search) {
                 $query->where('sopas.id_turno', 'LIKE', '%' . $search . '%')
-                    ->orWhere('presentaciones.descripcion', 'LIKE', '%' . $search . '%')
+                    ->orWhere('productos.descripcion', 'LIKE', '%' . $search . '%')
                     ->orWhere('users.nombre', 'LIKE', '%' . $search . '%')
                     ->orWhere('sopas.id_control', 'LIKE', '%' . $search . '%');
             })

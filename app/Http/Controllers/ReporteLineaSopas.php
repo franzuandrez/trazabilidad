@@ -33,13 +33,11 @@ class ReporteLineaSopas extends Controller
             ->without('control_trazabilidad')
             ->select(
                 'productos.descripcion as PRODUCTO',
-                'presentaciones.descripcion as PRESENTACION',
                 'users.nombre as RESPONSABLE',
                 'sopas.id_turno as TURNO'
             )
             ->join('productos', 'productos.id_producto', '=', 'sopas.id_producto')
             ->join('users', 'users.id', '=', 'sopas.id_usuario')
-            ->join('presentaciones', 'presentaciones.id_presentacion', '=', 'sopas.id_presentacion')
             ->first();
 
         $linea_detalle =LineaSopa::where('sopas.id_sopa',$id)->first();

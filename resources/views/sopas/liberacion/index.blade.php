@@ -36,7 +36,7 @@
                           'sort'=>$sort,
                           'sortField'=>$sortField,
                           'field'=>'id_presentacion',
-                          'titulo'=>'PRESENTACION'])
+                          'titulo'=>'PRODUCTO'])
                     @endcomponent
                 </th>
                 <th>
