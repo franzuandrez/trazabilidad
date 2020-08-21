@@ -26,6 +26,8 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             @component('componentes.btn-create',['url'=>url('control/verificacion_materias_chao/create')])
             @endcomponent
+                @component('componentes.btn-edit',['url'=>'javascript:editar("verificacion_materias_chao")'])
+                @endcomponent
             @component('componentes.btn-ver',['url'=>'javascript:ver("verificacion_materias_chao")'])
             @endcomponent
             @component('componentes.btn-reporte',['url'=>'javascript:reporte("verificacion_materias_chao/reporte")'])

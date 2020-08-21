@@ -119,7 +119,6 @@
             <label for="observaciones">OBSERVACIONES</label>
             <div class="input-group">
                 <input id="observaciones"
-
                        onkeydown="if(event.keyCode==13)agregar_a_table()"
                        type="text" name="observaciones" value="{{old('observaciones')}}"
                        class="form-control">
@@ -179,7 +178,7 @@
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
             <label for="observacion_correctiva">OBSERVACIONES Y/O ACCION CORRECTIVA</label>
-            <input type="text" name="observacion_correctiva" value="{{old('observacion_correctiva')}}"
+            <input type="text" name="observacion_correctiva" value="{{$verificacion->observaciones}}"
                    class="form-control">
         </div>
     </div>

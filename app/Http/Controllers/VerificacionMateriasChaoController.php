@@ -140,6 +140,25 @@ class VerificacionMateriasChaoController extends Controller
 
     }
 
+
+    public function store(REquest $request)
+    {
+        try {
+
+            $orden_produccion = $request->get('id_control');
+            $LaminadoEnc = VerificacionMateriaChaoEnc::where('id_control', $orden_produccion)
+                ->firstOrFail();
+            $LaminadoEnc->observaciones = $request->get('observacion_correctiva');
+            $LaminadoEnc->save();
+            return redirect()->route('verificacion_materias_chao.index')
+                ->with('success', 'Guardado corrrectamente');
+        } catch (\Exception $ex) {
+
+            return redirect()->back()
+                ->withErrors(['No se ha podido completar su petición, codigo de error :  ' . $ex->getCode()]);
+        }
+    }
+
     public function insertar_detalle(Request $request)
     {
 
