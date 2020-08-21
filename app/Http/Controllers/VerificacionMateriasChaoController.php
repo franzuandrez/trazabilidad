@@ -72,7 +72,7 @@ class VerificacionMateriasChaoController extends Controller
         $no_orden_produccion = $request->get('no_orden_produccion');
 
 
-        $linea_chaomin = OrdenProduccionRepository::verificar_linea_chaomin($no_orden_produccion);
+        $linea_chaomin = OrdenProduccionRepository::verificar_linea_sopas($no_orden_produccion);
 
 
         if ($linea_chaomin['status'] == 0) {
