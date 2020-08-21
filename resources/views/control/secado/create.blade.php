@@ -109,6 +109,7 @@
                 <input id="principal_set"
                        type="number"
                        step="any"
+                       onkeydown="if(event.keyCode==13)next('principal_real')"
                        name="principal_set"
                        required
                        disabled
@@ -123,6 +124,7 @@
                        step="any"
                        name="principal_real"
                        required
+                       onkeydown="if(event.keyCode==13)next('inicial_ar')"
                        disabled
                        class="form-control">
             </div>
@@ -133,6 +135,7 @@
                 <input id="inicial_ar"
                        type="number"
                        step="any"
+                       onkeydown="if(event.keyCode==13)next('inicial_ab')"
                        name="inicial_ar"
                        required
                        disabled
@@ -147,6 +150,7 @@
                        step="any"
                        name="inicial_ab"
                        required
+                       onkeydown="if(event.keyCode==13)next('central_ar')"
                        disabled
                        class="form-control">
             </div>
@@ -158,6 +162,7 @@
                 <input id="central_ar"
                        type="number"
                        step="any"
+                       onkeydown="if(event.keyCode==13)next('central_ab')"
                        name="central_ar"
                        required
                        disabled
@@ -170,6 +175,7 @@
                 <input id="central_ab"
                        type="number"
                        step="any"
+                       onkeydown="if(event.keyCode==13)next('final_ar')"
                        name="central_ab"
                        required
                        disabled
@@ -182,6 +188,7 @@
                 <input id="final_ar"
                        type="number"
                        step="any"
+                       onkeydown="if(event.keyCode==13)next('final_ab')"
                        name="final_ar"
                        required
                        disabled
@@ -194,6 +201,7 @@
                 <input id="final_ab"
                        type="number"
                        step="any"
+                       onkeydown="if(event.keyCode==13)next('velocidad')"
                        name="final_ab"
                        required
                        disabled
@@ -205,6 +213,7 @@
                 <label for="velocidad">VELOCIDAD HRZ</label>
                 <input id="velocidad"
                        type="number"
+                       onkeydown="if(event.keyCode==13)next('tasa_salida')"
                        step="any"
                        name="velocidad"
                        required
@@ -219,6 +228,7 @@
                        type="number"
                        step="any"
                        name="tasa_salida"
+                       onkeydown="if(event.keyCode==13)next('humedad_secadora')"
                        required
                        disabled
                        class="form-control">
@@ -230,6 +240,7 @@
                 <input id="humedad_secadora"
                        type="number"
                        step="any"
+                       onkeydown="if(event.keyCode==13)next('humedad_pasta')"
                        name="humedad_secadora"
                        required
                        disabled
@@ -266,6 +277,7 @@
                    step="any"
                    name="ambiente_humedad"
                    required
+                   onkeydown="if(event.keyCode==13)next('ambiente_temp')"
                    disabled
                    class="form-control">
         </div>
@@ -276,6 +288,7 @@
             <input id="ambiente_temperatura"
                    type="number"
                    step="any"
+                   onkeydown="if(event.keyCode==13)next('observaciones')"
                    name="ambiente_temp"
                    required
                    disabled
@@ -640,5 +653,8 @@
             $('#informacion').modal()
         }
 
+        function next(id) {
+            document.getElementById(id).focus();
+        }
     </script>
 @endsection

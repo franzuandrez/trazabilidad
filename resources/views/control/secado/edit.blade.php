@@ -85,6 +85,7 @@
                 <input id="principal_set"
                        type="number"
                        step="any"
+                       onkeydown="if(event.keyCode==13)next('principal_real')"
                        name="principal_set"
                        required
 
@@ -99,7 +100,7 @@
                        step="any"
                        name="principal_real"
                        required
-
+                       onkeydown="if(event.keyCode==13)next('inicial_ar')"
                        class="form-control">
             </div>
         </div>
@@ -111,7 +112,7 @@
                        step="any"
                        name="inicial_ar"
                        required
-
+                       onkeydown="if(event.keyCode==13)next('inicial_ab')"
                        class="form-control">
             </div>
         </div>
@@ -123,7 +124,7 @@
                        step="any"
                        name="inicial_ab"
                        required
-
+                       onkeydown="if(event.keyCode==13)next('central_ar')"
                        class="form-control">
             </div>
         </div>
@@ -136,7 +137,7 @@
                        step="any"
                        name="central_ar"
                        required
-
+                       onkeydown="if(event.keyCode==13)next('central_ab')"
                        class="form-control">
             </div>
         </div>
@@ -148,7 +149,7 @@
                        step="any"
                        name="central_ab"
                        required
-
+                       onkeydown="if(event.keyCode==13)next('final_ar')"
                        class="form-control">
             </div>
         </div>
@@ -160,7 +161,7 @@
                        step="any"
                        name="final_ar"
                        required
-
+                       onkeydown="if(event.keyCode==13)next('final_ab')"
                        class="form-control">
             </div>
         </div>
@@ -172,7 +173,7 @@
                        step="any"
                        name="final_ab"
                        required
-
+                       onkeydown="if(event.keyCode==13)next('velocidad')"
                        class="form-control">
             </div>
         </div>
@@ -184,7 +185,7 @@
                        step="any"
                        name="velocidad"
                        required
-
+                       onkeydown="if(event.keyCode==13)next('tasa_salida')"
                        class="form-control">
             </div>
         </div>
@@ -196,7 +197,7 @@
                        step="any"
                        name="tasa_salida"
                        required
-
+                       onkeydown="if(event.keyCode==13)next('humedad_secadora')"
                        class="form-control">
             </div>
         </div>
@@ -208,7 +209,7 @@
                        step="any"
                        name="humedad_secadora"
                        required
-
+                       onkeydown="if(event.keyCode==13)next('humedad_pasta')"
                        class="form-control">
             </div>
         </div>
@@ -218,7 +219,7 @@
                         <span class="input-group-addon">
                             <b>N/A</b>
                           <input type="checkbox"
-                                 onclick="setNoAplica('humedad_pasta',this)"
+                                 onclick="setNoAplica('humedad_pasta',this,'ambiente_humedad')"
                           >
                         </span>
                 <input id="humedad_pasta"
@@ -226,7 +227,7 @@
                        step="any"
                        name="humedad_pasta"
                        required
-                       disabled
+                       onkeydown="if(event.keyCode==13)next('ambiente_humedad')"
                        class="form-control">
             </div>
             <br>
@@ -241,7 +242,7 @@
                        step="any"
                        name="ambiente_humedad"
                        required
-
+                       onkeydown="if(event.keyCode==13)next('ambiente_temp')"
                        class="form-control">
             </div>
         </div>
@@ -254,7 +255,7 @@
                        step="any"
                        name="ambiente_temp"
                        required
-
+                       onkeydown="if(event.keyCode==13)next('observaciones')"
                        class="form-control">
             </div>
         </div>
@@ -379,11 +380,12 @@
             }
         });
 
-        function setNoAplica(id, element) {
+        function setNoAplica(id, element, id_next = null) {
 
             if (element.checked) {
                 document.getElementById(id).value = 0;
                 document.getElementById(id).disabled = true;
+                id_next != null ? next(id_next) : '';
             } else {
                 document.getElementById(id).value = '';
                 document.getElementById(id).disabled = false;
@@ -636,6 +638,10 @@
         function ver_informacion() {
 
             $('#informacion').modal()
+        }
+
+        function next(id) {
+            document.getElementById(id).focus();
         }
 
     </script>
