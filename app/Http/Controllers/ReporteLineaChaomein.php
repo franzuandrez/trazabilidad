@@ -241,7 +241,7 @@ class ReporteLineaChaomein extends Controller
 
 
 
-        $reporte_encabezado->setTitle('VERIFICACION DE MATERIA PARA SOLUCION CHAO MEIN')
+        $reporte_encabezado->setTitle('VERIFICACION DE MATERIAS EN MEZCLADORA DE SOPAS')
             ->setCreatedAt(Carbon::now())
             ->setSubtitle('VERIFICACION DE MATERIA PARA SOLUCION CHAO MEIN')
             ->setExcept(['id_producto', 'id_verificacion', 'id_verificacion_det','fecha','hora','producto']);
@@ -249,12 +249,10 @@ class ReporteLineaChaomein extends Controller
 
         $mezcla_harina_det = VerificacionMateriaChaoDet::where('id_verificacion', $id)
             ->select(
-                'productos.descripcion as PRODUCTO',
                 'verificacion_materias_chao_det.*',
                 'users.nombre as id_usuario'
             )
             ->join('users', 'users.id', '=', 'verificacion_materias_chao_det.id_usuario')
-            ->join('productos', 'productos.id_producto', '=', 'verificacion_materias_chao_det.id_producto')
             ->get();
 
 
