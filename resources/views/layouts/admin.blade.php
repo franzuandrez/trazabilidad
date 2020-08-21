@@ -357,6 +357,10 @@
                                         Instantaneas</a>
                                 </li>
                             @endcan
+                            @can('verificacion_materia_sopas')
+                                    <li><a href="{{url('control/verificacion_materias_chao')}}"><i class="fa fa-check"></i>
+                                            Verificacion Materias en mezcladora de sopas</a></li>
+                            @endcan
                             @can('mezclado_sopas')
                                 <li><a href="{{url('sopas/mezclado_sopas')}}"><i class="fa fa-spinner"></i>Mezclado
                                         de

@@ -8,7 +8,7 @@
 
 @section('contenido')
     <div class="col-lg-12 col-lg-push-3 col-sm-12    col-md-12   col-xs-12">
-        <h3>VERIFICACION DE MATERIA PRIMAS PARA SOLUCION DE CHAO MEIN</h3>
+        <h3>VERIFICACION MATERIAS PRIMAS EN MEZCLADORA DE SOPAS</h3>
     </div>
 
     @component('componentes.nav',['operation'=>'Crear',
@@ -19,7 +19,7 @@
             Control
         @endslot
         @slot('submenu')
-            Verificacion Materias para Solucion Chao Mein
+            Verificacion Materias en mezcladora de sopas
         @endslot
     @endcomponent
 
@@ -104,58 +104,53 @@
                        class="form-control">
             </div>
         </div>
-        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-            <div class="form-group">
-                <label for="producto">PRODUCTO </label>
-                <input id="producto"
-                       disabled
-                       onkeydown="if(event.keyCode==13)buscar_insumo()"
-                       type="text" name="producto" value="{{old('producto')}}"
-                       class="form-control">
-            </div>
-        </div>
-        <input id="id_producto_insumo"
-               disabled
-               required
-               type="hidden" name="id_producto_insumo" value="{{old('id_producto_insumo')}}"
-               class="form-control">
-        <input id="lote"
-               disabled
-               type="hidden" name="lote" value="{{old('lote')}}"
-               class="form-control">
-        <input id="cantidad_total"
-               disabled
-               type="hidden" name="cantidad_total" value="{{old('cantidad_total')}}"
-               class="form-control">
+
 
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
-                <label for="cantidad">CANTIDAD </label>
-                <input id="cantidad"
+                <label for="harina">HARINA </label>
+                <input id="harina"
                        disabled
                        required
                        type="number"
                        step="any"
-                       name="cantidad" value="{{old('cantidad')}}"
+                       name="harina" value="{{old('harina')}}"
                        class="form-control">
             </div>
         </div>
 
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
-                <label for="equipo">EQUIPO</label>
-                <input id="equipo"
+                <label for="gluten">GLUTEN </label>
+                <input id="gluten"
                        disabled
-                       type="text" name="equipo" value="{{old('equipo')}}"
+                       required
+                       type="number"
+                       step="any"
+                       name="gluten" value="{{old('gluten')}}"
                        class="form-control">
             </div>
         </div>
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="solucion">SOLUCION </label>
+                <input id="solucion"
+                       disabled
+                       required
+                       type="number"
+                       step="any"
+                       name="solucion" value="{{old('solucion')}}"
+                       class="form-control">
+            </div>
+        </div>
+
 
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <label for="observaciones">OBSERVACIONES</label>
             <div class="input-group">
                 <input id="observaciones"
                        disabled
+                       onkeydown="if(event.keyCode==13)agregar_a_table()"
                        type="text" name="observaciones" value="{{old('observaciones')}}"
                        class="form-control">
                 <div class="input-group-btn">
@@ -179,7 +174,7 @@
 
             </div>
         </div>
-
+        <input type="hidden" id="hora" name="" required>
 
         <div class="tab-pane" id="tab_3">
 
@@ -188,12 +183,11 @@
                 <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
 
                     <thead style="background-color: #01579B;  color: #fff;">
+                    <th>HORA</th>
                     <th>BATCH NO</th>
-                    <th>ID PRODUCTO</th>
-                    <th>PRODUCTO</th>
-                    <th>LOTE</th>
-                    <th>CANTIDAD</th>
-                    <th>EQUIPO</th>
+                    <th>HARINA</th>
+                    <th>GLUTEN</th>
+                    <th>SOLUCION</th>
                     <th>OBSERVACIONES</th>
                     </thead>
                     <tbody>
@@ -475,24 +469,21 @@
 
         function detalle() {
 
-
+            const hora = document.getElementById('hora');
             const batch_no = document.getElementById('batch_no');
-            const id_producto = document.getElementById('id_producto_insumo');
-            const producto = document.getElementById('producto');
-            const lote = document.getElementById('lote');
-            const cantidad = document.getElementById('cantidad');
-            const equipo = document.getElementById('equipo');
+            const harina = document.getElementById('harina');
+            const gluten = document.getElementById('gluten');
+            const solucion = document.getElementById('solucion');
             const observaciones = document.getElementById('observaciones');
 
 
             const fields = [
 
+                ["hora", hora],
                 ["batch_no", batch_no],
-                ["id_producto", id_producto],
-                ["producto", producto],
-                ["lote", lote],
-                ["cantidad", cantidad],
-                ["equipo", equipo],
+                ["harina", harina],
+                ["gluten", gluten],
+                ["solucion", solucion],
                 ["observaciones", observaciones],
             ];
 
@@ -529,7 +520,7 @@
             const no_orden_produccion = get_no_orden_produccion();
             const no_orden_disabled = document.getElementById('no_orden_produccion').disabled;
             const no_orden_valida = no_orden_disabled && no_orden_produccion != "";
-
+            document.getElementById('hora').value = hora.format('HH:mm:ss');
             const fields = detalle();
 
 
@@ -537,10 +528,7 @@
                 get_campo_vacio(fields).focus();
                 return;
             }
-            if (producto_agregado() + parseFloat(document.getElementById('cantidad').value) > parseFloat(document.getElementById('cantidad_total').value)) {
-                alert("Cantidad insuficiente");
-                return;
-            }
+
             if (no_orden_valida) {
                 $('.loading').show();
                 const request = getRequest(fields);

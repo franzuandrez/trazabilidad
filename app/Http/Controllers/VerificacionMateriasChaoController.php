@@ -129,6 +129,17 @@ class VerificacionMateriasChaoController extends Controller
     }
 
 
+    public function edit($id)
+    {
+        $verificacion = VerificacionMateriaChaoEnc::findOrFail($id);
+
+
+        return view('control.verificacion_materia_prima_chao.edit', [
+            'verificacion' => $verificacion
+        ]);
+
+    }
+
     public function insertar_detalle(Request $request)
     {
 
@@ -183,7 +194,6 @@ class VerificacionMateriasChaoController extends Controller
 
 
         $verificacion = VerificacionMateriaChaoEnc::findOrFail($id);
-
 
 
         return view('control.verificacion_materia_prima_chao.show', [

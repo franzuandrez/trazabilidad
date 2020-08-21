@@ -18,7 +18,7 @@
             Control
         @endslot
         @slot('submenu')
-            Verificacion Materias para Solucion Chao Mein
+            Verificacion Materias en mezcladora de sopas
         @endslot
     @endcomponent
 
