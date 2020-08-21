@@ -434,6 +434,7 @@ Route::get('produccion/trazabilidad_chao_mein/buscar_orden_produccion', 'Operaci
 Route::get('produccion/trazabilidad_chao_mein/finalizar/{id}', 'OperacionController@get_finalizar_control_trazabilidad')->name('produccion.get_finalizar');
 Route::post('produccion/trazabilidad_chao_mein/finalizar/{id}', 'OperacionController@save_finalizar_control_trazabilidad')->name('produccion.save_finalizar');
 Route::get('produccion/trazabilidad_chao_mein/{id}', 'OperacionController@show')->name('produccion.operacion.show');
+Route::get('produccion/trazabilidad_chao_mein/continuar/{id}', 'OperacionController@continuar')->name('produccion.operacion.continuar');
 Route::get('produccion/trazabilidad_chao_mein/{id}/edit', 'OperacionController@edit')->name('produccion.operacion.edit');
 
 Route::get('produccion/trazabilidad_chao_mein/reporte/{id}', 'ReporteControlTrazabilidadController@reporte_control_trazabilidad')->name('produccion.operacion.reporte');

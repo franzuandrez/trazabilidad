@@ -29,8 +29,11 @@
             @can('role-create')
                 @component('componentes.btn-create',['url'=>url('produccion/trazabilidad_chao_mein/create')])
                 @endcomponent
+                @component('componentes.btn-continuar',['url'=>'javascript:ver("trazabilidad_chao_mein/continuar")'])
+                @endcomponent
             @endcan
             @can('role-edit')
+
                 @component('componentes.btn-edit',['url'=>'javascript:editar("trazabilidad_chao_mein")'])
                 @endcomponent
             @endcan
@@ -39,7 +42,8 @@
                 @endcomponent
             @endcan
             @can('role-edit')
-                <a href="javascript:ver('trazabilidad_chao_mein/finalizar')" data-placement="top" title="Finalizar" data-toggle="tooltip"><img
+                <a href="javascript:ver('trazabilidad_chao_mein/finalizar')" data-placement="top" title="Finalizar"
+                   data-toggle="tooltip"><img
                         src="{{asset('imagenes_web/confirmar.png')}}" width="50" height="50"></a>
             @endcan
             @can('generar_reporte')

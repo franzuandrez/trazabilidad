@@ -221,12 +221,6 @@ class OperacionController extends Controller
 
         $operacion = Operacion::findOrFail($id);
 
-        if ($operacion->status == 1) {
-            return redirect()
-                ->back()
-                ->withErrors(['Control de trazabilidad en proceso']);
-
-        }
 
         if ($operacion->status == 3) {
             return view('produccion.control_trazabilidad.finalizado', [
@@ -255,12 +249,7 @@ class OperacionController extends Controller
         $actividades = Actividad::actived()
             ->get();
 
-        if ($control->status == 1) {
-            return redirect()
-                ->back()
-                ->withErrors(['Control de trazabilidad en proceso']);
 
-        }
         if ($control->status == 3) {
             return view('produccion.control_trazabilidad.finalizado', [
                 'control' => $control
@@ -274,6 +263,25 @@ class OperacionController extends Controller
 
     }
 
+
+    public function continuar($id)
+    {
+        $control = Operacion::with('producto')
+            ->with('asistencias')
+            ->with('actividades')
+            ->with('detalle_insumos')
+            ->findOrFail($id);
+
+        if ($control->status == 3) {
+            return view('produccion.control_trazabilidad.finalizado', [
+                'control' => $control
+            ]);
+        }
+
+        return view('produccion.control_trazabilidad.continuar', [
+            'control' => $control
+        ]);
+    }
 
     /**
      * @param Request $request

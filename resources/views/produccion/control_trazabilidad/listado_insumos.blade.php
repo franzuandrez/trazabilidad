@@ -17,6 +17,7 @@
         @isset($control)
             @foreach($control->detalle_insumos as $insumo)
                 <tr>
+
                     <td>
                         <input
                             type="hidden"
