@@ -76,6 +76,7 @@
                 <th>TIEMPO EFECTIVO</th>
                 <th>ALCANCE PRESIÓN</th>
                 <th>TEMPERATURA</th>
+                <th>PRECOCEDORA</th>
                 <th>OBSERVACIONES</th>
             </tr>
             </thead>
@@ -89,6 +90,7 @@
                     <td>{{$detalle->tiempo_efectivo}}</td>
                     <td>{{$detalle->alcance_presion}}</td>
                     <td>{{$detalle->temperatura}}</td>
+                    <td>{{$detalle->precocedora}}</td>
                     <td>{{$detalle->observaciones}}</td>
                 </tr>
             @endforeach

@@ -165,7 +165,16 @@
                        class="form-control">
             </div>
         </div>
-
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="precocedora">PRECOCEDORA</label>
+                <select name="precocedora" class="form-control selectpicker "
+                        disabled="" id="precocedora">
+                    <option value="1"> #1</option>
+                    <option value="2"> #2</option>
+                </select>
+            </div>
+        </div>
 
         <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
             <label for="observaciones">OBSERVACIONES</label>
@@ -203,6 +212,7 @@
                     <th>ALCANCE PRESIÓN</th>
                     <th>TEMPERATURA</th>
                     <th>OBSERVACIONES</th>
+                    <th>PRECOCEDORA</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -402,6 +412,7 @@
             const tiempo_efectivo = document.getElementById('tiempo_efectivo');
             const alcance_presion = document.getElementById('alcance_presion');
             const temperatura = document.getElementById('temperatura');
+            const precocedora = document.getElementById('precocedora');
             const observaciones = document.getElementById('observaciones');
 
 
@@ -413,6 +424,7 @@
                 ["tiempo_efectivo", tiempo_efectivo],
                 ["alcance_presion", alcance_presion],
                 ["temperatura", temperatura],
+                ["precocedora", precocedora],
                 ["observaciones", observaciones],
             ];
 

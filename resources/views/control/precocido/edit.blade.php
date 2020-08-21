@@ -132,7 +132,16 @@
             </div>
         </div>
 
-
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="precocedora">PRECOCEDORA</label>
+                <select name="precocedora" class="form-control selectpicker "
+                      id="precocedora">
+                    <option value="1">#1</option>
+                    <option value="2">#2</option>
+                </select>
+            </div>
+        </div>
         <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
             <label for="observaciones">OBSERVACIONES</label>
             <div class="input-group">
@@ -170,6 +179,7 @@
                     <th>TIEMPO EFECTIVO</th>
                     <th>ALCANCE PRESIÓN</th>
                     <th>TEMPERATURA</th>
+                    <th>PRECOCEDORA</th>
                     <th>OBSERVACIONES</th>
                 </tr>
                 </thead>
@@ -193,6 +203,7 @@
                         <td>{{$detalle->tiempo_efectivo}}</td>
                         <td>{{$detalle->alcance_presion}}</td>
                         <td>{{$detalle->temperatura}}</td>
+                        <td>{{$detalle->precocedora}}</td>
                         <td>{{$detalle->observaciones}}</td>
                     </tr>
                 @endforeach
@@ -377,6 +388,7 @@
             const tiempo_efectivo = document.getElementById('tiempo_efectivo');
             const alcance_presion = document.getElementById('alcance_presion');
             const temperatura = document.getElementById('temperatura');
+            const precocedora = document.getElementById('precocedora');
             const observaciones = document.getElementById('observaciones');
 
 
@@ -388,6 +400,7 @@
                 ["tiempo_efectivo", tiempo_efectivo],
                 ["alcance_presion", alcance_presion],
                 ["temperatura", temperatura],
+                ["precocedora", precocedora],
                 ["observaciones", observaciones],
             ];
 
