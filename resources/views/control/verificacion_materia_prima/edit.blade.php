@@ -63,6 +63,8 @@
         <hr>
     </div>
 
+
+
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
 
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
@@ -72,29 +74,154 @@
                        type="number"
                        step="any"
                        required
-
                        name="batch_no"
-
                        class="form-control">
             </div>
         </div>
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
-                <label for="cantidad_solucion">CANTIDAD SOLUCIÓN</label>
-                <input id="cantidad_solucion"
+                <label for="equipo">EQUIPO</label>
+                <input id="equipo"
+                       type="number"
+                       step="any"
+                       required
 
-                       type="text" name="cantidad_solucion" value="{{old('cantidad_solucion')}}"
+                       name="equipo"
+                       class="form-control">
+            </div>
+        </div>
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="cantidad_ph">CANTIDAD PH</label>
+                <input id="cantidad_ph"
+                       type="number"
+                       step="any"
+                       required
+
+                       name="cantidad_ph"
                        class="form-control">
             </div>
         </div>
 
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
-                <label for="harina">HARINA (300 LBS)</label>
-                <input id="harina"
+                <label for="cantidad_carga">CANTIDAD CARGA</label>
+                <input id="cantidad_carga"
+                       type="number"
+                       step="any"
+                       required
 
-                       type="text" name="harina" value="{{old('harina')}}"
+                       name="cantidad_carga"
                        class="form-control">
+            </div>
+        </div>
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="cantidad_agua">AGUA</label>
+                <input id="cantidad_agua"
+                       type="number"
+                       step="any"
+                       required
+
+                       name="cantidad_agua"
+                       class="form-control">
+            </div>
+        </div>
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="cantidad_base_vitamina">BASE VITAMINA</label>
+                <input id="cantidad_base_vitamina"
+                       type="number"
+                       step="any"
+                       required
+
+                       name="cantidad_base_vitamina"
+                       class="form-control">
+            </div>
+        </div>
+        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+            <label>CARBONATO SODIO</label>
+            <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+            </div>
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+                <div class="form-group">
+                    <label for="lote_carbonato_sodio">LOTE</label>
+                    <input id="lote_carbonato_sodio"
+                           type="text"
+                           required
+
+                           name="lote_carbonato_sodio"
+                           class="form-control">
+                </div>
+            </div>
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+                <div class="form-group">
+                    <label for="cantidad_carbonato_sodio">CANTIDAD</label>
+                    <input id="cantidad_carbonato_sodio"
+                           type="number"
+                           step="any"
+                           required
+
+                           name="cantidad_carbonato_sodio"
+                           class="form-control">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+            <label>COLORANTE AMARILLO HUEVO</label>
+            <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+            </div>
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+                <div class="form-group">
+                    <label for="lote_colorante_amarillo">LOTE</label>
+                    <input id="lote_colorante_amarillo"
+                           type="text"
+                           required
+                           name="lote_colorante_amarillo"
+                           class="form-control">
+                </div>
+            </div>
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+                <div class="form-group">
+                    <label for="cantidad_colorante_amarillo">CANTIDAD</label>
+                    <input id="cantidad_colorante_amarillo"
+                           type="number"
+                           step="any"
+                           required
+
+                           name="cantidad_colorante_amarillo"
+                           class="form-control">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+            <label>CMC</label>
+            <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+            </div>
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+                <div class="form-group">
+                    <label for="lote_cmc">LOTE</label>
+                    <input id="lote_cmc"
+                           type="text"
+                           required
+
+                           name="lote_cmc"
+                           class="form-control">
+                </div>
+            </div>
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+                <div class="form-group">
+                    <label for="cantidad_cmc">CANTIDAD</label>
+                    <input id="cantidad_cmc"
+                           type="number"
+                           step="any"
+                           required
+
+                           name="cantidad_cmc"
+                           class="form-control">
+                </div>
             </div>
         </div>
 
@@ -140,8 +267,17 @@
                     <thead style="background-color: #01579B;  color: #fff;">
                     <th>HORA</th>
                     <th>BATCH NO</th>
-                    <th>CANTIDAD SOLUCION</th>
-                    <th>HARINA</th>
+                    <th>EQUIPO</th>
+                    <th>CANTIDAD PH</th>
+                    <th>CANTIDAD CARGA</th>
+                    <th>AGUA</th>
+                    <th>BASE VITAMINA</th>
+                    <th>CARBONATO SODIO - LOTE</th>
+                    <th>CARBONATO SODIO - CANTIDAD</th>
+                    <th>COLORANTE - LOTE</th>
+                    <th>COLORANTE - CANTIDAD</th>
+                    <th>CMC - LOTE</th>
+                    <th>CMC - CANTIDAD</th>
                     <th>OBSERVACIONES</th>
                     </thead>
                     <tbody>
@@ -149,9 +285,19 @@
                         <tr>
                             <td>{{$detalle->hora}}</td>
                             <td>{{$detalle->batch_no}}</td>
-                            <td>{{$detalle->cantidad_solucion}}</td>
-                            <td>{{$detalle->harina}}</td>
+                            <td>{{$detalle->equipo}}</td>
+                            <td>{{$detalle->cantidad_ph}}</td>
+                            <td>{{$detalle->cantidad_carga}}</td>
+                            <td>{{$detalle->cantidad_agua}}</td>
+                            <td>{{$detalle->cantidad_base_vitamina}}</td>
+                            <td>{{$detalle->lote_carbonato_sodio}}</td>
+                            <td>{{$detalle->cantidad_carbonato_sodio}}</td>
+                            <td>{{$detalle->lote_colorante_amarillo}}</td>
+                            <td>{{$detalle->cantidad_colorante_amarillo}}</td>
+                            <td>{{$detalle->lote_cmc}}</td>
+                            <td>{{$detalle->cantidad_cmc}}</td>
                             <td>{{$detalle->observaciones}}</td>
+
                         </tr>
                     @endforeach
                     </tbody>
@@ -159,6 +305,8 @@
             </div>
         </div>
     </div>
+
+
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
             <label for="observacion_correctiva">OBSERVACIONES Y/O ACCION CORRECTIVA</label>
@@ -364,8 +512,17 @@
 
 
             const batch_no = document.getElementById('batch_no');
-            const cantidad_solucion = document.getElementById('cantidad_solucion');
-            const harina = document.getElementById('harina');
+            const equipo = document.getElementById('equipo');
+            const cantidad_ph = document.getElementById('cantidad_ph');
+            const cantidad_carga = document.getElementById('cantidad_carga');
+            const agua = document.getElementById('cantidad_agua');
+            const base_vitamina = document.getElementById('cantidad_base_vitamina');
+            const lote_carbonato_sodio = document.getElementById('lote_carbonato_sodio');
+            const cantidad_carbonato_sodio = document.getElementById('cantidad_carbonato_sodio');
+            const lote_colorante_amarillo = document.getElementById('lote_colorante_amarillo');
+            const cantidad_colorante_amarillo = document.getElementById('cantidad_colorante_amarillo');
+            const lote_cmc = document.getElementById('lote_cmc');
+            const cantidad_cmc = document.getElementById('cantidad_cmc');
             const observaciones = document.getElementById('observaciones');
             const hora = document.getElementById('hora');
 
@@ -373,8 +530,17 @@
             const fields = [
                 ["hora", hora],
                 ["batch_no", batch_no],
-                ["cantidad_solucion", cantidad_solucion],
-                ["harina", harina],
+                ["equipo", equipo],
+                ["cantidad_ph", cantidad_ph],
+                ["cantidad_carga", cantidad_carga],
+                ["cantidad_agua", agua],
+                ["cantidad_base_vitamina", base_vitamina],
+                ["lote_carbonato_sodio", lote_carbonato_sodio],
+                ["cantidad_carbonato_sodio", cantidad_carbonato_sodio],
+                ["lote_colorante_amarillo", lote_colorante_amarillo],
+                ["cantidad_colorante_amarillo", cantidad_colorante_amarillo],
+                ["lote_cmc", lote_cmc],
+                ["cantidad_cmc", cantidad_cmc],
                 ["observaciones", observaciones],
             ];
 

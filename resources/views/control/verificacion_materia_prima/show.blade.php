@@ -76,8 +76,17 @@
                     <thead style="background-color: #01579B;  color: #fff;">
                     <th>HORA</th>
                     <th>BATCH NO</th>
-                    <th>CANTIDAD SOLUCION</th>
-                    <th>HARINA</th>
+                    <th>EQUIPO</th>
+                    <th>CANTIDAD PH</th>
+                    <th>CANTIDAD CARGA</th>
+                    <th>AGUA</th>
+                    <th>BASE VITAMINA</th>
+                    <th>CARBONATO SODIO - LOTE</th>
+                    <th>CARBONATO SODIO - CANTIDAD</th>
+                    <th>COLORANTE - LOTE</th>
+                    <th>COLORANTE - CANTIDAD</th>
+                    <th>CMC - LOTE</th>
+                    <th>CMC - CANTIDAD</th>
                     <th>OBSERVACIONES</th>
                     </thead>
                     <tbody>
@@ -85,8 +94,17 @@
                         <tr>
                             <td>{{$detalle->hora}}</td>
                             <td>{{$detalle->batch_no}}</td>
-                            <td>{{$detalle->cantidad_solucion}}</td>
-                            <td>{{$detalle->harina}}</td>
+                            <td>{{$detalle->equipo}}</td>
+                            <td>{{$detalle->cantidad_ph}}</td>
+                            <td>{{$detalle->cantidad_carga}}</td>
+                            <td>{{$detalle->cantidad_agua}}</td>
+                            <td>{{$detalle->cantidad_base_vitamina}}</td>
+                            <td>{{$detalle->lote_carbonato_sodio}}</td>
+                            <td>{{$detalle->cantidad_carbonato_sodio}}</td>
+                            <td>{{$detalle->lote_colorante_amarillo}}</td>
+                            <td>{{$detalle->cantidad_colorante_amarillo}}</td>
+                            <td>{{$detalle->lote_cmc}}</td>
+                            <td>{{$detalle->cantidad_cmc}}</td>
                             <td>{{$detalle->observaciones}}</td>
                         </tr>
                     @endforeach
