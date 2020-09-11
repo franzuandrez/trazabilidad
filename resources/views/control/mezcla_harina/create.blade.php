@@ -94,6 +94,60 @@
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
 
 
+        <div class="col-lg-12 col-sm-12 col-md-12  col-xs-12">
+            <div class="form-group">
+                <label for="tiempos_velocidades">TIEMPOS  VELOCIDADES</label>
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="tiempo_seco">SECO</label>
+                <input id="tiempo_seco"
+                       type="number"
+                       step="any"
+                       name="tiempo_seco"
+                       disabled
+                       required
+                       class="form-control">
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="tiempo_alta">ALTA</label>
+                <input id="tiempo_alta"
+                       type="number"
+                       step="any"
+                       name="tiempo_alta"
+                       disabled
+                       required
+                       class="form-control">
+            </div>
+        </div>
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="tiempo_baja">BAJA</label>
+                <input id="tiempo_baja"
+                       type="number"
+                       step="any"
+                       name="tiempo_baja"
+                       disabled
+                       required
+                       class="form-control">
+            </div>
+        </div>
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="tiempos_observaciones">OBSERVACIONES</label>
+                <input id="tiempos_observaciones"
+                       type="text"
+                       name="tiempos_observaciones"
+                       disabled
+                       required
+                       class="form-control">
+            </div>
+        </div>
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12" style="display: none">
             <label for="hora_carga">HORA CARGA</label>
             <div class="input-group">
@@ -107,6 +161,12 @@
             </div>
         </div>
 
+        <input id="tiempo_total"
+               type="hidden"
+               disabled
+               required
+               class="form-control " name="tiempo_total">
+
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12" style="display: none">
             <label for="hora_descarga">HORA DESCARGA</label>
             <div class="input-group">
@@ -119,10 +179,37 @@
             </div>
         </div>
 
+        <div class="col-lg-12 col-sm-12 col-md-12  col-xs-12">
+            <div class="form-group">
+                <label for="verificacion_tamiz">VERIFICACION TAMIZ</label>
+            </div>
+        </div>
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="verificacion_tamiz">VALOR</label>
+                <input id="verificacion_tamiz"
+                       name="verificacion_tamiz"
+                       disabled
+                       required
+                       class="form-control">
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="observaciones_tamiz">OBSERVACIONES</label>
+                <input id="observaciones_tamiz"
+                       type="text"
+                       name="observaciones_tamiz"
+                       disabled
+                       required
+                       class="form-control">
+            </div>
+        </div>
 
         <div class="col-lg-12 col-sm-12 col-md-12  col-xs-12">
             <div class="form-group">
-                <label for="solucion">LBS DE SOLUCIÓN (158.4 A 168.5)</label>
+                <label for="solucion">LBS DE SOLUCIÓN (154 A 168)</label>
             </div>
         </div>
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
@@ -137,7 +224,6 @@
                        class="form-control">
             </div>
         </div>
-
         <div class="col-lg-6 col-sm-6 col-md-6  col-xs-12">
             <div class="form-group">
                 <label for="observacion">OBSERVACIONES</label>
@@ -197,6 +283,7 @@
         </div>
 
 
+
         <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
 
             <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
@@ -208,10 +295,16 @@
                     <th>LOTE</th>
                     <th>HORA CARGA</th>
                     <th>HORA DESCARGA</th>
+                    <th>V. SECO</th>
+                    <th>V. ALTA</th>
+                    <th>V. BAJO</th>
+                    <th>V. OBSERVACIONES</th>
                     <th>SOLUCION INICAL</th>
                     <th>OBSERVACIONES</th>
                     <th>PH INICIAL</th>
                     <th>OBSERVACIONES</th>
+                    <th>VERIFICACION TAMIZ</th>
+                    <th>OBSERVACIONES TAMIZ</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -220,6 +313,8 @@
         </div>
 
     </div>
+
+
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
             <label for="observacion_correctiva">OBSERVACIONES Y/O ACCION CORRECTIVA</label>
@@ -427,6 +522,12 @@
             const hora_carga = document.getElementById('hora_carga');
             const hora_descarga = document.getElementById('hora_descarga');
             const solucion_inicial = document.getElementById('solucion_inicial');
+            const tiempo_seco = document.getElementById('tiempo_seco');
+            const tiempo_alta = document.getElementById('tiempo_alta');
+            const tiempo_baja = document.getElementById('tiempo_baja');
+            const tiempos_observaciones = document.getElementById('tiempos_observaciones');
+            const verificacion_tamiz = document.getElementById('verificacion_tamiz');
+            const observaciones_tamiz = document.getElementById('observaciones_tamiz');
             const solucion_observacion = document.getElementById('solucion_observacion');
             const ph_inicial = document.getElementById('ph_inicial');
             const ph_observacion = document.getElementById('ph_observacion');
@@ -437,10 +538,16 @@
                 ["lote", lote],
                 ["hora_carga", hora_carga],
                 ["hora_descarga", hora_descarga],
+                ["tiempo_seco", tiempo_seco],
+                ["tiempo_alta", tiempo_alta],
+                ["tiempo_baja", tiempo_baja],
+                ["tiempos_observaciones", tiempos_observaciones],
                 ["solucion_inicial", solucion_inicial],
                 ["solucion_observacion", solucion_observacion],
                 ["ph_inicial", ph_inicial],
                 ["ph_observacion", ph_observacion],
+                ["verificacion_tamiz", verificacion_tamiz],
+                ["observaciones_tamiz", observaciones_tamiz],
             ];
 
             return fields;

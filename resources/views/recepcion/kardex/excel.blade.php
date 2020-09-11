@@ -68,21 +68,22 @@
 
     <thead>
     <tr style="border: 1px solid #000">
-        <th width="35" style="border: 1px solid #000">PRODUCTO</th>
-        @if($parametros->lote ==null)
-            <th width="20" style="border: 1px solid #000">LOTE</th>
-            @php
-                $colspan -= 1;
-            @endphp
-        @endif
         <th width="35" style="border: 1px solid #000">CODIGO INTERNO</th>
+        <th width="35" style="border: 1px solid #000">PRODUCTO</th>
+
+
         @if($parametros->id_select_search==null)
             <th width="20" style="border: 1px solid #000">UBICACION</th>
             @php
                 $colspan -= 1;
             @endphp
         @endif
-
+        @if($parametros->lote ==null)
+            <th width="20" style="border: 1px solid #000">LOTE</th>
+            @php
+                $colspan -= 1;
+            @endphp
+        @endif
 
         <th width="35" style="border: 1px solid #000">MEDIDA</th>
 
@@ -99,17 +100,14 @@
 
     @foreach($collection as $producto)
         <tr>
-            <td style="border: 1px solid #000000">
-                {{$producto->producto}}
-            </td>
-            @if($parametros->lote ==null)
-                <td style="border: 1px solid #000000">
-                    {{$producto->lote}}
-                </td>
-            @endif
+
             <td style="border: 1px solid #000000">
                 {{$producto->codigo_interno}}
             </td>
+            <td style="border: 1px solid #000000">
+                {{$producto->producto}}
+            </td>
+
 
             @if($parametros->id_select_search==null)
                 <td style="border: 1px solid #000000">
@@ -118,6 +116,11 @@
                     @else
                         {{$producto->ubicacion}}
                     @endif
+                </td>
+            @endif
+            @if($parametros->lote ==null)
+                <td style="border: 1px solid #000000">
+                    {{$producto->lote}}
                 </td>
             @endif
             <td style="border: 1px solid #000000">

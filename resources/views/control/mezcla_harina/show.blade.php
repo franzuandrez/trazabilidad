@@ -73,23 +73,58 @@
             <thead style="background-color: #01579B;  color: #fff;">
             <tr>
 
+
+
                 <th>HORA CARGA</th>
                 <th>HORA DESCARGA</th>
+                <th>V. SECO</th>
+                <th>V. ALTA</th>
+                <th>V. BAJO</th>
+                <th>V. OBSERVACIONES</th>
                 <th>SOLUCION INICAL</th>
                 <th>OBSERVACIONES</th>
                 <th>PH INICIAL</th>
                 <th>OBSERVACIONES</th>
+                <th>VERIFICACION TAMIZ</th>
+                <th>OBSERVACIONES TAMIZ</th>
             </tr>
             </thead>
             <tbody>
             @foreach($mezcla_harina->detalle as $detalle)
                 <tr>
-                    <td>{{$detalle->hora_carga}}</td>
-                    <td>{{$detalle->hora_descarga}}</td>
-                    <td>{{$detalle->solucion_inicial}}</td>
-                    <td>{{$detalle->solucion_observacion}}</td>
-                    <td>{{$detalle->ph_inicial}}</td>
-                    <td>{{$detalle->ph_observacion}}</td>
+
+                    <td>
+                        {{$detalle->hora_carga}}
+                        <input type="hidden"
+                               id="hora_carga-{{$detalle->id_det_mezclaharina}}"
+                        >
+                    </td>
+                    <td>{{$detalle->hora_descarga}}
+                        <input type="hidden"
+                               id="hora_descarga-{{$detalle->id_det_mezclaharina}}"
+                        >
+                    </td>
+                    <td>{{$detalle->tiempo_seco}}
+                    <td>{{$detalle->tiempo_alta}}
+                    <td>{{$detalle->tiempo_baja}}
+                    <td>{{$detalle->tiempos_observaciones}}
+                    <td>{{$detalle->solucion_inicial}}
+                    </td>
+                    <td>
+                        {{$detalle->solucion_observacion}}
+                        <input type="hidden"
+                               id="solucion_observacion-{{$detalle->id_det_mezclaharina}}"
+                        >
+                    </td>
+                    <td>{{$detalle->ph_inicial}}
+                    </td>
+                    <td>{{$detalle->ph_observacion}}
+                        <input type="hidden"
+                               id="ph_observacion-{{$detalle->id_det_mezclaharina}}"
+                        >
+                    </td>
+                    <td>{{$detalle->verificacion_tamiz}}
+                    <td>{{$detalle->observaciones_tamiz}}
                 </tr>
             @endforeach
 

@@ -66,10 +66,9 @@
 
                 <thead style="background-color: #01579B;  color: #fff;">
                 <th>HORA</th>
-
-                <th>TEMPERATURA</th>
+                <th>  TEMPERATURA REPOSO 34-36 °C</th>
                 <th>OBSERVACIONES</th>
-                <th>ESPESOR</th>
+                <th> ESPESOR 1.25 A 1.30 (milimetros)</th>
                 <th>OBSERVACIONES</th>
                 </thead>
                 <tbody>

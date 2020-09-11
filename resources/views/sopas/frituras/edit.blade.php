@@ -77,7 +77,7 @@
 
         <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
-                <label for="inicial">INICIAL 130 A 135 °C</label>
+                <label for="inicial">INICIAL 125 A 140 °C</label>
                 <input id="inicial"  name="inicial"
                        type="number"
                        step="any"
@@ -98,7 +98,7 @@
 
         <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
-                <label for="general">GENERAL 150 A 161 °C</label>
+                <label for="general">GENERAL 148  A 160 °C</label>
                 <input id="general"
                        type="number"
                        step="any"
@@ -109,7 +109,7 @@
         </div>
         <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
-                <label for="set">SET 160 A 165 °C</label>
+                <label for="set">SET 150 A 160 °C</label>
                 <input id="set"
                        type="number"
                        step="any"
@@ -159,10 +159,10 @@
             <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
                 <thead style="background-color: #01579B;  color: #fff;">
                 <th>HORA (CADA 15 MIN)</th>
-                <th>INICIAL 130 A 135 °C</th>
+                <th>INICIAL 125 A 140 °C</th>
                 <th>FINAL 140 A 160 °C</th>
-                <th>GENERAL 150 A 160 °C</th>
-                <th>SET 160 A 161 °C</th>
+                <th>GENERAL 148 A 160 °C</th>
+                <th>SET 150 A 160 °C</th>
                 <th>TIEMPO DE FRITURA 1:30 A 2:20 MIN</th>
                 <th>OBSERVACIONES</th>
                 </thead>

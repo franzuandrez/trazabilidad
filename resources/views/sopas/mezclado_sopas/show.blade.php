@@ -82,8 +82,10 @@
                 <th>NO. BACH</th>
                 <th>HORA INICIO</th>
                 <th>HORA FINALIZO</th>
+                <th>TIEMPO VELOCIDAD SECO</th>
                 <th>TIEMPO VELOCIDAD ALTA</th>
                 <th>TIEMPO VELOCIDAD BAJA</th>
+                <th>VERIFICACION TAMIZ</th>
                 <th>OBSERVACIONES</th>
                 </thead>
                 <tbody>
@@ -92,8 +94,10 @@
                         <td>{{$detalle->no_batch}}</td>
                         <td>{{$detalle->hora_inicio_mezcla}}</td>
                         <td>{{$detalle->hora_fin_mezcla}}</td>
+                        <td>{{$detalle->tiempo_velocidad_seco}}</td>
                         <td>{{$detalle->tiempo_velocidad_alta}}</td>
                         <td>{{$detalle->tiempo_velocidad_baja}}</td>
+                        <td>{{$detalle->verificacion_tamiz}}</td>
                         <td>{{$detalle->observaciones}}</td>
                     </tr>
                 @endforeach

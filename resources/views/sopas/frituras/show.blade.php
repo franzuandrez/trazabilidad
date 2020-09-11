@@ -82,10 +82,10 @@
             <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
                 <thead style="background-color: #01579B;  color: #fff;">
                 <th>HORA (CADA 15 MIN)</th>
-                <th>INICIAL 130 A 135 °C</th>
+                <th>INICIAL 125 A 140 °C</th>
                 <th>FINAL 140 A 160 °C</th>
-                <th>GENERAL 150 A 160 °C</th>
-                <th>SET 160 A 161 °C</th>
+                <th>GENERAL 148 A 160 °C</th>
+                <th>SET 150 A 160 °C</th>
                 <th>TIEMPO DE FRITURA 1:30 A 2:20 MIN</th>
                 <th>OBSERVACIONES</th>
                 </thead>

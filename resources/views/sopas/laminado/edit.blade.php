@@ -198,8 +198,8 @@
                 <th>ESPESOR DE LAMINA 0.98 A 1.03 MM</th>
                 <th>PRESIÓN REGULADOR DE VAPOR (0.2 A 0.3 MPA)</th>
                 <th>INDICE PRECOCCIÓN (CUALITATIVO)</th>
-                <th>TEMPERATURA DE INICIO</th>
-                <th>TEMPERATURA DE SALIDA</th>
+                <th>TEMP.  DE PRECOCCIÓN MAS DE 90 °C  INICIO</th>
+                <th>TEMP.  DE PRECOCCIÓN MAS DE 90 °C  SALIDA</th>
                 <th>TIEMPO DE PRECOCCIÓN 2:00 A 2:55 MIN</th>
                 <th>VELOCIDAD (COTRES * MIN)</th>
                 <th>OBSERVACIONES</th>

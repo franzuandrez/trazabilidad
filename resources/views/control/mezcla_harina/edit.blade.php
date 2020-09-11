@@ -63,11 +63,66 @@
         <hr>
     </div>
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+
+        <div class="col-lg-12 col-sm-12 col-md-12  col-xs-12">
+            <div class="form-group">
+                <label for="tiempos_velocidades">TIEMPOS  VELOCIDADES</label>
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="tiempo_seco">SECO</label>
+                <input id="tiempo_seco"
+                       type="number"
+                       step="any"
+                       name="tiempo_seco"
+
+                       required
+                       class="form-control">
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="tiempo_alta">ALTA</label>
+                <input id="tiempo_alta"
+                       type="number"
+                       step="any"
+                       name="tiempo_alta"
+
+                       required
+                       class="form-control">
+            </div>
+        </div>
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="tiempo_baja">BAJA</label>
+                <input id="tiempo_baja"
+                       type="number"
+                       step="any"
+                       name="tiempo_baja"
+
+                       required
+                       class="form-control">
+            </div>
+        </div>
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="tiempos_observaciones">OBSERVACIONES</label>
+                <input id="tiempos_observaciones"
+                       type="text"
+                       name="tiempos_observaciones"
+
+                       required
+                       class="form-control">
+            </div>
+        </div>
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12" style="display: none">
             <label for="hora_carga">HORA CARGA</label>
             <div class="input-group">
                 <input id="hora_carga" type="text"
-
+                       disabled
                        required
                        class="form-control timepicker" name="hora_carga">
                 <div class="input-group-addon">
@@ -76,12 +131,17 @@
             </div>
         </div>
 
+        <input id="tiempo_total"
+               type="hidden"
+               disabled
+               required
+               class="form-control " name="tiempo_total">
+
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12" style="display: none">
             <label for="hora_descarga">HORA DESCARGA</label>
             <div class="input-group">
                 <input id="hora_descarga" type="text"
-
-
+                       disabled
                        class="form-control timepicker" name="hora_descarga">
                 <div class="input-group-addon">
                     <i class="fa fa-clock-o"></i>
@@ -89,40 +149,37 @@
             </div>
         </div>
 
-
         <div class="col-lg-12 col-sm-12 col-md-12  col-xs-12">
             <div class="form-group">
-                <label for="solucion">LBS DE SOLUCIÓN (158.4 A 168.5)</label>
+                <label for="verificacion_tamiz">VERIFICACION TAMIZ</label>
             </div>
         </div>
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
-                <label for="_solucion_inicial">VALOR</label>
-                <input id="solucion_inicial" name="solucion_inicial"
-                       type="number" step="any"
+                <label for="verificacion_tamiz">VALOR</label>
+                <input id="verificacion_tamiz"
+                       name="verificacion_tamiz"
+
                        required
                        class="form-control">
             </div>
         </div>
 
-        <div class="col-lg-6 col-sm-6 col-md-6  col-xs-12">
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
-                <label for="observacion">OBSERVACIONES</label>
-                <input id="solucion_observacion"
+                <label for="observaciones_tamiz">OBSERVACIONES</label>
+                <input id="observaciones_tamiz"
+                       type="text"
+                       name="observaciones_tamiz"
 
-                       type="text" name="solucion_observacion"
+                       required
                        class="form-control">
             </div>
         </div>
-        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-            <div class="form-group">
-                <label for="_solucion_final"> </label>
-            </div>
-        </div>
 
-        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <div class="col-lg-12 col-sm-12 col-md-12  col-xs-12">
             <div class="form-group">
-                <label for="ph">PH (8-11 PPM)</label>
+                <label for="solucion">LBS DE SOLUCIÓN (154 A 168)</label>
             </div>
         </div>
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
@@ -171,16 +228,21 @@
 
             <thead style="background-color: #01579B;  color: #fff;">
             <tr>
-
-                <th></th>
+                <td></td>
                 <th>PRODUCTO</th>
                 <th>LOTE</th>
                 <th>HORA CARGA</th>
                 <th>HORA DESCARGA</th>
+                <th>V. SECO</th>
+                <th>V. ALTA</th>
+                <th>V. BAJO</th>
+                <th>V. OBSERVACIONES</th>
                 <th>SOLUCION INICAL</th>
                 <th>OBSERVACIONES</th>
                 <th>PH INICIAL</th>
                 <th>OBSERVACIONES</th>
+                <th>VERIFICACION TAMIZ</th>
+                <th>OBSERVACIONES TAMIZ</th>
             </tr>
             </thead>
             <tbody>
@@ -207,6 +269,10 @@
                                id="hora_descarga-{{$detalle->id_det_mezclaharina}}"
                         >
                     </td>
+                    <td>{{$detalle->tiempo_seco}}
+                    <td>{{$detalle->tiempo_alta}}
+                    <td>{{$detalle->tiempo_baja}}
+                    <td>{{$detalle->tiempos_observaciones}}
                     <td>{{$detalle->solucion_inicial}}
                     </td>
                     <td>
@@ -222,6 +288,8 @@
                                id="ph_observacion-{{$detalle->id_det_mezclaharina}}"
                         >
                     </td>
+                    <td>{{$detalle->verificacion_tamiz}}
+                    <td>{{$detalle->observaciones_tamiz}}
                 </tr>
             @endforeach
             </tbody>

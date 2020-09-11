@@ -78,7 +78,7 @@
 
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
-                <label for="harina">HARINA </label>
+                <label for="harina">HARINA (300 Lbs)</label>
                 <input id="harina"
 
                        required
@@ -91,7 +91,7 @@
 
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
-                <label for="gluten">GLUTEN </label>
+                <label for="gluten">GLUTEN (9 Lbs)</label>
                 <input id="gluten"
 
                        required
@@ -103,7 +103,7 @@
         </div>
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
-                <label for="solucion">SOLUCION </label>
+                <label for="solucion">SOLUCION  (90 a 93 Lbs) </label>
                 <input id="solucion"
 
                        required

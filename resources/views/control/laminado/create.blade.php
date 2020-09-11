@@ -105,7 +105,7 @@
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
             <div class="form-group">
-                <label for="temperatura">TEMPERATURA REPOSO 34-36 °C</label>
+                <label for="temperatura">TEMPERATURA REPOSO 33-40 °C</label>
 
             </div>
         </div>
@@ -138,7 +138,7 @@
 
         <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
             <div class="form-group">
-                <label for="temperatura">ESPESOR 1.25 A 1.30 (milimetros)</label>
+                <label for="temperatura">ESPESOR 1.20 A 1.25  (milimetros)</label>
 
             </div>
         </div>
@@ -196,9 +196,9 @@
                     <th>HORA</th>
                     <th>PRODUCTO</th>
                     <th>LOTE</th>
-                    <th>TEMPERATURA</th>
+                    <th>  TEMPERATURA REPOSO 34-36 °C</th>
                     <th>OBSERVACIONES</th>
-                    <th>ESPESOR</th>
+                    <th> ESPESOR 1.25 A 1.30 (milimetros)</th>
                     <th>OBSERVACIONES</th>
                     </thead>
                     <tbody>

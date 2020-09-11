@@ -109,7 +109,7 @@
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <label for="LABEL_TITULO">PH DE SOLUCIÓN</label>
+          <label for="LABEL_TITULO">PH DE SOLUCIÓN   (8 a 11 ppm)</label>
 
         </div>
     </div>
@@ -187,7 +187,7 @@
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <label for="label_generico">TIEMPO DE MEZCLA ALTA (300 S)</label>
+            <label for="label_generico">TIEMPO DE MEZCLA ALTA (300  a 420 s)</label>
 
         </div>
     </div>
@@ -229,7 +229,7 @@
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <label for="label_generico">TIEMPO DE MEZCLA BAJA (600 S)</label>
+            <label for="label_generico">TIEMPO DE MEZCLA BAJA (450 a 630 S)</label>
 
         </div>
     </div>
@@ -304,7 +304,7 @@
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <label for="label_generico ">ANCHO DEL CARTUCHO (1.0 m, 1.5 m y 1.8 m)</label>
+            <label for="label_generico ">ANCHO DEL CARTUCHO (1.25 m, 1.5 m y 1.8 m)</label>
 
         </div>
     </div>
@@ -488,7 +488,7 @@
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <label for="label_generico">TEMPERATURA CENTRAL DE SECADORA (DE 72 A 80 ºC)</label>
+            <label for="label_generico">TEMPERATURA CENTRAL DE SECADORA (DE 72 A 82 ºC)</label>
 
         </div>
     </div>
@@ -548,7 +548,38 @@
                    class="form-control valor">
         </div>
     </div>
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <div class="form-group">
+            <label for="label_generico"> </label>
+        </div>
+    </div>
 
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <div class="form-group">
+            <label for="label_generico">VELOCIDAD SECADORA PAS180 (58Hrz)</label>
+        </div>
+    </div>
+    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
+        <div class="form-group">
+            <label for="dato_inicial">VALOR</label>
+            <input type="number" step="any" name="velocidad_pas180_inicial" id="velocidad_pas180_inicial"
+                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'velocidad_pas180_observaciones','velocidad_pas180_inicial')"
+                   {{$chaomin->velocidad_pas180_inicial==null?'':'disabled'}}
+                   value="{{$chaomin->velocidad_pas180_inicial}}"
+                   class="form-control valor">
+        </div>
+    </div>
+
+    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
+        <div class="form-group">
+            <label for="velocidad_pas180_observaciones">OBSERVACIONES</label>
+            <input type="text" name="velocidad_pas180_observaciones" id="velocidad_pas180_observaciones" disabled
+                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'velocidad_pasc180_inicial','velocidad_pas180_observaciones')"
+                   {{$chaomin->velocidad_pas180_observaciones==null?'':'disabled'}}
+                   value="{{$chaomin->velocidad_pas180_observaciones}}"
+                   class="form-control valor">
+        </div>
+    </div>
     <!---***********************-->
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">

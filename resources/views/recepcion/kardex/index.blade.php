@@ -3,7 +3,16 @@
         <div class="table-responsive">
             <table class="table table-striped table-bordered table-condensed table-hover">
                 <thead style="background-color: #01579B;  color: #fff;">
+                <th>
+                    @include('recepcion.kardex.sort',[
+                    'filtro' => $filtro,
+                        'search'=>$search,
+                         'sort'=>$sort,
+                         'sortField'=>$sortField,
+                         'field'=>'codigo_interno',
+                         'titulo'=>'CODIGO INTERNO'])
 
+                </th>
                 <th>
                     @include('recepcion.kardex.sort',[
                     'filtro' => $filtro,
@@ -12,6 +21,19 @@
                          'sortField'=>$sortField,
                          'field'=>'producto',
                          'titulo'=>'PRODUCTO'])
+
+                </th>
+
+
+
+                <th>
+                    @include('recepcion.kardex.sort',[
+                        'filtro' => $filtro,
+                          'search'=>$search,
+                          'sort'=>$sort,
+                          'sortField'=>$sortField,
+                          'field'=>'ubicacion',
+                          'titulo'=>'UBICACION'])
 
                 </th>
 
@@ -25,28 +47,6 @@
                          'titulo'=>'LOTE'])
 
                 </th>
-                <th>
-                    @include('recepcion.kardex.sort',[
-                    'filtro' => $filtro,
-                        'search'=>$search,
-                         'sort'=>$sort,
-                         'sortField'=>$sortField,
-                         'field'=>'codigo_interno',
-                         'titulo'=>'CODIGO INTERNO'])
-
-                </th>
-                <th>
-                    @include('recepcion.kardex.sort',[
-                        'filtro' => $filtro,
-                          'search'=>$search,
-                          'sort'=>$sort,
-                          'sortField'=>$sortField,
-                          'field'=>'ubicacion',
-                          'titulo'=>'UBICACION'])
-
-                </th>
-
-
                 <th>
                     @include('recepcion.kardex.sort',[
                     'filtro' => $filtro,
@@ -87,13 +87,10 @@
                 @forelse ($productos as $producto)
                     <tr>
                         <td>
-                            {{$producto->producto}}
-                        </td>
-                        <td>
-                            {{$producto->lote}}
-                        </td>
-                        <td>
                             {{$producto->codigo_interno}}
+                        </td>
+                        <td>
+                            {{$producto->producto}}
                         </td>
                         <td>
                             @if($producto->id_bodega == 0)
@@ -104,6 +101,11 @@
                                 {{$producto->ubicacion}}
                             @endif
                         </td>
+                        <td>
+                            {{$producto->lote}}
+                        </td>
+
+
 
 
                         <td>

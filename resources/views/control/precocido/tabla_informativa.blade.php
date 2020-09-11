@@ -27,7 +27,7 @@
                             </tr>
                             <tr>
                                 <th>
-                                    PASK, PASC Y PASI180
+                                    PASK, PASI, PASC y PAS180
                                 </th>
                                 <th>
                                     13 MINUTOS

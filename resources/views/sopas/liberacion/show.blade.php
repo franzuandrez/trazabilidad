@@ -144,7 +144,7 @@
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <label for="label_generico">TEMPERATURA DEL ACEITE (+160 C)</label>
+            <label for="label_generico">TEMPERATURA DEL ACEITE (+ de 148 °C)</label>
 
         </div>
     </div>
@@ -183,7 +183,7 @@
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <label for="label_generico">PH SOLUCION (10 - 11))</label>
+            <label for="label_generico">PH SOLUCION (8 a 11 ppm)</label>
 
         </div>
     </div>
@@ -225,7 +225,7 @@
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <label for="label_generico">% COMPUESTOS SOLARES LIBRES (0 A 24)</label>
+            <label for="label_generico">% COMPUESTOS SOLARES LIBRES (0 A 20)</label>
 
         </div>
     </div>
@@ -680,7 +680,108 @@
                    class="form-control valor">
         </div>
     </div>
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <div class="form-group">
+            <label for="label_generico">SET TEMPERATURA DE SELLADO DE TAPAS<br>
+                <small>VASO 64 g (130 a 150 °C)</small><br>
+                <small>JUMBO HAN RAN (180 a 190 °C)</small><br>
+                <small>JUMBO SABROSITA (135 a 145 °C)</small><br>
+            </label>
+        </div>
+    </div>
 
+    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+        <div class="form-group">
+            <label for="tempertaura_tapa_1">1</label>
+            <input type="number" step="any" name="tempertaura_tapa_1"
+                   id="tempertaura_tapa_1"
+                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'tempertaura_tapa_2','tempertaura_tapa_1')"
+                   {{$sopa->tempertaura_tapa_1==null?'':'disabled'}}
+                   value="{{$sopa->tempertaura_tapa_1}}"
+                   class="form-control valor">
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+        <div class="form-group">
+            <label for="tempertaura_tapa_2">2</label>
+            <input type="number" step="any" name="tempertaura_tapa_2"
+                   id="tempertaura_tapa_2"
+             disabled
+                   value="{{$sopa->tempertaura_tapa_2}}"
+                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'tempertaura_tapa_3','tempertaura_tapa_2')"
+                   class="form-control valor">
+        </div>
+    </div>
+    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+        <div class="form-group">
+            <label for="tempertaura_tapa_3">3</label>
+            <input type="number" step="any" name="tempertaura_tapa_3"
+                   id="tempertaura_tapa_3"
+                   disabled
+                   value="{{$sopa->tempertaura_tapa_3}}"
+                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'tempertaura_tapa_4','tempertaura_tapa_3')"
+
+                   class="form-control valor">
+        </div>
+    </div>
+    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+        <div class="form-group">
+            <label for="tempertaura_tapa_4">4</label>
+            <input type="number" step="any" name="tempertaura_tapa_4"
+                   id="tempertaura_tapa_4"
+
+                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'tempertaura_tapa_5','tempertaura_tapa_4')"
+                   disabled
+                   value="{{$sopa->tempertaura_tapa_4}}"
+                   class="form-control valor">
+        </div>
+    </div>
+    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+        <div class="form-group">
+            <label for="tempertaura_tapa_5">5</label>
+            <input type="number" step="any" name="tempertaura_tapa_5"
+                   id="tempertaura_tapa_5"
+                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'tempertaura_tapa_6','tempertaura_tapa_5')"
+                   disabled
+                   value="{{$sopa->tempertaura_tapa_5}}"
+                   class="form-control valor">
+        </div>
+    </div>
+    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+        <div class="form-group">
+            <label for="tempertaura_tapa_6">6</label>
+            <input type="number" step="any" name="tempertaura_tapa_6"
+                   id="tempertaura_tapa_6"
+                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'tempertaura_tapa_7','tempertaura_tapa_6')"
+                   value="{{$sopa->tempertaura_tapa_6}}"
+                   disabled
+                   class="form-control valor">
+        </div>
+    </div>
+    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+        <div class="form-group">
+            <label for="tempertaura_tapa_7">7</label>
+            <input type="number" step="any" name="tempertaura_tapa_7"
+                   id="tempertaura_tapa_7"
+
+                   onkeydown="if(event.keyCode==9||event.keyCode==13)next(this,'tempertaura_tapa_8','tempertaura_tapa_7')"
+                   disabled
+                   value="{{$sopa->tempertaura_tapa_7}}"
+                   class="form-control valor">
+        </div>
+    </div>
+    <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+        <div class="form-group">
+            <label for="tempertaura_tapa_8">8</label>
+            <input type="number" step="any" name="tempertaura_tapa_8"
+                   id="tempertaura_tapa_8"
+                   disabled
+                   value="{{$sopa->tempertaura_tapa_8}}"
+                   class="form-control valor">
+        </div>
+    </div>
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
 
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">

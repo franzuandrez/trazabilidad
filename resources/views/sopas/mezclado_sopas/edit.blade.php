@@ -133,6 +133,25 @@
         </div>
 
         <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="tiempo_seco">TIEMPO DE VELOCIDAD SECO</label>
+                <input id="tiempo_seco" type="text" name="tiempo_seco"
+
+                       required
+                       class="form-control">
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="verificacion_tamiz">VERIFICACION TAMIZ</label>
+                <input id="verificacion_tamiz" type="text" name="verificacion_tamiz"
+
+                       required
+                       class="form-control">
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
             <label for="observaciones">OBSERVACIONES</label>
             <div class="input-group">
                 <input id="observaciones" type="text" name="observaciones"
@@ -156,8 +175,10 @@
                 <th>NO. BACH</th>
                 <th>HORA INICIO</th>
                 <th>HORA FINALIZO</th>
+                <th>TIEMPO VELOCIDAD BAJA</th>
                 <th>TIEMPO VELOCIDAD ALTA</th>
                 <th>TIEMPO VELOCIDAD BAJA</th>
+                <th>VERIFICACION TAMIZ</th>
                 <th>OBSERVACIONES</th>
                 </thead>
                 <tbody>
@@ -182,8 +203,10 @@
                                     id="hora_fin_mezcla-{{$detalle->id_mezclado_sopas_det}}"
                                     value="{{$detalle->hora_fin_mezcla}}">
                         </td>
+                        <td>{{$detalle->tiempo_velocidad_seco}}</td>
                         <td>{{$detalle->tiempo_velocidad_alta}}</td>
                         <td>{{$detalle->tiempo_velocidad_baja}}</td>
+                        <td>{{$detalle->verificacion_tamiz}}</td>
                         <td>{{$detalle->observaciones}}
                             <input  type="hidden"
                                     id="observaciones-{{$detalle->id_mezclado_sopas_det}}"
@@ -397,6 +420,8 @@
             const hora_fin_mezcla = document.getElementById('hora_finalizo');
             const tiempo_velocidad_alta = document.getElementById('tiempo_alta');
             const tiempo_velocidad_baja = document.getElementById('tiempo_baja');
+            const tiempo_velocidad_seco = document.getElementById('tiempo_seco');
+            const verificacion_tamiz = document.getElementById('verificacion_tamiz');
             const observaciones = document.getElementById('observaciones');
 
 
@@ -404,8 +429,10 @@
                 ["no_batch", no_batch],
                 ["hora_inicio_mezcla", hora_inicio_mezcla],
                 ["hora_fin_mezcla", hora_fin_mezcla],
+                ["tiempo_velocidad_seco", tiempo_velocidad_seco],
                 ["tiempo_velocidad_alta", tiempo_velocidad_alta],
                 ["tiempo_velocidad_baja", tiempo_velocidad_baja],
+                ["verificacion_tamiz", verificacion_tamiz],
                 ["observaciones", observaciones]
 
             ];
