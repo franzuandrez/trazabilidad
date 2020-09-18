@@ -154,7 +154,7 @@
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
             <label for="observacion_correctiva">OBSERVACIONES Y/O ACCION CORRECTIVA</label>
-            <input type="text" name="observacion_correctiva" value="{{$formulario->observacion_correctiva}}"
+            <input type="text" name="observacion_correctiva" value="{{$formulario->observaciones}}"
                    class="form-control">
         </div>
     </div>

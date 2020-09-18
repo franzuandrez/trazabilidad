@@ -130,7 +130,7 @@
             <label for="observacion_correctiva">OBSERVACIONES Y/O ACCION CORRECTIVA</label>
             <input type="text" name="observacion_correctiva"
                    readonly
-                   value="{{$formulario->observacion_correctiva}}"
+                   value="{{$formulario->observaciones}}"
                    class="form-control">
         </div>
     </div>

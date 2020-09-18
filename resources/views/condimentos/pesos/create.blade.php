@@ -7,10 +7,21 @@
 @endsection
 
 @section('contenido')
+
+    @include('componentes.alert-error')
     <div class="col-lg-12 col-lg-push-4 col-sm-12     col-md-12    col-xs-12">
-        <h3>CONTROL DE MEZCLA PARA BASE DE CONDIMENTOS
+        <h3>CONTROL DE PESOS  CONDIMENTOS
+            <button
+                data-toggle="tooltip"
+                title="Informacion"
+                onclick="ver_informacion()"
+                type="button" class="btn btn-default btn-sm">
+                <i class="fa fa-info"
+                   aria-hidden="true"></i>
+            </button>
         </h3>
     </div>
+    @include('condimentos.pesos.tabla_informativa')
     @component('componentes.nav',['operation'=>'Crear',
     'menu_icon'=>'fa fa-check-square-o',
     'submenu_icon'=>'fa fa-cutlery',
@@ -19,13 +30,13 @@
             Condimentos
         @endslot
         @slot('submenu')
-            Bases
+            Pesos
         @endslot
     @endcomponent
 
     @include('componentes.loading')
 
-    {!!Form::open(array('url'=>'base_condimentos/create','method'=>'POST','autocomplete'=>'off'))!!}
+    {!!Form::open(array('url'=>'peso_condimentos/create','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
 
 
@@ -33,32 +44,56 @@
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
 
-        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12" style="display: none">
-            <label for="hora_inicio">HORA INICIO</label>
-            <div class="input-group">
-                <input id="hora_inicio" type="text"
-                       disabled
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="no_1">NO. 1</label>
+                <input id="no_1"
+                       type="number"
+                       step="any"
+                       name="no_1"
                        required
-                       class="form-control timepicker" name="hora_inicio">
-
-                <div class="input-group-addon">
-                    <i class="fa fa-clock-o"></i>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12" style="display: none">
-            <label for="hora_salida">HORA SALIDA</label>
-            <div class="input-group">
-                <input id="hora_salida"
                        disabled
-                       type="text" class="form-control timepicker" name="hora_salida">
-                <div class="input-group-addon">
-                    <i class="fa fa-clock-o"></i>
-                </div>
+                       class="form-control">
             </div>
         </div>
 
 
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="no_2">NO. 2</label>
+                <input id="no_2"
+                       type="number"
+                       step="any"
+                       name="no_2"
+                       required
+                       disabled
+                       class="form-control">
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="no_3">NO. 3</label>
+                <input id="no_3"
+                       type="number"
+                       step="any"
+                       name="no_3"
+                       required
+                       disabled
+                       class="form-control">
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="no_4">NO. 4</label>
+                <input id="no_4"
+                       type="number"
+                       step="any"
+                       name="no_4"
+                       required
+                       disabled
+                       class="form-control">
+            </div>
+        </div>
         <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
             <label for="observaciones">OBSERVACIONES</label>
             <div class="input-group">
@@ -78,7 +113,7 @@
                 </div>
             </div>
         </div>
-
+        <input type="hidden" name="hora" id="hora">
 
         <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
 
@@ -86,11 +121,12 @@
 
                 <thead style="background-color: #01579B;  color: #fff;">
                 <tr>
-                    <th></th>
-                    <th>HORA CARGA</th>
-                    <th>HORA DESCARGA</th>
+                    <th>HORA</th>
+                    <th>NO. 1</th>
+                    <th>NO. 2</th>
+                    <th>NO. 3</th>
+                    <th>NO. 4</th>
                     <th>OBSERVACIONES</th>
-
                 </tr>
                 </thead>
                 <tbody>
@@ -112,7 +148,7 @@
                     type="button">
                 <span class=" fa fa-check"></span> GUARDAR
             </button>
-            <a href="{{url('bases_condimentos')}}">
+            <a href="{{url('peso_condimentos')}}">
                 <button class="btn btn-default" type="button">
                     <span class="fa fa-remove"></span>
                     CANCELAR
@@ -153,13 +189,13 @@
 
         function buscar_no_orden_produccion_local() {
 
-            let url = '{{url('bases_condimentos/buscar_orden_produccion')}}';
+            let url = '{{url('peso_condimentos/buscar_orden_produccion')}}';
             buscar_no_orden_produccion(url);
         }
 
 
         function inicia_formulario_local() {
-            let url = "{{url('bases_condimentos/iniciar_formulario')}}";
+            let url = "{{url('peso_condimentos/iniciar_formulario')}}";
             intentar_iniciar_formulario(url);
         }
 
@@ -167,12 +203,17 @@
         function detalle() {
 
             const observaciones = document.getElementById('observaciones');
-            const hora_inicio = document.getElementById('hora_inicio');
-            const hora_salida = document.getElementById('hora_salida');
-
+            const no_1 = document.getElementById('no_1');
+            const no_2 = document.getElementById('no_2');
+            const no_3 = document.getElementById('no_3');
+            const no_4 = document.getElementById('no_4');
+            const hora = document.getElementById('hora');
             const fields = [
-                ["hora_carga", hora_inicio],
-                ["hora_descarga", hora_salida],
+                ["hora", hora],
+                ["no_1", no_1],
+                ["no_2", no_2],
+                ["no_3", no_3],
+                ["no_4", no_4],
                 ["observaciones", observaciones],
             ];
 
@@ -183,29 +224,34 @@
         async function agregar_a_table() {
 
 
+
             const no_orden_produccion = get_no_orden_produccion();
             const no_orden_disabled = document.getElementById('no_orden_produccion').disabled;
             const no_orden_valida = no_orden_disabled && no_orden_produccion != "";
-
+            document.getElementById('hora').value = moment().format('HH:mm:ss');
             const fields = detalle();
-            document.getElementById('hora_inicio').value = moment().format('HH:mm:ss');
+
             if (existe_campo_vacio(fields)) {
                 get_campo_vacio(fields).focus();
                 return;
             }
+
+
             if (no_orden_valida) {
+
                 $('.loading').show();
                 const request = getRequest(fields);
-                const url = "{{url('bases_condimentos/insertar_detalle')}}";
-                const response = await insertar_detalle(request, get_id_control(), url);
+                const url = "{{url('peso_condimentos/insertar_detalle')}}";
+                const url_borrar = "'{{url('peso_condimentos/borrar_detalle')}}'";
+                const response = await insertar_detalle(request, get_id_control, url);
                 if (response.status == 1) {
-                    const url_update_enc = "{{url('control/precocido/nuevo_registro')}}";
+                    const url_update_enc = "{{url('peso_condimentos/nuevo_registro')}}";
                     const id_turno = document.getElementById('id_turno').value;
                     const registros = [
                         formato_registro('turno', id_turno),
                     ];
                     insertar_registros(url_update_enc, registros, get_id_control());
-                    add_to_table_harina(fields, response.id, 'detalles');
+                    add_to_table(fields, response.id, 'detalles', url_borrar);
                     limpiar()
                 } else {
                     alert(response.message);

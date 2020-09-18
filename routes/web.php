@@ -563,9 +563,22 @@ Route::post('configuraciones/impresion/create', 'ConfiguracionesController@store
 
 Route::get('bases_condimentos', 'BaseCondimentosController@index')->name('base_condimentos');
 Route::get('bases_condimentos/create', 'BaseCondimentosController@create')->name('base_condimentos.create');
+Route::post('bases_condimentos/create', 'BaseCondimentosController@store')->name('base_condimentos.create');
 Route::get('bases_condimentos/{id}/edit', 'BaseCondimentosController@edit')->name('base_condimentos.edit');
 Route::get('bases_condimentos/{id}', 'BaseCondimentosController@show')->name('base_condimentos.show');
 Route::post('bases_condimentos/buscar_orden_produccion', 'BaseCondimentosController@buscar_orden_produccion')->name('base_condimentos.buscar_orden_produccion');
 Route::post('bases_condimentos/iniciar_formulario', 'BaseCondimentosController@iniciar_formulario')->name('base_condimentos.iniciar_formulario');
 Route::post('bases_condimentos/insertar_detalle', 'BaseCondimentosController@insertar_detalle')->name('base_condimentos.insertar_detalle');
 Route::post('bases_condimentos/actualizar_detalle', 'BaseCondimentosController@actualizar_detalle')->name('base_condimentos.actualizar_detalle');
+
+
+
+Route::get('peso_condimentos', 'PesoCondimentosController@index')->name('peso_condimentos');
+Route::get('peso_condimentos/create', 'PesoCondimentosController@create')->name('peso_condimentos.create');
+Route::post('peso_condimentos/create', 'PesoCondimentosController@store')->name('peso_condimentos.store');
+Route::get('peso_condimentos/{id}/edit', 'PesoCondimentosController@edit')->name('peso_condimentos.edit');
+Route::get('peso_condimentos/{id}', 'PesoCondimentosController@show')->name('peso_condimentos.show');
+Route::post('peso_condimentos/buscar_orden_produccion', 'PesoCondimentosController@buscar_orden_produccion')->name('peso_condimentos.buscar_orden_produccion');
+Route::post('peso_condimentos/iniciar_formulario', 'PesoCondimentosController@iniciar_formulario')->name('peso_condimentos.iniciar_formulario');
+Route::post('peso_condimentos/insertar_detalle', 'PesoCondimentosController@insertar_detalle')->name('peso_condimentos.insertar_detalle');
+Route::post('peso_condimentos/actualizar_detalle', 'PesoCondimentosController@actualizar_detalle')->name('peso_condimentos.actualizar_detalle');
