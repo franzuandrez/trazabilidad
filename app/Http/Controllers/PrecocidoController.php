@@ -81,7 +81,7 @@ class PrecocidoController extends Controller
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
@@ -97,7 +97,7 @@ class PrecocidoController extends Controller
             return redirect()->route('precocido.index')
                 ->with('success', 'Precocido de pasta ingresado corrrectamente');
         } catch (\Exception $ex) {
-            DD($ex);
+
             return redirect()->back()
                 ->withErrors(['No se ha podido completar su petición, codigo de error :  ' . $ex->getCode()]);
         }

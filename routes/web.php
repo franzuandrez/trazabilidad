@@ -559,3 +559,13 @@ Route::get('produccion/recepcion_pt/create', 'EntregaPTController@create_recepci
 
 Route::get('configuraciones/impresion', 'ConfiguracionesController@impresion')->name('configuraciones.index');
 Route::post('configuraciones/impresion/create', 'ConfiguracionesController@store_impresion')->name('configuraciones.impresion.store');
+
+
+Route::get('bases_condimentos', 'BaseCondimentosController@index')->name('base_condimentos');
+Route::get('bases_condimentos/create', 'BaseCondimentosController@create')->name('base_condimentos.create');
+Route::get('bases_condimentos/{id}/edit', 'BaseCondimentosController@edit')->name('base_condimentos.edit');
+Route::get('bases_condimentos/{id}', 'BaseCondimentosController@show')->name('base_condimentos.show');
+Route::post('bases_condimentos/buscar_orden_produccion', 'BaseCondimentosController@buscar_orden_produccion')->name('base_condimentos.buscar_orden_produccion');
+Route::post('bases_condimentos/iniciar_formulario', 'BaseCondimentosController@iniciar_formulario')->name('base_condimentos.iniciar_formulario');
+Route::post('bases_condimentos/insertar_detalle', 'BaseCondimentosController@insertar_detalle')->name('base_condimentos.insertar_detalle');
+Route::post('bases_condimentos/actualizar_detalle', 'BaseCondimentosController@actualizar_detalle')->name('base_condimentos.actualizar_detalle');

@@ -188,7 +188,6 @@ function existe_campo_vacio(fields) {
     const existe_campo_vacio = campo_vacio != null;
 
 
-
     return existe_campo_vacio;
 }
 
@@ -246,7 +245,7 @@ function borrar_detalle(id, url) {
 }
 
 
-function mostrar_observaciones(hora,ultimo_registro,tiempo=15) {
+function mostrar_observaciones(hora, ultimo_registro, tiempo = 15) {
     let observaciones = '';
     if (ultimo_registro != null) {
 
@@ -262,4 +261,120 @@ function mostrar_observaciones(hora,ultimo_registro,tiempo=15) {
 
     }
     return observaciones;
+}
+
+async function buscar_no_orden_produccion(url, orden = 'no_orden_produccion') {
+
+    $('.loading').show();
+    const no_orden_produccion = document.getElementById(orden).value;
+    const response = await iniciar(url, no_orden_produccion);
+
+    console.log(response);
+    if (response.status == 0) {
+        alert(response.message);
+    } else {
+        gl_detalle_insumos = response.data.data;
+        console.log(gl_detalle_insumos)
+        document.getElementById('id_producto').disabled = false;
+        document.getElementById('lote').disabled = false;
+        document.getElementById('id_turno').disabled = false;
+        $('#id_producto').selectpicker('refresh');
+        $('#lote').selectpicker('refresh');
+        $('#id_turno').selectpicker('refresh');
+        cargar_productos();
+        document.getElementById('no_orden_produccion').disabled = true;
+    }
+
+    $('.loading').hide();
+}
+
+function cargar_productos() {
+
+    const select = document.getElementById('id_producto');
+    $(select).empty();
+    let option = '<option value="" selected>   SELECCIONE PRODUCTO </option>';
+    gl_detalle_insumos.forEach(function (e) {
+        option += `
+                <option  value="${e.id_producto}" >  ${e.producto.codigo_interno} </option>
+                `
+    });
+    $(select).append(option);
+    $(select).selectpicker('refresh');
+}
+
+function get_id_control() {
+
+    const id_producto = document.getElementById('id_producto').value;
+    const id_control = gl_detalle_insumos.find(e => e.id_producto == id_producto).id_control;
+    document.getElementById('id_control').value = id_control;
+    return id_control;
+}
+
+function intentar_iniciar_formulario(url) {
+
+    const id_producto = document.getElementById('id_producto').value;
+    const lote = document.getElementById('lote').value;
+    const turno = document.getElementById('id_turno').value;
+
+    if (id_producto === "") {
+        alert("Seleccione producto");
+        return;
+    }
+    if (turno === "") {
+        alert("Seleccione turno");
+        return;
+    }
+    if (lote === "") {
+        alert("Lote en blanco");
+        return;
+    }
+    const id_control = gl_detalle_insumos.find(e => e.id_producto == id_producto).id_control;
+    $('.loading').show();
+    $.ajax(
+        {
+            type: "POST",
+            url: url,
+            data: {
+                id_control: id_control,
+                lote: lote,
+                turno: turno
+            },
+            success: function (response) {
+
+                if (response.status === 1) {
+                    habilitar_formulario(detalle());
+                    deshabilitar_encabezado();
+                } else {
+                    alert(response.message);
+                }
+                $('.loading').hide();
+            },
+            error: function (error) {
+                console.log(error);
+                $('.loading').hide();
+            }
+        }
+    );
+}
+
+function ver_informacion() {
+
+    $('#informacion').modal()
+}
+
+function guardar() {
+
+    document.getElementById('no_orden_produccion').disabled = false;
+    $('form').submit();
+}
+
+function deshabilitar_encabezado() {
+    document.getElementById('no_orden_produccion').disabled = true;
+    document.getElementById('id_producto').disabled = true;
+    document.getElementById('btn_buscar_orden').disabled = true;
+    document.getElementById('lote').disabled = true;
+    document.getElementById('id_turno').disabled = true;
+    $('#id_producto').selectpicker('refresh');
+    $('#lote').selectpicker('refresh');
+    $('#id_turno').selectpicker('refresh');
 }

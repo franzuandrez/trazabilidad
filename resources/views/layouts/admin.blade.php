@@ -358,8 +358,8 @@
                                 </li>
                             @endcan
                             @can('verificacion_materia_sopas')
-                                    <li><a href="{{url('control/verificacion_materias_chao')}}"><i class="fa fa-check"></i>
-                                            Verificacion Materias en mezcladora de sopas</a></li>
+                                <li><a href="{{url('control/verificacion_materias_chao')}}"><i class="fa fa-check"></i>
+                                        Verificacion Materias en mezcladora de sopas</a></li>
                             @endcan
                             @can('mezclado_sopas')
                                 <li><a href="{{url('sopas/mezclado_sopas')}}"><i class="fa fa-spinner"></i>Mezclado
@@ -378,6 +378,31 @@
                             @can('peso_pasta')
                                 <li><a href="{{url('sopas/peso_pasta')}}"><i class="fa fa fa-industry"></i>Peso de la
                                         Pasta</a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                </ul>
+            @endcan
+
+            @can('condimentos')
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" style="background-color: #01579B;  color: #fff;">Control
+                            Condimentos <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            @can('bases_condimentos')
+                                <li>
+                                    <a href="{{url('bases_condimentos')}}"><i class="fa fa-map"></i>
+                                        Base para condimentos
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('peso_condimentos')
+                                <li>
+                                    <a href="{{url('peso_condimentos')}}"><i class="fa fa-inbox"></i>
+                                        Peso sobre condimentos
+                                    </a>
                                 </li>
                             @endcan
                         </ul>
