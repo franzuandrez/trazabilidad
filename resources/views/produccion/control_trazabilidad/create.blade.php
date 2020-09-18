@@ -30,9 +30,7 @@
 
     {!!Form::open(array('url'=>'produccion/trazabilidad_chao_mein/create','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
-    @include('produccion.partials.orden_produccion_sugerida',[
-        'ordenes'=>$ordenes_sugeridas
-    ])
+    @include('produccion.partials.orden_produccion_sugerida')
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <input type="hidden" id="id_requisicion" name="id_requisicion">

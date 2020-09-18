@@ -30,7 +30,7 @@
 
 
     @include('componentes.encabezado_formulario_control')
-
+    @include('produccion.partials.orden_produccion_sugerida')
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
 
         <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12" style="display: none">

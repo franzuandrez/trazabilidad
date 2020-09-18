@@ -17,6 +17,13 @@
                 <i class="fa fa-search"
                    aria-hidden="true"></i>
             </button>
+            <button
+                onclick="ver_ordenes_sugeridas()"
+                onkeydown="ver_ordenes_sugeridas()"
+                type="button" class="btn btn-default">
+                <i class="fa fa-info"
+                   aria-hidden="true"></i>
+            </button>
         </div>
     </div>
 </div>

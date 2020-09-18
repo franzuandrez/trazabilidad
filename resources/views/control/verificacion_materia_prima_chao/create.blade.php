@@ -28,7 +28,7 @@
     {{Form::token()}}
 
     <input type="hidden" id="id_control" name="id_control">
-
+    @include('produccion.partials.orden_produccion_sugerida')
     <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
         <label for="turno">NO ORDEN DE PRODUCCION</label>
         <div class="input-group">
@@ -44,6 +44,13 @@
                     onkeydown="iniciar_control_laminado()"
                     type="button" class="btn btn-default">
                     <i class="fa fa-search"
+                       aria-hidden="true"></i>
+                </button>
+                <button
+                    onclick="ver_ordenes_sugeridas()"
+                    onkeydown="ver_ordenes_sugeridas()"
+                    type="button" class="btn btn-default">
+                    <i class="fa fa-info"
                        aria-hidden="true"></i>
                 </button>
             </div>

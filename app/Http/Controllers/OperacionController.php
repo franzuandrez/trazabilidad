@@ -151,12 +151,12 @@ class OperacionController extends Controller
     {
 
         $actividades = Actividad::actived()->get();
-        $ordenes = $this->requisicion_respository->getOrdenesSugeridas();
+
 
         return view('produccion.control_trazabilidad.create',
             [
                 'actividades' => $actividades,
-                'ordenes_sugeridas' => $ordenes
+
             ]
         );
 

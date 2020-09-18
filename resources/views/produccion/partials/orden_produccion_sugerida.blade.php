@@ -6,8 +6,15 @@
                 <h4 class="modal-title" align="center">ORDENES SUGERIDAS</h4>
                 <div class="modal-body" align="center">
                     <ul>
-                        @foreach($ordenes as $orden)
-                            <li>{{$orden->no_orden_produccion}}</li>
+                        @foreach( (new \App\Repository\RequisicionRepository())->getOrdenesSugeridas() as $orden)
+                            <li id="{{$orden->no_orden_produccion}}">
+                                {{$orden->no_orden_produccion}}
+                                <button
+                                    type="button"
+                                    class="clipboard btn btn-default" data-clipboard-target="#{{$orden->no_orden_produccion}}">
+                                  <i class="fa fa-clipboard"></i>
+                                </button>
+                            </li>
                         @endforeach
                     </ul>
                 </div>
@@ -21,8 +28,9 @@
         </div>
     </div>
 </div>
-
+<script src="{{asset('js/clipboard.min.js')}}"></script>
 <script>
+    new ClipboardJS('.clipboard');
     function ver_ordenes_sugeridas() {
         $('#ordenes_sugeridas').modal();
     }

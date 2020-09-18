@@ -22,6 +22,7 @@
         </h3>
     </div>
     @include('condimentos.pesos.tabla_informativa')
+    @include('produccion.partials.orden_produccion_sugerida')
     @component('componentes.nav',['operation'=>'Crear',
     'menu_icon'=>'fa fa-check-square-o',
     'submenu_icon'=>'fa fa-cutlery',
