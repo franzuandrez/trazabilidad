@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Repository\OrdenProduccionRepository;
 use App\Http\tools\RealTimeService;
-use App\VerificacionMateriaDet;
-use App\VerificacionMateriaEnc;
-use DB;
+use App\Repository\OrdenProduccionRepository;
+use App\SolucionSopasDet;
+use App\SolucionSopasEnc;
 use Illuminate\Http\Request;
-
-class VerificacionMateriasController extends Controller
+use DB;
+class SolucionSopasController extends Controller
 {
     //
 
@@ -30,32 +29,32 @@ class VerificacionMateriasController extends Controller
         $sortField = $request->get('field') == null ? 'fecha_ingreso' : $request->get('field');
 
 
-        $verificacion = VerificacionMateriaEnc::select(
-            'verificacion_materias_enc.*',
-            DB::raw("date_format(fecha,'%d/%m/%Y %h:%i:%s') as fecha_ingreso"),
+        $formulario = SolucionSopasEnc::select(
+            'solucion_sopas_enc.*',
+            DB::raw("date_format(fecha_hora,'%d/%m/%Y %h:%i:%s') as fecha_ingreso"),
             'users.nombre as usuario',
             'productos.descripcion as producto'
         )
-            ->join('users', 'users.id', '=', 'verificacion_materias_enc.id_usuario')
-            ->join('control_trazabilidad', 'control_trazabilidad.id_control', '=', 'verificacion_materias_enc.id_control')
+            ->join('users', 'users.id', '=', 'solucion_sopas_enc.id_usuario')
+            ->join('control_trazabilidad', 'control_trazabilidad.id_control', '=', 'solucion_sopas_enc.id_control')
             ->join('productos', 'productos.id_producto', '=', 'control_trazabilidad.id_producto')
             ->where(function ($query) use ($search) {
                 $query->where('productos.descripcion', 'LIKE', '%' . $search . '%')
-                    ->orWhere('verificacion_materias_enc.id_turno', 'LIKE', '%' . $search . '%')
-                    ->orWhere('verificacion_materias_enc.id_control', 'LIKE', '%' . $search . '%')
+                    ->orWhere('solucion_sopas_enc.id_turno', 'LIKE', '%' . $search . '%')
+                    ->orWhere('solucion_sopas_enc.id_control', 'LIKE', '%' . $search . '%')
                     ->orWhere('users.nombre', 'LIKE', '%' . $search . '%')
-                    ->orWhere('verificacion_materias_enc.fecha', 'LIKE', '%' . $search . '%');
+                    ->orWhere('solucion_sopas_enc.fecha_hora', 'LIKE', '%' . $search . '%');
             })
             ->orderBy($sortField, $sort)
             ->paginate(20);
 
         if ($request->ajax()) {
-            return view('control.verificacion_materia_prima.index',
-                compact('verificacion', 'sort', 'sortField', 'search'));
+            return view('sopas.materias_primas_solucion.index',
+                compact('formulario', 'sort', 'sortField', 'search'));
         } else {
 
-            return view('control.verificacion_materia_prima.ajax',
-                compact('verificacion', 'sort', 'sortField', 'search'));
+            return view('sopas.materias_primas_solucion.ajax',
+                compact('formulario', 'sort', 'sortField', 'search'));
         }
     }
 
@@ -63,17 +62,17 @@ class VerificacionMateriasController extends Controller
     public function create()
     {
 
-        return view('control.verificacion_materia_prima.create');
+        return view('sopas.materias_primas_solucion.create');
 
     }
 
 
-    public function iniciar_harina(Request $request)
+    public function buscar_orden_produccion(Request $request)
     {
         $no_orden_produccion = $request->get('no_orden_produccion');
 
 
-        $linea_chaomin = OrdenProduccionRepository::verificar_linea_chaomin($no_orden_produccion);
+        $linea_chaomin = OrdenProduccionRepository::verificar_linea_sopas($no_orden_produccion);
 
 
         if ($linea_chaomin['status'] == 0) {
@@ -91,10 +90,7 @@ class VerificacionMateriasController extends Controller
         return response()->json($response);
     }
 
-    public function destroy($id)
-    {
 
-    }
 
     public function store(Request $request)
     {
@@ -102,14 +98,14 @@ class VerificacionMateriasController extends Controller
         try {
 
             $orden_produccion = $request->get('id_control');
-            $LaminadoEnc = VerificacionMateriaEnc::where('id_control', $orden_produccion)
+            $formulario = SolucionSopasEnc::where('id_control', $orden_produccion)
                 ->firstOrFail();
-            $LaminadoEnc->observaciones = $request->get('observacion_correctiva');
-            $LaminadoEnc->save();
-            return redirect()->route('verificacion_materias.index')
+            $formulario->observaciones = $request->get('observacion_correctiva');
+            $formulario->save();
+            return redirect()->route('solucion_sopas.index')
                 ->with('success', 'Verificacion ingresada corrrectamente');
         } catch (\Exception $ex) {
-            DD($ex);
+
             return redirect()->back()
                 ->withErrors(['No se ha podido completar su petición, codigo de error :  ' . $ex->getCode()]);
         }
@@ -120,24 +116,24 @@ class VerificacionMateriasController extends Controller
     public function edit($id)
     {
 
-        $verificacion = VerificacionMateriaEnc::with('control_trazabilidad')
+        $formulario = SolucionSopasEnc::with('control_trazabilidad')
             ->with('control_trazabilidad.liberacion_linea')
             ->findOrFail($id);
 
-        return view('control.verificacion_materia_prima.edit', [
-            'verificacion' => $verificacion
+        return view('sopas.materias_primas_solucion.edit', [
+            'formulario' => $formulario
         ]);
     }
 
 
     public function show($id)
     {
-        $verificacion = VerificacionMateriaEnc::with('control_trazabilidad')
+        $formulario = SolucionSopasEnc::with('control_trazabilidad')
             ->with('control_trazabilidad.liberacion_linea')
             ->findOrFail($id);
 
-        return view('control.verificacion_materia_prima.show', [
-            'verificacion' => $verificacion
+        return view('sopas.materias_primas_solucion.show', [
+            'formulario' => $formulario
         ]);
     }
 
@@ -146,31 +142,31 @@ class VerificacionMateriasController extends Controller
 
         $id_control = $request->get('id_control');
         $id_producto = $request->get('id_producto');
-        $id_turno = $request->get('id_turno');
+        $id_turno = $request->get('turno');
 
 
-        $verificacion = VerificacionMateriaEnc::where('id_control', $id_control)
+        $formulario = SolucionSopasEnc::where('id_control', $id_control)
             ->first();
 
-        if ($verificacion == null) {
-            $verificacion = new VerificacionMateriaEnc();
-            $verificacion->id_usuario = \Auth::user()->id;
-            $verificacion->id_control = $id_control;
-            $verificacion->id_producto = $id_producto;
-            $verificacion->id_turno = $id_turno;
-            $verificacion->save();
+        if ($formulario == null) {
+            $formulario = new SolucionSopasEnc();
+            $formulario->id_usuario = \Auth::user()->id;
+            $formulario->id_control = $id_control;
+            $formulario->id_producto = $id_producto;
+            $formulario->id_turno = $id_turno;
+            $formulario->save();
 
             $response = [
                 'status' => 1,
                 'message' => "Iniciada correctamente",
-                'data' => $verificacion
+                'data' => $formulario
             ];
 
         } else {
             $response = [
                 'status' => 0,
                 'message' => "Verificacion de Materias  ya iniciado",
-                'data' => $verificacion
+                'data' => $formulario
             ];
         }
 
@@ -188,14 +184,14 @@ class VerificacionMateriasController extends Controller
         try {
             $no_orden_produccion = $request->get('no_orden_produccion');
 
-            $laminado = VerificacionMateriaEnc::where('id_control', $no_orden_produccion)
+            $formulario = SolucionSopasEnc::where('id_control', $no_orden_produccion)
                 ->first();
 
             $response = RealTimeService::insertar_detalle(
-                VerificacionMateriaDet::query()->getModel(),
+                SolucionSopasDet::query()->getModel(),
                 $request->fields,
-                'id_verificacion_enc',
-                $laminado->id_verificacion);
+                'id_solucion_enc',
+                $formulario->id_solucion_enc);
 
         } catch (\Exception $ex) {
             $response = [
@@ -215,7 +211,7 @@ class VerificacionMateriasController extends Controller
 
 
         $response = RealTimeService::actualizar_modelo(
-            VerificacionMateriaEnc::where('id_control', $id_model)->first(), $fields
+            SolucionSopasEnc::where('id_control', $id_model)->first(), $fields
         );
 
 

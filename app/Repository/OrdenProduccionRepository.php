@@ -80,6 +80,7 @@ class OrdenProduccionRepository
 
         $linea_sopa = LineaSopa::with('control_trazabilidad.producto')
             ->whereIn('id_control', $controles->pluck('id_control')->toArray())
+            ->with('producto')
             ->get();
 
         if (count($linea_sopa) > 0) {

@@ -582,3 +582,25 @@ Route::post('peso_condimentos/buscar_orden_produccion', 'PesoCondimentosControll
 Route::post('peso_condimentos/iniciar_formulario', 'PesoCondimentosController@iniciar_formulario')->name('peso_condimentos.iniciar_formulario');
 Route::post('peso_condimentos/insertar_detalle', 'PesoCondimentosController@insertar_detalle')->name('peso_condimentos.insertar_detalle');
 Route::post('peso_condimentos/actualizar_detalle', 'PesoCondimentosController@actualizar_detalle')->name('peso_condimentos.actualizar_detalle');
+
+
+
+Route::get('sopas/solucion', 'SolucionSopasController@index')->name('solucion_sopas.index');
+Route::get('sopas/solucion/create', 'SolucionSopasController@create')->name('solucion_sopas.create');
+Route::post('sopas/solucion/create', 'SolucionSopasController@store')->name('solucion_sopas.store');
+Route::post('sopas/solucion/buscar_orden_produccion', 'SolucionSopasController@buscar_orden_produccion')
+    ->name('solucion_sopas.buscar_orden_produccion');
+Route::post('sopas/solucion/iniciar_formulario', 'SolucionSopasController@iniciar_formulario')
+    ->name('solucion_sopas.iniciar_formulario');
+Route::post('sopas/solucion/insertar_detalle', 'SolucionSopasController@insertar_detalle')
+    ->name('solucion_sopas.insertar_detalle');
+Route::post('sopas/solucion/actualizar_detalle', 'SolucionSopasController@actualizar_detalle')
+    ->name('solucion_sopas.actualizar_detalle');
+Route::post('sopas/solucion/borrar_detalle', 'SolucionSopasController@borrar_detalle')
+    ->name('solucion_sopas.borrar_detalle');
+
+Route::get('sopas/solucion/{id}/edit', 'SolucionSopasController@edit')->name('solucion_sopas.edit');
+Route::get('sopas/solucion/reporte/{id}', 'SolucionSopasController@reporte_verificacion_materias')->name('solucion_sopas.reporte');
+Route::patch('sopas/solucion/{id}', 'SolucionSopasController@update')->name('solucion_sopas.update');
+Route::get('sopas/solucion/{id}', 'SolucionSopasController@show')->name('solucion_sopas.show');
+
