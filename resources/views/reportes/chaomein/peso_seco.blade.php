@@ -17,6 +17,8 @@
 @include('reportes.parcials.pdf.header')
 
 <br>
+@include('control.peso_seco.informacion')
+<br>
 @include('reportes.parcials.pdf.detalle')
 <br>
 

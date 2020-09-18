@@ -43,7 +43,8 @@
 
 <body>
 @include('reportes.parcials.pdf.header')
-
+<br>
+@include('control.secado.informacion')
 <br>
 @include('reportes.parcials.pdf.detalle')
 <br>

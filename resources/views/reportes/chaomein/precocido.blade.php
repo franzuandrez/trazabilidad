@@ -16,7 +16,7 @@
 <body>
 @include('reportes.parcials.pdf.header')
 <br>
-@include('control.peso_humedo.informacion')
+@include('control.precocido.informacion')
 <br>
 @include('reportes.parcials.pdf.detalle')
 <br>

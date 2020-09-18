@@ -551,7 +551,7 @@ class ReporteLineaChaomein extends Controller
 
 
         $reporte_encabezado->setHeader($reporte_detalle['headers']->first());
-        $view = \View::make('reportes.chaomein.peso_humedo',
+        $view = \View::make('reportes.chaomein.precocido',
             [
                 'reporte_encabezado' => $reporte_encabezado,
                 'reporte_detalle' => $reporte_detalle
