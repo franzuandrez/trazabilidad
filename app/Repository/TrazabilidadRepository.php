@@ -6,6 +6,7 @@ namespace App\Repository;
 
 use App\Asistencia;
 use App\DetalleInsumo;
+use App\EntregaDet;
 use App\Http\tools\Impresiones;
 use App\Operacion;
 use App\OperariosInvolucrados;
@@ -481,6 +482,27 @@ class TrazabilidadRepository
 
         $this->setControlTrazabilidad($control_trazabilidad);
         return $this->getControlTrazabilidad();
+
+    }
+
+    public function getControlTrazabilidadByLote($lote)
+    {
+        $control_trazabilidad = Operacion::whereLote($lote)
+            ->with('producto')
+            ->first();
+
+        $this->setControlTrazabilidad($control_trazabilidad);
+        return $control_trazabilidad;
+    }
+
+
+    public function marcarEntregado()
+    {
+
+        $control_trazabilidad = $this->getControlTrazabilidad();
+        $control_trazabilidad->esta_entregado = 1;
+        $control_trazabilidad->save();
+
 
     }
 

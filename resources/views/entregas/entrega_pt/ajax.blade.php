@@ -25,14 +25,12 @@
 
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-
             @can('role-create')
                 @component('componentes.btn-create',['url'=>url('produccion/entrega_pt/create')])
                 @endcomponent
             @endcan
-
-            @can('generar_reporte')
-                @component('componentes.btn-reporte',['url'=>'javascript:reporte("requisiciones/reporte")'])
+            @can('role-list')
+                @component('componentes.btn-ver',['url'=>'javascript:ver("entrega_pt")'])
                 @endcomponent
             @endcan
         </div>
@@ -40,7 +38,7 @@
 
     @component('componentes.alert-no-selecction')
         @slot('mensaje')
-            SELECCIONAR NO ORDEN
+            SELECCIONAR ENTREGA
         @endslot
     @endcomponent
     <div id="content">

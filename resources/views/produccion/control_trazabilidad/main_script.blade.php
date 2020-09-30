@@ -297,8 +297,6 @@
             url: "{{url('produccion/trazabilidad_chao_mein/buscar_producto_pp')}}" + query,
             type: "GET",
             success: function (response) {
-                console.log(response);
-
                 document.getElementById('descripcion_producto_pp').value = response.data.producto.descripcion;
                 document.getElementById('cantidad_producto_pp').readOnly = false;
                 cantidad_producto_pp = response.data.control.cantidad_programada;
@@ -712,18 +710,7 @@
                         <td>        <input type="hidden" name="color[]" value="0">
                                       <input type="checkbox" onclick="asignar(this)">
                         </td>
-                        <td>
-                             <input type="hidden" name="olor[]" value="0">
-                                      <input type="checkbox" onclick="asignar(this)">
-                        </td>
-                        <td>
-                                  <input type="hidden" name="impresion[]" value="0">
-                                      <input type="checkbox" onclick="asignar(this)">
-                        </td>
-                        <td>
-                                    <input type="hidden" name="ausencia_me[]" value="0">
-                                      <input type="checkbox" onclick="asignar(this)">
-                        </td>
+
                         <td>              <input type="hidden" name="lote_pt[]" value="${lote}">
                                           ${lote}
                         </td>
