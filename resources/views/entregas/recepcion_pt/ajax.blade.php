@@ -19,25 +19,14 @@
             Produccion
         @endslot
         @slot('submenu')
-            Recepción PT
+            Recepcion PT
         @endslot
     @endcomponent
 
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-
-
-                @can('role-create')
-                    @component('componentes.btn-edit',['url'=>url('produccion/recepcion_pt/create')])
-                    @endcomponent
-                @endcan
-            @can('role-list')
-                @component('componentes.btn-ver',['url'=>'javascript:ver("requisiciones")'])
-                @endcomponent
-            @endcan
-
-            @can('generar_reporte')
-                @component('componentes.btn-reporte',['url'=>'javascript:reporte("requisiciones/reporte")'])
+            @can('role-edit')
+                @component('componentes.btn-continuar',['url'=>'javascript:editar("recepcion_pt")'])
                 @endcomponent
             @endcan
         </div>
@@ -45,11 +34,11 @@
 
     @component('componentes.alert-no-selecction')
         @slot('mensaje')
-            SELECCIONAR NO ORDEN
+            SELECCIONAR ENTREGA
         @endslot
     @endcomponent
     <div id="content">
-        @include('entregas.entrega_pt.index')
+        @include('entregas.recepcion_pt.index')
     </div>
     <div class="loading">
         <i class="fa fa-refresh fa-spin "></i><br/>

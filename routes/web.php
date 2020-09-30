@@ -557,6 +557,8 @@ Route::post('produccion/entrega_pt/create', 'EntregaPTController@store_entrega_p
 Route::get('produccion/entrega_pt/buscar_producto', 'EntregaPTController@buscar_producto')->name('produccion.entrega.buscar_producto');
 Route::post('produccion/entrega_pt/agregar_producto', 'EntregaPTController@agregar_producto')->name('produccion.entrega.agregar_producto');
 Route::get('produccion/entrega_pt/{id}', 'EntregaPTController@show_entrega_pt')->name('produccion.show_entrega_pt');
+Route::get('produccion/recepcion_pt/{id}/edit', 'EntregaPTController@edit_recepcion_pt')->name('produccion.edit_recepcion_pt');
+Route::patch('produccion/recepcion_pt/{id}', 'EntregaPTController@update_recepcion_pt')->name('produccion.update_recepcion_pt');
 Route::get('produccion/recepcion_pt', 'EntregaPTController@index_recepcion_pt')->name('produccion.index_recepcion_pt');
 
 Route::get('produccion/recepcion_pt/create', 'EntregaPTController@create_recepcion_pt')->name('produccion.create_recepcion_pt');

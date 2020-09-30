@@ -6,10 +6,13 @@ use App\EntregaDet;
 use App\EntregaEnc;
 use App\Operacion;
 use App\Repository\EntregaRepository;
+use App\Repository\MovimientoRepository;
 use App\Repository\TrazabilidadRepository;
+use App\Sector;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-
+use DB;
 class EntregaPTController extends Controller
 {
     //
@@ -17,12 +20,18 @@ class EntregaPTController extends Controller
 
     private $trazabilidad_repository;
     private $entrega_repository;
+    private $movimiento_repository;
 
-    public function __construct(TrazabilidadRepository $trazabilidad_repository, EntregaRepository $entrega_repository)
+    public function __construct(
+        TrazabilidadRepository $trazabilidad_repository,
+        EntregaRepository $entrega_repository,
+        MovimientoRepository  $movimientoRepository
+    )
     {
         $this->middleware('auth');
         $this->trazabilidad_repository = $trazabilidad_repository;
         $this->entrega_repository = $entrega_repository;
+        $this->movimiento_repository = $movimientoRepository;
 
     }
 
@@ -33,7 +42,7 @@ class EntregaPTController extends Controller
 
         $search = $request->get('search') == null ? '' : $request->get('search');
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
-        $sortField = $request->get('field') == null ? 'productos.id_producto' : $request->get('field');
+        $sortField = $request->get('field') == null ? 'fecha_hora' : $request->get('field');
 
 
         $collection = EntregaEnc::select('entrega_pt_enc.*', 'users.nombre')
@@ -89,8 +98,12 @@ class EntregaPTController extends Controller
     {
         $search = $request->get('search') == null ? '' : $request->get('search');
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
-        $sortField = $request->get('field') == null ? 'id_producto' : $request->get('field');
+        $sortField = $request->get('field') == null ? 'fecha_hora' : $request->get('field');
 
+        $collection = EntregaEnc::select('entrega_pt_enc.*', 'users.nombre')
+            ->join('users', 'users.id', '=', 'entrega_pt_enc.id_usuario')
+            ->where('entrega_pt_enc.estado', '<>', 2)
+            ->paginate(20);
 
         if ($request->ajax()) {
             return view('entregas.recepcion_pt.index',
@@ -98,6 +111,7 @@ class EntregaPTController extends Controller
                     'search' => $search,
                     'sort' => $sort,
                     'sortField' => $sortField,
+                    'collection' => $collection
 
                 ]);
         } else {
@@ -106,10 +120,63 @@ class EntregaPTController extends Controller
                     'search' => $search,
                     'sort' => $sort,
                     'sortField' => $sortField,
+                    'collection' => $collection
                 ]);
         }
     }
 
+
+    public function edit_recepcion_pt($id)
+    {
+        $entrega = EntregaEnc::with('detalle.control_trazabilidad.producto')
+            ->findOrFail($id);
+
+        $ubicaciones = Sector::actived()
+            ->with('bodega')
+            ->get();
+        return view('entregas.recepcion_pt.recepcion', [
+            'entrega' => $entrega,
+            'ubicaciones' => $ubicaciones
+        ]);
+    }
+
+    public function update_recepcion_pt($id, Request $request)
+    {
+        $usuario_autoriza = User::where('username', $request->get('user_acepted'))->first();
+        $productos = $request->get('id_producto');
+        $cantidades = $request->get('cantidad');
+        $lotes = $lote = $request->get('lote');
+        $ubicaciones = $request->get('ubicacion');
+        $fechas_vencimiento = $request->get('fecha_vencimiento');
+
+        try {
+            DB::beginTransaction();
+            $entrega = EntregaEnc::findOrFail($id);
+
+            $entrega->estado = 2;
+            $entrega->fecha_recepcion = Carbon::now();
+            $entrega->save();
+            $this->movimiento_repository->setUsuarioAutoriza($usuario_autoriza);
+            $this->movimiento_repository->setIdsProductos($productos);
+            $this->movimiento_repository->setCantidades($cantidades);
+            $this->movimiento_repository->setFechasVencimiento($fechas_vencimiento);
+            $this->movimiento_repository->setLotes($lotes);
+            $this->movimiento_repository->setIdsUbicaciones($ubicaciones);
+            $this->movimiento_repository->setNoDocumento($entrega->id);
+            $this->movimiento_repository->ubicarProductos();
+
+            DB::commit();
+            return redirect()->route('produccion.index_recepcion_pt')
+                ->with('success', 'Producto ubicado correctamente');
+        } catch (\Exception $e) {
+            DB::rollback();
+            dd($e);
+            return redirect()->route('produccion.index_recepcion_pt')
+                ->withErrors(['Su peticion no ha podido ser procesada']);
+
+        }
+
+    }
 
     public function create_recepcion_pt()
     {

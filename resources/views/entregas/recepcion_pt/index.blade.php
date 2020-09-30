@@ -1,9 +1,4 @@
-@component('componentes.search',
-['search'=>$search,
-  'sort'=>$sort,
-  'sortField'=>$sortField,
-'modulo'=>'produccion/requisiciones'])
-@endcomponent
+@include('componentes.search')
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
         <div class="table-responsive">
@@ -13,16 +8,49 @@
 
                 </th>
                 <th>
-                  No. Entrega
+                    @include('componentes.column-sort',[
+                        'field'=>'entrega_pt_enc.id',
+                        'titulo'=>'Entrega'])
                 </th>
 
                 <th>
-                  Creado Por
+                    @include('componentes.column-sort',[
+                         'field'=>'nombre',
+                         'titulo'=>'Creado por'])
+                </th>
+                <th>
+                    @include('componentes.column-sort',[
+                       'field'=>'fecha_hora',
+                       'titulo'=>'fecha'])
+                </th>
+                <th>
+                    @include('componentes.column-sort',[
+                       'field'=>'entrega_pt_enc.estado',
+                       'titulo'=>'estado'])
                 </th>
 
                 </thead>
                 <tbody>
 
+                @foreach( $collection as $item )
+                    <tr>
+                        <td>
+                            <input type="radio" name="id_item" value="{{$item->id}}">
+                        </td>
+                        <td>{{$item->id}}</td>
+                        <td>{{$item->nombre}}</td>
+                        <td>{{$item->fecha_hora->format('H:i:s d/m/Y')}}</td>
+                        <td>
+                            @if($item->estado==0)
+                                <label class="label label-warning"> PENDIENTE </label>
+                            @elseif($item->estado==1)
+                                <label class="label label-info"> PROCESANDO </label>
+                            @else
+                                <label class="label label-primary"> ENTREGADO </label>
+                            @endif
+                        </td>
+                    </tr>
+                @endforeach
 
 
                 </tbody>
