@@ -1,24 +1,29 @@
-function descomponerInput(input) {
+function descomponerInput(input, es_dun_13 = true) {
 
     let codigoBarras = input.value.trim();
 
 
-    return descomponerString(codigoBarras);
+    return descomponerString(codigoBarras, es_dun_13);
 
 }
-function descomponerString(input) {
 
-    let  codigoBarras = input.trim();
+function descomponerString(input, es_dun_13 = true) {
+
+    let codigoBarras = input.trim();
     let codigo, fecha_vencimiento, lote;
 
-    if (codigoBarras.length <= 13) {
+    let max_length = es_dun_13 ? 13 : 14;
+    console.log(max_length);
+    if (codigoBarras.length <= max_length) {
         codigo = codigoBarras;
         fecha_vencimiento = "";
         lote = "";
     } else {
-        codigo = codigoBarras.substring(2, 15);
-        fecha_vencimiento = codigoBarras.substring(17, 23);
-        lote = codigoBarras.substring(25, codigoBarras.length);
+
+        const start = 2;
+        codigo = codigoBarras.substring(start, max_length + start);
+        fecha_vencimiento = codigoBarras.substring(max_length +4, max_length + 10);
+        lote = codigoBarras.substring(max_length + 12, codigoBarras.length);
     }
     return ["", codigo, fecha_vencimiento, lote];
 }
