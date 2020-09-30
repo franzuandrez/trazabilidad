@@ -7,6 +7,7 @@ namespace App\Http\tools;
 use App\Impresion;
 use App\ImpresionCorrugado;
 use App\Movimiento;
+use App\Operacion;
 use App\Producto;
 use App\Repository\ConfiguracionesRepository;
 use App\RMIDetalle;
@@ -64,7 +65,7 @@ class Impresiones
     }
 
 
-    public static function imprimir_corrugado($control_trazabilidad)
+    public static function imprimir_corrugado(Operacion $control_trazabilidad)
     {
 
 
@@ -80,6 +81,7 @@ class Impresiones
         for ($i = 0; $i < $cantidad_impresiones; $i++) {
             GeneradorCodigos::getCodigoCorrugado();
             $corrugado = new ImpresionCorrugado();
+            $corrugado->id_control = $control_trazabilidad->id_control;
             $corrugado->identificador_aplicacion = GeneradorCodigos::CODIGO_SSCC;
             $corrugado->digito_indicador = GeneradorCodigos::getDigitoIndicador();;
             $corrugado->prefijo_compania = GeneradorCodigos::CODIGO_EMPRESA;
