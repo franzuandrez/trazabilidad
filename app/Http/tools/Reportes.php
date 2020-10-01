@@ -20,6 +20,8 @@ class Reportes
         '/\bID\b/', '/\bid\b/'
     ];
 
+    private $firmas = [];
+
     private function get_headers_from_model(Model $model = null)
     {
         $headers = collect([]);
@@ -53,24 +55,39 @@ class Reportes
         $headers = $this->except($model);
         $attributes = collect($model == null ? [] : $model->getAttributes());
 
+
         $attributes->each(function ($item, $key) use ($headers) {
             if (!Arr::exists($headers, $key) && !in_array($key, $this->except)) {
                 $headers->put($key, $key);
             }
         });
 
-        $maped = $headers->map(function ($item, $key) use ($attributes) {
-            if (Arr::exists($attributes, $key)) {
+
+        $maped = $attributes->map(function ($item, $key) use ($headers) {
+            if (Arr::exists($headers, $key)) {
                 return (object)[
-                    "field" => preg_replace($this->replaced, '', $item),
-                    "value" => $attributes[$key]
+                    "field" => preg_replace($this->replaced, '',  $headers[$key]),
+                    "value" => $item
                 ];
             }
-
         });
 
 
+
+
         return $maped;
+    }
+
+
+    public function getFirmas()
+    {
+        return $this->firmas;
+    }
+
+    public function setFirmas($firmas)
+    {
+        $this->firmas = $firmas;
+        return $this;
     }
 
     public function setExcept($except = [])
