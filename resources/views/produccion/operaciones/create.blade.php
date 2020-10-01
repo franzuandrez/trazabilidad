@@ -339,7 +339,7 @@
 
             let total = 0;
             if (existencia.length > 0) {
-                total = existencia.map(e => e.total).reduce((accum, curr) => parseInt(accum) + parseInt(curr));
+                total = existencia.map(e => e.total).reduce((accum, curr) => parseFloat(accum) + parseFloat(curr));
             }
 
             return total;
@@ -358,7 +358,7 @@
             let cantidadAgregada = await getTotalEnReserva(id_producto);
 
 
-            cantidad = parseInt(cantidad);
+            cantidad = parseFloat(cantidad);
 
             if (cantidad + cantidadAgregada > getTotalExistencia()) {
                 alert("Cantidad insuficiente");
@@ -373,9 +373,9 @@
 
         function getTotalPorLote(total) {
 
-            let lotes = existencia.map(prod => parseInt(prod.total));
+            let lotes = existencia.map(prod => parseFloat(prod.total));
             let entrante = [];
-            let nuevoTotal = parseInt(total);
+            let nuevoTotal = parseFloat(total);
             for (var i = 0; i < lotes.length; i++) {
 
                 if (lotes[i] <= nuevoTotal) {
@@ -398,7 +398,7 @@
             for (var i = 0; i < productos.length; i++) {
 
                 if (productos[i].value == id_producto) {
-                    sum = sum + parseInt(document.getElementsByName('id_producto[]')[i].nextSibling.nextSibling.value);
+                    sum = sum + parseFloat(document.getElementsByName('id_producto[]')[i].nextSibling.nextSibling.value);
                 }
             }
 
