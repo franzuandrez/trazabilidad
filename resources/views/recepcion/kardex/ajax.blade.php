@@ -93,7 +93,7 @@
 
         @component('componentes.search-select'
              ,[
-             'busqueda'=>'AREA',
+             'busqueda'=>'BODEGA',
              'default'=>'AREA TRANSITO',
              'elements'=>$bodegas])
         @endcomponent

@@ -7,6 +7,7 @@ use App\Http\tools\Movimientos;
 use App\Movimiento;
 use App\Recepcion;
 use App\RMIDetalle;
+use App\Sector;
 use App\TipoMovimiento;
 use DB;
 use Excel;
@@ -52,7 +53,7 @@ class MovimientoController extends Controller
 
         $this->setFiltros($request);
         $filtro = $request->get('filtro') == null ? '2' : $request->get('filtro');
-        $bodegas = Bodega::select('id_bodega as id', 'descripcion as descripcion')
+        $bodegas = Sector::select('id_sector as id', 'descripcion as descripcion')
             ->actived()
             ->get();
         $transito = $this->producto_en_transito($filtro);
@@ -252,7 +253,7 @@ class MovimientoController extends Controller
 
         if ($this->search != '' && $this->search != null) {
             $productos = $productos->where(function ($query) {
-                $query->where('movimientos.id_bodega', $this->search);
+                $query->where('movimientos.id_sector', $this->search);
             });
         }
 

@@ -25,7 +25,6 @@
                 </th>
 
 
-
                 <th>
                     @include('recepcion.kardex.sort',[
                         'filtro' => $filtro,
@@ -57,7 +56,6 @@
                          'titulo'=>'MEDIDA'])
 
                 </th>
-
 
 
                 @foreach( $tipos_movimiento as $tipo )
@@ -105,22 +103,17 @@
                             {{$producto->lote}}
                         </td>
 
-
-
-
                         <td>
                             {{$producto->unidad_medida}}
                         </td>
 
                         @foreach( $tipos_movimiento as $tipo )
                             <td>
-                                {{$producto->{$tipo->descripcion} }}
+                                {{ number_format($producto->{$tipo->descripcion},3,'.',',') }}
                             </td>
                         @endforeach
-
-
                         <td>
-                            {{$producto->total}}
+                            {{number_format($producto->total,3   ,'.',',')}}
                         </td>
                     </tr>
                 @empty

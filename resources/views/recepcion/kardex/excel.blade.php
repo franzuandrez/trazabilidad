@@ -39,13 +39,13 @@
     @if($parametros->id_select_search!=null)
         @if($parametros->id_select_search==0)
             <tr>
-                <td style="border: 1px solid #000"><strong>AREA</strong></td>
+                <td style="border: 1px solid #000"><strong>BODEGA</strong></td>
                 <td style="border: 1px solid #000" colspan="{{$max_width-1}}">TRANSITO</td>
             </tr>
         @else
             <tr>
-                <td style="border: 1px solid #000"><strong>AREA</strong></td>
-                <td style="border: 1px solid #000" colspan="{{$max_width-1}}">{{$collection->first()->bodega}}</td>
+                <td style="border: 1px solid #000"><strong>BODEGA</strong></td>
+                <td style="border: 1px solid #000" colspan="{{$max_width-1}}">{{$collection->first()->ubicacion}}</td>
             </tr>
         @endif
     @endif

@@ -28,3 +28,4 @@
     </table>
     <br>
 @endforeach
+@include('reportes.parcials.pdf.footer')
