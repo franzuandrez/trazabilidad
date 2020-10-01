@@ -61,7 +61,7 @@ function reporte(modulo) {
     if (item == null) {
         $('#errorToEdit').modal();
     } else {
-        window.location.href = modulo + "/" + item + "";
+        window.open( modulo + "/" + item + "")
     }
 
 }
