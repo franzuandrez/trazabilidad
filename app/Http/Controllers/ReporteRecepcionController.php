@@ -26,16 +26,23 @@ class ReporteRecepcionController extends Controller
         $recepcion = Recepcion::where('recepcion_encabezado.id_recepcion_enc', $id)
             ->join('proveedores', 'proveedores.id_proveedor', '=', 'recepcion_encabezado.id_proveedor')
             ->join('users', 'users.id', '=', 'recepcion_encabezado.usuario_recepcion')
+            ->join('users as u', 'u.id', '=', 'recepcion_encabezado.id_usuario_calidad')
             ->select('proveedores.razon_social as id_proveedor',
-                'recepcion_encabezado.orden_compra as orden_compra',
+                'recepcion_encabezado.orden_compra as DOCUMENTO',
                 \DB::raw("date_format(fecha_ingreso,'%d/%m/%Y %H:%i:%s') as fecha_ingreso"),
                 'recepcion_encabezado.id_recepcion_enc as id_recepcion_enc',
-                'users.nombre as usuario_recepcion'
+                'users.nombre as usuario_recepcion',
+                'u.nombre as usuario_calidad'
             )->first();
+
 
         $reporte_encabezado
             ->setTitle("Recepcion de Bodega de Materia Prima y Material de empaque")
             ->setCreatedAt(CArbon::now())
+            ->setFirmas([
+                'Responsable de Ejecucion' => $recepcion->usuario_recepcion,
+                'Encargado de Logistica' => $recepcion->usuario_calidad
+            ])
             ->setSubtitle("Bodega de Materias primas")
             ->setExcept(
                 ['id_inspeccion_documentos', 'id_inspeccion_empaque', 'id_recepcion_enc']

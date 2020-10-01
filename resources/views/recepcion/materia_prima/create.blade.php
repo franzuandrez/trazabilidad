@@ -71,14 +71,19 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="documento_proveedor">DOCUMENTO PROVEEDOR</label>
-            <input type="text" required name="documento_proveedor" value="{{old('documento_proveedor')}}"
+            <input type="text"
+                   data-index="1"
+                   id="documento_proveedor"
+                   required name="documento_proveedor" value="{{old('documento_proveedor')}}"
                    class="form-control">
         </div>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for="orden_compra">NO. DOCUMENTO</label>
-            <input type="text" required name="orden_compra" value="{{old('orden_compra')}}"
+            <input type="text" required
+                   data-index="2"
+                   name="orden_compra" value="{{old('orden_compra')}}"
                    class="form-control">
         </div>
     </div>
@@ -700,6 +705,7 @@
             proveedores.forEach(function (e) {
                 if (total == 1) {
                     option += `<option  selected value='${e.id_proveedor}'>${e.nombre_comercial}</option>`;
+                    document.getElementById('documento_proveedor').focus();
                 } else {
                     option += `<option   value='${e.id_proveedor}'>${e.nombre_comercial}</option>`;
                 }
@@ -1123,8 +1129,8 @@
                     var inputFechaVencimiento = row.children[POSICION_FECHA].firstChild;
 
                     if (inputFechaVencimiento.value == fecha_vencimiento) {
-                        var cantidad = parseInt(inputCantidad.value);
-                        cantidad = parseInt(nuevaCantidad) + parseInt(cantidad);
+                        var cantidad = parseFloat(inputCantidad.value);
+                        cantidad = parseFloat(nuevaCantidad) + parseFloat(cantidad);
                         inputCantidad.value = cantidad;
                         row.children[POSICION_CANTIDAD].lastChild.textContent = cantidad;
                         existe = 1;

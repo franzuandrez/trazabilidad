@@ -77,6 +77,7 @@ class RecepcionRepository
         $this->$observaciones = $observaciones;
         $rmi_encabezado = $this->recepcion_encabezado->rmi_encabezado;
         $rmi_encabezado->observaciones = $this->$observaciones;
+        $rmi_encabezado->id_usuario_calidad = Auth::id();
         $rmi_encabezado->save();
 
     }

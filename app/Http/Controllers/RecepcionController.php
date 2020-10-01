@@ -286,6 +286,8 @@ class RecepcionController extends Controller
             $recepcionRepository->setRecepcionEncabezado($recepcion);
             $recepcionRepository->setObservacionesToRMIEncabezazdo($observaciones);
             $recepcionRepository->ingresarToControlCalidad($request);
+            $recepcion->id_usuario_calidad = \Auth::id();
+            $recepcion->save();
 
             DB::commit();
             return redirect()->route('recepcion.transito.index')
@@ -447,7 +449,10 @@ class RecepcionController extends Controller
 
             $rmi_encabezado->mp = 1;
             $rmi_encabezado->control = 0;
+            $rmi_encabezado->id_usuario_ubicacion = \Auth::id();
             $rmi_encabezado->update();
+            $orden->id_usuario_ubicacion = \Auth::id();
+            $orden->id_usuario_autoriza = $usuario_autoriza->id;
 
 
             DB::commit();
