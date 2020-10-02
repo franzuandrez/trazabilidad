@@ -102,6 +102,9 @@ class Movimiento extends Model
      *           -----------------------RELATIONSHIPS ------------------------------------------
      */
 
+    public $dates = [
+        'fecha_hora_movimiento'
+    ];
     public function producto()
     {
 

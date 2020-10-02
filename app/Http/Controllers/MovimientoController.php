@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Bodega;
 use App\Http\tools\Movimientos;
 use App\Movimiento;
+use App\Producto;
 use App\Recepcion;
 use App\RMIDetalle;
 use App\Sector;
@@ -209,7 +210,7 @@ class MovimientoController extends Controller
 
         if ($this->producto != null && $this->producto != '') {
             $productos = $productos->where(function ($query) {
-                $query->where('productos.descripcion', 'LIKE', '%' . $this->producto . '%')
+                $query->orWhere('productos.descripcion', 'LIKE', '%' . $this->producto . '%')
                     ->orWhere('productos.codigo_barras', $this->producto)
                     ->orWhere('productos.codigo_interno', $this->producto);
             });
@@ -310,6 +311,84 @@ class MovimientoController extends Controller
 
 
         return $query;
+    }
+
+
+    public function kardex(Request $request)
+    {
+
+        $this->producto = $request->get('producto') == null ? '' : $request->get('producto');
+
+        $movimientos = collect([]);
+
+        $saldo_inicial = 0;
+        if ($this->producto != '') {
+            $producto = Producto::orWhere('productos.codigo_interno', $this->producto)
+                ->orwhere('productos.codigo_barras', $this->producto)
+                ->orWhere('productos.descripcion', 'LIKE', '%' . $this->producto . '%')
+                ->first();
+            if ($producto != null) {
+                $movimientos = Movimiento::join('productos', 'movimientos.id_producto', '=', 'productos.id_producto')
+                    ->join('tipo_movimiento', 'tipo_movimiento.id_movimiento', '=', 'movimientos.tipo_movimiento')
+                    ->leftJoin('bodegas', 'movimientos.id_bodega', '=', 'bodegas.id_bodega')
+                    ->leftJoin('sectores', 'movimientos.id_sector', '=', 'sectores.id_sector')
+                    ->select('movimientos.id_bodega as id_bodega',
+                        'movimientos.numero_documento as numero_documento',
+                        'movimientos.fecha_hora_movimiento as fecha_hora_movimiento',
+                        'productos.descripcion as producto',
+                        'productos.codigo_interno as codigo_interno',
+                        'productos.unidad_medida as unidad_medida',
+                        'movimientos.lote as lote',
+                        'bodegas.descripcion as bodega',
+                        'sectores.descripcion as ubicacion',
+                        DB::raw('( cantidad   ) as total'),
+                        'tipo_movimiento.factor'
+                    );
+                $movimientos = $movimientos->where(function ($query) {
+                    $query->where('productos.codigo_interno', $this->producto)
+                        ->orwhere('productos.codigo_barras', $this->producto)
+                        ->orWhere('productos.descripcion', 'LIKE', '%' . $this->producto . '%');
+                })->orderBy('fecha_hora_movimiento', 'asc')
+                    ->get();
+            }
+
+        }
+
+
+        if ($request->ajax()) {
+
+            return view('recepcion.kardex_detallado.index',
+                [
+
+                    'movimientos' => $movimientos,
+                    'sort' => $this->sort,
+                    'sortField' => $this->sortField,
+                    'search' => $this->search,
+                    'producto' => $this->producto,
+                    'lote' => $this->lote,
+                    'start' => $this->start,
+                    'end' => $this->end,
+                    'saldo_inicial' => $saldo_inicial
+
+                ]
+            );
+        } else {
+            return view('recepcion.kardex_detallado.ajax',
+                [
+                    'movimientos' => $movimientos,
+                    'sort' => $this->sort,
+                    'sortField' => $this->sortField,
+                    'search' => $this->search,
+                    'producto' => $this->producto,
+                    'lote' => $this->lote,
+                    'start' => $this->start,
+                    'end' => $this->end,
+                    'saldo_inicial' => $saldo_inicial
+                ]
+            );
+        }
+
+
     }
 
 }
