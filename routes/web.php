@@ -579,7 +579,6 @@ Route::post('bases_condimentos/insertar_detalle', 'BaseCondimentosController@ins
 Route::post('bases_condimentos/actualizar_detalle', 'BaseCondimentosController@actualizar_detalle')->name('base_condimentos.actualizar_detalle');
 
 
-
 Route::get('peso_condimentos', 'PesoCondimentosController@index')->name('peso_condimentos');
 Route::get('peso_condimentos/create', 'PesoCondimentosController@create')->name('peso_condimentos.create');
 Route::post('peso_condimentos/create', 'PesoCondimentosController@store')->name('peso_condimentos.store');
@@ -589,7 +588,6 @@ Route::post('peso_condimentos/buscar_orden_produccion', 'PesoCondimentosControll
 Route::post('peso_condimentos/iniciar_formulario', 'PesoCondimentosController@iniciar_formulario')->name('peso_condimentos.iniciar_formulario');
 Route::post('peso_condimentos/insertar_detalle', 'PesoCondimentosController@insertar_detalle')->name('peso_condimentos.insertar_detalle');
 Route::post('peso_condimentos/actualizar_detalle', 'PesoCondimentosController@actualizar_detalle')->name('peso_condimentos.actualizar_detalle');
-
 
 
 Route::get('sopas/solucion', 'SolucionSopasController@index')->name('solucion_sopas.index');
@@ -610,4 +608,10 @@ Route::get('sopas/solucion/{id}/edit', 'SolucionSopasController@edit')->name('so
 Route::get('sopas/solucion/reporte/{id}', 'SolucionSopasController@reporte_verificacion_materias')->name('solucion_sopas.reporte');
 Route::patch('sopas/solucion/{id}', 'SolucionSopasController@update')->name('solucion_sopas.update');
 Route::get('sopas/solucion/{id}', 'SolucionSopasController@show')->name('solucion_sopas.show');
+
+
+Route::get('produccion/requisicion_pt', 'RequisicionPTController@index')->name('requisicion_pt.index');
+Route::get('produccion/requisicion_pt/create', 'RequisicionPTController@create')->name('requisicion_pt.create');
+Route::post('produccion/requisicion_pt/create', 'RequisicionPTController@store')->name('requisicion_pt.store');
+Route::post('produccion/requisicion_pt/importar', 'RequisicionPTController@importar')->name('requisicion_pt.importar');
 

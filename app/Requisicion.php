@@ -46,6 +46,7 @@ class Requisicion extends Model
 {
     //
     use LogsActivity;
+
     public static $logAttributes = [
         '*'
     ];
@@ -69,6 +70,21 @@ class Requisicion extends Model
     protected $dates = [
         'fecha_ingreso'
     ];
+
+    public function scopeEsMateriaPrima($query)
+    {
+        return $query->where('requisicion_encabezado.tipo', 'MP');
+    }
+
+    public function scopeEsProductoTerminado($query)
+    {
+        return $query->where('requisicion_encabezado.tipo', 'PT');
+    }
+
+    public function detalle_pt()
+    {
+        return $this->hasOne(DetalleRequisicionPT::class, 'id_requisicion', 'id');
+    }
 
     public function usuario_ingreso()
     {
@@ -97,7 +113,7 @@ class Requisicion extends Model
 
     public function movimientos()
     {
-        return $this->hasMany(Movimiento::class,'numero_documento','no_orden_produccion');
+        return $this->hasMany(Movimiento::class, 'numero_documento', 'no_orden_produccion');
     }
 
     public function scopeEnProceso($query)

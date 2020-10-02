@@ -33,6 +33,7 @@ class RequisicionController extends Controller
         $operaciones = Requisicion::select('requisicion_encabezado.*')
             ->join('users', 'users.id', '=', 'requisicion_encabezado.id_usuario_ingreso')
             ->NoDeBaja()
+            ->esMateriaPrima()
             ->where(function ($query) use ($search) {
                 $query->where('requisicion_encabezado.no_orden_produccion', 'LIKE', '%' . $search . '%')
                     ->orWhere('requisicion_encabezado.no_requision', 'LIKE', '%' . $search . '%')
@@ -58,7 +59,7 @@ class RequisicionController extends Controller
         $bodegas = Bodega::actived()->get();
         $requisicionRepository = new RequisicionRepository();
         $no_orden_produccion = OrdenProduccionRepository::obtener_nuevo_numero_de_orden();
-        $requisiciones = $requisicionRepository->get_mis_requisiciones_proceso();
+        $requisiciones = $requisicionRepository->get_mis_requisiciones_proceso_mp();
 
         return view('produccion.operaciones.create', [
             'bodegas' => $bodegas,

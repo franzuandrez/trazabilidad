@@ -61,11 +61,23 @@ class RequisicionRepository
         return $this;
     }
 
-    public function get_mis_requisiciones_proceso()
+    public function get_mis_requisiciones_proceso_mp()
     {
         $requisiciones = Requisicion::enProceso()
+            ->esMateriaPrima()
             ->where('id_usuario_ingreso', Auth::user()->id)
             ->get();
+        return $requisiciones;
+    }
+
+    public function get_mis_requisiciones_proceso_pt()
+    {
+        $requisiciones = Requisicion::with('detalle_pt')
+            ->enProceso()
+            ->esProductoTerminado()
+            ->where('id_usuario_ingreso', Auth::user()->id)
+            ->get();
+
         return $requisiciones;
     }
 
@@ -180,6 +192,7 @@ class RequisicionRepository
                 $requisicion_detalle->estado = 'P';
                 $requisicion_detalle->save();
                 $reservas->push($requisicion_detalle);
+
             }
         }
 
@@ -242,6 +255,7 @@ class RequisicionRepository
         DB::table('requisicion_detalle')
             ->where('id_requisicion_encabezado', $id_req_enc)
             ->delete();
+        DB::table('detalle_requisicion_pt')->where('id_requisicion', $id_req_enc)->delete();
     }
 
     /**
