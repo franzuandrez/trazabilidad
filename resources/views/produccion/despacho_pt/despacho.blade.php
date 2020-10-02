@@ -102,7 +102,7 @@
                         type="button">
                     <span class=" fa fa-check"></span> GUARDAR
                 </button>
-                <a href="{{url('produccion/picking')}}">
+                <a href="{{url('produccion/despacho')}}">
                     <button class="btn btn-default" type="button">
                         <span class="fa fa-backward"></span>
                         REGRESAR

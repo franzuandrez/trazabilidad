@@ -28,10 +28,6 @@
                 @component('componentes.btn-edit',['url'=>'javascript:despachar("despacho")'])
                 @endcomponent
             @endcan
-            @can('role-list')
-                @component('componentes.btn-ver',['url'=>'javascript:ver()'])
-                @endcomponent
-            @endcan
         </div>
     </div>
 
