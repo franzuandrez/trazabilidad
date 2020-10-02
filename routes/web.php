@@ -272,6 +272,7 @@ Route::get('recepcion/ubicacion/{id}', 'RecepcionController@show_producto_a_ubic
 Route::get('recepcion/kardex', 'MovimientoController@index')->name('movimientos.bodegas.index');
 Route::get('recepcion/kardex/reporte', 'MovimientoController@reporte_excel')->name('movimientos.bodegas.excel');
 Route::get('movimientos/existencia/productos', 'MovimientoController@existencia')->name('movimientos.existencia.productos');
+Route::get('movimientos/kardex', 'MovimientoController@kardex')->name('movimientos.kardex.productos');
 
 
 Route::get('control/verificacion_materias_chao', 'VerificacionMateriasChaoController@index')->name('verificacion_materias_chao.index');
