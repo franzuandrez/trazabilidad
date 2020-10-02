@@ -308,6 +308,20 @@
                                     Recepcion PT
                                 </a>
                             </li>
+
+                            <li>
+                                <a href="{{url('produccion/requisicion_pt')}}">
+                                    <i class="fa fa-backward" aria-hidden="true"></i>
+                                    Requisicion PT
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="{{url('produccion/desapcho_pt')}}">
+                                    <i class="fa fa-backward" aria-hidden="true"></i>
+                                   Despacho
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 </ul>
