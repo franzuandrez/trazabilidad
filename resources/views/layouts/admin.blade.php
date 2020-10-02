@@ -238,17 +238,18 @@
                             @endcan
                             @can('kardex')
                                 <li>
-                                    <a href="{{url('movimientos/kardex')}}">
+                                    <a href="{{url('recepcion/kardex')}}">
                                         <i class="fa fa-th-list" aria-hidden="true"></i>
                                         Existencias
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{url('recepcion/kardex')}}">
+                                    <a href="{{url('movimientos/kardex')}}">
                                         <i class="fa fa-th-list" aria-hidden="true"></i>
                                         Kardex
                                     </a>
                                 </li>
+
                             @endcan
                             <li>
                                 <a href="{{url('reimpresion')}}">
@@ -303,7 +304,7 @@
                             </li>
                             <li>
                                 <a href="{{url('produccion/entrega_pt')}}">
-                                    <i class="fa fa-backward" aria-hidden="true"></i>
+                                    <i class="fa fa-step-forward" aria-hidden="true"></i>
                                     Entrega PT
                                 </a>
                             </li>
@@ -317,14 +318,14 @@
 
                             <li>
                                 <a href="{{url('produccion/requisicion_pt')}}">
-                                    <i class="fa fa-backward" aria-hidden="true"></i>
+                                    <i class="fa fa-pencil-square" aria-hidden="true"></i>
                                     Requisicion PT
                                 </a>
                             </li>
 
                             <li>
                                 <a href="{{url('produccion/despacho')}}">
-                                    <i class="fa fa-backward" aria-hidden="true"></i>
+                                    <i class="fa fa-hand-rock-o"></i>
                                     Despacho
                                 </a>
                             </li>

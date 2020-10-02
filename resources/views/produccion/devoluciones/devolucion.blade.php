@@ -161,7 +161,7 @@
                     type="button">
                 <span class=" fa fa-check"></span> GUARDAR
             </button>
-            <a href="{{url('recepcion/ubicacion')}}">
+            <a href="{{url('produccion/devoluciones')}}">
                 <button class="btn btn-default" type="button">
                     <span class="fa fa-remove"></span>
                     CANCELAR
