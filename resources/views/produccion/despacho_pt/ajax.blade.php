@@ -10,7 +10,6 @@
     @include('componentes.alert-success')
     @include('componentes.alert-error')
 
-
     @component('componentes.nav',['operation'=>'LIST',
     'menu_icon'=>'fa fa-cube',
     'submenu_icon'=>'fa fa-hand-rock-o',
@@ -19,14 +18,14 @@
             Produccion
         @endslot
         @slot('submenu')
-            Picking
+            Despacho
         @endslot
     @endcomponent
 
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             @can('role-edit')
-                @component('componentes.btn-edit',['url'=>'javascript:despachar()'])
+                @component('componentes.btn-edit',['url'=>'javascript:despachar("despacho")'])
                 @endcomponent
             @endcan
             @can('role-list')
@@ -42,7 +41,7 @@
         @endslot
     @endcomponent
     <div id="content">
-        @include('produccion.picking.index')
+        @include('produccion.despacho_pt.index')
     </div>
     <div class="loading">
         <i class="fa fa-refresh fa-spin "></i><br/>

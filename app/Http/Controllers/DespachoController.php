@@ -1,0 +1,182 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\tools\Movimientos;
+use App\Picking;
+use App\Repository\PickingRepository;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use App\Requisicion;
+use Illuminate\Support\Facades\Auth;
+use DB;
+
+class DespachoController extends Controller
+{
+    //
+
+
+    private $pickingRepository;
+
+    public function __construct(PickingRepository $pickingRepository)
+    {
+        $this->middleware('auth');
+        $this->pickingRepository = $pickingRepository;
+    }
+
+
+    public function index(Request $request)
+    {
+        $search = $request->get('search') == null ? '' : $request->get('search');
+        $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
+        $sortField = $request->get('field') == null ? 'fecha_ingreso' : $request->get('field');
+
+        $requisiciones_pendientes = Requisicion::select('requisicion_encabezado.*')
+            ->join('users', 'users.id', '=', 'requisicion_encabezado.id_usuario_ingreso')
+            ->NoDeBaja()
+            ->NoDespachada()
+            ->esProductoTerminado()
+            ->where(function ($query) use ($search) {
+                $query->where('requisicion_encabezado.no_orden_produccion', 'LIKE', '%' . $search . '%')
+                    ->orWhere('requisicion_encabezado.no_requision', 'LIKE', '%' . $search . '%')
+                    ->orWhere('users.nombre', 'LIKE', '%' . $search . '%');
+            })
+            ->orderBy($sortField, $sort)
+            ->paginate(15);
+
+
+        if ($request->ajax()) {
+
+            return view('produccion.despacho_pt.index',
+                compact('requisiciones_pendientes', 'search', 'sort', 'sortField'));
+        } else {
+
+            return view('produccion.despacho_pt.ajax',
+                compact('requisiciones_pendientes', 'search', 'sort', 'sortField'));
+        }
+
+    }
+
+
+    public function despachar($id, Request $request)
+    {
+
+        $requisicion = Requisicion::findOrFail($id);
+
+        if ($requisicion->estado !== "D") {
+            $validarOrdenProductos = false;
+            $pickingRepository = $this->pickingRepository;
+            $pickingRepository->setOrdenRequisicion($requisicion);
+            $pickingRepository->crear_oden_picking();
+            $debeRecalcularseListadoDeLotesADespachar = $pickingRepository->debeRecalcularseReserva();
+
+            if ($debeRecalcularseListadoDeLotesADespachar) {
+                $pickingRepository->recalcularReservas();
+                return $this->despachar($id, $request);
+            }
+
+            if ($request->ajax()) {
+
+                return view('produccion.despacho_pt.listado_productos',
+                    compact(
+                        'requisicion'
+                    ));
+
+            } else {
+                return view
+                ('produccion.despacho_pt.despacho',
+                    compact(
+                        'requisicion', 'validarOrdenProductos'
+                    )
+                );
+            }
+        } else {
+
+            $productos = $requisicion->reservas->groupBy('id_producto')->keys();
+
+            return view('produccion.despacho_pt.show', compact('requisicion', 'productos'));
+        }
+
+
+    }
+
+    public function store(Request $request)
+    {
+
+
+        try {
+            $requisicion = Requisicion::where('no_requision', $request->no_requisicion)->first();
+
+            $picking = Picking::where('id_requisicion', $requisicion->id)->first();
+            if ($picking->enProceso()) {
+                DB::beginTransaction();
+                $this->despachar_reservas($requisicion);
+                $this->despachar_requisicion($requisicion);
+                $this->despachar_orden_picking($picking);
+                $this->rebajar_inventario($requisicion);
+                DB::commit();
+            }
+            return redirect()
+                ->route('produccion.despacho.index')
+                ->with('success', 'Requisicion Armada');
+        } catch (\Exception $ex) {
+            DB::rollback();
+
+            return redirect()->back()->withErrors(['Algo salió mal']);
+        }
+
+
+    }
+
+    private function despachar_reservas($requisicion)
+    {
+
+
+        $requisicion
+            ->reservas()
+            ->update
+            (
+                ['estado' => 'D']
+            );
+
+    }
+
+    private function despachar_requisicion($requisicion)
+    {
+        $requisicion->estado = 'D';
+        $requisicion->update();
+
+        $requisicion
+            ->detalle()
+            ->update(
+                ['estado' => 'D']
+            );
+    }
+
+    private function despachar_orden_picking($picking)
+    {
+        $picking->fecha_fin = Carbon::now();
+        $picking->id_usuario = Auth::user()->id;
+        $picking->estado = 'D';
+        $picking->update();
+    }
+
+    private function rebajar_inventario($requisicion)
+    {
+        foreach ($requisicion->reservas as $reserva) {
+
+            $movimientos = new Movimientos();
+            $movimientos->salida_producto(
+                $reserva->ubicacion()->first(),
+                $reserva->producto,
+                $reserva->lote,
+                $reserva->fecha_vencimiento,
+                $reserva->cantidad,
+                $requisicion->no_orden_produccion,
+                Auth::user()
+            );
+
+        }
+    }
+
+}

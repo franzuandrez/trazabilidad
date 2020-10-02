@@ -13,26 +13,17 @@
 
                 </th>
                 <th>
-                    @component('componentes.column-sort',['modulo'=>'produccion/picking',
-                        'search'=>$search,
-                          'sort'=>$sort,
-                          'sortField'=>$sortField,
-                          'field'=>'requisicion_encabezado.no_orden_produccion',
-                          'titulo'=>'NO. ORDEN'])
-                    @endcomponent
-                </th>
-                <th>
-                    @component('componentes.column-sort',['modulo'=>'produccion/picking',
+                    @component('componentes.column-sort',['modulo'=>'produccion/requisiciones',
                         'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
                           'field'=>'requisicion_encabezado.no_requision',
-                          'titulo'=>'NO. REQUISION'])
+                          'titulo'=>'NO. FACTURa'])
                     @endcomponent
                 </th>
 
                 <th>
-                    @component('componentes.column-sort',['modulo'=>'produccion/picking',
+                    @component('componentes.column-sort',['modulo'=>'produccion/requisiciones',
                         'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
@@ -41,7 +32,7 @@
                     @endcomponent
                 </th>
                 <th>
-                    @component('componentes.column-sort',['modulo'=>'produccion/picking',
+                    @component('componentes.column-sort',['modulo'=>'produccion/requisiciones',
                         'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
@@ -56,10 +47,6 @@
                     <tr>
                         <td>
                             <input type="radio" name="id_requisicion" value="{{$operacion->id}}">
-
-                        </td>
-                        <td>
-                            {{$operacion->no_orden_produccion}}
                         </td>
                         <td>
                             {{$operacion->no_requision}}

@@ -118,12 +118,17 @@ class Requisicion extends Model
 
     public function scopeEnProceso($query)
     {
-        return $query->where('estado', 'P');
+        return $query->where('requisicion_encabezado.estado', 'P');
     }
 
     public function scopeDespachada($query)
     {
-        return $query->where('estado', 'D');
+        return $query->where('requisicion_encabezado.estado', 'D');
+    }
+
+    public function scopeNoDespachada($query)
+    {
+        return $query->where('requisicion_encabezado.estado', '<>', 'D');
     }
 
     public function scopeEnReserva($query)

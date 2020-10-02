@@ -14,7 +14,7 @@
             Produccion
         @endslot
         @slot('submenu')
-            Picking
+            Despacho
         @endslot
     @endcomponent
 
@@ -22,21 +22,11 @@
         @csrf
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
-                <label for="orden_compra">NO. REQUISICION</label>
+                <label for="orden_compra">NO. FACTURA</label>
                 <input type="text"
                        readonly
                        name="no_requisicion"
                        value="{{$requisicion->no_requision}}"
-                       class="form-control">
-            </div>
-        </div>
-        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-            <div class="form-group">
-                <label for="orden_compra">NO. ORDEN PRODUCCION</label>
-                <input type="text"
-                       readonly
-                       name="no_requisicion"
-                       value="{{$requisicion->no_orden_produccion}}"
                        class="form-control">
             </div>
         </div>
@@ -56,7 +46,6 @@
 
                     @if($requisicion->estado=="D")
                         @foreach($productos as $product)
-
                             @foreach( $requisicion->reservas->where('id_producto',$product) as $reserva  )
                                 <tr id="{{$reserva->id_producto}}-{{$reserva->lote}}-{{$reserva->ubicacion}}">
                                     <td>
@@ -132,7 +121,7 @@
         </div>
         <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
             <div class="form-group">
-                <a href="{{url('produccion/picking')}}">
+                <a href="{{url('produccion/despacho')}}">
                     <button class="btn btn-default" type="button">
                         <span class="fa fa-backward"></span>
                         REGRESAR
