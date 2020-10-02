@@ -317,7 +317,7 @@
                             </li>
 
                             <li>
-                                <a href="{{url('produccion/desapcho_pt')}}">
+                                <a href="{{url('produccion/despacho')}}">
                                     <i class="fa fa-backward" aria-hidden="true"></i>
                                    Despacho
                                 </a>

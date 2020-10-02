@@ -14,7 +14,7 @@
             Produccion
         @endslot
         @slot('submenu')
-           Picking
+            Despacho
         @endslot
     @endcomponent
 
@@ -22,7 +22,7 @@
         @csrf
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
-                <label for="orden_compra">NO. REQUISICION</label>
+                <label for="orden_compra">NO. FACTURA</label>
                 <input type="text"
                        readonly
                        name="no_requisicion"
@@ -146,7 +146,7 @@
         function cargarInfoCodigoBarras(input) {
 
 
-            let infoCodigoBarras = descomponerInput(input);
+            let infoCodigoBarras = descomponerInput(input,false);
             mostrarInfoCodigoBarras(infoCodigoBarras);
 
 

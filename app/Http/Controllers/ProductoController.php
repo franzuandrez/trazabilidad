@@ -287,13 +287,14 @@ class ProductoController extends Controller
     public function search($search)
     {
 
-        $productos = Producto::esMateriaPrima()
-            ->where(function ($query) use ($search) {
-                $query->where('productos.codigo_barras', 'LIKE', '%' . $search . '%')
-                    ->orWhere('productos.codigo_interno_cliente', 'LIKE', '%' . $search . '%')
-                    ->orWhere('productos.codigo_interno', 'LIKE', '%' . $search . '%')
-                    ->orWhere('productos.descripcion', 'LIKE', '%' . $search . '%');
-            })
+        $productos = Producto::
+        where(function ($query) use ($search) {
+            $query->orWhere('productos.codigo_barras', 'LIKE', '%' . $search . '%')
+                ->orWhere('productos.codigo_interno_cliente', 'LIKE', '%' . $search . '%')
+                ->orWhere('productos.codigo_interno', 'LIKE', '%' . $search . '%')
+                ->orWhere('productos.codigo_dun', 'LIKE', '%' . $search . '%')
+                ->orWhere('productos.descripcion', 'LIKE', '%' . $search . '%');
+        })
             ->orderBy('productos.descripcion', 'asc')
             ->with('proveedores')
             ->get();
@@ -325,7 +326,7 @@ class ProductoController extends Controller
                 $results = $reader->noHeading()->get();
 
                 $results = $results->slice(1);
-                 $results = $results->where(2, '<>', '');
+                $results = $results->where(2, '<>', '');
 
                 foreach ($results as $key => $value) {
 

@@ -1,32 +1,28 @@
-
-
-function despachar(){
+function despachar(picking = 'picking') {
 
 
     let id_requisicion = getRequisicionSelected();
 
 
-    if(id_requisicion ==null){
+    if (id_requisicion == null) {
         $('#errorToEdit').modal();
-    }else{
-        window.location.href = "picking"+"/"+id_requisicion+"/despachar";
+    } else {
+        window.location.href = picking + "/" + id_requisicion + "/despachar";
     }
 
 }
 
 
-
-
-function getRequisicionSelected(){
+function getRequisicionSelected() {
     var requisicion = document.getElementsByName('id_requisicion');
-    var id_requisicion=null;
-    var arrayrequisicion = Object.keys(requisicion).map(function(key) {
+    var id_requisicion = null;
+    var arrayrequisicion = Object.keys(requisicion).map(function (key) {
         return [Number(key), requisicion[key]];
     });
 
 
-    arrayrequisicion.forEach(function(user){
-        if(user[1].checked){
+    arrayrequisicion.forEach(function (user) {
+        if (user[1].checked) {
             id_requisicion = user[1].value;
         }
     });
@@ -34,13 +30,13 @@ function getRequisicionSelected(){
 }
 
 
-function ver(){
+function ver() {
     let id_requisicion = getRequisicionSelected();
 
-    if(id_requisicion==null){
+    if (id_requisicion == null) {
         $('#errorToEdit').modal();
-    }else{
-        window.location.href = "picking"+"/"+id_requisicion+"";
+    } else {
+        window.location.href = "picking" + "/" + id_requisicion + "";
     }
 
 }
