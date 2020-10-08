@@ -41,6 +41,7 @@ class ExistenciasRepository
                 DB::raw('sum(cantidad * factor) as total'))
             ->whereIn('id_producto', $productos)
             ->where('movimientos.observaciones','=','')
+            ->where('movimientos.id_sector','!=',7)
             ->groupBy('id_producto')
             ->groupBy('lote')
             ->groupBy('ubicacion')
