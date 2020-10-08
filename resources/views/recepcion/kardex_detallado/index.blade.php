@@ -41,7 +41,7 @@
                             <td>{{$movimiento->numero_documento}}</td>
                             <td>  {{ number_format(($movimiento->factor>0?$movimiento->total:0),3,'.',',') }}</td>
                             <td> {{ number_format(($movimiento->factor<0?$movimiento->total:0),3,'.',',') }}</td>
-                            <td>{{    number_format($saldo_inicial=$saldo_inicial+($movimiento->factor*$movimiento->total),3,'.',',')   }}</td>
+                            <td>{{ number_format($saldo_inicial=$saldo_inicial+($movimiento->factor*$movimiento->total),3,'.',',')   }}</td>
                             <td>{{$movimiento->lote}}</td>
                         </tr>
                     @endforeach

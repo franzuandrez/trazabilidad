@@ -318,6 +318,7 @@ class MovimientoController extends Controller
     {
 
         $this->producto = $request->get('producto') == null ? '' : $request->get('producto');
+        $ubicacion = $request->get('ubicacion') == null ? '' : $request->get('ubicacion');
 
         $movimientos = collect([]);
 
@@ -325,7 +326,6 @@ class MovimientoController extends Controller
         if ($this->producto != '') {
             $producto = Producto::orWhere('productos.codigo_interno', $this->producto)
                 ->orwhere('productos.codigo_barras', $this->producto)
-                ->orWhere('productos.descripcion', 'LIKE', '%' . $this->producto . '%')
                 ->first();
             if ($producto != null) {
                 $movimientos = Movimiento::join('productos', 'movimientos.id_producto', '=', 'productos.id_producto')
@@ -344,10 +344,14 @@ class MovimientoController extends Controller
                         DB::raw('( cantidad   ) as total'),
                         'tipo_movimiento.factor'
                     );
+
+                if ($ubicacion != "") {
+                    $movimientos = $movimientos->where('movimientos.id_sector', $ubicacion);
+                }
+
                 $movimientos = $movimientos->where(function ($query) {
                     $query->where('productos.codigo_interno', $this->producto)
-                        ->orwhere('productos.codigo_barras', $this->producto)
-                        ->orWhere('productos.descripcion', 'LIKE', '%' . $this->producto . '%');
+                        ->orwhere('productos.codigo_barras', $this->producto);
                 })->orderBy('fecha_hora_movimiento', 'asc')
                     ->get();
             }
@@ -355,6 +359,7 @@ class MovimientoController extends Controller
         }
 
 
+        $ubicaciones = Sector::select('id_sector as id', 'descripcion')->actived()->get();
         if ($request->ajax()) {
 
             return view('recepcion.kardex_detallado.index',
@@ -368,7 +373,9 @@ class MovimientoController extends Controller
                     'lote' => $this->lote,
                     'start' => $this->start,
                     'end' => $this->end,
-                    'saldo_inicial' => $saldo_inicial
+                    'saldo_inicial' => $saldo_inicial,
+                    'ubicaciones' => $ubicaciones,
+                    'ubicacion' => $ubicacion,
 
                 ]
             );
@@ -383,7 +390,9 @@ class MovimientoController extends Controller
                     'lote' => $this->lote,
                     'start' => $this->start,
                     'end' => $this->end,
-                    'saldo_inicial' => $saldo_inicial
+                    'saldo_inicial' => $saldo_inicial,
+                    'ubicaciones' => $ubicaciones,
+                    'ubicacion' => $ubicacion,
                 ]
             );
         }
