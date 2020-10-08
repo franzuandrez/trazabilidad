@@ -22,6 +22,7 @@ class Movimientos
     private $numero_documento;
     private $usuario_autoriza;
     private $observaciones = '';
+    private $tipo_doc = '';
 
     public function ingreso_producto(
         Sector $ubicacion,
@@ -30,7 +31,7 @@ class Movimientos
         $fecha_vencimiento,
         $cantidad,
         $numero_documento,
-        User $usuario_autoriza ,
+        User $usuario_autoriza,
         $observaciones = '')
     {
         $this->sector = $ubicacion;
@@ -56,6 +57,7 @@ class Movimientos
      * @param $cantidad
      * @param $numero_documento
      * @param $usuario_autoriza
+     * @param $tipo_doc
      */
     public function salida_producto($ubicacion,
                                     $producto,
@@ -63,7 +65,7 @@ class Movimientos
                                     $fecha_vencimiento,
                                     $cantidad,
                                     $numero_documento,
-                                    $usuario_autoriza)
+                                    $usuario_autoriza, $tipo_doc, $requisicion = null)
     {
         $this->sector = $ubicacion;
         $this->bodega = $ubicacion->bodega;
@@ -73,6 +75,8 @@ class Movimientos
         $this->cantidad = $cantidad;
         $this->numero_documento = $numero_documento;
         $this->usuario_autoriza = $usuario_autoriza;
+        $this->tipo_doc = $tipo_doc;
+        $this->requisicion = $requisicion;
         $this->generar_movimiento(2);
     }
 
@@ -100,6 +104,8 @@ class Movimientos
         $movimiento->id_bin = 0;
         $movimiento->usuario_autorizo = $this->usuario_autoriza->id;
         $movimiento->observaciones = $this->observaciones;
+        $movimiento->tipo_documento = $this->tipo_doc;
+        $movimiento->requisicion = $this->requisicion;
         $movimiento->save();
     }
 
@@ -121,7 +127,7 @@ class Movimientos
                 'movimientos.fecha_vencimiento',
                 DB::raw('sum(cantidad * factor) as total'))
             ->whereIn('id_producto', $productos)
-            ->where('movimientos.observaciones','=','')
+            ->where('movimientos.observaciones', '=', '')
             ->groupBy('id_producto')
             ->groupBy('lote')
             ->orderBy('movimientos.fecha_vencimiento', 'asc')

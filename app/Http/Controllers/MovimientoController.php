@@ -334,6 +334,7 @@ class MovimientoController extends Controller
                     ->leftJoin('sectores', 'movimientos.id_sector', '=', 'sectores.id_sector')
                     ->select('movimientos.id_bodega as id_bodega',
                         'movimientos.numero_documento as numero_documento',
+                        'movimientos.requisicion as requisicion',
                         'movimientos.fecha_hora_movimiento as fecha_hora_movimiento',
                         'productos.descripcion as producto',
                         'productos.codigo_interno as codigo_interno',

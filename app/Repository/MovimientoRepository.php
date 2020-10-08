@@ -54,6 +54,44 @@ class MovimientoRepository
     private $cantidades = [];
     private $idsProductos = [];
     private $idsUbicaciones = [];
+    private $tipo_documento = '';
+    private $requisicion = '';
+
+    /**
+     * @return string
+     */
+    public function getTipoDocumento(): string
+    {
+        return $this->tipo_documento;
+    }
+
+    /**
+     * @param string $tipo_documento
+     * @return MovimientoRepository
+     */
+    public function setTipoDocumento(string $tipo_documento)
+    {
+        $this->tipo_documento = $tipo_documento;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRequisicion(): string
+    {
+        return $this->requisicion;
+    }
+
+    /**
+     * @param string $requisicion
+     * @return MovimientoRepository
+     */
+    public function setRequisicion(string $requisicion)
+    {
+        $this->requisicion = $requisicion;
+        return $this;
+    }
 
 
     public function setLotes(array $lotes)
@@ -225,6 +263,8 @@ class MovimientoRepository
         $movimiento->id_bin = 0;
         $movimiento->usuario_autorizo = $this->usuario_autoriza->id;
         $movimiento->observaciones = $this->observaciones;
+        $movimiento->requisicion = $this->getRequisicion();
+        $movimiento->tipo_documento = $this->getTipoDocumento();
         $movimiento->save();
     }
 
