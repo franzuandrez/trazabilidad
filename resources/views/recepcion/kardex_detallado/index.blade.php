@@ -12,6 +12,9 @@
                         DOCUMENTO
                     </th>
                     <th style="border-color:  #f5f5f5">
+                        REQUISICION
+                    </th>
+                    <th style="border-color:  #f5f5f5">
                         ENTRADAS
                     </th>
                     <th style="border-color:  #f5f5f5">
@@ -39,6 +42,7 @@
                         <tr>
                             <td>{{$movimiento->fecha_hora_movimiento->format('d/m/Y')}}</td>
                             <td>{{$movimiento->numero_documento}}</td>
+                            <td>{{$movimiento->requisicion}}</td>
                             <td>  {{ number_format(($movimiento->factor>0?$movimiento->total:0),3,'.',',') }}</td>
                             <td> {{ number_format(($movimiento->factor<0?$movimiento->total:0),3,'.',',') }}</td>
                             <td>{{ number_format($saldo_inicial=$saldo_inicial+($movimiento->factor*$movimiento->total),3,'.',',')   }}</td>
