@@ -35,19 +35,9 @@
                 <label for="producto">PRODUCTO</label>
                 <input type="text"
                        id="producto"
-                       placeholder="CODIGO DE BARRAS , DESCRIPCION"
-                       onkeydown="if(event.keyCode ==13)next('lote')"
+                       placeholder="CODIGO "
+                       onkeydown="if(event.keyCode ==13)buscar_existencias()"
                        name="producto" value="{{$producto}}"
-                       class="form-control">
-            </div>
-        </div>
-        <div class="col-lg-2 col-sm-3 col-md-3 col-xs-12" style="display: none">
-            <div class="form-group">
-                <label for="lote">LOTE</label>
-                <input type="text"
-                       id="lote"
-                       onkeydown="if(event.keyCode==13)next('lote')"
-                       placeholder="NO. LOTE" name="lote" value="{{old('lote')}}"
                        class="form-control">
             </div>
         </div>
@@ -69,11 +59,16 @@
                     <img src="{{asset('imagenes_web/borrar.png')}}" data-placement="top" title=""
                          data-toggle="tooltip" data-original-title="Limpiar" width="50" height="50">
                 </a>
-
             </div>
-
         </div>
-
+    </div>
+    <div class="row">
+        @component('componentes.search-select'
+             ,[
+             'busqueda'=>'BODEGA',
+             'default'=>false,
+             'elements'=>$ubicaciones])
+        @endcomponent
     </div>
 
     <div class="row" style="display: none">
@@ -111,8 +106,6 @@
 @section('scripts')
     <script src="{{asset('js/ajax-crud.js')}}"></script>
     <script>
-
-
 
 
         function excel() {
@@ -153,9 +146,9 @@
 
 
             let producto = $('#producto').val();
-            let lote = $('#lote').val();
             let start = $('#start').val();
             let end = $('#end').val();
+            let ubicacion = $('#id_select_search').val();
 
             let busqueda = '{{url('movimientos/kardex')}}';
             busqueda += '?';
@@ -164,13 +157,14 @@
             if (producto !== "") {
                 busqueda += "producto=" + producto + "&";
             }
-            if (lote !== "") {
-                busqueda += "lote=" + lote + "&";
-            }
 
+            if (producto !== "" && ubicacion !== "") {
+                busqueda += "ubicacion=" + ubicacion + "&";
+            }
             if (start !== "" && end !== "") {
                 busqueda += "start=" + start + "&end=" + end;
             }
+
 
             ajaxLoad(busqueda)
         }
@@ -179,7 +173,6 @@
         function limpiar() {
             let fecha_inicio = document.getElementById('start');
             let fecha_fin = document.getElementById('end');
-            let lote = document.getElementById('lote');
             let producto = document.getElementById('producto');
 
             fecha_inicio.value = '';

@@ -6,7 +6,9 @@
                     class="form-control selectpicker"
                     onchange="buscar_existencias()">
                 <option value="">SELECCIONE AREA</option>
+                @if($default!==false)
                 <option value="0">{{$default}}</option>
+                @endif
                 @foreach( $elements as $e )
                     <option value="{{$e->id}}">{{$e->descripcion}}</option>
                 @endforeach
