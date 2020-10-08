@@ -177,9 +177,7 @@
 
             fecha_inicio.value = '';
             fecha_fin.value = '';
-            lote.value = '';
             producto.value = '';
-
             buscar_existencias();
             producto.focus();
 
