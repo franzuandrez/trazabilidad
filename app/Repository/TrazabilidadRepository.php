@@ -46,6 +46,8 @@ class TrazabilidadRepository
     const STATUS_PROCESO_CREACION = 1;
     const STATUS_CREADA = 2;
     const STATUS_FINALIZADA = 3;
+    const STATUS_DEVOLUCION = 4;
+
 
     private $producto = null;
     private $numero_orden_produccion = '';
@@ -907,10 +909,16 @@ class TrazabilidadRepository
     public function finalizarControlTrazabilidad()
     {
         $this->registrarCantidadProducidaSiExiste();
-        $this->registarCantidadUtilizadas();
+        $producto_devolver = $this->registarCantidadUtilizadas();
         $control_trazabilidad = $this->getControlTrazabilidad();
+
         if ($control_trazabilidad->status == self::STATUS_CREADA) {
-            $control_trazabilidad->status = self::STATUS_FINALIZADA;
+
+            if ($producto_devolver) {
+                $control_trazabilidad->status = self::STATUS_DEVOLUCION;
+            } else {
+                $control_trazabilidad->status = self::STATUS_FINALIZADA;
+            }
             $control_trazabilidad->save();
         }
 
@@ -935,14 +943,19 @@ class TrazabilidadRepository
         }
     }
 
-    public function registarCantidadUtilizadas()
+    public function registarCantidadUtilizadas(): bool
     {
+        $productos_por_devolver = 0;
         $insumos = $this->getIdsInsumos();
         foreach ($insumos as $key => $insumo) {
             $detalle = DetalleInsumo::find($insumo);
+            if ($detalle->cantidad != $this->getCantidadesUtilizadas()[$key]) {
+                $productos_por_devolver++;
+            }
             $detalle->cantidad_utilizada = $this->getCantidadesUtilizadas()[$key];
             $detalle->save();
         }
+        return $productos_por_devolver == 0;
     }
 
 
