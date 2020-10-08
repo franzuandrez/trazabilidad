@@ -144,7 +144,7 @@
         </div>
         <div class="col-lg-3 col-sm-3 col-md-6 col-xs-12">
             <div class="form-group">
-                <label for="cantidad_etiquetas_unidades">UNIDADES</label>
+                <label for="cantidad_etiquetas_unidades">UNIDADES S/ETIQUETA</label>
                 <input type="text"
                        name="cantidad_etiquetas_unidades"
                        id="cantidad_etiquetas_unidades"
