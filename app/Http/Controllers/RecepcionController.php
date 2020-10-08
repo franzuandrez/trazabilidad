@@ -445,8 +445,8 @@ class RecepcionController extends Controller
             $movimientoRepository->setLotes($lotes);
             $movimientoRepository->setIdsUbicaciones($ubicaciones);
             $movimientoRepository->setNoDocumento($rmi_encabezado->documento);
+            $movimientoRepository->setTipoDocumento('mp');
             $movimientoRepository->ubicarProductos();
-
             $rmi_encabezado->mp = 1;
             $rmi_encabezado->control = 0;
             $rmi_encabezado->id_usuario_ubicacion = \Auth::id();
