@@ -241,11 +241,12 @@ class PickingController extends Controller
         $picking->update();
     }
 
-    private function rebajar_inventario($requisicion)
+    private function rebajar_inventario(Requisicion $requisicion)
     {
         foreach ($requisicion->reservas as $reserva) {
 
             $movimientos = new Movimientos();
+
             $movimientos->salida_producto(
                 $reserva->ubicacion()->first(),
                 $reserva->producto,
@@ -253,7 +254,9 @@ class PickingController extends Controller
                 $reserva->fecha_vencimiento,
                 $reserva->cantidad,
                 $requisicion->no_orden_produccion,
-                Auth::user()
+                Auth::user(),
+               'requi',
+                $requisicion->no_requision
             );
 
         }
