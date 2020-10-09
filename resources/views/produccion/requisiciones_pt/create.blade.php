@@ -73,6 +73,28 @@
                    class="form-control">
         </div>
     </div>
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="cliente_ref_2">REFERENCIA</label>
+            <input type="text"
+                   name="cliente_ref_2"
+                   id="cliente_ref_2"
+                   readonly
+                   value="{{old('cliente_ref_2')}}"
+                   class="form-control">
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="direccion">DIRECCION</label>
+            <input type="text"
+                   name="direccion"
+                   id="direccion"
+                   readonly
+                   value="{{old('direccion')}}"
+                   class="form-control">
+        </div>
+    </div>
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="tab-content">
@@ -267,7 +289,9 @@
                     document.getElementById('no_requisicion').readOnly = true;
                     document.getElementById('no_requisicion').value = req[0].no_requision;
                     console.log(req[0].detalle_pt);
-                    document.getElementById('cliente').value = req[0].detalle_pt.cliente.razon_social;
+                    document.getElementById('cliente').value = req[0].detalle_pt.cliente_ref_1;
+                    document.getElementById('cliente_ref_2').value = req[0].detalle_pt.cliente_ref_2;
+                    document.getElementById('direccion').value = req[0].detalle_pt.direccion;
                     console.log(req[0].detalle_pt);
 
                     req[0].detalle.forEach(function (e) {

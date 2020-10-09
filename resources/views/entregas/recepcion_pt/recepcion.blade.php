@@ -14,7 +14,7 @@
     'submenu_icon'=>'fa fa fa-building-o',
     'operation_icon'=>'fa-plus',])
         @slot('menu')
-            Recepcion
+            Recepcion PT
         @endslot
         @slot('submenu')
             Asignar Ubicacion
@@ -170,7 +170,7 @@
                     type="button">
                 <span class=" fa fa-check"></span> GUARDAR
             </button>
-            <a href="{{url('recepcion/ubicacion')}}">
+            <a href="{{url('produccion/recepcion_pt')}}">
                 <button class="btn btn-default" type="button">
                     <span class="fa fa-remove"></span>
                     CANCELAR

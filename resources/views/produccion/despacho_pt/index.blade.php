@@ -21,14 +21,22 @@
                           'titulo'=>'NO. FACTURa'])
                     @endcomponent
                 </th>
-
+                <th>
+                    @component('componentes.column-sort',['modulo'=>'produccion/requisiciones',
+                        'search'=>$search,
+                          'sort'=>$sort,
+                          'sortField'=>$sortField,
+                          'field'=>'cliente_ref_1',
+                          'titulo'=>'Cliente'])
+                    @endcomponent
+                </th>
                 <th>
                     @component('componentes.column-sort',['modulo'=>'produccion/requisiciones',
                         'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
                           'field'=>'users.nombre',
-                          'titulo'=>'Elaborador'])
+                          'titulo'=>'Responsable'])
                     @endcomponent
                 </th>
                 <th>
@@ -46,15 +54,19 @@
                 @foreach($requisiciones_pendientes as $operacion)
                     <tr>
                         <td>
-                            <input type="radio" name="id_requisicion" value="{{$operacion->id}}">
+                            <input type="radio" name="id_requisicion" value="{{$operacion->id_requisicion}}">
+
                         </td>
                         <td>
                             {{$operacion->no_requision}}
                         </td>
-
+                        <td>
+                            {{$operacion->cliente_ref_1}}
+                        </td>
                         <td>
                             {{$operacion->usuario_ingreso->nombre}}
                         </td>
+
                         <td>
                             @if($operacion->estado == "P")
                                 <span class="label label-warning">

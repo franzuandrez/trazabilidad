@@ -31,14 +31,18 @@ class DespachoController extends Controller
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
         $sortField = $request->get('field') == null ? 'fecha_ingreso' : $request->get('field');
 
-        $requisiciones_pendientes = Requisicion::select('requisicion_encabezado.*')
+        $requisiciones_pendientes = Requisicion::select('requisicion_encabezado.*', 'detalle_requisicion_pt.*')
             ->join('users', 'users.id', '=', 'requisicion_encabezado.id_usuario_ingreso')
+            ->join('detalle_requisicion_pt', 'detalle_requisicion_pt.id_requisicion', '=', 'requisicion_encabezado.id')
             ->NoDeBaja()
             ->NoDespachada()
             ->esProductoTerminado()
             ->where(function ($query) use ($search) {
                 $query->where('requisicion_encabezado.no_orden_produccion', 'LIKE', '%' . $search . '%')
                     ->orWhere('requisicion_encabezado.no_requision', 'LIKE', '%' . $search . '%')
+                    ->orWhere('detalle_requisicion_pt.cliente_ref_1', 'LIKE', '%' . $search . '%')
+                    ->orWhere('detalle_requisicion_pt.cliente_ref_2', 'LIKE', '%' . $search . '%')
+                    ->orWhere('detalle_requisicion_pt.no_factura', 'LIKE', '%' . $search . '%')
                     ->orWhere('users.nombre', 'LIKE', '%' . $search . '%');
             })
             ->orderBy($sortField, $sort)
@@ -61,7 +65,8 @@ class DespachoController extends Controller
     public function despachar($id, Request $request)
     {
 
-        $requisicion = Requisicion::findOrFail($id);
+
+        $requisicion = Requisicion::find($id);
 
         if ($requisicion->estado !== "D") {
             $validarOrdenProductos = false;
@@ -109,6 +114,7 @@ class DespachoController extends Controller
 
             $picking = Picking::where('id_requisicion', $requisicion->id)->first();
             if ($picking->enProceso()) {
+
                 DB::beginTransaction();
                 $this->despachar_reservas($requisicion);
                 $this->despachar_requisicion($requisicion);
@@ -161,7 +167,7 @@ class DespachoController extends Controller
         $picking->update();
     }
 
-    private function rebajar_inventario($requisicion)
+    private function rebajar_inventario(Requisicion  $requisicion)
     {
         foreach ($requisicion->reservas as $reserva) {
 
@@ -172,8 +178,9 @@ class DespachoController extends Controller
                 $reserva->lote,
                 $reserva->fecha_vencimiento,
                 $reserva->cantidad,
-                $requisicion->no_orden_produccion,
-                Auth::user()
+                $requisicion->no_requision,
+                Auth::user(),
+                'DES'
             );
 
         }
