@@ -32,13 +32,17 @@ class RequisicionPTController extends Controller
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
         $sortField = $request->get('field') == null ? 'fecha_ingreso' : $request->get('field');
 
-        $operaciones = Requisicion::select('requisicion_encabezado.*')
+        $operaciones = Requisicion::select('requisicion_encabezado.*', 'detalle_requisicion_pt.*')
             ->join('users', 'users.id', '=', 'requisicion_encabezado.id_usuario_ingreso')
+            ->join('detalle_requisicion_pt', 'detalle_requisicion_pt.id_requisicion', '=', 'requisicion_encabezado.id')
             ->NoDeBaja()
             ->esProductoTerminado()
             ->where(function ($query) use ($search) {
                 $query->where('requisicion_encabezado.no_orden_produccion', 'LIKE', '%' . $search . '%')
                     ->orWhere('requisicion_encabezado.no_requision', 'LIKE', '%' . $search . '%')
+                    ->orWhere('detalle_requisicion_pt.cliente_ref_1', 'LIKE', '%' . $search . '%')
+                    ->orWhere('detalle_requisicion_pt.cliente_ref_2', 'LIKE', '%' . $search . '%')
+                    ->orWhere('detalle_requisicion_pt.no_factura', 'LIKE', '%' . $search . '%')
                     ->orWhere('users.nombre', 'LIKE', '%' . $search . '%');
             })
             ->orderBy($sortField, $sort)
@@ -100,9 +104,11 @@ class RequisicionPTController extends Controller
             $detalle = $results->take(11 - count($results));
 
             $no_factura = $results[3][8];
-            $cliente = Cliente::where('razon_social', 'like', '%' . $results[5][0] . '%')
-                ->orWhere('Codigo', 'like', '%' . $results[5][0] . '%')
-                ->first();
+
+            $cliente_ref_1 = $results[5][0];
+            $cliente_ref_2 = $results[7][0];
+            $direccion = $results[9][0];
+
 
             $requisicion = new Requisicion();
             $requisicion->no_requision = $no_factura;
@@ -116,7 +122,9 @@ class RequisicionPTController extends Controller
             $requisicion_pt = new DetalleRequisicionPT();
             $requisicion_pt->id_requisicion = $requisicion->id;
             $requisicion_pt->no_factura = $no_factura;
-            $requisicion_pt->id_cliente = $cliente->id_cliente;
+            $requisicion_pt->cliente_ref_1 = $cliente_ref_1;
+            $requisicion_pt->cliente_ref_2 = $cliente_ref_2;
+            $requisicion_pt->direccion = $direccion;
             $requisicion_pt->observaciones = $results->last()[1];
             $requisicion_pt->save();
 

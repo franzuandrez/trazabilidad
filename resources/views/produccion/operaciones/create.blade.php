@@ -90,7 +90,7 @@
         <div class="tab-content">
             <div class="tab-pane active" id="crear">
                 <br>
-                <div class="col-lg-6 col-sm-4 col-md-4 col-xs-12">
+                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
                     <label for="codigo_producto">CODIGO PRODUCTO</label>
                     <div class="input-group">
                         <input type="text"
@@ -113,14 +113,14 @@
                     </div>
                 </div>
 
-                <div class="col-lg-2 col-md-2 col-sm-4  col-xs-12">
+                <div class="col-lg-2 col-md-6 col-sm-6  col-xs-12">
                     <div class="form-group">
                         <label for="existencia">EXISTENCIA</label>
                         <input type="text" name="existencia" id="existencia" readonly value="{{old('existencia')}}"
                                class="form-control">
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-2 col-sm-4  col-xs-12">
+                <div class="col-lg-4 col-md-6 col-sm-6  col-xs-12">
                     <div class="form-group">
                         <label for="descripcion">DESCRIPCION</label>
                         <input type="text" name="descripcion" id="descripcion" readonly value="{{old('descripcion')}}"

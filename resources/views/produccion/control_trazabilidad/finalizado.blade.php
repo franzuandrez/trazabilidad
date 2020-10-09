@@ -137,7 +137,7 @@
             </li>
             <li class="">
                 <a href="#involucrados" data-toggle="tab" aria-expanded="false">
-                    OPERARIOS INVOLUCRADOS
+                    COLABORADORES INVOLUCRADOS
                 </a>
             </li>
         </ul>

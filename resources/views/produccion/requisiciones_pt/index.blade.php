@@ -21,14 +21,22 @@
                           'titulo'=>'NO. FACTURa'])
                     @endcomponent
                 </th>
-
+                <th>
+                    @component('componentes.column-sort',['modulo'=>'produccion/requisiciones',
+                        'search'=>$search,
+                          'sort'=>$sort,
+                          'sortField'=>$sortField,
+                          'field'=>'cliente_ref_1',
+                          'titulo'=>'Cliente'])
+                    @endcomponent
+                </th>
                 <th>
                     @component('componentes.column-sort',['modulo'=>'produccion/requisiciones',
                         'search'=>$search,
                           'sort'=>$sort,
                           'sortField'=>$sortField,
                           'field'=>'users.nombre',
-                          'titulo'=>'Elaborador'])
+                          'titulo'=>'Responsable'])
                     @endcomponent
                 </th>
                 <th>
@@ -50,6 +58,9 @@
                         </td>
                         <td>
                             {{$operacion->no_requision}}
+                        </td>
+                        <td>
+                            {{$operacion->cliente_ref_1}}
                         </td>
                         <td>
                             {{$operacion->usuario_ingreso->nombre}}
