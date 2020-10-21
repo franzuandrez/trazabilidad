@@ -13,6 +13,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use DB;
+
 class EntregaPTController extends Controller
 {
     //
@@ -25,7 +26,7 @@ class EntregaPTController extends Controller
     public function __construct(
         TrazabilidadRepository $trazabilidad_repository,
         EntregaRepository $entrega_repository,
-        MovimientoRepository  $movimientoRepository
+        MovimientoRepository $movimientoRepository
     )
     {
         $this->middleware('auth');
@@ -134,6 +135,10 @@ class EntregaPTController extends Controller
         $ubicaciones = Sector::actived()
             ->with('bodega')
             ->get();
+
+
+
+
         return view('entregas.recepcion_pt.recepcion', [
             'entrega' => $entrega,
             'ubicaciones' => $ubicaciones
