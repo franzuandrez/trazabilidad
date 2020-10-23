@@ -6,6 +6,7 @@ use App\Bodega;
 use App\Cliente;
 use App\DetalleRequisicionPT;
 use App\Http\tools\Movimientos;
+use App\Producto;
 use App\Repository\OrdenProduccionRepository;
 use App\Repository\RequisicionRepository;
 use App\Requisicion;
@@ -32,7 +33,7 @@ class RequisicionPTController extends Controller
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
         $sortField = $request->get('field') == null ? 'fecha_ingreso' : $request->get('field');
 
-        $operaciones = Requisicion::select('requisicion_encabezado.*', 'detalle_requisicion_pt.*')
+        $operaciones = Requisicion::select('requisicion_encabezado.id as id_requi', 'requisicion_encabezado.*', 'detalle_requisicion_pt.*')
             ->join('users', 'users.id', '=', 'requisicion_encabezado.id_usuario_ingreso')
             ->join('detalle_requisicion_pt', 'detalle_requisicion_pt.id_requisicion', '=', 'requisicion_encabezado.id')
             ->NoDeBaja()
@@ -69,6 +70,11 @@ class RequisicionPTController extends Controller
             'bodegas' => $bodegas,
             'requisicion' => $requisiciones,
         ]);
+    }
+
+    public function show($id)
+    {
+
     }
 
     public function store(Request $request)
@@ -135,30 +141,24 @@ class RequisicionPTController extends Controller
 
 
                     $codigo = $value[2];
+                    $unidad_medida = $value[3];
                     $cantidadEntrante = floatval($value[0]);
                     $producto = ($movimientos->existencia($codigo)->getData());
 
                     if (count($producto) > 0) {
                         $idProducto = $producto[0]->id_producto;
-                        $cantidadDisponible = floatval($producto[0]->total);
-                        $cantidadReservada = 0;
 
-                        if (($cantidadEntrante + $cantidadReservada) <= ($cantidadDisponible)) {
-                            $request = new \Illuminate\Http\Request();
-                            $request->query->add(
-                                [
-                                    'id' => $requisicion->id,
-                                    'cantidad' => $cantidadEntrante,
-                                    'id_producto' => $idProducto
-                                ]
-                            );
-                            $this->reservar($request);
-                        } else {
+                        $request = new \Illuminate\Http\Request();
+                        $request->query->add(
+                            [
+                                'id' => $requisicion->id,
+                                'cantidad' => $cantidadEntrante,
+                                'id_producto' => $idProducto,
+                                'unidad_medida' => $this->unidad_despacho($unidad_medida)
+                            ]
+                        );
+                        $this->reservar($request);
 
-                            $mensaje = 'EL producto ' . $codigo . ' con cantidad ' . $cantidadEntrante . ' excede la existencia actual';
-
-                            array_push($this->productos_no_agregados, $mensaje);
-                        }
                     } else {
                         //CANTIDAD 0
                         $mensaje = 'EL producto ' . $codigo . ' no tiene existencia';
@@ -174,6 +174,18 @@ class RequisicionPTController extends Controller
             ->with('importacion', true);
     }
 
+
+    private function unidad_despacho($unidad_medida)
+    {
+        $unidad_despacho = env('DESPACHAR_SIEMPRE_EN_UNIDADES', '1');
+        if ($unidad_despacho == 1) {
+            return 'UN';
+        } else {
+            return $unidad_medida;
+        }
+
+    }
+
     public
     function reservar(Request $request)
     {
@@ -185,6 +197,7 @@ class RequisicionPTController extends Controller
             $requisicionRepository->setRequisicion(Requisicion::findOrFail($id));
             $requisicionRepository->setIdsProductosAReservar([$request->get('id_producto')]);
             $requisicionRepository->setCantidadesAReservar([$request->get('cantidad')]);
+            $requisicionRepository->setUnidadesMedida([$request->get('unidad_medida')]);
             $reserva = $requisicionRepository->reservar_productos()->first();
             $response = [1, $reserva->id];
         } catch (\Exception $ex) {

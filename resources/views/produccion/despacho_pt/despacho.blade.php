@@ -17,8 +17,10 @@
             Despacho
         @endslot
     @endcomponent
-
-    <form method="post" action="{{route('produccion.despacho.store')}}"  >
+    @if($existenMovimientos)
+        @include('produccion.despacho_pt.movimientos')
+    @endif
+    <form method="post" action="{{route('produccion.despacho.store')}}">
         @csrf
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
@@ -119,16 +121,15 @@
     <script src="{{asset('js/ajax-crud.js')}}"></script>
     <script src="{{asset('js-brc/tools/lectura_codigo.js')}}"></script>
     <script>
-        @if($requisicion->reservas->isEmpty())
+        @if(!$existenMovimientos)
+        @if($requisicion->reservas->isEmpty() )
         $('#spiner-calculando').show();
         setTimeout(function () {
             $('#spiner-calculando').hide();
             window.location.reload();
         }, 1500)
-
+        @endif
         @else
-
-
         @endif
         limpiar();
         $(window).keydown(function (event) {
@@ -143,15 +144,35 @@
             }
         });
 
+        function leer_movimiento(input) {
+            let infoCodigoBarras = descomponerInput(input, false);
+            let id = infoCodigoBarras[1] + infoCodigoBarras[3];
+            let producto = document.getElementById(id);
+            if (producto != null) {
+                marcar_movimiento_leido(id);
+            } else {
+                alert("Producto no valido");
+            }
+        }
+
+        function marcar_movimiento_leido(id) {
+
+            document.getElementById('check-' + id).style.display = 'block';
+            document.getElementById('warning-' + id).style.display = 'none';
+            let habilitar_formulario = Array.prototype.slice.call(document.getElementsByClassName('label-warning')).filter(x => x.style.display != 'none').length === 0;
+
+            document.getElementById('btn_aceptar').disabled = !habilitar_formulario;
+
+        }
+
         function cargarInfoCodigoBarras(input) {
 
 
-            let infoCodigoBarras = descomponerInput(input,false);
+            let infoCodigoBarras = descomponerInput(input, false);
             mostrarInfoCodigoBarras(infoCodigoBarras);
 
 
         }
-
 
 
         function mostrarInfoCodigoBarras(infoCodigoBarras) {
@@ -240,7 +261,7 @@
             let cantidad = parseFloat(document.getElementById('cantidad').value);
 
             let ubicacion = document.getElementById('ubicacion').value;
-            let producto = getProducto(id_producto, lote).filter(e=>e.ubicacion.codigo_barras==ubicacion);
+            let producto = getProducto(id_producto, lote).filter(e => e.ubicacion.codigo_barras == ubicacion);
             if (producto.length == 0) {
                 alert("Producto y lote incorrecto");
             } else {
@@ -384,7 +405,7 @@
 
                             if (posicion_valida == null) {
                                 alert("El producto no se encuentra en esta ubicacion");
-                                document.getElementById('ubicacion').value="";
+                                document.getElementById('ubicacion').value = "";
                                 document.getElementById('ubicacion').focus();
                                 return;
                             }

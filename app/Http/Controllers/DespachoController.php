@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\tools\Movimientos;
 use App\Picking;
 use App\Repository\PickingRepository;
+use App\Sector;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Requisicion;
@@ -74,9 +75,23 @@ class DespachoController extends Controller
             $pickingRepository->setOrdenRequisicion($requisicion);
             $pickingRepository->crear_oden_picking();
             $debeRecalcularseListadoDeLotesADespachar = $pickingRepository->debeRecalcularseReserva();
-
+            $existenMovimientos = false;
+            $movimientos = collect([]);
             if ($debeRecalcularseListadoDeLotesADespachar) {
-                $pickingRepository->recalcularReservas();
+                $movimientos = $pickingRepository->recalcularReservas(true);
+                $existenMovimientos = ($movimientos != null) ? !$movimientos->isEmpty() : false;
+
+                if ($existenMovimientos) {
+                    return view
+                    ('produccion.despacho_pt.despacho',
+                        compact(
+                            'requisicion',
+                            'validarOrdenProductos',
+                            'existenMovimientos',
+                            'movimientos'
+                        )
+                    );
+                }
                 return $this->despachar($id, $request);
             }
 
@@ -91,7 +106,8 @@ class DespachoController extends Controller
                 return view
                 ('produccion.despacho_pt.despacho',
                     compact(
-                        'requisicion', 'validarOrdenProductos'
+                        'requisicion', 'validarOrdenProductos', 'existenMovimientos',
+                        'movimientos'
                     )
                 );
             }
@@ -167,7 +183,7 @@ class DespachoController extends Controller
         $picking->update();
     }
 
-    private function rebajar_inventario(Requisicion  $requisicion)
+    private function rebajar_inventario(Requisicion $requisicion)
     {
         foreach ($requisicion->reservas as $reserva) {
 

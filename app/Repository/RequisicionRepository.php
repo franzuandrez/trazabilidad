@@ -14,6 +14,7 @@ use DB;
  * @property string $no_orden_requisicion
  * @property string $no_orden_produccion
  * @property array $cantidades_a_reservar
+ * @property array $unidades_medida;
  * @property array $ids_productos_a_reservar
  * @property Requisicion $requisicion
  **/
@@ -29,6 +30,24 @@ class RequisicionRepository
     private $no_orden_produccion = '';
     private $requisicion = null;
     private $cantidades_a_reservar = [];
+    private $unidades_medida = [];
+
+    /**
+     * @return array
+     */
+    public function getUnidadesMedida(): array
+    {
+        return $this->unidades_medida;
+    }
+
+    /**
+     * @param array $unidades_medida
+     */
+    public function setUnidadesMedida(array $unidades_medida): void
+    {
+        $this->unidades_medida = $unidades_medida;
+    }
+
     private $ids_productos_a_reservar = [];
 
     public function setOrdenRequisicion($no_orden_requisicion)
@@ -190,6 +209,7 @@ class RequisicionRepository
                 $requisicion_detalle->id_producto = $id_producto;
                 $requisicion_detalle->cantidad = $this->cantidades_a_reservar[$key];
                 $requisicion_detalle->estado = 'P';
+                $requisicion_detalle->unidad_medida = count($this->unidades_medida) == 0 ? '' : $this->unidades_medida[$key];
                 $requisicion_detalle->save();
                 $reservas->push($requisicion_detalle);
 

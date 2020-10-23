@@ -109,7 +109,6 @@
                         <td>
                             {{$detalle->producto->descripcion}}
                         </td>
-
                     </tr>
                 @endforeach
                 </tbody>

@@ -22,7 +22,7 @@ class ExistenciasRepository
      * por el lote proximo a vencer, agrupado por bodegas.
      */
 
-    public function existencia($codigo_producto)
+    public function existencia($codigo_producto, $ubicacion = null)
     {
 
 
@@ -40,8 +40,13 @@ class ExistenciasRepository
                 'movimientos.ubicacion',
                 DB::raw('sum(cantidad * factor) as total'))
             ->whereIn('id_producto', $productos)
-            ->where('movimientos.observaciones','=','')
-            ->where('movimientos.id_sector','!=',7)
+            ->where('movimientos.observaciones', '=', '')
+            ->where('movimientos.id_sector', '!=', 7);
+
+        if ($ubicacion != null) {
+            $existencias = $existencias->where('movimientos.ubicacion', $ubicacion);
+        }
+        $existencias = $existencias
             ->groupBy('id_producto')
             ->groupBy('lote')
             ->groupBy('ubicacion')

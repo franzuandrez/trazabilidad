@@ -13,7 +13,7 @@ function descomponerString(input, es_dun_13 = true) {
     let codigo, fecha_vencimiento, lote;
 
     let max_length = es_dun_13 ? 13 : 14;
-    console.log(max_length);
+
     if (codigoBarras.length <= max_length) {
         codigo = codigoBarras;
         fecha_vencimiento = "";

@@ -273,6 +273,7 @@ Route::get('recepcion/kardex', 'MovimientoController@index')->name('movimientos.
 Route::get('recepcion/kardex/reporte', 'MovimientoController@reporte_excel')->name('movimientos.bodegas.excel');
 Route::get('movimientos/existencia/productos', 'MovimientoController@existencia')->name('movimientos.existencia.productos');
 Route::get('movimientos/kardex', 'MovimientoController@kardex')->name('movimientos.kardex.productos');
+Route::post('movimientos', 'MovimientoController@store');
 
 
 Route::get('control/verificacion_materias_chao', 'VerificacionMateriasChaoController@index')->name('verificacion_materias_chao.index');
@@ -613,6 +614,7 @@ Route::get('sopas/solucion/{id}', 'SolucionSopasController@show')->name('solucio
 
 Route::get('produccion/requisicion_pt', 'RequisicionPTController@index')->name('requisicion_pt.index');
 Route::get('produccion/requisicion_pt/create', 'RequisicionPTController@create')->name('requisicion_pt.create');
+Route::get('produccion/requisicion_pt/{id}', 'RequisicionPTController@show')->name('requisicion_pt.show');
 Route::post('produccion/requisicion_pt/create', 'RequisicionPTController@store')->name('requisicion_pt.store');
 Route::post('produccion/requisicion_pt/importar', 'RequisicionPTController@importar')->name('requisicion_pt.importar');
 
@@ -621,3 +623,5 @@ Route::get('produccion/despacho/{id}/despachar', 'DespachoController@despachar')
 Route::get('produccion/despacho/{id}', 'DespachoController@show')->name('produccion.despacho.show');
 Route::post('produccion/despacho/leer/{id_reserva}', 'DespachoController@leer')->name('produccion.despacho.leer');
 Route::post('produccion/despacho/create', 'DespachoController@store')->name('produccion.despacho.store');
+
+
