@@ -219,6 +219,7 @@ class PickingRepository
         try {
             $this->borrarReservasNoLeidas();
             $result = $this->generarListadoLotesDespachar($es_producto_terminado);
+
         } catch (\Exception $ex) {
             abort(500);
         }
@@ -226,7 +227,7 @@ class PickingRepository
         return $result;
     }
 
-    private function borrarReservasNoLeidas()
+    public function borrarReservasNoLeidas()
     {
         $id_reservas_no_leidas = $this->getReservasNoLeidas()
             ->pluck('id_reserva')

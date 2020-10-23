@@ -82,6 +82,7 @@ class DespachoController extends Controller
                 $existenMovimientos = ($movimientos != null) ? !$movimientos->isEmpty() : false;
 
                 if ($existenMovimientos) {
+                    $pickingRepository->borrarReservasNoLeidas();
                     return view
                     ('produccion.despacho_pt.despacho',
                         compact(
