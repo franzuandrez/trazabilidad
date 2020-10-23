@@ -213,15 +213,17 @@ class PickingRepository
         return $this->getOrdenRequisicion()->reservas->isEmpty();
     }
 
-    public function recalcularReservas()
+    public function recalcularReservas($es_producto_terminado = false)
     {
-
+        $result = null;
         try {
             $this->borrarReservasNoLeidas();
-            $this->generarListadoLotesDespachar();
+            $result = $this->generarListadoLotesDespachar($es_producto_terminado);
         } catch (\Exception $ex) {
-
+            abort(500);
         }
+
+        return $result;
     }
 
     private function borrarReservasNoLeidas()
@@ -261,7 +263,18 @@ class PickingRepository
 
     private function generarProductoADespachar($lotesADespachar, $cantidadSolicitada, $detalle_requisicion)
     {
+
+        $total_en_existencia = collect($lotesADespachar)->sum('total');
+        if ($total_en_existencia < $cantidadSolicitada) {
+            $caja = clone $detalle_requisicion;
+            $caja->cantidad = 1;
+            return [
+                "existencia" => $total_en_existencia,
+                "detalle_requisicion" => $detalle_requisicion,
+                'proximos_lotes' => collect($this->getLotesADespachar(($caja), '4140754842000031'))];
+        }
         foreach ($lotesADespachar as $key => $loteADespachar) {
+
             $key = $this->descomponerKeyLoteUbicacion($key);
             $codigo_ubicacion = $key[self::POSICION_UBICACION];
             $no_lote = $key[self::POSICION_LOTE];
@@ -270,6 +283,7 @@ class PickingRepository
 
             $reserva = $this->setValuesToReservaPicking($detalle_requisicion, $no_lote, $loteADespachar['fecha_vencimiento'], $ubicacion);
             $esLoteConsumido = $cantidadSolicitada >= $loteADespachar['total'];
+
             if ($esLoteConsumido) {
                 $reserva->cantidad = $loteADespachar['total'];
                 $reserva->save();
@@ -283,30 +297,84 @@ class PickingRepository
             }
 
         }
+
+        return null;
     }
 
-    private function generarListadoLotesDespachar()
+    private function generarListadoLotesDespachar($es_producto_terminado = false)
     {
-        $reservas_misma_requisicion = $this->getReservasAgrupadasPorProducto();
-        $detalles_requisicion = $this->getDetalleRequisicionAgrupadoPorProducto();
 
-
-        foreach ($detalles_requisicion as $det_requi) {
-
-            $cantidadSolicitada = $this->getCantidadSolicitada($det_requi, $reservas_misma_requisicion);
-            $lotesADespachar = $this->getLotesADespachar($det_requi);
-
-            $hayLotesDisponibles = !empty($lotesADespachar);
-            if ($hayLotesDisponibles) {
-                $this->generarProductoADespachar($lotesADespachar, $cantidadSolicitada, $det_requi);
-            } else {
-                return redirect()->route('produccion.picking.index')
-                    ->withErrors(['No hay lotes disponibles']);
+        if (!$es_producto_terminado) {
+            $reservas_misma_requisicion = $this->getReservasAgrupadasPorProducto();
+            $detalles_requisicion = $this->getDetalleRequisicionAgrupadoPorProducto();
+            $this->generarListadoLotesDespacharAux($reservas_misma_requisicion, $detalles_requisicion);
+            return null;
+        } else {
+            $reservas_misma_requisicion = $this->getReservasAgrupadasPorProducto();
+            $detalles_requisicion = $this->getDetalleRequisicionAgrupadoPorProducto();
+            $unidades = collect([]);
+            $cajas = collect([]);
+            foreach ($detalles_requisicion as $det_requi) {
+                if ($det_requi->unidad_medida == 'UN') {
+                    $result = $this->despachar_pt_en_unidades($det_requi);
+                    $unidades->push($result['unidad']);
+                    $cajas->push($result['caja']);
+                } else {
+                    $cajas->push($this->despachar_pt_en_caja($det_requi));
+                }
             }
-
+            $movimientos_unidades = $this
+                ->generarListadoLotesDespacharAux($unidades, $reservas_misma_requisicion, '4140754842000208');
+            $this->generarListadoLotesDespacharAux($cajas, $reservas_misma_requisicion, '4140754842000031');
+            return $movimientos_unidades;
         }
 
 
+    }
+
+    private function despachar_pt_en_caja($det_requi)
+    {
+        $caja = clone $det_requi;
+        $caja->cantidad = intval($det_requi->cantidad);
+        $caja->unidad_medida = 'CA';
+        return $caja;
+    }
+
+    private function despachar_pt_en_unidades($det_requi)
+    {
+        $caja = clone $det_requi;
+        $caja->cantidad = intval($det_requi->cantidad / $det_requi->producto->cantidad_unidades);
+        $caja->unidad_medida = 'CA';
+
+        $unidad = clone $det_requi;
+        $unidad->cantidad = intval($det_requi->cantidad % $det_requi->producto->cantidad_unidades);
+        $unidad->unidad_medida = 'UN';
+
+        return [
+            'caja' => $caja,
+            'unidad' => $unidad
+        ];
+    }
+
+    public function generarListadoLotesDespacharAux($detalles_requisicion, $reservas_misma_requisicion, $ubicacion = null)
+    {
+
+        $movimientos = collect([]);
+        foreach ($detalles_requisicion as $det_requi) {
+            $cantidadSolicitada = $this->getCantidadSolicitada($det_requi, $reservas_misma_requisicion);
+            $lotesADespachar = $this->getLotesADespachar($det_requi, $ubicacion);
+            $hayLotesDisponibles = !empty($lotesADespachar);
+            if ($hayLotesDisponibles) {
+                $result = $this->generarProductoADespachar($lotesADespachar, $cantidadSolicitada, $det_requi);
+                if ($result != null) {
+                    $caja = clone $det_requi;
+                    $caja->cantidad = 1;
+                    $movimientos->push($result);
+                }
+            }
+        }
+
+        return $movimientos;
     }
 
     /**
@@ -333,6 +401,7 @@ class PickingRepository
                 'requisicion_detalle.orden_produccion',
                 'requisicion_detalle.id_producto',
                 'requisicion_detalle.estado',
+                'requisicion_detalle.unidad_medida',
                 \DB::raw('sum(cantidad) as cantidad'))
             ->groupBy('id_producto')
             ->get();
@@ -355,22 +424,22 @@ class PickingRepository
         return $totalEnReserva;
     }
 
-    private function getLotesConInventarioDisponible($codigo_barras_producto)
+    private function getLotesConInventarioDisponible($codigo_barras_producto, $ubicacion = null)
     {
 
         $existenciasRepository = new ExistenciasRepository();
         $lotes = $existenciasRepository
-            ->existencia($codigo_barras_producto)
+            ->existencia($codigo_barras_producto, $ubicacion)
             ->map
             ->only(['total', 'lote', 'fecha_vencimiento', 'ubicacion']);
 
         return $lotes;
     }
 
-    private function getLotesADespachar(RequisicionDetalle $detalle_requisicion)
+    private function getLotesADespachar(RequisicionDetalle $detalle_requisicion, $ubicacion = null)
     {
         $lotesConInventarioDisponible = $this
-            ->getLotesConInventarioDisponible($detalle_requisicion->producto->codigo_barras);
+            ->getLotesConInventarioDisponible($detalle_requisicion->producto->codigo_barras, $ubicacion);
 
 
         $lotesSinReservas = [];
@@ -390,7 +459,7 @@ class PickingRepository
                     $total_previo = $lotesSinReservas[$keyFormedByLoteAndUbicacion]['total'];
                 }
                 $lotesSinReservas[$keyFormedByLoteAndUbicacion] =
-                    $this->getLoteSinReserva($total_previo + $total_disponible, $fecha_vencimiento);
+                    $this->getLoteSinReserva($total_previo + $total_disponible, $fecha_vencimiento, $inventario['lote'], $inventario['ubicacion']);
             }
 
         }
@@ -398,11 +467,13 @@ class PickingRepository
         return $lotesSinReservas;
     }
 
-    private function getLoteSinReserva($total, $fecha_vencimiento)
+    private function getLoteSinReserva($total, $fecha_vencimiento, $lote, $ubicacion)
     {
         return [
             'total' => $total,
-            'fecha_vencimiento' => $fecha_vencimiento
+            'fecha_vencimiento' => $fecha_vencimiento,
+            'lote' => $lote,
+            'ubicacion' => $ubicacion
         ];
     }
 

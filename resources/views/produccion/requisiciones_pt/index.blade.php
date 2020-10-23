@@ -54,7 +54,7 @@
                 @foreach($operaciones as $operacion)
                     <tr>
                         <td>
-                            <input type="radio" name="id_item" value="{{$operacion->id}}">
+                            <input type="radio" name="id_item" value="{{$operacion->id_requi}}">
                         </td>
                         <td>
                             {{$operacion->no_requision}}

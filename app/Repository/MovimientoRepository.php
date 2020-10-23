@@ -239,7 +239,7 @@ class MovimientoRepository
     }
 
 
-    private function generar_movimiento($tipo_movimiento)
+    public function generar_movimiento($tipo_movimiento)
     {
         $movimiento = new Movimiento();
         $movimiento->numero_documento = $this->numero_documento;

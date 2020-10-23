@@ -263,13 +263,13 @@
         }
 
 
-        function cargarProducto(producto, cantidad, id) {
+        function cargarProducto(producto, cantidad, id,unidad_medida) {
 
             let row = ` <tr id="prod-${id}">
                     <td>${cantidad}</td>
                     <td>${producto.codigo_barras}</td>
                     <td>${producto.descripcion}</td>
-                    <td>${producto.unidad_medida}</td>
+                    <td>${unidad_medida}</td>
                     </tr>    `;
 
             $('#body-detalles').append(row);
@@ -295,7 +295,7 @@
                     console.log(req[0].detalle_pt);
 
                     req[0].detalle.forEach(function (e) {
-                        cargarProducto(e.producto, e.cantidad, e.id);
+                        cargarProducto(e.producto, e.cantidad, e.id,e.unidad_medida);
                     });
                 }
             }

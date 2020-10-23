@@ -7,6 +7,7 @@ use App\Http\tools\Movimientos;
 use App\Movimiento;
 use App\Producto;
 use App\Recepcion;
+use App\Repository\MovimientoRepository;
 use App\RMIDetalle;
 use App\Sector;
 use App\TipoMovimiento;
@@ -27,12 +28,41 @@ class MovimientoController extends Controller
     private $producto;
     private $start;
     private $end;
+    private $movimientoRepository;
 
-    public function __construct()
+    public function __construct(MovimientoRepository $movimientoRepository)
     {
         $this->middleware('auth');
+        $this->movimientoRepository = $movimientoRepository;
     }
 
+
+    public function store(Request $request)
+    {
+
+
+        foreach ($request->id_producto as $key => $item) {
+            $this->movimientoRepository->setNoDocumento('prueba');
+            $this->movimientoRepository->setUsuarioAutoriza(\Auth::getUser());
+            $this->movimientoRepository->setTipoDocumento('despacho');
+            $this->movimientoRepository->setProducto(Producto::find($item));
+            $this->movimientoRepository->setFechaVencimiento($request->get('fecha_vencimiento')[$key]);
+            $this->movimientoRepository->setLote($request->get('lote')[$key]);
+            $this->movimientoRepository->setSector(Sector::whereCodigoBarras($request->get('bodega_saliente')[$key])->first());
+            $this->movimientoRepository->setCantidad($request->get('cantidad_saliente')[$key]);
+            $this->movimientoRepository->salida_producto();
+            $this->movimientoRepository->setSector(Sector::whereCodigoBarras($request->get('bodega_entrante')[$key])->first());
+            $this->movimientoRepository->setCantidad($request->get('cantidad_entrante')[$key]);
+            $this->movimientoRepository->ingreso_producto();
+        }
+
+        return redirect()->route('produccion.despacho.despachar', $request->get('id_despacho'));
+
+
+
+
+
+    }
 
     private function setFiltros($request)
     {

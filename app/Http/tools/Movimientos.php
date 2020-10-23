@@ -110,7 +110,7 @@ class Movimientos
     }
 
 
-    public function existencia($search)
+    public function existencia($search, $ubicacion = null)
     {
 
 
@@ -126,8 +126,12 @@ class Movimientos
                 'movimientos.ubicacion',
                 'movimientos.fecha_vencimiento',
                 DB::raw('sum(cantidad * factor) as total'))
-            ->whereIn('id_producto', $productos)
-            ->where('movimientos.observaciones', '=', '')
+            ->whereIn('id_producto', $productos);
+
+        if ($ubicacion != null) {
+            $existencias = $existencias->where('movimientos.ubicacion', $ubicacion);
+        }
+        $existencias = $existencias->where('movimientos.observaciones', '=', '')
             ->groupBy('id_producto')
             ->groupBy('lote')
             ->orderBy('movimientos.fecha_vencimiento', 'asc')
