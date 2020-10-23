@@ -266,6 +266,7 @@ class PickingRepository
     {
 
         $total_en_existencia = collect($lotesADespachar)->sum('total');
+
         if ($total_en_existencia < $cantidadSolicitada) {
             $caja = clone $detalle_requisicion;
             $caja->cantidad = 1;
@@ -308,7 +309,8 @@ class PickingRepository
         if (!$es_producto_terminado) {
             $reservas_misma_requisicion = $this->getReservasAgrupadasPorProducto();
             $detalles_requisicion = $this->getDetalleRequisicionAgrupadoPorProducto();
-            $this->generarListadoLotesDespacharAux($reservas_misma_requisicion, $detalles_requisicion);
+
+            $this->generarListadoLotesDespacharAux($detalles_requisicion, $reservas_misma_requisicion);
             return null;
         } else {
             $reservas_misma_requisicion = $this->getReservasAgrupadasPorProducto();
@@ -361,6 +363,7 @@ class PickingRepository
     {
 
         $movimientos = collect([]);
+
         foreach ($detalles_requisicion as $det_requi) {
             $cantidadSolicitada = $this->getCantidadSolicitada($det_requi, $reservas_misma_requisicion);
             $lotesADespachar = $this->getLotesADespachar($det_requi, $ubicacion);
