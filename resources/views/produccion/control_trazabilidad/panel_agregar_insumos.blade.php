@@ -15,6 +15,7 @@
             <input type="text"
                    name="codigo_producto_mp"
                    id="codigo_producto_mp"
+                   data-index="4"
                    onkeydown="if(event.keyCode==13)buscar_producto_mp_pp()"
                    placeholder="CODIGO PRODUCTO"
                    class="form-control">
