@@ -145,6 +145,7 @@
             <input type="text"
                    name="lote_produccion"
                    id="lote_produccion"
+                   data-index="1"
                    readonly
                    class="form-control">
         </div>
@@ -156,6 +157,7 @@
             <input type="text"
                    name="turno"
                    id="turno"
+                   data-index="2"
                    readonly
                    class="form-control">
         </div>
@@ -167,6 +169,7 @@
             <input type="number"
                    name="cantidad_programada"
                    id="cantidad_programada"
+                   data-index="3"
                    readonly
                    class="form-control">
         </div>

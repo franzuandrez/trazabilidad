@@ -91,6 +91,7 @@
             <input type="text"
                    name="lote_produccion"
                    id="lote_produccion"
+                   data-index="1"
                    value="{{$control->lote}}"
                    {{$control->lote!=''?'readonly':''}}
                    class="form-control">
@@ -103,6 +104,7 @@
             <input type="text"
                    name="turno"
                    id="turno"
+                   data-index="2"
                    {{$control->id_turno!=''?'readonly':''}}
                    value="{{$control->id_turno}}"
                    class="form-control">
@@ -115,6 +117,7 @@
             <input type="text"
                    name="cantidad_programada"
                    id="cantidad_programada"
+                   data-index="3"
                    value="{{$control->cantidad_programada}}"
                    {{$control->cantidad_programada!=''?'readonly':''}}
                    class="form-control">
