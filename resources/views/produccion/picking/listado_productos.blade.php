@@ -55,7 +55,7 @@
                     </td>
                     <td>
                         <input type="hidden" name="cantidad[]" value="{{$reserva->cantidad}}">
-                        {{$reserva->cantidad}}
+                        {{ number_format(($reserva->cantidad),3,'.',',') }}
                     </td>
                     <td>
                         <input type="hidden" name="ubicacion[]" value="{{$reserva->ubicacion}}">
