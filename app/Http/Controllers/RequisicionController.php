@@ -98,6 +98,8 @@ class RequisicionController extends Controller
 
             $results = $reader->noHeading()->get();
             $results = $results->slice(1);
+
+
             foreach ($results as $key => $value) {
 
                 $codigo = $value[0];
@@ -108,24 +110,21 @@ class RequisicionController extends Controller
                 if (count($producto) > 0) {
                     $idProducto = $producto[0]->id_producto;
                     $cantidadDisponible = floatval($producto[0]->total);
+
                     $cantidadReservada = floatval(RequisicionDetalle::select('cantidad')
                         ->where('id_requisicion_encabezado', $id_requisicion)
                         ->where('id_producto', $idProducto)
                         ->sum('cantidad'));
 
                     if (($cantidadEntrante + $cantidadReservada) <= ($cantidadDisponible)) {
-                        $request = new \Illuminate\Http\Request();
-                        $request->query->add(
-                            [
-                                'id' => $id_requisicion,
-                                'cantidad' => $cantidadEntrante,
-                                'id_producto' => $idProducto
-                            ]
+                        $this->reservar_aux(
+                            $id_requisicion,
+                            $idProducto,
+                            $cantidadEntrante
                         );
-                        $this->reservar($request);
                     } else {
                         //CANTIDAD INSUFICIENTE
-                        $mensaje = 'EL producto ' . $codigo . ' con cantidad ' . $cantidadEntrante . ' excede la existencia actual';
+                        $mensaje = 'EL producto ' . $codigo . ' tiene un excedente de ' . ($cantidadEntrante - $cantidadDisponible);
                         array_push($this->productos_no_agregados, $mensaje);
                     }
                 } else {
@@ -183,12 +182,23 @@ class RequisicionController extends Controller
     {
 
 
+        return $this->reservar_aux(
+            $request->get('id'),
+            $request->get('id_producto'),
+            $request->get('cantidad')
+        );
+
+
+    }
+
+    private function reservar_aux($id, $id_producto, $cantidad)
+    {
         try {
-            $id = $request->get('id');
+
             $requisicionRepository = new RequisicionRepository();
             $requisicionRepository->setRequisicion(Requisicion::findOrFail($id));
-            $requisicionRepository->setIdsProductosAReservar([$request->get('id_producto')]);
-            $requisicionRepository->setCantidadesAReservar([$request->get('cantidad')]);
+            $requisicionRepository->setIdsProductosAReservar([$id_producto]);
+            $requisicionRepository->setCantidadesAReservar([$cantidad]);
             $reserva = $requisicionRepository->reservar_productos()->first();
 
             $response = [1, $reserva->id];
@@ -198,8 +208,6 @@ class RequisicionController extends Controller
 
 
         return $response;
-
-
     }
 
 

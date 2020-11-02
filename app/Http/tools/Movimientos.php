@@ -133,7 +133,6 @@ class Movimientos
         }
         $existencias = $existencias->where('movimientos.observaciones', '=', '')
             ->groupBy('id_producto')
-            ->groupBy('lote')
             ->orderBy('movimientos.fecha_vencimiento', 'asc')
             ->with('producto')
             ->with('bodega')
