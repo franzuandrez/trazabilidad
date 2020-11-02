@@ -449,7 +449,7 @@
                         <input type="hidden" name="id_producto[]"   value="${producto.id_producto}">
                         <input type="hidden" name="cantidad[]"   value="${cantidad}">
                     </td>
-                    <td>${cantidad}</td>
+                    <td>${parseFloat(cantidad).toLocaleString('en', {minimumFractionDigits: 3,maximumFractionDigits:3})}</td>
                     <td>${producto.codigo_barras}</td>
                     <td>${producto.descripcion}</td>
                     <td>${producto.unidad_medida}</td>
