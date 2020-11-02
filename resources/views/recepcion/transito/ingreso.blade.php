@@ -455,7 +455,7 @@
             span.classList.remove('hidden');
             const cantidad_recepcionada = parseFloat(row.children[3].innerText);
             row.children[5].innerHTML = "<input name='imprimir[]' value='" + impresiones + "' type='hidden'  >" + impresiones + " ";
-            row.children[4].innerHTML = parseFloat(cantidad).toLocaleString('en') + "<input name='cantidad_entrante[]' type='hidden' value='" + cantidad + "'><input name='diferencia[]' type='hidden' value='" + (cantidad_recepcionada - cantidad) + "'> ";
+            row.children[4].innerHTML = parseFloat(cantidad).toLocaleString('en', {minimumFractionDigits: 3,maximumFractionDigits:3}) + "<input name='cantidad_entrante[]' type='hidden' value='" + cantidad + "'><input name='diferencia[]' type='hidden' value='" + (cantidad_recepcionada - cantidad) + "'> ";
             productos_agregados.push(idMovimiento);
         }
 
