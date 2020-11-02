@@ -220,8 +220,8 @@
                     <th>TIEMPO EFECTIVO</th>
                     <th>ALCANCE PRESIÓN</th>
                     <th>TEMPERATURA</th>
-                    <th>OBSERVACIONES</th>
                     <th>PRECOCEDORA</th>
+                    <th>OBSERVACIONES</th>
                 </tr>
                 </thead>
                 <tbody>
