@@ -255,7 +255,7 @@ class PickingController extends Controller
                 $reserva->cantidad,
                 $requisicion->no_orden_produccion,
                 Auth::user(),
-               'requi',
+               'REQUISICION',
                 $requisicion->no_requision
             );
 

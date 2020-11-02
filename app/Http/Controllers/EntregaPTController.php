@@ -137,8 +137,6 @@ class EntregaPTController extends Controller
             ->get();
 
 
-
-
         return view('entregas.recepcion_pt.recepcion', [
             'entrega' => $entrega,
             'ubicaciones' => $ubicaciones
@@ -168,6 +166,7 @@ class EntregaPTController extends Controller
             $this->movimiento_repository->setLotes($lotes);
             $this->movimiento_repository->setIdsUbicaciones($ubicaciones);
             $this->movimiento_repository->setNoDocumento($entrega->id);
+            $this->movimiento_repository->setTipoDocumento('RECEPCION_PT');
             $this->movimiento_repository->ubicarProductos();
 
             DB::commit();
