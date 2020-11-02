@@ -59,9 +59,6 @@ class MovimientoController extends Controller
         return redirect()->route('produccion.despacho.despachar', $request->get('id_despacho'));
 
 
-
-
-
     }
 
     private function setFiltros($request)
@@ -86,6 +83,7 @@ class MovimientoController extends Controller
         $filtro = $request->get('filtro') == null ? '2' : $request->get('filtro');
         $bodegas = Sector::select('id_sector as id', 'descripcion as descripcion')
             ->actived()
+            ->where('id_bodega', '1')
             ->get();
         $transito = $this->producto_en_transito($filtro);
 
@@ -390,7 +388,10 @@ class MovimientoController extends Controller
         }
 
 
-        $ubicaciones = Sector::select('id_sector as id', 'descripcion')->actived()->get();
+        $ubicaciones = Sector::select('id_sector as id', 'descripcion')
+            ->where('id_bodega', '1')
+            ->actived()
+            ->get();
         if ($request->ajax()) {
 
             return view('recepcion.kardex_detallado.index',

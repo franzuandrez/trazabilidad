@@ -150,8 +150,7 @@
                                    value="{{$mov->fecha_vencimiento->format('Y-m-d')}}">
                         </td>
                         <td>
-                            {{$mov->total }}
-
+                            {{ number_format(($mov->total),3,'.',',') }}
                         </td>
                         <td>
                             <input type="hidden" name="cantidad_entrante[]" value="0">
@@ -268,7 +267,7 @@
                     .filter(function (e) {
                         return !productos_agregados.includes(e.id_rmi_detalle.toString())
                     })
-                    .filter(mov => mov.producto.descripcion.trim().match(regexp) || mov.producto.codigo_barras.trim() == input.value.trim());
+                    .filter(mov => mov.producto.descripcion.trim().match(regexp) || mov.producto.codigo_barras.trim() == input.value.trim() || mov.producto.codigo_interno.toUpperCase().trim() == input.value.trim().toUpperCase());
                 let cantidad_matches = productos.length;
                 let noexisteproducto = cantidad_matches == 0;
                 let no_es_codigo_estandar = input.value < 13;
@@ -309,7 +308,7 @@
                 movimientos = getMovimientos()
                     .filter(function (e) {
                         return !productos_agregados.includes(e.id_rmi_detalle.toString())
-                    }).filter(mov => mov.producto.descripcion.trim().match(regexp) || mov.producto.codigo_barras.trim() == search.trim());
+                    }).filter(mov => mov.producto.descripcion.trim().match(regexp) || mov.producto.codigo_barras.trim() == search.trim() || mov.producto.codigo_interno.trim().toUpperCase() == search.trim().toUpperCase());
             }
 
             let row = '';
@@ -390,7 +389,7 @@
                 document.getElementById('lote').readOnly = true;
                 producto = mov.producto;
 
-                if (producto.codigo_barras.toUpperCase() == codigo.toUpperCase() || producto.descripcion.toUpperCase() == codigo.toUpperCase()) {
+                if (producto.codigo_barras.toUpperCase() == codigo.toUpperCase() || producto.descripcion.toUpperCase() == codigo.toUpperCase() || producto.codigo_interno.toUpperCase() == codigo.toUpperCase()) {
                     document.getElementById('descripcion').value = producto.descripcion;
                     document.getElementById('lote').value = lote;
                     document.getElementById('id_movimiento').value = mov.id_rmi_detalle;
@@ -456,7 +455,7 @@
             span.classList.remove('hidden');
             const cantidad_recepcionada = parseFloat(row.children[3].innerText);
             row.children[5].innerHTML = "<input name='imprimir[]' value='" + impresiones + "' type='hidden'  >" + impresiones + " ";
-            row.children[4].innerHTML = cantidad + "<input name='cantidad_entrante[]' type='hidden' value='" + cantidad + "'><input name='diferencia[]' type='hidden' value='" + (cantidad_recepcionada - cantidad) + "'> ";
+            row.children[4].innerHTML = parseFloat(cantidad).toLocaleString('en') + "<input name='cantidad_entrante[]' type='hidden' value='" + cantidad + "'><input name='diferencia[]' type='hidden' value='" + (cantidad_recepcionada - cantidad) + "'> ";
             productos_agregados.push(idMovimiento);
         }
 

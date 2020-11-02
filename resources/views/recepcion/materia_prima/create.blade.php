@@ -773,7 +773,7 @@
                         `<tr class="row-producto-added" id='${id_producto.val()}-${lote.val().toUpperCase()}'>
                             <td><button onclick=removeFromTable(this) type="button" class="btn btn-warning">x</button></td>
                             <td><input type="hidden" name="descripcion_producto[]" value="${nombre_producto.val()}" > <input type="hidden" value='${id_producto.val()}' name=id_producto[]>${nombre_producto.val()}</td>
-                            <td><input type="hidden" value='${cantidad.val()}' name=cantidad[]>${cantidad.val()}</td>
+                            <td><input type="hidden" value='${cantidad.val()}' name=cantidad[]>${parseFloat( cantidad.val()).toLocaleString('en')}</td>
                             <td ><input type="hidden" value ='${lote.val().toUpperCase()}'  name=no_lote[] >${lote.val().toUpperCase()}</td>
                             <td ><input type="hidden" value ='${moment(fecha.val(), formato).format('Y-MM-DD')}'  name=fecha_vencimiento[] >${fecha.val()}</td>
                             </tr>`;
