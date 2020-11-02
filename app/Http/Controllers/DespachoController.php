@@ -197,7 +197,7 @@ class DespachoController extends Controller
                 $reserva->cantidad,
                 $requisicion->no_requision,
                 Auth::user(),
-                'DES'
+                'DESPACHO'
             );
 
         }

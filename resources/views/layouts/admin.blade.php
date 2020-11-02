@@ -525,6 +525,24 @@
                     </li>
                 </ul>
             @endcan
+
+            @can('reportes')
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" style="background-color: #01579B;  color: #fff;">Reportes
+                            <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            @can('trazabilidad_hacia_atras')
+                                <li>
+                                    <a href="{{url('operaciones/consultas/trazabilidad')}}"><i class="fa fa-map"></i>
+                                        Trazabilidad Hacia Atras
+                                    </a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                </ul>
+            @endcan
             @can('configuraciones')
                 <ul class="nav navbar-nav">
                     <li class="dropdown">

@@ -34,7 +34,7 @@
 
 
     <div id="content">
-        @include('operaciones.trazabilidad.ajax')
+        @include('operaciones.trazabilidad.ajax_second')
     </div>
 
 
@@ -42,4 +42,5 @@
 
 @section('scripts')
     <script src="{{asset('js/ajax-crud.js')}}"></script>
+    <script src="{{asset('js-brc/generico/index.js')}}"></script>
 @endsection

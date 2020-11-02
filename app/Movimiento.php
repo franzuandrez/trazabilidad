@@ -105,6 +105,7 @@ class Movimiento extends Model
     public $dates = [
         'fecha_hora_movimiento'
     ];
+
     public function producto()
     {
 
@@ -113,6 +114,12 @@ class Movimiento extends Model
 
 
     public function usuario()
+    {
+
+        return $this->belongsTo('App\User', 'usuario');
+    }
+
+    public function responsable()
     {
 
         return $this->belongsTo('App\User', 'usuario');

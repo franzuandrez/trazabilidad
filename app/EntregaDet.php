@@ -19,4 +19,9 @@ class EntregaDet extends Model
     {
         return $this->belongsTo(Operacion::class, 'id_control', 'id_control');
     }
+
+    public function entrega_pt_enc()
+    {
+        return $this->belongsTo(EntregaEnc::class,'id_enc','id');
+    }
 }

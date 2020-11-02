@@ -358,7 +358,7 @@ class RecepcionRepository
                     ->setUsuarioAutoriza(Auth::user())
                     ->setFechaVencimiento($rmi_detalle->fecha_vencimiento)
                     ->setObservaciones($this->observaciones)
-                    ->setTipoDocumento('mp')
+                    ->setTipoDocumento('RECEPCION')
                     ->setNoDocumento($rmi_detalle->rmi_encabezado->documento)
                     ->setCantidad($diferencias[$key]);
                 $movimientosRepository->ingresar_bodega_desecho();
