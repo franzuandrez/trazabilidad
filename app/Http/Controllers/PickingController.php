@@ -30,11 +30,17 @@ class PickingController extends Controller
         $search = $request->get('search') == null ? '' : $request->get('search');
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
         $sortField = $request->get('field') == null ? 'fecha_ingreso' : $request->get('field');
+        $id_estado = $request->get('id_estado') == null ? '0' : $request->get('id_estado');
 
         $requisiciones_pendientes = Requisicion::select('requisicion_encabezado.*')
             ->join('users', 'users.id', '=', 'requisicion_encabezado.id_usuario_ingreso')
-            ->NoDeBaja()
-            ->NoDespachada()
+            ->NoDeBaja();
+        if ($id_estado == 0) {
+            $requisiciones_pendientes = $requisiciones_pendientes->NoDespachada();
+        } else {
+            $requisiciones_pendientes = $requisiciones_pendientes->Despachada();
+        }
+        $requisiciones_pendientes = $requisiciones_pendientes
             ->esMateriaPrima()
             ->where(function ($query) use ($search) {
                 $query->where('requisicion_encabezado.no_orden_produccion', 'LIKE', '%' . $search . '%')
@@ -48,11 +54,11 @@ class PickingController extends Controller
         if ($request->ajax()) {
 
             return view('produccion.picking.index',
-                compact('requisiciones_pendientes', 'search', 'sort', 'sortField'));
+                compact('requisiciones_pendientes', 'search', 'sort', 'sortField','id_estado'));
         } else {
 
             return view('produccion.picking.ajax',
-                compact('requisiciones_pendientes', 'search', 'sort', 'sortField'));
+                compact('requisiciones_pendientes', 'search', 'sort', 'sortField','id_estado'));
         }
 
 
@@ -255,7 +261,7 @@ class PickingController extends Controller
                 $reserva->cantidad,
                 $requisicion->no_orden_produccion,
                 Auth::user(),
-               'REQUISICION',
+                'REQUISICION',
                 $requisicion->no_requision
             );
 
