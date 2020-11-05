@@ -291,9 +291,9 @@ class ProductoController extends Controller
         where(function ($query) use ($search) {
             $query->orWhere('productos.codigo_barras', 'LIKE', '%' . $search . '%')
                 ->orWhere('productos.codigo_interno_cliente', 'LIKE', '%' . $search . '%')
-                ->orWhere('productos.codigo_interno', 'LIKE', '%' . $search . '%')
+                ->orWhere('productos.codigo_interno', '=',  $search )
                 ->orWhere('productos.codigo_dun', 'LIKE', '%' . $search . '%')
-                ->orWhere('productos.descripcion', 'LIKE', '%' . $search . '%');
+            ;
         })
             ->orderBy('productos.descripcion', 'asc')
             ->with('proveedores')
