@@ -74,7 +74,9 @@ class LineaSopaController extends Controller
 
                 $productos = Producto::whereIn('id_producto',
                     $control->pluck('id_producto')->toArray()
-                )->get();
+                )
+                    ->where('tipo_producto', 'PP')
+                    ->get();
                 $response = [
                     'status' => 1,
                     'message' => 'Siguiente paso',
