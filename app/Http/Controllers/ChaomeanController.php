@@ -183,9 +183,11 @@ class ChaomeanController extends Controller
             if ($existe_orden_produccion) {
 
 
-                $productos = Producto::with('presentaciones')->whereIn('id_producto',
-                    $control->pluck('id_producto')->toArray()
-                )->get();
+                $productos = Producto::with('presentaciones')
+                    ->where('tipo_producto', 'PP')
+                    ->whereIn('id_producto',
+                        $control->pluck('id_producto')->toArray()
+                    )->get();
                 $response = [
                     'status' => 1,
                     'message' => 'Siguiente paso',
