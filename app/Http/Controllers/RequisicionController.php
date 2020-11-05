@@ -102,38 +102,38 @@ class RequisicionController extends Controller
 
             foreach ($results as $key => $value) {
 
-                $codigo = $value[0];
-                $cantidadEntrante = floatval($value[1]);
-                $producto = ($movimientos->existencia($codigo)->getData());
+                if (count($value) > 1) {
+                    $codigo = $value[0];
+                    $cantidadEntrante = floatval($value[1]);
+                    $producto = ($movimientos->existencia($codigo)->getData());
+                    if (count($producto) > 0) {
+                        $idProducto = $producto[0]->id_producto;
+                        $cantidadDisponible = floatval($producto[0]->total);
 
+                        $cantidadReservada = floatval(RequisicionDetalle::select('cantidad')
+                            ->where('id_requisicion_encabezado', $id_requisicion)
+                            ->where('id_producto', $idProducto)
+                            ->sum('cantidad'));
 
-                if (count($producto) > 0) {
-                    $idProducto = $producto[0]->id_producto;
-                    $cantidadDisponible = floatval($producto[0]->total);
-
-                    $cantidadReservada = floatval(RequisicionDetalle::select('cantidad')
-                        ->where('id_requisicion_encabezado', $id_requisicion)
-                        ->where('id_producto', $idProducto)
-                        ->sum('cantidad'));
-
-                    if (($cantidadEntrante + $cantidadReservada) <= ($cantidadDisponible)) {
-                        $this->reservar_aux(
-                            $id_requisicion,
-                            $idProducto,
-                            $cantidadEntrante
-                        );
+                        if (($cantidadEntrante + $cantidadReservada) <= ($cantidadDisponible)) {
+                            $this->reservar_aux(
+                                $id_requisicion,
+                                $idProducto,
+                                $cantidadEntrante
+                            );
+                        } else {
+                            //CANTIDAD INSUFICIENTE
+                            $mensaje = 'EL producto ' . $codigo . ' tiene un excedente de ' . ($cantidadEntrante - $cantidadDisponible);
+                            array_push($this->productos_no_agregados, $mensaje);
+                        }
                     } else {
-                        //CANTIDAD INSUFICIENTE
-                        $mensaje = 'EL producto ' . $codigo . ' tiene un excedente de ' . ($cantidadEntrante - $cantidadDisponible);
+                        //CANTIDAD 0
+                        $mensaje = 'EL producto ' . $codigo . ' no tiene existencia';
                         array_push($this->productos_no_agregados, $mensaje);
                     }
-                } else {
-                    //CANTIDAD 0
-                    $mensaje = 'EL producto ' . $codigo . ' no tiene existencia';
-                    array_push($this->productos_no_agregados, $mensaje);
+
+
                 }
-
-
             }
 
         });;
