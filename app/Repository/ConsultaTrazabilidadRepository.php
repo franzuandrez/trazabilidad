@@ -4,6 +4,8 @@
 namespace App\Repository;
 
 
+use App\DetalleInsumo;
+use App\DetalleLotes;
 use App\EntregaDet;
 use App\EntregaEnc;
 use App\Laminado_Enc;
@@ -226,6 +228,77 @@ class ConsultaTrazabilidadRepository
             ->first();
     }
 
+
+    public function getTrazabilidadHaciaAdelanteByProducto($lote)
+    {
+
+        $productos = DetalleLotes::with('recepcion')
+            ->whereNoLote($lote)
+            ->get();
+
+        $id_productos = $productos->pluck('id_producto')->toArray();
+        $lotes = $productos->pluck('no_lote')->toArray();
+
+        $movimientos = $this->getMovimientos($id_productos, $lotes
+            , null, 'asc');
+
+
+        $insumos = DetalleInsumo::whereIn('detalle_insumos.id_producto', $id_productos)
+            ->whereIn('detalle_insumos.lote', $lotes)
+            ->join('control_trazabilidad', 'control_trazabilidad.id_control', '=', 'detalle_insumos.id_control')
+            ->get();
+
+
+        return [
+            'productos' => $productos,
+            'movimientos' => $movimientos,
+            'insumos' => $insumos,
+
+
+        ];
+
+
+    }
+
+    private function getEventosMovimientos($productos, $lotes, $fecha = null)
+    {
+        $eventos = Movimiento::with('responsable')
+            ->whereIn('id_producto', $productos)
+            ->whereIn('lote', $lotes);
+
+        if ($fecha != null) {
+            $eventos = $eventos->where('fecha_hora_movimiento', '<=', $fecha);
+        }
+
+        $eventos = $eventos->orderBy('fecha_hora_movimiento', 'desc')
+            ->groupBy(\DB::raw('CONCAT(tipo_documento,numero_documento)'))
+            ->get();
+
+        return $eventos;
+    }
+
+    private function getMovimientos($productos, $lotes, $fecha = null, $order = 'desc')
+    {
+
+        $movimientos = Movimiento::select('movimientos.*',
+            'tipo_movimiento.descripcion as movimiento',
+            'tipo_movimiento.factor',
+            'sectores.descripcion as bodega')
+            ->join('tipo_movimiento', 'tipo_movimiento.id_movimiento', '=', 'movimientos.tipo_movimiento')
+            ->join('sectores', 'sectores.id_sector', '=', 'movimientos.id_sector')
+            ->whereIn('id_producto', $productos)
+            ->whereIn('lote', $lotes);
+
+        if ($fecha != null) {
+            $movimientos = $movimientos->where('fecha_hora_movimiento', '<=', $fecha);
+        }
+
+        $movimientos = $movimientos->orderBy('fecha_hora_movimiento', $order)
+            ->get();
+
+        return $movimientos;
+    }
+
     public function getTrazabilidadHaciaAtrasByProducto($lote)
     {
         $trazabilidad = $this->getControlTrazabilidadByLote($lote);
@@ -240,19 +313,9 @@ class ConsultaTrazabilidadRepository
 
         $insumos = $trazabilidad->detalle_insumos->pluck('lote', 'id_producto');
 
-        $eventos = Movimiento::with('responsable')
-            ->whereIn('id_producto', $insumos->keys())
-            ->whereIn('lote', $insumos->values())
-            ->where('fecha_hora_movimiento', '<=', $trazabilidad->created_at)
-            ->orderBy('fecha_hora_movimiento', 'desc')
-            ->groupBy(\DB::raw('CONCAT(tipo_documento,numero_documento)'))
-            ->get();
+        $eventos = $this->getEventosMovimientos($insumos->keys(), $insumos->values(), $trazabilidad->created_at);
 
-        $movimientos = Movimiento::whereIn('id_producto', $insumos->keys())
-            ->whereIn('lote', $insumos->values())
-            ->where('fecha_hora_movimiento', '<=', $trazabilidad->created_at)
-            ->orderBy('fecha_hora_movimiento', 'desc')
-            ->get();
+        $movimientos = $this->getMovimientos($insumos->keys(), $insumos->values(), $trazabilidad->created_at);
 
 
         $this->setControlTrazabilidad($trazabilidad);

@@ -1,5 +1,5 @@
 @if($producto_trazabilidad!=null)
-    <div class="row">
+
         <div class="col-md-12">
             <h4>EVENTOS</h4>
             <div class="table-responsive">
@@ -35,7 +35,12 @@
                     <tr>
                         <td colspan="4"><b>LOTE</b></td>
                         @foreach($producto_trazabilidad->detalle_insumos as $insumo)
-                            <td>{{$insumo->lote}}</td>
+                            <td>
+                                <a target="_blank"
+                                   href="{{url('operaciones/consultas/trazabilidad/hacia_adelante?search=').$insumo->lote}}">
+                                    {{$insumo->lote}}
+                                </a>
+                            </td>
                         @endforeach
                     </tr>
                     <tr>
@@ -51,7 +56,12 @@
 
                                 {{$event['event']->tipo_documento}}
                             </td>
-                            <td>{{$event['event']->numero_documento}}</td>
+                            <td>
+                                @include('operaciones.get_url_by_tipo_documento',[
+                                     'tipo_documento'=>$event['event']->tipo_documento,
+                                     'documento'=>$event['event']->numero_documento
+                                 ])
+                            </td>
                             <td>{{$event['event']->responsable->nombre}}</td>
 
                             @foreach($event['movements'] as  $mov)
@@ -73,10 +83,10 @@
 
             </div>
         </div>
-    </div>
+
 @endif
 @if($producto_trazabilidad_pp!=null)
-    @include('operaciones.trazabilidad.ajax_second',[
+    @include('operaciones.trazabilidad.ajax_aux',[
     'trazabilidad_hacia_atras'=>$trazabilidad_hacia_atras_pp,
     'trazabilidad_hacia_atras_pp'=>null,
     'producto_trazabilidad'=>$producto_trazabilidad_pp,

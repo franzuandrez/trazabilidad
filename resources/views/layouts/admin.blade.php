@@ -538,6 +538,12 @@
                                         Trazabilidad Hacia Atras
                                     </a>
                                 </li>
+                                <li>
+                                    <a href="{{url('operaciones/consultas/trazabilidad/hacia_adelante')}}"><i
+                                            class="fa fa-map"></i>
+                                        Trazabilidad Hacia Adelante
+                                    </a>
+                                </li>
                             @endcan
                         </ul>
                     </li>

@@ -18,6 +18,15 @@ class ReporteRecepcionController extends Controller
     }
 
 
+    public function reporte_recepcion_by_documento($documento, Request $request)
+    {
+
+        $recepcion = Recepcion::whereOrdenCompra($documento)->first();
+
+        return $this->reporte_recepcion($recepcion->id_recepcion_enc, $request);
+
+    }
+
     public function reporte_recepcion($id, Request $request)
     {
 

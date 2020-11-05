@@ -253,6 +253,7 @@ Route::get('recepcion/materia_prima/create', 'RecepcionController@create')
 
 Route::post('recepcion/materia_prima/create', 'RecepcionController@store')->name('recepcion.materia_prima.store');
 Route::get('recepcion/materia_prima/{id}', 'RecepcionController@show')->name('recepcion.materia_prima.show');
+Route::get('recepcion/materia_prima/reporte/documento/{id}', 'ReporteRecepcionController@reporte_recepcion_by_documento')->name('recepcion.materia_prima.reporte_recepcion.documento');
 Route::get('recepcion/materia_prima/reporte/{id}', 'ReporteRecepcionController@reporte_recepcion')->name('recepcion.materia_prima.reporte_recepcion');
 Route::get('recepcion/materia_prima/{id}/edit', 'RecepcionController@edit')->name('recepcion.materia_prima.edit');
 Route::patch('recepcion/materia_prima/{id}', 'RecepcionController@update')->name('recepcion.materia_prima.update');
@@ -454,6 +455,7 @@ Route::post('produccion/requisiciones/borrar_de_reserva', 'RequisicionController
 Route::get('produccion/requisiciones/en_reserva/{id_producto}', 'RequisicionController@en_reserva')->name('produccion.requisiciones.en_reserva');
 Route::get('produccion/requisiciones/borrar_reservas', 'RequisicionController@borrar_reservas')->name('produccion.requisiciones.borras_reservas');
 Route::get('produccion/requisiciones/{id}', 'RequisicionController@show')->name('produccion.requisiciones.show');
+Route::get('produccion/requisiciones/reporte/documento/{id}', 'ReporteProduccionController@reporte_requisicion_documento')->name('produccion.requisiciones.reporte_requisicion_documento');
 Route::get('produccion/requisiciones/reporte/{id}', 'ReporteProduccionController@reporte_requisicion')->name('produccion.requisiciones.show');
 Route::post('produccion/requisiciones/{id}', 'RequisicionController@destroy')->name('produccion.requisiciones.destroy');
 
@@ -547,6 +549,7 @@ Route::get('sopas/liberacion/reporte/{id}', 'ReporteLineaSopas@linea_sopas')->na
 
 
 Route::get('operaciones/consultas/trazabilidad', 'ConsultaTrazabilidadController@index')->name('consulta.trazabilidad');
+Route::get('operaciones/consultas/trazabilidad/hacia_adelante', 'ConsultaTrazabilidadController@hacia_adelante')->name('consulta.trazabilidad.hacia_adelante');
 
 Route::get('reimpresion', 'ReimpresionController@index')->name('reimpresion.index');
 Route::post('reimpresion/reimprimir', 'ReimpresionController@reimprimir')->name('reimpresion.reimprimir');

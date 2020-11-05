@@ -19,6 +19,13 @@ class ReporteProduccionController extends Controller
     }
 
 
+    public function reporte_requisicion_documento($documento)
+    {
+        $id = Requisicion::whereNoOrdenProduccion($documento)->first()->id;
+
+        return $this->reporte_requisicion($id);
+    }
+
     public function reporte_requisicion($id)
     {
 

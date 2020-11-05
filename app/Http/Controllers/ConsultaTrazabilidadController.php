@@ -73,4 +73,30 @@ class ConsultaTrazabilidadController extends Controller
 
     }
 
+
+    public function hacia_adelante(Request $request)
+    {
+
+        $search = $request->search == null ? '' : $request->search;
+
+
+        $trazabilidadHaciaAdelante = $this->consulta->getTrazabilidadHaciaAdelanteByProducto($search);
+
+
+        if ($request->ajax()) {
+
+            return view('operaciones.hacia_adelante.ajax', [
+                'search' => $search,
+                'trazabilidad_hacia_adelante' => $trazabilidadHaciaAdelante
+            ]);
+        }
+
+        return view('operaciones.hacia_adelante.index', [
+            'search' => $search,
+            'trazabilidad_hacia_adelante' => $trazabilidadHaciaAdelante
+        ]);
+
+
+    }
+
 }
