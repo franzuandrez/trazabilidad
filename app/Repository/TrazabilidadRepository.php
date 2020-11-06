@@ -626,7 +626,9 @@ class TrazabilidadRepository
         $this->setControlTrazabilidad(Operacion::find($request->id_control));
         $producto = $productoRepository->buscarProductoByCodigoBarras($codigo_barras);
         $this->setProducto($producto);
+
         $response = $this->esElProximoLoteAVencer($lote);
+
         return response()->json($response);
     }
 
@@ -665,6 +667,7 @@ class TrazabilidadRepository
 
         $proximoLote = $this->verificarProximoLote($request)->getData();
 
+        dd($proximoLote);
 
         if ($proximoLote->status == 1) {
             $cantidad_solicitada = $request->get('cantidad');
@@ -794,6 +797,7 @@ class TrazabilidadRepository
     {
         $insumos_reservaos = DetalleInsumo::where('id_producto', $this->getProducto()->id_producto)
             ->whereNull('cantidad_utilizada')
+            ->where('id_control',$this->getControlTrazabilidad()->id_control)
             ->select('id_producto', 'lote', DB::raw('sum(cantidad) as cantidad'))
             ->orderBy('fecha_vencimiento', 'desc')
             ->groupBy('lote')
