@@ -667,7 +667,7 @@ class TrazabilidadRepository
 
         $proximoLote = $this->verificarProximoLote($request)->getData();
 
-        dd($proximoLote);
+
 
         if ($proximoLote->status == 1) {
             $cantidad_solicitada = $request->get('cantidad');
