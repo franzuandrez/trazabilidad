@@ -1,6 +1,6 @@
 <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 ">
     <div class="table-responsive">
-        <h3 class="box-title">PRODUCTOS
+        <h3 class="box-title">Listado de Productos
             <a  onclick="recalcular()"
                 class="btn  btn-lg" style="border: none;color: #1b1e21">
                 <i class="fa fa-refresh" id="icon-recalcular" aria-hidden="true"></i>  </a>
@@ -13,7 +13,7 @@
             <th>Descripcion</th>
             <th>No. Lote</th>
             <th>Cantidad</th>
-            <th>UBICACION</th>
+            <th>Ubicacion</th>
             </thead>
             <tbody>
             @foreach( $requisicion->reservas as $reserva  )
@@ -59,8 +59,6 @@
                     </td>
                     <td>
                         <input type="hidden" name="ubicacion[]" value="{{$reserva->ubicacion}}">
-                        {{$reserva->ubicacion()->first()->bodega->descripcion}}
-                        <i class="fa fa-chevron-right" aria-hidden="true"></i>
                         {{$reserva->ubicacion()->first()->descripcion}}
                     </td>
                 </tr>

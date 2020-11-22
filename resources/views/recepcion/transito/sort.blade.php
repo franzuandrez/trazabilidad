@@ -1,7 +1,7 @@
 <a href="javascript:ajaxLoad('{{
 Request::url().'?field='.$field.'&sort='.($sort=='asc'?'desc':'asc').'&search='.$search
 }}&campo_busqueda='+document.getElementById('campo_busqueda').value)">
-    {{strtoupper($titulo)}}
+    {{($titulo)}}
 
 
 

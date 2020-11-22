@@ -48,7 +48,7 @@
         <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
             <thead style="background-color: #f7b633;  color: #fff;">
             <th>Producto</th>
-            <th>UNIDAD MEDIDA</th>
+            <th>Unidad Medida</th>
             <th>Cantidad</th>
             <th>NO. TARIMA</th>
             </thead>

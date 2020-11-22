@@ -21,7 +21,7 @@
     <input type="hidden" value="0" id="id_entrega">
     <div class="col-lg-6 col-sm-6 col-md-12 col-xs-12">
         <div class="form-group">
-            <label for="codigo">CODIGO </label>
+            <label for="codigo">Codigo </label>
             <input type="text"
                    onkeydown="if(event.keyCode==13)buscar_producto()"
                    name="codigo"
@@ -44,7 +44,7 @@
     @include('componentes.loading')
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="unidad_medida">UNIDAD MEDIDA</label>
+            <label for="unidad_medida">Unidad Medida</label>
             <select name="unidad_medida" class="form-control selectpicker"
                     id="unidad_medida"
             >
@@ -54,23 +54,14 @@
             </select>
         </div>
     </div>
-    <div class="col-lg-3 col-sm-3 col-md-12 col-xs-12">
-        <div class="form-group">
-            <label for="cantidad"> Cantidad</label>
+
+    <div class="col-lg-6 col-sm-6 col-md-12 col-xs-12">
+        <label for="no_tarima">Cantidad</label>
+        <div class="input-group">
             <input type="text"
                    name="cantidad"
-                   onkeydown="if(event.keyCode==13)document.getElementById('no_tarima').focus()"
-                   id="cantidad"
-                   class="form-control">
-        </div>
-    </div>
-
-
-    <div class="col-lg-3 col-sm-3 col-md-12 col-xs-12">
-        <label for="no_tarima"> NO. TARIMA</label>
-        <div class="input-group">
-            <input id="no_tarima" type="text"
                    onkeydown="if(event.keyCode==13)agregar_producto()"
+                   id="cantidad"
                    class="form-control">
             <div class="input-group-btn">
                 <button type="button"
@@ -89,9 +80,8 @@
         <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
             <thead style="background-color: #f7b633;  color: #fff;">
             <th>Producto</th>
-            <th>UNIDAD MEDIDA</th>
+            <th>Unidad Medida</th>
             <th>Cantidad</th>
-            <th>NO. TARIMA</th>
             </thead>
             <tbody id="detalle">
             </tbody>

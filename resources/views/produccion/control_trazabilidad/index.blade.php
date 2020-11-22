@@ -8,35 +8,25 @@
                 <th>
 
                 </th>
-                <th>
-                    @include('componentes.column-sort',[
-                          'field'=>'control_trazabilidad.id_control',
-                          'titulo'=>'CONTROL'])
 
-                </th>
                 <th>
                     @include('componentes.column-sort',[
                           'field'=>'control_trazabilidad.no_orden_produccion',
-                          'titulo'=>'NO. ORDEN PRODUCCION'])
+                          'titulo'=>'Ordenes'])
 
                 </th>
-                <th>
-                    @include('componentes.column-sort',[
-                             'field'=>'productos.codigo_interno',
-                             'titulo'=>'CODIGO INTERNO'])
 
-                </th>
 
                 <th>
                     @include('componentes.column-sort',[
                            'field'=>'productos.descripcion',
-                           'titulo'=>'PRODUCTO'])
+                           'titulo'=>'Producto'])
 
                 </th>
                 <th>
                     @include('componentes.column-sort',[
                            'field'=>'control_trazabilidad.lote',
-                           'titulo'=>'LOTE'])
+                           'titulo'=>'Lote'])
 
                 </th>
                 <th>
@@ -59,9 +49,7 @@
                             <input type="radio" name="id_item" value="{{$operacion->id_control}}">
 
                         </td>
-                        <td>
-                            {{$operacion->id_control}}
-                        </td>
+
                         <td>
                             {{$operacion->requisiciones
                                ->reduce(
@@ -70,9 +58,6 @@
                                         $item->no_orden_produccion.' , '.$carry;
                                    },'')
                                }}
-                        </td>
-                        <td>
-                            {{$operacion->producto->codigo_interno}}
                         </td>
 
                         <td>

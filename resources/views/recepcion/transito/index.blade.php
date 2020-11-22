@@ -13,7 +13,7 @@
                           'sort'=>$sort,
                           'sortField'=>$sortField,
                           'field'=>'orden_compra',
-                          'titulo'=>'NO. DOCUMENTO'])
+                          'titulo'=>'No. Documento'])
 
                 </th>
                 <th>
@@ -22,7 +22,7 @@
                              'sort'=>$sort,
                              'sortField'=>$sortField,
                              'field'=>'proveedores.nombre_comercial',
-                             'titulo'=>'proveedor'])
+                             'titulo'=>'Proveedor'])
 
                 </th>
 
@@ -32,7 +32,7 @@
                         'sort'=>$sort,
                         'sortField'=>$sortField,
                         'field'=>'fecha_ingreso',
-                        'titulo'=>'FECHA INGRESO'])
+                        'titulo'=>'Fecha Ingreso'])
 
                 </th>
 

@@ -25,7 +25,7 @@
             </div>
             <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
                 <div class="form-group">
-                    <label for="nombre">DESCRIPCION</label>
+                    <label for="nombre">Descripcion</label>
                     <input type="text" readonly name="descripcion" value="{{$role->descripcion}}"  class="form-control" >
                 </div>
             </div>
@@ -50,7 +50,7 @@
 
 
                                 </td>
-                                <td ><button type="button"  id="btn-{{$menu->id}}" class="btn btn-default btn-xs collapsed" data-toggle="collapse" data-target="#opciones-{{ $menu->id}}" ><span class="fa fa-sort-desc"></span></button> </td>
+                                <td ><button type="button"  id="btn-{{$menu->id}}" class="btn btn-primary btn-xs collapsed" data-toggle="collapse" data-target="#opciones-{{ $menu->id}}" ><span class="fa fa-sort-desc"></span></button> </td>
                                 <td><i class="fa {{$menu->icon}}" ></i>  {{$menu->display_name}}</td>
 
                             </tr>

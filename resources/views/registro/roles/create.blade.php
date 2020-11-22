@@ -45,7 +45,7 @@
                         @foreach($menus as $menu)
                             <tr>
                                 <td><input type="checkbox" value="{{$menu->id}}" name="permission[]" onchange="javascript:habilitarOpciones(this)" id="input-{{$menu->id}}"></td>
-                                <td ><button type="button" disabled="true" id="btn-{{$menu->id}}" class="btn btn-default btn-xs collapsed" data-toggle="collapse" data-target="#opciones-{{ $menu->id}}" ><span class="fa fa-sort-desc"></span></button> </td>
+                                <td ><button type="button" disabled="true" id="btn-{{$menu->id}}" class="btn btn-primary btn-xs collapsed" data-toggle="collapse" data-target="#opciones-{{ $menu->id}}" ><span class="fa fa-sort-desc"></span></button> </td>
                                 <td><i class="fa {{$menu->icon}}" ></i>  {{$menu->display_name}}</td>
 
                             </tr>

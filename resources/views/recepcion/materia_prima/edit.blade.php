@@ -536,7 +536,7 @@
                     <div class="col-lg-1 col-sm-2 col-md-2 col-xs-2">
                         <br>
                         <div class="form-group">
-                            <button id="btnLimpiar" class="btn btn-default block" style="margin-top: 5px;" type="button">
+                            <button id="btnLimpiar" class="btn btn-primary block" style="margin-top: 5px;" type="button">
                                 <span class=" fa fa-trash"></span></button>
                         </div>
                     </div>
@@ -589,7 +589,7 @@
                     <div class="col-lg-1 col-sm-2 col-md-2 col-xs-2">
                         <br>
                         <div class="form-group">
-                            <button id="btnAdd" class="btn btn-default block" style="margin-top: 5px;" type="button">
+                            <button id="btnAdd" class="btn btn-primary block" style="margin-top: 5px;" type="button">
                                 <span class=" fa fa-plus"></span></button>
                         </div>
                     </div>

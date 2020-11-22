@@ -5,7 +5,7 @@
 @endsection
 @section('contenido')
     <div class="col-lg-12 col-lg-push-4 col-sm-12   col-sm-push-4   col-md-12   col-md-push-4  col-xs-12">
-        <h3>CONTROL DE TRAZABILIDAD</h3>
+        <h3>DOCUMENTO TRAZABILIDAD</h3>
     </div>
 
     @component('componentes.nav',['operation'=>'Ver',
@@ -16,10 +16,13 @@
             Produccion
         @endslot
         @slot('submenu')
-            Control Trazabilidad
+            Trazabilidad
         @endslot
     @endcomponent
 
+    <div>
+        <h3>Informacion de producción</h3>
+    </div>
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
@@ -46,7 +49,7 @@
     </div>
     <div class="col-lg-1 col-sm-2 col-md-2 col-xs-6">
         <div class="form-group">
-            <label for="unidad_medida">U.MEDIDA</label>
+            <label for="unidad_medida">U.Medida</label>
             <input type="text"
                    name="unidad_medida"
                    readonly
@@ -57,7 +60,7 @@
     </div>
     <div class="col-lg-2 col-sm-4 col-md-4 col-xs-6">
         <div class="form-group">
-            <label for="best_by">BEST BY</label>
+            <label for="best_by">Fecha Vencimiento</label>
             <input type="text"
                    name="best_by"
                    readonly
@@ -68,7 +71,7 @@
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="no_orden_produccion">NO. ORDEN PRODUCION</label>
+            <label for="no_orden_produccion">Ordenes</label>
             <input type="text"
                    name="no_orden_produccion"
                    readonly
@@ -97,21 +100,10 @@
         </div>
     </div>
 
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="turno">TURNO</label>
-            <input type="text"
-                   name="turno"
-                   id="turno"
-                   value="{{$operacion->id_turno}}"
-                   readonly
-                   class="form-control">
-        </div>
-    </div>
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="cantidad_programada">CANTIDAD PROGRAMADA</label>
+            <label for="cantidad_programada">Cantidad Programada</label>
             <input type="text"
                    name="cantidad_programada"
                    id="cantidad_programada"
@@ -122,7 +114,7 @@
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="cantidad_produccion">CANTIDAD PRODUCCION</label>
+            <label for="cantidad_produccion">Cantidad Produccion</label>
             <input type="text"
                    name="cantidad_produccion"
                    id="cantidad_produccion"
@@ -135,12 +127,12 @@
         <ul class="nav nav-tabs">
             <li class="active">
                 <a href="#insumos" data-toggle="tab" aria-expanded="false">
-                    INSUMOS
+                    Insumos
                 </a>
             </li>
             <li class="">
                 <a href="#involucrados" data-toggle="tab" aria-expanded="false">
-                    OPERARIOS INVOLUCRADOS
+                    Colaboradores
                 </a>
             </li>
         </ul>
@@ -152,50 +144,19 @@
                     <table class="table table-bordered table-responsive">
                         <thead style="background-color: #f7b633;  color: #fff;">
                         <tr>
-                            <th>MP</th>
-                            <th>COLOR</th>
-                            <th>OLOR</th>
-                            <th>IMPRESION</th>
-                            <th>AUSENCIA M.E.</th>
-                            <th>NO LOTE</th>
+                            <th>Insumo</th>
+                            <th>No Lote</th>
                             <th>Cantidad</th>
-                            <th>FECHA VENC.</th>
+                            <th>Fecha Venc.</th>
                         </tr>
                         </thead>
                         <tbody id="tbody_insumos">
                         @foreach($operacion->detalle_insumos as $insumo)
                             <tr>
                                 <td>
-                                    {{$insumo->producto->codigo_interno}}
+                                    {{$insumo->producto->descripcion}}
                                 </td>
-                                <td>
-                                    @if($insumo->color==1)
-                                        <input type="checkbox" checked onclick="return false">
-                                    @else
-                                        <input type="checkbox" onclick="return false">
-                                    @endif
-                                </td>
-                                <td>
-                                    @if($insumo->olor==1)
-                                        <input type="checkbox" checked onclick="return false">
-                                    @else
-                                        <input type="checkbox" onclick="return false">
-                                    @endif
-                                </td>
-                                <td>
-                                    @if($insumo->impresion==1)
-                                        <input type="checkbox" checked onclick="return false">
-                                    @else
-                                        <input type="checkbox" onclick="return false">
-                                    @endif
-                                </td>
-                                <td>
-                                    @if($insumo->ausencia_material_extranio==1)
-                                        <input type="checkbox" checked onclick="return false">
-                                    @else
-                                        <input type="checkbox" onclick="return false">
-                                    @endif
-                                </td>
+
                                 <td>
                                     {{$insumo->lote}}
                                 </td>
@@ -221,10 +182,10 @@
                         <tr>
                             <th>#</th>
                             <th>
-                                ACTIVIDAD
+            Actividad
                             </th>
                             <th>
-                                COLABORADORES
+            Colaboradores
                             </th>
                         </tr>
                         </thead>

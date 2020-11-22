@@ -63,12 +63,7 @@
 
     function agregar_producto() {
 
-        let no_tarima = document.getElementById('no_tarima').value;
-        if (no_tarima === "") {
-            document.getElementById('no_tarima').focus();
-            alert("No. Tarima en blanco");
-            return;
-        }
+
 
         if (!es_valida()) {
             document.getElementById('cantidad').focus();
@@ -88,7 +83,7 @@
                 id: id_entrega,
                 id_control: PRODUCTO_PT.id_control,
                 cantidad: cantidad,
-                no_tarima: no_tarima,
+                no_tarima: 1,
                 unidad_medida: unidad_medida
 
             },
@@ -116,7 +111,7 @@
 
         document.getElementById('cantidad').value = "";
         document.getElementById('descripcion_producto').value = "";
-        document.getElementById('no_tarima').value = "";
+
         limpiar_producto();
     }
 
@@ -126,13 +121,12 @@
         let codigo_interno = PRODUCTO_PT.producto.codigo_interno;
         let unidad_medida = document.getElementById('unidad_medida').value;
         let cantidad = document.getElementById('cantidad').value;
-        let no_tarima = document.getElementById('no_tarima').value;
+
 
         let row = `<tr>
         <td>${codigo_interno}</td>
         <td>${unidad_medida}</td>
         <td>${cantidad}</td>
-        <td>${no_tarima}</td>
         </tr>`;
 
         $('#detalle').append(row);

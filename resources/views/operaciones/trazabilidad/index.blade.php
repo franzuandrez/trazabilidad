@@ -22,13 +22,13 @@
 
     @component('componentes.nav',['operation'=>'LIST',
     'menu_icon'=>'fa-file-text',
-    'submenu_icon'=>'fa fa-list-ol',
+    'submenu_icon'=>'fa fa-history',
     'operation_icon'=>'',])
         @slot('menu')
-            Operaciones
+            Reportes
         @endslot
         @slot('submenu')
-            Consulta trazabilidad
+           Hacia atrás
         @endslot
     @endcomponent
 

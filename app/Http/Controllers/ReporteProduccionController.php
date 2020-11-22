@@ -34,7 +34,7 @@ class ReporteProduccionController extends Controller
             ->select(
                 'no_requision as REQUISICION',
                 'no_orden_produccion AS ORDEN PRODUCCION',
-                'users.nombre  AS ELABORADOR',
+                'users.nombre  AS RESPONSABLE',
                 DB::raw("date_format(fecha_ingreso,'%d/%m/%Y %H:%i:%s') as FECHA"),
                 DB::raw('
                 if(requisicion_encabezado.estado="P","PROCESO",
@@ -48,11 +48,9 @@ class ReporteProduccionController extends Controller
             ->join('users', 'users.id', '=', 'reserva_lotes.id_usuario_picking')
             ->select(
                 'productos.codigo_interno as id_producto',
-                'reserva_lotes.cantidad as cantidad',
                 'reserva_lotes.lote as lote',
-                'reserva_lotes.fecha_vencimiento',
-                DB::raw("date_format(reserva_lotes.fecha_vencimiento,'%d/%m/%Y') as fecha_vencimiento"),
-                'reserva_lotes.ubicacion'
+                'reserva_lotes.ubicacion',
+                'reserva_lotes.cantidad as cantidad'
             )->get();
 
         if ($detalle_requisicion->isEmpty()) {

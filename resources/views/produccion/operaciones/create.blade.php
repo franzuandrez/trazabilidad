@@ -25,7 +25,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title" align="center">REQUISICION NO. {{$requisicion[0]->no_requision}}
+                        <h4 class="modal-title" align="center">Requisicion No. {{$requisicion[0]->no_requision}}
                             PENDIENTE</h4>
                         <div class="modal-body" align="center">
                             ¿DESEA CONTINUAR?
@@ -52,7 +52,7 @@
     <input name="id_requisicion" type="hidden" id="id_requisicion">
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="no_requisicion">NO.REQUISION</label>
+            <label for="no_requisicion">No. Requisicion</label>
             <input type="text"
                    name="no_requisicion"
                    id="no_requisicion"
@@ -63,7 +63,7 @@
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="no_orden_produccion">NO.ORDEN PRODUCCION</label>
+            <label for="no_orden_produccion">No. Orden Produccion</label>
             <input type="text"
                    name="no_orden_produccion"
                    readonly
@@ -73,95 +73,69 @@
                    class="form-control">
         </div>
     </div>
-
+    <br>
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-        <ul class="nav nav-tabs">
-            <li class="active">
-                <a href="#crear" data-toggle="tab" aria-expanded="false">
-                    INGRESAR
-                </a>
-            </li>
-            <li class="">
-                <a href="#importar" data-toggle="tab" aria-expanded="false">
-                    IMPORTAR
-                </a>
-            </li>
-        </ul>
-        <div class="tab-content">
-            <div class="tab-pane active" id="crear">
-                <br>
-                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                    <label for="codigo_producto">Cod. Producto</label>
-                    <div class="input-group">
-                        <input type="text"
-                               name="codigo_producto"
-                               readonly
-                               id="codigo_producto"
-                               onkeydown="if(event.keyCode==13)buscar_existencia()"
-                               value="{{old('codigo_producto')}}"
-                               class="form-control">
-                        <div class="input-group-btn">
-                            <button id="btnBuscar"
-                                    onclick="buscar_existencia()"
-                                    class="btn btn-default " type="button">
-                                <span class=" fa fa-search"></span></button>
-                            <button id="btnLimpiar"
-                                    onclick="limpiar()"
-                                    class="btn btn-default " type="button">
-                                <span class=" fa fa-trash"></span></button>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="col-lg-2 col-md-6 col-sm-6  col-xs-12">
-                    <div class="form-group">
-                        <label for="existencia">EXISTENCIA</label>
-                        <input type="text" name="existencia" id="existencia" readonly value="{{old('existencia')}}"
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6  col-xs-12">
-                    <div class="form-group">
-                          <label for="descripcion">Descripcion</label>
-                        <input type="text" name="descripcion" id="descripcion" readonly value="{{old('descripcion')}}"
-                               class="form-control">
-                        <input type="hidden" name="id_producto" id="id_producto" readonly value="{{old('id_producto')}}"
-                               class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6  col-xs-12">
-                    <label for="cantidad">Cantidad</label>
-                    <div class="input-group">
-                        <input type="number" name="cantidad" id="cantidad"
-                               onkeydown="if(event.keyCode==13)agregarProducto()"
-                               readonly
-                               value="{{old('cantidad')}}"
-                               class="form-control">
-                        <div class="input-group-btn">
-                            <button
-                                onclick="agregarProducto()"
-                                class="btn btn-default " type="button">
-                                <span class=" fa fa-plus"></span></button>
 
-                        </div>
-                    </div>
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <label for="codigo_producto">Cod. Producto</label>
+            <div class="input-group">
+                <input type="text"
+                       name="codigo_producto"
+                       readonly
+                       id="codigo_producto"
+                       onkeydown="if(event.keyCode==13)buscar_existencia()"
+                       value="{{old('codigo_producto')}}"
+                       class="form-control">
+                <div class="input-group-btn">
+                    <button id="btnBuscar"
+                            onclick="buscar_existencia()"
+                            class="btn btn-primary " type="button">
+                        <span class=" fa fa-search"></span></button>
+                    <button id="btnLimpiar"
+                            onclick="limpiar()"
+                            class="btn btn-primary " type="button">
+                        <span class=" fa fa-trash"></span></button>
                 </div>
             </div>
-            <div class="tab-pane " id="importar">
+        </div>
 
-                <div class="col-lg-push-5 col-lg-4  col-md-push-5 col-md-4  ">
-
-                    <input type="file" name="file_requisiones">
-                    <a class="btn btn-app" onclick="javascript:importar()">
-                        <i class="fa fa-upload"></i>
-                        IMPORTAR
-                    </a>
+        <div class="col-lg-2 col-md-6 col-sm-6  col-xs-12">
+            <div class="form-group">
+                <label for="existencia">Existencia</label>
+                <input type="text" name="existencia" id="existencia" readonly value="{{old('existencia')}}"
+                       class="form-control">
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6  col-xs-12">
+            <div class="form-group">
+                <label for="descripcion">Descripcion</label>
+                <input type="text" name="descripcion" id="descripcion" readonly value="{{old('descripcion')}}"
+                       class="form-control">
+                <input type="hidden" name="id_producto" id="id_producto" readonly value="{{old('id_producto')}}"
+                       class="form-control">
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6  col-xs-12">
+            <label for="cantidad">Cantidad</label>
+            <div class="input-group">
+                <input type="number" name="cantidad" id="cantidad"
+                       onkeydown="if(event.keyCode==13)agregarProducto()"
+                       readonly
+                       value="{{old('cantidad')}}"
+                       class="form-control">
+                <div class="input-group-btn">
+                    <button
+                        onclick="agregarProducto()"
+                        class="btn btn-primary " type="button">
+                        <span class=" fa fa-plus"></span></button>
 
                 </div>
-
             </div>
         </div>
     </div>
+
+
 
     @include('componentes.loading')
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
@@ -171,9 +145,9 @@
             <thead style="background-color: #f7b633;  color: #fff;">
             <th>Accion</th>
             <th>Cantidad</th>
-            <th>CODIGO PRODUCTO</th>
+            <th>Cod. Producto</th>
             <th>Producto</th>
-            <th>UNIDAD MEDIDA</th>
+            <th>Unidad Medida</th>
             </thead>
             <tbody id="body-detalles">
             </tbody>
@@ -185,13 +159,13 @@
     @endcomponent
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-             <button class="btn btn-primary" type="submit">
+            <button class="btn btn-primary" type="submit">
                 <span class=" fa fa-check"></span> Guardar
             </button>
             <a href="{{url('produccion/requisiciones ')}}">
-                  <button class="btn btn-primary" type="button">
-               <span class=" fa fa-close"></span> Cancelar
-            </button>
+                <button class="btn btn-primary" type="button">
+                    <span class=" fa fa-close"></span> Cancelar
+                </button>
             </a>
 
         </div>
@@ -449,7 +423,10 @@
                         <input type="hidden" name="id_producto[]"   value="${producto.id_producto}">
                         <input type="hidden" name="cantidad[]"   value="${cantidad}">
                     </td>
-                    <td>${parseFloat(cantidad).toLocaleString('en', {minimumFractionDigits: 3,maximumFractionDigits:3})}</td>
+                    <td>${parseFloat(cantidad).toLocaleString('en', {
+                minimumFractionDigits: 3,
+                maximumFractionDigits: 3
+            })}</td>
                     <td>${producto.codigo_barras}</td>
                     <td>${producto.descripcion}</td>
                     <td>${producto.unidad_medida}</td>

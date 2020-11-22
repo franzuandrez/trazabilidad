@@ -14,7 +14,7 @@
 
 @section('contenido')
     <div class="col-lg-12 col-lg-push-4 col-sm-12   col-sm-push-4   col-md-12   col-md-push-4  col-xs-12">
-        <h3>CONTROL DE TRAZABILIDAD</h3>
+        <h3>DOCUMENTO TRAZABILIDAD</h3>
     </div>
     @component('componentes.nav',['operation'=>'Continuar',
     'menu_icon'=>' fa fa fa-cube ',
@@ -24,7 +24,7 @@
             Produccion
         @endslot
         @slot('submenu')
-            Control Trazabilidad
+            Trazabilidad
         @endslot
     @endcomponent
 
@@ -47,7 +47,7 @@
     </div>
     <div class="col-lg-3 col-sm-2 col-md-2 col-xs-6">
         <div class="form-group">
-            <label for="unidad_medida">U.MEDIDA</label>
+            <label for="unidad_medida">U.Medida</label>
             <input type="text"
                    name="unidad_medida"
                    readonly
@@ -58,7 +58,7 @@
     </div>
     <div class="col-lg-3 col-sm-4 col-md-4 col-xs-6">
         <div class="form-group">
-            <label for="best_by">BEST BY</label>
+            <label for="best_by">Fecha Vencimiento</label>
             <input type="text"
                    name="best_by"
                    readonly
@@ -70,7 +70,7 @@
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="ordenes">ORDENES</label>
+            <label for="ordenes">Ordenes</label>
             <input type="text"
                    name="ordenes"
                    id="ordenes"
@@ -113,7 +113,7 @@
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="cantidad_programada">CANTIDAD PROGRAMADA</label>
+            <label for="cantidad_programada">Cantidad Programada</label>
             <input type="text"
                    name="cantidad_programada"
                    id="cantidad_programada"
@@ -128,7 +128,7 @@
         <ul class="nav nav-tabs">
             <li class="active">
                 <a href="#insumos" data-toggle="tab" aria-expanded="false">
-                    INSUMOS
+                    Insumos
                 </a>
             </li>
         </ul>
@@ -141,10 +141,10 @@
                     <table class="table table-bordered table-responsive">
                         <thead style="background-color: #f7b633;  color: #fff;">
                         <tr>
-                            <th>MP</th>
-                            <th>NO LOTE</th>
+                            <th>Insumo</th>
+                            <th>No Lote</th>
                             <th>Cantidad</th>
-                            <th>FECHA VENC.</th>
+                            <th>Fecha Venc.</th>
                         </tr>
                         </thead>
                         <tbody id="tbody_insumos">

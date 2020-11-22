@@ -19,20 +19,21 @@
             Produccion
         @endslot
         @slot('submenu')
-            Picking
+            Recoleccion
         @endslot
     @endcomponent
 
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             @can('role-edit')
-                @component('componentes.btn-edit',['url'=>'javascript:despachar()'])
-                @endcomponent
+
+                <a style="text-decoration: none"
+                   href="javascript:despachar()" data-placement="top" title="Recoleccion" data-toggle="tooltip">
+                    <img src="{{asset('imagenes_web/ubicacion.png')}}" width="35" height="35">
+                </a>
+
             @endcan
-            @can('role-list')
-                @component('componentes.btn-ver',['url'=>'javascript:ver()'])
-                @endcomponent
-            @endcan
+
         </div>
     </div>
 
@@ -51,5 +52,5 @@
 @endsection
 @section('scripts')
     <script src="{{asset('js/ajax-crud.js')}}"></script>
-    <script src="{{asset('js-brc/picking/index.js')}}" ></script>
+    <script src="{{asset('js-brc/picking/index.js')}}"></script>
 @endsection

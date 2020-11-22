@@ -3,15 +3,14 @@
     <select class="form-control selectpicker"
             onchange="seleccionar_tipo_producto()"
             id="tipo_producto">
-        <option value="MP">MATERIA PRIMA</option>
-        <option value="MP">MATERIAL EMPAQUE</option>
+        <option value="MP">INSUMO</option>
         <option value="PP">PRODUCTO PROCESO</option>
     </select>
 </div>
 <div id="modulo_materia_prima">
     <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label>CODIGO Producto</label>
+            <label>Codigo Producto</label>
             <input type="text"
                    name="codigo_producto_mp"
                    id="codigo_producto_mp"
@@ -33,7 +32,7 @@
     </div>
     <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="descripcion_producto_mp">DESCRIPCION</label>
+            <label for="descripcion_producto_mp">Descripcion</label>
             <input type="text"
                    readonly
                    name="descripcion_producto_mp"
@@ -65,7 +64,7 @@
 <div id="modulo_proceso" style="display: none">
     <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label>CODIGO Producto</label>
+            <label>Codigo Producto</label>
             <input type="text"
                    name="codigo_producto_pp"
                    id="codigo_producto_pp"
@@ -87,7 +86,7 @@
     </div>
     <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="descripcion_producto_pp">DESCRIPCION</label>
+            <label for="descripcion_producto_pp">Descripcion</label>
             <input type="text"
                    readonly
                    name="descripcion_producto_pp"

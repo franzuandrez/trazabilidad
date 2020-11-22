@@ -17,14 +17,14 @@
 
 
     @component('componentes.nav',['operation'=>'LIST',
-    'menu_icon'=>' fa fa-arrow-circle-o-right ',
-    'submenu_icon'=>'fa fa-th-list',
+    'menu_icon'=>' fa  fa fa-file-text  ',
+    'submenu_icon'=>'fa fa-exchange',
     'operation_icon'=>'',])
         @slot('menu')
             Reporte
         @endslot
         @slot('submenu')
-            Kardex
+            Movimientos
         @endslot
     @endcomponent
 

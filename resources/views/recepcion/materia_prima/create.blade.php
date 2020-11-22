@@ -130,7 +130,6 @@
             <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
                 <div class="form-group">
                     <label>Fecha de Vencimiento</label>
-
                     <div class="input-group date">
                         <div class="input-group-addon">
                             <i class="fa fa-calendar"></i>
@@ -142,24 +141,25 @@
 
                 </div>
             </div>
-            <div class=" col-lg-3  col-sm-4 col-md-4 col-xs-10">
-                <div class="form-group">
-                    <label for="nombre">Cantidad</label>
+
+            <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+                <label for="nombre">Cantidad</label>
+                <div class="input-group">
                     <input id="cantidad" type="number"
                            onkeydown="if(event.keyCode==13)addToTable()"
                            onkeypress="return justNumbers(event);" name="descripcion"
                            class="form-control">
+
+                    <div class="input-group-btn">
+                        <button id="btnAdd"
+                                onclick="addToTable();"
+                                class="btn btn-primary block"  type="button">
+                            <span class=" fa fa-plus"></span></button>
+                    </div>
                 </div>
+
             </div>
-            <div class="col-lg-1 col-sm-2 col-md-2 col-xs-2">
-                <br>
-                <div class="form-group">
-                    <button id="btnAdd"
-                            onclick="addToTable();"
-                            class="btn btn-default block" style="margin-top: 5px;" type="button">
-                        <span class=" fa fa-plus"></span></button>
-                </div>
-            </div>
+
 
 
             <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">

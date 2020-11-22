@@ -157,7 +157,7 @@
                 <input id="observaciones" type="text" name="observaciones"
                        class="form-control">
                 <div class="input-group-btn">
-                    <button id="btnAdd" class="btn btn-default block"
+                    <button id="btnAdd" class="btn btn-primary block"
                             onclick="agregar_a_table()"
                             type="button">
                         <span class=" fa fa-plus"></span></button>

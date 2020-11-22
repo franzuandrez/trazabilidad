@@ -20,7 +20,7 @@
 
     <div class="col-lg-6 col-sm-6 col-md-12 col-xs-12">
         <div class="form-group">
-            <label for="codigo">CODIGO </label>
+            <label for="codigo">Codigo </label>
             <input type="text"
                    name="codigo"
                    id="codigo"
@@ -40,7 +40,7 @@
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="id_encargado">UNIDAD MEDIDA</label>
+            <label for="id_encargado">Unidad Medida</label>
             <select name="id_localidad" class="form-control selectpicker"
                     id="localidades"
                    >
@@ -79,7 +79,7 @@
             <thead style="background-color: #f7b633;  color: #fff;">
             <th></th>
             <th>Producto</th>
-            <th>UNIDAD MEDIDA</th>
+            <th>Unidad Medida</th>
             <th>Cantidad</th>
             <th>NO. TARIMA</th>
             </thead>

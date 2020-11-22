@@ -5,10 +5,10 @@
 
         </th>
         <th>
-            ACTIVIDAD
+            Actividad
         </th>
         <th>
-            COLABORADORES
+            Colaboradores
         </th>
     </tr>
     </thead>

@@ -1,6 +1,6 @@
 <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
     <div class="form-group">
-        <label for="actividades">ACTIVIDADES</label>
+        <label for="actividades">Actividades</label>
         <select name="actividades"
                 onchange="next('colaborador')"
                 id="actividades" class="form-control selectpicker">
@@ -12,7 +12,7 @@
     </div>
 </div>
 <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-    <label for="colaborador"> COLABORADOR</label>
+    <label for="colaborador"> Colaborador</label>
     <div class="input-group">
         <input type="text"
                name="colaborador"

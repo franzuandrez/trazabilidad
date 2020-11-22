@@ -22,7 +22,7 @@
         @csrf
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
-                <label for="orden_compra">NO. FACTURA</label>
+                <label for="orden_compra">NO. Factura</label>
                 <input type="text"
                        readonly
                        name="no_requisicion"
@@ -40,7 +40,7 @@
                     <th>Descripcion</th>
                     <th>No. Lote</th>
                     <th>Cantidad</th>
-                    <th>UBICACION</th>
+                    <th>Ubicacion</th>
                     </thead>
                     <tbody>
 

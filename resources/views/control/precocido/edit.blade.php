@@ -14,7 +14,7 @@
                 data-toggle="tooltip"
                 title="Informacion"
                 onclick="ver_informacion()"
-                type="button" class="btn btn-default btn-sm">
+                type="button" class="btn btn-primary btn-sm">
                 <i class="fa fa-info"
                    aria-hidden="true"></i>
             </button>
@@ -149,7 +149,7 @@
                        onkeydown="if(event.keyCode==13)agregar_a_table()"
                        class="form-control">
                 <div class="input-group-btn">
-                    <button class="btn btn-default block" type="button"
+                    <button class="btn btn-primary block" type="button"
                             onclick="agregar_a_table()"
                             onkeydown="agregar_a_table()"
                     >
@@ -157,7 +157,7 @@
                     <button
                         onclick="limpiar()"
                         onkeydown="limpiar()"
-                        class="btn btn-default block" type="button">
+                        class="btn btn-primary block" type="button">
                         <span class=" fa fa-trash"></span></button>
                 </div>
             </div>

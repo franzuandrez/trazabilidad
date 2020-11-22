@@ -13,7 +13,7 @@
                 data-toggle="tooltip"
                 title="Informacion"
                 onclick="ver_informacion()"
-                type="button" class="btn btn-default btn-sm">
+                type="button" class="btn btn-primary btn-sm">
                 <i class="fa fa-info"
                    aria-hidden="true"></i>
             </button>
@@ -183,13 +183,13 @@
                        disabled
                        class="form-control">
                 <div class="input-group-btn">
-                    <button class="btn btn-default block"
+                    <button class="btn btn-primary block"
                             onclick="agregar_a_table()"
                             type="button">
                         <span class=" fa fa-plus"></span></button>
                     <button
                         onclick="limpiar()"
-                        class="btn btn-default block" type="button">
+                        class="btn btn-primary block" type="button">
                         <span class=" fa fa-trash"></span></button>
                 </div>
             </div>

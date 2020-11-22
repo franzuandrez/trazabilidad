@@ -13,7 +13,7 @@
                 data-toggle="tooltip"
                 title="Informacion"
                 onclick="ver_informacion()"
-                type="button" class="btn btn-default btn-sm">
+                type="button" class="btn btn-primary btn-sm">
                 <i class="fa fa-info"
                    aria-hidden="true"></i>
             </button>

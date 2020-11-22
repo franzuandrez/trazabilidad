@@ -67,13 +67,13 @@
                        onkeydown="if(event.keyCode==13)agregar_a_table()"
                        class="form-control">
                 <div class="input-group-btn">
-                    <button class="btn btn-default block" type="button"
+                    <button class="btn btn-primary block" type="button"
                             onclick="agregar_a_table()"
                     >
                         <span class=" fa fa-plus"></span></button>
                     <button
                         onclick="limpiar()"
-                        class="btn btn-default block" type="button">
+                        class="btn btn-primary block" type="button">
                         <span class=" fa fa-trash"></span></button>
                 </div>
             </div>

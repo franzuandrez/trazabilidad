@@ -14,12 +14,7 @@
                           'titulo'=>'CONTROL'])
 
                 </th>
-                <th>
-                    @include('componentes.column-sort',[
-                          'field'=>'control_trazabilidad.no_orden_produccion',
-                          'titulo'=>'NO. ORDEN PRODUCCION'])
 
-                </th>
                 <th>
                     @include('componentes.column-sort',[
                              'field'=>'productos.codigo_interno',
@@ -45,15 +40,7 @@
                         <td>
                             {{$operacion->id_control}}
                         </td>
-                        <td>
-                            {{$operacion->requisiciones
-                               ->reduce(
-                                   function ($carry,$item){
-                                        return
-                                        $item->no_orden_produccion.' , '.$carry;
-                                   },'')
-                               }}
-                        </td>
+
                         <td>
                             {{$operacion->producto->codigo_interno}}
                         </td>

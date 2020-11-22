@@ -16,7 +16,7 @@
                 <th>
                     @include('componentes.column-sort',[
                          'field'=>'nombre',
-                         'titulo'=>'Creado por'])
+                         'titulo'=>'Responsable'])
                 </th>
                 <th>
                     @include('componentes.column-sort',[

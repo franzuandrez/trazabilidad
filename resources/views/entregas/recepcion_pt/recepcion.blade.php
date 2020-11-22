@@ -90,7 +90,7 @@
     </div>
     <div class="col-lg-2 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="unidad_medida">UNIDAD MEDIDA</label>
+            <label for="unidad_medida">Unidad Medida</label>
             <select class="form-control selectpicker"
                     disabled
                     required

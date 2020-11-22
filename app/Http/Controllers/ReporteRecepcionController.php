@@ -41,19 +41,14 @@ class ReporteRecepcionController extends Controller
                 'recepcion_encabezado.orden_compra as DOCUMENTO',
                 \DB::raw("date_format(fecha_ingreso,'%d/%m/%Y %H:%i:%s') as fecha_ingreso"),
                 'recepcion_encabezado.id_recepcion_enc as id_recepcion_enc',
-                'users.nombre as usuario_recepcion',
-                'u.nombre as id_usuario_calidad',
-                'uu.nombre as id_usuario_autoriza'
+                'users.nombre as usuario_recepcion'
             )->first();
 
 
         $reporte_encabezado
-            ->setTitle("Recepcion de Bodega de Materia Prima y Material de empaque")
+            ->setTitle("Documento de Recepcion de materias primas")
             ->setCreatedAt(CArbon::now())
-            ->setFirmas([
-                'Responsable de Ejecucion' => $recepcion->usuario_recepcion,
-                'Encargado de Logistica' => $recepcion->id_usuario_autoriza
-            ])
+
             ->setSubtitle("Bodega de Materias primas")
             ->setExcept(
                 ['id_inspeccion_documentos', 'id_inspeccion_empaque', 'id_recepcion_enc']
@@ -69,13 +64,14 @@ class ReporteRecepcionController extends Controller
                         'INSPECCION EMPAQUE Y ETIQUETA' => $recepcion->inspeccion_empaque
                     ],
                 'details' => [
-                    'DETALLE LOTES' => $recepcion
+                    'INGRESOS' => $recepcion
                         ->detalle_lotes()
                         ->join('productos', 'productos.id_producto', '=', 'detalle_lotes.id_producto')
-                        ->select('productos.descripcion as id_producto',
-                            'detalle_lotes.cantidad as cantidad',
+                        ->select(
+                            'productos.descripcion as id_producto',
                             'detalle_lotes.no_lote',
-                            \DB::raw("date_format(fecha_vencimiento,'%d/%m/%Y') as fecha_vencimiento"))
+                            'detalle_lotes.cantidad as cantidad'
+                       )
                         ->get()
                 ]
             ]
@@ -119,7 +115,7 @@ class ReporteRecepcionController extends Controller
         $reporte_encabezado = new Reportes();
 
         $reporte_encabezado
-            ->setTitle("Control de calidad")
+            ->setTitle("Calidad")
             ->setCreatedAt(CArbon::now())
             ->setSubtitle("Bodega de Materias primas")
             ->setExcept(
@@ -140,7 +136,6 @@ class ReporteRecepcionController extends Controller
                         ->select(
                             'productos.descripcion as id_producto',
                             'lote',
-                            'rmi_detalle.fecha_vencimiento as fecha_vencimiento',
                             'cantidad_entrante',
                             'cantidad',
                             \DB::raw('if(rampa=1,0.00,(cantidad - cantidad_entrante)) as RECHAZADO')

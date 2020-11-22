@@ -14,7 +14,7 @@
 
 @section('contenido')
     <div class="col-lg-12 col-lg-push-4 col-sm-12   col-sm-push-4   col-md-12   col-md-push-4  col-xs-12">
-        <h3>CONTROL DE TRAZABILIDAD</h3>
+        <h3>DOCUMENTO TRAZABILIDAD</h3>
     </div>
     @component('componentes.nav',['operation'=>'Finalizar',
     'menu_icon'=>' fa fa fa-cube ',
@@ -24,12 +24,15 @@
             Produccion
         @endslot
         @slot('submenu')
-            Control Trazabilidad
+            Trazabilidad
         @endslot
     @endcomponent
 
     {!!Form::open(array('url'=>'produccion/trazabilidad_chao_mein/finalizar/'.$control->id_control,'method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
+    <div>
+        <h3>Informacion de producción</h3>
+    </div>
 
     <input type="hidden" name="id_producto" id="id_producto" value="{{$control->id_producto}}">
     <input type="hidden" name="id_control" id="id_control" value="{{$control->id_control}}">
@@ -46,7 +49,7 @@
     </div>
     <div class="col-lg-3 col-sm-2 col-md-2 col-xs-6">
         <div class="form-group">
-            <label for="unidad_medida">U.MEDIDA</label>
+            <label for="unidad_medida">U.Medida</label>
             <input type="text"
                    name="unidad_medida"
                    readonly
@@ -57,7 +60,7 @@
     </div>
     <div class="col-lg-3 col-sm-4 col-md-4 col-xs-6">
         <div class="form-group">
-            <label for="best_by">BEST BY</label>
+            <label for="best_by">Fecha Vencimiento</label>
             <input type="text"
                    name="best_by"
                    readonly
@@ -69,7 +72,7 @@
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="ordenes">ORDENES</label>
+            <label for="ordenes">Ordenes</label>
             <input type="text"
                    name="ordenes"
                    id="ordenes"
@@ -96,21 +99,10 @@
         </div>
     </div>
 
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="turno">TURNO</label>
-            <input type="text"
-                   name="turno"
-                   id="turno"
-                   readonly
-                   value="{{$control->id_turno}}"
-                   class="form-control">
-        </div>
-    </div>
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="cantidad_programada">CANTIDAD PROGRAMADA</label>
+            <label for="cantidad_programada">Cantidad Programada</label>
             <input type="text"
                    name="cantidad_programada"
                    id="cantidad_programada"
@@ -121,7 +113,7 @@
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="cantidad_produccion">CANTIDAD PRODUCCION</label>
+            <label for="cantidad_produccion">Cantidad Produccion</label>
             <input type="text"
                    name="cantidad_produccion"
                    id="cantidad_produccion"
@@ -134,7 +126,7 @@
     @if($control->producto->tipo_producto == 'PT')
         <div class="col-lg-3 col-sm-3 col-md-6 col-xs-12">
             <div class="form-group">
-                <label for="cantidad_etiquetas_corrugado">UNIDAD DE DISTRIBUCION</label>
+                <label for="cantidad_etiquetas_corrugado">U. de Distribucion</label>
                 <input type="text"
                        name="cantidad_etiquetas_corrugado"
                        id="cantidad_etiquetas_corrugado"
@@ -144,7 +136,7 @@
         </div>
         <div class="col-lg-3 col-sm-3 col-md-6 col-xs-12">
             <div class="form-group">
-                <label for="cantidad_etiquetas_unidades">UNIDADES S/ETIQUETA</label>
+                <label for="cantidad_etiquetas_unidades">Sueltos</label>
                 <input type="text"
                        name="cantidad_etiquetas_unidades"
                        id="cantidad_etiquetas_unidades"
@@ -158,12 +150,12 @@
         <ul class="nav nav-tabs">
             <li class="active">
                 <a href="#insumos" data-toggle="tab" aria-expanded="false">
-                    INSUMOS
+                    Insumos
                 </a>
             </li>
             <li class="">
                 <a href="#involucrados" data-toggle="tab" aria-expanded="false">
-                    COLABORADORES INVOLUCRADOS
+                    Colaboradores
                 </a>
             </li>
         </ul>
@@ -174,11 +166,10 @@
                     <table class="table table-bordered ">
                         <thead style="background-color: #f7b633;  color: #fff;">
                         <tr>
-                            <th>INSUMO</th>
-                            <th>NO LOTE</th>
-
-                            <th>Cantidad</th>
-                            <th>CANTIDAD UTILIZADA</th>
+                            <th>Insumo</th>
+                            <th>No Lote</th>
+                            <th>Cantidad Solicitada</th>
+                            <th>Cantidad Utilizada</th>
                         </tr>
                         </thead>
                         <tbody id="tbody_insumos">
@@ -186,7 +177,7 @@
                             <tr>
                                 <td>
                                     <input type="hidden" name="insumo[]" value="{{$insumo->id_detalle_insumo}}">
-                                    {{$insumo->producto->codigo_interno}}
+                                    {{$insumo->producto->descripcion}}
                                 </td>
                                 <td>
                                     {{$insumo->lote}}

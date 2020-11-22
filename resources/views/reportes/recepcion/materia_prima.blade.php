@@ -8,7 +8,7 @@
 @include('reportes.parcials.pdf.header')
 
 <br>
-@include('reportes.parcials.pdf.detalle_header')
+
 <br>
 @include('reportes.parcials.pdf.detalle')
 

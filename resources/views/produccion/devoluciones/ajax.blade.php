@@ -18,7 +18,7 @@
             Produccion
         @endslot
         @slot('submenu')
-            Devoluciones
+            Devolver
         @endslot
     @endcomponent
 
@@ -27,8 +27,11 @@
 
 
             @can('role-edit')
-                @component('componentes.btn-edit',['url'=>'javascript:editar("devoluciones","devolucion")'])
-                @endcomponent
+
+                <a href="javascript:editar('devoluciones','devolucion')" data-placement="top" title="Devolver"
+                   data-toggle="tooltip"><img
+                        src="{{asset('imagenes_web/undo.png')}}" width="35" height="35"></a>
+
             @endcan
 
 

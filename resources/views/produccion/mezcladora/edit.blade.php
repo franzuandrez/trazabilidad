@@ -568,7 +568,7 @@
                     <div class="col-lg-2 col-sm-4 col-md-2 col-xs-2">
                         <br>
                         <div class="form-group">
-                            <button id="btnAdd" class="btn btn-default block" style="margin-top: 5px;" type="button">
+                            <button id="btnAdd" class="btn btn-primary block" style="margin-top: 5px;" type="button">
                                 <span class=" fa fa-plus"></span></button>
                         </div>
                     </div>

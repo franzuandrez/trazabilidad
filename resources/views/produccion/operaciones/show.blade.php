@@ -18,7 +18,7 @@
     <input name="id_requisicion" type="hidden" id="id_requisicion">
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="no_requision">NO.REQUISION</label>
+            <label for="no_requision">No. Requisicion</label>
             <input type="text"
                    readonly
                    name="no_requisicion"
@@ -30,7 +30,7 @@
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="no_orden_produccion">NO.ORDEN PRODUCCION</label>
+            <label for="no_orden_produccion">No. Orden Produccion</label>
             <input type="text"
                    name="no_orden_produccion"
                    readonly
@@ -48,9 +48,9 @@
 
                 <thead style="background-color: #f7b633;  color: #fff;">
                 <th>Cantidad</th>
-                <th>CODIGO PRODUCTO</th>
+                <th>Cod. Producto</th>
                 <th>Producto</th>
-                <th>DETALLE</th>
+                <th>Detalle</th>
                 </thead>
                 <tbody id="body-detalles">
                 @foreach( $requisicion->detalle as $detalle )
@@ -93,7 +93,7 @@
 
                 <thead style="background-color: #f7b633;  color: #fff;">
                 <th>Cantidad</th>
-                <th>CODIGO PRODUCTO</th>
+                <th>Cod. Producto</th>
                 <th>Producto</th>
 
                 </thead>

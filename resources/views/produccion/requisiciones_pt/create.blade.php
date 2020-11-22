@@ -53,7 +53,7 @@
     <input name="id_requisicion" type="hidden" id="id_requisicion">
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="no_requisicion">FACTURA</label>
+            <label for="no_requisicion">Factura</label>
             <input type="text"
                    name="no_requisicion"
                    id="no_requisicion"
@@ -64,7 +64,7 @@
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="cliente">CLIENTE</label>
+            <label for="cliente">Cliente</label>
             <input type="text"
                    name="cliente"
                    id="cliente"
@@ -75,7 +75,7 @@
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="cliente_ref_2">REFERENCIA</label>
+            <label for="cliente_ref_2">Referencia</label>
             <input type="text"
                    name="cliente_ref_2"
                    id="cliente_ref_2"
@@ -102,7 +102,7 @@
                 <input type="file" name="file_requisiones">
                 <a class="btn btn-app" onclick="javascript:importar()">
                     <i class="fa fa-upload"></i>
-                    IMPORTAR
+                    Importar
                 </a>
             </div>
 
@@ -116,9 +116,9 @@
 
             <thead style="background-color: #f7b633;  color: #fff;">
             <th>Cantidad</th>
-            <th>CODIGO PRODUCTO</th>
+            <th>Cod. Producto</th>
             <th>Producto</th>
-            <th>UNIDAD MEDIDA</th>
+            <th>Unidad Medida</th>
             </thead>
             <tbody id="body-detalles">
             </tbody>

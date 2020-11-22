@@ -369,20 +369,20 @@
                                 </li>
                                 <li>
                                     <a href="{{url('movimientos/kardex')}}">
-                                        <i class="fa fa-th-list" aria-hidden="true"></i>
+                                        <i class="fa fa-exchange" aria-hidden="true"></i>
                                         Movimientos
                                     </a>
                                 </li>
                             @endcan
                             @can('trazabilidad_hacia_atras')
                                 <li>
-                                    <a href="{{url('operaciones/consultas/trazabilidad')}}"><i class="fa fa-map"></i>
+                                    <a href="{{url('operaciones/consultas/trazabilidad')}}"><i class="fa fa-history"></i>
                                         Traz. Hacia Atras
                                     </a>
                                 </li>
                                 <li>
                                     <a href="{{url('operaciones/consultas/trazabilidad/hacia_adelante')}}"><i
-                                            class="fa fa-map"></i>
+                                            class="fa  fa-long-arrow-right"></i>
                                         Traz. Hacia Adelante
                                     </a>
                                 </li>

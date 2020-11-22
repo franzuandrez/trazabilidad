@@ -42,16 +42,7 @@
                    class="form-control">
         </div>
     </div>
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="documento_proveedor">DOCUMENTO Proveedor</label>
-            <input type="text"
-                   readonly
-                   name="documento_proveedor"
-                   value="{{$recepcion->documento_proveedor}}"
-                   class="form-control">
-        </div>
-    </div>
+
 
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">

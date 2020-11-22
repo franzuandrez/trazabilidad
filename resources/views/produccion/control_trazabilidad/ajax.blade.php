@@ -19,7 +19,7 @@
             Produccion
         @endslot
         @slot('submenu')
-            Control Trazabilidad
+            Trazabilidad
         @endslot
     @endcomponent
 
@@ -34,8 +34,10 @@
             @endcan
             @can('role-edit')
 
-                @component('componentes.btn-edit',['url'=>'javascript:editar("trazabilidad_chao_mein")'])
-                @endcomponent
+                <a href="javascript:editar('trazabilidad_chao_mein')" data-placement="top" title="Asociar"
+                   data-toggle="tooltip"><img
+                        src="{{asset('imagenes_web/asociar.png')}}" width="35" height="35"></a>
+
             @endcan
             @can('role-list')
                 @component('componentes.btn-ver',['url'=>'javascript:ver("trazabilidad_chao_mein")'])
@@ -55,7 +57,7 @@
 
     @component('componentes.alert-no-selecction')
         @slot('mensaje')
-            Seleccionar CONTROL DE TRAZABILIDAD
+            Seleccionar Documento
         @endslot
     @endcomponent
     <div id="content">

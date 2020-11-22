@@ -5,15 +5,15 @@
 @endsection
 
 @section('contenido')
-    @component('componentes.nav',['operation'=>'Ubicar',
+    @component('componentes.nav',['operation'=>'LIST',
     'menu_icon'=>'fa-arrow-circle-o-right',
     'submenu_icon'=>'fa fa-undo',
     'operation_icon'=>'fa-plus',])
         @slot('menu')
-            Recepcion
+            Produccion
         @endslot
         @slot('submenu')
-            Asignar Ubicacion
+           Devolver
         @endslot
     @endcomponent
 
@@ -22,7 +22,7 @@
     {{Form::token()}}
     <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="no_documento">NO. CONTROL TRAZABILIDAD</label>
+            <label for="no_documento">No. Doc. Trazabilidad</label>
             <input type="text"
                    readonly
                    id="no_documento"

@@ -14,7 +14,7 @@
 
 @section('contenido')
     <div class="col-lg-12 col-lg-push-4 col-sm-12   col-sm-push-4   col-md-12   col-md-push-4  col-xs-12">
-        <h3>CONTROL DE TRAZABILIDAD</h3>
+        <h3>DOCUMENTO TRAZABILIDAD</h3>
     </div>
     @component('componentes.nav',['operation'=>'Crear',
     'menu_icon'=>' fa fa fa-cube ',
@@ -24,14 +24,16 @@
             Produccion
         @endslot
         @slot('submenu')
-            Control Trazabilidad
+            Trazabilidad
         @endslot
     @endcomponent
 
     {!!Form::open(array('url'=>'produccion/trazabilidad_chao_mein/create','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
     @include('produccion.partials.orden_produccion_sugerida')
-
+    <div>
+        <h3>Informacion de producción</h3>
+    </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <input type="hidden" id="id_requisicion" name="id_requisicion">
         <label for="codigo_producto">Cod. Producto</label>
@@ -76,7 +78,7 @@
     </div>
     <div class="col-lg-1 col-sm-2 col-md-2 col-xs-6">
         <div class="form-group">
-            <label for="unidad_medida">U.MEDIDA</label>
+            <label for="unidad_medida">U.Medida</label>
             <input type="text"
                    name="unidad_medida"
                    readonly
@@ -86,15 +88,20 @@
     </div>
     <div class="col-lg-2 col-sm-4 col-md-4 col-xs-6">
         <div class="form-group">
-            <label for="best_by">BEST BY</label>
+            <label for="best_by">Fecha Vencimiento</label>
             <input type="text"
+                   readonly
                    name="best_by"
                    id="best_by"
                    class="form-control">
         </div>
     </div>
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <label for="no_orden_produccion">NO. ORDEN PRODUCION</label>
+
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <hr>
+    </div>
+    <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
+        <label for="no_orden_produccion">Ordenes</label>
         <div class="input-group">
             <input type="text"
                    name="no_orden_produccion"
@@ -129,9 +136,9 @@
         </div>
 
     </div>
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+    <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="ordenes">ORDENES</label>
+            <label for="ordenes">Ordenes</label>
             <input type="text"
                    name="ordenes"
                    id="ordenes"
@@ -139,7 +146,7 @@
                    class="form-control">
         </div>
     </div>
-    <div class="col-lg-4 col-sm-6 col-md-4 col-xs-12">
+    <div class="col-lg-3 col-sm-6 col-md-4 col-xs-12">
         <div class="form-group">
             <label for="lote_produccion">No. Lote</label>
             <input type="text"
@@ -151,21 +158,20 @@
         </div>
     </div>
 
-    <div class="col-lg-4 col-sm-6 col-md-4col-xs-12">
+    <div class="col-lg-4 col-sm-6 col-md-4 col-xs-12" style="display: none">
         <div class="form-group">
             <label for="turno">TURNO</label>
             <input type="text"
                    name="turno"
                    id="turno"
-                   data-index="2"
                    readonly
+                   value="1"
                    class="form-control">
         </div>
     </div>
-
-    <div class="col-lg-4 col-sm-6 col-md-4 col-xs-12">
+    <div class="col-lg-3 col-sm-6 col-md-4 col-xs-12">
         <div class="form-group">
-            <label for="cantidad_programada">CANTIDAD PROGRAMADA</label>
+            <label for="cantidad_programada">Cantidad Programada</label>
             <input type="number"
                    name="cantidad_programada"
                    id="cantidad_programada"
@@ -174,38 +180,29 @@
                    class="form-control">
         </div>
     </div>
-
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-        <ul class="nav nav-tabs">
-            <li class="active">
-                <a href="#insumos" data-toggle="tab" aria-expanded="false">
-                    INSUMOS
-                </a>
-            </li>
+        <hr>
+        <h3>Insumos</h3>
+    </div>
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <br>
+        @include('produccion.control_trazabilidad.panel_agregar_insumos')
+        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
 
-        </ul>
-        <div class="tab-content">
-            <div class="tab-pane active" id="insumos">
-                <br>
-                @include('produccion.control_trazabilidad.panel_agregar_insumos')
-                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+            <table class="table table-bordered table-responsive">
+                <thead style="background-color: #f7b633;  color: #fff;">
+                <tr>
+                    <th>Insumo</th>
+                    <th>No Lote</th>
+                    <th>Cantidad</th>
+                    <th>Fecha Venc.</th>
+                </tr>
+                </thead>
+                <tbody id="tbody_insumos">
+                </tbody>
+            </table>
 
-                    <table class="table table-bordered table-responsive">
-                        <thead style="background-color: #f7b633;  color: #fff;">
-                        <tr>
-                            <th>MP</th>
-                            <th>NO LOTE</th>
-                            <th>Cantidad</th>
-                            <th>FECHA VENC.</th>
-                        </tr>
-                        </thead>
-                        <tbody id="tbody_insumos">
-                        </tbody>
-                    </table>
-                </div>
-            </div>
         </div>
-
     </div>
 
     <div class="loading">
@@ -224,9 +221,9 @@
                 <span class=" fa fa-check"></span> Guardar
             </button>
             <a href="{{url('produccion/trazabilidad_chao_mein ')}}">
-                  <button class="btn btn-primary" type="button">
-               <span class=" fa fa-close"></span> Cancelar
-            </button>
+                <button class="btn btn-primary" type="button">
+                    <span class=" fa fa-close"></span> Cancelar
+                </button>
             </a>
 
         </div>

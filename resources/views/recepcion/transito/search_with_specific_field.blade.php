@@ -5,44 +5,13 @@ $search ---------> Es el texto a buscar.
 $sort   ---------->Tipo de ordenamiento (asc ó desc).
 $sortField --------> El campo por el cual se hará el ordenamiento.
 --}}
+
+<br>
 <div class="row">
 
     <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
 
         <div class="input-group ">
-            <div class="input-group-btn">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-                        id="btn_campo_busqueda"
-                        aria-expanded="true">
-                    @if($campo_busqueda=="1")
-                        No liberado
-                    @else
-                        Liberado
-                    @endif
-
-                    <span class="fa fa-caret-down"></span>
-                </button>
-
-                <ul class="dropdown-menu" id="options">
-                    <input type="hidden"
-                           value="{{$campo_busqueda}}"
-                           id="campo_busqueda">
-
-                    <li>
-                        <a href="javascript:setCampoBusqueda('1')">
-                            No liberado
-                        </a>
-                    </li>
-
-
-                    <li>
-                        <a href="javascript:setCampoBusqueda('0')">
-                            Liberado
-                        </a>
-                    </li>
-
-                </ul>
-            </div>
 
             <input class="form-control"
                    value="{{ $search }}"
@@ -51,13 +20,13 @@ $sortField --------> El campo por el cual se hará el ordenamiento.
                    placeholder="Buscar" name="search"
                    type="text" id="search"/>
             <span class="input-group-btn">
-                    <button type="submit" class="btn  btn-flat btn-default"
+                    <button type="submit" class="btn  btn-flat btn-primary"
                             onclick=" ajaxLoad('{{Request::url()}}?search='+encodeURIComponent(document.getElementById('search').value)+'&sort={{$sort}}&field={{$sortField}}&campo_busqueda='+document.getElementById('campo_busqueda').value)"
                     >
                         <i class="fa fa-search" aria-hidden="true"></i>
 
                     </button>
-                    <button type="submit" class="btn  btn-flat btn-default"
+                    <button type="submit" class="btn  btn-flat btn-primary"
                             onclick="ajaxLoad('{{Request::url()}}?search=')"
                     >
                         <i class="fa fa-trash" aria-hidden="true"></i>

@@ -71,7 +71,7 @@
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12" style="display: none">
         <div class="form-group">
-            <label for="id_categoria_cliente">CATEGORIA CLIENTE</label>
+            <label for="id_categoria_cliente">CATEGORIA Cliente</label>
             <select name="id_categoria_cliente" class="form-control selectpicker">
                 @foreach($categorias as $categoria)
                     @if($categoria->id_categoria == $cliente->id_categoria)

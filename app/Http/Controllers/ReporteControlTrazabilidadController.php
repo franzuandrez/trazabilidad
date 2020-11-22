@@ -27,12 +27,11 @@ class ReporteControlTrazabilidadController extends Controller
             ->join('users', 'users.id', '=', 'control_trazabilidad.id_usuario')
             ->select(
                 'control_trazabilidad.id_control',
-                'control_trazabilidad.id_turno',
                 'control_trazabilidad.lote',
                 'control_trazabilidad.cantidad_programada as CANTIDAD PROGRAMADA',
                 'control_trazabilidad.cantidad_producida AS CANTIDAD PRODUCIDA',
                 DB::raw(
-                    "(select GROUP_CONCAT(no_orden_produccion)as no_orden_produccion 
+                    "(select GROUP_CONCAT(no_orden_produccion)as Ordenes
                     from  control_trazabilidad_orden_produccion where id_control = control_trazabilidad.id_control )
                     as no_orden_produccion "
                 ),
@@ -42,7 +41,7 @@ class ReporteControlTrazabilidadController extends Controller
 
         $reporte_encabezado = new Reportes();
         $reporte_encabezado
-            ->setTitle('Control de Trazabilidad')
+            ->setTitle('Documento de Trazabilidad')
             ->setCreatedAt(Carbon::now())
             ->setSubtitle('Control de Trazabilidad')
             ->setExcept(['id', 'id_control', 'id_detalle_insumo']);
@@ -59,20 +58,14 @@ class ReporteControlTrazabilidadController extends Controller
                     'INSUMOS' => $control_trazabilidad
                         ->detalle_insumos()
                         ->select('productos.descripcion as id_producto',
-                            'detalle_insumos.color',
-                            'detalle_insumos.olor',
-                            'detalle_insumos.impresion',
-                            'detalle_insumos.ausencia_material_extranio',
                             'detalle_insumos.cantidad',
                             'detalle_insumos.cantidad_utilizada',
-                            'detalle_insumos.lote',
-                            DB::raw("date_format(detalle_insumos.fecha_vencimiento,'%d/%m/%Y') as fecha_vencimiento")
-
+                            'detalle_insumos.lote'
                         )
                         ->join('productos', 'productos.id_producto', '=', 'detalle_insumos.id_producto')
                         ->get()
                     ,
-                    'OPERARIOS INVOLUCRADOS' => $control_trazabilidad
+                    'PERSONAL' => $control_trazabilidad
                         ->asistencias()
                         ->select(
                             DB::raw('concat(colaboradores.nombre,"  ",colaboradores.apellido) as id_colaborador'),

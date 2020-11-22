@@ -21,15 +21,15 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>DOCUMENTO</th>
+                    <th>Documento</th>
                     <td>   {{$trazabilidad_hacia_adelante['productos']->first()->recepcion->orden_compra}}</td>
                 </tr>
                 <tr>
-                    <th>PROVEEDOR</th>
+                    <th>Proveedor</th>
                     <td>   {{$trazabilidad_hacia_adelante['productos']->first()->recepcion->proveedor->razon_social}}</td>
                 </tr>
                 <tr>
-                    <th>FECHA RECEPCION</th>
+                    <th>Fecha Recepcion</th>
                     <td>   {{$trazabilidad_hacia_adelante['productos']->first()->recepcion->fecha_ingreso->format('d/m/Y H:i:s')}}</td>
                 </tr>
 
@@ -45,10 +45,10 @@
         <table class="table table-bordered">
             <tbody>
             <tr>
-                <th>FECHA</th>
+                <th>Fecha</th>
                 <th>Producto</th>
                 <th>No. Lote</th>
-                <th>CANTIDAD UTILIZADA</th>
+                <th>Cantidad Utilizada</th>
                 <th></th>
             </tr>
             @foreach($trazabilidad_hacia_adelante['insumos'] as $insumo)
@@ -75,11 +75,11 @@
         <table class="table table-bordered">
             <tbody>
             <tr>
-                <th>FECHA</th>
-                <th>DOCUMENTO</th>
-                <th>TIPO DOC</th>
-                <th>TIPO MOVIMIENTO</th>
-                <th>BODEGA</th>
+                <th>Fecha</th>
+                <th>Documento</th>
+                <th>Tipo Doc</th>
+                <th>Tipo Movimiento</th>
+                <th>Bodega</th>
                 <th>Cantidad</th>
             </tr>
             @php

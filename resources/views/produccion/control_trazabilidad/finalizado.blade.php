@@ -14,7 +14,7 @@
 
 @section('contenido')
     <div class="col-lg-12 col-lg-push-4 col-sm-12   col-sm-push-4   col-md-12   col-md-push-4  col-xs-12">
-        <h3>CONTROL DE TRAZABILIDAD</h3>
+        <h3>DOCUMENTO TRAZABILIDAD</h3>
     </div>
     @component('componentes.nav',['operation'=>'Finalizado',
     'menu_icon'=>' fa fa fa-cube ',
@@ -24,7 +24,7 @@
             Produccion
         @endslot
         @slot('submenu')
-            Control Trazabilidad
+            Trazabilidad
         @endslot
     @endcomponent
 
@@ -44,7 +44,7 @@
     </div>
     <div class="col-lg-3 col-sm-2 col-md-2 col-xs-6">
         <div class="form-group">
-            <label for="unidad_medida">U.MEDIDA</label>
+            <label for="unidad_medida">U.Medida</label>
             <input type="text"
                    name="unidad_medida"
                    readonly
@@ -55,7 +55,7 @@
     </div>
     <div class="col-lg-3 col-sm-4 col-md-4 col-xs-6">
         <div class="form-group">
-            <label for="best_by">BEST BY</label>
+            <label for="best_by">Fecha Vencimiento</label>
             <input type="text"
                    name="best_by"
                    readonly
@@ -67,7 +67,7 @@
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="ordenes">ORDENES</label>
+            <label for="ordenes">Ordenes</label>
             <input type="text"
                    name="ordenes"
                    id="ordenes"
@@ -108,7 +108,7 @@
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="cantidad_programada">CANTIDAD PROGRAMADA</label>
+            <label for="cantidad_programada">Cantidad Programada</label>
             <input type="text"
                    name="cantidad_programada"
                    id="cantidad_programada"
@@ -119,7 +119,7 @@
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="cantidad_produccion">CANTIDAD PRODUCCION</label>
+            <label for="cantidad_produccion">Cantidad Produccion</label>
             <input type="text"
                    name="cantidad_produccion"
                    id="cantidad_produccion"
@@ -132,12 +132,12 @@
         <ul class="nav nav-tabs">
             <li class="active">
                 <a href="#insumos" data-toggle="tab" aria-expanded="false">
-                    INSUMOS
+                    Insumos
                 </a>
             </li>
             <li class="">
                 <a href="#involucrados" data-toggle="tab" aria-expanded="false">
-                    COLABORADORES INVOLUCRADOS
+                    Colaboradores
                 </a>
             </li>
         </ul>
@@ -148,14 +148,14 @@
                     <table class="table table-bordered ">
                         <thead style="background-color: #f7b633;  color: #fff;">
                         <tr>
-                            <th>INSUMO</th>
+                            <th>Insumo</th>
                             <th>COLOR</th>
                             <th>OLOR</th>
                             <th>IMPRESION</th>
                             <th>AUSENCIA DE ME</th>
                             <th>No. Lote</th>
                             <th>Cantidad</th>
-                            <th>CANTIDAD UTILIZADA</th>
+                            <th>Cantidad Utilizada</th>
                         </tr>
                         </thead>
                         <tbody id="tbody_insumos">

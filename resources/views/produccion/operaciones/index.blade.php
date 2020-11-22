@@ -18,7 +18,7 @@
                           'sort'=>$sort,
                           'sortField'=>$sortField,
                           'field'=>'requisicion_encabezado.no_orden_produccion',
-                          'titulo'=>'NO. ORDEN'])
+                          'titulo'=>'No. Orden'])
                     @endcomponent
                 </th>
                 <th>
@@ -27,7 +27,7 @@
                           'sort'=>$sort,
                           'sortField'=>$sortField,
                           'field'=>'requisicion_encabezado.no_requision',
-                          'titulo'=>'NO. REQUISION'])
+                          'titulo'=>'No. Requisicion'])
                     @endcomponent
                 </th>
 
@@ -37,7 +37,7 @@
                           'sort'=>$sort,
                           'sortField'=>$sortField,
                           'field'=>'users.nombre',
-                          'titulo'=>'Elaborador'])
+                          'titulo'=>'Responsable'])
                     @endcomponent
                 </th>
                 <th>

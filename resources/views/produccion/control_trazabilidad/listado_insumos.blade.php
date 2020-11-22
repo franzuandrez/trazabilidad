@@ -3,14 +3,11 @@
     <table class="table table-bordered table-responsive">
         <thead style="background-color: #f7b633;  color: #fff;">
         <tr>
-            <th>MP</th>
-            <th>COLOR</th>
-            <th>OLOR</th>
-            <th>IMPRESION</th>
-            <th>AUSENCIA M.E.</th>
-            <th>NO LOTE</th>
+            <th>Insumo</th>
+
+            <th>No Lote</th>
             <th>Cantidad</th>
-            <th>FECHA VENC.</th>
+            <th>Fecha Venc.</th>
         </tr>
         </thead>
         <tbody id="tbody_insumos">
@@ -25,7 +22,7 @@
                                value="{{$insumo->id_detalle_insumo}}">
                         {{$insumo->producto->descripcion}}
                     </td>
-                    <td>
+                    <td style="display: none">
                         @if($insumo->color==1)
                             <input type="hidden" name="color[]" value="1">
                             <input type="checkbox"  checked  onclick="return false">
@@ -34,7 +31,7 @@
                             <input type="checkbox" onclick="asignar(this)"   >
                         @endif
                     </td>
-                    <td>
+                    <td style="display: none">
                         @if($insumo->olor==1)
                             <input type="hidden" name="olor[]" value="1">
                             <input type="checkbox" checked  onclick="return false">
@@ -43,7 +40,7 @@
                             <input type="checkbox" onclick="asignar(this)"   >
                         @endif
                     </td>
-                    <td>
+                    <td style="display: none">
                         @if($insumo->impresion==1)
                             <input type="hidden" name="impresion[]" value="1">
                             <input type="checkbox" checked  onclick="return false">
@@ -52,7 +49,7 @@
                             <input type="checkbox" onclick="asignar(this)"   >
                         @endif
                     </td>
-                    <td>
+                    <td style="display: none">
                         @if($insumo->ausencia_material_extranio==1)
                             <input type="hidden" name="ausencia_me[]" value="1">
                             <input type="checkbox" checked  onclick="return false">

@@ -8,13 +8,13 @@
 
     @component('componentes.nav',['operation'=>'LIST',
     'menu_icon'=>'fa-file-text',
-    'submenu_icon'=>'fa fa-list-ol',
+    'submenu_icon'=>'fa  fa-long-arrow-right',
     'operation_icon'=>'',])
         @slot('menu')
-            Operaciones
+            Reportes
         @endslot
         @slot('submenu')
-            Consulta trazabilidad
+            Hacia Adelante
         @endslot
     @endcomponent
 

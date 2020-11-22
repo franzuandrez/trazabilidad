@@ -17,11 +17,11 @@
 
 
     @component('componentes.nav',['operation'=>'LIST',
-    'menu_icon'=>' fa fa-arrow-circle-o-right ',
+    'menu_icon'=>' fa  fa fa-file-text  ',
     'submenu_icon'=>'fa fa-th-list',
     'operation_icon'=>'',])
         @slot('menu')
-            Recepcion
+            Reportes
         @endslot
         @slot('submenu')
             Existencias
