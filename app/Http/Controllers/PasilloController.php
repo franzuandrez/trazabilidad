@@ -39,7 +39,7 @@ class PasilloController extends Controller
                     ->orWhere('sectores.descripcion', 'LIKE', '%' . $search . '%');
             })
             ->orderBy($sortField, $sort)
-            ->paginate(20);
+            ->paginate(12);
 
 
         if ($request->ajax()) {

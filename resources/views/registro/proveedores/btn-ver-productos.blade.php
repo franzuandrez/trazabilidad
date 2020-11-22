@@ -4,6 +4,6 @@
    data-toggle="tooltip">
     <img
         src="{{asset('imagenes_web/mejoras.png')}}"
-        width="50"
-        height="50">
+        width="35"
+        height="35">
 </a>

@@ -1,8 +1,8 @@
 <li>
-    <i class="fa    fa fa fa-arrow-right      bg-red"></i>
+    <i class="fa    fa fa fa-list      bg-red"></i>
     <div class="timeline-item">
         <span class="time"><i class="fa fa-clock-o"></i>{{$evento->fecha->format('H:i:s')}}</span>
-        <h3 class="timeline-header"><a href="#" style="color: #01579b !important;">
+        <h3 class="timeline-header"><a href="#" style="color: #f7b633 !important;">
                 Control Calidad
             </a> {{$evento->evento['control_calidad']->documento}}</h3>
         <div class="timeline-body">

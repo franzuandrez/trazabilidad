@@ -90,16 +90,16 @@
         labelHover = !!settings.labelHover,
         labelHoverClass = settings.labelHoverClass || 'hover',
 
-        // Setup clickable area
-        area = ('' + settings.increaseArea).replace('%', '') | 0;
+        // Setup clickable Bodega
+        Bodega = ('' + settings.increaseArea).replace('%', '') | 0;
 
       // Selector limit
       if (selector == _checkbox || selector == _radio) {
         handle = 'input[type="' + selector + '"]';
       }
-        // Clickable area limit
-      if (area < -50) {
-        area = -50;
+        // Clickable Bodega limit
+      if (Bodega < -50) {
+        Bodega = -50;
       }
         // Walk around the selector
       walker(this);
@@ -114,8 +114,8 @@
           id = node.id,
 
           // Layer styles
-          offset = -area + '%',
-          size = 100 + (area * 2) + '%',
+          offset = -Bodega + '%',
+          size = 100 + (Bodega * 2) + '%',
           layer = {
             position: 'absolute',
             top: offset,
@@ -134,7 +134,7 @@
           hide = _mobile ? {
             position: 'absolute',
             visibility: 'hidden'
-          } : area ? layer : {
+          } : Bodega ? layer : {
             position: 'absolute',
             opacity: 0
           },

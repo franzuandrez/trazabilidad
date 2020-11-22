@@ -7,7 +7,7 @@
     'submenu_icon'=>'fa fa-cubes',
     'operation_icon'=>'fa-eye',])
         @slot('menu')
-            Registro
+            Catalogos
         @endslot
         @slot('submenu')
             Dimensionales
@@ -27,7 +27,7 @@
     </div>
     <div class="col-lg-4 col-sm-4 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="unidad_medida">UNIDAD DE MEDIDA</label>
+            <label for="unidad_medida">Unidad de Medida</label>
             <input type="text" name="unidad_medida" readonly value="{{$dimensional->unidad_medida}}"
                    class="form-control">
         </div>
@@ -43,9 +43,9 @@
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
             <a href="{{url('registro/dimensionales')}}">
-                <button class="btn btn-default" type="button">
+                <button class="btn btn-primary" type="button">
                     <span class="fa fa-backward"></span>
-                    REGRESAR
+                    Regresar
                 </button>
             </a>
 

@@ -4,10 +4,10 @@
 
     @component('componentes.nav',['operation'=>'Ver',
     'menu_icon'=>'fa-file-text',
-    'submenu_icon'=>'fa fa-building',
+    'submenu_icon'=>'fa fa-home',
     'operation_icon'=>'fa-eye',])
         @slot('menu')
-            Registro
+            Catalogos
         @endslot
         @slot('submenu')
             Localidades
@@ -18,21 +18,21 @@
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="codigo_barras">CODIGO BARRAS</label>
+            <label for="codigo_barras">Codigo  Barras</label>
             <input type="text" readonly name="codigo_barras" value="{{$localidad->codigo_barras}}"
                    class="form-control">
         </div>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="descripcion">DESCRIPCION</label>
+              <label for="descripcion">Descripcion</label>
             <input type="text"  readonly name="descripcion" value="{{$localidad->descripcion}}"
                    class="form-control">
         </div>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="direccion">DIRECCION</label>
+            <label for="direccion">Direccion</label>
             <input type="text" readonly name="direccion" value="{{$localidad->direccion}}"
                    class="form-control">
         </div>
@@ -57,9 +57,9 @@
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
             <a href="{{url('registro/localidades')}}">
-                <button class="btn btn-default" type="button">
+                <button class="btn btn-primary" type="button">
                     <span class="fa fa-backward"></span>
-                    REGRESAR
+                    Regresar
                 </button>
             </a>
         </div>

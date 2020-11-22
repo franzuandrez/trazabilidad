@@ -31,7 +31,7 @@
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="producto">PRODUCTO</label>
+            <label for="producto">Producto</label>
             <input type="text"
                    readonly
                    id="producto"
@@ -770,7 +770,7 @@
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <label for="label_generico">VENTILACION IDEAL ACORDE A PRODUCTO</label>
+            <label for="label_generico">VENTILACION IDEAL ACORDE A Producto</label>
         </div>
     </div>
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
@@ -945,17 +945,17 @@
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <button class="btn btn-default"
+            <button class="btn btn-primary"
                     onclick="guardar()"
                     type="button">
-                <span class=" fa fa-check"></span> GUARDAR
+                <span class=" fa fa-check"></span> Guardar
             </button>
-            <a href="{{url('control/chaomin')}}">
-                <button class="btn btn-default" type="button">
-                    <span class="fa fa-remove"></span>
-                    CANCELAR
-                </button>
+            <a href="{{url('control/chaomin ')}}">
+                  <button class="btn btn-primary" type="button">
+               <span class=" fa fa-close"></span> Cancelar
+            </button>
             </a>
+
 
         </div>
     </div>

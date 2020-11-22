@@ -53,7 +53,7 @@ class ProveedorController extends Controller
                     ->orwhere('codigo_proveedor', 'LIKE', '%' . $search . '%');
             })
             ->orderBy($sortField, $sort)
-            ->paginate(20);
+            ->paginate(12);
 
 
         if ($request->ajax()) {
@@ -166,7 +166,7 @@ class ProveedorController extends Controller
 
             DB::rollback();
 
-
+            dd($ex);
             return redirect()
                 ->route('proveedores.index')
                 ->withErrors(['error' => 'Lo sentimos, su petición no fue procesada']);
@@ -475,14 +475,14 @@ class ProveedorController extends Controller
     {
 
         $codigo = strtoupper($codigo);
-        $correlativoEntrante = explode('PROV', $codigo)[1];
+        $correlativoEntrante = explode('02', $codigo)[1];
 
         $correlativoActual = Correlativo::where('modulo', 'PROVEEDORES')
             ->first();
 
         if ($correlativoActual == null) {
             $correlativo = new Correlativo();
-            $correlativo->prefijo = 'PROV';
+            $correlativo->prefijo = '02';
             $correlativo->correlativo = '1';
             $correlativo->modulo = 'PROVEEDORES';
             $correlativo->id_empresa = 1;

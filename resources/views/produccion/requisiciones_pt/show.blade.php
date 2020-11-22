@@ -5,7 +5,7 @@
 @section('contenido')
     @component('componentes.nav',['operation'=>'Ver',
     'menu_icon'=>' fa fa fa-cube ',
-    'submenu_icon'=>' fa fa fa-pencil-square  ',
+    'submenu_icon'=>' fa  fa fa-file-text  ',
     'operation_icon'=>'fa-eye',])
         @slot('menu')
             Produccion
@@ -46,10 +46,10 @@
 
             <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
 
-                <thead style="background-color: #01579B;  color: #fff;">
-                <th>CANTIDAD</th>
+                <thead style="background-color: #f7b633;  color: #fff;">
+                <th>Cantidad</th>
                 <th>CODIGO PRODUCTO</th>
-                <th>PRODUCTO</th>
+                <th>Producto</th>
                 <th>DETALLE</th>
                 </thead>
                 <tbody id="body-detalles">
@@ -68,8 +68,8 @@
                         <td>
                             <table class="table">
                                 <tr>
-                                    <th>LOTE</th>
-                                    <th>CANTIDAD</th>
+                                    <th>No. Lote</th>
+                                    <th>Cantidad</th>
                                 </tr>
                                 @foreach( $requisicion->reservas->where('id_producto',$detalle->producto->id_producto) as $lote  )
 
@@ -91,10 +91,10 @@
 
             <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
 
-                <thead style="background-color: #01579B;  color: #fff;">
-                <th>CANTIDAD</th>
+                <thead style="background-color: #f7b633;  color: #fff;">
+                <th>Cantidad</th>
                 <th>CODIGO PRODUCTO</th>
-                <th>PRODUCTO</th>
+                <th>Producto</th>
 
                 </thead>
                 <tbody id="body-detalles">
@@ -121,9 +121,9 @@
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
             <a href="{{url('produccion/requisiciones')}}">
-                <button class="btn btn-default" type="button">
+                <button class="btn btn-primary" type="button">
                     <span class="fa fa-backward"></span>
-                    REGRESAR
+                    Regresar
                 </button>
             </a>
         </div>

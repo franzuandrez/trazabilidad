@@ -34,7 +34,7 @@ class RoleController extends Controller
         });
         $roles = $roles->where('estado', '1')
             ->orderBy($sortField, $sort)
-            ->paginate(20);
+            ->paginate(12);
 
         if ($request->ajax()) {
             return view('registro.roles.index',

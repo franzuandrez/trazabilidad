@@ -40,7 +40,7 @@ class RequisicionController extends Controller
                     ->orWhere('users.nombre', 'LIKE', '%' . $search . '%');
             })
             ->orderBy($sortField, $sort)
-            ->paginate(15);
+            ->paginate(12);
 
 
         if ($request->ajax()) {

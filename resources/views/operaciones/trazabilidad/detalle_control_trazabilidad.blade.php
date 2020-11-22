@@ -10,7 +10,7 @@
                 <thead>
                 <tr>
                     <th>Producto</th>
-                    <th>Lote</th>
+                    <th>No. Lote</th>
                     <th>Cantidad Utilizada</th>
                 </tr>
                 </thead>

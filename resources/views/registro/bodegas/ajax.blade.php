@@ -10,13 +10,13 @@
 
     @component('componentes.nav',['operation'=>'LIST',
     'menu_icon'=>'fa-file-text',
-        'submenu_icon'=>'fa fa-building-o',
+        'submenu_icon'=>'fa-square',
     'operation_icon'=>'',])
         @slot('menu')
-            Registro
+            Catalogos
         @endslot
         @slot('submenu')
-            Area
+            Bodega
         @endslot
     @endcomponent
 
@@ -44,7 +44,7 @@
     </div>
     @component('componentes.alert-no-selecction')
         @slot('mensaje')
-            SELECCIONE AREA
+            SELECCIONE Bodega
         @endslot
     @endcomponent
     <div id="content">

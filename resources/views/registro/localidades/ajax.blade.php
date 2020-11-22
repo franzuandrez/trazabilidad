@@ -9,10 +9,10 @@
 
     @component('componentes.nav',['operation'=>'LIST',
     'menu_icon'=>'fa-file-text',
-    'submenu_icon'=>'fa fa-building',
+    'submenu_icon'=>'fa fa-home',
     'operation_icon'=>'',])
         @slot('menu')
-            Registro
+            Catalogos
         @endslot
         @slot('submenu')
             Localidades

@@ -12,7 +12,7 @@
     'submenu_icon'=>'fa fa-sort-numeric-desc',
     'operation_icon'=>'',])
         @slot('menu')
-            Registro
+            Catalogos
         @endslot
         @slot('submenu')
             Niveles

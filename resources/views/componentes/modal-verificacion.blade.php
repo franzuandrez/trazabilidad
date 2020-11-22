@@ -35,15 +35,15 @@
                 <div class="modal-footer">
                     <button type="button" id="btn-verificar"
                             onclick="verificar()"
-                            class="btn btn-default">
+                            class="btn btn-primary">
                         <span class="fa fa-check"
                               id="icon-sync"></span>
                         VERIFICAR
                     </button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">
                         <span class="fa fa-remove"></span>
-                        CANCELAR
-                    </button>
+                        Cancelar
+                </button>
 
 
                 </div>

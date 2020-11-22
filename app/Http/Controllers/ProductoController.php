@@ -40,7 +40,7 @@ class ProductoController extends Controller
                     ->orwhere('productos.codigo_interno_cliente', 'LIKE', '%' . $search . '%');
             })
             ->orderBy($sortField, $sort)
-            ->paginate(20);
+            ->paginate(12);
 
         $tipos_productos = [
             'MP' => 'MATERIA PRIMA',

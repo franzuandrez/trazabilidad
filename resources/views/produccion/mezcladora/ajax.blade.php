@@ -36,7 +36,7 @@
 
     @component('componentes.alert-no-selecction')
         @slot('mensaje')
-            SELECCIONAR RECEPCION
+            Seleccionar RECEPCION
         @endslot
     @endcomponent
     <div id="content">

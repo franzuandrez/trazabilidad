@@ -40,7 +40,7 @@
 
     @component('componentes.alert-no-selecction')
         @slot('mensaje')
-            SELECCIONAR FORMULARIO DE LAMINADO
+            Seleccionar FORMULARIO DE LAMINADO
         @endslot
     @endcomponent
     <div id="content">

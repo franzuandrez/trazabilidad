@@ -35,7 +35,7 @@ class BinController extends Controller
                     ->orwhere('posiciones.descripcion', 'LIKE', '%' . $search . '%');
             })
             ->orderBy($sortField, $sort)
-            ->paginate(20);
+            ->paginate(12);
 
         if ($request->ajax()) {
             return view('registro.bines.index',

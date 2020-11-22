@@ -32,7 +32,7 @@
     <div class="row">
         <div class="col-lg-2 col-sm-3 col-md-3 col-xs-12">
             <div class="form-group">
-                <label for="producto">PRODUCTO</label>
+                <label for="producto">Producto</label>
                 <input type="text"
                        id="producto"
                        placeholder="CODIGO DE BARRAS , DESCRIPCION"
@@ -43,7 +43,7 @@
         </div>
         <div class="col-lg-2 col-sm-3 col-md-3 col-xs-12">
             <div class="form-group">
-                <label for="lote">LOTE</label>
+                <label for="lote">No.  Lote</label>
                 <input type="text"
                        id="lote"
                        onkeydown="if(event.keyCode==13)next('lote')"
@@ -58,7 +58,7 @@
                    onclick="buscar_existencias()"
                    data-toggle="dropdown" aria-expanded="true">
                     <img src="{{asset('imagenes_web/buscar.png')}}" data-placement="top" title=""
-                         data-toggle="tooltip" data-original-title="Buscar" width="50" height="50">
+                         data-toggle="tooltip" data-original-title="Buscar" width="35" height="35">
                 </a>
 
             </div>
@@ -67,24 +67,11 @@
                    onclick="limpiar()"
                    data-toggle="dropdown" aria-expanded="true">
                     <img src="{{asset('imagenes_web/borrar.png')}}" data-placement="top" title=""
-                         data-toggle="tooltip" data-original-title="Limpiar" width="50" height="50">
+                         data-toggle="tooltip" data-original-title="Limpiar" width="35" height="35">
                 </a>
 
             </div>
-            <div class="btn-group ">
-                <a type="button" data-toggle="dropdown" aria-expanded="true">
-                    <img src="{{asset('imagenes_web/imprimir.png')}}" data-placement="top" title=""
-                         data-toggle="tooltip" data-original-title="Imprimir" width="50" height="50"></a>
-                <ul class="dropdown-menu" role="menu">
-                    <li>
-                        <a href="javascript:excel()">
-                            <i class="fa fa-file-excel-o" aria-hidden="true"></i>
-                            EXCEL
-                        </a>
-                    </li>
 
-                </ul>
-            </div>
         </div>
 
     </div>
@@ -94,7 +81,7 @@
         @component('componentes.search-select'
              ,[
              'busqueda'=>'BODEGA',
-             'default'=>'AREA TRANSITO',
+             'default'=>'Bodega TRANSITO',
              'elements'=>$bodegas])
         @endcomponent
         <div class="col-lg-4 col-md-4 col-sm-5 col-xs-10 filtro-no-active" id="filtro">
@@ -114,7 +101,7 @@
         </div>
 
     </div>
-    <div class="row">
+    <div class="row" style="display: none">
         <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
                 <label for="Fecha">RANGO FECHA

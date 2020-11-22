@@ -1,5 +1,5 @@
 <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-    <label for="tipo_producto">TIPO PRODUCTO</label>
+    <label for="tipo_producto">Tipo Producto</label>
     <select class="form-control selectpicker"
             onchange="seleccionar_tipo_producto()"
             id="tipo_producto">
@@ -11,7 +11,7 @@
 <div id="modulo_materia_prima">
     <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label>CODIGO PRODUCTO</label>
+            <label>CODIGO Producto</label>
             <input type="text"
                    name="codigo_producto_mp"
                    id="codigo_producto_mp"
@@ -23,7 +23,7 @@
     </div>
     <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="lote_producto_mp">LOTE</label>
+            <label for="lote_producto_mp">No. Lote</label>
             <input type="text"
                    readonly
                    name="lote_producto_mp"
@@ -42,7 +42,7 @@
         </div>
     </div>
     <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-        <label for="cantidad_producto_mp">CANTIDAD</label>
+        <label for="cantidad_producto_mp">Cantidad</label>
         <div class="input-group">
             <input type="text"
                    readonly
@@ -54,7 +54,7 @@
                 <button
                     type="button"
                     onclick="verificar_existencia_lote()"
-                    class="btn btn-default">
+                    class="btn btn-primary">
                     <i class="fa fa-plus"
                        aria-hidden="true"></i>
                 </button>
@@ -65,7 +65,7 @@
 <div id="modulo_proceso" style="display: none">
     <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label>CODIGO PRODUCTO</label>
+            <label>CODIGO Producto</label>
             <input type="text"
                    name="codigo_producto_pp"
                    id="codigo_producto_pp"
@@ -76,7 +76,7 @@
     </div>
     <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="lote_producto_pp">LOTE</label>
+            <label for="lote_producto_pp">No. Lote</label>
             <input type="text"
                    name="lote_producto_pp"
                    placeholder="LOTE"
@@ -96,7 +96,7 @@
         </div>
     </div>
     <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-        <label for="cantidad_producto_pp">CANTIDAD</label>
+        <label for="cantidad_producto_pp">Cantidad</label>
         <div class="input-group">
             <input type="text"
                    readonly
@@ -108,7 +108,7 @@
                 <button
                     type="button"
                     onclick="verificar_existencia_lote_pp()"
-                    class="btn btn-default">
+                    class="btn btn-primary">
                     <i class="fa fa-plus"
                        aria-hidden="true"></i>
                 </button>

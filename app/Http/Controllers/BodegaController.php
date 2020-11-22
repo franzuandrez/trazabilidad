@@ -36,7 +36,7 @@ class BodegaController extends Controller
                     ->orWhere('users.nombre', 'LIKE', '%' . $search . '%');
             })
             ->orderBy($sortField, $sort)
-            ->paginate(20);
+            ->paginate(12);
 
         if ($request->ajax()) {
 
@@ -109,7 +109,7 @@ class BodegaController extends Controller
         $bodega->save();
 
         return redirect()->route('bodegas.index')
-            ->with('success', 'Area dada de alta correctamente');
+            ->with('success', 'Bodega dada de alta correctamente');
 
 
     }
@@ -133,7 +133,7 @@ class BodegaController extends Controller
         } catch (\Exception $ex) {
 
             return redirect()->route('bodegas.index')
-                ->withErrors(['error' => 'Area no encontrada']);
+                ->withErrors(['error' => 'Bodega no encontrada']);
 
         }
     }
@@ -166,12 +166,12 @@ class BodegaController extends Controller
             $bodega->update();
 
             return redirect()->route('bodegas.index')
-                ->with('success', 'Area actualizada correctamente');
+                ->with('success', 'Bodega actualizada correctamente');
 
         } catch (\Exception $ex) {
 
             return redirect()->route('bodegas.index')
-                ->withErrors(['error' => 'Area no encontrada']);
+                ->withErrors(['error' => 'Bodega no encontrada']);
 
         }
     }
@@ -195,7 +195,7 @@ class BodegaController extends Controller
         } catch (\Exception $ex) {
 
             return redirect()->route('bodegas.index')
-                ->withErrors(['error' => 'Area no encontrada']);
+                ->withErrors(['error' => 'Bodega no encontrada']);
 
         }
     }
@@ -210,7 +210,7 @@ class BodegaController extends Controller
             $bodega->estado = 0;
             $bodega->update();
 
-            return response()->json(['success' => 'Area dada de baja exitosamente']);
+            return response()->json(['success' => 'Bodega dada de baja exitosamente']);
 
         } catch (\Exception $ex) {
 

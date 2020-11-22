@@ -37,7 +37,7 @@
 
     @component('componentes.alert-no-selecction')
         @slot('mensaje')
-            SELECCIONAR DOCUMENTO MEZCLA DE HARINA
+            Seleccionar DOCUMENTO MEZCLA DE HARINA
         @endslot
     @endcomponent
     <div id="content">

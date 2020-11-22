@@ -39,7 +39,7 @@
 
     @component('componentes.alert-no-selecction')
         @slot('mensaje')
-            SELECCIONAR FRITURA
+            Seleccionar FRITURA
         @endslot
     @endcomponent
     <div id="content">

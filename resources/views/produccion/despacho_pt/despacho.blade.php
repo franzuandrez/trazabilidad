@@ -8,7 +8,7 @@
 
     @component('componentes.nav',['operation'=>'pickear',
     'menu_icon'=>' fa fa fa-cube ',
-    'submenu_icon'=>'fa fa-hand-rock-o',
+    'submenu_icon'=>'fa fa-cart-plus',
     'operation_icon'=>'fa-angle-up',])
         @slot('menu')
             Produccion
@@ -34,7 +34,7 @@
         </div>
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
-                <label for="codigo_producto">CODIGO PRODUCTO</label>
+                <label for="codigo_producto">Cod. Producto</label>
                 <input type="text"
                        id="codigo_producto"
                        onkeydown="if(event.keyCode==13)cargarInfoCodigoBarras(this)"
@@ -45,7 +45,7 @@
         <input type="hidden" name="id_producto" id="id_producto">
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
-                <label for="descripcion">DESCRIPCION</label>
+                  <label for="descripcion">Descripcion</label>
                 <input type="text"
                        readonly
                        name="descripcion"
@@ -55,7 +55,7 @@
         </div>
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
-                <label for="lote">LOTE</label>
+                <label for="lote">No.  Lote</label>
                 <input type="text"
                        readonly
                        name="lote"
@@ -65,7 +65,7 @@
         </div>
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
-                <label for="ubicacion">UBICACION</label>
+                <label for="ubicacion">Ubicacion</label>
                 <input type="text"
                        readonly
                        onkeydown="if(event.keyCode==13)buscar_ubicacion()"
@@ -76,7 +76,7 @@
         </div>
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
-                <label for="cantidad">CANTIDAD</label>
+                <label for="cantidad">Cantidad</label>
                 <input type="text"
                        readonly
                        id="cantidad"
@@ -99,15 +99,15 @@
         </div>
         <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
             <div class="form-group">
-                <button class="btn btn-default"
+                <button class="btn btn-primary"
                         onclick="guardar()"
                         type="button">
-                    <span class=" fa fa-check"></span> GUARDAR
+                    <span class=" fa fa-check"></span> Guardar
                 </button>
                 <a href="{{url('produccion/despacho')}}">
-                    <button class="btn btn-default" type="button">
+                    <button class="btn btn-primary" type="button">
                         <span class="fa fa-backward"></span>
-                        REGRESAR
+                    Regresar
                     </button>
                 </a>
 

@@ -21,7 +21,9 @@
                 <div class="panel-body" align="center">
 
                     <div class="col-md-6 col-lg-offset-4 col-md-offset-4 col-xs-offset-0" >
-                        <input type="image" src="{{('img/Login_WebRUTEO_GBC.png')}}">
+                        <input
+                            width="400"
+                            type="image" src="{{('img/Login_WebRUTEO_GBC.png')}}">
                         <br>
                         <br>
                     </div>

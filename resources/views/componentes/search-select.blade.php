@@ -5,7 +5,7 @@
                     id="id_select_search"
                     class="form-control selectpicker"
                     onchange="buscar_existencias()">
-                <option value="">SELECCIONE AREA</option>
+                <option value="">SELECCIONE Bodega</option>
                 @if($default!==false)
                 <option value="0">{{$default}}</option>
                 @endif

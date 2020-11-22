@@ -48,7 +48,7 @@ class EntregaPTController extends Controller
 
         $collection = EntregaEnc::select('entrega_pt_enc.*', 'users.nombre')
             ->join('users', 'users.id', '=', 'entrega_pt_enc.id_usuario')
-            ->paginate(20);
+            ->paginate(12);
 
         if ($request->ajax()) {
             return view('entregas.entrega_pt.index',
@@ -104,7 +104,7 @@ class EntregaPTController extends Controller
         $collection = EntregaEnc::select('entrega_pt_enc.*', 'users.nombre')
             ->join('users', 'users.id', '=', 'entrega_pt_enc.id_usuario')
             ->where('entrega_pt_enc.estado', '<>', 2)
-            ->paginate(20);
+            ->paginate(12);
 
         if ($request->ajax()) {
             return view('entregas.recepcion_pt.index',

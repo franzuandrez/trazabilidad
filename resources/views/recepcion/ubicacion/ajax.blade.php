@@ -13,7 +13,7 @@
 
     @component('componentes.nav',['operation'=>'LIST',
     'menu_icon'=>'fa-arrow-circle-o-right',
-    'submenu_icon'=>'fa fa-building-o',
+    'submenu_icon'=>'fa-shopping-cart',
     'operation_icon'=>'',])
         @slot('menu')
             Recepcion
@@ -39,7 +39,7 @@
 
     @component('componentes.alert-no-selecction')
         @slot('mensaje')
-            SELECCIONAR ORDEN
+            Seleccionar ORDEN
         @endslot
     @endcomponent
     <div id="content">

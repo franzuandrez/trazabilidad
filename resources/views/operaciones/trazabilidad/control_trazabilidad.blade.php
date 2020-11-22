@@ -1,10 +1,10 @@
 <li class="">
-    <i class="fa  fa fa fa-list-alt    bg-green"></i>
+    <i class="fa  fa fa fa-exchange    bg-green"></i>
     <div class="timeline-item">
         <span class="time"><i class="fa fa-clock-o"></i>{{$evento->evento->created_at->format('H:i:s')}}</span>
         <h3 class="timeline-header"
 
-        ><a href="#" style="color: #01579b !important; ">
+        ><a href="#" style="color: #f7b633 !important; ">
                 Control de Trazabilidad
             </a> {{$evento->evento->id_control}}</h3>
         <div class="timeline-body">
@@ -32,7 +32,7 @@
                             <td colspan="2">{{$evento->evento->producto->codigo_interno}}</td>
                         </tr>
                         <tr>
-                            <th>Lote</th>
+                            <th>No. Lote</th>
                             <td colspan="2">{{$evento->evento->lote}}</td>
                         </tr>
 

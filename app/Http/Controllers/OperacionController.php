@@ -56,7 +56,7 @@ class OperacionController extends Controller
 
         $operaciones = $this->trazabilidad_repository
             ->searchControlesDeTrazabilidad($search, $sortField, $sort, $id_control)
-            ->paginate(20);
+            ->paginate(12);
 
 
         if ($request->ajax()) {

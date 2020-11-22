@@ -10,7 +10,7 @@
 
     @component('componentes.nav',['operation'=>'Ver',
     'menu_icon'=>' fa fa fa-cube ',
-    'submenu_icon'=>' fa fa-list-alt  ',
+    'submenu_icon'=>' fa fa-exchange  ',
     'operation_icon'=>'fa fa-eye',])
         @slot('menu')
             Produccion
@@ -23,7 +23,7 @@
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="codigo_producto">CODIGO PRODUCTO</label>
+            <label for="codigo_producto">Cod. Producto</label>
             <input type="text"
                    readonly
                    name="codigo_producto"
@@ -35,7 +35,7 @@
     <input type="hidden" name="id_producto" id="id_producto">
     <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="producto">PRODUCTO</label>
+            <label for="producto">Producto</label>
             <input type="text"
                    name="producto"
                    readonly
@@ -87,7 +87,7 @@
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="lote_pt">LOTE</label>
+            <label for="lote_pt">No. Lote</label>
             <input type="text"
                    name="lote_pt"
                    id="lote"
@@ -150,7 +150,7 @@
                 <br>
                 <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
                     <table class="table table-bordered table-responsive">
-                        <thead style="background-color: #01579B;  color: #fff;">
+                        <thead style="background-color: #f7b633;  color: #fff;">
                         <tr>
                             <th>MP</th>
                             <th>COLOR</th>
@@ -158,7 +158,7 @@
                             <th>IMPRESION</th>
                             <th>AUSENCIA M.E.</th>
                             <th>NO LOTE</th>
-                            <th>CANTIDAD</th>
+                            <th>Cantidad</th>
                             <th>FECHA VENC.</th>
                         </tr>
                         </thead>
@@ -217,7 +217,7 @@
 
                 <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
                     <table class="table table-bordered table-responsive">
-                        <thead style="background-color: #01579B;  color: #fff;">
+                        <thead style="background-color: #f7b633;  color: #fff;">
                         <tr>
                             <th>#</th>
                             <th>
@@ -271,9 +271,9 @@
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
             <a href="{{url('produccion/trazabilidad_chao_mein')}}">
-                <button class="btn btn-default" type="button">
+                <button class="btn btn-primary" type="button">
                     <span class="fa fa-backward"></span>
-                    REGRESAR
+                    Regresar
                 </button>
             </a>
         </div>

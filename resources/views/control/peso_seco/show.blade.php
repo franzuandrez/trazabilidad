@@ -23,7 +23,7 @@
 
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
-            <label for="id_producto">PRODUCTO</label>
+            <label for="id_producto">Producto</label>
             <select class="form-control selectpicker valor"
                     disabled
                     required
@@ -47,7 +47,7 @@
     </div>
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
-            <label for="lote">LOTE</label>
+            <label for="lote">No.  Lote</label>
             <input class="form-control selectpicker valor"
                    disabled
                    id="lote" name="lote"
@@ -68,7 +68,7 @@
 
         <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
 
-            <thead style="background-color: #01579B;  color: #fff;">
+            <thead style="background-color: #f7b633;  color: #fff;">
             <tr>
                 <th>HORA</th>
                 <th>NO. 1</th>
@@ -112,9 +112,9 @@
         <div class="form-group">
 
             <a href="{{url('control/peso_seco')}}">
-                <button class="btn btn-default" type="button">
+                <button class="btn btn-primary" type="button">
                     <span class="fa fa-backward"></span>
-                    REGRESAR
+                    Regresar
                 </button>
             </a>
 

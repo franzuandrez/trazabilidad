@@ -36,7 +36,7 @@
     }
 
     .grandparent rect {
-        fill: #01579b;
+        fill: #f7b633;
     }
 
     .grandparent:hover rect {

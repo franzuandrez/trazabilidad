@@ -11,7 +11,7 @@
 
     @component('componentes.nav',['operation'=>'Ubicar',
     'menu_icon'=>'fa-arrow-circle-o-right',
-    'submenu_icon'=>'fa fa fa-building-o',
+    'submenu_icon'=>'fa  fa-hdd-o',
     'operation_icon'=>'fa-plus',])
         @slot('menu')
             Recepcion PT
@@ -56,7 +56,7 @@
 
     </div>
     <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
-        <label for="codigo_producto">CODIGO PRODUCTO</label>
+        <label for="codigo_producto">Cod. Producto</label>
         <div class="input-group">
             <input type="text"
                    id="codigo_producto"
@@ -66,12 +66,12 @@
             <div class="input-group-btn">
                 <a href="javascript:buscar_producto(document.getElementById('codigo_producto'))"
                 >
-                    <button type="button" class="btn btn-default">
+                    <button type="button" class="btn btn-primary">
                         <i class="fa fa-search " aria-hidden="true"></i>
                     </button>
                 </a>
                 <a href="javascript:limpiar()">
-                    <button type="button" class="btn btn-default">
+                    <button type="button" class="btn btn-primary">
                         <i class="fa fa-trash" aria-hidden="true"></i>
                     </button>
                 </a>
@@ -79,7 +79,7 @@
         </div>
     </div>
     <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
-        <label for="descripcion">PRODUCTO</label>
+          <label for="descripcion">Descripcion</label>
         <div class="form-group">
             <input type="text"
                    readonly
@@ -105,7 +105,7 @@
         </div>
     </div>
     <div class="col-lg-2 col-sm-6 col-md-6 col-xs-12">
-        <label for="lote">LOTE</label>
+        <label for="lote">No.  Lote</label>
         <div class="form-group">
             <input type="text"
                    readonly
@@ -124,7 +124,7 @@
         <span>Cargando</span>
     </div>
     <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
-        <label for="ubicacion">UBICACION</label>
+        <label for="ubicacion">Ubicacion</label>
         <div class="form-group">
             <input type="text"
                    id="ubicacion"
@@ -135,13 +135,13 @@
         </div>
         <div id="ubicacion_a_asignar" style="display: none">
             <span class="label label-primary" id="bodega_a_asignar">
-                <i class="fa fa-building-o"></i>
-                AREA
+                <i class="fa-square"></i>
+                Bodega
             </span>
             <strong>/</strong>
             <span class="label label-primary" id="sector_a_asignar">
                 <i class="fa fa-square-o"></i>
-                BODEGA
+                Sector
             </span>
         </div>
         <br>
@@ -150,7 +150,7 @@
     <input id="codigo_bodega" type="hidden" value="">
     <input id="codigo_ubicacion" type="hidden" value="">
     <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
-        <label for="cantidad">CANTIDAD</label>
+        <label for="cantidad">Cantidad</label>
         <div class="form-group">
             <input type="text"
                    id="cantidad"
@@ -164,12 +164,12 @@
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="table-responsive">
             <table class="table table-striped table-bordered table-condensed table-hover">
-                <thead style="background-color: #01579B;  color: #fff;">
+                <thead style="background-color: #f7b633;  color: #fff;">
                 <tr>
                     <th></th>
-                    <th>DESCRIPCION</th>
-                    <th>LOTE</th>
-                    <th>CANTIDAD</th>
+                    <th>Descripcion</th>
+                    <th>No. Lote</th>
+                    <th>Cantidad</th>
                 </tr>
                 </thead>
                 <tbody id="detalles">
@@ -181,17 +181,17 @@
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <button class="btn btn-default"
+            <button class="btn btn-primary"
                     onclick="solicitar_credenciales()"
                     type="button">
-                <span class=" fa fa-check"></span> GUARDAR
+                <span class=" fa fa-check"></span> Guardar
             </button>
-            <a href="{{url('produccion/recepcion_pt')}}">
-                <button class="btn btn-default" type="button">
-                    <span class="fa fa-remove"></span>
-                    CANCELAR
-                </button>
+            <a href="{{url('produccion/recepcion_pt ')}}">
+                  <button class="btn btn-primary" type="button">
+               <span class=" fa fa-close"></span> Cancelar
+            </button>
             </a>
+
         </div>
     </div>
     @include('componentes.modal-ubicacion')

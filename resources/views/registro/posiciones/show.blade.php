@@ -7,7 +7,7 @@
     'submenu_icon'=>'fa fa-ellipsis-v',
     'operation_icon'=>'fa-eye',])
         @slot('menu')
-            Registro
+            Catalogos
         @endslot
         @slot('submenu')
             Posiciones
@@ -24,7 +24,7 @@
                     id="localidades" onchange="cargarBodegas()"
                     disabled
             >
-                <option value="">SELECCIONAR LOCALIDAD</option>
+                <option value="">Seleccionar LOCALIDAD</option>
                 @foreach($localidades as $loc)
                     @if($loc->id_localidad == $localidad->id_localidad)
                         <option selected value="{{$loc->id_localidad}}">{{$loc->descripcion}}</option>
@@ -44,7 +44,7 @@
                     onchange="cargarSectores()"
                     disabled
             >
-                <option value="">SELECCIONAR BODEGA</option>
+                <option value="">Seleccionar BODEGA</option>
                 @foreach( $localidad->bodegas as $bod )
 
                     @if($bod->id_bodega = $bodega->id_bodega)
@@ -65,7 +65,7 @@
                     onchange="cargarPasillos()"
                     disabled
             >
-                <option value="">SELECCIONAR SECTOR</option>
+                <option value="">Seleccionar SECTOR</option>
                 @foreach( $bodega->sectores as $sec)
                     @if($sec->id_sector = $sector->id_sector)
                         <option value="{{$sec->id_sector}}" selected>  {{ $sec->descripcion }} </option>
@@ -84,7 +84,7 @@
                     onchange="cargarRacks()"
                     disabled
             >
-                <option value="">SELECCIONAR PASILLO</option>
+                <option value="">Seleccionar PASILLO</option>
                 @foreach( $sector->pasillos as $pass)
                     @if($pass->id_pasillo = $pasillo->id_pasillo)
                         <option value="{{$pass->id_pasillo}}" selected>  {{ $pass->descripcion }} </option>
@@ -103,7 +103,7 @@
                     onchange="cargarNiveles()"
                     disabled
             >
-                <option value="">SELECCIONAR RACK</option>
+                <option value="">Seleccionar RACK</option>
                 @foreach( $pasillo->racks as $rc )
                     @if($rc->id_rack == $nivel->id_rack)
                         <option selected value="{{$rc->id_rack}}"> {{ $rc->descripcion  }} </option>
@@ -122,7 +122,7 @@
                     class="form-control selectpicker"
                     disabled
             >
-                <option value="">SELECCIONAR NIVEL</option>
+                <option value="">Seleccionar NIVEL</option>
                 @foreach( $rack->niveles as $nv )
                     @if($nivel->id_nivel  == $nv->id_nivel)
                         <option selected value="{{$nv->id_nivel}}">{{$nv->descripcion}}</option>
@@ -137,14 +137,14 @@
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="codigo_barras">CODIGO BARRAS</label>
+            <label for="codigo_barras">Codigo  Barras</label>
             <input type="text" name="codigo_barras" value="{{$posicion->codigo_barras}}" readonly
                    class="form-control">
         </div>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="descripcion">DESCRIPCION</label>
+              <label for="descripcion">Descripcion</label>
             <input type="text" name="descripcion" value="{{$posicion->descripcion}}" readonly
                    class="form-control">
         </div>
@@ -154,9 +154,9 @@
         <div class="form-group">
 
             <a href="{{url('registro/posiciones')}}">
-                <button class="btn btn-default" type="button">
+                <button class="btn btn-primary" type="button">
                     <span class="fa fa-backward"></span>
-                    REGRESAR
+                    Regresar
                 </button>
             </a>
 

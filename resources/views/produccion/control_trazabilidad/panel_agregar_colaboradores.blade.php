@@ -23,7 +23,7 @@
             <button
                 onclick="buscar_colaborador()"
                 onkeydown="buscar_colaborador()"
-                type="button" class="btn btn-default">
+                type="button" class="btn btn-primary">
                 <i class="fa fa-search"
                    aria-hidden="true"></i>
             </button>
@@ -31,14 +31,14 @@
                     id="btn_agregar"
                     onclick="agregar_asociacion()"
                     onkeydown="agregar_asociacion()"
-                    class="btn btn-default">
+                    class="btn btn-primary">
                 <i class="fa fa-plus" aria-hidden="true"></i>
             </button>
             <button type="button"
                     id="btn_limpiar"
                     onclick="limpiar()"
                     onkeydown="limpiar()"
-                    class="btn btn-default">
+                    class="btn btn-primary">
                 <i class="fa fa-trash" aria-hidden="true"></i>
             </button>
         </div>

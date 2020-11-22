@@ -46,10 +46,10 @@
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
         <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
-            <thead style="background-color: #01579B;  color: #fff;">
-            <th>PRODUCTO</th>
+            <thead style="background-color: #f7b633;  color: #fff;">
+            <th>Producto</th>
             <th>UNIDAD MEDIDA</th>
-            <th>CANTIDAD</th>
+            <th>Cantidad</th>
             <th>NO. TARIMA</th>
             </thead>
             <tbody id="detalle">
@@ -68,9 +68,9 @@
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
             <a href="{{url('produccion/entrega_pt')}}">
-                <button class="btn btn-default" type="button">
+                <button class="btn btn-primary" type="button">
                     <span class="fa fa-backward"></span>
-                    REGRESAR
+                    Regresar
                 </button>
             </a>
         </div>

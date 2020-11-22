@@ -9,13 +9,13 @@
             <table class="table table-bordered">
                 <tbody>
                 <tr>
-                    <th>PRODUCTO</th>
+                    <th>Producto</th>
                     <td>
                         {{$trazabilidad_hacia_adelante['productos']->first()->producto->descripcion}}
                     </td>
                 </tr>
                 <tr>
-                    <th>LOTE</th>
+                    <th>No. Lote</th>
                     <td>
                         {{$trazabilidad_hacia_adelante['productos']->first()->no_lote}}
                     </td>
@@ -46,8 +46,8 @@
             <tbody>
             <tr>
                 <th>FECHA</th>
-                <th>PRODUCTO</th>
-                <th>LOTE</th>
+                <th>Producto</th>
+                <th>No. Lote</th>
                 <th>CANTIDAD UTILIZADA</th>
                 <th></th>
             </tr>
@@ -61,7 +61,7 @@
                         <a
                             target="_blank"
                             href="{{url('operaciones/consultas/trazabilidad?search=').$insumo->lote}}">
-                            <button class="btn btn-default"><i class=" fa fa-eye"></i></button>
+                            <button class="btn btn-primary"><i class=" fa fa-eye"></i></button>
                         </a>
                     </td>
                 </tr>
@@ -80,7 +80,7 @@
                 <th>TIPO DOC</th>
                 <th>TIPO MOVIMIENTO</th>
                 <th>BODEGA</th>
-                <th>CANTIDAD</th>
+                <th>Cantidad</th>
             </tr>
             @php
                 $total = 0;

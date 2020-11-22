@@ -47,7 +47,7 @@ class VerificacionMateriasController extends Controller
                     ->orWhere('verificacion_materias_enc.fecha', 'LIKE', '%' . $search . '%');
             })
             ->orderBy($sortField, $sort)
-            ->paginate(20);
+            ->paginate(12);
 
         if ($request->ajax()) {
             return view('control.verificacion_materia_prima.index',

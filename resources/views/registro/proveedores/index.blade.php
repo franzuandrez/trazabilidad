@@ -7,7 +7,7 @@
 
             <table class="table table-striped table-bordered table-condensed table-hover">
 
-                <thead style="background-color: #01579B;  color: #fff;">
+                <thead style="background-color: #f7b633;  color: #fff;">
                 <tr>
                     <th>
 
@@ -18,16 +18,7 @@
                            'sort'=>$sort,
                            'sortField'=>$sortField,
                            'field'=>'codigo_proveedor',
-                           'titulo'=>'CODIGO'])
-                        @endcomponent
-                    </th>
-                    <th>
-                        @component('componentes.column-sort',['modulo'=>'registro/proveedores',
-                        'search'=>$search,
-                         'sort'=>$sort,
-                         'sortField'=>$sortField,
-                         'field'=>'nombre_comercial',
-                         'titulo'=>'NOMBRE COMERCIAL'])
+                           'titulo'=>'Codigo'])
                         @endcomponent
                     </th>
 
@@ -37,7 +28,7 @@
                           'sort'=>$sort,
                           'sortField'=>$sortField,
                           'field'=>'razon_social',
-                          'titulo'=>'RAZON SOCIAL'])
+                          'titulo'=>'Razon Social'])
                         @endcomponent
                     </th>
                     <th>
@@ -55,18 +46,10 @@
                      'sort'=>$sort,
                      'sortField'=>$sortField,
                      'field'=>'direccion_planta',
-                     'titulo'=>'direccion planta'])
+                     'titulo'=>'Direccion Planta'])
                         @endcomponent
                     </th>
-                    <th>
-                        @component('componentes.column-sort',['modulo'=>'registro/proveedores',
-                        'search'=>$search,
-                      'sort'=>$sort,
-                      'sortField'=>$sortField,
-                      'field'=>'estado',
-                      'titulo'=>'estado'])
-                        @endcomponent
-                    </th>
+
                 </tr>
                 </thead>
                 <tbody>
@@ -80,9 +63,7 @@
                         <td>
                             {{$proveedor->codigo_proveedor}}
                         </td>
-                        <td>
-                            {{$proveedor->nombre_comercial}}
-                        </td>
+
 
                         <td>
                             {{$proveedor->razon_social}}
@@ -94,13 +75,7 @@
                         <td>
                             {{$proveedor->direccion_planta}}
                         </td>
-                        <td>
-                            @if($proveedor->estado == 1 )
-                                <span class="label label-success"> Activo</span>
-                            @else
-                                <span class="label label-danger"> De baja</span>
-                            @endif
-                        </td>
+
                     </tr>
                     @component('componentes.alert-delete',
                       ['model'=>'PROVEEDOR',

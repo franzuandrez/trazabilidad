@@ -18,7 +18,7 @@
     </div>
     @component('componentes.nav',['operation'=>'Finalizado',
     'menu_icon'=>' fa fa fa-cube ',
-    'submenu_icon'=>'fa fa-list-alt ',
+    'submenu_icon'=>'fa fa-exchange ',
     'operation_icon'=>'fa-check',])
         @slot('menu')
             Produccion
@@ -33,7 +33,7 @@
     <input type="hidden" name="id_control" id="id_control" value="{{$control->id_control}}">
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="producto">PRODUCTO</label>
+            <label for="producto">Producto</label>
             <input type="text"
                    name="producto"
                    readonly
@@ -84,7 +84,7 @@
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="lote_pt">LOTE</label>
+            <label for="lote_pt">No. Lote</label>
             <input type="text"
                    name="lote_pt"
                    id="lote"
@@ -146,15 +146,15 @@
                 <br>
                 <div class="table-responsive">
                     <table class="table table-bordered ">
-                        <thead style="background-color: #01579B;  color: #fff;">
+                        <thead style="background-color: #f7b633;  color: #fff;">
                         <tr>
                             <th>INSUMO</th>
                             <th>COLOR</th>
                             <th>OLOR</th>
                             <th>IMPRESION</th>
                             <th>AUSENCIA DE ME</th>
-                            <th>LOTE</th>
-                            <th>CANTIDAD</th>
+                            <th>No. Lote</th>
+                            <th>Cantidad</th>
                             <th>CANTIDAD UTILIZADA</th>
                         </tr>
                         </thead>
@@ -226,9 +226,9 @@
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
             <a href="{{url('produccion/trazabilidad_chao_mein')}}">
-                <button class="btn btn-default" type="button">
+                <button class="btn btn-primary" type="button">
                     <span class="fa fa-backward"></span>
-                    REGRESAR
+                    Regresar
                 </button>
             </a>
         </div>

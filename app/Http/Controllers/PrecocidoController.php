@@ -49,7 +49,7 @@ class PrecocidoController extends Controller
 
             })
             ->orderBy($sortField, $sort)
-            ->paginate(20);
+            ->paginate(12);
 
         if ($request->ajax()) {
             return view('control.precocido.index',

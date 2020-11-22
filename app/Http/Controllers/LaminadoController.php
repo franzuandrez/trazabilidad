@@ -48,7 +48,7 @@ class LaminadoController extends Controller
                     ->orWhere('laminado_enc.fecha_ingreso', 'LIKE', '%' . $search . '%');
             })
             ->orderBy($sortField, $sort)
-            ->paginate(20);
+            ->paginate(12);
 
         if ($request->ajax()) {
             return view('control.laminado.index',

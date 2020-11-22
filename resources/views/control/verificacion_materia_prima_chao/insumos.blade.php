@@ -17,10 +17,10 @@
                     <thead>
                     <tr>
                         <th></th>
-                        <th>DESCRIPCION</th>
-                        <th>CANTIDAD</th>
-                        <th>LOTE</th>
-                        <th>FECHA VENCIMIENTO</th>
+                        <th>Descripcion</th>
+                        <th>Cantidad</th>
+                        <th>No. Lote</th>
+                        <th>Fecha Vencimiento</th>
                     </tr>
                     </thead>
                     <tbody id="tbody-productos">

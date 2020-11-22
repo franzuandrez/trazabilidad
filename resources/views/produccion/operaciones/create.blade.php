@@ -5,7 +5,7 @@
 @section('contenido')
     @component('componentes.nav',['operation'=>'Crear',
     'menu_icon'=>' fa fa fa-cube ',
-    'submenu_icon'=>' fa fa fa-pencil-square ',
+    'submenu_icon'=>' fa  fa fa-file-text ',
     'operation_icon'=>'fa-plus',])
         @slot('menu')
             Produccion
@@ -33,10 +33,10 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" id="btnCargarRequisicionPendiente"
-                                onclick="cargarRequisicionPendiente()" class="btn btn-default">
+                                onclick="cargarRequisicionPendiente()" class="btn btn-primary">
                             <span class=" fa fa-check" id="spanCargarRequisicionPendiente"></span> SI
                         </button>
-                        <button type="button" class="btn btn-default"
+                        <button type="button" class="btn btn-primary"
                                 id="btnEliminarRequisionPendiente"
                                 data-dismiss="modal"><span
                                 id="spanEliminarRequisicionPendiente"
@@ -91,7 +91,7 @@
             <div class="tab-pane active" id="crear">
                 <br>
                 <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                    <label for="codigo_producto">CODIGO PRODUCTO</label>
+                    <label for="codigo_producto">Cod. Producto</label>
                     <div class="input-group">
                         <input type="text"
                                name="codigo_producto"
@@ -122,7 +122,7 @@
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-6  col-xs-12">
                     <div class="form-group">
-                        <label for="descripcion">DESCRIPCION</label>
+                          <label for="descripcion">Descripcion</label>
                         <input type="text" name="descripcion" id="descripcion" readonly value="{{old('descripcion')}}"
                                class="form-control">
                         <input type="hidden" name="id_producto" id="id_producto" readonly value="{{old('id_producto')}}"
@@ -130,7 +130,7 @@
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6  col-xs-12">
-                    <label for="cantidad">CANTIDAD</label>
+                    <label for="cantidad">Cantidad</label>
                     <div class="input-group">
                         <input type="number" name="cantidad" id="cantidad"
                                onkeydown="if(event.keyCode==13)agregarProducto()"
@@ -168,11 +168,11 @@
 
         <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
 
-            <thead style="background-color: #01579B;  color: #fff;">
-            <th>OPCION</th>
-            <th>CANTIDAD</th>
+            <thead style="background-color: #f7b633;  color: #fff;">
+            <th>Accion</th>
+            <th>Cantidad</th>
             <th>CODIGO PRODUCTO</th>
-            <th>PRODUCTO</th>
+            <th>Producto</th>
             <th>UNIDAD MEDIDA</th>
             </thead>
             <tbody id="body-detalles">
@@ -185,15 +185,15 @@
     @endcomponent
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <button class="btn btn-default" type="submit">
-                <span class=" fa fa-check"></span> GUARDAR
+             <button class="btn btn-primary" type="submit">
+                <span class=" fa fa-check"></span> Guardar
             </button>
-            <a href="{{url('produccion/requisiciones')}}">
-                <button class="btn btn-default" type="button">
-                    <span class="fa fa-remove"></span>
-                    CANCELAR
-                </button>
+            <a href="{{url('produccion/requisiciones ')}}">
+                  <button class="btn btn-primary" type="button">
+               <span class=" fa fa-close"></span> Cancelar
+            </button>
             </a>
+
         </div>
     </div>
     {!!Form::close()!!}

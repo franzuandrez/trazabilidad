@@ -29,7 +29,7 @@
     @include('componentes.loading')
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="id_producto">PRODUCTO</label>
+            <label for="id_producto">Producto</label>
             <select class="form-control selectpicker valor"
                     disabled
                     required
@@ -41,7 +41,7 @@
         </div>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <label for="lote">LOTE</label>
+        <label for="lote">No.  Lote</label>
         <div class="form-group">
             <input class="form-control selectpicker valor"
                    disabled
@@ -100,9 +100,9 @@
         <div class="form-group">
 
             <a href="{{url('sopas/solucion')}}">
-                <button class="btn btn-default" type="button">
+                <button class="btn btn-primary" type="button">
                     <span class="fa fa-backward"></span>
-                    REGRESAR
+                    Regresar
                 </button>
             </a>
 

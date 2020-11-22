@@ -7,7 +7,7 @@
         <ul class="timeline">
             @foreach( $trazabilidad_hacia_atras as  $fecha => $eventos )
                 <li class="time-label">
-                  <span class="bg-blue" style="background-color: #01579b !important;">
+                  <span class="bg-blue" style="background-color: #f7b633 !important;">
                   {{$fecha}}
                   </span>
                 </li>

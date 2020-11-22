@@ -8,7 +8,7 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
         <div class="table-responsive">
             <table class="table table-striped table-bordered table-condensed table-hover">
-                <thead style="background-color: #01579B;  color: #fff;">
+                <thead style="background-color: #f7b633;  color: #fff;">
                 <th>
 
                 </th>
@@ -36,7 +36,7 @@
                         'sort'=>$sort,
                         'sortField'=>$sortField,
                         'field'=>'bodega',
-                        'titulo'=>'Area'])
+                        'titulo'=>'Bodega'])
                     @endcomponent
                 </th>
                 <th>
@@ -48,15 +48,7 @@
                         'titulo'=>'encargado'])
                     @endcomponent
                 </th>
-                <th>
-                    @component('componentes.column-sort',['modulo'=>'registro/sectores',
-                    'search'=>$search,
-                        'sort'=>$sort,
-                        'sortField'=>$sortField,
-                        'field'=>'estado',
-                        'titulo'=>'estado'])
-                    @endcomponent
-                </th>
+
                 </thead>
                 <tbody>
                 @foreach($sectores as $sector)
@@ -77,13 +69,7 @@
                         <td>
                             {{$sector->encargado}}
                         </td>
-                        <td>
-                            @if($sector->estado == 1)
-                                <span class="label label-success">Activo</span>
-                            @else
-                                <span class="label label-danger">De baja</span>
-                            @endif
-                        </td>
+
                     </tr>
                     @component('componentes.alert-delete',
                 ['model'=>'BODEGA',

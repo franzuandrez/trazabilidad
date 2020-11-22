@@ -27,7 +27,7 @@ class MateriaPrimaRequest extends FormRequest
             //
             'orden_compra'=>'unique:recepcion_encabezado,orden_compra|required',
             'id_proveedor'=>'required',
-            'documento_proveedor'=>'required'
+
 
 
         ];
@@ -39,7 +39,7 @@ class MateriaPrimaRequest extends FormRequest
            'orden_compra.unique'=>'Orden ya existente',
            'orden_compra.required'=>'El campo No. Documento es obligatorio',
            'id_proveedor.required'=>'Debe seleccionar proveedor',
-           'documento_proveedor.required'=>'El campo Documento Proveedor es obligatorio'
+
        ];
     }
 }

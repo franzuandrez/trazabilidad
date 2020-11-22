@@ -10,7 +10,7 @@
     'submenu_icon'=>'fa fa-map-marker',
     'operation_icon'=>'fa-eye',])
         @slot('menu')
-            Registro
+            Catalogos
         @endslot
         @slot('submenu')
             Ubicaciones
@@ -120,7 +120,7 @@
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="codigo_barras">CODIGO BARRAS</label>
+            <label for="codigo_barras">Codigo  Barras</label>
             <input type="text"
                    name="codigo_barras"
                    required
@@ -137,9 +137,9 @@
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
             <a href="{{url('registro/ubicaciones')}}">
-                <button class="btn btn-default" type="button">
+                <button class="btn btn-primary" type="button">
                     <span class="fa fa-backward"></span>
-                    REGRESAR
+                    Regresar
                 </button>
             </a>
 

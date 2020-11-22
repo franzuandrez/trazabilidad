@@ -7,7 +7,7 @@
     'submenu_icon'=>'fa fa-tags',
     'operation_icon'=>'fa-pencil',])
         @slot('menu')
-            Registro
+            Catalogos
         @endslot
         @slot('submenu')
             Productos
@@ -23,7 +23,7 @@
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="codigo_barras">CODIGO BARRAS</label>
+            <label for="codigo_barras">Codigo  Barras</label>
             <input type="text" name="codigo_barras"
                    @if($producto->codigo_barras != null && $producto->codigo_barras!='')
                    readonly
@@ -34,28 +34,28 @@
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="codigo_interno_cliente">CODIGO PROVEEDOR</label>
+             <label for="codigo_interno_cliente">Codigo Proveedor</label>
             <input type="text" name="codigo_interno_cliente" value="{{$producto->codigo_interno_cliente}}"
                    class="form-control">
         </div>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="codigo_barras">CODIGO INTERNO</label>
+        <label for="codigo_barras">Codigo Interno</label>
             <input type="text" name="codigo_interno" value="{{$producto->codigo_interno}}" required
                    class="form-control">
         </div>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="descripcion">DESCRIPCION</label>
+              <label for="descripcion">Descripcion</label>
             <input type="text" name="descripcion" value="{{$producto->descripcion}}" required
                    class="form-control">
         </div>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="unidad_medida">UNIDAD DE MEDIDA</label>
+            <label for="unidad_medida">Unidad de Medida</label>
             <input type="text" name="unidad_medida" value="{{$producto->unidad_medida}}" required
                    class="form-control">
         </div>
@@ -78,9 +78,9 @@
             </select>
         </div>
     </div>
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12" style="display: none">
         <div class="form-group">
-            <label for="id_presentacion">PRESENTACIONES</label>
+            <label for="id_presentacion">Presentaciones</label>
             <select name="id_presentacion[]" id="presentaciones"
                     multiple
 
@@ -100,11 +100,11 @@
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="tipo_producto">TIPO PRODUCTO</label>
+            <label for="tipo_producto">Tipo Producto</label>
             <select name="tipo_producto"
                     required
                     id="tipo_producto" class="form-control selectpicker">
-                <option selected value="">SELECCIONAR TIPO PRODUCTO</option>
+                <option selected value="">Seleccionar Tipo Producto</option>
                 @if(  $producto->tipo_producto == "MP"  )
                     <option value="MP" selected> MATERIA PRIMA</option>
                     <option value="PT">PRODUCTO TERMINADO</option>
@@ -129,31 +129,31 @@
             </select>
         </div>
     </div>
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12" style="display: none">
         <div class="form-group">
-            <label for="codigo_dun">CODIGO DUN 14</label>
+            <label for="codigo_dun">Codigo dun 14</label>
             <input type="text" name="codigo_dun" value="{{$producto->codigo_dun}}"
                    class="form-control">
         </div>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="cantidad_unidades">CANTIDAD DE UNIDADES</label>
+         <label for="cantidad_unidades">Cantidad de Unidades por paquete</label>
             <input type="number" name="cantidad_unidades" value="{{$producto->cantidad_unidades}}"
                    class="form-control">
         </div>
     </div>
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <button class="btn btn-default" type="submit">
-                <span class=" fa fa-check"></span> GUARDAR
+             <button class="btn btn-primary" type="submit">
+                <span class=" fa fa-check"></span> Guardar
             </button>
-            <a href="{{url('registro/productos')}}">
-                <button class="btn btn-default" type="button">
-                    <span class="fa fa-remove"></span>
-                    CANCELAR
-                </button>
+            <a href="{{url('registro/productos ')}}">
+                  <button class="btn btn-primary" type="button">
+               <span class=" fa fa-close"></span> Cancelar
+            </button>
             </a>
+
 
         </div>
     </div>

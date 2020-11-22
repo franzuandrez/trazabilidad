@@ -30,9 +30,9 @@
         <div class="row">
             <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
                 <div class="form-group">
-                    <button class="btn btn-default" type="submit">
-                        <span class=" fa fa-check"></span> GUARDAR
-                    </button>
+                     <button class="btn btn-primary" type="submit">
+                <span class=" fa fa-check"></span> Guardar
+            </button>
                 </div>
             </div>
         </div>

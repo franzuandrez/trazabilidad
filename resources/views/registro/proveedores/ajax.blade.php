@@ -11,10 +11,10 @@
 
     @component('componentes.nav',['operation'=>'LIST',
     'menu_icon'=>'fa-file-text',
-    'submenu_icon'=>'fa fa-users',
+    'submenu_icon'=>'fa fa-truck',
     'operation_icon'=>'',])
         @slot('menu')
-            Registro
+            Catalogos
         @endslot
         @slot('submenu')
             Proveedores
@@ -36,18 +36,15 @@
             @can('role-list')
                 @component('componentes.btn-ver',['url'=>'javascript:ver()'])
                 @endcomponent
-                @include('registro.proveedores.btn-ver-productos')
+
             @endcan
             @can('role-delete')
                 @component('componentes.btn-eliminar',['url'=>'javascript:eliminar()'])
                 @endcomponent
             @endcan
-            @can('importar')
-                @component('componentes.btn-importar',['url'=>'javascript:importar()'])
-                @endcomponent
+            @can('role-list')
+                @include('registro.proveedores.btn-ver-productos')
             @endcan
-
-
         </div>
     </div>
     @component('componentes.alert-no-selecction')

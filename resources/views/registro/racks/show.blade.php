@@ -7,7 +7,7 @@
     'submenu_icon'=>'fa fa-tasks',
     'operation_icon'=>'fa-eye',])
         @slot('menu')
-            Registro
+            Catalogos
         @endslot
         @slot('submenu')
             Racks
@@ -35,7 +35,7 @@
         <div class="form-group">
             <label for="id_encargado">BODEGA</label>
             <select name="id_bodega" id="bodegas" class="form-control selectpicker" disabled  onchange="cargarSectores()">
-                <option value="">SELECCIONAR BODEGA</option>
+                <option value="">Seleccionar BODEGA</option>
                 @foreach($localidad->bodegas as $bod)
                     @if($bod->id_bodega == $bodega->id_bodega)
                         <option selected value="{{$bod->id_bodega}}">{{$bod->descripcion}}</option>
@@ -50,7 +50,7 @@
         <div class="form-group">
             <label for="id_encargado">SECTOR</label>
             <select name="id_sector" id="sectores" class="form-control selectpicker"  disabled onchange="cargarPasillos()">
-                <option value="">SELECCIONAR SECTOR</option>
+                <option value="">Seleccionar SECTOR</option>
                 @foreach($bodega->sectores as $sec)
                     @if($sec->id_sector == $sector->id_sector)
                         <option selected value="{{$sec->id_sector}}">{{$sec->descripcion}}</option>
@@ -65,7 +65,7 @@
         <div class="form-group">
             <label for="id_encargado">PASILLOS</label>
             <select name="id_pasillo" id="pasillos" class="form-control selectpicker" disabled>
-                <option value="">SELECCIONAR PASILLO</option>
+                <option value="">Seleccionar PASILLO</option>
                 @foreach($sector->pasillos as $pasillo )
                     @if($pasillo->id_pasillo == $rack->id_pasillo)
                         <option selected value="{{$pasillo->id_pasillo}}"> {{$pasillo->descripcion }}</option>
@@ -79,14 +79,14 @@
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="codigo_barras">CODIGO BARRAS</label>
+            <label for="codigo_barras">Codigo  Barras</label>
             <input type="text" name="codigo_barras" value="{{$rack->codigo_barras}}" readonly
                    class="form-control">
         </div>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="descripcion">DESCRIPCION</label>
+              <label for="descripcion">Descripcion</label>
             <input type="text" name="descripcion" value="{{$rack->descripcion}}" readonly
                    class="form-control">
         </div>
@@ -109,9 +109,9 @@
         <div class="form-group">
 
             <a href="{{url('registro/racks')}}">
-                <button class="btn btn-default" type="button">
+                <button class="btn btn-primary" type="button">
                     <span class="fa fa-backward"></span>
-                    REGRESAR
+                    Regresar
                 </button>
             </a>
 

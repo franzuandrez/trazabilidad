@@ -45,7 +45,7 @@ class VerificacionMateriasChaoController extends Controller
                     ->orWhere('verificacion_materias_chao_enc.fecha_hora', 'LIKE', '%' . $search . '%');
             })
             ->orderBy($sortField, $sort)
-            ->paginate(20);
+            ->paginate(12);
 
 
         if ($request->ajax()) {

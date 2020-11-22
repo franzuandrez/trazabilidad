@@ -13,7 +13,7 @@
 
     @component('componentes.nav',['operation'=>'LIST',
     'menu_icon'=>'fa fa-cube',
-    'submenu_icon'=>'fa fa fa-pencil-square',
+    'submenu_icon'=>'fa  fa fa-file-text',
     'operation_icon'=>'',])
         @slot('menu')
             Produccion
@@ -47,7 +47,7 @@
 
     @component('componentes.alert-no-selecction')
         @slot('mensaje')
-            SELECCIONAR REQUISICION
+            Seleccionar REQUISICION
         @endslot
     @endcomponent
     <div id="content">

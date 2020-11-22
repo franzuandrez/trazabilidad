@@ -15,7 +15,7 @@
     'submenu_icon'=>'fa fa-arrows-h',
     'operation_icon'=>'',])
         @slot('menu')
-            Registro
+            Catalogos
         @endslot
         @slot('submenu')
             Tipo Movimiento

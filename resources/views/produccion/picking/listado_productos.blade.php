@@ -8,11 +8,11 @@
 
         <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
 
-            <thead style="background-color: #01579B;  color: #fff">
+            <thead style="background-color: #f7b633;  color: #fff">
             <th></th>
-            <th>DESCRIPCION</th>
-            <th>LOTE</th>
-            <th>CANTIDAD</th>
+            <th>Descripcion</th>
+            <th>No. Lote</th>
+            <th>Cantidad</th>
             <th>UBICACION</th>
             </thead>
             <tbody>

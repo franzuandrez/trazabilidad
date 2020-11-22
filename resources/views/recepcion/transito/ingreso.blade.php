@@ -7,7 +7,7 @@
 
     @component('componentes.nav',['operation'=>'Ingreso',
     'menu_icon'=>'fa-arrow-circle-o-right',
-    'submenu_icon'=>'fa fa-arrow-right',
+    'submenu_icon'=>'fa fa-list',
     'operation_icon'=>'fa-plus',])
         @slot('menu')
             Recepcion
@@ -23,7 +23,7 @@
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="orden_compra">NO. DOCUMENTO</label>
+            <label for="orden_compra">No. Documento</label>
             <input type="text"
                    readonly
                    name="orden_compra"
@@ -34,7 +34,7 @@
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="id_proveedor">PROVEEDOR</label>
+            <label for="id_proveedor">Proveedor</label>
             <input type="text" id="proveedor"
                    name="proveedor"
                    readonly
@@ -42,21 +42,12 @@
                    class="form-control">
         </div>
     </div>
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="documento_proveedor">DOCUMENTO PROVEEDOR</label>
-            <input type="text"
-                   readonly
-                   name="documento_proveedor"
-                   value="{{$recepcion->documento_proveedor}}"
-                   class="form-control">
-        </div>
-    </div>
-    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
 
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <hr>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <label for="codigo_producto">CODIGO PRODUCTO</label>
+        <label for="codigo_producto">Cod. Producto</label>
         <div class="form-group">
             <input type="text"
                    id="codigo_producto"
@@ -66,7 +57,7 @@
         </div>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
-        <label for="codigo_producto">PRODUCTO</label>
+        <label for="codigo_producto">Producto</label>
         <div class="form-group">
             <input type="text"
                    readonly
@@ -81,7 +72,7 @@
            name="id_movimiento"
            class="form-control">
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
-        <label for="codigo_producto">LOTE</label>
+        <label for="codigo_producto">No. Lote</label>
         <div class="form-group">
             <input type="text"
                    readonly
@@ -91,7 +82,7 @@
                    class="form-control">
         </div>
     </div>
-    <div class="col-lg-3 col-sm-3 col-md-6 col-xs-6">
+    <div class="col-lg-3 col-sm-3 col-md-6 col-xs-6" style="display: none">
         <label for="cantidad_impresion">CANTIDAD IMPRESION</label>
         <div class="form-group">
             <input type="number"
@@ -105,8 +96,8 @@
     </div>
     @include('recepcion.transito.productos')
     @include('recepcion.transito.modal_confirmar')
-    <div class="col-lg-3 col-sm-3 col-md-6 col-xs-6">
-        <label for="cantidad">CANTIDAD ENTRANTE</label>
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+        <label for="cantidad">Cantidad  Entrante</label>
         <div class="form-group">
             <input type="number"
                    readonly
@@ -121,15 +112,14 @@
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="table-responsive">
             <table class="table table-striped table-bordered table-condensed table-hover">
-                <thead style="background-color: #01579B;  color: #fff;">
+                <thead style="background-color: #f7b633;  color: #fff;">
                 <tr>
-                    <th>PRODUCTO</th>
-                    <th>LOTE</th>
-                    <th>FECHA VENCIMIENTO</th>
-                    <th>CANTIDAD</th>
-                    <th>CANTIDAD ENTRANTE</th>
-                    <th>IMPRESIONES</th>
-                    <th>STATUS</th>
+                    <th>Producto</th>
+                    <th>No.Lote</th>
+                    <th>F.Venc</th>
+                    <th>Cantidad</th>
+                    <th>Cantidad Entrante</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -155,8 +145,8 @@
                         <td>
                             <input type="hidden" name="cantidad_entrante[]" value="0">
                         </td>
-                        <td>
-                            <input type="hidden" value="0" name="imprimir[]">
+                        <td style="display: none">
+                            <input type="hidden" value=1" name="imprimir[]">
                         </td>
                         <td>
                             <span class="label label-success hidden">
@@ -175,18 +165,18 @@
     </div>
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <button class="btn btn-default" id="btnGuardar"
+            <button class="btn btn-primary" id="btnGuardar"
                     onclick="confirmar()"
                     disabled
                     type="button">
-                <span class=" fa fa-check"></span> GUARDAR
+                <span class=" fa fa-check"></span> Guardar
             </button>
-            <a href="{{url('recepcion/transito')}}">
-                <button class="btn btn-default" type="button">
-                    <span class="fa fa-remove"></span>
-                    CANCELAR
+            <a href="{{url('recepcion/transito ')}}">
+                <button class="btn btn-primary" type="button">
+                   <span class=" fa fa-close"></span> Cancelar
                 </button>
             </a>
+
         </div>
     </div>
 @endsection
@@ -396,7 +386,7 @@
                     document.getElementById('cantidad_impresion').readOnly = false;
                     document.getElementById('cantidad').readOnly = false;
                     document.getElementById('cantidad').value = mov.cantidad;
-                    document.getElementById('cantidad_impresion').focus();
+                    document.getElementById('cantidad').focus();
                     cantidadMinima = parseFloat(mov.cantidad);
                 } else {
                     document.getElementById('descripcion').value = "";
@@ -455,7 +445,10 @@
             span.classList.remove('hidden');
             const cantidad_recepcionada = parseFloat(row.children[3].innerText);
             row.children[5].innerHTML = "<input name='imprimir[]' value='" + impresiones + "' type='hidden'  >" + impresiones + " ";
-            row.children[4].innerHTML = parseFloat(cantidad).toLocaleString('en', {minimumFractionDigits: 3,maximumFractionDigits:3}) + "<input name='cantidad_entrante[]' type='hidden' value='" + cantidad + "'><input name='diferencia[]' type='hidden' value='" + (cantidad_recepcionada - cantidad) + "'> ";
+            row.children[4].innerHTML = parseFloat(cantidad).toLocaleString('en', {
+                minimumFractionDigits: 3,
+                maximumFractionDigits: 3
+            }) + "<input name='cantidad_entrante[]' type='hidden' value='" + cantidad + "'><input name='diferencia[]' type='hidden' value='" + (cantidad_recepcionada - cantidad) + "'> ";
             productos_agregados.push(idMovimiento);
         }
 

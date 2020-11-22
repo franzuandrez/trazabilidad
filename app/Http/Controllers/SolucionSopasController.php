@@ -46,7 +46,7 @@ class SolucionSopasController extends Controller
                     ->orWhere('solucion_sopas_enc.fecha_hora', 'LIKE', '%' . $search . '%');
             })
             ->orderBy($sortField, $sort)
-            ->paginate(20);
+            ->paginate(12);
 
         if ($request->ajax()) {
             return view('sopas.materias_primas_solucion.index',

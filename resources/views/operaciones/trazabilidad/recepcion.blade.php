@@ -2,7 +2,7 @@
     <i class="fa     fa-sign-in    bg-yellow"></i>
     <div class="timeline-item">
         <span class="time"><i class="fa fa-clock-o"></i>{{$evento->evento->fecha_ingreso->format('H:i:s')}}</span>
-        <h3 class="timeline-header"><a href="#" style="color: #01579b !important;">
+        <h3 class="timeline-header"><a href="#" style="color: #f7b633 !important;">
                 Recepcion
             </a> {{$evento->evento->orden_compra}}</h3>
         <div class="timeline-body">

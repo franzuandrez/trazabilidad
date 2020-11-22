@@ -36,7 +36,7 @@
 
     <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="id_producto">PRODUCTO</label>
+            <label for="id_producto">Producto</label>
             <select class="form-control selectpicker valor"
                     disabled
                     required
@@ -50,7 +50,7 @@
 
     <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="lote">LOTE</label>
+            <label for="lote">No.  Lote</label>
             <input class="form-control selectpicker valor"
                    disabled
                    value="{{$fritura->lote}}"
@@ -80,7 +80,7 @@
         <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
 
             <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
-                <thead style="background-color: #01579B;  color: #fff;">
+                <thead style="background-color: #f7b633;  color: #fff;">
                 <th>HORA (CADA 15 MIN)</th>
                 <th>INICIAL 125 A 140 °C</th>
                 <th>FINAL 140 A 160 °C</th>
@@ -118,9 +118,9 @@
         <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
             <div class="form-group">
                 <a href="{{url('sopas/fritura')}}">
-                    <button class="btn btn-default" type="button">
+                    <button class="btn btn-primary" type="button">
                         <span class="fa fa-backward"></span>
-                        REGRESAR
+                    Regresar
                     </button>
                 </a>
 

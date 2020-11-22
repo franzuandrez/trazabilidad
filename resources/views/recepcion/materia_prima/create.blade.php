@@ -8,7 +8,7 @@
 
     @component('componentes.nav',['operation'=>'Ingreso',
     'menu_icon'=>'fa-arrow-circle-o-right',
-    'submenu_icon'=>'fa fa-sign-in',
+    'submenu_icon'=>'fa fa-th-large',
     'operation_icon'=>'fa-plus',])
         @slot('menu')
             Recepcion
@@ -23,7 +23,7 @@
     {{Form::token()}}
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <label for="producto">MATERIA PRIMA</label>
+        <label for="producto">Materia Prima</label>
         <div class="input-group">
             <input type="text" id="producto"
                    name="producto"
@@ -32,7 +32,7 @@
             <span class="input-group-btn">
                 <a href="javascript:buscar_producto();">
                     <button type="button"
-                            class="btn btn-default"
+                            class="btn btn-primary"
                             id="buscar"
                             data-placement="top"
                             title="Buscar" data-toggle="tooltip"
@@ -41,7 +41,7 @@
                     </button>
                 </a>
                   <a href="javascript:limpiar()">
-                   <button type="button" class="btn btn-default"
+                   <button type="button" class="btn btn-primary"
                            id="limpiar" data-placement="top"
                            title="Limpiar" data-toggle="tooltip">
                         <i class="fa fa-trash"></i>
@@ -55,7 +55,7 @@
     @include('componentes.loading')
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="id_proveedor">PROVEEDOR</label>
+            <label for="id_proveedor">Proveedor</label>
             <select name="id_proveedor" id="proveedores" class="form-control selectpicker">
 
                 @if(old('id_proveedor'))
@@ -70,562 +70,163 @@
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="documento_proveedor">DOCUMENTO PROVEEDOR</label>
-            <input type="text"
-                   data-index="1"
-                   id="documento_proveedor"
-                   required name="documento_proveedor" value="{{old('documento_proveedor')}}"
-                   class="form-control">
-        </div>
-    </div>
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="orden_compra">NO. DOCUMENTO</label>
+            <label for="orden_compra">Numero Documento</label>
             <input type="text" required
                    data-index="2"
                    name="orden_compra" value="{{old('orden_compra')}}"
                    class="form-control">
         </div>
     </div>
+    <hr>
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-        <div class="">
-            <ul class="nav nav-tabs">
-                <li class="active">
-                    <a href="#tab_1" data-toggle="tab" aria-expanded="false">
-                        Documentos y Vehiculos
-                    </a>
-                </li>
-                <li class="">
-                    <a href="#tab_2" data-toggle="tab" aria-expanded="false" onclick="validacion_checks()">
-                        Empaque y Etiqueta
-
-                    </a>
-                </li>
-
-                <li class="">
-                    <a href="#tab_3" data-toggle="tab" aria-expanded="true" onclick="validacion_checks()">
-                        Detalles de lotes
-                    </a>
-                </li>
-            </ul>
-            <div class="tab-content">
-                <div class="tab-pane active" id="tab_1">
 
 
-                    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox"
-                                   class="custom-control-input validacion" onclick="validacion_checks()"
-                                   id="proveedor_aprobado"
-                                   value="1"
-                                   {{old('proveedor_aprobado')?'checked':''}}
-                                   required
-                                   name="proveedor_aprobado">
-                            <label class="custom-control-label" for="proveedor_aprobado">Proveedor aprobado</label>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox"
-                                   class="custom-control-input validacion"
-                                   name="producto_acorde_compra"
-                                   value="1"
-                                   {{old('producto_acorde_compra')?'checked':''}}
-                                   id="producto_acorde_compra"
-                                   onclick="validacion_checks()"
-                            >
-                            <label class="custom-control-label" for="producto_acorde_compra">Producto acorde con Orden
-                                de Compra</label>
-                        </div>
-                    </div>
-                    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox"
-                                   class="custom-control-input validacion"
-                                   value="1"
-                                   {{old('cantidad_acorde_compra')?'checked':''}}
-                                   name="cantidad_acorde_compra"
-                                   id="cantidad_acorde_compra"
-                                   onclick="validacion_checks()"
-                            >
-                            <label class="custom-control-label" for="cantidad_acorde_compra">Cantidad acorde con orden
-                                de Compra</label>
-                        </div>
-                    </div>
-
-
-                    <div class="col-lg-12 col-sm-12 col-md-4 col-xs-12">
-                        <label for="nombre">Certificado de análisis</label>
-                    </div>
-                    <div class="col-lg-12 col-sm-12 col-md-4 col-xs-12">
-
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox"
-                                   class="custom-control-input validacion" onclick="validacion_checks()"
-                                   name="certificado_existente"
-                                   value="1"
-                                   {{old('certificado_existente')?'checked':''}}
-                                   id="certificado_existente">
-                            <label class="custom-control-label" style="font-weight: normal"
-                                   for="certificado_existente">Existente</label>
-
-                        </div>
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox"
-                                   class="custom-control-input validacion" onclick="validacion_checks()"
-                                   name="certificado_correspondiente_lote"
-                                   value="1"
-                                   {{old('certificado_correspondiente_lote')?'checked':''}}
-                                   id="certificado_correspondiente_lote">
-                            <label class="custom-control-label" style="font-weight: normal"
-                                   for="certificado_correspondiente_lote">Correspondiente
-                                a No. Lote</label>
-                        </div>
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox"
-                                   class="custom-control-input validacion" onclick="validacion_checks()"
-                                   id="certificado_correspondiente_especificacion"
-                                   {{old('certificado_correspondiente_especificacion')?'checked':''}}
-                                   name="certificado_correspondiente_especificacion"
-                                   value="1"
-                            >
-                            <label class="custom-control-label" style="font-weight: normal"
-                                   for="certificado_correspondiente_especificacion">
-                                De acuerdo a especificación
-                            </label>
-                        </div>
-
-                    </div>
-
-                    <div class="col-lg-12 col-sm-12 col-md-4 col-xs-12">
-                        <label for="nombre">Limpieza interna de vehìculo</label>
-                    </div>
-                    <div class="col-lg-12 col-sm-12 col-md-4 col-xs-12">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input validacion" onclick="validacion_checks()"
-                                   id="sin_polvo"
-                                   {{old('sin_polvo')?'checked':''}}
-                                   name="sin_polvo"
-                                   value="1"
-                            >
-                            <label class="custom-control-label" style="font-weight: normal" for="sin_polvo">Sin polvo
-                                y/o
-                                suciedad</label>
-
-                        </div>
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox"
-                                   class="custom-control-input  validacion" onclick="validacion_checks()"
-                                   id="sin_material_ajeno"
-                                   value="1"
-                                   {{old('sin_material_ajeno')?'checked':''}}
-                                   name="sin_material_ajeno">
-                            <label class="custom-control-label" style="font-weight: normal" for="sin_material_ajeno">Sin
-                                Material
-                                Ajeno</label>
-
-                        </div>
-
-                    </div>
-
-                    <div class="col-lg-12 col-sm-12 col-md-4 col-xs-12">
-                        <label for="nombre">Condiciones Internas vehiculos</label>
-                    </div>
-                    <div class="col-lg-12 col-sm-12 col-md-4 col-xs-12">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox"
-                                   class="custom-control-input validacion" onclick="validacion_checks()"
-                                   value="1"
-                                   {{old('ausencia_plagas')?'checked':''}}
-                                   name="ausencia_plagas"
-                                   id="ausencia_plagas">
-                            <label class="custom-control-label" style="font-weight: normal" for="ausencia_plagas">Ausencia
-                                de
-                                Plagas</label>
-
-                        </div>
-                        <div class="custom-control custom-checkbox">
-
-                            <input type="checkbox"
-                                   class="custom-control-input validacion" onclick="validacion_checks()"
-                                   value="1"
-                                   {{old('sin_humedad')?'checked':''}}
-                                   id="sin_humedad"
-                                   name="sin_humedad">
-
-                            <label
-                                class="custom-control-label" style="font-weight: normal" for="sin_humedad">Sin
-                                Humedad</label>
-
-                        </div>
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input validacion" onclick="validacion_checks()"
-                                   name="sin_oxido"
-                                   value="1"
-                                   {{old('sin_oxido')?'checked':''}}
-                                   id="sin_oxido">
-                            <label class="custom-control-label" style="font-weight: normal" for="sin_oxido">Sin
-                                óxido</label>
-
-                        </div>
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox"
-                                   class="custom-control-input validacion" onclick="validacion_checks()"
-                                   name="ausencia_olores_extranios"
-                                   value="1"
-                                   {{old('ausencia_olores_extranios')?'checked':''}}
-                                   id="ausencia_olores_extranios">
-                            <label class="custom-control-label" style="font-weight: normal"
-                                   for="ausencia_olores_extranios">Ausencia de
-                                olores extraños</label>
-
-                        </div>
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox"
-                                   class="custom-control-input validacion" onclick="validacion_checks()"
-                                   name="ausencia_material_extranio"
-                                   value="1"
-                                   {{old('ausencia_material_extranio')?'checked':''}}
-                                   id="ausencia_material_extranio">
-                            <label class="custom-control-label" style="font-weight: normal"
-                                   for="ausencia_material_extranio">Ausencia de
-                                material extraño</label>
-
-                        </div>
-                        <div class="custom-control custom-checkbox">
-
-                            <input type="checkbox" class="custom-control-input validacion" onclick="validacion_checks()"
-                                   name="cerrado"
-                                   value="1"
-                                   {{old('cerrado')?'checked':''}}
-                                   id="cerrado"> <label
-                                class="custom-control-label" style="font-weight: normal" for="cerrado">Cerrado y
-                                con llave</label>
-
-                        </div>
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input validacion" onclick="validacion_checks()"
-                                   name="sin_agujeros"
-                                   value="1"
-                                   {{old('sin_agujeros')?'checked':''}}
-                                   id="sin_agujeros">
-                            <label class="custom-control-label" style="font-weight: normal" for="sin_agujeros">Sin
-                                agujeros</label>
-
-                        </div>
-                    </div>
-                    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-                        <div class="form-group">
-                            <label for="observaciones_vehiculo">OBSERVACIONES/ACCIONES CORRECTIVAS</label>
-                            <input type="text" name="observaciones_vehiculo" value="{{old('observaciones_vehiculo')}}"
-                                   class="form-control">
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane" id="tab_2">
-
-
-                    <div class="col-lg-12 col-sm-12 col-md-4 col-xs-12">
-
-                        <label for="empaque">Empaque</label>
-
-                    </div>
-                    <div class="col-lg-12 col-sm-12 col-md-4 col-xs-12">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox"
-                                   class="custom-control-input  validacion" onclick="validacion_checks()"
-                                   name="no_golpeado"
-                                   value="1"
-                                   {{old('no_golpeado')?'checked':''}}
-                                   required
-                                   id="no_golpeado">
-                            <label class="custom-control-label" style="font-weight: normal" for="no_golpeado">No
-                                golpeado</label>
-                        </div>
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox"
-                                   class="custom-control-input  validacion" onclick="validacion_checks()"
-                                   name="sin_roturas"
-                                   value="1"
-                                   {{old('sin_roturas')?'checked':''}}
-                                   required
-                                   id="sin_roturas">
-                            <label class="custom-control-label" style="font-weight: normal" for="sin_roturas">Sin
-                                rotulas</label>
-                        </div>
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox"
-                                   required
-                                   {{old('empaque_cerrado')?'checked':''}}
-                                   class="custom-control-input  validacion" onclick="validacion_checks()"
-                                   name="empaque_cerrado"
-                                   value="1"
-                                   id="empaque_cerrado">
-                            <label class="custom-control-label" style="font-weight: normal"
-                                   for="empaque_cerrado">Cerrado</label>
-                        </div>
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox"
-                                   class="custom-control-input  validacion" onclick="validacion_checks()"
-                                   name="seco_limpio"
-                                   {{old('seco_limpio')?'checked':''}}
-                                   value="1"
-                                   id="seco_limpio">
-                            <label class="custom-control-label" style="font-weight: normal" for="seco_limpio">Seco y
-                                Limpio</label>
-                        </div>
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox"
-                                   class="custom-control-input  validacion" onclick="validacion_checks()"
-                                   value="1"
-                                   {{old('sin_material_extranio')?'checked':''}}
-                                   name="sin_material_extranio"
-                                   id="sin_material_extranio">
-                            <label class="custom-control-label" style="font-weight: normal" for="sin_material_extranio">Sin
-                                material
-                                extraño</label>
-                        </div>
-
-                    </div>
-
-                    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox"
-                                   class="custom-control-input  validacion" onclick="validacion_checks()"
-                                   value="1"
-                                   {{old('debidamente_identificado')?'checked':''}}
-                                   name="debidamente_identificado"
-                                   id="debidamente_identificado">
-                            <label class="custom-control-label" for="debidamente_identificado">Producto debidamente
-                                identificado</label>
-                        </div>
-                    </div>
-                    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox"
-                                   {{old('debidamente_legible')?'checked':''}}
-                                   class="custom-control-input  validacion" onclick="validacion_checks()"
-                                   name="debidamente_legible"
-                                   value="1"
-                                   id="debidamente_legible">
-                            <label class="custom-control-label" for="debidamente_legible">Identificación de producto
-                                legible</label>
-                        </div>
-                    </div>
-                    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox"
-                                   class="custom-control-input  validacion" onclick="validacion_checks()"
-                                   value="1"
-                                   {{old('no_lote_presente')?'checked':''}}
-                                   name="no_lote_presente"
-                                   id="no_lote_presente">
-                            <label class="custom-control-label" for="no_lote_presente">No. de lote presente</label>
-                        </div>
-                    </div>
-                    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox"
-                                   class="custom-control-input  validacion" onclick="validacion_checks()"
-                                   name="no_lote_legible"
-                                   value="1"
-                                   {{old('no_lote_legible')?'checked':''}}
-                                   id="no_lote_legible">
-                            <label class="custom-control-label" for="no_lote_legible">No. de lote legible</label>
-                        </div>
-                    </div>
-                    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox"
-                                   class="custom-control-input  validacion" onclick="validacion_checks()"
-                                   name="fecha_vencimiento_legible"
-                                   value="1"
-                                   {{old('fecha_vencimiento_legible')?'checked':''}}
-                                   id="fecha_vencimiento_legible">
-                            <label class="custom-control-label" for="fecha_vencimiento_legible">Fecha de vencimiento
-                                presente y
-                                legible</label>
-                        </div>
-                    </div>
-                    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox"
-                                   class="custom-control-input  validacion" onclick="validacion_checks()"
-                                   name="fecha_vencimiento_vigente"
-                                   value="1"
-                                   {{old('fecha_vencimiento_vigente')?'checked':''}}
-                                   id="fecha_vencimiento_vigente">
-                            <label class="custom-control-label" for="fecha_vencimiento_vigente">Fecha de vencimiento
-                                vigente</label>
-                        </div>
-                    </div>
-                    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox"
-                                   class="custom-control-input  validacion" onclick="validacion_checks()"
-                                   name="contenido_neto_declarado"
-                                   value="1"
-                                   {{old('contenido_neto_declarado')?'checked':''}}
-                                   id="contenido_neto_declarado">
-                            <label class="custom-control-label" for="contenido_neto_declarado">Contenido Neto
-                                declarado</label>
-                        </div>
-                    </div>
-                    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-                        <div class="form-group">
-                            <label for="observaciones_empaque">OBSERVACIONES/ACCIONES CORRECTIVAS</label>
-                            <input type="text" name="observaciones_empaque" value="{{old('observaciones_empaque')}}"
-                                   class="form-control">
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane" id="tab_3">
-                    <div class="col-lg-8 col-sm-10 col-md-12 col-xs-12">
-                        <label for="codigo_producto">Codigo</label>
-                        <div class="input-group">
-                            <input id="codigo_producto" type="text"
-                                   onkeydown="if(event.keyCode==13)cargarInfoCodigoBarras(this)"
-                                   class="form-control">
-
-                            <div class="input-group-btn">
-                                <button type="button" class="btn btn-default"
-                                        onclick="cargarInfoCodigoBarras(document.getElementById('codigo_producto'))"
-                                >
-                                    <i class="fa fa-search" aria-hidden="true"></i>
-                                </button>
-                                <button type="button" class="btn btn-default"
-                                        onclick="limpiarProducto()"
-                                >
-                                    <i class="fa fa-trash" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <input id="id_producto" type="hidden"
-                           name="id_producto"
+        <div class="tab-pane active" id="tab_3">
+            <div class="col-lg-8 col-sm-10 col-md-12 col-xs-12">
+                <label for="codigo_producto">Codigo</label>
+                <div class="input-group">
+                    <input id="codigo_producto" type="text"
+                           onkeydown="if(event.keyCode==13)cargarInfoCodigoBarras(this)"
                            class="form-control">
-                    <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
-                        <div class="form-group">
-                            <label for="nombre_producto">Producto</label>
-                            <input id="nombre_producto" type="text"
-                                   readonly
-                                   class="form-control">
-                        </div>
-                    </div>
 
-                    <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
-                        <div class="form-group">
-                            <label for="nombre">No. de Lote</label>
-                            <input id="lote" type="text"
-                                   onkeydown="if(event.keyCode==13)document.getElementById('vencimiento').focus()"
-                                   name="descripcion"
-
-                                   class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
-                        <div class="form-group">
-                            <label>Fecha de Vencimiento</label>
-
-                            <div class="input-group date">
-                                <div class="input-group-addon">
-                                    <i class="fa fa-calendar"></i>
-                                </div>
-                                <input id="vencimiento"
-                                       onkeydown="if(event.keyCode==13)document.getElementById('cantidad').focus()"
-                                       type="text" class="form-control pull-right" id="datepicker">
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class=" col-lg-3  col-sm-4 col-md-4 col-xs-10">
-                        <div class="form-group">
-                            <label for="nombre">Cantidad</label>
-                            <input id="cantidad" type="number"
-                                   onkeydown="if(event.keyCode==13)addToTable()"
-                                   onkeypress="return justNumbers(event);" name="descripcion"
-                                   class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-lg-1 col-sm-2 col-md-2 col-xs-2">
-                        <br>
-                        <div class="form-group">
-                            <button id="btnAdd"
-                                    onclick="addToTable();"
-                                    class="btn btn-default block" style="margin-top: 5px;" type="button">
-                                <span class=" fa fa-plus"></span></button>
-                        </div>
-                    </div>
-
-
-                    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
-
-                        <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
-
-                            <thead style="background-color: #01579B;  color: #fff;">
-                            <th>OPCION</th>
-                            <th>PRODUCTO</th>
-                            <th>CANTIDAD</th>
-                            <th>NO. LOTE</th>
-                            <th>FECHA VENCIMIENTO</th>
-                            </thead>
-                            <tbody id="body-detalles">
-                            @if(old('id_producto'))
-                                @foreach( old('id_producto') as $key => $prod )
-                                    <tr>
-                                        <td>
-                                            <button onclick=removeFromTable(this) type="button" class="btn btn-warning">
-                                                x
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <input type="hidden" value="{{old('id_producto')[$key]}}"
-                                                   name="id_producto[]">
-                                            <input type="hidden" value="{{old('descripcion_producto')[$key]}}"
-                                                   name="descripcion_producto[]">
-                                            {{old('descripcion_producto')[$key]}}
-                                        </td>
-                                        <td>
-                                            <input type="hidden" value="{{old('cantidad')[$key]}}" name="cantidad[]">
-                                            {{old('cantidad')[$key]}}
-                                        </td>
-                                        <td>
-                                            <input type="hidden" value="{{old('no_lote')[$key]}}" name="no_lote[]">
-                                            {{old('no_lote')[$key]}}
-                                        </td>
-                                        <td>
-                                            <input type="hidden" value="{{old('fecha_vencimiento')[$key]}}"
-                                                   name="fecha_vencimiento[]">
-                                            {{old('fecha_vencimiento')[$key]}}
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            @endif
-                            </tbody>
-                        </table>
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-primary"
+                                onclick="cargarInfoCodigoBarras(document.getElementById('codigo_producto'))"
+                        >
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="btn btn-primary"
+                                onclick="limpiarProducto()"
+                        >
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </button>
                     </div>
                 </div>
+
+            </div>
+
+            <input id="id_producto" type="hidden"
+                   name="id_producto"
+                   class="form-control">
+            <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+                <div class="form-group">
+                    <label for="nombre_producto">Producto</label>
+                    <input id="nombre_producto" type="text"
+                           readonly
+                           class="form-control">
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+                <div class="form-group">
+                    <label for="nombre">No. Lote</label>
+                    <input id="lote" type="text"
+                           onkeydown="if(event.keyCode==13)document.getElementById('vencimiento').focus()"
+                           name="descripcion"
+
+                           class="form-control">
+                </div>
+            </div>
+            <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+                <div class="form-group">
+                    <label>Fecha de Vencimiento</label>
+
+                    <div class="input-group date">
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <input id="vencimiento"
+                               onkeydown="if(event.keyCode==13)document.getElementById('cantidad').focus()"
+                               type="text" class="form-control pull-right" id="datepicker">
+                    </div>
+
+                </div>
+            </div>
+            <div class=" col-lg-3  col-sm-4 col-md-4 col-xs-10">
+                <div class="form-group">
+                    <label for="nombre">Cantidad</label>
+                    <input id="cantidad" type="number"
+                           onkeydown="if(event.keyCode==13)addToTable()"
+                           onkeypress="return justNumbers(event);" name="descripcion"
+                           class="form-control">
+                </div>
+            </div>
+            <div class="col-lg-1 col-sm-2 col-md-2 col-xs-2">
+                <br>
+                <div class="form-group">
+                    <button id="btnAdd"
+                            onclick="addToTable();"
+                            class="btn btn-default block" style="margin-top: 5px;" type="button">
+                        <span class=" fa fa-plus"></span></button>
+                </div>
+            </div>
+
+
+            <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
+
+                <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
+
+                    <thead style="background-color: #f7b633;  color: #fff;">
+                    <th>Accion</th>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>No. Lote</th>
+                    <th>Fecha Vencimiento</th>
+                    </thead>
+                    <tbody id="body-detalles">
+                    @if(old('id_producto'))
+                        @foreach( old('id_producto') as $key => $prod )
+                            <tr>
+                                <td>
+                                    <button onclick=removeFromTable(this) type="button" class="btn btn-warning">
+                                        x
+                                    </button>
+                                </td>
+                                <td>
+                                    <input type="hidden" value="{{old('id_producto')[$key]}}"
+                                           name="id_producto[]">
+                                    <input type="hidden" value="{{old('descripcion_producto')[$key]}}"
+                                           name="descripcion_producto[]">
+                                    {{old('descripcion_producto')[$key]}}
+                                </td>
+                                <td>
+                                    <input type="hidden" value="{{old('cantidad')[$key]}}" name="cantidad[]">
+                                    {{old('cantidad')[$key]}}
+                                </td>
+                                <td>
+                                    <input type="hidden" value="{{old('no_lote')[$key]}}" name="no_lote[]">
+                                    {{old('no_lote')[$key]}}
+                                </td>
+                                <td>
+                                    <input type="hidden" value="{{old('fecha_vencimiento')[$key]}}"
+                                           name="fecha_vencimiento[]">
+                                    {{old('fecha_vencimiento')[$key]}}
+                                </td>
+                            </tr>
+                        @endforeach
+                    @endif
+                    </tbody>
+                </table>
+
+
             </div>
         </div>
     </div>
 
+
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <button class="btn btn-default" name="Bt_guardar" disabled id="Bt_guardar"
+            <button class="btn btn-primary" name="Bt_guardar" disabled id="Bt_guardar"
                     onclick="$('form').submit()"
                     type="button">
-                <span class=" fa fa-check"></span> GUARDAR
+                <span class=" fa fa-check"></span> Guardar
             </button>
-            <a href="{{url('recepcion/materia_prima')}}">
-                <button class="btn btn-default" type="button">
-                    <span class="fa fa-remove"></span>
-                    CANCELAR
-                </button>
+            <a href="{{url('recepcion/materia_prima ')}}">
+                  <button class="btn btn-primary" type="button">
+               <span class=" fa fa-close"></span> Cancelar
+            </button>
             </a>
+
 
         </div>
     </div>
@@ -639,7 +240,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button"
-                            class="btn btn-default" data-dismiss="modal"><span class="fa fa-check"></span>
+                            class="btn btn-primary" data-dismiss="modal"><span class="fa fa-check"></span>
                         ACEPTAR
                     </button>
                 </div>
@@ -773,7 +374,10 @@
                         `<tr class="row-producto-added" id='${id_producto.val()}-${lote.val().toUpperCase()}'>
                             <td><button onclick=removeFromTable(this) type="button" class="btn btn-warning">x</button></td>
                             <td><input type="hidden" name="descripcion_producto[]" value="${nombre_producto.val()}" > <input type="hidden" value='${id_producto.val()}' name=id_producto[]>${nombre_producto.val()}</td>
-                            <td><input type="hidden" value='${cantidad.val()}' name=cantidad[]>${parseFloat( cantidad.val()).toLocaleString('en', {minimumFractionDigits: 3,maximumFractionDigits:3})}</td>
+                            <td><input type="hidden" value='${cantidad.val()}' name=cantidad[]>${parseFloat(cantidad.val()).toLocaleString('en', {
+                            minimumFractionDigits: 3,
+                            maximumFractionDigits: 3
+                        })}</td>
                             <td ><input type="hidden" value ='${lote.val().toUpperCase()}'  name=no_lote[] >${lote.val().toUpperCase()}</td>
                             <td ><input type="hidden" value ='${moment(fecha.val(), formato).format('Y-MM-DD')}'  name=fecha_vencimiento[] >${fecha.val()}</td>
                             </tr>`;
@@ -783,7 +387,10 @@
                         producto.lotes.push(lote.val().toUpperCase());
                     } else {
                         //agrego un nuevo registro
-                        productosAgregados.push({id_producto: id_producto.val(), lotes: [lote.val().toUpperCase()]});
+                        productosAgregados.push({
+                            id_producto: id_producto.val(),
+                            lotes: [lote.val().toUpperCase()]
+                        });
                     }
 
                     $("#detalles").append(row);

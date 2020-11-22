@@ -10,7 +10,7 @@
     'submenu_icon'=>'fa   fa-map-marker',
     'operation_icon'=>'fa-plus',])
         @slot('menu')
-            Registro
+            Catalogos
         @endslot
         @slot('submenu')
             Ubicaciones
@@ -27,7 +27,7 @@
                     id="localidades"
                     required
                     onchange="cargarBodegas()">
-                <option value="">SELECCIONAR LOCALIDAD</option>
+                <option value="">Seleccionar LOCALIDAD</option>
                 @foreach($localidades as $localidad)
                     <option value="{{$localidad->id_localidad}}">{{$localidad->descripcion}}</option>
                 @endforeach
@@ -40,7 +40,7 @@
             <label for="id_encargado">BODEGA</label>
             <select name="id_bodega" id="bodegas" required class="form-control selectpicker"
                     onchange="cargarSectores()">
-                <option value="">SELECCIONAR BODEGA</option>
+                <option value="">Seleccionar BODEGA</option>
 
             </select>
         </div>
@@ -50,7 +50,7 @@
             <label for="id_encargado">SECTOR</label>
             <select name="id_sector" id="sectores" required class="form-control selectpicker"
                     onchange="cargarPasillos()">
-                <option value="">SELECCIONAR SECTOR</option>
+                <option value="">Seleccionar SECTOR</option>
             </select>
         </div>
     </div>
@@ -58,7 +58,7 @@
         <div class="form-group">
             <label for="id_encargado">PASILLOS</label>
             <select name="id_pasillo" id="pasillos" required class="form-control selectpicker" onchange="cargarRacks()">
-                <option value="">SELECCIONAR PASILLO</option>
+                <option value="">Seleccionar PASILLO</option>
             </select>
         </div>
     </div>
@@ -70,7 +70,7 @@
                     class="form-control selectpicker"
                     onchange="cargarNiveles()"
             >
-                <option value="">SELECCIONAR RACK</option>
+                <option value="">Seleccionar RACK</option>
             </select>
         </div>
     </div>
@@ -83,7 +83,7 @@
                     class="form-control selectpicker"
                     onchange="cargarPosiciones()"
             >
-                <option value="">SELECCIONAR NIVEL</option>
+                <option value="">Seleccionar NIVEL</option>
             </select>
         </div>
     </div>
@@ -96,7 +96,7 @@
                     onchange="cargarBines()"
                     class="form-control selectpicker"
             >
-                <option value="">SELECCIONAR POSICION</option>
+                <option value="">Seleccionar POSICION</option>
             </select>
         </div>
     </div>
@@ -109,14 +109,14 @@
                     onchange="cargarCodigoInterno()"
                     class="form-control selectpicker"
             >
-                <option value="">SELECCIONAR BIN</option>
+                <option value="">Seleccionar BIN</option>
             </select>
         </div>
     </div>
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="codigo_barras">CODIGO BARRAS</label>
+            <label for="codigo_barras">Codigo  Barras</label>
             <input type="text"
                    name="codigo_barras"
                    required
@@ -132,15 +132,15 @@
     </div>
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <button class="btn btn-default" type="submit">
-                <span class=" fa fa-check"></span> GUARDAR
+             <button class="btn btn-primary" type="submit">
+                <span class=" fa fa-check"></span> Guardar
             </button>
-            <a href="{{url('registro/ubicaciones')}}">
-                <button class="btn btn-default" type="button">
-                    <span class="fa fa-remove"></span>
-                    CANCELAR
-                </button>
+            <a href="{{url('registro/ubicaciones ')}}">
+                  <button class="btn btn-primary" type="button">
+               <span class=" fa fa-close"></span> Cancelar
+            </button>
             </a>
+
 
         </div>
     </div>

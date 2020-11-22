@@ -15,7 +15,7 @@
 
             <table class="table table-striped table-bordered table-condensed table-hover">
 
-                <thead style="background-color: #01579B;  color: #fff;">
+                <thead style="background-color: #f7b633;  color: #fff;">
                 <tr>
                     <th>
 
@@ -38,15 +38,7 @@
                     'titulo'=>'descripcion'])
                         @endcomponent
                     </th>
-                    <th>
-                        @component('componentes.column-sort',['modulo'=>'roles',
-                        'search'=>$search,
-                        'sort'=>$sort,
-                        'sortField'=>$sortField,
-                        'field'=>'estado',
-                        'titulo'=>'estado'])
-                        @endcomponent
-                    </th>
+
 
                 </tr>
                 </thead>
@@ -56,13 +48,7 @@
                     <td><input name="id_rol" value="{{$rol->id}}" type="radio"></td>
                     <td>{{$rol->name}}</td>
                     <td>{{$rol->descripcion}}</td>
-                    <td>
-                    @if($rol->estado == 1)
-                        <span class="label label-success">Activo</span>
-                    @else
-                         <span class="label label-danger">De baja</span>
-                     @endif
-                    </td>
+
                 </tr>
 
                     @component('componentes.alert-delete',

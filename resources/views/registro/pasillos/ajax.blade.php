@@ -12,7 +12,7 @@
     'submenu_icon'=>'fa fa-pause',
     'operation_icon'=>'',])
         @slot('menu')
-            Registro
+            Catalogos
         @endslot
         @slot('submenu')
             Pasillos

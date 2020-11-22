@@ -32,7 +32,7 @@
     <div class="row">
         <div class="col-lg-2 col-sm-3 col-md-3 col-xs-12">
             <div class="form-group">
-                <label for="producto">PRODUCTO</label>
+                <label for="producto">Producto</label>
                 <input type="text"
                        id="producto"
                        placeholder="CODIGO "

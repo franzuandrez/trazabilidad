@@ -4,13 +4,13 @@
 
     @component('componentes.nav',['operation'=>'Crear',
     'menu_icon'=>'fa-file-text',
-    'submenu_icon'=>'fa fa-building-o',
+    'submenu_icon'=>'fa-square',
     'operation_icon'=>'fa-plus',])
         @slot('menu')
-            Registro
+            Catalogos
         @endslot
         @slot('submenu')
-            Area
+            Bodega
         @endslot
     @endcomponent
 
@@ -20,7 +20,7 @@
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="codigo_barras">CODIGO BARRAS</label>
+            <label for="codigo_barras">Codigo  Barras</label>
             <input type="text"
                     required
                    name="codigo_barras" value="{{old('codigo_barras')}}"
@@ -29,7 +29,7 @@
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="descripcion">DESCRIPCION</label>
+              <label for="descripcion">Descripcion</label>
             <input type="text"
                    required
                    name="descripcion" value="{{old('descripcion')}}"
@@ -38,7 +38,7 @@
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="telefono">TELEFONO</label>
+           <label for="apellido">Telefono</label>
             <input type="text" name="telefono"
                    value="{{old('telefono')}}"
                    class="form-control">
@@ -72,7 +72,7 @@
             <select name="id_localidad"
                     required
                     class="form-control selectpicker">
-                <option value="">SELECCIONAR LOCALIDAD</option>
+                <option value="">Seleccionar LOCALIDAD</option>
                 @foreach($localidades as $localidad)
                     @if(old('id_localidad') == $localidad->id_localidad)
                         <option selected value="{{$localidad->id_localidad}}">{{$localidad->descripcion}}</option>
@@ -89,7 +89,7 @@
             <select name="id_encargado"
                     required
                     class="form-control selectpicker">
-                <option value="">SELECCIONAR ENCARGADO</option>
+                <option value="">Seleccionar ENCARGADO</option>
                 @foreach($encargados as $encargado)
                     @if(old('id_encargado') == $encargado->id)
                         <option selected value="{{$encargado->id}}">{{$encargado->nombre}}</option>
@@ -104,15 +104,15 @@
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <button class="btn btn-default" type="submit">
-                <span class=" fa fa-check"></span> GUARDAR
+             <button class="btn btn-primary" type="submit">
+                <span class=" fa fa-check"></span> Guardar
             </button>
-            <a href="{{url('registro/bodegas')}}">
-                <button class="btn btn-default" type="button">
-                    <span class="fa fa-remove"></span>
-                    CANCELAR
-                </button>
+            <a href="{{url('registro/bodegas ')}}">
+                  <button class="btn btn-primary" type="button">
+               <span class=" fa fa-close"></span> Cancelar
+            </button>
             </a>
+
 
         </div>
     </div>

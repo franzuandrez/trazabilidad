@@ -41,14 +41,14 @@
                     id="btn_buscar_orden"
                     onclick="iniciar_laminado()"
                     onkeydown="iniciar_laminado()"
-                    type="button" class="btn btn-default">
+                    type="button" class="btn btn-primary">
                     <i class="fa fa-search"
                        aria-hidden="true"></i>
                 </button>
                 <button
                     onclick="ver_ordenes_sugeridas()"
                     onkeydown="ver_ordenes_sugeridas()"
-                    type="button" class="btn btn-default">
+                    type="button" class="btn btn-primary">
                     <i class="fa fa-info"
                        aria-hidden="true"></i>
                 </button>
@@ -62,7 +62,7 @@
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="id_producto">PRODUCTO</label>
+            <label for="id_producto">Producto</label>
             <select class="form-control selectpicker valor"
                     disabled
                     required
@@ -74,7 +74,7 @@
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="lote">LOTE</label>
+            <label for="lote">No.  Lote</label>
 
             <input class="form-control selectpicker valor"
                     disabled
@@ -99,7 +99,7 @@
                     data-toggle="tooltip"
                     title="Iniciar"
                     onclick="inicio_formulario()"
-                    type="button" class="btn btn-default">
+                    type="button" class="btn btn-primary">
                     <i class="fa fa-check"
                        aria-hidden="true"></i>
                 </button>
@@ -223,7 +223,7 @@
                         id="btn_buscar_orden"
                         onclick="agregar_a_table()"
                         onkeydown="agregar_a_table()"
-                        type="button" class="btn btn-default">
+                        type="button" class="btn btn-primary">
                         <i class="fa fa-plus"
                            aria-hidden="true"></i>
                     </button>
@@ -237,7 +237,7 @@
 
             <table id="detalles" class=" table-striped table-bordered table-condensed table-hover">
 
-                <thead style="background-color: #01579B;  color: #fff;">
+                <thead style="background-color: #f7b633;  color: #fff;">
                 <th>HORA (CADA 15 MIN)</th>
                 <th>VELOCIDAD DE LAMINADO (RPM)</th>
                 <th>ESPESOR DE LAMINA 0.98 A 1.03 MM</th>
@@ -267,15 +267,15 @@
         <div class="form-group">
             <button
                 onclick="guardar()"
-                class="btn btn-default" type="button">
-                <span class=" fa fa-check"></span> GUARDAR
+                class="btn btn-primary" type="button">
+                <span class=" fa fa-check"></span> Guardar
             </button>
-            <a href="{{url('sopas/laminado')}}">
-                <button class="btn btn-default" type="button">
-                    <span class="fa fa-remove"></span>
-                    CANCELAR
-                </button>
+            <a href="{{url('sopas/laminado ')}}">
+                  <button class="btn btn-primary" type="button">
+               <span class=" fa fa-close"></span> Cancelar
+            </button>
             </a>
+
 
         </div>
     </div>

@@ -42,7 +42,7 @@ class RecepcionController extends Controller
 
             })
             ->orderBy($sortField, $sort)
-            ->paginate(20);
+            ->paginate(12);
 
         if ($request->ajax()) {
             return view('recepcion.materia_prima.index',
@@ -208,7 +208,7 @@ class RecepcionController extends Controller
             })
             ->groupBy('recepcion_encabezado.orden_compra')
             ->orderBy($sortField, $sort)
-            ->paginate(20);
+            ->paginate(12);
 
 
         if ($request->ajax()) {
@@ -355,7 +355,7 @@ class RecepcionController extends Controller
             })
             ->groupBy('recepcion_encabezado.orden_compra')
             ->orderBy($sortField, $sort)
-            ->paginate(20);
+            ->paginate(12);
 
 
         if ($request->ajax()) {

@@ -43,7 +43,7 @@ class ClienteController extends Controller
                     ->orWhere('direccion', 'LIKE', '%' . $search . '%');
             })
             ->orderBy($sortField, $sort)
-            ->paginate(15);
+            ->paginate(12);
 
 
         if ($request->ajax()) {

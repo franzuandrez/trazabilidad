@@ -3,7 +3,7 @@
 @section('contenido')
     @component('componentes.nav',['operation'=>'Editar',
     'menu_icon'=>'fa-cogs',
-    'submenu_icon'=>'fa-cog',
+    'submenu_icon'=>'fa-user',
     'operation_icon'=>'fa-eye',])
         @slot('menu')
             Usuarios
@@ -18,19 +18,19 @@
 
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
-                <label for="nombre">USUARIO</label>
+                <label for="nombre">Usuario</label>
                 <input type="text" readonly name="username" value="{{$user->username}}"  class="form-control" >
             </div>
         </div>
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
-                <label for="apellido">NOMBRE</label>
+                <label for="apellido">Nombre</label>
                 <input type="text" readonly name="nombre" value="{{$user->nombre}}"  class="form-control" >
             </div>
         </div>
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
-                <label for="email">EMAIL</label>
+                <label for="email">Correo electrónico</label>
                 <input type="text" readonly name="email" value="{{$user->email}}"  class="form-control" >
             </div>
         </div>
@@ -38,7 +38,7 @@
 
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <div class="form-group">
-                <label for="roles">ROLES</label>
+                <label for="roles">Roles</label>
                 <select  name="id_rol" id= "roles" disabled class="form-control select2" style="width: 100%;">
 
                     @foreach($roles as $rol)
@@ -55,7 +55,7 @@
     <div class="panel-body">
         <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
             <div class="form-group">
-                <a href="{{url('users')}}"><button class="btn btn-default" type="button" ><span class="  fa fa-backward"></span> REGRESAR</button></a>
+                <a href="{{url('users')}}"><button class="btn btn-primary" type="button" ><span class="  fa fa-backward"></span> REGRESAR</button></a>
             </div>
         </div>
     </div>

@@ -47,7 +47,7 @@ class MezcladoSopasController extends Controller
                     ->orWhere('mezclado_sopas_enc.fecha_hora', 'LIKE', '%' . $search . '%');
             })
             ->orderBy($sortField, $sort)
-            ->paginate(20);
+            ->paginate(12);
 
 
         if ($request->ajax()) {

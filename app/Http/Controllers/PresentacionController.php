@@ -33,7 +33,7 @@ class PresentacionController extends Controller
                     ->orwhere('descripcion', 'LIKE', '%' . $search . '%');
             })
             ->orderBy($sortField, $sort)
-            ->paginate(20);
+            ->paginate(12);
 
 
         if ($request->ajax()) {

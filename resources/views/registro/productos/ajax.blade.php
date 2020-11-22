@@ -15,7 +15,7 @@
     'submenu_icon'=>'fa fa-tags',
     'operation_icon'=>'',])
         @slot('menu')
-            Registro
+            Catalogos
         @endslot
         @slot('submenu')
             Productos
@@ -36,10 +36,7 @@
                 @component('componentes.btn-ver',['url'=>'javascript:ver()'])
                 @endcomponent
             @endcan
-            @can('importar')
-                @component('componentes.btn-importar',['url'=>'javascript:importar()'])
-                @endcomponent
-            @endcan
+
         </div>
     </div>
 

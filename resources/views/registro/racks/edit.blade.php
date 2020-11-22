@@ -7,7 +7,7 @@
     'submenu_icon'=>'fa fa-tasks',
     'operation_icon'=>'fa-pencil',])
         @slot('menu')
-            Registro
+            Catalogos
         @endslot
         @slot('submenu')
             Racks
@@ -40,7 +40,7 @@
             <select name="id_bodega" id="bodegas"
                     required
                     class="form-control selectpicker" onchange="cargarSectores()">
-                <option value="">SELECCIONAR BODEGA</option>
+                <option value="">Seleccionar BODEGA</option>
                 @foreach($localidad->bodegas as $bod)
                     @if($bod->id_bodega == $bodega->id_bodega)
                         <option selected value="{{$bod->id_bodega}}">{{$bod->descripcion}}</option>
@@ -57,7 +57,7 @@
             <select name="id_sector" id="sectores"
                     required
                     class="form-control selectpicker" onchange="cargarPasillos()">
-                <option value="">SELECCIONAR SECTOR</option>
+                <option value="">Seleccionar SECTOR</option>
                 @foreach($bodega->sectores as $sec)
                     @if($sec->id_sector == $sector->id_sector)
                         <option selected value="{{$sec->id_sector}}">{{$sec->descripcion}}</option>
@@ -74,7 +74,7 @@
             <select name="id_pasillo"
                     required
                     id="pasillos" class="form-control selectpicker">
-                <option value="">SELECCIONAR PASILLO</option>
+                <option value="">Seleccionar PASILLO</option>
                 @foreach($sector->pasillos as $pasillo )
                     @if($pasillo->id_pasillo == $rack->id_pasillo)
                         <option selected value="{{$pasillo->id_pasillo}}"> {{$pasillo->descripcion }}</option>
@@ -88,14 +88,14 @@
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="codigo_barras">CODIGO BARRAS</label>
+            <label for="codigo_barras">Codigo  Barras</label>
             <input type="text" name="codigo_barras" value="{{$rack->codigo_barras}}" required
                    class="form-control">
         </div>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="descripcion">DESCRIPCION</label>
+              <label for="descripcion">Descripcion</label>
             <input type="text" name="descripcion" value="{{$rack->descripcion}}" required
                    class="form-control">
         </div>
@@ -118,15 +118,15 @@
     </div>
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <button class="btn btn-default" type="submit">
-                <span class=" fa fa-check"></span> GUARDAR
+             <button class="btn btn-primary" type="submit">
+                <span class=" fa fa-check"></span> Guardar
             </button>
-            <a href="{{url('registro/racks')}}">
-                <button class="btn btn-default" type="button">
-                    <span class="fa fa-remove"></span>
-                    CANCELAR
-                </button>
+            <a href="{{url('registro/racks ')}}">
+                  <button class="btn btn-primary" type="button">
+               <span class=" fa fa-close"></span> Cancelar
+            </button>
             </a>
+
 
         </div>
     </div>

@@ -37,7 +37,7 @@
     >
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="producto">PRODUCTO</label>
+            <label for="producto">Producto</label>
             <select class="form-control selectpicker valor"
                     disabled
                     required
@@ -50,7 +50,7 @@
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="lote">LOTE</label>
+            <label for="lote">No.  Lote</label>
             <input id="lote" type="text" name="lote"
                    disabled
 
@@ -202,14 +202,14 @@
                     <button
                         onclick="agregar_a_table()"
                         onkeydown="agregar_a_table()"
-                        type="button" class="btn btn-default">
+                        type="button" class="btn btn-primary">
                         <i class="fa fa-plus"
                            aria-hidden="true"></i>
                     </button>
                     <button
                         onclick="limpiar()"
                         onkeydown="limpiar()"
-                        type="button" class="btn btn-default">
+                        type="button" class="btn btn-primary">
                         <i class="fa fa-trash"
                            aria-hidden="true"></i>
                     </button>
@@ -226,11 +226,11 @@
 
         <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
 
-            <thead style="background-color: #01579B;  color: #fff;">
+            <thead style="background-color: #f7b633;  color: #fff;">
             <tr>
                 <td></td>
-                <th>PRODUCTO</th>
-                <th>LOTE</th>
+                <th>Producto</th>
+                <th>No. Lote</th>
                 <th>HORA CARGA</th>
                 <th>HORA DESCARGA</th>
                 <th>V. SECO</th>
@@ -310,17 +310,17 @@
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <button class="btn btn-default"
+            <button class="btn btn-primary"
                     onclick="guardar()"
                     type="button">
-                <span class=" fa fa-check"></span> GUARDAR
+                <span class=" fa fa-check"></span> Guardar
             </button>
-            <a href="{{url('control/mezcla_harina')}}">
-                <button class="btn btn-default" type="button">
-                    <span class="fa fa-remove"></span>
-                    CANCELAR
-                </button>
+            <a href="{{url('control/mezcla_harina ')}}">
+                  <button class="btn btn-primary" type="button">
+               <span class=" fa fa-close"></span> Cancelar
+            </button>
             </a>
+
 
         </div>
     </div>

@@ -21,7 +21,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal"><span class="fa fa-check"></span>
+                <button type="button" class="btn btn-primary" data-dismiss="modal"><span class="fa fa-check"></span>
                     ACEPTAR
                 </button>
             </div>

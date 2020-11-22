@@ -29,7 +29,7 @@
 
     @component('componentes.alert-no-selecction')
         @slot('mensaje')
-            SELECCIONAR PRODUCTO
+            Seleccionar PRODUCTO
         @endslot
     @endcomponent
     <div id="content">

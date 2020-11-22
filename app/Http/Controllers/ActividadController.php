@@ -29,7 +29,7 @@ class ActividadController extends Controller
                 $query->where('descripcion', 'LIKE', '%' . $search . '%');
             })
             ->orderBy($sortField, $sort)
-            ->paginate(20);
+            ->paginate(12);
 
 
         if ($request->ajax()) {

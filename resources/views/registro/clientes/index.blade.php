@@ -8,7 +8,7 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
         <div class="table-responsive">
             <table class="table table-striped table-bordered table-condensed table-hover">
-                <thead style="background-color: #01579B;  color: #fff;">
+                <thead style="background-color: #f7b633;  color: #fff;">
                 <th>
 
                 </th>
@@ -18,7 +18,7 @@
                           'sort'=>$sort,
                           'sortField'=>$sortField,
                           'field'=>'Codigo',
-                          'titulo'=>'codigo'])
+                          'titulo'=>'Codigo'])
                     @endcomponent
                 </th>
                 <th>
@@ -27,7 +27,7 @@
                           'sort'=>$sort,
                           'sortField'=>$sortField,
                           'field'=>'razon_social',
-                          'titulo'=>'RAZON SOCIAL'])
+                          'titulo'=>'Razon Social'])
                     @endcomponent
                 </th>
                 <th>
@@ -45,7 +45,7 @@
                           'sort'=>$sort,
                           'sortField'=>$sortField,
                           'field'=>'direccion',
-                          'titulo'=>'direccion'])
+                          'titulo'=>'Direccion'])
                     @endcomponent
                 </th>
 

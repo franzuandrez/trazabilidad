@@ -19,9 +19,9 @@
                     <tr>
                         <th></th>
                         <th>CODIGO BARRAS</th>
-                        <th>DESCRIPCION</th>
-                        <th>LOTE</th>
-                        <th>FECHA VENCIMIENTO</th>
+                        <th>Descripcion</th>
+                        <th>No. Lote</th>
+                        <th>Fecha Vencimiento</th>
                     </tr>
                     </thead>
                     <tbody id="tbody-productos">

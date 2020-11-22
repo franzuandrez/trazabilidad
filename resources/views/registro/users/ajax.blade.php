@@ -9,7 +9,7 @@
     @include('componentes.alert-error')
     @component('componentes.nav',['operation'=>'LIST',
 'menu_icon'=>'fa-cogs',
-'submenu_icon'=>'fa-cog',
+'submenu_icon'=>'fa-user',
 'operation_icon'=>'',])
         @slot('menu')
             Usuarios

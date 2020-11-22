@@ -37,7 +37,7 @@
 
     @component('componentes.alert-no-selecction')
         @slot('mensaje')
-            SELECCIONAR FORMULARIO
+            Seleccionar FORMULARIO
         @endslot
     @endcomponent
     <div id="content">

@@ -46,7 +46,7 @@ class PesoHumedoController extends Controller
                     ->orWhere('users.nombre', 'LIKE', '%' . $search . '%');
             })
             ->orderBy($sortField, $sort)
-            ->paginate(20);
+            ->paginate(12);
 
         if ($request->ajax()) {
             return view('control.peso_humedo.index',

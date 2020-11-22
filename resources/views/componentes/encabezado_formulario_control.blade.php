@@ -13,14 +13,14 @@
                 id="btn_buscar_orden"
                 onclick="buscar_no_orden_produccion_local()"
                 onkeydown="buscar_no_orden_produccion_local()"
-                type="button" class="btn btn-default">
+                type="button" class="btn btn-primary">
                 <i class="fa fa-search"
                    aria-hidden="true"></i>
             </button>
             <button
                 onclick="ver_ordenes_sugeridas()"
                 onkeydown="ver_ordenes_sugeridas()"
-                type="button" class="btn btn-default">
+                type="button" class="btn btn-primary">
                 <i class="fa fa-info"
                    aria-hidden="true"></i>
             </button>
@@ -43,7 +43,7 @@
 
 <div class="col-lg-6 col-sm-4 col-md-6 col-xs-12">
     <div class="form-group">
-        <label for="id_producto">PRODUCTO</label>
+        <label for="id_producto">Producto</label>
         <select class="form-control selectpicker valor"
                 disabled
                 required
@@ -54,7 +54,7 @@
 </div>
 
 <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-    <label for="lote">LOTE</label>
+    <label for="lote">No.  Lote</label>
     <div class="input-group">
         <input class="form-control selectpicker valor"
                disabled
@@ -64,7 +64,7 @@
             <button
                 onclick="inicia_formulario_local()"
                 onkeydown="inicia_formulario_local()"
-                type="button" class="btn btn-default">
+                type="button" class="btn btn-primary">
                 <i class="fa fa-check"
                    aria-hidden="true"></i>
             </button>

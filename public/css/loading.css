@@ -4,7 +4,8 @@ th a,th a:hover {
     color:white;
 }
 .loading {
-    background: lightgrey;
+    background-color: #f7b633 ;
+    color: white;
     padding: 15px;
     position: fixed;
     border-radius: 4px;

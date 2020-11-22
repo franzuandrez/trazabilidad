@@ -7,7 +7,7 @@
 
     @component('componentes.nav',['operation'=>'Ver',
     'menu_icon'=>'fa-arrow-circle-o-right',
-    'submenu_icon'=>'fa fa-sign-in',
+    'submenu_icon'=>'fa fa-th-large',
     'operation_icon'=>'fa-eye',])
         @slot('menu')
             Recepcion
@@ -31,7 +31,7 @@
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="documento_proveedor">DOCUMENTO PROVEEDOR</label>
+            <label for="documento_proveedor">DOCUMENTO Proveedor</label>
             <input type="text"
                    readonly
                    name="documento_proveedor"
@@ -44,7 +44,7 @@
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="proveedor">PROVEEDOR</label>
+            <label for="proveedor">Proveedor</label>
             <input type="text" id="proveedor"
                    name="proveedor"
                    readonly
@@ -155,7 +155,7 @@
                                    id="certificado_correspondiente_lote">
                             <label class="custom-control-label" style="font-weight: normal"
                                    for="certificado_correspondiente_lote">Correspondiente
-                                a No. Lote</label>
+                                a No. No. Lote</label>
                         </div>
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox"
@@ -554,7 +554,7 @@
 
                     <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
                         <div class="form-group">
-                            <label for="nombre">No. de Lote</label>
+                            <label for="nombre">No. Lote</label>
                             <input id="lote" type="text"
                                    onkeydown="if(event.keyCode==13)document.getElementById('vencimiento').focus()"
                                    name="descripcion"
@@ -598,12 +598,12 @@
 
                         <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
 
-                            <thead style="background-color: #01579B;  color: #fff;">
-                            <th>OPCION</th>
-                            <th>PRODUCTO</th>
-                            <th>CANTIDAD</th>
-                            <th>NO. LOTE</th>
-                            <th>FECHA VENCIMIENTO</th>
+                            <thead style="background-color: #f7b633;  color: #fff;">
+                            <th>Accion</th>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>No. Lote</th>
+                            <th>Fecha Vencimiento</th>
                             </thead>
                             <tbody>
                             @foreach( $recepcion->detalle_lotes as $lote )
@@ -635,15 +635,15 @@
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <button class="btn btn-default" type="submit">
-                <span class=" fa fa-check"></span> GUARDAR
+             <button class="btn btn-primary" type="submit">
+                <span class=" fa fa-check"></span> Guardar
             </button>
-            <a href="{{url('recepcion/materia_prima')}}">
-                <button class="btn btn-default" type="button">
-                    <span class="fa fa-remove"></span>
-                    CANCELAR
-                </button>
+            <a href="{{url('recepcion/materia_prima ')}}">
+                  <button class="btn btn-primary" type="button">
+               <span class=" fa fa-close"></span> Cancelar
+            </button>
             </a>
+
         </div>
     </div>
     <div class="modal fade modal-slide-in-right" aria-hidden="true"
@@ -655,7 +655,7 @@
                     <h4 class="modal-title" align="center">PRODUCTO NO ENCONTRADO</h4>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal"><span class="fa fa-check"></span>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal"><span class="fa fa-check"></span>
                         ACEPTAR
                     </button>
                 </div>

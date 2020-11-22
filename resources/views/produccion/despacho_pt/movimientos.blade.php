@@ -117,12 +117,12 @@
                     <button type="submit"
                             disabled
                             id="btn_aceptar"
-                            class="btn btn-default">
+                            class="btn btn-primary">
                         <span class=" fa fa-check" ></span> Aceptar
                     </button>
                     <a href="{{url('produccion/despacho')}}">
                         <button type="button"
-                                class="btn btn-default"
+                                class="btn btn-primary"
                                 data-dismiss="modal"><span
                                 class="fa fa-remove"></span> Cancelar
                         </button>

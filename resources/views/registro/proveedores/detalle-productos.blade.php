@@ -11,10 +11,10 @@
 @section('contenido')
     @component('componentes.nav',['operation'=>'Productos',
     'menu_icon'=>'fa-file-text',
-    'submenu_icon'=>'fa fa-users',
+    'submenu_icon'=>'fa fa-truck',
     'operation_icon'=>'fa fa-tags',])
         @slot('menu')
-            Registro
+            Catalogos
         @endslot
         @slot('submenu')
             Proveedores
@@ -27,10 +27,10 @@
 
                 <table class="table table-striped table-bordered table-condensed table-hover">
 
-                    <thead style="background-color: #01579B;  color: #fff;">
+                    <thead style="background-color: #f7b633;  color: #fff;">
                     <tr>
-                        <th>CODIGO</th>
-                        <th>PRODUCTO</th>
+                        <th>Codigo</th>
+                        <th>Producto</th>
 
                     </tr>
                     </thead>
@@ -49,9 +49,9 @@
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
             <a href="{{url('registro/proveedores')}}">
-                <button class="btn btn-default" type="button">
+                <button class="btn btn-primary" type="button">
                     <span class="fa fa-backward"></span>
-                    REGRESAR
+                    Regresar
                 </button>
             </a>
         </div>

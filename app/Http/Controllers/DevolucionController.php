@@ -46,7 +46,7 @@ class DevolucionController extends Controller
         $operaciones = $this->trazabilidad_repository
             ->searchControlesDeTrazabilidad($search, $sortField, $sort, $id_control)
             ->where('control_trazabilidad.status', 3)
-            ->paginate(20);
+            ->paginate(12);
 
         if ($request->ajax()) {
 

@@ -2,7 +2,7 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
         <div class="table-responsive">
             <table class="table table-striped table-bordered table-condensed table-hover">
-                <thead style="background-color: #01579B;  color: #fff;">
+                <thead style="background-color: #f7b633;  color: #fff;">
                 <th>
                     @include('recepcion.kardex.sort',[
                     'filtro' => $filtro,
@@ -46,6 +46,19 @@
                          'titulo'=>'LOTE'])
 
                 </th>
+
+
+
+                <th>
+                    @include('recepcion.kardex.sort',[
+                        'filtro' => $filtro,
+                        'search'=>$search,
+                         'sort'=>$sort,
+                         'sortField'=>$sortField,
+                         'field'=>'total',
+                         'titulo'=>'EXISTENCIA'])
+
+                </th>
                 <th>
                     @include('recepcion.kardex.sort',[
                     'filtro' => $filtro,
@@ -54,30 +67,6 @@
                          'sortField'=>$sortField,
                          'field'=>'unidad_medida',
                          'titulo'=>'MEDIDA'])
-
-                </th>
-
-
-                @foreach( $tipos_movimiento as $tipo )
-                    <th>
-                        @include('recepcion.kardex.sort',[
-                        'filtro' => $filtro,
-                            'search'=>$search,
-                             'sort'=>$sort,
-                             'sortField'=>$sortField,
-                             'field'=>$tipo->descripcion,
-                             'titulo'=> ($tipo->factor==1?'+':'-').' '. substr($tipo->descripcion,0,3)])
-
-                    </th>
-                @endforeach
-                <th>
-                    @include('recepcion.kardex.sort',[
-                        'filtro' => $filtro,
-                        'search'=>$search,
-                         'sort'=>$sort,
-                         'sortField'=>$sortField,
-                         'field'=>'total',
-                         'titulo'=>'= FINAL'])
 
                 </th>
                 </thead>
@@ -94,8 +83,6 @@
                             @if($producto->id_bodega == 0)
                                 {{$producto->bodega}}
                             @else
-                                {{$producto->bodega}}
-                                <i class="fa fa-chevron-right" aria-hidden="true"></i>
                                 {{$producto->ubicacion}}
                             @endif
                         </td>
@@ -103,17 +90,14 @@
                             {{$producto->lote}}
                         </td>
 
-                        <td>
-                            {{$producto->unidad_medida}}
-                        </td>
 
-                        @foreach( $tipos_movimiento as $tipo )
-                            <td>
-                                {{ number_format($producto->{$tipo->descripcion},3,'.',',') }}
-                            </td>
-                        @endforeach
                         <td>
                             {{number_format($producto->total,3   ,'.',',')}}
+
+                        </td>
+
+                        <td>
+                            {{$producto->unidad_medida}}
                         </td>
                     </tr>
                 @empty

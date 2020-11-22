@@ -30,7 +30,7 @@ class DimensionalController extends Controller
                     ->orWhere('unidad_medida', 'LIKE', '%' . $search . '%');
             })
             ->orderBy($sortField, $sort)
-            ->paginate(20);
+            ->paginate(12);
 
         if ($request->ajax()) {
 

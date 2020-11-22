@@ -13,7 +13,7 @@
 
     @component('componentes.nav',['operation'=>'LIST',
     'menu_icon'=>'fa fa-cube',
-    'submenu_icon'=>'fa fa fa-archive',
+    'submenu_icon'=>'fa  fa-hdd-o',
     'operation_icon'=>'',])
         @slot('menu')
             Produccion
@@ -34,7 +34,7 @@
 
     @component('componentes.alert-no-selecction')
         @slot('mensaje')
-            SELECCIONAR ENTREGA
+            Seleccionar ENTREGA
         @endslot
     @endcomponent
     <div id="content">

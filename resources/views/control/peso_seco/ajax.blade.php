@@ -36,7 +36,7 @@
 
     @component('componentes.alert-no-selecction')
         @slot('mensaje')
-            SELECCIONAR DOCUMENTO PESO SECO
+            Seleccionar DOCUMENTO PESO SECO
         @endslot
     @endcomponent
     <div id="content">

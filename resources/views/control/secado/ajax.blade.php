@@ -36,7 +36,7 @@
 
     @component('componentes.alert-no-selecction')
         @slot('mensaje')
-            SELECCIONAR DOCUMENTO SECADO
+            Seleccionar DOCUMENTO SECADO
         @endslot
     @endcomponent
     <div id="content">

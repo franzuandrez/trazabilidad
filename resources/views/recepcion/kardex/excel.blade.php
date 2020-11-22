@@ -112,7 +112,7 @@
             @if($parametros->id_select_search==null)
                 <td style="border: 1px solid #000000">
                     @if($producto->id_bodega == 0)
-                        AREA TRANSITO
+                        Bodega TRANSITO
                     @else
                         {{$producto->ubicacion}}
                     @endif

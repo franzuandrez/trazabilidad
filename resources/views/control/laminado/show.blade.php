@@ -24,7 +24,7 @@
 
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
-            <label for="producto">PRODUCTO</label>
+            <label for="producto">Producto</label>
             <input class="form-control selectpicker valor"
                    disabled
                    required
@@ -46,7 +46,7 @@
     </div>
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
         <div class="form-group">
-            <label for="lote">LOTE</label>
+            <label for="lote">No.  Lote</label>
             <input id="lote" type="text" name="lote"
                    disabled
 
@@ -64,7 +64,7 @@
 
             <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
 
-                <thead style="background-color: #01579B;  color: #fff;">
+                <thead style="background-color: #f7b633;  color: #fff;">
                 <th>HORA</th>
                 <th>  TEMPERATURA REPOSO 34-36 °C</th>
                 <th>OBSERVACIONES</th>
@@ -100,9 +100,9 @@
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
             <a href="{{url('control/laminado')}}">
-                <button class="btn btn-default" type="button">
+                <button class="btn btn-primary" type="button">
                     <span class="fa fa-backward"></span>
-                    REGRESAR
+                    Regresar
                 </button>
             </a>
 

@@ -2,7 +2,7 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
         <div class="table-responsive">
             <table class="table table-striped table-bordered table-condensed ">
-                <thead style="background-color: #01579B;  color: #fff;border-color: #01579B">
+                <thead style="background-color: #f7b633;  color: #fff;border-color: #f7b633">
 
                 <tr>
                     <th style="border-color:  #f5f5f5">

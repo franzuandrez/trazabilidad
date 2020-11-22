@@ -46,7 +46,7 @@ class ChaomeanController extends Controller
                     ->orWhere('chaomin.id_turno', 'LIKE', '%' . $search . '%');
             })
             ->orderBy($sortField, $sort)
-            ->paginate(20);
+            ->paginate(12);
 
 
         if ($request->ajax()) {

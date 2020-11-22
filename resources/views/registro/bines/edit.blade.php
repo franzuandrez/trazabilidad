@@ -7,7 +7,7 @@
     'submenu_icon'=>'fa fa-inbox',
     'operation_icon'=>'fa-pencil',])
         @slot('menu')
-            Registro
+            Catalogos
         @endslot
         @slot('submenu')
             Bines
@@ -24,7 +24,7 @@
             <select name="id_localidad"
                     required
                     class="form-control selectpicker" id="localidades" onchange="cargarBodegas()">
-                <option value="">SELECCIONAR LOCALIDAD</option>
+                <option value="">Seleccionar LOCALIDAD</option>
                 @foreach($localidades as $loc)
                     @if($loc->id_localidad == $localidad->id_localidad)
                         <option selected value="{{$loc->id_localidad}}">{{$loc->descripcion}}</option>
@@ -42,7 +42,7 @@
             <select name="id_bodega"
                     required
                     id="bodegas" class="form-control selectpicker" onchange="cargarSectores()">
-                <option value="">SELECCIONAR BODEGA</option>
+                <option value="">Seleccionar BODEGA</option>
                 @foreach( $localidad->bodegas as $bod )
 
                     @if($bod->id_bodega = $bodega->id_bodega)
@@ -61,7 +61,7 @@
             <select name="id_sector"
                     required
                     id="sectores" class="form-control selectpicker" onchange="cargarPasillos()">
-                <option value="">SELECCIONAR SECTOR</option>
+                <option value="">Seleccionar SECTOR</option>
                 @foreach( $bodega->sectores as $sec)
                     @if($sec->id_sector = $sector->id_sector)
                         <option value="{{$sec->id_sector}}" selected>  {{ $sec->descripcion }} </option>
@@ -78,7 +78,7 @@
             <select name="id_pasillo"
                     required
                     id="pasillos" class="form-control selectpicker" onchange="cargarRacks()">
-                <option value="">SELECCIONAR PASILLO</option>
+                <option value="">Seleccionar PASILLO</option>
                 @foreach( $sector->pasillos as $pass)
                     @if($pass->id_pasillo = $pasillo->id_pasillo)
                         <option value="{{$pass->id_pasillo}}" selected>  {{ $pass->descripcion }} </option>
@@ -97,7 +97,7 @@
                     class="form-control selectpicker"
                     onchange="cargarNiveles()"
             >
-                <option value="">SELECCIONAR RACK</option>
+                <option value="">Seleccionar RACK</option>
                 @foreach( $pasillo->racks as $rc )
                     @if($rc->id_rack == $nivel->id_rack)
                         <option selected value="{{$rc->id_rack}}"> {{ $rc->descripcion  }} </option>
@@ -117,7 +117,7 @@
                     class="form-control selectpicker"
                     onchange="cargarPosiciones()"
             >
-                <option value="">SELECCIONAR NIVEL</option>
+                <option value="">Seleccionar NIVEL</option>
                 @foreach( $rack->niveles as $nv )
                     @if($nivel->id_nivel  == $nv->id_nivel)
                         <option selected value="{{$nv->id_nivel}}">{{$nv->descripcion}}</option>
@@ -136,7 +136,7 @@
                     class="form-control selectpicker"
                     required
             >
-                <option value="">SELECCIONAR POSICION</option>
+                <option value="">Seleccionar POSICION</option>
                 @foreach( $nivel->posiciones as $pos )
                     @if( $pos->id_posicion == $bin->id_posicion )
                         <option  value="{{$pos->id_posicion}}"  selected >  {{$pos->descripcion}} </option>
@@ -149,14 +149,14 @@
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="codigo_barras">CODIGO BARRAS</label>
+            <label for="codigo_barras">Codigo  Barras</label>
             <input type="text" name="codigo_barras" value="{{$bin->codigo_barras}}" required
                    class="form-control">
         </div>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="descripcion">DESCRIPCION</label>
+              <label for="descripcion">Descripcion</label>
             <input type="text" name="descripcion" value="{{$bin->descripcion}}" required
                    class="form-control">
         </div>
@@ -164,15 +164,15 @@
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <button class="btn btn-default" type="submit">
-                <span class=" fa fa-check"></span> GUARDAR
+             <button class="btn btn-primary" type="submit">
+                <span class=" fa fa-check"></span> Guardar
             </button>
-            <a href="{{url('registro/bines')}}">
-                <button class="btn btn-default" type="button">
-                    <span class="fa fa-remove"></span>
-                    CANCELAR
-                </button>
+            <a href="{{url('registro/bines ')}}">
+                  <button class="btn btn-primary" type="button">
+               <span class=" fa fa-close"></span> Cancelar
+            </button>
             </a>
+
 
         </div>
     </div>

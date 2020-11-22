@@ -15,7 +15,7 @@
     'submenu_icon'=>'fa fa-cubes',
     'operation_icon'=>'',])
         @slot('menu')
-            Registro
+            Catalogos
         @endslot
         @slot('submenu')
             Dimensionales

@@ -1,7 +1,7 @@
 <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
 
     <table class="table table-bordered table-responsive">
-        <thead style="background-color: #01579B;  color: #fff;">
+        <thead style="background-color: #f7b633;  color: #fff;">
         <tr>
             <th>MP</th>
             <th>COLOR</th>
@@ -9,7 +9,7 @@
             <th>IMPRESION</th>
             <th>AUSENCIA M.E.</th>
             <th>NO LOTE</th>
-            <th>CANTIDAD</th>
+            <th>Cantidad</th>
             <th>FECHA VENC.</th>
         </tr>
         </thead>

@@ -15,7 +15,7 @@
 
             <table class="table table-striped table-bordered table-condensed table-hover">
 
-                <thead style="background-color: #01579B;  color: #fff;">
+                <thead style="background-color: #f7b633;  color: #fff;">
                 <tr>
                     <th>
 
@@ -35,7 +35,7 @@
                     'sort'=>$sort,
                     'sortField'=>$sortField,
                     'field'=>'nombre',
-                    'titulo'=>'nombre'])
+                    'titulo'=>'Nombre'])
                         @endcomponent
                     </th>
                     <th>
@@ -56,15 +56,7 @@
                        'titulo'=>'rol'])
                         @endcomponent
                     </th>
-                    <th>
-                        @component('componentes.column-sort',['modulo'=>'users',
-                         'search'=>$search,
-                      'sort'=>$sort,
-                      'sortField'=>$sortField,
-                      'field'=>'estado',
-                      'titulo'=>'estado'])
-                        @endcomponent
-                    </th>
+
                 </tr>
                 </thead>
                 <tbody>
@@ -86,17 +78,7 @@
                         <td>
                             {{$user->rol}}
                         </td>
-                        <td>
-                            @if($user->estado == 1)
-                                <span class="label label-success">
-                                    Activo
-                                </span>
-                            @else
-                                <span class="label label-danger">
-                                    De baja
-                                </span>
-                            @endif
-                        </td>
+
                         @component('componentes.alert-delete',
                                               ['model'=>'USUARIO',
                                               'id'=>$user->id,

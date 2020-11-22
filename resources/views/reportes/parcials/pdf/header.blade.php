@@ -1,6 +1,6 @@
 <table class="table-header">
     <tr>
-        <th class="empresa">MARKETIN</th>
+        <th class="empresa">Company</th>
         <th class="title" colspan="">{{ strtoupper($reporte_encabezado->getTitle()) }}</th>
         <th>{{$reporte_encabezado->getCreatedAt()->format('d/m/Y H:i:s')}}</th>
     </tr>

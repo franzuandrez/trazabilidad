@@ -8,7 +8,7 @@
     @include('componentes.alert-success')
     @component('componentes.nav',['operation'=>'LIST',
         'menu_icon'=>'fa-cogs',
-        'submenu_icon'=>'fa-wrench',
+        'submenu_icon'=>'fa-key',
         'operation_icon'=>'',])
         @slot('menu')
             Usuarios

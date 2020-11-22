@@ -31,7 +31,7 @@ class LineaSopaController extends Controller
                     ->orWhere('sopas.id_control', 'LIKE', '%' . $search . '%');
             })
             ->orderBy($sortField, $sort)
-            ->paginate(20);
+            ->paginate(12);
 
 
         if ($request->ajax()) {

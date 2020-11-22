@@ -13,7 +13,7 @@
 
     @component('componentes.nav',['operation'=>'LIST',
     'menu_icon'=>'fa fa-cube',
-    'submenu_icon'=>'fa fa-list-alt',
+    'submenu_icon'=>'fa fa-exchange',
     'operation_icon'=>'',])
         @slot('menu')
             Produccion
@@ -44,7 +44,7 @@
             @can('role-edit')
                 <a href="javascript:ver('trazabilidad_chao_mein/finalizar')" data-placement="top" title="Finalizar"
                    data-toggle="tooltip"><img
-                        src="{{asset('imagenes_web/confirmar.png')}}" width="50" height="50"></a>
+                        src="{{asset('imagenes_web/confirmar.png')}}" width="35" height="35"></a>
             @endcan
             @can('generar_reporte')
                 @component('componentes.btn-reporte',['url'=>'javascript:reporte("trazabilidad_chao_mein/reporte")'])
@@ -55,7 +55,7 @@
 
     @component('componentes.alert-no-selecction')
         @slot('mensaje')
-            SELECCIONAR CONTROL DE TRAZABILIDAD
+            Seleccionar CONTROL DE TRAZABILIDAD
         @endslot
     @endcomponent
     <div id="content">

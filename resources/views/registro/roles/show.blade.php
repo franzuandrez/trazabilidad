@@ -4,7 +4,7 @@
 @section('contenido')
     @component('componentes.nav',['operation'=>'Ver',
        'menu_icon'=>'fa-cogs',
-       'submenu_icon'=>'fa-wrench',
+       'submenu_icon'=>'fa-key',
        'operation_icon'=>'fa-eye',])
         @slot('menu')
             Usuarios
@@ -19,7 +19,7 @@
         <div class="row">
             <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
                 <div class="form-group">
-                    <label for="nombre">NOMBRE</label>
+                    <label for="nombre">Nombre</label>
                     <input type="text" readonly name="name" value="{{$role->name}}"  class="form-control" >
                 </div>
             </div>
@@ -34,7 +34,7 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered table-condensed table-hover    ">
-                        <thead style="background-color: #01579B;  color: #fff;">
+                        <thead style="background-color: #f7b633;  color: #fff;">
                         <th   style="width: 50px" ></th>
                         <th   style="width: 50px"></th>
                         <th >MENU</th>
@@ -93,7 +93,7 @@
     <div class="panel-body">
         <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
             <div class="form-group">
-                <a href="{{url('roles')}}"><button class="btn btn-default" type="button" ><span class="  fa fa-backward"></span> REGRESAR</button></a>
+                <a href="{{url('roles')}}"><button class="btn btn-primary" type="button" ><span class="  fa fa-backward"></span> REGRESAR</button></a>
             </div>
         </div>
     </div>

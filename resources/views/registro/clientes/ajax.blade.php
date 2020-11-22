@@ -14,7 +14,7 @@
     'submenu_icon'=>'fa-shopping-cart',
     'operation_icon'=>'',])
         @slot('menu')
-            Registro
+            Catalogos
         @endslot
         @slot('submenu')
             Clientes
@@ -46,13 +46,13 @@
 
     @component('componentes.alert-no-selecction')
         @slot('mensaje')
-            SELECCIONE UN CLIENTE
+            Seleccione un Cliente
         @endslot
     @endcomponent
 
     @include('componentes.modal-importar',
   ['ruta'=>'clientes.importar',
-  'mensaje'=>'  IMPORTAR CLIENTES'])
+  'mensaje'=>'  Importar Clientes'])
 
     <div id="content">
         @include('registro.clientes.index')

@@ -39,7 +39,7 @@
 
     @component('componentes.alert-no-selecction')
         @slot('mensaje')
-            SELECCIONAR MEZCLADO SOPAS
+            Seleccionar MEZCLADO SOPAS
         @endslot
     @endcomponent
     <div id="content">

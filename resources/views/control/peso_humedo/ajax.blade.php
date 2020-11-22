@@ -37,7 +37,7 @@
 
     @component('componentes.alert-no-selecction')
         @slot('mensaje')
-            SELECCIONAR DOCUMENTO PESO HUMEDO
+            Seleccionar DOCUMENTO PESO HUMEDO
         @endslot
     @endcomponent
     <div id="content">

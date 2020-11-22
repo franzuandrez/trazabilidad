@@ -26,15 +26,15 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal"><span class="fa fa-remove"></span>
-                    CANCELAR
+                <button type="button" class="btn btn-primary" data-dismiss="modal"><span class="fa fa-remove"></span>
+                    Cancelar
                 </button>
                 <button type="submit" id="btn-importar"
                         onclick="sync_icon()"
-                        class="btn btn-default">
+                        class="btn btn-primary">
                         <span class="fa fa-upload"
                               id="icon-sync"></span>
-                    IMPORTAR
+                    Importar
                 </button>
 
             </div>

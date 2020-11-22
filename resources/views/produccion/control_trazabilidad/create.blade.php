@@ -18,7 +18,7 @@
     </div>
     @component('componentes.nav',['operation'=>'Crear',
     'menu_icon'=>' fa fa fa-cube ',
-    'submenu_icon'=>'fa fa-list-alt ',
+    'submenu_icon'=>'fa fa-exchange ',
     'operation_icon'=>'fa-plus',])
         @slot('menu')
             Produccion
@@ -34,7 +34,7 @@
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <input type="hidden" id="id_requisicion" name="id_requisicion">
-        <label for="codigo_producto">CODIGO PRODUCTO</label>
+        <label for="codigo_producto">Cod. Producto</label>
         <div class="input-group">
             <input type="text"
                    name="codigo_producto"
@@ -45,14 +45,14 @@
                 <button
                     onclick="buscar_producto_terminado()"
                     onkeydown="buscar_producto_terminado()"
-                    type="button" class="btn btn-default">
+                    type="button" class="btn btn-primary">
                     <i class="fa fa-search"
                        aria-hidden="true"></i>
                 </button>
                 <button
                     onclick="limpiar_formulario()"
                     onkeydown="limpiar_formulario()"
-                    type="button" class="btn btn-default">
+                    type="button" class="btn btn-primary">
                     <i class="fa fa-trash"
                        aria-hidden="true"></i>
                 </button>
@@ -66,7 +66,7 @@
     <input type="hidden" name="id_control" id="id_control">
     <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="producto">PRODUCTO</label>
+            <label for="producto">Producto</label>
             <input type="text"
                    name="producto"
                    readonly
@@ -106,14 +106,14 @@
                 <button
                     onclick="buscar_orden_produccion()"
                     onkeydown="buscar_orden_produccion()"
-                    type="button" class="btn btn-default">
+                    type="button" class="btn btn-primary">
                     <i class="fa fa-search"
                        aria-hidden="true"></i>
                 </button>
                 <button
                     onclick="ver_ordenes_sugeridas()"
                     onkeydown="ver_ordenes_sugeridas()"
-                    type="button" class="btn btn-default">
+                    type="button" class="btn btn-primary">
                     <i class="fa fa-info"
                        aria-hidden="true"></i>
                 </button>
@@ -121,7 +121,7 @@
                         id="btn_agregar"
                         onclick="limpiar_orden_produccion()"
                         onkeydown="limpiar_orden_produccion()"
-                        class="btn btn-default">
+                        class="btn btn-primary">
                     <i class="fa fa-trash" aria-hidden="true"></i>
                 </button>
             </div>
@@ -141,7 +141,7 @@
     </div>
     <div class="col-lg-4 col-sm-6 col-md-4 col-xs-12">
         <div class="form-group">
-            <label for="lote_produccion">LOTE</label>
+            <label for="lote_produccion">No. Lote</label>
             <input type="text"
                    name="lote_produccion"
                    id="lote_produccion"
@@ -191,11 +191,11 @@
                 <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
 
                     <table class="table table-bordered table-responsive">
-                        <thead style="background-color: #01579B;  color: #fff;">
+                        <thead style="background-color: #f7b633;  color: #fff;">
                         <tr>
                             <th>MP</th>
                             <th>NO LOTE</th>
-                            <th>CANTIDAD</th>
+                            <th>Cantidad</th>
                             <th>FECHA VENC.</th>
                         </tr>
                         </thead>
@@ -217,18 +217,18 @@
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <button class="btn btn-default"
+            <button class="btn btn-primary"
                     type="button"
                     onclick="guardar()"
             >
-                <span class=" fa fa-check"></span> GUARDAR
+                <span class=" fa fa-check"></span> Guardar
             </button>
-            <a href="{{url('produccion/trazabilidad_chao_mein')}}">
-                <button class="btn btn-default" type="button">
-                    <span class="fa fa-remove"></span>
-                    CANCELAR
-                </button>
+            <a href="{{url('produccion/trazabilidad_chao_mein ')}}">
+                  <button class="btn btn-primary" type="button">
+               <span class=" fa fa-close"></span> Cancelar
+            </button>
             </a>
+
         </div>
     </div>
     {!!Form::close()!!}

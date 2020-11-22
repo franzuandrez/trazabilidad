@@ -178,7 +178,7 @@
 .fa-inverse {
   color: #ffffff;
 }
-/* Font Awesome uses the Unicode Private Use Area (PUA) to ensure screen
+/* Font Awesome uses the Unicode Private Use Bodega (PUA) to ensure screen
    readers do not read off random characters that represent icons */
 .fa-glass:before {
   content: "\f000";
@@ -1648,7 +1648,7 @@
 .fa-birthday-cake:before {
   content: "\f1fd";
 }
-.fa-area-chart:before {
+.fa-Bodega-chart:before {
   content: "\f1fe";
 }
 .fa-pie-chart:before {
@@ -1899,7 +1899,7 @@
   content: "\f254";
 }
 .fa-hand-grab-o:before,
-.fa-hand-rock-o:before {
+.fa-cart-plus:before {
   content: "\f255";
 }
 .fa-hand-stop-o:before,

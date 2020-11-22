@@ -5,7 +5,7 @@
     'submenu_icon'=>'fa fa-male',
     'operation_icon'=>'fa-eye',])
         @slot('menu')
-            Registro
+            Catalogos
         @endslot
         @slot('submenu')
             Colaboradores
@@ -16,7 +16,7 @@
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
             <label for=codigo_barras"">
-                CODIGO
+                Codigo
             </label>
             <input type="text" name="codigo_barras" value="{{$colaborador->codigo_barras}}" readonly
                    class="form-control">
@@ -24,21 +24,21 @@
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="nombre">NOMBRE</label>
+            <label for="nombre">Nombre</label>
             <input type="text" name="nombre" value="{{$colaborador->nombre}}" readonly
                    class="form-control">
         </div>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="apellido">APELLIDO</label>
+            <label for="apellido">Apellido</label>
             <input type="text" name="apellido" value="{{$colaborador->apellido}}" readonly
                    class="form-control">
         </div>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="telefono">TELEFONO</label>
+           <label for="apellido">Telefono</label>
             <input type="text" name="telefono" value="{{$colaborador->telefono}}" readonly
                    class="form-control">
         </div>
@@ -47,9 +47,9 @@
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
             <a href="{{url('registro/colaboradores')}}">
-                <button class="btn btn-default" type="button">
+                <button class="btn btn-primary" type="button">
                     <span class="fa fa-backward"></span>
-                    CANCELAR
+                    Cancelar
                 </button>
             </a>
 

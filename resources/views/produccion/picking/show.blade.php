@@ -8,7 +8,7 @@
 
     @component('componentes.nav',['operation'=>'Ver',
     'menu_icon'=>' fa fa fa-cube ',
-    'submenu_icon'=>'fa fa-hand-rock-o',
+    'submenu_icon'=>'fa fa-cart-plus',
     'operation_icon'=>'fa-eye',])
         @slot('menu')
             Produccion
@@ -45,11 +45,11 @@
         <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 ">
             <div class="table-responsive">
                 <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
-                    <thead style="background-color: #01579B;  color: #fff">
+                    <thead style="background-color: #f7b633;  color: #fff">
                     <th></th>
-                    <th>DESCRIPCION</th>
-                    <th>LOTE</th>
-                    <th>CANTIDAD</th>
+                    <th>Descripcion</th>
+                    <th>No. Lote</th>
+                    <th>Cantidad</th>
                     <th>UBICACION</th>
                     </thead>
                     <tbody>
@@ -133,9 +133,9 @@
         <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
             <div class="form-group">
                 <a href="{{url('produccion/picking')}}">
-                    <button class="btn btn-default" type="button">
+                    <button class="btn btn-primary" type="button">
                         <span class="fa fa-backward"></span>
-                        REGRESAR
+                    Regresar
                     </button>
                 </a>
             </div>

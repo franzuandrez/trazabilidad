@@ -4,13 +4,13 @@
 
     @component('componentes.nav',['operation'=>'Ver',
     'menu_icon'=>'fa-file-text',
-    'submenu_icon'=>'fa fa-building-o',
+    'submenu_icon'=>'fa-square',
     'operation_icon'=>'fa-eye',])
         @slot('menu')
-            Registro
+            Catalogos
         @endslot
         @slot('submenu')
-            Area
+            Bodega
         @endslot
     @endcomponent
 
@@ -18,21 +18,21 @@
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="codigo_barras">CODIGO BARRAS</label>
+            <label for="codigo_barras">Codigo  Barras</label>
             <input type="text" name="codigo_barras" value="{{$bodega->codigo_barras}}" readonly
                    class="form-control">
         </div>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="descripcion">DESCRIPCION</label>
+              <label for="descripcion">Descripcion</label>
             <input type="text" name="descripcion" value="{{$bodega->descripcion}}" readonly
                    class="form-control">
         </div>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="telefono">TELEFONO</label>
+           <label for="apellido">Telefono</label>
             <input type="text" name="telefono" value="{{$bodega->telefono}}" readonly
                    class="form-control">
         </div>
@@ -95,9 +95,9 @@
         <div class="form-group">
 
             <a href="{{url('registro/bodegas')}}">
-                <button class="btn btn-default" type="button">
+                <button class="btn btn-primary" type="button">
                     <span class="fa fa-backward"></span>
-                    REGRESAR
+                    Regresar
                 </button>
             </a>
 

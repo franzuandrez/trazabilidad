@@ -220,8 +220,8 @@ class MovimientoController extends Controller
                 'productos.codigo_interno as codigo_interno',
                 'productos.unidad_medida as unidad_medida',
                 'rmi_detalle.lote as lote',
-                DB::raw("'AREA TRANSITO' as bodega"),
-                DB::raw("'AREA TRANSITO' as ubicacion"),
+                DB::raw("'Bodega TRANSITO' as bodega"),
+                DB::raw("'Bodega TRANSITO' as ubicacion"),
                 DB::raw($query),
                 DB::raw('sum(cantidad_entrante) as total'
                 ))

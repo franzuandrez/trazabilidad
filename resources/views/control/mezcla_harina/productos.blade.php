@@ -19,7 +19,7 @@
                     <tr>
                         <th></th>
                         <th>CODIGO BARRA</th>
-                        <th>DESCRIPCION</th>
+                        <th>Descripcion</th>
                         <th>PROVEEDOR</th>
                     </tr>
                     </thead>

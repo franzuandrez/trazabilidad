@@ -41,14 +41,14 @@
                     id="btn_buscar_orden"
                     onclick="buscar_no_orden_produccion_local()"
                     onkeydown="buscar_no_orden_produccion_local()"
-                    type="button" class="btn btn-default">
+                    type="button" class="btn btn-primary">
                     <i class="fa fa-search"
                        aria-hidden="true"></i>
                 </button>
                 <button
                     onclick="ver_ordenes_sugeridas()"
                     onkeydown="ver_ordenes_sugeridas()"
-                    type="button" class="btn btn-default">
+                    type="button" class="btn btn-primary">
                     <i class="fa fa-info"
                        aria-hidden="true"></i>
                 </button>
@@ -60,7 +60,7 @@
     @include('componentes.loading')
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="id_producto">PRODUCTO</label>
+            <label for="id_producto">Producto</label>
             <select class="form-control selectpicker valor"
                     disabled
                     required
@@ -70,7 +70,7 @@
         </div>
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <label for="lote">LOTE</label>
+        <label for="lote">No.  Lote</label>
         <div class="form-group">
             <input class="form-control selectpicker valor"
                    disabled
@@ -93,7 +93,7 @@
                     data-toggle="tooltip"
                     title="Iniciar"
                     onclick="inicia_formulario_local()"
-                    type="button" class="btn btn-default">
+                    type="button" class="btn btn-primary">
                     <i class="fa fa-check"
                        aria-hidden="true"></i>
                 </button>
@@ -163,7 +163,7 @@
             </div>
             <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
                 <div class="form-group">
-                    <label for="lote_sal">LOTE</label>
+                    <label for="lote_sal">No. Lote</label>
                     <input id="lote_sal"
                            type="text"
                            required
@@ -174,7 +174,7 @@
             </div>
             <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
                 <div class="form-group">
-                    <label for="cantidad_sal">CANTIDAD</label>
+                    <label for="cantidad_sal">Cantidad</label>
                     <input id="cantidad_sal"
                            type="number"
                            step="any"
@@ -191,7 +191,7 @@
             </div>
             <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
                 <div class="form-group">
-                    <label for="lote_carbonato_sodio">LOTE</label>
+                    <label for="lote_carbonato_sodio">No. Lote</label>
                     <input id="lote_carbonato_sodio"
                            type="text"
                            required
@@ -202,7 +202,7 @@
             </div>
             <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
                 <div class="form-group">
-                    <label for="cantidad_carbonato_sodio">CANTIDAD</label>
+                    <label for="cantidad_carbonato_sodio">Cantidad</label>
                     <input id="cantidad_carbonato_sodio"
                            type="number"
                            step="any"
@@ -220,7 +220,7 @@
             </div>
             <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
                 <div class="form-group">
-                    <label for="lote_hex_sodio">LOTE</label>
+                    <label for="lote_hex_sodio">No. Lote</label>
                     <input id="lote_hex_sodio"
                            type="text"
                            required
@@ -231,7 +231,7 @@
             </div>
             <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
                 <div class="form-group">
-                    <label for="cantidad_hex_sodio">CANTIDAD</label>
+                    <label for="cantidad_hex_sodio">Cantidad</label>
                     <input id="cantidad_hex_sodio"
                            type="number"
                            step="any"
@@ -248,7 +248,7 @@
             </div>
             <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
                 <div class="form-group">
-                    <label for="lote_goma_xantan">LOTE</label>
+                    <label for="lote_goma_xantan">No. Lote</label>
                     <input id="lote_goma_xantan"
                            type="text"
                            required
@@ -259,7 +259,7 @@
             </div>
             <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
                 <div class="form-group">
-                    <label for="cantidad_goma_xantan">CANTIDAD</label>
+                    <label for="cantidad_goma_xantan">Cantidad</label>
                     <input id="cantidad_goma_xantan"
                            type="number"
                            step="any"
@@ -276,7 +276,7 @@
             </div>
             <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
                 <div class="form-group">
-                    <label for="lote_cmc">LOTE</label>
+                    <label for="lote_cmc">No. Lote</label>
                     <input id="lote_cmc"
                            type="text"
                            required
@@ -287,7 +287,7 @@
             </div>
             <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
                 <div class="form-group">
-                    <label for="cantidad_cmc">CANTIDAD</label>
+                    <label for="cantidad_cmc">Cantidad</label>
                     <input id="cantidad_cmc"
                            type="number"
                            step="any"
@@ -314,7 +314,7 @@
                         data-toggle="tooltip"
                         title="Agregar"
                         onclick="agregar_a_table()"
-                        type="button" class="btn btn-default">
+                        type="button" class="btn btn-primary">
                         <i class="fa fa-plus"
                            aria-hidden="true"></i>
                     </button>
@@ -322,7 +322,7 @@
                         data-toggle="tooltip"
                         title="Limpiar"
                         onclick="limpiar()"
-                        type="button" class="btn btn-default">
+                        type="button" class="btn btn-primary">
                         <i class="fa fa-trash"
                            aria-hidden="true"></i>
                     </button>
@@ -355,17 +355,17 @@
     </div>
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <button class="btn btn-default"
+            <button class="btn btn-primary"
                     onclick="guardar()"
                     type="button">
-                <span class=" fa fa-check"></span> GUARDAR
+                <span class=" fa fa-check"></span> Guardar
             </button>
-            <a href="{{url('control/verificacion_materias')}}">
-                <button class="btn btn-default" type="button">
-                    <span class="fa fa-remove"></span>
-                    CANCELAR
-                </button>
+            <a href="{{url('control/verificacion_materias ')}}">
+                  <button class="btn btn-primary" type="button">
+               <span class=" fa fa-close"></span> Cancelar
+            </button>
             </a>
+
 
         </div>
     </div>

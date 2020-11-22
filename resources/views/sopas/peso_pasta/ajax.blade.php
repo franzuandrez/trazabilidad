@@ -37,7 +37,7 @@
 
     @component('componentes.alert-no-selecction')
         @slot('mensaje')
-            SELECCIONAR PESO DE PASTA
+            Seleccionar PESO DE PASTA
         @endslot
     @endcomponent
     <div id="content">

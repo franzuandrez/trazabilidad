@@ -34,7 +34,7 @@ class RackController extends Controller
                     ->orwhere('pasillos.descripcion', 'LIKE', '%' . $search . '%');
             })
             ->orderBy($sortField, $sort)
-            ->paginate(20);
+            ->paginate(12);
 
 
         if ($request->ajax()) {

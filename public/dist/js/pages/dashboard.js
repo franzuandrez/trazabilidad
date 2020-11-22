@@ -124,7 +124,7 @@ $(function () {
 
   /* Morris.js Charts */
   // Sales chart
-  var area = new Morris.Area({
+  var Bodega = new Morris.Bodega({
     element: 'revenue-chart',
     resize: true,
     data: [
@@ -190,7 +190,7 @@ $(function () {
 
   //Fix for charts under tabs
   $('.box ul.nav a').on('shown.bs.tab', function () {
-    area.redraw();
+    Bodega.redraw();
     donut.redraw();
     line.redraw();
   });

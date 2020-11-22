@@ -12,7 +12,7 @@
 
     @component('componentes.nav',['operation'=>'LIST',
     'menu_icon'=>'fa fa-cube',
-    'submenu_icon'=>'fa fa-backward',
+    'submenu_icon'=>'fa fa-undo',
     'operation_icon'=>'',])
         @slot('menu')
             Produccion
@@ -37,7 +37,7 @@
 
     @component('componentes.alert-no-selecction')
         @slot('mensaje')
-            SELECCIONAR CONTROL DE TRAZABILIDAD
+            Seleccionar CONTROL DE TRAZABILIDAD
         @endslot
     @endcomponent
     <div id="content">

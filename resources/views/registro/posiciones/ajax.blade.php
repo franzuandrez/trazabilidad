@@ -13,7 +13,7 @@
     'submenu_icon'=>'fa fa-ellipsis-v',
     'operation_icon'=>'',])
         @slot('menu')
-            Registro
+            Catalogos
         @endslot
         @slot('submenu')
             Posiciones

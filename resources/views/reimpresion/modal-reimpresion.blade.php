@@ -59,10 +59,10 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal"><span class="fa fa-remove"></span>
+                <button type="button" class="btn btn-primary" data-dismiss="modal"><span class="fa fa-remove"></span>
                     CERRAR
                 </button>
-                <button type="button" onclick="reimprimir()" class="btn btn-default"><span class=" fa fa-check"></span> ACEPTAR
+                <button type="button" onclick="reimprimir()" class="btn btn-primary"><span class=" fa fa-check"></span> ACEPTAR
                 </button>
             </div>
         </div>

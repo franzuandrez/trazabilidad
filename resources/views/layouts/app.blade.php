@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>GRUPO BARCODE,S.A</title>
+    <title>COMPANY,S.A</title>
 
     <link rel="stylesheet" href="{{asset('css/font-awesome.css')}}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700">
@@ -24,24 +24,26 @@
             margin-right: 6px;
         }
         .btn-primary{
-            background-color: #01579B;
+            background-color: #f7b633;
+            border-color: #f7b633;
+        }
+        .btn-primary:hover {
+            color: #fff;
+            background-color: #f7b633 !important;;
+            border-color: #f7b633 !important;
         }
     </style>
 </head>
 <body id="app-layout" style=' background-color: #f5f5f5; margin:0px' >
-<nav class="navbar navbar-default" style="background-color: #01579B; border-radius: 0px;" >
+<nav class="" style="background-color: #f7b633; border-radius: 0px;" >
     <div class="container " >
         <div class="navbar-header ">
-
-            <!-- Collapsed Hamburger -->
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse ">
                 <span class="sr-only">Toggle Navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-
-            <!-- Branding Image -->
 
         </div>
 
@@ -52,8 +54,7 @@
             <ul class="nav navbar-nav navbar-right">
 
                 @if (Auth::guest())
-                    <li class="nav-item"><a class="nav-link" style="background-color: #01579B;  color: #fff;" href="{{ url('/login') }}">Iniciar Sesión</a></li>
-
+                    <li class="nav-item"><a class="nav-link" style="background-color: #f7b633;  color: #fff;" href="{{ url('/login') }}">Iniciar Sesión</a></li>
 
                 @else
                     <li class="dropdown">

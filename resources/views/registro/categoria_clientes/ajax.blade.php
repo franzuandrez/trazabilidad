@@ -15,7 +15,7 @@
     'submenu_icon'=>'fa fa-list-ol',
     'operation_icon'=>'',])
         @slot('menu')
-            Registro
+            Catalogos
         @endslot
         @slot('submenu')
             Categoria Clientes

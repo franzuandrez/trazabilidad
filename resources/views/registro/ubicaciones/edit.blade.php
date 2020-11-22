@@ -10,7 +10,7 @@
     'submenu_icon'=>'fa fa-map-marker',
     'operation_icon'=>'fa-pencil',])
         @slot('menu')
-            Registro
+            Catalogos
         @endslot
         @slot('submenu')
             Ubicaciones
@@ -43,7 +43,7 @@
             <label for="id_encargado">BODEGA</label>
             <select name="id_bodega" id="bodegas" required class="form-control selectpicker"
                     onchange="cargarSectores()">
-                <option value="">SELECCIONAR BODEGA</option>
+                <option value="">Seleccionar BODEGA</option>
                 @foreach( $ubicacion->localidad->bodegas as $bodega )
                     @if($ubicacion->id_bodega == $bodega->id_bodega)
                         <option selected value="{{$bodega->id_bodega}}">{{$bodega->descripcion}}</option>
@@ -59,7 +59,7 @@
             <label for="id_encargado">SECTOR</label>
             <select name="id_sector" id="sectores" required class="form-control selectpicker"
                     onchange="cargarPasillos()">
-                <option value="">SELECCIONAR SECTOR</option>
+                <option value="">Seleccionar SECTOR</option>
                 @foreach( $ubicacion->bodega->sectores as $sector)
                     @if($sector->id_sector == $ubicacion->id_sector)
                         <option selected value="{{$sector->id_sector}}">{{$sector->descripcion}}</option>
@@ -74,7 +74,7 @@
         <div class="form-group">
             <label for="id_encargado">PASILLOS</label>
             <select name="id_pasillo" id="pasillos" required class="form-control selectpicker" onchange="cargarRacks()">
-                <option value="">SELECCIONAR PASILLO</option>
+                <option value="">Seleccionar PASILLO</option>
                 @foreach( $ubicacion->sector->pasillos as $pasillo )
                     @if($pasillo->id_pasillo == $ubicacion->id_pasillo)
                         <option selected value="{{$pasillo->id_pasillo}}" >{{$pasillo->descripcion}}</option>
@@ -93,7 +93,7 @@
                     class="form-control selectpicker"
                     onchange="cargarNiveles()"
             >
-                <option value="">SELECCIONAR RACK</option>
+                <option value="">Seleccionar RACK</option>
                 @foreach( $ubicacion->pasillo->racks as $rack )
                     @if($rack->id_rack == $ubicacion->id_rack)
                         <option selected value="{{$rack->id_rack}}" >{{$rack->descripcion}}</option>
@@ -113,7 +113,7 @@
                     class="form-control selectpicker"
                     onchange="cargarPosiciones()"
             >
-                <option value="">SELECCIONAR NIVEL</option>
+                <option value="">Seleccionar NIVEL</option>
                 @foreach( $ubicacion->rack->niveles as $nivel )
                     @if($nivel->id_nivel == $ubicacion->id_nivel)
                         <option selected value="{{$nivel->id_nivel}}" >{{$nivel->descripcion}}</option>
@@ -133,7 +133,7 @@
                     onchange="cargarBines()"
                     class="form-control selectpicker"
             >
-                <option value="">SELECCIONAR POSICION</option>
+                <option value="">Seleccionar POSICION</option>
                 @foreach( $ubicacion->nivel->posiciones as $posicion )
                     @if($posicion->id_posicion == $posicion->id_posicion)
                         <option selected value="{{$posicion->id_posicion}}" >{{$posicion->descripcion}}</option>
@@ -153,7 +153,7 @@
                     onchange="cargarCodigoInterno()"
                     class="form-control selectpicker"
             >
-                <option value="">SELECCIONAR BIN</option>
+                <option value="">Seleccionar BIN</option>
                 @foreach( $ubicacion->posicion->bines as $bin )
                     @if($bin->id_bin == $bin->id_bin)
                         <option selected value="{{$bin->id_bin}}" >{{$bin->descripcion}}</option>
@@ -167,7 +167,7 @@
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="codigo_barras">CODIGO BARRAS</label>
+            <label for="codigo_barras">Codigo  Barras</label>
             <input type="text"
                    name="codigo_barras"
                    required
@@ -183,15 +183,15 @@
     </div>
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <button class="btn btn-default" type="submit">
-                <span class=" fa fa-check"></span> GUARDAR
+             <button class="btn btn-primary" type="submit">
+                <span class=" fa fa-check"></span> Guardar
             </button>
-            <a href="{{url('registro/ubicaciones')}}">
-                <button class="btn btn-default" type="button">
-                    <span class="fa fa-remove"></span>
-                    CANCELAR
-                </button>
+            <a href="{{url('registro/ubicaciones ')}}">
+                  <button class="btn btn-primary" type="button">
+               <span class=" fa fa-close"></span> Cancelar
+            </button>
             </a>
+
 
         </div>
     </div>

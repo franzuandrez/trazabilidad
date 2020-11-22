@@ -12,7 +12,7 @@
     'submenu_icon'=>'fa-male',
     'operation_icon'=>'',])
         @slot('menu')
-            Registro
+            Catalogos
         @endslot
         @slot('submenu')
             Colaboradores
@@ -54,7 +54,7 @@
 
     @include('componentes.modal-importar',
     ['ruta'=>'colaboradores.importar',
-    'mensaje'=>'  IMPORTAR COLABORADORES'])
+    'mensaje'=>'  Importar Colaboradores'])
 
     <div id="content">
         @include('registro.colaboradores.index')

@@ -38,7 +38,7 @@ class HarinaController extends Controller
                     ->orWhere('recepcion_encabezado.orden_compra', 'LIKE', '%' . $search . '%');
             })
             ->orderBy($sortField, $sort)
-            ->paginate(20);
+            ->paginate(12);
 
         if ($request->ajax()) {
             return view('control.mezcla_harina.index',

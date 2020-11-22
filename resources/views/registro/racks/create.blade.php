@@ -7,7 +7,7 @@
     'submenu_icon'=>'fa fa-tasks',
     'operation_icon'=>'fa-plus',])
         @slot('menu')
-            Registro
+            Catalogos
         @endslot
         @slot('submenu')
             Racks
@@ -21,7 +21,7 @@
         <div class="form-group">
             <label for="id_encargado">LOCALIDAD</label>
             <select name="id_localidad" class="form-control selectpicker" id="localidades" onchange="cargarBodegas()">
-                <option value="">SELECCIONAR LOCALIDAD</option>
+                <option value="">Seleccionar LOCALIDAD</option>
                 @foreach($localidades as $localidad)
                     <option value="{{$localidad->id_localidad}}">{{$localidad->descripcion}}</option>
                 @endforeach
@@ -33,7 +33,7 @@
         <div class="form-group">
             <label for="id_encargado">BODEGA</label>
             <select name="id_bodega" id="bodegas" class="form-control selectpicker" onchange="cargarSectores()">
-                <option value="">SELECCIONAR BODEGA</option>
+                <option value="">Seleccionar BODEGA</option>
 
             </select>
         </div>
@@ -42,7 +42,7 @@
         <div class="form-group">
             <label for="id_encargado">SECTOR</label>
             <select name="id_sector" id="sectores" class="form-control selectpicker" onchange="cargarPasillos()">
-                <option value="">SELECCIONAR SECTOR</option>
+                <option value="">Seleccionar SECTOR</option>
             </select>
         </div>
     </div>
@@ -52,14 +52,14 @@
             <select name="id_pasillo"
                     required
                     id="pasillos" class="form-control selectpicker">
-                <option value="">SELECCIONAR PASILLO</option>
+                <option value="">Seleccionar PASILLO</option>
             </select>
         </div>
     </div>
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="codigo_barras">CODIGO BARRAS</label>
+            <label for="codigo_barras">Codigo  Barras</label>
             <input type="text" name="codigo_barras"
                    required
                    value="{{old('codigo_barras')}}"
@@ -68,7 +68,7 @@
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="descripcion">DESCRIPCION</label>
+              <label for="descripcion">Descripcion</label>
             <input type="text" name="descripcion"
                    required
                    value="{{old('descripcion')}}"
@@ -81,7 +81,7 @@
             <select name="lado"
                     required
                     id="lado" class="form-control selectpicker">
-                <option value="">SELECCIONAR LADO</option>
+                <option value="">Seleccionar LADO</option>
                 <option value="A" >A</option>
                 <option value="B" >B</option>
             </select>
@@ -89,15 +89,15 @@
     </div>
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <button class="btn btn-default" type="submit">
-                <span class=" fa fa-check"></span> GUARDAR
+             <button class="btn btn-primary" type="submit">
+                <span class=" fa fa-check"></span> Guardar
             </button>
-            <a href="{{url('registro/racks')}}">
-                <button class="btn btn-default" type="button">
-                    <span class="fa fa-remove"></span>
-                    CANCELAR
-                </button>
+            <a href="{{url('registro/racks ')}}">
+                  <button class="btn btn-primary" type="button">
+               <span class=" fa fa-close"></span> Cancelar
+            </button>
             </a>
+
 
         </div>
     </div>

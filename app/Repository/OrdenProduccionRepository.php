@@ -20,13 +20,13 @@ class OrdenProduccionRepository
         $no_orden_produccion = Correlativo::where('modulo', 'PRODUCCION')
             ->first();
 
-        $posible_no_orden_produccion = $no_orden_produccion->prefijo . '-' . Carbon::now()->addDay()
+        $posible_no_orden_produccion = $no_orden_produccion->prefijo .  Carbon::now()
                 ->format('Ymd');
 
         $cantidad = Requisicion::where('no_orden_produccion', 'LIKE', '%' . $posible_no_orden_produccion . '%')->count();
 
 
-        $no_orden_produccion = $no_orden_produccion->prefijo . '-' . Carbon::now()->addDay()
+        $no_orden_produccion = $no_orden_produccion->prefijo .Carbon::now()
                 ->format('Ymd');
 
         if ($cantidad > 0) {

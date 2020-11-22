@@ -38,7 +38,7 @@
 
     @component('componentes.alert-no-selecction')
         @slot('mensaje')
-            SELECCIONAR DOCUMENTO PRECOCIDO DE PASTA
+            Seleccionar DOCUMENTO PRECOCIDO DE PASTA
         @endslot
     @endcomponent
     <div id="content">

@@ -9,10 +9,10 @@
 
     @component('componentes.nav',['operation'=>'LIST',
     'menu_icon'=>'fa-file-text',
-    'submenu_icon'=>'fa fa-hand-lizard-o',
+    'submenu_icon'=>'fa fa-list-ol',
     'operation_icon'=>'',])
         @slot('menu')
-            Registro
+            Catalogos
         @endslot
         @slot('submenu')
             Actividades

@@ -36,7 +36,7 @@ class NivelController extends Controller
 
             })
             ->orderBy($sortField, $sort)
-            ->paginate(20);
+            ->paginate(12);
 
         if ($request->ajax()) {
             return view('registro.niveles.index', compact('search', 'sort', 'sortField', 'niveles'));

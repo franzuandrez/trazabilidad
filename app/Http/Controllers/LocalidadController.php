@@ -34,7 +34,7 @@ class LocalidadController extends Controller
                     ->orWhere('username', 'LIKE', '%' . $search . '%');
             })
             ->orderBy($sortField, $sort)
-            ->paginate(20);
+            ->paginate(12);
 
         if ($request->ajax()) {
             return view('registro.localidades.index',

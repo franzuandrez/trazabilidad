@@ -35,7 +35,7 @@
 
     <div class="col-lg-6 col-sm-4 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="id_producto">PRODUCTO</label>
+            <label for="id_producto">Producto</label>
             <select class="form-control selectpicker valor"
                     disabled
                     required
@@ -46,7 +46,7 @@
     </div>
 
     <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
-        <label for="lote">LOTE</label>
+        <label for="lote">No.  Lote</label>
         <div class="form-group">
             <input class="form-control selectpicker valor"
                    disabled
@@ -102,7 +102,7 @@
 
             <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
 
-                <thead style="background-color: #01579B;  color: #fff;">
+                <thead style="background-color: #f7b633;  color: #fff;">
                 <tr>
 
                     <th>HORA CARGA</th>
@@ -137,9 +137,9 @@
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
             <a href="{{url('bases_condimentos')}}">
-                <button class="btn btn-default" type="button">
+                <button class="btn btn-primary" type="button">
                     <span class="fa fa-backward"></span>
-                    REGRESAR
+                    Regresar
                 </button>
             </a>
 

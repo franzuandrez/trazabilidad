@@ -17,7 +17,7 @@
                             <input type="hidden" id="td-id_localidad">
                         </tr>
                         <tr>
-                            <th><i class="fa fa-building-o"></i> BODEGA</th>
+                            <th><i class="fa-square"></i> BODEGA</th>
                             <td id="td-bodega"></td>
                             <input type="hidden" id="td-id_bodega">
                         </tr>
@@ -62,7 +62,7 @@
                 <button type="button" id="btn-importar"
                         data-dismiss="modal"
                         onclick="javascript:cantidad_focus()"
-                        class="btn btn-default">
+                        class="btn btn-primary">
                     <span class="fa fa-check"></span>
                     ACEPTAR
                 </button>

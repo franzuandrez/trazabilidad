@@ -1,8 +1,8 @@
 <li>
-    <i class="fa    fa fa-building-o    bg-light-blue"></i>
+    <i class="fa    fa-square    bg-light-blue"></i>
     <div class="timeline-item">
         <span class="time"><i class="fa fa-clock-o"></i>{{$evento->fecha->format('H:i:s')}}</span>
-        <h3 class="timeline-header"><a href="#" style="color: #01579b !important;">
+        <h3 class="timeline-header"><a href="#" style="color: #f7b633 !important;">
                 Asignacion Ubicacion
             </a> {{$evento->evento['asignacion']->documento}}</h3>
         <div class="timeline-body">

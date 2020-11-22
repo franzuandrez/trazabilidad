@@ -7,7 +7,7 @@
 
     @component('componentes.nav',['operation'=>'Ingreso',
     'menu_icon'=>'fa-arrow-circle-o-right',
-    'submenu_icon'=>'fa fa-arrow-right',
+    'submenu_icon'=>'fa fa-list',
     'operation_icon'=>'fa-plus',])
         @slot('menu')
             Recepcion
@@ -23,7 +23,7 @@
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="orden_compra">NO. DOCUMENTO</label>
+            <label for="orden_compra">No. Documento</label>
             <input type="text"
                    readonly
                    name="orden_compra"
@@ -34,7 +34,7 @@
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="id_proveedor">PROVEEDOR</label>
+            <label for="id_proveedor">Proveedor</label>
             <input type="text" id="proveedor"
                    name="proveedor"
                    readonly
@@ -44,7 +44,7 @@
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="documento_proveedor">DOCUMENTO PROVEEDOR</label>
+            <label for="documento_proveedor">DOCUMENTO Proveedor</label>
             <input type="text"
                    readonly
                    name="documento_proveedor"
@@ -57,12 +57,12 @@
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="table-responsive">
             <table class="table table-striped table-bordered table-condensed table-hover">
-                <thead style="background-color: #01579B;  color: #fff;">
+                <thead style="background-color: #f7b633;  color: #fff;">
                 <tr>
-                    <th>CANTIDAD</th>
-                    <th>PRODUCTO</th>
-                    <th>LOTE</th>
-                    <th>FECHA VENCIMIENTO</th>
+                    <th>Cantidad</th>
+                    <th>Producto</th>
+                    <th>No. Lote</th>
+                    <th>Fecha Vencimiento</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -96,9 +96,9 @@
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
             <a href="{{url('recepcion/transito')}}">
-                <button class="btn btn-default" type="button">
+                <button class="btn btn-primary" type="button">
                     <span class="fa fa-backward"></span>
-                    REGRESAR
+                    Regresar
                 </button>
             </a>
         </div>

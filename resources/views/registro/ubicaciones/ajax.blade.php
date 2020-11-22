@@ -12,7 +12,7 @@
     'submenu_icon'=>'fa  fa-map-marker',
     'operation_icon'=>'',])
         @slot('menu')
-            Registro
+            Catalogos
         @endslot
         @slot('submenu')
             Ubicaciones

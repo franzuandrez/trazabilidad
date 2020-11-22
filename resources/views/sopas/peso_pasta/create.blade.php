@@ -52,14 +52,14 @@
                     id="btn_buscar_orden"
                     onclick="iniciar_laminado()"
                     onkeydown="iniciar_laminado()"
-                    type="button" class="btn btn-default">
+                    type="button" class="btn btn-primary">
                     <i class="fa fa-search"
                        aria-hidden="true"></i>
                 </button>
                 <button
                     onclick="ver_ordenes_sugeridas()"
                     onkeydown="ver_ordenes_sugeridas()"
-                    type="button" class="btn btn-default">
+                    type="button" class="btn btn-primary">
                     <i class="fa fa-info"
                        aria-hidden="true"></i>
                 </button>
@@ -84,7 +84,7 @@
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="id_producto">PRODUCTO</label>
+            <label for="id_producto">Producto</label>
             <select class="form-control selectpicker valor"
                     disabled
                     required
@@ -95,7 +95,7 @@
     </div>
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <label for="lote">LOTE</label>
+        <label for="lote">No.  Lote</label>
         <div class="input-group">
             <input class="form-control selectpicker valor"
                     disabled
@@ -105,7 +105,7 @@
                 <button
                     onclick="inicio_formulario()"
                     onkeydown="inicio_formulario()"
-                    type="button" class="btn btn-default">
+                    type="button" class="btn btn-primary">
                     <i class="fa fa-check"
                        aria-hidden="true"></i>
                 </button>
@@ -202,7 +202,7 @@
 
             <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
 
-                <thead style="background-color: #01579B;  color: #fff;">
+                <thead style="background-color: #f7b633;  color: #fff;">
                 <tr>
                     <th>HORA</th>
 
@@ -229,17 +229,17 @@
 
         <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
             <div class="form-group">
-                <button class="btn btn-default"
+                <button class="btn btn-primary"
                         onclick="guardar()"
                         type="button">
-                    <span class=" fa fa-check"></span> GUARDAR
+                    <span class=" fa fa-check"></span> Guardar
                 </button>
-                <a href="{{url('sopas/peso_pasta')}}">
-                    <button class="btn btn-default" type="button">
-                        <span class="fa fa-remove"></span>
-                        CANCELAR
-                    </button>
-                </a>
+                <a href="{{url('sopas/peso_pasta ')}}">
+                  <button class="btn btn-primary" type="button">
+               <span class=" fa fa-close"></span> Cancelar
+            </button>
+            </a>
+
 
             </div>
         </div>

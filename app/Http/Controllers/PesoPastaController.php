@@ -47,7 +47,7 @@ class PesoPastaController extends Controller
                     ->orWhere('peso_pasta_enc.fecha_hora', 'LIKE', '%' . $search . '%');
             })
             ->orderBy($sortField, $sort)
-            ->paginate(20);
+            ->paginate(12);
 
 
         if ($request->ajax()) {

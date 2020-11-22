@@ -9,7 +9,7 @@
 
     @component('componentes.nav',['operation'=>'LIST',
     'menu_icon'=>'fa fa-arrows',
-    'submenu_icon'=>'fa fa-building-o',
+    'submenu_icon'=>'fa-square',
     'operation_icon'=>'',])
         @slot('menu')
             Movimientos

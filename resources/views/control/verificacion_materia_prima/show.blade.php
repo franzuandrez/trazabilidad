@@ -37,7 +37,7 @@
     @include('componentes.loading')
     <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="id_producto">PRODUCTO</label>
+            <label for="id_producto">Producto</label>
             <select class="form-control selectpicker valor"
                     disabled
                     required
@@ -73,7 +73,7 @@
 
                 <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
 
-                    <thead style="background-color: #01579B;  color: #fff;">
+                    <thead style="background-color: #f7b633;  color: #fff;">
                     <th>HORA</th>
                     <th>BATCH NO</th>
                     <th>EQUIPO</th>
@@ -124,9 +124,9 @@
         <div class="form-group">
 
             <a href="{{url('control/verificacion_materias')}}">
-                <button class="btn btn-default" type="button">
+                <button class="btn btn-primary" type="button">
                     <span class="fa fa-backward"></span>
-                    REGRESAR
+                    Regresar
                 </button>
             </a>
 

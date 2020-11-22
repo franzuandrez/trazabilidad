@@ -56,7 +56,7 @@
             align-items: center;
             bottom: 10%;
             right: 5%;
-            background-color: #01579b;
+            background-color: #f7b633;
             width: 56px;
             height: 56px;
             border-radius: 50%;
@@ -180,14 +180,14 @@
                     id="btn_buscar_orden"
                     onclick="iniciar_linea_chaomein()"
                     onkeydown="iniciar_linea_chaomein()"
-                    type="button" class="btn btn-default">
+                    type="button" class="btn btn-primary">
                     <i class="fa fa-search"
                        aria-hidden="true"></i>
                 </button>
                 <button
                     onclick="ver_ordenes_sugeridas()"
                     onkeydown="ver_ordenes_sugeridas()"
-                    type="button" class="btn btn-default">
+                    type="button" class="btn btn-primary">
                     <i class="fa fa-info"
                        aria-hidden="true"></i>
                 </button>
@@ -197,11 +197,11 @@
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="producto">PRODUCTO</label>
+            <label for="producto">Producto</label>
             <select name="producto" class="form-control selectpicker "
                     onchange="cargar_presentaciones(this.value)"
                     disabled="" id="producto">
-                <option value="">SELECCIONAR PRODUCTO</option>
+                <option value="">Seleccionar PRODUCTO</option>
                 @foreach($presentaciones as $presentacion)
                     <option value="{{$presentacion->id_presentacion}}">{{$presentacion->descripcion}}</option>
                 @endforeach
@@ -215,7 +215,7 @@
             <select name="id_presentacion" class="form-control selectpicker "
                     onchange="cambiar_combobox('id_turno')"
                     disabled="" id="id_presentacion">
-                <option value="">SELECCIONAR PRESENTACION</option>
+                <option value="">Seleccionar PRESENTACION</option>
 
             </select>
         </div>
@@ -235,7 +235,7 @@
                     data-toggle="tooltip"
                     title="Iniciar"
                     onclick="iniciar_liberacion()"
-                    type="button" class="btn btn-default">
+                    type="button" class="btn btn-primary">
                     <i class="fa fa-check"
                        aria-hidden="true"></i>
                 </button>
@@ -923,7 +923,7 @@
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <label for="label_generico">VENTILACION IDEAL ACORDE A PRODUCTO</label>
+            <label for="label_generico">VENTILACION IDEAL ACORDE A Producto</label>
         </div>
     </div>
     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
@@ -1098,17 +1098,17 @@
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <button class="btn btn-default"
+            <button class="btn btn-primary"
                     onclick="guardar()"
                     type="button">
-                <span class=" fa fa-check"></span> GUARDAR
+                <span class=" fa fa-check"></span> Guardar
             </button>
-            <a href="{{url('control/chaomin')}}">
-                <button class="btn btn-default" type="button">
-                    <span class="fa fa-remove"></span>
-                    CANCELAR
-                </button>
+            <a href="{{url('control/chaomin ')}}">
+                  <button class="btn btn-primary" type="button">
+               <span class=" fa fa-close"></span> Cancelar
+            </button>
             </a>
+
 
         </div>
     </div>

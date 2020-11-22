@@ -13,7 +13,7 @@
     'submenu_icon'=>'fa fa-inbox',
     'operation_icon'=>'',])
         @slot('menu')
-            Registro
+            Catalogos
         @endslot
         @slot('submenu')
             Bines

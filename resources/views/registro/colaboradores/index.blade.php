@@ -8,7 +8,7 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
         <div class="table-responsive">
             <table class="table table-striped table-bordered table-condensed table-hover">
-                <thead style="background-color: #01579B;  color: #fff;">
+                <thead style="background-color: #f7b633;  color: #fff;">
                 <th>
 
                 </th>
@@ -18,7 +18,7 @@
                           'sort'=>$sort,
                           'sortField'=>$sortField,
                           'field'=>'codigo_barras',
-                          'titulo'=>'CODIGO'])
+                          'titulo'=>'Codigo'])
                     @endcomponent
                 </th>
                 <th>
@@ -27,7 +27,7 @@
                           'sort'=>$sort,
                           'sortField'=>$sortField,
                           'field'=>'nombre',
-                          'titulo'=>'nombre'])
+                          'titulo'=>'Nombre'])
                     @endcomponent
                 </th>
                 <th>
@@ -36,18 +36,10 @@
                           'sort'=>$sort,
                           'sortField'=>$sortField,
                           'field'=>'apellido',
-                          'titulo'=>'apellido'])
+                           'titulo'=>'Apellido'])
                     @endcomponent
                 </th>
-                <th>
-                    @component('componentes.column-sort',['modulo'=>'registro/colaboradores',
-                        'search'=>$search,
-                          'sort'=>$sort,
-                          'sortField'=>$sortField,
-                          'field'=>'estado',
-                          'titulo'=>'estado'])
-                    @endcomponent
-                </th>
+
 
                 </thead>
                 <tbody>
@@ -66,13 +58,7 @@
                         <td>
                             {{$colaborador->apellido}}
                         </td>
-                        <td>
-                            @if($colaborador->estado == 1)
-                                <span class="label label-success">Activo</span>
-                            @else
-                                <span class="label label-danger">De baja</span>
-                            @endif
-                        </td>
+
                     </tr>
                     @component('componentes.alert-delete',
                       ['model'=>'COLABORADOR',

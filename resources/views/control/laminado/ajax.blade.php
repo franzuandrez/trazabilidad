@@ -37,7 +37,7 @@
 
     @component('componentes.alert-no-selecction')
         @slot('mensaje')
-            SELECCIONAR LAMINADO
+            Seleccionar LAMINADO
         @endslot
     @endcomponent
     <div id="content">
