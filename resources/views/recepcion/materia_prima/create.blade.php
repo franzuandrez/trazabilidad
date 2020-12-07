@@ -306,7 +306,7 @@
             proveedores.forEach(function (e) {
                 if (total == 1) {
                     option += `<option  selected value='${e.id_proveedor}'>${e.nombre_comercial}</option>`;
-                    document.getElementById('documento_proveedor').focus();
+                  
                 } else {
                     option += `<option   value='${e.id_proveedor}'>${e.nombre_comercial}</option>`;
                 }
