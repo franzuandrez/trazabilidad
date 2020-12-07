@@ -245,6 +245,15 @@ Route::get('registro/colaboradores/{id}', 'ColaboradorController@show')->name('c
 Route::post('registro/colaboradores/importar', 'ColaboradorController@importar')->name('colaboradores.importar');
 Route::post('registro/colaboradores/{id}', 'ColaboradorController@destroy')->name('colaboradores.destroy');
 
+Route::get('registro/impresoras', 'ImpresoraController@index')->name('impresora.index');
+Route::get('registro/impresoras/create', 'ImpresoraController@create')->name('impresora.create');
+Route::post('registro/impresoras/create', 'ImpresoraController@store')->name('impresora.store');
+Route::get('registro/impresoras/{id}/edit', 'ImpresoraController@edit')->name('impresora.edit');
+Route::patch('registro/impresoras/{id}', 'ImpresoraController@update')->name('impresora.update');
+Route::get('registro/impresoras/{id}', 'ImpresoraController@show')->name('impresora.show');
+
+
+
 Route::get('recepcion/materia_prima', 'RecepcionController@index')->name('recepcion.materia_prima.index');
 
 Route::get('recepcion/materia_prima/create', 'RecepcionController@create')

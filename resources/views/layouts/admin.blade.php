@@ -200,6 +200,12 @@
                                         Colaboradores
                                     </a>
                                 </li>
+                                <li>
+                                    <a href="{{url('registro/impresoras')}}">
+                                        <i class="fa fa fa-print" aria-hidden="true"></i>
+                                        Impresoras
+                                    </a>
+                                </li>
                             @endcan
                         </ul>
                     </li>
