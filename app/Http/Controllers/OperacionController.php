@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actividad;
+use App\Impresora;
 use App\Operacion;
 use App\Repository\ProductoRepository;
 use App\Repository\RequisicionRepository;
@@ -425,9 +426,15 @@ class OperacionController extends Controller
         $actividades = Actividad::actived()
             ->get();
 
+        $impresoras = Impresora::get();
+
+
+
+
         return view('produccion.control_trazabilidad.finalizar', [
             'control' => $control,
-            'actividades' => $actividades
+            'actividades' => $actividades,
+            'impresoras' => $impresoras
         ]);
 
 

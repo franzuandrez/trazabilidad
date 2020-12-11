@@ -119,18 +119,43 @@
                    class="form-control">
         </div>
     </div>
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-        <div class="form-group">
-            <label for="cantidad_produccion">CANTIDAD PRODUCCION</label>
-            <input type="text"
-                   name="cantidad_produccion"
-                   id="cantidad_produccion"
-                   {{$control->cantidad_producida !=null && $control->cantidad_producida !="" ? 'disabled':''}}
-                   value="{{$control->cantidad_producida }}"
-                   class="form-control">
-        </div>
-    </div>
 
+    @if($control->producto->tipo_producto == 'PT')
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <label for="cantidad_produccion">CANTIDAD PRODUCCION</label>
+            <div class="input-group">
+                <input type="text"
+                       name="cantidad_produccion"
+                       id="cantidad_produccion"
+                       readonly
+                       {{$control->cantidad_producida !=null && $control->cantidad_producida !="" ? 'disabled':''}}
+                       value="{{$control->cantidad_producida==null?0:$control->cantidad_producida }}"
+                       class="form-control">
+                <div class="input-group-btn">
+                    <button
+                        onclick="modal_entregas_parciales()"
+                        type="button" class="btn btn-default">
+                        <i class="fa fa-plus"
+
+                           aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        @include('produccion.control_trazabilidad.entregas_parciales')
+    @else
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <label for="cantidad_produccion">CANTIDAD PRODUCCION</label>
+                <input type="text"
+                       name="cantidad_produccion"
+                       id="cantidad_produccion"
+                       {{$control->cantidad_producida !=null && $control->cantidad_producida !="" ? 'disabled':''}}
+                       value="{{$control->cantidad_producida }}"
+                       class="form-control">
+            </div>
+        </div>
+    @endif
     @if($control->producto->tipo_producto == 'PT')
         <div class="col-lg-3 col-sm-3 col-md-6 col-xs-12">
             <div class="form-group">
@@ -277,8 +302,26 @@
             let total_etiquetas_corrugados = parseInt(cantidad_producida / factor);
             let total_etiquetas_unidades = parseInt(cantidad_producida % factor);
             document.getElementById('cantidad_etiquetas_corrugado').value = total_etiquetas_corrugados;
-            setear_cantidad_impresiones_unidades(total_etiquetas_unidades);
+            document.getElementById('cantidad_etiquetas_unidades').value = total_etiquetas_unidades;
 
+        }
+
+        function calcular_impresiones_parciales() {
+            let control_trazabilidad = getControlTrazabilidad();
+            let element = document.getElementById("cantidad_produccion_parcial");
+            element.addEventListener("keyup", function () {
+                setear_cantidad_impresiones_corrugados_parciales(control_trazabilidad.producto, document.getElementById("cantidad_produccion_parcial").value);
+            });
+
+        }
+
+        function setear_cantidad_impresiones_corrugados_parciales(producto, cantidad_producida) {
+
+            let factor = producto.cantidad_unidades;
+            let total_etiquetas_corrugados = parseInt(cantidad_producida / factor);
+            let total_etiquetas_unidades = parseInt(cantidad_producida % factor);
+            document.getElementById('cantidad_etiquetas_corrugado_parcial').value = total_etiquetas_corrugados;
+            document.getElementById('cantidad_etiquetas_unidades_parcial').value = total_etiquetas_unidades;
         }
 
         function setear_cantidad_impresiones_unidades(total_etiquetas_unidades) {
@@ -292,6 +335,44 @@
             return control_trazabilidad;
         }
 
+        function modal_entregas_parciales() {
+
+            $('#entregas_parciales').modal();
+        }
+
+
+        function realizar_entrega_parcial() {
+
+
+            let cantidad_produccion_parcial = document.getElementById('cantidad_produccion_parcial').value;
+            if (cantidad_produccion_parcial.value === "" || cantidad_produccion_parcial == 0) {
+                alert("Cantidad de produccion parcial en blanco");
+                document.getElementById('cantidad_produccion_parcial').focus();
+                return;
+            }
+
+            let cantidad_etiquetas_corrugado_parcial = document.getElementById('cantidad_etiquetas_corrugado_parcial').value;
+            let cantidad_etiquetas_unidades_parcial = document.getElementById('cantidad_etiquetas_unidades_parcial').value;
+            let row = `<tr>
+                <td>  ${$('#impresoras').text()}</td>
+                <td> ${cantidad_produccion_parcial} </td>
+                <td>${cantidad_etiquetas_corrugado_parcial}</td>
+                <td>${cantidad_etiquetas_unidades_parcial}</td>
+            <tr>`;
+
+            $('#listado_entregas_parciales').prepend(row);
+            $('#cantidad_etiquetas_unidades_parcial').val("");
+            $('#cantidad_etiquetas_corrugado_parcial').val("");
+            $('#cantidad_produccion_parcial').val("");
+
+
+            document.getElementById('cantidad_produccion').value = parseInt(document.getElementById('cantidad_produccion').value || 0) + parseInt(cantidad_produccion_parcial);
+            setear_cantidad_impresiones_corrugados(getControlTrazabilidad().producto, document.getElementById("cantidad_produccion").value);
+
+
+        }
+
         mostrar_cantidad_impresiones();
+        calcular_impresiones_parciales();
     </script>
 @endsection

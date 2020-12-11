@@ -120,7 +120,7 @@
                    class="form-control">
         </div>
     </div>
-    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12" style="display: none">
         <div class="form-group">
             <label for="cantidad_produccion">CANTIDAD PRODUCCION</label>
             <input type="text"
