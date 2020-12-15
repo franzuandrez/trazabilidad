@@ -253,7 +253,6 @@ Route::patch('registro/impresoras/{id}', 'ImpresoraController@update')->name('im
 Route::get('registro/impresoras/{id}', 'ImpresoraController@show')->name('impresora.show');
 
 
-
 Route::get('recepcion/materia_prima', 'RecepcionController@index')->name('recepcion.materia_prima.index');
 
 Route::get('recepcion/materia_prima/create', 'RecepcionController@create')
@@ -639,3 +638,4 @@ Route::post('produccion/despacho/leer/{id_reserva}', 'DespachoController@leer')-
 Route::post('produccion/despacho/create', 'DespachoController@store')->name('produccion.despacho.store');
 
 
+Route::post('entregas_parciales/{id}', 'EntregasParcialesController@store')->name('entregas_parciales.store');

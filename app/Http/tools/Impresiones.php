@@ -65,12 +65,16 @@ class Impresiones
     }
 
 
-    public static function imprimir_corrugado(Operacion $control_trazabilidad)
+    public static function imprimir_corrugado(Operacion $control_trazabilidad, $cantidad_producida = 0, $ip = '127.0.0.1')
     {
 
 
         $producto = $control_trazabilidad->producto;
-        $cantidad_impresiones = intval($control_trazabilidad->cantidad_producida / $producto->cantidad_unidades);
+        if ($cantidad_producida == 0) {
+            $cantidad_impresiones = intval($control_trazabilidad->cantidad_producida / $producto->cantidad_unidades);
+        } else {
+            $cantidad_impresiones = intval($cantidad_producida / $producto->cantidad_unidades);
+        }
 
         $lote = $control_trazabilidad->lote;
         $fecha_vencimiento = $control_trazabilidad->fecha_vencimiento;
@@ -88,17 +92,19 @@ class Impresiones
             $corrugado->numerio_serial = GeneradorCodigos::getNumeroSerial();
             $corrugado->codigo_verificador = GeneradorCodigos::getDigitoVerificador();
             $corrugado->id_tb_imprimir = $impresion_producto->CORRELATIVO;
-            $corrugado->ip =  (new ConfiguracionesRepository())->getIpImpresora()->valor;
+            $corrugado->ip = $ip == '' ? (new ConfiguracionesRepository())->getIpImpresora()->valor : $ip;
             $corrugado->save();
         }
+
         self::activarTriggerParaLaImpresora();
 
     }
 
-    public static function imprimir($producto, $lote, $fecha_vencimiento, $cantidad, $tipo, $es_pt = false)
+    public
+    static function imprimir($producto, $lote, $fecha_vencimiento, $cantidad, $tipo, $es_pt = false)
     {
         $imprimir = new Impresion();
-        $imprimir->IP =  (new ConfiguracionesRepository())->getIpImpresora()->valor;
+        $imprimir->IP = (new ConfiguracionesRepository())->getIpImpresora()->valor;
         $imprimir->CODIGO_BARRAS = $es_pt ? $producto->codigo_dun : $producto->codigo_barras;
         $imprimir->DESCRIPCION_PRODUCTO = $producto->descripcion;
         $imprimir->LOTE = $lote;
@@ -113,12 +119,14 @@ class Impresiones
         return $imprimir;
     }
 
-    public static function procesarImpresionesPendientes()
+    public
+    static function procesarImpresionesPendientes()
     {
         self::activarTriggerParaLaImpresora();
     }
 
-    private static function activarTriggerParaLaImpresora()
+    private
+    static function activarTriggerParaLaImpresora()
     {
 
         $file = fopen(self::$file, 'w');

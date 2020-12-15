@@ -14,7 +14,7 @@
                     <select class="form-control selectpicker"
                             id="impresoras">
                         @foreach($impresoras as $impresora)
-                            <option value="{{$impresora->id}}">{{$impresora->descripcion}} - {{$impresora->ip}}</option>
+                            <option value="{{$impresora->ip}}">{{$impresora->descripcion}} - {{$impresora->ip}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -72,7 +72,17 @@
                                 </th>
                             </tr>
                             </thead>
-                            <tbody id="listado_entregas_parciales"></tbody>
+                            <tbody id="listado_entregas_parciales">
+                            @foreach( $impresiones as $impresion)
+                                <tr>
+                                    <td>{{$impresion->impresora}}</td>
+                                    <td>{{$impresion->cantidad_produccion}}</td>
+                                    <td>{{$impresion->cantidad_unidades_distribucion}}</td>
+                                    <td>{{$impresion->cantidad_unidades_etiqueta}}</td>
+                                </tr>
+                            @endforeach
+
+                            </tbody>
                         </table>
                     </div>
                 </div>

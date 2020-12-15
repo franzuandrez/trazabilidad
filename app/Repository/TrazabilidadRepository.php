@@ -926,10 +926,6 @@ class TrazabilidadRepository
             $control_trazabilidad->save();
         }
 
-        $producto = $this->getControlTrazabilidad()->producto;
-        if ($producto->tipo_producto == 'PT') {
-            Impresiones::imprimir_corrugado($control_trazabilidad);
-        }
 
 
     }

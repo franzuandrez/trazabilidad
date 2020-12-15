@@ -353,8 +353,25 @@
 
             let cantidad_etiquetas_corrugado_parcial = document.getElementById('cantidad_etiquetas_corrugado_parcial').value;
             let cantidad_etiquetas_unidades_parcial = document.getElementById('cantidad_etiquetas_unidades_parcial').value;
+
+            $.ajax({
+                url: "{{url('entregas_parciales').'/'.$control->id_control}}",
+                type: 'POST',
+                data: {
+                    cantidad_etiquetas_corrugado_parcial: cantidad_etiquetas_corrugado_parcial,
+                    cantidad_etiquetas_unidades_parcial: cantidad_etiquetas_unidades_parcial,
+                    ip: $('#impresoras').val(),
+                    impresora: $('#impresoras').text(),
+                    cantidad_produccion_parcial: cantidad_produccion_parcial
+                }, success: function (response) {
+                    console.log(response)
+                }, error: function (err) {
+                    console.log(err)
+                }
+            });
+
             let row = `<tr>
-                <td>  ${$('#impresoras').text()}</td>
+                <td>   ${$('#impresoras').text()}</td>
                 <td> ${cantidad_produccion_parcial} </td>
                 <td>${cantidad_etiquetas_corrugado_parcial}</td>
                 <td>${cantidad_etiquetas_unidades_parcial}</td>

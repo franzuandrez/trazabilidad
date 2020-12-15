@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actividad;
+use App\EntregaParcial;
 use App\Impresora;
 use App\Operacion;
 use App\Repository\ProductoRepository;
@@ -427,14 +428,14 @@ class OperacionController extends Controller
             ->get();
 
         $impresoras = Impresora::get();
-
-
+        $impresiones = EntregaParcial::where('id_control', $id)->get();
 
 
         return view('produccion.control_trazabilidad.finalizar', [
             'control' => $control,
             'actividades' => $actividades,
-            'impresoras' => $impresoras
+            'impresoras' => $impresoras,
+            'impresiones' => $impresiones
         ]);
 
 
