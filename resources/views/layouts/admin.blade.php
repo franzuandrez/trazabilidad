@@ -263,6 +263,12 @@
                                     Reimpresión
                                 </a>
                             </li>
+                            <li>
+                                <a href="{{url('movimientos_inventario')}}">
+                                    <i class="fa fa-arrows" aria-hidden="true"></i>
+                                    Movimientos Inventario
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 </ul>

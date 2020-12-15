@@ -283,6 +283,7 @@ Route::get('recepcion/kardex', 'MovimientoController@index')->name('movimientos.
 Route::get('recepcion/kardex/reporte', 'MovimientoController@reporte_excel')->name('movimientos.bodegas.excel');
 Route::get('movimientos/existencia/productos', 'MovimientoController@existencia')->name('movimientos.existencia.productos');
 Route::get('movimientos/kardex', 'MovimientoController@kardex')->name('movimientos.kardex.productos');
+
 Route::post('movimientos', 'MovimientoController@store');
 
 
@@ -560,6 +561,7 @@ Route::get('sopas/liberacion/reporte/{id}', 'ReporteLineaSopas@linea_sopas')->na
 Route::get('operaciones/consultas/trazabilidad', 'ConsultaTrazabilidadController@index')->name('consulta.trazabilidad');
 Route::get('operaciones/consultas/trazabilidad/hacia_adelante', 'ConsultaTrazabilidadController@hacia_adelante')->name('consulta.trazabilidad.hacia_adelante');
 
+Route::get('movimientos_inventario', 'MovimientoController@movimientos_inventario')->name('movimientos_inventario.index');
 Route::get('reimpresion', 'ReimpresionController@index')->name('reimpresion.index');
 Route::post('reimpresion/reimprimir', 'ReimpresionController@reimprimir')->name('reimpresion.reimprimir');
 Route::get('reimpresion/procesar_pendientes', 'ReimpresionController@procesar_impresiones_pendientes')->name('reimpresion.reimprimir');

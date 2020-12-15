@@ -110,6 +110,39 @@ class Movimientos
     }
 
 
+    public function existencia_con_lotes($search, $ubicacion = null)
+    {
+        $productos = Producto::where('codigo_interno', '=', $search)
+            ->orWhere('codigo_barras', '=', $search)
+            ->pluck('id_producto');
+
+
+        $existencias = Movimiento::join('tipo_movimiento', 'tipo_movimiento.id_movimiento', '=', 'movimientos.tipo_movimiento')
+            ->select('movimientos.id_movimiento',
+                'movimientos.id_sector',
+                'movimientos.lote',
+                'movimientos.id_producto',
+                'movimientos.ubicacion',
+                'movimientos.fecha_vencimiento',
+                DB::raw('sum(cantidad * factor) as total'))
+            ->whereIn('id_producto', $productos);
+
+        $existencias = $existencias
+            ->groupBy('lote')
+            ->groupBy('id_sector')
+            ->orderBy('movimientos.fecha_vencimiento', 'asc')
+            ->with('producto')
+            ->with('bodega')
+            ->with('sector')
+            ->get();
+
+
+         $existencias;
+        return response()->json([
+            'existencias'=>$existencias,
+        ]);
+    }
+
     public function existencia($search, $ubicacion = null)
     {
 

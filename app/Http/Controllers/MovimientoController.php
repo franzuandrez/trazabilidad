@@ -11,6 +11,7 @@ use App\Repository\MovimientoRepository;
 use App\RMIDetalle;
 use App\Sector;
 use App\TipoMovimiento;
+use Carbon\Carbon;
 use DB;
 use Excel;
 use Illuminate\Database\Eloquent\Builder;
@@ -41,22 +42,63 @@ class MovimientoController extends Controller
     {
 
 
+        if ($request->ajax()) {
+
+            $this->generar_movimiento($request);
+            return response(
+                [
+                    'success' => true,
+                    'data' => dd($request->all())
+
+                ]
+            );
+        } else {
+            $this->generar_movimiento($request);
+            return redirect()->route('produccion.despacho.despachar', $request->get('id_despacho'));
+        }
+
+    }
+
+
+    public function movimientos_inventario(Request $request)
+    {
+
+        $ubicaciones = Sector::actived()
+            ->where('id_bodega', '1')
+            ->get();
+        $tipo_movimientos_entrada = TipoMovimiento::actived()->where('factor', '>', '0')->get();
+        $tipo_movimientos_salida = TipoMovimiento::actived()->where('factor', '<', '0')->get();
+
+
+        return view('movimientos.movimiento_inventario.index', [
+            'ubicaciones' => $ubicaciones,
+            'tipo_movimientos_entrada' => $tipo_movimientos_entrada,
+            'tipo_movimientos_salida' => $tipo_movimientos_salida,
+        ]);
+
+    }
+
+
+    public function generar_movimiento(Request $request)
+    {
+
+
         foreach ($request->id_producto as $key => $item) {
-            $this->movimientoRepository->setNoDocumento('prueba');
+
+            $this->movimientoRepository->setNoDocumento($request->get('no_documento') == null ? 'DESPACHO-' . Carbon::now()->format('hisdmY') : $request->get('no_documento'));
             $this->movimientoRepository->setUsuarioAutoriza(\Auth::getUser());
-            $this->movimientoRepository->setTipoDocumento('despacho');
+            $this->movimientoRepository->setTipoDocumento($request->get('tipo_doc') == null ? 'DESPACHO' : $request->get('tipo_doc'));
             $this->movimientoRepository->setProducto(Producto::find($item));
             $this->movimientoRepository->setFechaVencimiento($request->get('fecha_vencimiento')[$key]);
             $this->movimientoRepository->setLote($request->get('lote')[$key]);
             $this->movimientoRepository->setSector(Sector::whereCodigoBarras($request->get('bodega_saliente')[$key])->first());
             $this->movimientoRepository->setCantidad($request->get('cantidad_saliente')[$key]);
-            $this->movimientoRepository->salida_producto();
+            $this->movimientoRepository->generar_movimiento($request->get('tipo_movimiento_salida')[$key] == null ? 2 : $request->get('tipo_movimiento_salida')[$key]);
             $this->movimientoRepository->setSector(Sector::whereCodigoBarras($request->get('bodega_entrante')[$key])->first());
             $this->movimientoRepository->setCantidad($request->get('cantidad_entrante')[$key]);
-            $this->movimientoRepository->ingreso_producto();
-        }
+            $this->movimientoRepository->generar_movimiento($request->get('tipo_movimiento_entrada')[$key] == null ? 1 : $request->get('tipo_movimiento_entrada')[$key]);
 
-        return redirect()->route('produccion.despacho.despachar', $request->get('id_despacho'));
+        }
 
 
     }
@@ -137,7 +179,13 @@ class MovimientoController extends Controller
     {
 
         $movimientos = new Movimientos();
-        return $movimientos->existencia($request->get('search'));
+
+        if ($request->get('con_lotes')) {
+            return $movimientos->existencia_con_lotes($request->get('search'));
+        } else {
+
+            return $movimientos->existencia($request->get('search'));
+        }
 
 
     }
