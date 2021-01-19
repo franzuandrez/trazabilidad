@@ -43,12 +43,15 @@ class EntregaPTController extends Controller
 
         $search = $request->get('search') == null ? '' : $request->get('search');
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
-        $sortField = $request->get('field') == null ? 'fecha_hora' : $request->get('field');
+        $sortField = $request->get('field') == null ? 'created_at' : $request->get('field');
 
 
-        $collection = EntregaEnc::select('entrega_pt_enc.*', 'users.nombre')
-            ->join('users', 'users.id', '=', 'entrega_pt_enc.id_usuario')
+        $collection = $this->trazabilidad_repository
+            ->searchControlesDeTrazabilidad($search, $sortField, $sort)
+            ->where('productos.tipo_producto', 'PT')//PRODUCTO TERMINADO
+            ->where('esta_entregado', '<>', '1')//NO HA SIDO ENTREGADO
             ->paginate(20);
+
 
         if ($request->ajax()) {
             return view('entregas.entrega_pt.index',
