@@ -56,15 +56,15 @@
 
     </div>
     <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
-        <label for="codigo_producto">CODIGO PRODUCTO</label>
+        <label for="codigo_producto">NO. TARIMA</label>
         <div class="input-group">
             <input type="text"
                    id="codigo_producto"
-                   onkeydown="if(event.keyCode==13)buscar_producto(document.getElementById('codigo_producto'))"
+                   onkeydown="if(event.keyCode==13)buscar_no_tarima(document.getElementById('codigo_producto'))"
                    name="codigo_producto"
                    class="form-control">
             <div class="input-group-btn">
-                <a href="javascript:buscar_producto(document.getElementById('codigo_producto'))"
+                <a href="javascript:buscar_no_tarima(document.getElementById('codigo_producto'))"
                 >
                     <button type="button" class="btn btn-default">
                         <i class="fa fa-search " aria-hidden="true"></i>
@@ -90,18 +90,14 @@
     </div>
     <div class="col-lg-2 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
+
             <label for="unidad_medida">UNIDAD MEDIDA</label>
-            <select class="form-control selectpicker"
-                    disabled
-                    required
-                    onchange="select_bodega()"
-                    id="unidad_medida" name="unidad_medida">
-                <option value="" selected> SELECCIONE UNIDAD MEDIDA</option>
-                <option value="CA"> CAJA</option>
-                <option value="UN"> UNIDADES</option>
-
-
-            </select>
+            <div class="form-group">
+                <input type="text"
+                       readonly
+                       id="unidad_medida" name="unidad_medida"
+                       class="form-control">
+            </div>
         </div>
     </div>
     <div class="col-lg-2 col-sm-6 col-md-6 col-xs-12">
@@ -123,6 +119,18 @@
         <i class="fa fa-refresh fa-spin "></i><br/>
         <span>Cargando</span>
     </div>
+    <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
+        <label for="cantidad">CANTIDAD</label>
+        <div class="form-group">
+            <input type="text"
+                   id="cantidad"
+                   onkeydown="if(event.keyCode==13 || event.keyCode==10)add()"
+                   readonly
+                   name="cantidad"
+                   class="form-control">
+        </div>
+    </div>
+
     <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
         <label for="ubicacion">UBICACION</label>
         <div class="form-group">
@@ -149,17 +157,7 @@
     </div>
     <input id="codigo_bodega" type="hidden" value="">
     <input id="codigo_ubicacion" type="hidden" value="">
-    <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
-        <label for="cantidad">CANTIDAD</label>
-        <div class="form-group">
-            <input type="text"
-                   id="cantidad"
-                   onkeydown="if(event.keyCode==13 || event.keyCode==10)add()"
-                   readonly
-                   name="cantidad"
-                   class="form-control">
-        </div>
-    </div>
+
     <input type="hidden" id="user_acepted" name="user_acepted">
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="table-responsive">
@@ -170,6 +168,7 @@
                     <th>DESCRIPCION</th>
                     <th>LOTE</th>
                     <th>CANTIDAD</th>
+                    <th>TARIMA</th>
                 </tr>
                 </thead>
                 <tbody id="detalles">
@@ -216,6 +215,40 @@
 
         });
 
+        function buscar_no_tarima(codigo) {
+
+            let no_tarima = descomponerCodigoSSCCInput(codigo);
+            let detalle = getRmiDetalle()
+                .filter(e => e.no_tarima == no_tarima);
+
+
+            if (detalle.length == 0) {
+                alert("No. Tarima Invalida");
+                return;
+            }
+
+            if (detalle.length == 1) {
+                let producto = detalle[0];
+
+                console.log(producto);
+                document.getElementById('lote').value = producto.control_trazabilidad.lote;
+                document.getElementById('descripcion').value = producto.control_trazabilidad.producto.descripcion;
+                document.getElementById('fecha_vencimiento').value = producto.fecha_vencimiento;
+                gl_cantidad_disponible = parseFloat(producto.cantidad);
+                gl_id_producto = producto.control_trazabilidad.producto.id_producto;
+                document.getElementById('ubicacion').readOnly = false;
+                document.getElementById('ubicacion').value = "";
+                document.getElementById('unidad_medida').disabled = true;
+                document.getElementById('cantidad').value = producto.cantidad;
+                $('#unidad_medida').val(producto.unidad_medida);
+                select_bodega();
+
+
+            }
+
+
+        }
+
         function solicitar_credenciales() {
 
             if (existe_producto_pendiente()) {
@@ -233,13 +266,16 @@
 
             let existeProductoPendiente = false;
             let cantidad = 0;
-
             let producto_lote = "";
             getRmiDetalle().forEach(function (prod) {
                 detalle = prod;
+
                 prod = prod.control_trazabilidad;
-                producto_lote = prod.id_producto + "-" + prod.lote + '-' + detalle.unidad_medida;
+
+                producto_lote = prod.id_producto + "-" + prod.lote + '-' + detalle.unidad_medida + '-' + detalle.no_tarima;
+
                 cantidad = Array.prototype.slice.call(cantidades).filter(x => x.className == producto_lote).map(e => parseFloat(e.value)).reduce((x, y) => x + y, 0);
+
                 if (parseFloat(detalle.cantidad) - cantidad > 0) {
                     existeProductoPendiente = true;
                 }
@@ -263,14 +299,12 @@
             if (typeof ubicacion == 'undefined') {
                 alert("Ubicacion no encontrada")
             } else {
-                console.log(ubicacion)
                 mostrar_ubicacion(ubicacion);
                 document.getElementById('codigo_bodega').value = ubicacion.bodega.id_bodega;
                 document.getElementById('codigo_ubicacion').value = ubicacion.id_sector;
                 document.getElementById('ubicacion').readOnly = true;
                 document.getElementById('ubicacion').value = ubicacion.descripcion;
-                document.getElementById('cantidad').readOnly = false;
-                document.getElementById('cantidad').focus();
+                add();
             }
 
 
@@ -319,53 +353,11 @@
             document.getElementById('ubicacion').value = "";
             document.getElementById('ubicacion').focus();
             document.getElementById('ubicacion').readOnly = false;
-            document.getElementById('cantidad').value = "";
-            document.getElementById('cantidad').readOnly = true;
-            document.getElementById('ubicacion').readOnly = true;
             document.getElementById('ubicacion_a_asignar').style.display = 'none';
         }
 
         var gl_id_producto = 0;
         var gl_cantidad_disponible = 0;
-
-        function buscar_producto(input, unidad_medida = false) {
-
-            let infoCodigoBarras = descomponerInput(input, false);
-            let codigo_barras = infoCodigoBarras[1];
-            let lote = infoCodigoBarras[3];
-
-            let detalle = getRmiDetalle()
-                .filter(e => e.control_trazabilidad.producto.codigo_dun == codigo_barras)
-                .filter(e => e.control_trazabilidad.lote == lote);
-
-
-            if (unidad_medida) {
-                detalle = detalle.filter(e => e.unidad_medida === document.getElementById('unidad_medida').value)
-                document.getElementById('ubicacion').focus();
-            } else {
-                document.getElementById('unidad_medida').classList.add('open')
-                $('#unidad_medida').selectpicker('refresh');
-            }
-
-
-            if (detalle.length > 0) {
-                detalle = detalle[0];
-                let producto = detalle.control_trazabilidad;
-                document.getElementById('lote').value = producto.lote;
-                document.getElementById('descripcion').value = producto.producto.descripcion;
-                document.getElementById('fecha_vencimiento').value = producto.fecha_vencimiento;
-                gl_cantidad_disponible = parseFloat(detalle.cantidad);
-                gl_id_producto = producto.id_producto;
-                document.getElementById('ubicacion').readOnly = false;
-                document.getElementById('ubicacion').value = "";
-                document.getElementById('unidad_medida').disabled = false;
-                $('#unidad_medida').selectpicker('refresh');
-            } else {
-                alert("Producto no encontrado");
-            }
-
-
-        }
 
 
         function getRmiDetalle() {
@@ -383,14 +375,13 @@
                 return;
             }
             if (unidad_medida === 'UN') {
-                buscar_producto(document.getElementById('codigo_producto'), true);
                 document.getElementById('ubicacion').value = '4140754842000208';
                 buscar_ubicacion();
             } else {
                 limpiar_ubicacion();
                 document.getElementById('ubicacion').readOnly = false;
                 document.getElementById('ubicacion').focus();
-                buscar_producto(document.getElementById('codigo_producto'), true);
+
             }
 
 
@@ -403,7 +394,8 @@
             let cantidad = parseFloat(document.getElementById('cantidad').value.trim() === "" ? 0 : document.getElementById('cantidad').value.trim());
             let descripcion_producto = document.getElementById('descripcion').value.trim();
             let unidad_medida = $('#unidad_medida').val();
-            let cantidad_agregada = Array.prototype.slice.call(document.getElementsByClassName(gl_id_producto + "-" + lote + '-' + unidad_medida)).map(e => e.value).reduce((x, y) => parseFloat(x) + parseFloat(y), 0)
+            let no_tarima =descomponerCodigoSSCCInput(document.getElementById('codigo_producto'));
+            let cantidad_agregada = Array.prototype.slice.call(document.getElementsByClassName(gl_id_producto + "-" + lote + '-' + unidad_medida + '-' + no_tarima)).map(e => e.value).reduce((x, y) => parseFloat(x) + parseFloat(y), 0)
 
             if (unidad_medida === "" || unidad_medida === "0") {
                 alert("Seleccione unidad de medida");
@@ -436,6 +428,7 @@
             let codigo_ubicacion = document.getElementById('codigo_ubicacion').value;
             let codigo_bodega = document.getElementById('codigo_bodega').value;
 
+
             let row = '';
             let row_producto = `
                  <tr class="row-producto-added" id='${gl_id_producto}-${lote}-${codigo_ubicacion}'>
@@ -445,10 +438,13 @@
                                 <input type="hidden" value='${lote}' name=lote[]>${lote}</td>
                                 <input type="hidden" value='${gl_id_producto}' name=id_producto[]>${lote}</td>
                             <td >
-                                <input type="hidden" value ='${cantidad}'  class="${gl_id_producto}-${lote}-${unidad_medida}"  name=cantidad[] >${cantidad}
+                                <input type="hidden" value ='${cantidad}'  class="${gl_id_producto}-${lote}-${unidad_medida}-${no_tarima}"  name=cantidad[] >${cantidad}
                                 <input type="hidden" value ='${codigo_ubicacion}'  name=ubicacion[] >
                                 <input type="hidden" value ='${codigo_bodega}'  name=bodega[] >
                                 <input type="hidden" value ='${fecha_vencimiento}'  name=fecha_vencimiento[] >
+                            </td>
+                            <td>
+                                ${no_tarima}
                             </td>
 
                  </tr>`;
@@ -466,6 +462,7 @@
             }
             limpiar();
 
+
             document.getElementById('codigo_producto').focus();
             document.getElementById('ubicacion_a_asignar').style.display = 'none';
         }
@@ -474,13 +471,11 @@
             limpiar_ubicacion();
             limpiar_producto();
             reset_unidad_medida();
+            document.getElementById('cantidad').value = "";
         }
 
         function reset_unidad_medida() {
-            document.getElementById('unidad_medida').classList.remove('open')
-            $("#unidad_medida").prop("selectedIndex", 0);
-            document.getElementById('unidad_medida').disabled = true;
-            $("#unidad_medida").selectpicker("refresh");
+            document.getElementById('unidad_medida').value = "";
         }
 
         function limpiar_producto() {

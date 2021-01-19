@@ -6,6 +6,8 @@ namespace App\Repository;
 
 use App\EntregaDet;
 use App\EntregaEnc;
+use App\Http\tools\GeneradorCodigos;
+use App\ImpresionCorrugado;
 use Carbon\Carbon;
 use Exception;
 use Throwable;
@@ -31,12 +33,18 @@ class EntregaRepository
 
     {
 
+
         try {
-            $entrega_det = null;
+
+
             DB::beginTransaction();
 
-            $entrega = EntregaEnc::where('id_control',$request->get('id_control'))->first();
-            $es_nuevo = $entrega ==null;
+
+
+            $entrega_det = null;
+
+            $entrega = EntregaEnc::where('id_control', $request->get('id_control'))->first();
+            $es_nuevo = $entrega == null;
             if ($es_nuevo) {
                 $entrega = new EntregaEnc();
                 $entrega->id_usuario = \Auth::id();
@@ -63,8 +71,6 @@ class EntregaRepository
             $entrega_det->save();
 
 
-
-
             DB::commit();
 
         } catch (Exception $e) {
@@ -76,6 +82,7 @@ class EntregaRepository
 
         return $entrega_det;
     }
+
 
     public function getTotalUnidadesEntregadas($id_control)
     {

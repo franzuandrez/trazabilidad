@@ -109,6 +109,7 @@
                     add_to_table();
                     document.getElementById('id_entrega').value = response.data.id_enc;
                     limpiar_formulario();
+                    document.getElementById('codigo').focus();
                 } else {
                     alert('Algo salió mal ,' + response.data);
                 }

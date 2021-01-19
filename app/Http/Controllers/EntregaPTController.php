@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\EntregaDet;
 use App\EntregaEnc;
+use App\Http\tools\GeneradorCodigos;
 use App\Operacion;
 use App\Repository\EntregaRepository;
 use App\Repository\MovimientoRepository;
@@ -131,10 +132,12 @@ class EntregaPTController extends Controller
     {
         $search = $request->get('search') == null ? '' : $request->get('search');
         $sort = $request->get('sort') == null ? 'desc' : ($request->get('sort'));
-        $sortField = $request->get('field') == null ? 'fecha_hora' : $request->get('field');
+        $sortField = $request->get('field') == null ? 'entrega_pt_enc.fecha_hora' : $request->get('field');
 
         $collection = EntregaEnc::select('entrega_pt_enc.*', 'users.nombre')
             ->join('users', 'users.id', '=', 'entrega_pt_enc.id_usuario')
+            ->join('control_trazabilidad', 'control_trazabilidad.id_control', '=', 'entrega_pt_enc.id_control')
+            ->join('productos', 'productos.id_producto', '=', 'control_trazabilidad.id_producto')
             ->where('entrega_pt_enc.estado', '<>', 2)
             ->paginate(20);
 
@@ -252,10 +255,22 @@ class EntregaPTController extends Controller
         try {
             $data = $this->entrega_repository->agregar_producto($request);
 
+            $tarima = GeneradorCodigos::searchSSCC($request->get('no_tarima'));
+
+            if ($tarima == null) {
+                return response([
+                    'success' => false,
+                    'data' => 'Tarima no existente'
+                ]);
+            }
+
+
             return response([
                 'success' => true,
                 'data' => $data
             ]);
+
+
         } catch (\Exception $e) {
             return response([
                 'success' => false,

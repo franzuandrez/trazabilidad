@@ -22,8 +22,21 @@ function descomponerString(input, es_dun_13 = true) {
 
         const start = 2;
         codigo = codigoBarras.substring(start, max_length + start);
-        fecha_vencimiento = codigoBarras.substring(max_length +4, max_length + 10);
+        fecha_vencimiento = codigoBarras.substring(max_length + 4, max_length + 10);
         lote = codigoBarras.substring(max_length + 12, codigoBarras.length);
     }
     return ["", codigo, fecha_vencimiento, lote];
+}
+
+
+function descomponerCodigoSSCCInput(codigo) {
+    let codigoBarras = codigo.value.trim();
+    return descomponerCodigoSSCCString(codigoBarras);
+
+}
+
+function descomponerCodigoSSCCString(codigo) {
+    let codigoBarras = codigo.trim();
+    return codigoBarras.substring(0, codigoBarras.length);
+
 }

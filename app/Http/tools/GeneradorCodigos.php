@@ -69,8 +69,8 @@ class GeneradorCodigos
                 return $item * $factor;
             })->sum();
 
-        $decena_mas_rercana = ceil($sum / 10) * 10;
-        $codigo_verificador = intval($decena_mas_rercana - $sum);
+        $decena_mas_cercana = ceil($sum / 10) * 10;
+        $codigo_verificador = intval($decena_mas_cercana - $sum);
 
         return $codigo_verificador;
     }
@@ -164,6 +164,20 @@ class GeneradorCodigos
         $numero_serial = str_pad($codigo, 10, '0', STR_PAD_LEFT);
 
         return $numero_serial;
+    }
+
+
+    public static function searchSSCC($sscc)
+    {
+
+        $sscc = ImpresionCorrugado::where(\DB::raw(
+            'concat(identificador_aplicacion,digito_indicador,prefijo_compania,numerio_serial,codigo_verificador)'), $sscc)
+            ->where('es_pallet', 1)
+            ->first();
+
+        return $sscc;
+
+
     }
 
 
