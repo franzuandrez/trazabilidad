@@ -65,7 +65,24 @@ class Impresiones
     }
 
 
-    public static function imprimir_corrugado(Operacion $control_trazabilidad, $cantidad_producida = 0, $ip = '127.0.0.1')
+    public static function imprimir_corrugado_pallet($cantidad)
+    {
+        GeneradorCodigos::getCodigoCorrugado();
+        $corrugado = new ImpresionCorrugado();
+        $corrugado->identificador_aplicacion = GeneradorCodigos::CODIGO_SSCC;
+        $corrugado->digito_indicador = GeneradorCodigos::getDigitoIndicador();;
+        $corrugado->prefijo_compania = GeneradorCodigos::CODIGO_EMPRESA;
+        $corrugado->numerio_serial = GeneradorCodigos::getNumeroSerial();
+        $corrugado->codigo_verificador = GeneradorCodigos::getDigitoVerificador();
+        $corrugado->ip = (new ConfiguracionesRepository())->getIpImpresora()->valor;
+        $corrugado->es_pallet = 1;
+        $corrugado->cantidad = $cantidad;
+        $corrugado->save();
+
+        self::activarTriggerParaLaImpresora();
+    }
+
+    public static function imprimir_corrugado_producto(Operacion $control_trazabilidad, $cantidad_producida = 0, $ip = '127.0.0.1')
     {
 
 

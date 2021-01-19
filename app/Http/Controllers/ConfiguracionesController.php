@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\ConfiguracionesGenerales;
+use App\Http\tools\Impresiones;
 use App\Repository\ConfiguracionesRepository;
 use Illuminate\Http\Request;
 
@@ -39,5 +40,17 @@ class ConfiguracionesController extends Controller
 
         return redirect()->route('configuraciones.index')
             ->with('success', 'Guardado correctamente');
+    }
+
+
+    public function imprimir_etiquetas_tarima(Request $request)
+    {
+        Impresiones::imprimir_corrugado_pallet($request->cantidad);
+
+        return response([
+            'success' => true,
+            'data' => 'Impresion enviada correctamente'
+        ]);
+
     }
 }

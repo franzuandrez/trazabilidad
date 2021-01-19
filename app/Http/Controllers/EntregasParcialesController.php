@@ -41,7 +41,7 @@ class EntregasParcialesController extends Controller
             $entrega->save();
             $control_trazabilidad->cantidad_producida = $control_trazabilidad->cantidad_producida + $entrega->cantidad_produccion;
             $control_trazabilidad->save();
-            Impresiones::imprimir_corrugado($control_trazabilidad, $request->get('cantidad_produccion_parcial'), $request->get('ip'));
+            Impresiones::imprimir_corrugado_producto($control_trazabilidad, $request->get('cantidad_produccion_parcial'), $request->get('ip'));
         }
 
         return response([

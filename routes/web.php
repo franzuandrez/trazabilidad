@@ -582,7 +582,7 @@ Route::get('produccion/recepcion_pt/create', 'EntregaPTController@create_recepci
 
 Route::get('configuraciones/impresion', 'ConfiguracionesController@impresion')->name('configuraciones.index');
 Route::post('configuraciones/impresion/create', 'ConfiguracionesController@store_impresion')->name('configuraciones.impresion.store');
-
+Route::post('imprimir_etiquetas_tarima', 'ConfiguracionesController@imprimir_etiquetas_tarima')->name('imprimir_etiquetas_tarima');
 
 Route::get('bases_condimentos', 'BaseCondimentosController@index')->name('base_condimentos');
 Route::get('bases_condimentos/create', 'BaseCondimentosController@create')->name('base_condimentos.create');
@@ -640,3 +640,6 @@ Route::post('produccion/despacho/create', 'DespachoController@store')->name('pro
 
 
 Route::post('entregas_parciales/{id}', 'EntregasParcialesController@store')->name('entregas_parciales.store');
+
+
+
