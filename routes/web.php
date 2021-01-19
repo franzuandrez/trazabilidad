@@ -569,6 +569,7 @@ Route::get('reimpresion/procesar_pendientes', 'ReimpresionController@procesar_im
 Route::get('produccion/entrega_pt', 'EntregaPTController@index_entrega_pt')->name('produccion.index_entrega_pt');
 Route::get('produccion/entrega_pt/create', 'EntregaPTController@create_entrega_pt')->name('produccion.create_entrega_pt');
 Route::post('produccion/entrega_pt/create', 'EntregaPTController@store_entrega_pt')->name('produccion.store_entrega_pt');
+Route::get('produccion/entrega_pt/{id}/edit', 'EntregaPTController@edit')->name('produccion.entrega.edit');
 Route::get('produccion/entrega_pt/buscar_producto', 'EntregaPTController@buscar_producto')->name('produccion.entrega.buscar_producto');
 Route::post('produccion/entrega_pt/agregar_producto', 'EntregaPTController@agregar_producto')->name('produccion.entrega.agregar_producto');
 Route::get('produccion/entrega_pt/{id}', 'EntregaPTController@show_entrega_pt')->name('produccion.show_entrega_pt');

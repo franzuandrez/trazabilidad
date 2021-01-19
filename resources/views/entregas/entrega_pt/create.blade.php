@@ -3,7 +3,7 @@
     <link href="{{asset('css/loading.css')}}" rel="stylesheet">
 @endsection
 @section('contenido')
-    @component('componentes.nav',['operation'=>'Crear',
+    @component('componentes.nav',['operation'=>'Entrega',
     'menu_icon'=>' fa fa fa-cube ',
     'submenu_icon'=>' fa fa fa-archive ',
     'operation_icon'=>'fa-plus',])
@@ -17,8 +17,10 @@
     @include('componentes.alert-error')
     {!!Form::open(array('url'=>'produccion/entrega_pt/create','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
-
     <input type="hidden" value="0" id="id_entrega">
+    <input type="hidden" value="{{$control_trazabilidad->lote}}" id="lote">
+    <input type="hidden" value="{{$control_trazabilidad->id_control}}" name="id_control">
+    <input type="hidden" value="{{$control_trazabilidad->producto->codigo_dun}}" id="codigo_dun_14">
     <div class="col-lg-6 col-sm-6 col-md-12 col-xs-12">
         <div class="form-group">
             <label for="codigo">CODIGO </label>
@@ -59,6 +61,7 @@
             <label for="cantidad"> CANTIDAD</label>
             <input type="text"
                    name="cantidad"
+                   value="1"
                    onkeydown="if(event.keyCode==13)document.getElementById('no_tarima').focus()"
                    id="cantidad"
                    class="form-control">
@@ -94,6 +97,14 @@
             <th>NO. TARIMA</th>
             </thead>
             <tbody id="detalle">
+            @foreach($entregas as $entrega)
+                <tr>
+                    <td>{{$entrega->control_trazabilidad->producto->codigo_interno}}</td>
+                    <td>{{$entrega->unidad_medida}}</td>
+                    <td id="{{$entrega->control_trazabilidad->lote.'-'.$entrega->unidad_medida.'-'.$entrega->no_tarima}}">   {{$entrega->cantidad}}</td>
+                    <td>{{$entrega->no_tarima}}</td>
+                </tr>
+            @endforeach
             </tbody>
         </table>
     </div>
@@ -105,8 +116,8 @@
             </button>
             <a href="{{url('produccion/entrega_pt')}}">
                 <button class="btn btn-default" type="button">
-                    <span class="fa fa-remove"></span>
-                    CANCELAR
+                    <span class="fa fa-backward"></span>
+                    REGRESAR
                 </button>
             </a>
         </div>

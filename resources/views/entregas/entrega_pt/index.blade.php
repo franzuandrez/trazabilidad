@@ -9,7 +9,6 @@
 
                 </th>
 
-
                 <th>
                     @include('componentes.column-sort',[
                            'field'=>'productos.descripcion',

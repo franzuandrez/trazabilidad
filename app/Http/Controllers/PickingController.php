@@ -291,6 +291,8 @@ class PickingController extends Controller
                 ->route('produccion.picking.index')
                 ->with('success', 'Requisicion Armada');
         } catch (\Exception $ex) {
+
+
             DB::rollback();
 
             return redirect()->back()->withErrors(['Algo salió mal']);

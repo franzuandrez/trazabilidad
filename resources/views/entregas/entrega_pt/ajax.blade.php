@@ -25,8 +25,8 @@
 
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            @can('role-create')
-                @component('componentes.btn-create',['url'=>url('produccion/entrega_pt/create')])
+            @can('role-edit')
+                @component('componentes.btn-continuar',['url'=>'javascript:editar("entrega_pt")'])
                 @endcomponent
             @endcan
             @can('role-list')

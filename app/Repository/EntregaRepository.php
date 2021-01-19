@@ -34,18 +34,20 @@ class EntregaRepository
         try {
             $entrega_det = null;
             DB::beginTransaction();
-            $es_nuevo = $request->get('id') == 0;
+
+            $entrega = EntregaEnc::where('id_control',$request->get('id_control'))->first();
+            $es_nuevo = $entrega ==null;
             if ($es_nuevo) {
                 $entrega = new EntregaEnc();
                 $entrega->id_usuario = \Auth::id();
                 $entrega->fecha_hora = Carbon::now();
+                $entrega->id_control = $request->get('id_control');
                 $entrega->save();
-            } else {
-                $entrega = EntregaEnc::findOrFail($request->get('id'));
             }
 
             $entrega_det = EntregaDet::where('id_control', $request->get('id_control'))
                 ->where('unidad_medida', $request->get('unidad_medida'))
+                ->where('no_tarima', $request->get('no_tarima'))
                 ->first();
             $es_nuevo = $entrega_det == null;
             if ($es_nuevo) {
@@ -60,16 +62,7 @@ class EntregaRepository
             $entrega_det->id_usuario = \Auth::id();
             $entrega_det->save();
 
-            $control_trazabilidad = $this->trazabilidad_repository->getControlTrazabilidadById($entrega_det->id_control);
-            $unidades_producidas = intval($control_trazabilidad->cantidad_producida % $control_trazabilidad->producto->cantidad_unidades);
-            $cajas_producidas = intval($control_trazabilidad->cantidad_producida / $control_trazabilidad->producto->cantidad_unidades);
 
-            $unidades_entregadas = $this->getTotalUnidadesEntregadas($entrega_det->id_control);
-            $cajas_entregadas = $this->getTotalCajasEntregadas($entrega_det->id_control);
-
-            if ($unidades_producidas - $unidades_entregadas == 0 && $cajas_producidas - $cajas_entregadas == 0) {
-                $this->trazabilidad_repository->marcarEntregado();
-            }
 
 
             DB::commit();

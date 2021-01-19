@@ -13,6 +13,7 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+    const CODIGO_DUN_14 = 1;
     const LOTE = 3;
     var PRODUCTO_PT = null;
     var UNIDADES_ENTREGADAS = 0;
@@ -31,6 +32,15 @@
 
         const codigo = descomponerInput(document.getElementById('codigo'), false);
         $('.loading').show();
+
+        if (codigo[CODIGO_DUN_14] !== document.getElementById('codigo_dun_14').value) {
+            alert("Producto incorrecto");
+            return;
+        }
+        if (codigo[LOTE] !== document.getElementById('lote').value) {
+            alert("Lote incorrecto");
+            return;
+        }
         $.ajax({
             url: "{{url('produccion/entrega_pt/buscar_producto?lote=')}}" + codigo[LOTE],
             type: "get",
@@ -62,6 +72,7 @@
     }
 
     function agregar_producto() {
+
 
         let no_tarima = document.getElementById('no_tarima').value;
         if (no_tarima === "") {
@@ -114,7 +125,7 @@
 
     function limpiar_formulario() {
 
-        document.getElementById('cantidad').value = "";
+
         document.getElementById('descripcion_producto').value = "";
         document.getElementById('no_tarima').value = "";
         limpiar_producto();
@@ -127,15 +138,24 @@
         let unidad_medida = document.getElementById('unidad_medida').value;
         let cantidad = document.getElementById('cantidad').value;
         let no_tarima = document.getElementById('no_tarima').value;
+        let lote = document.getElementById('lote').value;
+        let td_cantidad = document.getElementById(lote + '-' + unidad_medida + '-' + no_tarima);
+        let esta_agregado = td_cantidad !== null;
 
-        let row = `<tr>
-        <td>${codigo_interno}</td>
-        <td>${unidad_medida}</td>
-        <td>${cantidad}</td>
-        <td>${no_tarima}</td>
-        </tr>`;
+        if (esta_agregado) {
+            td_cantidad.innerText = (parseFloat(td_cantidad.innerText) + parseFloat(cantidad)).toString();
+            ;
+        } else {
+            let row = `<tr>
+            <td>${codigo_interno}</td>
+            <td>${unidad_medida}</td>
+            <td id="${lote + '-' + unidad_medida + '-' + no_tarima}"> ${cantidad}</td>
+            <td>${no_tarima}</td>
+            </tr>`;
 
-        $('#detalle').append(row);
+            $('#detalle').prepend(row);
+        }
+
     }
 
     function es_valida() {

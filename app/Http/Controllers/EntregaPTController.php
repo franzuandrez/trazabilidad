@@ -50,6 +50,7 @@ class EntregaPTController extends Controller
             ->searchControlesDeTrazabilidad($search, $sortField, $sort)
             ->where('productos.tipo_producto', 'PT')//PRODUCTO TERMINADO
             ->where('esta_entregado', '<>', '1')//NO HA SIDO ENTREGADO
+            ->where('cantidad_producida', '>', '0')//HAY ENTREGAS PARCIALES
             ->paginate(20);
 
 
@@ -73,6 +74,20 @@ class EntregaPTController extends Controller
 
     }
 
+
+    public function edit($id)
+    {
+        $control_trazabilidad = $this->trazabilidad_repository->getControlTrazabilidadById($id);
+
+        $entregas = EntregaDet::where('id_control', $control_trazabilidad->id_control)->get();
+
+        return view('entregas.entrega_pt.create', [
+            'control_trazabilidad' => $control_trazabilidad,
+            'entregas' => $entregas
+        ]);
+
+    }
+
     public function show_entrega_pt($id)
     {
 
@@ -89,13 +104,27 @@ class EntregaPTController extends Controller
         return view('entregas.entrega_pt.create');
     }
 
-    public function store_entrega_pt()
+    public function store_entrega_pt(Request $request)
     {
 
 
-        return redirect()
-            ->route('produccion.index_entrega_pt')
-            ->with('success', 'Guardado correctamente');
+        $control_trazabilidad = $this->trazabilidad_repository->getControlTrazabilidadById($request->id_control);
+        $unidades_producidas = intval($control_trazabilidad->cantidad_producida % $control_trazabilidad->producto->cantidad_unidades);
+        $cajas_producidas = intval($control_trazabilidad->cantidad_producida / $control_trazabilidad->producto->cantidad_unidades);
+
+        $unidades_entregadas = $this->entrega_repository->getTotalUnidadesEntregadas($request->id_control);
+        $cajas_entregadas = $this->entrega_repository->getTotalCajasEntregadas($request->id_control);
+
+        if ($unidades_producidas - $unidades_entregadas == 0 && $cajas_producidas - $cajas_entregadas == 0) {
+            $this->trazabilidad_repository->marcarEntregado();
+            return redirect()
+                ->route('produccion.index_entrega_pt')
+                ->with('success', 'Entrega realizada correctamente');
+        }
+
+        return redirect()->back()->withErrors(['Producto pendiente por agregar']);
+
+
     }
 
     public function index_recepcion_pt(Request $request)
@@ -177,7 +206,7 @@ class EntregaPTController extends Controller
                 ->with('success', 'Producto ubicado correctamente');
         } catch (\Exception $e) {
             DB::rollback();
-            dd($e);
+
             return redirect()->route('produccion.index_recepcion_pt')
                 ->withErrors(['Su peticion no ha podido ser procesada']);
 
