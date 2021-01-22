@@ -102,6 +102,13 @@ class ImpresoraController extends Controller
             $impresora->descripcion = $request->descripcion;
             $impresora->save();
 
+
+            \DB::table('tb_imprimir_corrugado')
+                ->where('IMPRESO', 'N')
+                ->update([
+                    'impreso' => 'S'
+                ]);
+
             return redirect()
                 ->route('impresora.index')
                 ->with('success', 'Impresora actualizada correctamente');

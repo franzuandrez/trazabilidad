@@ -29,6 +29,13 @@ class ConfiguracionesRepository
     {
 
 
+        \DB::table('tb_imprimir')
+            ->where('IMPRESO', 'N')
+            ->update([
+                'IP' => $configuraciones['IPIMP'],
+                'IMPRESO' => 'S'
+            ]);
+
         foreach ($configuraciones as $key => $configuracion) {
 
             $conf = ConfiguracionesGenerales::whereConfiguracion($key)->first();
