@@ -325,7 +325,7 @@ class TrazabilidadRepository
     /**
      * @return Producto
      */
-    public function getProducto(): Producto
+    public function getProducto()
     {
         return $this->producto;
     }
@@ -333,7 +333,7 @@ class TrazabilidadRepository
     /**
      * @param Producto $producto
      */
-    public function setProducto(Producto $producto): void
+    public function setProducto($producto): void
     {
         $this->producto = $producto;
     }
@@ -668,7 +668,6 @@ class TrazabilidadRepository
         $proximoLote = $this->verificarProximoLote($request)->getData();
 
 
-
         if ($proximoLote->status == 1) {
             $cantidad_solicitada = $request->get('cantidad');
             $reserva = $proximoLote->data->reserva_insumo;
@@ -777,6 +776,9 @@ class TrazabilidadRepository
      */
     public function getReservasPicking()
     {
+        if ($this->getProducto() == null) {
+            return collect([]);
+        }
         $requisiciones = $this->getIdsRequisiciones();
 
         $reservas = ReservaPicking::whereIn('id_requisicion', $requisiciones)
@@ -795,9 +797,12 @@ class TrazabilidadRepository
      */
     public function getInsumosReservados()
     {
+        if ($this->getProducto() == null) {
+            return collect([]);
+        }
         $insumos_reservaos = DetalleInsumo::where('id_producto', $this->getProducto()->id_producto)
             ->whereNull('cantidad_utilizada')
-            ->where('id_control',$this->getControlTrazabilidad()->id_control)
+            ->where('id_control', $this->getControlTrazabilidad()->id_control)
             ->select('id_producto', 'lote', DB::raw('sum(cantidad) as cantidad'))
             ->orderBy('fecha_vencimiento', 'desc')
             ->groupBy('lote')
@@ -925,7 +930,6 @@ class TrazabilidadRepository
             }
             $control_trazabilidad->save();
         }
-
 
 
     }
