@@ -848,7 +848,8 @@
         const events = ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"];
         events.forEach(function (event) {
             input.addEventListener(event, function () {
-                if (inputFilter(this.value)) {
+
+                if (inputFilter(this.value) || this.value.length == 0) {
                     this.oldValue = this.value;
                     this.oldSelectionStart = this.selectionStart;
                     this.oldSelectionEnd = this.selectionEnd;
