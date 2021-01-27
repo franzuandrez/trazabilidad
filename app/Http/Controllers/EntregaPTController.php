@@ -253,7 +253,7 @@ class EntregaPTController extends Controller
 
 
         try {
-            $data = $this->entrega_repository->agregar_producto($request);
+
 
             $tarima = GeneradorCodigos::searchSSCC($request->get('no_tarima'));
 
@@ -263,7 +263,7 @@ class EntregaPTController extends Controller
                     'data' => 'Tarima no existente'
                 ]);
             }
-
+            $data = $this->entrega_repository->agregar_producto($request);
 
             return response([
                 'success' => true,
