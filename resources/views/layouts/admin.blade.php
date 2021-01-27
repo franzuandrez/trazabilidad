@@ -257,9 +257,8 @@
                                         Kardex
                                     </a>
                                 </li>
-
                             @endcan
-                                @can('colaboradores')
+                            @can('reimpresion')
                                 <li>
                                     <a href="{{url('reimpresion')}}">
                                         <i class="fa fa-print" aria-hidden="true"></i>
@@ -267,7 +266,7 @@
                                     </a>
                                 </li>
                             @endcan
-                                @can('colaboradores')
+                            @can('movimientos_inventario')
                                 <li>
                                     <a href="{{url('movimientos_inventario')}}">
                                         <i class="fa fa-arrows" aria-hidden="true"></i>
@@ -314,39 +313,46 @@
                                     </a>
                                 </li>
                             @endcan
-                            <li>
-                                <a href="{{url('produccion/devoluciones')}}">
-                                    <i class="fa fa-backward" aria-hidden="true"></i>
-                                    Devolucion
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{url('produccion/entrega_pt')}}">
-                                    <i class="fa fa-step-forward" aria-hidden="true"></i>
-                                    Entrega PT
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="{{url('produccion/recepcion_pt')}}">
-                                    <i class="fa fa-backward" aria-hidden="true"></i>
-                                    Recepcion PT
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="{{url('produccion/requisicion_pt')}}">
-                                    <i class="fa fa-pencil-square" aria-hidden="true"></i>
-                                    Requisicion PT
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="{{url('produccion/despacho')}}">
-                                    <i class="fa fa-hand-rock-o"></i>
-                                    Despacho
-                                </a>
-                            </li>
+                            @can('devoluciones')
+                                <li>
+                                    <a href="{{url('produccion/devoluciones')}}">
+                                        <i class="fa fa-backward" aria-hidden="true"></i>
+                                        Devolucion
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('entrega_pt')
+                                <li>
+                                    <a href="{{url('produccion/entrega_pt')}}">
+                                        <i class="fa fa-step-forward" aria-hidden="true"></i>
+                                        Entrega PT
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('recepcion_pt')
+                                <li>
+                                    <a href="{{url('produccion/recepcion_pt')}}">
+                                        <i class="fa fa-backward" aria-hidden="true"></i>
+                                        Recepcion PT
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('requisicion_pt')
+                                <li>
+                                    <a href="{{url('produccion/requisicion_pt')}}">
+                                        <i class="fa fa-pencil-square" aria-hidden="true"></i>
+                                        Requisicion PT
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('despacho')
+                                <li>
+                                    <a href="{{url('produccion/despacho')}}">
+                                        <i class="fa fa-hand-rock-o"></i>
+                                        Despacho
+                                    </a>
+                                </li>
+                            @endcan
                         </ul>
                     </li>
                 </ul>
