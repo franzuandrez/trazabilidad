@@ -834,7 +834,7 @@
         }
 
         let cantidad_produccion = document.getElementById('cantidad_produccion').value;
-        if (cantidad_produccion === "") {
+        if (cantidad_produccion === "" || cantidad_produccion == 0) {
             alert("Cantidad de produccion vacía");
             document.getElementById('cantidad_produccion').focus();
             return;
