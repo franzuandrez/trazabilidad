@@ -194,12 +194,14 @@
                                 </li>
                             @endcan
                             @can('colaboradores')
+
                                 <li>
                                     <a href="{{url('registro/colaboradores')}}">
                                         <i class="fa fa-male" aria-hidden="true"></i>
                                         Colaboradores
                                     </a>
                                 </li>
+
                                 <li>
                                     <a href="{{url('registro/impresoras')}}">
                                         <i class="fa fa fa-print" aria-hidden="true"></i>
@@ -257,18 +259,22 @@
                                 </li>
 
                             @endcan
-                            <li>
-                                <a href="{{url('reimpresion')}}">
-                                    <i class="fa fa-print" aria-hidden="true"></i>
-                                    Reimpresión
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{url('movimientos_inventario')}}">
-                                    <i class="fa fa-arrows" aria-hidden="true"></i>
-                                    Movimientos Inventario
-                                </a>
-                            </li>
+                                @can('colaboradores')
+                                <li>
+                                    <a href="{{url('reimpresion')}}">
+                                        <i class="fa fa-print" aria-hidden="true"></i>
+                                        Reimpresión
+                                    </a>
+                                </li>
+                            @endcan
+                                @can('colaboradores')
+                                <li>
+                                    <a href="{{url('movimientos_inventario')}}">
+                                        <i class="fa fa-arrows" aria-hidden="true"></i>
+                                        Movimientos Inventario
+                                    </a>
+                                </li>
+                            @endcan
                         </ul>
                     </li>
                 </ul>
