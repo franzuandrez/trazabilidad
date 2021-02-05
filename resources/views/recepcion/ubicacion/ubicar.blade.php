@@ -101,7 +101,7 @@
                    onkeydown="if(event.keyCode==13)buscar_ubicacion()"
                    class="form-control">
         </div>
-        <div id="ubicacion_a_asignar"   style="display: none">
+        <div id="ubicacion_a_asignar" style="display: none">
             <span class="label label-primary" id="bodega_a_asignar">
                 <i class="fa fa-building-o"></i>
                 AREA
@@ -224,13 +224,20 @@
             if (typeof ubicacion == 'undefined') {
                 alert("Ubicacion no encontrada")
             } else {
-                mostrar_ubicacion(ubicacion);
-                document.getElementById('codigo_bodega').value = ubicacion.bodega.id_bodega;
-                document.getElementById('codigo_ubicacion').value = ubicacion.id_sector;
-                document.getElementById('ubicacion').readOnly = true;
-                document.getElementById('ubicacion').value = ubicacion.descripcion;
-                document.getElementById('cantidad').readOnly = false;
-                document.getElementById('cantidad').focus();
+
+                if ((tipo_producto == 'MP' && codigo_bodega == '4140754842000017') || (tipo_producto == 'ME' && codigo_bodega == '4140754842000024') || (codigo_bodega == '4140754842000055')) {
+                    mostrar_ubicacion(ubicacion);
+                    document.getElementById('codigo_bodega').value = ubicacion.bodega.id_bodega;
+                    document.getElementById('codigo_ubicacion').value = ubicacion.id_sector;
+                    document.getElementById('ubicacion').readOnly = true;
+                    document.getElementById('ubicacion').value = ubicacion.descripcion;
+                    document.getElementById('cantidad').readOnly = false;
+                    document.getElementById('cantidad').focus();
+                } else {
+                    alert(" Bodega incorrecta");
+                }
+
+
             }
 
 
@@ -246,8 +253,8 @@
         function mostrar_ubicacion(ubicacion) {
 
             document.getElementById('ubicacion_a_asignar').style.display = 'block';
-            document.getElementById('bodega_a_asignar').childNodes[2].data =" "+ubicacion.bodega.descripcion;
-            document.getElementById('sector_a_asignar').childNodes[2].data =" "+ubicacion.descripcion;
+            document.getElementById('bodega_a_asignar').childNodes[2].data = " " + ubicacion.bodega.descripcion;
+            document.getElementById('sector_a_asignar').childNodes[2].data = " " + ubicacion.descripcion;
 
         }
 
@@ -287,6 +294,7 @@
 
         var gl_id_producto = 0;
         var gl_cantidad_disponible = 0;
+        var tipo_producto = 'MP';
 
         function buscar_producto(input) {
 
@@ -295,7 +303,7 @@
             let lote = infoCodigoBarras[3];
 
             let producto = getRmiDetalle().filter(e => e.producto.codigo_barras == codigo_barras).find(e => e.lote == lote);
-
+            console.log(producto);
             if (typeof producto != 'undefined') {
                 document.getElementById('lote').value = producto.lote;
                 document.getElementById('descripcion').value = producto.producto.descripcion;
@@ -303,7 +311,7 @@
                 document.getElementById('ubicacion').focus();
                 gl_cantidad_disponible = parseFloat(producto.total);
                 gl_id_producto = producto.id_producto;
-
+                tipo_producto = producto.producto.tipo_producto;
                 document.getElementById('ubicacion').readOnly = false;
                 document.getElementById('ubicacion').focus();
             } else {
@@ -334,7 +342,7 @@
                 alert("producto no valido");
                 return;
             }
-            if (cantidad == ""|| isNaN(cantidad) ) {
+            if (cantidad == "" || isNaN(cantidad)) {
                 alert("Cantidad invalida");
                 return;
             }

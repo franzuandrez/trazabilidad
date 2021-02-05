@@ -453,7 +453,7 @@ class RecepcionController extends Controller
             $rmi_encabezado->update();
             $orden->id_usuario_ubicacion = \Auth::id();
             $orden->id_usuario_autoriza = $usuario_autoriza->id;
-
+            $orden->update();
 
             DB::commit();
             return redirect()->route('recepcion.ubicacion.index')

@@ -77,7 +77,7 @@ function darBaja(url) {
         data: {_token: CSRF_TOKEN},
         success: function (response) {
 
-            console.log(response);
+
             if (response.status === 1) {
                 setTimeout(function () {
                     ajaxLoad(window.location.href);

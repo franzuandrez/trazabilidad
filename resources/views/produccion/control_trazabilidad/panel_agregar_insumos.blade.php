@@ -4,7 +4,7 @@
             onchange="seleccionar_tipo_producto()"
             id="tipo_producto">
         <option value="MP">MATERIA PRIMA</option>
-        <option value="MP">MATERIAL EMPAQUE</option>
+        <option value="ME">MATERIAL EMPAQUE</option>
         <option value="PP">PRODUCTO PROCESO</option>
     </select>
 </div>

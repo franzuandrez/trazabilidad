@@ -132,4 +132,15 @@ class ImpresoraController extends Controller
             'impresora' => $impresora
         ]);
     }
+
+
+    public function destroy($id)
+    {
+
+        Impresora::destroy($id);
+        return response()->json([
+            'success' => true,
+            'status' => 1
+        ]);
+    }
 }

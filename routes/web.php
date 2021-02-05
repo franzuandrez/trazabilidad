@@ -251,6 +251,7 @@ Route::post('registro/impresoras/create', 'ImpresoraController@store')->name('im
 Route::get('registro/impresoras/{id}/edit', 'ImpresoraController@edit')->name('impresora.edit');
 Route::patch('registro/impresoras/{id}', 'ImpresoraController@update')->name('impresora.update');
 Route::get('registro/impresoras/{id}', 'ImpresoraController@show')->name('impresora.show');
+Route::post('registro/impresoras/{id}', 'ImpresoraController@destroy')->name('impresora.destroy');
 
 
 Route::get('recepcion/materia_prima', 'RecepcionController@index')->name('recepcion.materia_prima.index');

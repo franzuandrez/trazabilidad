@@ -261,14 +261,20 @@
             type: "GET",
             success: function (response) {
 
-                if (response.status === 1) {
-                    document.getElementById('descripcion_producto_mp').value = response.data.siguiente_lote.producto.descripcion;
-                    document.getElementById('lote_producto_mp').value = lote;
-                    document.getElementById('cantidad_producto_mp').readOnly = false;
-                    document.getElementById('cantidad_producto_mp').focus();
+                if (response.data.siguiente_lote.producto.tipo_producto == $('#tipo_producto option:selected').val()) {
+                    if (response.status === 1) {
+                        document.getElementById('descripcion_producto_mp').value = response.data.siguiente_lote.producto.descripcion;
+                        document.getElementById('lote_producto_mp').value = lote;
+                        document.getElementById('cantidad_producto_mp').readOnly = false;
+                        document.getElementById('cantidad_producto_mp').focus();
+                    } else {
+                        alert(response.message);
+                    }
                 } else {
-                    alert(response.message);
+                    alert("Producto incorrecto");
                 }
+
+
                 $('.loading').hide();
             }, error: function (e) {
                 alert("Algo salió mal , error: " + e.responseJSON.message);
@@ -383,14 +389,21 @@
             url: "{{url('produccion/trazabilidad_chao_mein/verificar_existencia_lote')}}" + query,
             type: "get",
             success: function (response) {
-                if (response.status === 1) {
-                    agregar_insumo(response.data.id_detalle_insumo, response.data.fecha_vencimiento);
-                    limpiar_insumo();
-                    set_id_orden(response.data.id_control);
 
+                if (response.data.producto.tipo_producto == $('#tipo_producto option:selected').val()) {
+                    if (response.status === 1) {
+                        agregar_insumo(response.data.id_detalle_insumo, response.data.fecha_vencimiento);
+                        limpiar_insumo();
+                        set_id_orden(response.data.id_control);
+
+                    } else {
+                        alert(response.message);
+                    }
                 } else {
-                    alert(response.message);
+                    alert("Producto incorrecto");
+
                 }
+
                 $('.loading').hide();
             }, error: function (e) {
                 console.log(e);
@@ -750,7 +763,7 @@
     function seleccionar_tipo_producto() {
 
         const option_selected = $('#tipo_producto option:selected').val();
-        if (option_selected == "MP") {
+        if (option_selected == "MP" || option_selected == "ME") {
             document.getElementById('modulo_materia_prima').style.display = 'block';
             document.getElementById('modulo_proceso').style.display = 'none';
         } else {

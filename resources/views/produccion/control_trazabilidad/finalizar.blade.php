@@ -261,11 +261,11 @@
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
             @if($control->status!=3)
-                <button class="btn btn-default"
+                <button class="btn btn-danger"
                         type="button"
                         onclick="finalizar_control_trazabilidad()"
                 >
-                    <span class=" fa fa-check"></span> GUARDAR
+                    <span class=" fa fa-check"></span> FINALIZAR
                 </button>
             @endif
             <a href="{{url('produccion/trazabilidad_chao_mein')}}">

@@ -13,8 +13,8 @@
             <div class="modal-footer">
                 <button type="button"
                         onclick="finalizar()"
-                        class="btn btn-outline pull-left" data-dismiss="modal">Entiendo</button>
-                <button type="button" class="btn btn-outline">Cancelar</button>
+                        class="btn btn-outline pull-left" >Entiendo</button>
+                <button type="button" class="btn btn-outline" data-dismiss="modal">Cancelar</button>
             </div>
         </div>
         <!-- /.modal-content -->

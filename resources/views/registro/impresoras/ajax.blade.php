@@ -34,6 +34,10 @@
                 @component('componentes.btn-ver',['url'=>'javascript:ver("impresoras")'])
                 @endcomponent
             @endcan
+            @can('role-delete')
+                @component('componentes.btn-eliminar',['url'=>'javascript:eliminar()'])
+                @endcomponent
+            @endcan
         </div>
     </div>
 

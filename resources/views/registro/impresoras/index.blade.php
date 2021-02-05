@@ -60,7 +60,14 @@
                         </td>
 
                     </tr>
-
+                    @component('componentes.alert-delete',
+                                        ['model'=>'IMPRESORA',
+                                        'id'=>$impresora->id,
+                                        'method'=>'ImpresoraController@destroy',
+                                        'extras'=>'',
+                                        'description'=>$impresora->descripcion,
+                                        'url'=>url('registro/impresoras/')."/".$impresora->id])
+                    @endcomponent
                 @endforeach
 
                 </tbody>

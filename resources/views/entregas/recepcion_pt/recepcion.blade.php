@@ -236,6 +236,7 @@
                 document.getElementById('fecha_vencimiento').value = producto.fecha_vencimiento;
                 gl_cantidad_disponible = parseFloat(producto.cantidad);
                 gl_id_producto = producto.control_trazabilidad.producto.id_producto;
+                tipo_producto = producto.control_trazabilidad.producto.tipo_producto;
                 document.getElementById('ubicacion').readOnly = false;
                 document.getElementById('ubicacion').value = "";
                 document.getElementById('unidad_medida').disabled = true;
@@ -292,6 +293,11 @@
             let ubicacion = ubicaciones().find(e => e.codigo_barras == codigo_bodega);
 
             let unidad_medida = $('#unidad_medida').val();
+            if ((tipo_producto == 'MP' && codigo_bodega == '4140754842000017') || (tipo_producto == 'ME' && codigo_bodega == '4140754842000024') || (codigo_bodega == '4140754842000055')) {
+                alert(" Bodega incorrecta");
+                return;
+            }
+
             if (unidad_medida === "" || unidad_medida === "0") {
                 alert("Seleccione unidad de medida");
                 return;
@@ -358,7 +364,7 @@
 
         var gl_id_producto = 0;
         var gl_cantidad_disponible = 0;
-
+        var tipo_producto = 'MP';
 
         function getRmiDetalle() {
             let rmiDetalle = [];
@@ -394,7 +400,7 @@
             let cantidad = parseFloat(document.getElementById('cantidad').value.trim() === "" ? 0 : document.getElementById('cantidad').value.trim());
             let descripcion_producto = document.getElementById('descripcion').value.trim();
             let unidad_medida = $('#unidad_medida').val();
-            let no_tarima =descomponerCodigoSSCCInput(document.getElementById('codigo_producto'));
+            let no_tarima = descomponerCodigoSSCCInput(document.getElementById('codigo_producto'));
             let cantidad_agregada = Array.prototype.slice.call(document.getElementsByClassName(gl_id_producto + "-" + lote + '-' + unidad_medida + '-' + no_tarima)).map(e => e.value).reduce((x, y) => parseFloat(x) + parseFloat(y), 0)
 
             if (unidad_medida === "" || unidad_medida === "0") {
