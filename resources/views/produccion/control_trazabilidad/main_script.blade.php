@@ -833,6 +833,13 @@
             return;
         }
 
+        if (getCantidadesUtilizadasExedientes().length > 0) {
+            alert("Cantidad excedente ");
+            getCantidadesUtilizadasExedientes()[0].focus();
+            return;
+        }
+
+
         let cantidad_produccion = document.getElementById('cantidad_produccion').value;
         if (cantidad_produccion === "" || cantidad_produccion == 0) {
             alert("Cantidad de produccion vacía");
@@ -840,7 +847,23 @@
             return;
         }
 
-        $('form').submit();
+        $('#modal_finalizar').modal();
+    }
+
+    function getCantidadesUtilizadasExedientes() {
+
+        let cantidades_utilizadas = Array.prototype.slice.call(document.getElementsByClassName('cantidad_utilizada'));
+        let cantidades_maximas = Array.prototype.slice.call(document.getElementsByClassName('cantidad_maxima'));
+
+        let cantidades = [];
+        for (let i = 0; i < cantidades_utilizadas.length; i++) {
+
+            if (parseFloat(cantidades_utilizadas[i].value) > parseFloat(cantidades_maximas[i].value)) {
+                cantidades.push(cantidades_utilizadas[i]);
+            }
+        }
+
+        return cantidades;
     }
 
     function setInputFilter(input, inputFilter) {

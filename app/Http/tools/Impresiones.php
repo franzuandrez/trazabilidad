@@ -90,7 +90,13 @@ class Impresiones
         if ($cantidad_producida == 0) {
             $cantidad_impresiones = intval($control_trazabilidad->cantidad_producida / $producto->cantidad_unidades);
         } else {
+
             $cantidad_impresiones = intval($cantidad_producida / $producto->cantidad_unidades);
+            if ($cantidad_producida % $producto->cantidad_unidades != 0) {
+                $cantidad_impresiones++;
+            }
+
+
         }
 
         $lote = $control_trazabilidad->lote;

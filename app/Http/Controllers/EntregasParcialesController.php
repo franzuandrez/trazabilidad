@@ -28,6 +28,8 @@ class EntregasParcialesController extends Controller
 
 
         $control_trazabilidad = $this->trazabilidadRepository->getControlTrazabilidadById($id);
+        $control_trazabilidad->esta_entregado = 0;
+        $control_trazabilidad->update();
 
         if ($control_trazabilidad->producto->tipo_producto == 'PT') {
             $entrega = new EntregaParcial();
@@ -42,6 +44,8 @@ class EntregasParcialesController extends Controller
             $control_trazabilidad->cantidad_producida = $control_trazabilidad->cantidad_producida + $entrega->cantidad_produccion;
             $control_trazabilidad->save();
             Impresiones::imprimir_corrugado_producto($control_trazabilidad, $request->get('cantidad_produccion_parcial'), $request->get('ip'));
+
+
         }
 
         return response([

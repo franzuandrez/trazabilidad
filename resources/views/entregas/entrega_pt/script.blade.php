@@ -56,7 +56,7 @@
                         PRODUCTO_PT = data;
                         UNIDADES_ENTREGADAS = response.data.unidades_entregadas;
                         CAJAS_ENTREGADAS = response.data.cajas_entregadas;
-                        document.getElementById('cantidad').focus();
+                        document.getElementById('no_tarima').focus();
                     }
                 } else {
                     alert("Producto no encontrado");

@@ -224,8 +224,16 @@
                                         {{$insumo->cantidad_utilizada}}
                                     @else
                                         <input class="form-control cantidad_utilizada "
-                                               name="cantidad_utilizada[]"
-                                               onkeydown="return registar_cantidad_utilizada('{{$insumo->cantidad}}',this)">
+                                               value=""
+                                               data-index="{{$insumo->id_detalle_insumo}}"
+                                               id="cantidad_utilizada-{{$insumo->id_detalle_insumo}}"
+                                               name="cantidad_utilizada[]">
+
+                                        <input class="form-control cantidad_maxima "
+                                               type="hidden"
+                                               id="cantidad_maxima-{{$insumo->id_detalle_insumo}}"
+                                               value="{{$insumo->cantidad}}"
+                                               name="cantidad_maxima[]">
                                     @endif
                                 </td>
                             </tr>
@@ -247,6 +255,7 @@
         <span>Cargando</span>
     </div>
     @include('produccion.control_trazabilidad.colaboradores')
+    @include('produccion.control_trazabilidad.alerta-finalizar')
 
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
