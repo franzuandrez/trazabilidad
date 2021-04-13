@@ -18,7 +18,7 @@
     <input name="id_requisicion" type="hidden" id="id_requisicion">
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="no_requision">NO.REQUISION</label>
+            <label for="no_requision">FACTURA</label>
             <input type="text"
                    readonly
                    name="no_requisicion"
@@ -30,16 +30,38 @@
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
-            <label for="no_orden_produccion">NO.ORDEN PRODUCCION</label>
+            <label for="cliente">CLIENTE</label>
             <input type="text"
-                   name="no_orden_produccion"
+                   name="cliente"
+                   id="cliente"
                    readonly
-                   onkeydown="if(event.keyCode==13)validarOrdenProduccion()"
-                   id="no_orden_produccion"
-                   value="{{$requisicion->no_orden_produccion}}"
+                   value="{{$pt->cliente_ref_1}}"
                    class="form-control">
         </div>
     </div>
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="cliente_ref_2">REFERENCIA</label>
+            <input type="text"
+                   name="cliente_ref_2"
+                   id="cliente_ref_2"
+                   readonly
+                   value="{{$pt->cliente_ref_2}}"
+                   class="form-control">
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="direccion">DIRECCION</label>
+            <input type="text"
+                   name="direccion"
+                   id="direccion"
+                   readonly
+                   value="{{$pt->direccion}}"
+                   class="form-control">
+        </div>
+    </div>
+
 
     @if($requisicion->estado == "D")
         <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
@@ -120,7 +142,7 @@
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <a href="{{url('produccion/requisiciones')}}">
+            <a href="{{url('produccion/requisicion_pt')}}">
                 <button class="btn btn-default" type="button">
                     <span class="fa fa-backward"></span>
                     REGRESAR

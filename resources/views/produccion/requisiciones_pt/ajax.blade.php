@@ -31,7 +31,7 @@
                 @endcomponent
             @endcan
             @can('role-list')
-                @component('componentes.btn-ver',['url'=>'javascript:ver("requisiciones")'])
+                @component('componentes.btn-ver',['url'=>'javascript:ver("requisicion_pt")'])
                 @endcomponent
             @endcan
             @can('role-delete')

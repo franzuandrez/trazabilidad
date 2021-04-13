@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Bodega;
+use App\DetalleRequisicionPT;
 use App\Http\tools\Movimientos;
 use App\Repository\RequisicionRepository;
 use App\Repository\OrdenProduccionRepository;

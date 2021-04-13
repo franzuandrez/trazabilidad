@@ -74,7 +74,14 @@ class RequisicionPTController extends Controller
 
     public function show($id)
     {
+        $requisicion = Requisicion::findOrFail($id);
 
+        $pt = DetalleRequisicionPT::where('id_requisicion', $id)->first();
+
+        return view('produccion.requisiciones_pt.show',
+            ['requisicion' => $requisicion,
+                'pt' => $pt
+            ]);
     }
 
     public function store(Request $request)
@@ -102,70 +109,88 @@ class RequisicionPTController extends Controller
 
 
         Excel::load($file, function ($reader) {
-            $movimientos = new Movimientos();
-            $results = $reader->noHeading()->get();
-            $results = $results->slice(1);
+
+            try {
+                $movimientos = new Movimientos();
+                $results = $reader->noHeading()->get();
+                $results = $results->slice(1);
 
 
-            $detalle = $results->take(11 - count($results));
+                $detalle = $results->take(11 - count($results));
 
-            $no_factura = $results[3][8];
+                $no_factura = $results[3][8];
 
-            $cliente_ref_1 = $results[5][0];
-            $cliente_ref_2 = $results[7][0];
-            $direccion = $results[9][0];
+                $cliente_ref_1 = $results[5][0];
+                $cliente_ref_2 = $results[7][0];
+                $direccion = $results[9][0];
+
+                if (Requisicion::where('no_requision', $no_factura)
+                    ->where('estado', '<>', 'B')
+                    ->exists()) {
+                    throw new \Exception('Factura ya cargada');
+                }
+
+                $requisicion = new Requisicion();
+                $requisicion->no_requision = $no_factura;
+                $requisicion->no_orden_produccion = null;
+                $requisicion->fecha_ingreso = Carbon::now();
+                $requisicion->id_usuario_ingreso = \Auth::id();
+                $requisicion->estado = 'P';
+                $requisicion->tipo = 'PT';
+                $requisicion->save();
+
+                $requisicion_pt = new DetalleRequisicionPT();
+                $requisicion_pt->id_requisicion = $requisicion->id;
+                $requisicion_pt->no_factura = $no_factura;
+                $requisicion_pt->cliente_ref_1 = $cliente_ref_1;
+                $requisicion_pt->cliente_ref_2 = $cliente_ref_2;
+                $requisicion_pt->direccion = $direccion;
+                $requisicion_pt->observaciones = $results->last()[1];
+                $requisicion_pt->save();
 
 
-            $requisicion = new Requisicion();
-            $requisicion->no_requision = $no_factura;
-            $requisicion->no_orden_produccion = null;
-            $requisicion->fecha_ingreso = Carbon::now();
-            $requisicion->id_usuario_ingreso = \Auth::id();
-            $requisicion->estado = 'P';
-            $requisicion->tipo = 'PT';
-            $requisicion->save();
+                foreach ($detalle as $key => $value) {
 
-            $requisicion_pt = new DetalleRequisicionPT();
-            $requisicion_pt->id_requisicion = $requisicion->id;
-            $requisicion_pt->no_factura = $no_factura;
-            $requisicion_pt->cliente_ref_1 = $cliente_ref_1;
-            $requisicion_pt->cliente_ref_2 = $cliente_ref_2;
-            $requisicion_pt->direccion = $direccion;
-            $requisicion_pt->observaciones = $results->last()[1];
-            $requisicion_pt->save();
+                    if ($value[2] != null && $value[0] != null) {
 
 
-            foreach ($detalle as $key => $value) {
+                        $codigo = $value[2];
+                        $unidad_medida = $value[3];
+                        $cantidadEntrante = floatval($value[0]);
+                        $producto = ($movimientos->existencia($codigo)->getData());
 
-                if ($value[2] != null && $value[0] != null) {
+                        if (count($producto) > 0) {
+                            $idProducto = $producto[0]->id_producto;
 
+                            $request = new \Illuminate\Http\Request();
+                            $request->query->add(
+                                [
+                                    'id' => $requisicion->id,
+                                    'cantidad' => $cantidadEntrante,
+                                    'id_producto' => $idProducto,
+                                    'unidad_medida' => $this->unidad_despacho($unidad_medida)
+                                ]
+                            );
+                            $this->reservar($request);
 
-                    $codigo = $value[2];
-                    $unidad_medida = $value[3];
-                    $cantidadEntrante = floatval($value[0]);
-                    $producto = ($movimientos->existencia($codigo)->getData());
-
-                    if (count($producto) > 0) {
-                        $idProducto = $producto[0]->id_producto;
-
-                        $request = new \Illuminate\Http\Request();
-                        $request->query->add(
-                            [
-                                'id' => $requisicion->id,
-                                'cantidad' => $cantidadEntrante,
-                                'id_producto' => $idProducto,
-                                'unidad_medida' => $this->unidad_despacho($unidad_medida)
-                            ]
-                        );
-                        $this->reservar($request);
-
-                    } else {
-                        //CANTIDAD 0
-                        $mensaje = 'EL producto ' . $codigo . ' no tiene existencia';
-                        array_push($this->productos_no_agregados, $mensaje);
+                        } else {
+                            //CANTIDAD 0
+                            $mensaje = 'EL producto ' . $codigo . ' no tiene existencia';
+                            array_push($this->productos_no_agregados, $mensaje);
+                        }
                     }
                 }
+            } catch (\Exception $ex) {
+
+                return redirect()->back()
+                    ->withErrors(
+                        [
+                            $ex->getMessage()
+                        ]
+                    )
+                   ;
             }
+
         });;
         return redirect()->route('requisicion_pt.create')
             ->withErrors(

@@ -93,11 +93,11 @@
                     </tr>
                     @component('componentes.alert-delete',
                     ['model'=>'REQUISICION',
-                    'id'=>$operacion->id,
+                    'id'=>$operacion->id_requisicion,
                     'method'=>'RequisicionController@destroy',
                     'extras'=>'',
                     'description'=>$operacion->no_requision,
-                    'url'=>url('produccion/requisiciones/')."/".$operacion->id])
+                    'url'=>url('produccion/requisiciones/')."/".$operacion->id_requisicion])
                     @endcomponent
                 @endforeach
 
