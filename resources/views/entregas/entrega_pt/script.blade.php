@@ -28,38 +28,76 @@
         document.getElementById('descripcion_producto').value = data.producto.descripcion;
     }
 
-    function buscar_producto() {
 
-        const codigo = descomponerInput(document.getElementById('codigo'), false);
+    function buscar_no_tarima() {
+
+        let no_tarima = document.getElementById('no_tarima').value;
+
+        if (no_tarima === "") {
+            document.getElementById('no_tarima').focus();
+            alert("No. Tarima en blanco");
+            return;
+        }
+
+
+        const id_control = document.getElementById('id_control').value;
         $('.loading').show();
-
-        if (codigo[CODIGO_DUN_14] !== document.getElementById('codigo_dun_14').value) {
-            alert("Producto incorrecto");
-            return;
-        }
-        if (codigo[LOTE] !== document.getElementById('lote').value) {
-            alert("Lote incorrecto");
-            return;
-        }
         $.ajax({
-            url: "{{url('produccion/entrega_pt/buscar_producto?lote=')}}" + codigo[LOTE],
+            url: "{{url('produccion/entrega_pt/buscar_no_tarima')}}",
             type: "get",
             dataType: "json",
+            data: {
+                id_control: id_control,
+                no_tarima: no_tarima
+
+            },
             success: function (response) {
-                const data = response.data.trazabilidad;
-                if (data !== null) {
-                    if (response.esta_entregado) {
-                        alert("Producto ya entregado");
+                if (response.success) {
+                    document.getElementById('codigo').focus();
+                } else {
+                    alert(response.data);
+                }
+                $('.loading').hide();
+            },
+            error: function (e) {
+                alert('Algo salió mal ,' + e.message);
+                console.log(e);
+                $('.loading').hide();
+            }
+        })
+    }
+
+    function buscar_producto() {
+
+        const codigo = document.getElementById('codigo').value;
+        const id_control = document.getElementById('id_control').value;
+        $('.loading').show();
+        $.ajax({
+            url: "{{url('produccion/entrega_pt/buscar_producto?sscc=')}}" + codigo,
+            type: "get",
+            data: {
+                id_control: id_control,
+            },
+            dataType: "json",
+            success: function (response) {
+
+                if (response.success) {
+                    const data = response.data.trazabilidad;
+                    if (data !== null) {
+                        if (response.esta_entregado) {
+                            alert("Producto ya entregado");
+                        } else {
+                            PRODUCTO_PT = data;
+                            UNIDADES_ENTREGADAS = response.data.unidades_entregadas;
+                            CAJAS_ENTREGADAS = response.data.cajas_entregadas;
+                            document.getElementById('no_tarima').focus();
+                            agregar_producto();
+                        }
                     } else {
-                        mostar_info_producto(data);
-                        limpiar_producto();
-                        PRODUCTO_PT = data;
-                        UNIDADES_ENTREGADAS = response.data.unidades_entregadas;
-                        CAJAS_ENTREGADAS = response.data.cajas_entregadas;
-                        document.getElementById('no_tarima').focus();
+                        alert("Producto no encontrado");
                     }
                 } else {
-                    alert("Producto no encontrado");
+                    alert(response.data);
                 }
                 $('.loading').hide();
             },
@@ -71,16 +109,23 @@
         })
     }
 
-    function agregar_producto() {
+
+    async function agregar_producto() {
 
 
         let no_tarima = document.getElementById('no_tarima').value;
+
         if (no_tarima === "") {
             document.getElementById('no_tarima').focus();
             alert("No. Tarima en blanco");
             return;
         }
-
+        let sscc = document.getElementById('codigo').value;
+        if (sscc === "") {
+            document.getElementById('codigo').value
+            alert("SSCC en blanco");
+            return;
+        }
         if (!es_valida()) {
             document.getElementById('cantidad').focus();
             alert("Cantidad no valida");
@@ -90,6 +135,7 @@
         let id_entrega = document.getElementById('id_entrega').value;
         let cantidad = document.getElementById('cantidad').value;
         let unidad_medida = document.getElementById('unidad_medida').value;
+
         $('.loading').show();
         $.ajax({
             url: "{{url('produccion/entrega_pt/agregar_producto')}}",
@@ -100,7 +146,8 @@
                 id_control: PRODUCTO_PT.id_control,
                 cantidad: cantidad,
                 no_tarima: no_tarima,
-                unidad_medida: unidad_medida
+                unidad_medida: unidad_medida,
+                sscc: sscc
 
             },
             success: function (response) {
@@ -108,10 +155,11 @@
                 if (response.success) {
                     add_to_table();
                     document.getElementById('id_entrega').value = response.data.id_enc;
-                    limpiar_formulario();
                     document.getElementById('codigo').focus();
+                    document.getElementById('codigo').value = "";
+                    document.getElementById('cantidad').value = 1;
                 } else {
-                    alert('Algo salió mal ,' + response.data);
+                    alert(response.data);
                 }
                 $('.loading').hide();
             },
@@ -129,34 +177,111 @@
 
         document.getElementById('descripcion_producto').value = "";
         document.getElementById('no_tarima').value = "";
-        limpiar_producto();
+        //limpiar_producto();
     }
 
     function add_to_table() {
 
 
-        let codigo_interno = PRODUCTO_PT.producto.codigo_interno;
         let unidad_medida = document.getElementById('unidad_medida').value;
         let cantidad = document.getElementById('cantidad').value;
-        let no_tarima = document.getElementById('no_tarima').value;
+        let no_tarima = document.getElementById('no_tarima').value.trim();
+        let sscc = document.getElementById('codigo').value;
         let lote = document.getElementById('lote').value;
-        let td_cantidad = document.getElementById(lote + '-' + unidad_medida + '-' + no_tarima);
+        let td_cantidad = document.getElementById(lote + '-' + unidad_medida + '-' + no_tarima + '-' + sscc);
         let esta_agregado = td_cantidad !== null;
 
         if (esta_agregado) {
             td_cantidad.innerText = (parseFloat(td_cantidad.innerText) + parseFloat(cantidad)).toString();
-            ;
-        } else {
-            let row = `<tr>
-            <td>${codigo_interno}</td>
-            <td>${unidad_medida}</td>
-            <td id="${lote + '-' + unidad_medida + '-' + no_tarima}"> ${cantidad}</td>
-            <td>${no_tarima}</td>
-            </tr>`;
 
-            $('#detalle').prepend(row);
+        } else {
+            const tarima_existente = document.getElementById('tarima-' + no_tarima);
+            let row = '';
+            if (tarima_existente) {
+
+                const current_row = parseInt(tarima_existente.rowSpan);
+                tarima_existente.rowSpan = current_row + 1;
+
+                $('#tarima-' + no_tarima + '-' + current_row).after(function () {
+                    return `<tr id=tarima-${no_tarima}-${parseInt(tarima_existente.rowSpan)} >
+                <td>${sscc}</td>
+                <td>${unidad_medida}</td>
+                <td id="${lote + '-' + unidad_medida + '-' + no_tarima + '-' + sscc}"> ${cantidad}</td>
+            </tr>`;
+                });
+            } else {
+                row = `<tr id='tarima-${no_tarima}-1'>
+                <td>${sscc}</td>
+                <td>${unidad_medida}</td>
+                <td id="${lote + '-' + unidad_medida + '-' + no_tarima + '-' + sscc}"> ${cantidad}</td>
+                <td id='tarima-${no_tarima}' >${no_tarima}
+                      <label class="label label-warning">
+                                        <i class="fa fa-info" aria-hidden="true"></i>
+                        </label>
+                </td>
+            </tr>`;
+                $('#detalle').prepend(row);
+            }
+
         }
 
+
+    }
+
+
+    function terminar_tarima() {
+
+        let no_tarima = document.getElementById('no_tarima').value.trim();
+
+        if (no_tarima === "") {
+            document.getElementById('no_tarima').focus();
+            alert("No. Tarima en blanco");
+            return;
+        }
+
+        const id_control = document.getElementById('id_control').value;
+        $('.loading').show();
+        $.ajax({
+            url: "{{url('produccion/entrega_pt/terminar_tarima')}}",
+            type: "post",
+            dataType: "json",
+            data: {
+                id_control: id_control,
+                no_tarima: no_tarima,
+            },
+            success: function (response) {
+
+                if (response.success) {
+                    alert('Tarima terminada');
+                    cambiar_a_terminado(no_tarima);
+                } else {
+                    alert(response.data);
+                }
+                $('.loading').hide();
+            },
+            error: function (e) {
+                alert('Algo salió mal ,' + e.message);
+                console.log(e);
+                $('.loading').hide();
+            }
+        })
+
+
+    }
+
+    function cambiar_a_terminado(no_tarima) {
+        console.log(document.getElementById('tarima-' + no_tarima));
+        console.log(document.getElementById('tarima-' + no_tarima).children[0]);
+        console.log(document.getElementById('tarima-' + no_tarima).children[0].children[0]);
+
+        document.getElementById('tarima-' + no_tarima).children[0].classList.remove('label-warning');
+        document.getElementById('tarima-' + no_tarima).children[0].classList.add('label-success');
+        document.getElementById('tarima-' + no_tarima).children[0].children[0].classList.add('fa-check');
+        document.getElementById('tarima-' + no_tarima).children[0].children[0].classList.remove('fa-info');
+    }
+
+    function limpiar_tarima() {
+        document.getElementById('no_tarima').value = '';
     }
 
     function es_valida() {

@@ -80,7 +80,15 @@ class EntregaPTController extends Controller
     {
         $control_trazabilidad = $this->trazabilidad_repository->getControlTrazabilidadById($id);
 
-        $entregas = EntregaDet::where('id_control', $control_trazabilidad->id_control)->get();
+        $entregas = EntregaDet::where('entrega_pt_det.id_control', $control_trazabilidad->id_control)
+            ->select('entrega_pt_det.*',
+                \DB::raw('(select estado from tb_imprimir_corrugado
+                    where concat(identificador_aplicacion,digito_indicador,prefijo_compania,numerio_serial,codigo_verificador)=  entrega_pt_det.no_tarima
+                    limit 1) as estado_tarima
+                ')
+            )
+            ->get();
+
 
         return view('entregas.entrega_pt.create', [
             'control_trazabilidad' => $control_trazabilidad,
@@ -247,6 +255,112 @@ class EntregaPTController extends Controller
 
     }
 
+    public function buscar_producto_by_sscc(Request $request)
+    {
+
+
+        $sscc = GeneradorCodigos::searchSSCCCaja($request->get('sscc'));
+
+        if ($sscc == null) {
+            return response([
+                'success' => false,
+                'data' => 'SSCC no encontrado'
+            ]);
+        }
+        if ($sscc->is_active == 0) {
+            return response([
+                'success' => false,
+                'data' => 'SSCC dado de baja'
+            ]);
+        }
+
+        $existe_sscc_agregado = $this->entrega_repository->existeSSCCEntregado($request->get('sscc'));
+        if ($existe_sscc_agregado) {
+            return response([
+                'success' => false,
+                'data' => 'SSCC entarimado'
+            ]);
+        }
+        if ($request->get('id_control') == null) {
+            return response([
+                'success' => false,
+                'data' => 'Algo salió mal'
+            ]);
+        }
+        if ($request->get('id_control') != $sscc->id_control) {
+            return response([
+                'success' => false,
+                'data' => 'Este número de sscc pertenece a un producto diferente'
+            ]);
+        }
+        $trazabilidad = $this->trazabilidad_repository->getControlTrazabilidadById($sscc->id_control);
+
+
+        $unidades_entregadas = 0;
+        $cajas_entregadas = 0;
+        if ($trazabilidad != null) {
+            $unidades_entregadas = $this->entrega_repository->getTotalUnidadesEntregadas($trazabilidad->id_control);
+            $cajas_entregadas = $this->entrega_repository->getTotalCajasEntregadas($trazabilidad->id_control);
+        }
+
+
+        return response([
+            'success' => true,
+            'esta_entregado' => $trazabilidad->esta_entregado == 1,
+            'data' => [
+                'trazabilidad' => $trazabilidad,
+                'unidades_entregadas' => $unidades_entregadas,
+                'cajas_entregadas' => $cajas_entregadas,
+
+            ]
+        ]);
+
+
+    }
+
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Foundation\Application|\Illuminate\Http\Response
+     */
+    public function buscar_no_tarima(Request $request)
+    {
+        $tarima = GeneradorCodigos::searchSSCCPallet($request->get('no_tarima'));
+
+        if ($tarima == null) {
+            return response([
+                'success' => false,
+                'data' => 'tarima no existente'
+            ]);
+        }
+        if ($tarima->is_active === 0) {
+            return response([
+                'success' => false,
+                'data' => 'tarima dada de baja'
+            ]);
+        }
+        if ($tarima->estado === 'FINALIZADO') {
+            return response([
+                'success' => false,
+                'data' => 'tarima finalizada'
+            ]);
+        }
+        $detalle_tarima = $this->entrega_repository->getDetalleEntregaByTarima($request->get('no_tarima'));
+
+        if ($detalle_tarima != null) {
+            if ($detalle_tarima->id_control != $request->get('id_control')) {
+                return response([
+                    'success' => false,
+                    'data' => 'tarima en uso'
+                ]);
+            }
+        }
+
+        return response([
+            'success' => true,
+            'data' => 'tarima correcta'
+        ]);
+    }
 
     public function agregar_producto(Request $request)
     {
@@ -254,15 +368,6 @@ class EntregaPTController extends Controller
 
         try {
 
-
-            $tarima = GeneradorCodigos::searchSSCC($request->get('no_tarima'));
-
-            if ($tarima == null) {
-                return response([
-                    'success' => false,
-                    'data' => 'Tarima no existente'
-                ]);
-            }
             $data = $this->entrega_repository->agregar_producto($request);
 
             return response([
@@ -277,6 +382,26 @@ class EntregaPTController extends Controller
                 'data' => $e->getMessage()
             ]);
         }
+    }
+
+
+    public function terminar_tarima(Request $request)
+    {
+
+
+        $result = $this->buscar_no_tarima($request)->getOriginalContent();
+        if (($result['success'])) {
+            $tarima = GeneradorCodigos::searchSSCCPallet($request->get('no_tarima'));
+            $tarima->estado = 'FINALIZADO';
+            $tarima->update();
+
+            return response([
+                'success' => true,
+                'data' => 'tarima terminada'
+            ]);
+        }
+
+        return $result;
     }
 
 }

@@ -40,7 +40,6 @@ class EntregaRepository
             DB::beginTransaction();
 
 
-
             $entrega_det = null;
 
             $entrega = EntregaEnc::where('id_control', $request->get('id_control'))->first();
@@ -56,6 +55,7 @@ class EntregaRepository
             $entrega_det = EntregaDet::where('id_control', $request->get('id_control'))
                 ->where('unidad_medida', $request->get('unidad_medida'))
                 ->where('no_tarima', $request->get('no_tarima'))
+                ->where('sscc',$request->get('sscc'))
                 ->first();
             $es_nuevo = $entrega_det == null;
             if ($es_nuevo) {
@@ -66,6 +66,7 @@ class EntregaRepository
             $entrega_det->cantidad = $es_nuevo ? $request->get('cantidad') : ($entrega_det->cantidad + $request->get('cantidad'));
             $entrega_det->unidad_medida = $request->get('unidad_medida');
             $entrega_det->no_tarima = $request->get('no_tarima');
+            $entrega_det->sscc = $request->get('sscc');
             $entrega_det->fecha_hora = Carbon::now();
             $entrega_det->id_usuario = \Auth::id();
             $entrega_det->save();
@@ -103,5 +104,19 @@ class EntregaRepository
             ->groupBy('id_control')
             ->first();
         return $caja_detalle == null ? 0 : $caja_detalle->cantidad;
+    }
+
+    public function existeSSCCEntregado($sscc)
+    {
+        return EntregaDet::
+        where('sscc', $sscc)
+            ->exists();
+
+    }
+
+    public function getDetalleEntregaByTarima($tarima)
+    {
+        return EntregaDet:: where('no_tarima', $tarima)
+            ->first();
     }
 }

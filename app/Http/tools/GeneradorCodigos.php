@@ -167,7 +167,7 @@ class GeneradorCodigos
     }
 
 
-    public static function searchSSCC($sscc)
+    public static function searchSSCCPallet($sscc)
     {
 
         $sscc = ImpresionCorrugado::where(\DB::raw(
@@ -179,6 +179,17 @@ class GeneradorCodigos
 
 
     }
+    public static function searchSSCCCaja($sscc)
+    {
 
+        $sscc = ImpresionCorrugado::where(\DB::raw(
+            'concat(identificador_aplicacion,digito_indicador,prefijo_compania,numerio_serial,codigo_verificador)'), $sscc)
+            ->where('es_pallet', 0)
+            ->first();
+
+        return $sscc;
+
+
+    }
 
 }

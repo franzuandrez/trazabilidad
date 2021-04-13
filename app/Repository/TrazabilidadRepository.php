@@ -479,7 +479,8 @@ class TrazabilidadRepository
     {
         $id_control = is_array($id_control) ? $id_control : [$id_control];
         $control_trazabilidad =
-            Operacion::whereIn('id_control', $id_control)
+            Operacion::with('producto')
+                ->whereIn('id_control', $id_control)
                 ->first();
 
         $this->setControlTrazabilidad($control_trazabilidad);
