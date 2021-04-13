@@ -312,8 +312,10 @@ class PickingRepository
             $reservas_misma_requisicion = $this->getReservasAgrupadasPorProducto();
             $detalles_requisicion = $this->getDetalleRequisicionAgrupadoPorProducto();
 
-            $this->generarListadoLotesDespacharAux($detalles_requisicion, $reservas_misma_requisicion);
-
+            $movs = $this->generarListadoLotesDespacharAux($detalles_requisicion, $reservas_misma_requisicion);
+            if ($movs->isEmpty()) {
+                throw new Exception('Algunos productos no tiene existencia');
+            }
 
             return null;
         } else {
@@ -382,9 +384,7 @@ class PickingRepository
                 }
             }
         }
-        if ($movimientos->isEmpty()) {
-            throw new Exception('Algunos productos no tiene existencia');
-        }
+
         return $movimientos;
     }
 
