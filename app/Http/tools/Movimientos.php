@@ -153,12 +153,14 @@ class Movimientos
 
 
         $existencias = Movimiento::join('tipo_movimiento', 'tipo_movimiento.id_movimiento', '=', 'movimientos.tipo_movimiento')
+            ->join('sectores', 'sectores.id_sector', '=', 'movimientos.id_sector')
             ->select('movimientos.id_movimiento',
                 'movimientos.lote',
                 'movimientos.id_producto',
                 'movimientos.ubicacion',
                 'movimientos.fecha_vencimiento',
                 DB::raw('sum(cantidad * factor) as total'))
+            ->where('sectores.sistema', '=', 0)
             ->whereIn('id_producto', $productos);
 
         if ($ubicacion != null) {

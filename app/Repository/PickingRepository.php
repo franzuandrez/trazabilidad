@@ -11,6 +11,7 @@ use App\ReservaPicking;
 use App\Sector;
 use Carbon\Carbon;
 use DB;
+use Exception;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
@@ -216,13 +217,10 @@ class PickingRepository
     public function recalcularReservas($es_producto_terminado = false)
     {
         $result = null;
-        try {
-            $this->borrarReservasNoLeidas();
-            $result = $this->generarListadoLotesDespachar($es_producto_terminado);
 
-        } catch (\Exception $ex) {
-            abort(500);
-        }
+        $this->borrarReservasNoLeidas();
+        $result = $this->generarListadoLotesDespachar($es_producto_terminado);
+
 
         return $result;
     }
@@ -267,13 +265,17 @@ class PickingRepository
 
         $total_en_existencia = collect($lotesADespachar)->sum('total');
 
-        if ($total_en_existencia < $cantidadSolicitada) {
+        if ($total_en_existencia < $cantidadSolicitada && $detalle_requisicion->producto->tipo_producto == 'PT') {
             $caja = clone $detalle_requisicion;
             $caja->cantidad = 1;
             return [
                 "existencia" => $total_en_existencia,
                 "detalle_requisicion" => $detalle_requisicion,
                 'proximos_lotes' => collect($this->getLotesADespachar(($caja), '4140754842000031'))];
+        }
+
+        if ($total_en_existencia < $cantidadSolicitada && $detalle_requisicion->producto->tipo_producto != 'PT') {
+            return null;
         }
         foreach ($lotesADespachar as $key => $loteADespachar) {
 
@@ -311,6 +313,8 @@ class PickingRepository
             $detalles_requisicion = $this->getDetalleRequisicionAgrupadoPorProducto();
 
             $this->generarListadoLotesDespacharAux($detalles_requisicion, $reservas_misma_requisicion);
+
+
             return null;
         } else {
             $reservas_misma_requisicion = $this->getReservasAgrupadasPorProducto();
@@ -368,6 +372,7 @@ class PickingRepository
             $cantidadSolicitada = $this->getCantidadSolicitada($det_requi, $reservas_misma_requisicion);
             $lotesADespachar = $this->getLotesADespachar($det_requi, $ubicacion);
             $hayLotesDisponibles = !empty($lotesADespachar);
+
             if ($hayLotesDisponibles) {
                 $result = $this->generarProductoADespachar($lotesADespachar, $cantidadSolicitada, $det_requi);
                 if ($result != null) {
@@ -377,7 +382,9 @@ class PickingRepository
                 }
             }
         }
-
+        if ($movimientos->isEmpty()) {
+            throw new Exception('Algunos productos no tiene existencia');
+        }
         return $movimientos;
     }
 
@@ -455,6 +462,7 @@ class PickingRepository
             $esta_el_lote_disponible = $total_disponible > 0;
 
             if ($esta_el_lote_disponible) {
+
                 $keyFormedByLoteAndUbicacion = $this->formarKeyEntreLoteAndUbicacion($inventario['lote'], $inventario['ubicacion']);
                 $fecha_vencimiento = $inventario['fecha_vencimiento'];
                 $esta_el_lote_agregado = array_key_exists($keyFormedByLoteAndUbicacion, $lotesSinReservas);
@@ -464,8 +472,9 @@ class PickingRepository
                 }
                 $lotesSinReservas[$keyFormedByLoteAndUbicacion] =
                     $this->getLoteSinReserva($total_previo + $total_disponible, $fecha_vencimiento, $inventario['lote'], $inventario['ubicacion']);
-            }
+            } else {
 
+            }
         }
 
         return $lotesSinReservas;

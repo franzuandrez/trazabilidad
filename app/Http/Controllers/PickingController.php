@@ -54,11 +54,11 @@ class PickingController extends Controller
         if ($request->ajax()) {
 
             return view('produccion.picking.index',
-                compact('requisiciones_pendientes', 'search', 'sort', 'sortField','id_estado'));
+                compact('requisiciones_pendientes', 'search', 'sort', 'sortField', 'id_estado'));
         } else {
 
             return view('produccion.picking.ajax',
-                compact('requisiciones_pendientes', 'search', 'sort', 'sortField','id_estado'));
+                compact('requisiciones_pendientes', 'search', 'sort', 'sortField', 'id_estado'));
         }
 
 
@@ -68,43 +68,52 @@ class PickingController extends Controller
     public function despachar($id, Request $request)
     {
 
+        try {
 
-        $requisicion = Requisicion::findOrFail($id);
+            $requisicion = Requisicion::findOrFail($id);
 
-        if ($requisicion->estado !== "D") {
-            $validarOrdenProductos = false;
-            $pickingRepository = new PickingRepository();
-            $pickingRepository->setOrdenRequisicion($requisicion);
-            $pickingRepository->crear_oden_picking();
-            $debeRecalcularseListadoDeLotesADespachar = $pickingRepository->debeRecalcularseReserva();
 
-            if ($debeRecalcularseListadoDeLotesADespachar) {
-                $pickingRepository->recalcularReservas();
-                return $this->despachar($id, $request);
-            }
+            if ($requisicion->estado !== "D") {
+                $validarOrdenProductos = false;
+                $pickingRepository = new PickingRepository();
+                $pickingRepository->setOrdenRequisicion($requisicion);
+                $pickingRepository->crear_oden_picking();
+                $debeRecalcularseListadoDeLotesADespachar = $pickingRepository->debeRecalcularseReserva();
 
-            if ($request->ajax()) {
+                if ($debeRecalcularseListadoDeLotesADespachar) {
+                    $pickingRepository->recalcularReservas();
+                    return $this->despachar($id, $request);
+                }
 
-                return view('produccion.picking.listado_productos',
-                    compact(
-                        'requisicion'
-                    ));
+                if ($request->ajax()) {
 
+                    return view('produccion.picking.listado_productos',
+                        compact(
+                            'requisicion'
+                        ));
+
+                } else {
+                    return view
+                    ('produccion.picking.despacho',
+                        compact(
+                            'requisicion', 'validarOrdenProductos'
+                        )
+                    );
+                }
             } else {
-                return view
-                ('produccion.picking.despacho',
-                    compact(
-                        'requisicion', 'validarOrdenProductos'
-                    )
-                );
+
+                $productos = $requisicion->reservas->groupBy('id_producto')->keys();
+
+
+                return view('produccion.picking.show', compact('requisicion', 'productos'));
             }
-        } else {
+        } catch (\Exception $ex) {
 
-            $productos = $requisicion->reservas->groupBy('id_producto')->keys();
-
-
-            return view('produccion.picking.show', compact('requisicion', 'productos'));
+            return  redirect()
+                ->back()
+                ->withErrors([$ex->getMessage()]);
         }
+
 
 
     }

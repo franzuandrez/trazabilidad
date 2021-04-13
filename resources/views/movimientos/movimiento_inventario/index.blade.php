@@ -291,7 +291,7 @@
                         document.getElementById('cantidad_utilizada_' + id).focus();
                         return;
                     }
-                    if ( parseFloat(document.getElementById('cantidad_utilizada_' + id).value) >=  parseFloat(max)) {
+                    if ( parseFloat(document.getElementById('cantidad_utilizada_' + id).value) >  parseFloat(max)) {
                         alert("Cantidad a debe ser menor");
                         document.getElementById('cantidad_utilizada_' + id).focus();
                         return;

@@ -32,6 +32,7 @@ class ExistenciasRepository
 
 
         $existencias = Movimiento::join('tipo_movimiento', 'tipo_movimiento.id_movimiento', '=', 'movimientos.tipo_movimiento')
+            ->join('sectores', 'sectores.id_sector', '=', 'movimientos.id_sector')
             ->select('movimientos.id_movimiento',
                 'movimientos.lote',
                 'movimientos.id_producto',
@@ -41,6 +42,7 @@ class ExistenciasRepository
                 DB::raw('sum(cantidad * factor) as total'))
             ->whereIn('id_producto', $productos)
             ->where('movimientos.observaciones', '=', '')
+            ->where('sectores.sistema', '=', 0)
             ->where('movimientos.id_sector', '!=', 7);
 
         if ($ubicacion != null) {
