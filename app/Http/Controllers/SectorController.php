@@ -91,6 +91,7 @@ class SectorController extends Controller
         $sector->id_bodega = $request->get('id_bodega');
         $sector->id_encargado = $request->get('id_encargado');
         $sector->codigo_interno = $max + 1;
+        $sector->sistema = $request->get('inventario_disponible');
         $sector->save();
 
         return redirect()->route('sectores.index')
@@ -143,6 +144,7 @@ class SectorController extends Controller
             $sector->descripcion = $request->get('descripcion');
             $sector->id_bodega = $request->get('id_bodega');
             $sector->id_encargado = $request->get('id_encargado');
+            $sector->sistema = $request->get('inventario_disponible');
             $sector->update();
 
             return redirect()->route('sectores.index')

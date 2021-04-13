@@ -60,6 +60,19 @@
                    class="form-control">
         </div>
     </div>
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <div class="form-group">
+            <label for="inventario_disponible">¿TOMAR COMO INVENTARIO DISPONIBLE?</label>
+            <select name="inventario_disponible"
+                    required
+                    disabled
+                    class="form-control selectpicker">
+                <option value="0" {{$sector->sistema==0?'selected':''}}>SI</option>
+                <option value="1" {{$sector->sistema==1?'selected':''}}>NO</option>
+
+            </select>
+        </div>
+    </div>
 
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <div class="form-group">
