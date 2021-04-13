@@ -220,7 +220,7 @@
                                             </td>
                                             <td>
                                                 <button
-                                                onclick="realizar_movimiento(${e.id_movimiento})"
+                                                onclick="realizar_movimiento(${e.id_movimiento},${e.total})"
                                                 type="button" class="btn btn-block btn-default">
                                                     <i class="fa fa-check"></i>
                                                     </button>
@@ -268,14 +268,11 @@
                 function registar_cantidad_utilizada(cantidad_limite, element) {
 
 
-                    return setInputFilter(element, function (value) {
 
-                        return parseFloat(value) <= parseFloat(cantidad_limite);
-                    });
 
                 }
 
-                function realizar_movimiento(id) {
+                function realizar_movimiento(id,max) {
 
                     if (document.getElementById('tipo_movimiento_salida_' + id).value == "") {
                         alert("Seleccione motivo de salida");
@@ -294,7 +291,11 @@
                         document.getElementById('cantidad_utilizada_' + id).focus();
                         return;
                     }
-
+                    if ( parseFloat(document.getElementById('cantidad_utilizada_' + id).value) >=  parseFloat(max)) {
+                        alert("Cantidad a debe ser menor");
+                        document.getElementById('cantidad_utilizada_' + id).focus();
+                        return;
+                    }
                     $.ajax({
                         url: "{{url('movimientos')}}",
                         type: "POST",
