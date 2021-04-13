@@ -217,7 +217,7 @@ class EntregaPTController extends Controller
                 ->with('success', 'Producto ubicado correctamente');
         } catch (\Exception $e) {
             DB::rollback();
-
+            dd($e);
             return redirect()->route('produccion.index_recepcion_pt')
                 ->withErrors(['Su peticion no ha podido ser procesada']);
 

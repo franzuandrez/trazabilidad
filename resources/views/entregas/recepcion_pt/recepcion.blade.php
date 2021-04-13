@@ -194,6 +194,7 @@
         </div>
     </div>
     @include('componentes.modal-ubicacion')
+    @include('entregas.recepcion_pt.modal')
     @component('componentes.modal-verificacion',
         ['ruta'=>route('users.verificar'),
         'id_form'=>'frm_ubicar'
@@ -227,27 +228,78 @@
                 return;
             }
 
-            if (detalle.length == 1) {
-                let producto = detalle[0];
+            const total_unidades = [...new Set(getRmiDetalle()
+                .filter(e => e.no_tarima == no_tarima).map((car) => car.unidad_medida))].length;
 
+            if (total_unidades > 1) {
+                $('#modal-unidades_medida').modal();
+                mostrar_productos_en_tarima(detalle, no_tarima);
+            } else {
+
+                let producto = detalle[0];
+                const cantidad = detalle.map(x => parseFloat(x.cantidad)).reduce((x, y) => (x + y), 0);
                 console.log(producto);
                 document.getElementById('lote').value = producto.control_trazabilidad.lote;
                 document.getElementById('descripcion').value = producto.control_trazabilidad.producto.descripcion;
-                document.getElementById('fecha_vencimiento').value = producto.fecha_vencimiento;
-                gl_cantidad_disponible = parseFloat(producto.cantidad);
+                document.getElementById('fecha_vencimiento').value = producto.control_trazabilidad.fecha_vencimiento;
+                gl_cantidad_disponible = cantidad;
                 gl_id_producto = producto.control_trazabilidad.producto.id_producto;
                 tipo_producto = producto.control_trazabilidad.producto.tipo_producto;
                 document.getElementById('ubicacion').readOnly = false;
                 document.getElementById('ubicacion').value = "";
                 document.getElementById('unidad_medida').disabled = true;
-                document.getElementById('cantidad').value = producto.cantidad;
+                document.getElementById('cantidad').value = cantidad;
                 $('#unidad_medida').val(producto.unidad_medida);
                 select_bodega();
-
-
             }
 
 
+        }
+
+        function mostrar_productos_en_tarima(detalle, no_tarima) {
+
+
+            const tipo_producto = detalle[0].control_trazabilidad.producto.tipo_producto;
+            const id_producto = detalle[0].control_trazabilidad.producto.id_producto;
+            const descripcion = detalle[0].control_trazabilidad.producto.descripcion;
+            const lote = detalle[0].control_trazabilidad.lote;
+            const fecha_vencimiento = detalle[0].control_trazabilidad.fecha_vencimiento;
+            const cantidad_unidades = detalle.filter(x => x.unidad_medida == 'UN').map(x => parseFloat(x.cantidad)).reduce((x, y) => (x + y), 0);
+            const cantidad_cajas = detalle.filter(x => x.unidad_medida == 'CA').map(x => parseFloat(x.cantidad)).reduce((x, y) => (x + y), 0);
+            $('#detalles_cantidades').empty();
+            let rows =
+                ` <tr>
+                      <td>CA</td>
+                      <td>${cantidad_cajas}</td>
+                      <td>
+                    <div class="form-group">
+                            <input type="text"
+                                   onkeydown="if(event.keyCode==13)buscar_ubicacion_from_modal(this,'CA','${tipo_producto}',${id_producto},${cantidad_cajas},'${descripcion}','${no_tarima}','${lote}','${fecha_vencimiento}')"
+                                   class="form-control">
+                        </div>
+                    </td>
+                    </tr>
+                    <tr>
+                      <td>UN</td>
+                     <td>${cantidad_unidades}</td>
+                      <td>
+                 <div class="form-group">
+                            <input type="text"
+                                   onkeydown="if(event.keyCode==13)buscar_ubicacion_from_modal(this,'UN','${tipo_producto}',${id_producto},${cantidad_unidades},'${descripcion}','${no_tarima}','${lote}','${fecha_vencimiento}')"
+                                   class="form-control">
+                        </div>
+                    </td>
+                    </tr>
+                `;
+
+            $('#detalles_cantidades').append(rows);
+
+        }
+
+        function buscar_ubicacion_from_modal(e, un_medida, tipo, id_prod, cantidad, descripcion, tarima, lote, fecha_vencimiento) {
+            buscar_ubicacion(e.value.trim(), un_medida, tipo, id_prod, cantidad, descripcion, tarima, lote, fecha_vencimiento);
+            e.readOnly = true;
+            e.value = "";
         }
 
         function solicitar_credenciales() {
@@ -287,17 +339,37 @@
 
         }
 
-        function buscar_ubicacion() {
+        function buscar_ubicacion(codigo_ubicacion = '', u_medida = '', tipo_prod = '', id_producto = 0, cantidad = 0, descripcion_prod = '', no_tarima = '', no_lote = '',
+                                  fecha_venc = '') {
 
-            let codigo_bodega = document.getElementById('ubicacion').value;
+
+            let codigo_bodega = codigo_ubicacion == '' ? document.getElementById('ubicacion').value.trim() : codigo_ubicacion;
             let ubicacion = ubicaciones().find(e => e.codigo_barras == codigo_bodega);
 
             let unidad_medida = $('#unidad_medida').val();
-            if ((tipo_producto == 'MP' && codigo_bodega == '4140754842000017') || (tipo_producto == 'ME' && codigo_bodega == '4140754842000024') || (codigo_bodega == '4140754842000055')) {
+            if (tipo_prod != '') {
+                tipo_producto = tipo_prod;
+                console.log(tipo_producto);
+            }
+            if (id_producto != 0) {
+                gl_id_producto = id_producto;
+            }
+
+            if ((tipo_producto == 'MP' && codigo_bodega !== '4140754842000017') ||
+                (tipo_producto == 'ME' && codigo_bodega !== '4140754842000024') ||
+                (codigo_bodega !== '4140754842000031' && (tipo_producto == 'PT' && unidad_medida == 'CA')) ||
+                (codigo_bodega !== '4140754842000208' && (tipo_producto == 'PT' && unidad_medida == 'UN'))
+
+            ) {
                 alert(" Bodega incorrecta");
                 return;
             }
 
+            if (u_medida != '') {
+                unidad_medida = u_medida;
+                console.log(unidad_medida);
+                console.log(unidad_medida === "" || unidad_medida === "0");
+            }
             if (unidad_medida === "" || unidad_medida === "0") {
                 alert("Seleccione unidad de medida");
                 return;
@@ -310,7 +382,7 @@
                 document.getElementById('codigo_ubicacion').value = ubicacion.id_sector;
                 document.getElementById('ubicacion').readOnly = true;
                 document.getElementById('ubicacion').value = ubicacion.descripcion;
-                add();
+                add(unidad_medida, cantidad, descripcion_prod, no_tarima, no_lote, fecha_venc);
             }
 
 
@@ -393,14 +465,31 @@
 
         }
 
-        function add() {
+        function add(u_medida = '', cant = 0, descripcion_prod = '', tarima = '', no_lote = '', fecha_venc = '') {
 
 
             let lote = document.getElementById('lote').value.trim();
+
+            if (no_lote != '') {
+                lote = no_lote;
+            }
             let cantidad = parseFloat(document.getElementById('cantidad').value.trim() === "" ? 0 : document.getElementById('cantidad').value.trim());
+
+            if (cant != 0) {
+                cantidad = cant;
+                gl_cantidad_disponible = cantidad;
+            }
             let descripcion_producto = document.getElementById('descripcion').value.trim();
             let unidad_medida = $('#unidad_medida').val();
+            if (u_medida != '') {
+                unidad_medida = u_medida;
+
+            }
             let no_tarima = descomponerCodigoSSCCInput(document.getElementById('codigo_producto'));
+            if (tarima != '') {
+                no_tarima = tarima;
+            }
+
             let cantidad_agregada = Array.prototype.slice.call(document.getElementsByClassName(gl_id_producto + "-" + lote + '-' + unidad_medida + '-' + no_tarima)).map(e => e.value).reduce((x, y) => parseFloat(x) + parseFloat(y), 0)
 
             if (unidad_medida === "" || unidad_medida === "0") {
@@ -421,6 +510,9 @@
                 return;
             }
 
+            if (descripcion_prod != '') {
+                descripcion_producto = descripcion_prod;
+            }
             if (gl_id_producto == "" || descripcion_producto == "") {
                 alert("Producto no válido");
                 document.getElementById('codigo_producto').focus();
@@ -430,6 +522,12 @@
 
             let nombre_bodega = document.getElementById('ubicacion').value;
             let fecha_vencimiento = document.getElementById('fecha_vencimiento').value;
+
+
+            if (fecha_venc != '') {
+                fecha_vencimiento = fecha_venc;
+            }
+            console.log(fecha_vencimiento);
 
             let codigo_ubicacion = document.getElementById('codigo_ubicacion').value;
             let codigo_bodega = document.getElementById('codigo_bodega').value;
