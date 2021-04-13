@@ -315,6 +315,10 @@
                             }
                         ,
                         success: function (response) {
+                            console.log(response);
+
+                            alert("Movimiento realizado correctamente");
+                            buscar_producto();
 
                         }, error: function (err) {
 

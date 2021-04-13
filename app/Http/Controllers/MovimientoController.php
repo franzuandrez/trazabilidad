@@ -48,7 +48,7 @@ class MovimientoController extends Controller
             return response(
                 [
                     'success' => true,
-                    'data' => dd($request->all())
+                    'data' => ($request->all())
 
                 ]
             );
