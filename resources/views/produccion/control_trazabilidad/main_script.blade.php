@@ -261,17 +261,18 @@
             type: "GET",
             success: function (response) {
 
-                if (response.data.siguiente_lote.producto.tipo_producto == $('#tipo_producto option:selected').val()) {
-                    if (response.status === 1) {
+                if (response.status === 1) {
+                    if (response.data.siguiente_lote.producto.tipo_producto == $('#tipo_producto option:selected').val()) {
+
                         document.getElementById('descripcion_producto_mp').value = response.data.siguiente_lote.producto.descripcion;
                         document.getElementById('lote_producto_mp').value = lote;
                         document.getElementById('cantidad_producto_mp').readOnly = false;
                         document.getElementById('cantidad_producto_mp').focus();
                     } else {
-                        alert(response.message);
+                        alert("Producto incorrecto");
                     }
                 } else {
-                    alert("Producto incorrecto");
+                    alert(response.message);
                 }
 
 
