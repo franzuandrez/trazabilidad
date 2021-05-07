@@ -12,11 +12,7 @@
                         'field'=>'entrega_pt_enc.id',
                         'titulo'=>'Entrega'])
                 </th>
-                <th>
-                    @include('componentes.column-sort',[
-                        'field'=>'control_trazabilidad.id',
-                        'titulo'=>'Entrega'])
-                </th>
+
                 <th>
                     @include('componentes.column-sort',[
                          'field'=>'nombre',

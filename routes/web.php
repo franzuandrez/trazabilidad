@@ -641,6 +641,10 @@ Route::get('produccion/despacho/{id}', 'DespachoController@show')->name('producc
 Route::post('produccion/despacho/leer/{id_reserva}', 'DespachoController@leer')->name('produccion.despacho.leer');
 Route::post('produccion/despacho/create', 'DespachoController@store')->name('produccion.despacho.store');
 
+Route::get('tarima', 'TarimaController@show')->name('buscar_tarima');
+Route::post('reservar_tarima', 'TarimaController@reservar_tarima')->name('reservar_tarima');
+Route::get('unidad_distribucion', 'TarimaController@unidad_distribucion')->name('unidad_distribucion');
+
 
 Route::post('entregas_parciales/{id}', 'EntregasParcialesController@store')->name('entregas_parciales.store');
 

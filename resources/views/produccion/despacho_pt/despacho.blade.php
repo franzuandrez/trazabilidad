@@ -95,7 +95,7 @@
         </div>
 
         <div id="content">
-            @include('produccion.picking.listado_productos')
+            @include('produccion.despacho_pt.listado_productos')
         </div>
         <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
             <div class="form-group">
@@ -121,6 +121,8 @@
     <script src="{{asset('js/ajax-crud.js')}}"></script>
     <script src="{{asset('js-brc/tools/lectura_codigo.js')}}"></script>
     <script>
+
+        let TARIMAS_LEIDAS = [];
         @if(!$existenMovimientos)
         @if($requisicion->reservas->isEmpty() )
         $('#spiner-calculando').show();
@@ -144,21 +146,43 @@
             }
         });
 
-        function leer_movimiento(input) {
-            let infoCodigoBarras = descomponerInput(input, false);
-            let id = infoCodigoBarras[1] + infoCodigoBarras[3];
-            let producto = document.getElementById(id);
-            if (producto != null) {
-                marcar_movimiento_leido(id);
-            } else {
-                alert("Producto no valido");
-            }
+        function leer_movimiento(input, id_producto, lote, codigo_producto) {
+
+            let infoCodigoBarras = descomponerCodigoSSCCInput(input);
+
+            verificar_sscc(infoCodigoBarras, id_producto, lote, codigo_producto)
+        }
+
+        function verificar_sscc(sscc, id_producto, lote, codigo_producto) {
+
+            $.ajax({
+
+                url: "{{url('unidad_distribucion?sscc=')}}" + sscc + '&id_producto=' + id_producto + '&lote=' + lote,
+                type: "get",
+                dataType: "json",
+                success: function (response) {
+                    if (response.success) {
+                        console.log(response);
+                        marcar_movimiento_leido(codigo_producto + lote)
+                    } else {
+                        alert(response.message)
+                    }
+
+                },
+                error: function (response) {
+
+                    alert(response.message);
+                }
+            });
+
         }
 
         function marcar_movimiento_leido(id) {
 
             document.getElementById('check-' + id).style.display = 'block';
             document.getElementById('warning-' + id).style.display = 'none';
+            document.getElementById('unidad_distribucion-' + id).readOnly = true;
+
             let habilitar_formulario = Array.prototype.slice.call(document.getElementsByClassName('label-warning')).filter(x => x.style.display != 'none').length === 0;
 
             document.getElementById('btn_aceptar').disabled = !habilitar_formulario;
@@ -168,18 +192,72 @@
         function cargarInfoCodigoBarras(input) {
 
 
-            let infoCodigoBarras = descomponerInput(input, false);
-            mostrarInfoCodigoBarras(infoCodigoBarras);
+            const codigo = input.value.trim();
+
+            if (codigo.length == 20) {
+
+                buscar_producto_by_tarima(codigo);
+
+            } else {
+                let infoCodigoBarras = descomponerInput(input, false);
+                mostrarInfoCodigoBarras(infoCodigoBarras);
+
+            }
 
 
+        }
+
+        function buscar_producto_by_tarima(no_tarima) {
+            $.ajax({
+
+                url: "{{url('tarima?no_tarima=')}}" + no_tarima + '&reservar=1',
+                type: "get",
+                dataType: "json",
+                success: function (response) {
+
+                    if (response.success) {
+                        document.getElementById('ubicacion').value = response.data.ubicacion;
+                        document.getElementById('cantidad').value = response.data.total_cajas_tarima;
+                        document.getElementById('lote').value = response.data.lote;
+                        document.getElementById('descripcion').value = response.data.producto;
+                        document.getElementById('id_producto').value = response.data.id_producto;
+
+                        agregar(true, no_tarima)
+                    } else {
+
+                        alert(response.data);
+                    }
+                    console.log(response);
+
+                },
+                error: function (error) {
+
+                }
+            });
         }
 
 
         function mostrarInfoCodigoBarras(infoCodigoBarras) {
 
-            let producto = buscar_producto_by_codigo(infoCodigoBarras);
+            buscar_producto_by_codigo(infoCodigoBarras);
 
 
+        }
+
+
+        function reservar_tarima(tarima) {
+            $.ajax({
+
+                url: "{{url('reservar_tarima?no_tarima=')}}" + tarima,
+                type: "post",
+                dataType: "json",
+                success: function (response) {
+
+                },
+                error: function (err) {
+
+                }
+            });
         }
 
         function buscar_producto_by_codigo(infoCodigoBarras) {
@@ -254,7 +332,9 @@
 
         }
 
-        function agregar() {
+
+        function agregar(es_tarima = false, tarima = '') {
+
 
             let id_producto = document.getElementById('id_producto').value;
             let lote = document.getElementById('lote').value;
@@ -270,9 +350,36 @@
                     alert("Producto ya leido");
                 } else {
 
-                    if (parseFloat(producto[0].cantidad) == cantidad) {
+                    if (parseFloat(producto[0].cantidad) >= cantidad) {
+
+                        const cantidad_acumulada_node = document.getElementById('cantidad_acumulada-' + id_producto + '-' + lote + '-' + ubicacion);
+                        const td_cantidad_acumulada = document.getElementById('td_cantidad_acumulada-' + id_producto + '-' + lote + '-' + ubicacion);
+                        const cantidad_node = document.getElementById('cantidad-' + id_producto + '-' + lote + '-' + ubicacion);
+                        let cantidad_acumulada = parseFloat(cantidad_acumulada_node.value);
+                        const cantidad_requerida = parseFloat(cantidad_node.value);
+
+
+                        if (cantidad_acumulada <= cantidad_requerida) {
+
+                            td_cantidad_acumulada.innerText =
+                                (parseFloat(td_cantidad_acumulada.innerText) + parseFloat(cantidad)).toString();
+                            cantidad_acumulada_node.value = parseFloat(cantidad_acumulada_node.value) + cantidad;
+                            cantidad_acumulada = parseFloat(cantidad_acumulada_node.value);
+
+                            if (es_tarima) {
+                                reservar_tarima(tarima)
+                            }
+                            if (cantidad_acumulada == cantidad_requerida) {
+                                leer(producto[0].id_reserva);
+                            }
+
+
+                        } else {
+                            alert("Algo salió mal, cantidad incorrecta");
+                        }
                         limpiar();
-                        leer(producto[0].id_reserva);
+
+
                     } else {
                         alert("Cantidad incorrecta");
                     }
@@ -310,10 +417,11 @@
             return producto;
         }
 
-        function leer(id_reserva) {
+        function leer(id_reserva, tarima = '') {
+
             $('#spiner-buscando').show();
             $.ajax({
-                url: "{{url('produccion/picking/leer')}}" + "/" + id_reserva,
+                url: "{{url('produccion/despacho/leer/')}}" + "/" + id_reserva + '?tarima=' + tarima,
                 type: "post",
                 dataType: "json",
                 success: function (response) {
@@ -430,7 +538,7 @@
             $('#spiner-calculando').show();
             $('#icon-recalcular').addClass('fa-spin');
             setTimeout(async function () {
-                let ruta = "{{route('produccion.picking.despachar',['id'=>$requisicion->id])}}";
+                let ruta = "{{route('produccion.despacho.despachar',['id'=>$requisicion->id])}}";
                 await ajaxLoad(ruta);
             }, 1000);
 

@@ -81,7 +81,9 @@
                                             id="{{$movimiento['detalle_requisicion']['producto']['codigo_dun'].$movimiento['proximos_lotes']->first()['lote']}}"
                                             name="producto">
                                         <input
-                                            onkeydown="if(event.keyCode==13)leer_movimiento(this)"
+                                            id="unidad_distribucion-{{$movimiento['detalle_requisicion']['producto']['codigo_dun'].$movimiento['proximos_lotes']->first()['lote']}}"
+                                            name="unidad_distribucion[]"
+                                            onkeydown="if(event.keyCode==13)leer_movimiento(this,'{{$movimiento['detalle_requisicion']['producto']['id_producto']}}','{{$movimiento['proximos_lotes']->first()['lote']}}','{{$movimiento['detalle_requisicion']['producto']['codigo_dun']}}')"
                                         >
                                     </td>
                                     <td>
@@ -118,7 +120,7 @@
                             disabled
                             id="btn_aceptar"
                             class="btn btn-default">
-                        <span class=" fa fa-check" ></span> Aceptar
+                        <span class=" fa fa-check"></span> Aceptar
                     </button>
                     <a href="{{url('produccion/despacho')}}">
                         <button type="button"

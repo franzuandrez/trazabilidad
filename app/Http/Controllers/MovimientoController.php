@@ -10,6 +10,7 @@ use App\Recepcion;
 use App\Repository\MovimientoRepository;
 use App\RMIDetalle;
 use App\Sector;
+use App\Tarima;
 use App\TipoMovimiento;
 use Carbon\Carbon;
 use DB;
@@ -53,6 +54,14 @@ class MovimientoController extends Controller
                 ]
             );
         } else {
+
+
+            foreach ($request->get('unidad_distribucion') as $caja) {
+
+                Tarima::where('sscc_unidad_distribucion', $caja)->update([
+                    'estado' => 0
+                ]);
+            }
             $this->generar_movimiento($request);
             return redirect()->route('produccion.despacho.despachar', $request->get('id_despacho'));
         }

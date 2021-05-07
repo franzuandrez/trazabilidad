@@ -1,9 +1,9 @@
 <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 ">
     <div class="table-responsive">
         <h3 class="box-title">PRODUCTOS
-            <a  onclick="recalcular()"
-                class="btn  btn-lg" style="border: none;color: #1b1e21">
-                <i class="fa fa-refresh" id="icon-recalcular" aria-hidden="true"></i>  </a>
+            <a onclick="recalcular()"
+               class="btn  btn-lg" style="border: none;color: #1b1e21">
+                <i class="fa fa-refresh" id="icon-recalcular" aria-hidden="true"></i> </a>
         </h3>
 
         <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
@@ -13,6 +13,7 @@
             <th>DESCRIPCION</th>
             <th>LOTE</th>
             <th>CANTIDAD</th>
+            <th>CANTIDAD ACUMULADA</th>
             <th>UBICACION</th>
             </thead>
             <tbody>
@@ -54,9 +55,41 @@
                         {{$reserva->lote}}
                     </td>
                     <td>
-                        <input type="hidden" name="cantidad[]" value="{{$reserva->cantidad}}">
+                        <input type="hidden"
+                               id="cantidad-{{$reserva->producto->id_producto}}-{{$reserva->lote}}-{{$reserva->ubicacion}}"
+                               name="cantidad[]" value="{{$reserva->cantidad}}">
                         {{$reserva->cantidad}}
                     </td>
+                    <td id="td_cantidad_acumulada-{{$reserva->producto->id_producto}}-{{$reserva->lote}}-{{$reserva->ubicacion}}">
+                        @if($reserva->leido == 'N')
+
+                            @php
+                                $cantidad = \App\Tarima::select(\DB::raw('sum(cantidad_sscc_unidad_distribucion) as acumulado'))
+                                   ->where('id_producto',$reserva->producto->id_producto)
+                                   ->where('lote',$reserva->lote)
+                                   ->where('ubicacion',$reserva->ubicacion)
+                                   ->where('reservado',1)
+                                   ->groupby('no_tarima')
+                                   ->first();
+
+                                if($cantidad==null){
+                                    echo '0';
+                                }else{
+                                     echo $cantidad->acumulado;
+                                }
+                            @endphp
+
+
+
+                        @else
+                            {{$reserva->cantidad}}
+                        @endif
+                    </td>
+                    <input type="hidden" name="cantidad_acumulada[]"
+                           id="cantidad_acumulada-{{$reserva->producto->id_producto}}-{{$reserva->lote}}-{{$reserva->ubicacion}}"
+                           value="0">
+
+
                     <td>
                         <input type="hidden" name="ubicacion[]" value="{{$reserva->ubicacion}}">
                         {{$reserva->ubicacion()->first()->bodega->descripcion}}

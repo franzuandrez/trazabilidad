@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\tools\Movimientos;
 use App\Picking;
 use App\Repository\PickingRepository;
+use App\ReservaPicking;
 use App\Sector;
+use App\Tarima;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Requisicion;
@@ -77,11 +79,14 @@ class DespachoController extends Controller
             $debeRecalcularseListadoDeLotesADespachar = $pickingRepository->debeRecalcularseReserva();
             $existenMovimientos = false;
             $movimientos = collect([]);
+
             if ($debeRecalcularseListadoDeLotesADespachar) {
                 $movimientos = $pickingRepository->recalcularReservas(true);
+
                 $existenMovimientos = ($movimientos != null) ? !$movimientos->isEmpty() : false;
 
                 if ($existenMovimientos) {
+
                     $pickingRepository->borrarReservasNoLeidas();
                     return view
                     ('produccion.despacho_pt.despacho',
@@ -93,6 +98,7 @@ class DespachoController extends Controller
                         )
                     );
                 }
+
                 return $this->despachar($id, $request);
             }
 
@@ -203,4 +209,64 @@ class DespachoController extends Controller
         }
     }
 
+    public function leer($id_reserva, Request $request)
+    {
+
+
+        try {
+
+            $reserva = ReservaPicking::without('bodega')
+                ->findOrFail($id_reserva);
+
+            $this->pickingRepository->setOrdenRequisicion($reserva->requisicion);
+            $debeRecalcular = $this->pickingRepository->debeRecalcularseReserva();
+            if ($debeRecalcular) {
+                $response = [
+                    'status' => 2,
+                    'message' => 'Debe recalcular'
+                ];
+            } else {
+                $reserva->leido = 'S';
+                $reserva->estado = 'R';
+                $reserva->id_usuario_picking = Auth::user()->id;
+                $reserva->fecha_lectura = \Carbon\Carbon::now();
+                $reserva->update();
+
+                $cajas = Tarima::where('id_producto', $reserva->id_producto)
+                    ->where('ubicacion', $reserva->ubicacion)
+                    ->where('lote', $reserva->lote)
+                    ->get();
+                $total = 0;
+                foreach ($cajas as $caja) {
+
+
+                    $total = $total + $caja->cantidad_sscc_unidad_distribucion;
+                    $caja->cantidad_sscc_unidad_distribucion = $caja->cantidad_sscc_unidad_distribucion - 1;
+                    $caja->save();
+                    if ($total == $reserva->cantidad) {
+                        break;
+                    }
+
+                }
+
+
+                $response = [
+                    'status' => 1,
+                    'message' => 'Leido correctamente',
+                    'reserva' => [$reserva, Auth::user()->nombre]
+                ];
+            }
+
+
+        } catch (\Exception $e) {
+
+            $response = [
+                'status' => 0,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        return $response;
+
+    }
 }

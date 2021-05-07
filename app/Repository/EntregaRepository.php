@@ -8,6 +8,8 @@ use App\EntregaDet;
 use App\EntregaEnc;
 use App\Http\tools\GeneradorCodigos;
 use App\ImpresionCorrugado;
+use App\Operacion;
+use App\Tarima;
 use Carbon\Carbon;
 use Exception;
 use Throwable;
@@ -55,7 +57,7 @@ class EntregaRepository
             $entrega_det = EntregaDet::where('id_control', $request->get('id_control'))
                 ->where('unidad_medida', $request->get('unidad_medida'))
                 ->where('no_tarima', $request->get('no_tarima'))
-                ->where('sscc',$request->get('sscc'))
+                ->where('sscc', $request->get('sscc'))
                 ->first();
             $es_nuevo = $entrega_det == null;
             if ($es_nuevo) {
@@ -70,6 +72,19 @@ class EntregaRepository
             $entrega_det->fecha_hora = Carbon::now();
             $entrega_det->id_usuario = \Auth::id();
             $entrega_det->save();
+
+            $trazabilidad = Operacion::find($entrega_det->id_control);
+
+            $tarima = new Tarima();
+            $tarima->id_producto = $trazabilidad->producto->id_producto;
+            $tarima->no_tarima = $request->get('no_tarima');
+            $tarima->cantidad_sscc_unidad_distribucion = $entrega_det->cantidad;
+            $tarima->cantidad = $entrega->unidad_medida == 'UN' ? 1 : $entrega->cantidad * $trazabilidad->producto->cantidad_unidades;;
+            $tarima->sscc_unidad_distribucion = $request->get('sscc');
+            $tarima->estado = 1;
+            $tarima->unidad_medida = $request->get('unidad_medida');
+            $tarima->lote = $trazabilidad->lote;
+            $tarima->save();
 
 
             DB::commit();

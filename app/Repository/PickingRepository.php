@@ -262,7 +262,7 @@ class PickingRepository
 
     private function generarProductoADespachar($lotesADespachar, $cantidadSolicitada, $detalle_requisicion)
     {
-
+        $reserva = null;
         $total_en_existencia = collect($lotesADespachar)->sum('total');
 
         if ($total_en_existencia < $cantidadSolicitada && $detalle_requisicion->producto->tipo_producto == 'PT') {
@@ -302,7 +302,7 @@ class PickingRepository
 
         }
 
-        return null;
+        return $reserva;
     }
 
     private function generarListadoLotesDespachar($es_producto_terminado = false)
@@ -311,18 +311,19 @@ class PickingRepository
         if (!$es_producto_terminado) {
             $reservas_misma_requisicion = $this->getReservasAgrupadasPorProducto();
             $detalles_requisicion = $this->getDetalleRequisicionAgrupadoPorProducto();
-
             $movs = $this->generarListadoLotesDespacharAux($detalles_requisicion, $reservas_misma_requisicion);
-            if ($movs->isEmpty()) {
-                throw new Exception('Algunos productos no tiene existencia');
-            }
+
+
+
 
             return null;
         } else {
+            //DESPACHO DE PRODUCTOS TERMINADOS.
             $reservas_misma_requisicion = $this->getReservasAgrupadasPorProducto();
             $detalles_requisicion = $this->getDetalleRequisicionAgrupadoPorProducto();
             $unidades = collect([]);
             $cajas = collect([]);
+
             foreach ($detalles_requisicion as $det_requi) {
                 if ($det_requi->unidad_medida == 'UN') {
                     $result = $this->despachar_pt_en_unidades($det_requi);
@@ -332,9 +333,11 @@ class PickingRepository
                     $cajas->push($this->despachar_pt_en_caja($det_requi));
                 }
             }
+
             $movimientos_unidades = $this
                 ->generarListadoLotesDespacharAux($unidades, $reservas_misma_requisicion, '4140754842000208');
             $this->generarListadoLotesDespacharAux($cajas, $reservas_misma_requisicion, '4140754842000031');
+
             return $movimientos_unidades;
         }
 
@@ -371,17 +374,16 @@ class PickingRepository
         $movimientos = collect([]);
 
         foreach ($detalles_requisicion as $det_requi) {
+
             $cantidadSolicitada = $this->getCantidadSolicitada($det_requi, $reservas_misma_requisicion);
             $lotesADespachar = $this->getLotesADespachar($det_requi, $ubicacion);
             $hayLotesDisponibles = !empty($lotesADespachar);
 
-            if ($hayLotesDisponibles) {
-                $result = $this->generarProductoADespachar($lotesADespachar, $cantidadSolicitada, $det_requi);
-                if ($result != null) {
-                    $caja = clone $det_requi;
-                    $caja->cantidad = 1;
-                    $movimientos->push($result);
-                }
+            $result = $this->generarProductoADespachar($lotesADespachar, $cantidadSolicitada, $det_requi);
+            if (is_array($result)) {
+                $caja = clone $det_requi;
+                $caja->cantidad = 1;
+                $movimientos->push($result);
             }
         }
 
@@ -391,7 +393,8 @@ class PickingRepository
     /**
      * @return \Illuminate\Support\Collection
      */
-    private function getReservasAgrupadasPorProducto()
+    private
+    function getReservasAgrupadasPorProducto()
     {
         $reservas = $this->getOrdenRequisicion()
             ->reservas()
@@ -402,7 +405,8 @@ class PickingRepository
         return $reservas;
     }
 
-    private function getDetalleRequisicionAgrupadoPorProducto()
+    private
+    function getDetalleRequisicionAgrupadoPorProducto()
     {
         $detalles_requisicion = $this->getOrdenRequisicion()
             ->detalle()
@@ -415,12 +419,14 @@ class PickingRepository
                 'requisicion_detalle.unidad_medida',
                 \DB::raw('sum(cantidad) as cantidad'))
             ->groupBy('id_producto')
+            ->groupBy('unidad_medida')
             ->get();
 
         return $detalles_requisicion;
     }
 
-    private function getTotalReservadoByProducto($id_producto, $reservas = [])
+    private
+    function getTotalReservadoByProducto($id_producto, $reservas = [])
     {
 
         $reservas = count($reservas) > 0 ? $this->getReservasAgrupadasPorProducto() : $reservas;
@@ -435,7 +441,8 @@ class PickingRepository
         return $totalEnReserva;
     }
 
-    private function getLotesConInventarioDisponible($codigo_barras_producto, $ubicacion = null)
+    private
+    function getLotesConInventarioDisponible($codigo_barras_producto, $ubicacion = null)
     {
 
         $existenciasRepository = new ExistenciasRepository();
@@ -444,10 +451,12 @@ class PickingRepository
             ->map
             ->only(['total', 'lote', 'fecha_vencimiento', 'ubicacion']);
 
+
         return $lotes;
     }
 
-    private function getLotesADespachar(RequisicionDetalle $detalle_requisicion, $ubicacion = null)
+    private
+    function getLotesADespachar(RequisicionDetalle $detalle_requisicion, $ubicacion = null)
     {
         $lotesConInventarioDisponible = $this
             ->getLotesConInventarioDisponible($detalle_requisicion->producto->codigo_barras, $ubicacion);
@@ -480,7 +489,8 @@ class PickingRepository
         return $lotesSinReservas;
     }
 
-    private function getLoteSinReserva($total, $fecha_vencimiento, $lote, $ubicacion)
+    private
+    function getLoteSinReserva($total, $fecha_vencimiento, $lote, $ubicacion)
     {
         return [
             'total' => $total,
@@ -491,18 +501,21 @@ class PickingRepository
     }
 
 
-    private function formarKeyEntreLoteAndUbicacion($lote, $ubicacion)
+    private
+    function formarKeyEntreLoteAndUbicacion($lote, $ubicacion)
     {
         $lote_ubicacion = $lote . self::KEY_DELIMITER . $ubicacion;
         return $lote_ubicacion;
     }
 
-    private function descomponerKeyLoteUbicacion($key)
+    private
+    function descomponerKeyLoteUbicacion($key)
     {
         return explode(self::KEY_DELIMITER, $key);
     }
 
-    private function getTotalReservadoPorProductoAndLote($id_producto, $lote)
+    private
+    function getTotalReservadoPorProductoAndLote($id_producto, $lote)
     {
         $total_reservado = ReservaPicking::where('lote', $lote)
             ->where('id_producto', $id_producto)
@@ -512,7 +525,8 @@ class PickingRepository
 
     }
 
-    private function setValuesToReservaPicking(RequisicionDetalle $detalle_requisicion, $lote, $fecha_vencimiento, $ubicacion)
+    private
+    function setValuesToReservaPicking(RequisicionDetalle $detalle_requisicion, $lote, $fecha_vencimiento, $ubicacion)
     {
 
 
