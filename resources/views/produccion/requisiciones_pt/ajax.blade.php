@@ -39,7 +39,7 @@
                 @endcomponent
             @endcan
             @can('generar_reporte')
-                @component('componentes.btn-reporte',['url'=>'javascript:reporte("requisiciones/reporte")'])
+                @component('componentes.btn-reporte',['url'=>'javascript:reporte("requisicion_pt/reporte")'])
                 @endcomponent
             @endcan
         </div>

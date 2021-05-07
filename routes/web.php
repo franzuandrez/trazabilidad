@@ -634,6 +634,7 @@ Route::get('produccion/requisicion_pt/create', 'RequisicionPTController@create')
 Route::get('produccion/requisicion_pt/{id}', 'RequisicionPTController@show')->name('requisicion_pt.show');
 Route::post('produccion/requisicion_pt/create', 'RequisicionPTController@store')->name('requisicion_pt.store');
 Route::post('produccion/requisicion_pt/importar', 'RequisicionPTController@importar')->name('requisicion_pt.importar');
+Route::get('produccion/requisicion_pt/reporte/{id}', 'ReporteRequisicionPTController@reporte_requisicion')->name('reporte_requisicion_pt');
 
 Route::get('produccion/despacho/', 'DespachoController@index')->name('produccion.despacho.index');
 Route::get('produccion/despacho/{id}/despachar', 'DespachoController@despachar')->name('produccion.despacho.despachar');
