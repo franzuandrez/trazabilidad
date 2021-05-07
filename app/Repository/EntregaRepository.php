@@ -79,7 +79,7 @@ class EntregaRepository
             $tarima->id_producto = $trazabilidad->producto->id_producto;
             $tarima->no_tarima = $request->get('no_tarima');
             $tarima->cantidad_sscc_unidad_distribucion = $entrega_det->cantidad;
-            $tarima->cantidad = $entrega->unidad_medida == 'UN' ? 1 : $entrega->cantidad * $trazabilidad->producto->cantidad_unidades;;
+            $tarima->cantidad = $entrega_det->unidad_medida == 'UN' ? 1 : ($entrega_det->cantidad * $trazabilidad->producto->cantidad_unidades);
             $tarima->sscc_unidad_distribucion = $request->get('sscc');
             $tarima->estado = 1;
             $tarima->unidad_medida = $request->get('unidad_medida');
