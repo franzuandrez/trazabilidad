@@ -71,6 +71,15 @@ class DespachoController extends Controller
 
         $requisicion = Requisicion::find($id);
 
+        if (!$request->query->has('tries')) {
+            $request->query->set('tries', 0);
+        }
+        if (intval($request->query->get('tries')) > 5) {
+            return redirect()
+                ->back()
+                ->withErrors(['Producto sin existencias']);
+        }
+
         if ($requisicion->estado !== "D") {
             $validarOrdenProductos = false;
             $pickingRepository = $this->pickingRepository;
@@ -80,13 +89,15 @@ class DespachoController extends Controller
             $existenMovimientos = false;
             $movimientos = collect([]);
 
+
             if ($debeRecalcularseListadoDeLotesADespachar) {
                 $movimientos = $pickingRepository->recalcularReservas(true);
+                ($request->query->set('tries',
+                    intval($request->query->get('tries')) + 1
+                ));
 
                 $existenMovimientos = ($movimientos != null) ? !$movimientos->isEmpty() : false;
-
                 if ($existenMovimientos) {
-
                     $pickingRepository->borrarReservasNoLeidas();
                     return view
                     ('produccion.despacho_pt.despacho',
