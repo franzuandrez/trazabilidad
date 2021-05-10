@@ -313,23 +313,26 @@ class PickingRepository
             $detalles_requisicion = $this->getDetalleRequisicionAgrupadoPorProducto();
             $movs = $this->generarListadoLotesDespacharAux($detalles_requisicion, $reservas_misma_requisicion);
 
-
-
-
             return null;
         } else {
             //DESPACHO DE PRODUCTOS TERMINADOS.
+
             $reservas_misma_requisicion = $this->getReservasAgrupadasPorProducto();
             $detalles_requisicion = $this->getDetalleRequisicionAgrupadoPorProducto();
             $unidades = collect([]);
             $cajas = collect([]);
 
             foreach ($detalles_requisicion as $det_requi) {
-                if ($det_requi->unidad_medida == 'UN') {
+
+
+                //SI LA UNIDAD DE DESPACHO NO ES UNIDAD DE DISTRIBUCION.
+                if ($det_requi->unidad_medida != 'CA') {
                     $result = $this->despachar_pt_en_unidades($det_requi);
                     $unidades->push($result['unidad']);
                     $cajas->push($result['caja']);
+
                 } else {
+
                     $cajas->push($this->despachar_pt_en_caja($det_requi));
                 }
             }
