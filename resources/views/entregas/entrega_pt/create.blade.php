@@ -49,6 +49,7 @@
         <label for="no_tarima"> NO. TARIMA</label>
         <div class="input-group">
             <input id="no_tarima" type="text"
+                   maxlength="20"
                    onkeydown="if(event.keyCode==13)buscar_no_tarima()"
                    class="form-control">
             <div class="input-group-btn">
@@ -80,6 +81,7 @@
             <input type="text"
                    onkeydown="if(event.keyCode==13)buscar_producto()"
                    name="codigo"
+                   maxlength="20"
                    id="codigo"
                    class="form-control">
             <div class="input-group-btn">

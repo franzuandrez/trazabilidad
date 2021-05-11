@@ -328,6 +328,15 @@
                                         Entrega PT
                                     </a>
                                 </li>
+
+                            @endcan
+                            @can('entrega_pt')
+                                <li>
+                                    <a href="{{url('produccion/supervision')}}">
+                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                       Supervisión Tarimas
+                                    </a>
+                                </li>
                             @endcan
                             @can('recepcion_pt')
                                 <li>

@@ -380,7 +380,7 @@
             });
 
             let row = `<tr>
-                <td>   ${$('#impresoras').text()}</td>
+                <td>   ${$('#impresoras :selected').text()}</td>
                 <td> ${cantidad_produccion_parcial} </td>
                 <td>${cantidad_etiquetas_corrugado_parcial}</td>
                 <td>${cantidad_etiquetas_unidades_parcial}</td>

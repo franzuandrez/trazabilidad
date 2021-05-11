@@ -92,9 +92,9 @@ class DespachoController extends Controller
 
             if ($debeRecalcularseListadoDeLotesADespachar) {
                 $movimientos = $pickingRepository->recalcularReservas(true);
-                ($request->query->set('tries',
+                $request->query->set('tries',
                     intval($request->query->get('tries')) + 1
-                ));
+                );
 
                 $existenMovimientos = ($movimientos != null) ? !$movimientos->isEmpty() : false;
                 if ($existenMovimientos) {

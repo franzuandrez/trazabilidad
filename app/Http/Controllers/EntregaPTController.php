@@ -126,6 +126,13 @@ class EntregaPTController extends Controller
 
         if ($unidades_producidas - $unidades_entregadas == 0 && $cajas_producidas - $cajas_entregadas == 0) {
             $this->trazabilidad_repository->marcarEntregado();
+            $entrega = EntregaEnc::where('id_control',
+                $control_trazabilidad->id_control
+            )
+                ->first();
+            $entrega->estado = 1;
+            $entrega->update();
+
             return redirect()
                 ->route('produccion.index_entrega_pt')
                 ->with('success', 'Entrega realizada correctamente');
@@ -146,7 +153,7 @@ class EntregaPTController extends Controller
             ->join('users', 'users.id', '=', 'entrega_pt_enc.id_usuario')
             ->join('control_trazabilidad', 'control_trazabilidad.id_control', '=', 'entrega_pt_enc.id_control')
             ->join('productos', 'productos.id_producto', '=', 'control_trazabilidad.id_producto')
-            ->where('entrega_pt_enc.estado', '<>', 2)
+            ->where('entrega_pt_enc.estado', '=', 2)
             ->paginate(20);
 
         if ($request->ajax()) {
@@ -167,6 +174,8 @@ class EntregaPTController extends Controller
                     'collection' => $collection
                 ]);
         }
+
+
     }
 
 
@@ -199,7 +208,7 @@ class EntregaPTController extends Controller
             DB::beginTransaction();
             $entrega = EntregaEnc::findOrFail($id);
 
-            $entrega->estado = 2;
+            $entrega->estado = 3;//ENTREGADO
             $entrega->fecha_recepcion = Carbon::now();
             $entrega->save();
             $this->movimiento_repository->setUsuarioAutoriza($usuario_autoriza);

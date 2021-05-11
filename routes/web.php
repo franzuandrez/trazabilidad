@@ -479,6 +479,11 @@ Route::get('produccion/picking/{id}', 'PickingController@show')->name('produccio
 Route::post('produccion/picking/leer/{id_reserva}', 'PickingController@leer')->name('produccion.picking.leer');
 Route::post('produccion/picking/create', 'PickingController@store')->name('produccion.picking.store');
 
+
+Route::get('produccion/supervision', 'SupervisionTarimasController@index')->name('supervision-tarimas');
+Route::get('produccion/supervision/{id}/edit', 'SupervisionTarimasController@edit')->name('supervision-tarimas.edit');
+Route::post('produccion/supervision/verficar_tarima', 'SupervisionTarimasController@verficar_tarima')->name('supervision-tarimas.verficar_tarima');
+
 Route::get('produccion/mezcladora', 'MezcladoraController@index')->name('mezcladora.index');
 Route::get('produccion/mezcladora/create', 'MezcladoraController@create')->name('mezcladora.create');
 Route::post('produccion/mezcladora/create', 'MezcladoraController@store')->name('mezcladora.store');
