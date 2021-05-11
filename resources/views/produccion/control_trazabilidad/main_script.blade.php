@@ -721,8 +721,7 @@
         let row = `
                     <tr>
                         <td>     <input type="hidden" name="id_insumo[]" value="${id}">   ${descripcion}</td>
-                        <td>        <input type="hidden" name="color[]" value="0">
-                        </td>
+                       
 
                         <td>              <input type="hidden" name="lote_pt[]" value="${lote}">
                                           ${lote}

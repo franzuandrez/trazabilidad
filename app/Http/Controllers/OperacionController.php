@@ -177,9 +177,14 @@ class OperacionController extends Controller
         try {
             DB::beginTransaction();
 
-            $id_control = $request->get('id_control');
 
-            $this->trazabilidad_repository->getControlTrazabilidadById($id_control);
+            $id_control = $request->get('id_control');
+            $control = $this->trazabilidad_repository->getControlTrazabilidadById($id_control);
+            $control->lote = $request->lote_produccion;
+            $control->id_turno = $request->turno;
+            $control->cantidad_programada = $request->cantidad_programada;
+            $control->save();
+
             $this->trazabilidad_repository->setIdsActividades($request->id_actividad);
             $this->trazabilidad_repository->setIdsColaboradores($request->id_colaborador);
             $this->trazabilidad_repository->setIdsInsumos($request->id_insumo);
