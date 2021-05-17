@@ -127,6 +127,8 @@ class RequisicionPTController extends Controller
                 if (Requisicion::where('no_requision', $no_factura)
                     ->where('estado', '<>', 'B')
                     ->exists()) {
+
+
                     throw new \Exception('Factura ya cargada');
                 }
 
@@ -183,11 +185,7 @@ class RequisicionPTController extends Controller
             } catch (\Exception $ex) {
 
                 return redirect()->back()
-                    ->withErrors(
-                        [
-                            $ex->getMessage()
-                        ]
-                    )
+                    ->with('error',  $ex->getMessage())
                    ;
             }
 

@@ -14,9 +14,10 @@
             Requisiciones PT
         @endslot
     @endcomponent
-    @include('componentes.alert-error')
+
     {!!Form::open(array('url'=>'produccion/requisicion_pt/create','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
+    @include('componentes.alert-error')
 
     @if(!$requisicion->isEmpty() &&  Session::get('importacion')==null )
         <div class="modal fade modal-slide-in-right in" aria-hidden="false" role="dialog" tabindex="-1"
