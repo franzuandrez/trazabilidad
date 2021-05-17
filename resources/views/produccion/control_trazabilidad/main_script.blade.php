@@ -304,9 +304,14 @@
             url: "{{url('produccion/trazabilidad_chao_mein/buscar_producto_pp')}}" + query,
             type: "GET",
             success: function (response) {
-                document.getElementById('descripcion_producto_pp').value = response.data.producto.descripcion;
-                document.getElementById('cantidad_producto_pp').readOnly = false;
-                cantidad_producto_pp = response.data.control.cantidad_programada;
+                if (response.status == 1) {
+                    document.getElementById('descripcion_producto_pp').value = response.data.producto.descripcion;
+                    document.getElementById('cantidad_producto_pp').readOnly = false;
+                    cantidad_producto_pp = response.data.control.cantidad_programada;
+                } else {
+                    alert("Lote no encontrado");
+                }
+
                 $('.loading').hide();
             }, error: function (e) {
                 alert("Algo salió mal , error: " + e.responseJSON.message);
@@ -391,18 +396,16 @@
             type: "get",
             success: function (response) {
 
-                if (response.data.producto.tipo_producto == $('#tipo_producto option:selected').val()) {
-                    if (response.status === 1) {
+                if (response.status === 1) {
+                    if (response.data.producto.tipo_producto == $('#tipo_producto option:selected').val()) {
                         agregar_insumo(response.data.id_detalle_insumo, response.data.fecha_vencimiento);
                         limpiar_insumo();
                         set_id_orden(response.data.id_control);
-
                     } else {
-                        alert(response.message);
+                        alert("Producto incorrecto");
                     }
                 } else {
-                    alert("Producto incorrecto");
-
+                    alert(response.message);
                 }
 
                 $('.loading').hide();
@@ -721,7 +724,7 @@
         let row = `
                     <tr>
                         <td>     <input type="hidden" name="id_insumo[]" value="${id}">   ${descripcion}</td>
-                       
+
 
                         <td>              <input type="hidden" name="lote_pt[]" value="${lote}">
                                           ${lote}

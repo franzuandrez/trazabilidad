@@ -190,10 +190,17 @@
             </tbody>
         </table>
     </div>
+    @include('entregas.entrega_pt.modal_guardar')
+
+    @if($entregas->count() == 0)
+        @include('entregas.entrega_pt.confirmar')
+    @endif
 
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="form-group">
-            <button class="btn btn-default" type="submit">
+            <button class="btn btn-default"
+                    onclick="modal_guardar()"
+                    type="button">
                 <span class=" fa fa-check"></span> GUARDAR
             </button>
             <a href="{{url('produccion/entrega_pt')}}">
@@ -207,7 +214,6 @@
     {!!Form::close()!!}
 
 @endsection
-
 @section('scripts')
     @include('entregas.entrega_pt.script')
 @endsection

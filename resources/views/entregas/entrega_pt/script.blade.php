@@ -13,11 +13,53 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+
+
     const CODIGO_DUN_14 = 1;
     const LOTE = 3;
     var PRODUCTO_PT = null;
     var UNIDADES_ENTREGADAS = 0;
     var CAJAS_ENTREGADAS = 0;
+
+
+    function confirmar_producto() {
+
+
+        const info_codigo_barras = descomponerInput(document.getElementById('codigo_confirmacion_producto'), false);
+
+        const lote_digitado = info_codigo_barras[3];
+        const codigo_dun_producto_digitado = info_codigo_barras[1];
+
+        const lote = "{{$control_trazabilidad->lote}}"
+        const codigo_dun_producto = "{{$control_trazabilidad->producto->codigo_dun}}"
+
+        console.log(lote,codigo_dun_producto)
+        if (lote_digitado != lote) {
+            alert("Lote incorrecto");
+            return;
+        }
+
+        if (codigo_dun_producto_digitado != codigo_dun_producto) {
+            alert("Producto incorrecto");
+            return;
+        }
+
+
+        document.getElementById('confirmar_producto').style.display= 'none';
+
+    }
+
+
+    function modal_guardar() {
+
+        const tarimas_sin_finalizar = document.getElementsByClassName('label-warning').length
+        if (tarimas_sin_finalizar > 0) {
+            alert("Tarima sin finalizar");
+            return;
+        }
+
+        $('#modal_guardar').modal();
+    }
 
     function limpiar_producto() {
         document.getElementById('codigo').value = '';
@@ -52,7 +94,9 @@
 
             },
             success: function (response) {
+
                 if (response.success) {
+                    document.getElementById('no_tarima').disabled = true;
                     document.getElementById('codigo').focus();
                 } else {
                     alert(response.data);
@@ -253,6 +297,7 @@
 
                 if (response.success) {
                     alert('Tarima terminada');
+                    document.getElementById('no_tarima').disabled = false;
                     cambiar_a_terminado(no_tarima);
                 } else {
                     alert(response.data);
@@ -282,6 +327,7 @@
 
     function limpiar_tarima() {
         document.getElementById('no_tarima').value = '';
+        document.getElementById('no_tarima').disabled = false;
     }
 
     function es_valida() {

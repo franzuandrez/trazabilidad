@@ -121,10 +121,17 @@ class EntregaPTController extends Controller
         $unidades_producidas = intval($control_trazabilidad->cantidad_producida % $control_trazabilidad->producto->cantidad_unidades);
         $cajas_producidas = intval($control_trazabilidad->cantidad_producida / $control_trazabilidad->producto->cantidad_unidades);
 
+
         $unidades_entregadas = $this->entrega_repository->getTotalUnidadesEntregadas($request->id_control);
         $cajas_entregadas = $this->entrega_repository->getTotalCajasEntregadas($request->id_control);
 
-        if ($unidades_producidas - $unidades_entregadas == 0 && $cajas_producidas - $cajas_entregadas == 0) {
+
+        if ($cajas_entregadas == 0 && $unidades_entregadas == 0) {
+
+            return redirect()->back()->withErrors(['Entrega incompleta']);
+        }
+
+        if ($unidades_producidas - $unidades_entregadas >= 0 && $cajas_producidas - $cajas_entregadas >= 0) {
             $this->trazabilidad_repository->marcarEntregado();
             $entrega = EntregaEnc::where('id_control',
                 $control_trazabilidad->id_control
@@ -138,7 +145,7 @@ class EntregaPTController extends Controller
                 ->with('success', 'Entrega realizada correctamente');
         }
 
-        return redirect()->back()->withErrors(['Producto pendiente por agregar']);
+        return redirect()->back()->withErrors(['Cantidades incorrectas']);
 
 
     }

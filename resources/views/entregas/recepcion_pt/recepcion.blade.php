@@ -59,6 +59,7 @@
         <label for="codigo_producto">NO. TARIMA</label>
         <div class="input-group">
             <input type="text"
+                   maxlength="20"
                    id="codigo_producto"
                    onkeydown="if(event.keyCode==13)buscar_no_tarima(document.getElementById('codigo_producto'))"
                    name="codigo_producto"
