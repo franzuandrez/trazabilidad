@@ -432,7 +432,7 @@
                     } else if (response.status == 2) {
                         recalcular();
                     } else if (response.status == 3) {
-                        alert(response.message)
+                        //alert(response.message)
                     } else {
                         alert("Algo salió mal, por favor vuelva a intentarlo");
                     }

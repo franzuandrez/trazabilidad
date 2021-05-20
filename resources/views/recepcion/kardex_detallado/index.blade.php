@@ -85,7 +85,7 @@
                                     UNIDADES
 
                                 @elseif($hay_movimientos_cajas && $ubicacion->first()->codigo_sector == '4140754842000031')
-                                    CAJAS
+                                    U. DISTRIBUCION
                                 @else
 
                                 @endif
