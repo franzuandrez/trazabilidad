@@ -63,23 +63,7 @@
                     <td id="td_cantidad_acumulada-{{$reserva->producto->id_producto}}-{{$reserva->lote}}-{{$reserva->ubicacion}}">
                         @if($reserva->leido == 'N')
 
-                            @php
-                                $cantidad = \App\Tarima::select(\DB::raw('sum(cantidad_sscc_unidad_distribucion) as acumulado'))
-                                   ->where('id_producto',$reserva->producto->id_producto)
-                                   ->where('lote',$reserva->lote)
-                                   ->where('ubicacion',$reserva->ubicacion)
-                                   ->where('reservado',1)
-                                   ->groupby('no_tarima')
-                                   ->first();
-
-                                if($cantidad==null){
-                                    echo '0';
-                                }else{
-                                     echo $cantidad->acumulado;
-                                }
-                            @endphp
-
-
+                            {{$reserva->cantidad_acumulada}}
 
                         @else
                             {{$reserva->cantidad}}
@@ -87,7 +71,7 @@
                     </td>
                     <input type="hidden" name="cantidad_acumulada[]"
                            id="cantidad_acumulada-{{$reserva->producto->id_producto}}-{{$reserva->lote}}-{{$reserva->ubicacion}}"
-                           value="0">
+                           value="{{$reserva->cantidad_acumulada}}">
 
 
                     <td>

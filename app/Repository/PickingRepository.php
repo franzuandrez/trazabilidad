@@ -326,15 +326,11 @@ class PickingRepository
 
 
                 //SI LA UNIDAD DE DESPACHO NO ES UNIDAD DE DISTRIBUCION.
-                if ($det_requi->unidad_medida != 'CA') {
-                    $result = $this->despachar_pt_en_unidades($det_requi);
-                    $unidades->push($result['unidad']);
-                    $cajas->push($result['caja']);
 
-                } else {
+                $result = $this->despachar_pt_en_unidades($det_requi);
+                $unidades->push($result['unidad']);
+                $cajas->push($result['caja']);
 
-                    $cajas->push($this->despachar_pt_en_caja($det_requi));
-                }
             }
 
             $movimientos_unidades = $this

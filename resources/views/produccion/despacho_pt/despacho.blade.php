@@ -359,7 +359,7 @@
                         const cantidad_requerida = parseFloat(cantidad_node.value);
 
 
-                        if (cantidad_acumulada <= cantidad_requerida) {
+                        if (cantidad_acumulada + cantidad <= cantidad_requerida) {
 
                             td_cantidad_acumulada.innerText =
                                 (parseFloat(td_cantidad_acumulada.innerText) + parseFloat(cantidad)).toString();
@@ -367,17 +367,16 @@
                             cantidad_acumulada = parseFloat(cantidad_acumulada_node.value);
 
                             if (es_tarima) {
-                                reservar_tarima(tarima)
-                            }
-                            if (cantidad_acumulada == cantidad_requerida) {
-                                leer(producto[0].id_reserva);
+                                reservar_tarima(tarima);
                             }
 
+                            leer(producto[0].id_reserva);
 
+                            limpiar();
                         } else {
                             alert("Algo salió mal, cantidad incorrecta");
                         }
-                        limpiar();
+
 
 
                     } else {
@@ -420,19 +419,20 @@
         function leer(id_reserva, tarima = '') {
 
             $('#spiner-buscando').show();
+            const cantidad = document.getElementById('cantidad').value;
             $.ajax({
-                url: "{{url('produccion/despacho/leer/')}}" + "/" + id_reserva + '?tarima=' + tarima,
+                url: "{{url('produccion/despacho/leer/')}}" + "/" + id_reserva + '?tarima=' + tarima + '&cantidad=' + cantidad,
                 type: "post",
                 dataType: "json",
                 success: function (response) {
 
-
                     if (response.status == 1) {
-
                         checkRow(id_reserva, response.reserva);
                         recalcular();
                     } else if (response.status == 2) {
                         recalcular();
+                    } else if (response.status == 3) {
+                        alert(response.message)
                     } else {
                         alert("Algo salió mal, por favor vuelva a intentarlo");
                     }

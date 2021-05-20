@@ -233,7 +233,7 @@ class EntregaPTController extends Controller
                 ->with('success', 'Producto ubicado correctamente');
         } catch (\Exception $e) {
             DB::rollback();
-            dd($e);
+
             return redirect()->route('produccion.index_recepcion_pt')
                 ->withErrors(['Su peticion no ha podido ser procesada']);
 
@@ -370,6 +370,14 @@ class EntregaPTController extends Controller
                     'data' => 'tarima en uso'
                 ]);
             }
+        } else {
+            if ($request->get('validar_si_esta_vacia')) {
+                return response([
+                    'success' => false,
+                    'data' => 'Tarima vacia'
+                ]);
+            }
+
         }
 
         return response([
@@ -404,8 +412,9 @@ class EntregaPTController extends Controller
     public function terminar_tarima(Request $request)
     {
 
-
+        $request->query->set('validar_si_esta_vacia', true);
         $result = $this->buscar_no_tarima($request)->getOriginalContent();
+
         if (($result['success'])) {
             $tarima = GeneradorCodigos::searchSSCCPallet($request->get('no_tarima'));
             $tarima->estado = 'FINALIZADO';

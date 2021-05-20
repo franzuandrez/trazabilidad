@@ -298,10 +298,12 @@
                 if (response.success) {
                     alert('Tarima terminada');
                     document.getElementById('no_tarima').disabled = false;
+                    document.getElementById('no_tarima').value="";
                     cambiar_a_terminado(no_tarima);
                 } else {
                     alert(response.data);
                 }
+
                 $('.loading').hide();
             },
             error: function (e) {

@@ -237,35 +237,67 @@ class DespachoController extends Controller
                     'message' => 'Debe recalcular'
                 ];
             } else {
-                $reserva->leido = 'S';
-                $reserva->estado = 'R';
-                $reserva->id_usuario_picking = Auth::user()->id;
-                $reserva->fecha_lectura = \Carbon\Carbon::now();
+                $cantidad_entrante = $request->cantidad;
+                $cantidad_acumulada = $reserva->cantidad_acumulada;
+                $nueva_cantidad = floatval($cantidad_acumulada + $cantidad_entrante);
+
+                if ($nueva_cantidad == $reserva->cantidad) {
+                    //MARCAR COMO LEIDO.
+                    $reserva->leido = 'S';
+                    $reserva->estado = 'R';
+                    $reserva->cantidad_acumulada = $nueva_cantidad;
+                    $reserva->id_usuario_picking = Auth::user()->id;
+                    $reserva->fecha_lectura = \Carbon\Carbon::now();
+                    $response = [
+                        'status' => 1,
+                        'message' => 'Leido correctamente',
+                        'reserva' => [$reserva, Auth::user()->nombre]
+                    ];
+                } else {
+                    $nueva_cantidad = floatval($cantidad_acumulada + $cantidad_entrante);
+                    if ($nueva_cantidad < $reserva->cantidad) {
+                        $reserva->cantidad_acumulada = $nueva_cantidad;
+                        $response = [
+                            'status' => 3,
+                            'message' => 'Acumulado correctamente',
+
+                        ];
+                    } else {
+                        $response = [
+                            'status' => 0,
+                            'message' => 'Cantidad incorrecta',
+
+                        ];
+                    }
+
+                }
                 $reserva->update();
 
                 $cajas = Tarima::where('id_producto', $reserva->id_producto)
                     ->where('ubicacion', $reserva->ubicacion)
                     ->where('lote', $reserva->lote)
+                    ->where('cantidad_sscc_unidad_distribucion', '>', 0)
                     ->get();
-                $total = 0;
+                $total =  0;
+
                 foreach ($cajas as $caja) {
 
+                    if ($caja->unidad_medida == 'CA') {
+                        $total = $total + $caja->cantidad_sscc_unidad_distribucion;
+                        $caja->cantidad_sscc_unidad_distribucion = $caja->cantidad_sscc_unidad_distribucion - 1;
+                    } else {
+                        $total = $total + $cantidad_entrante;
+                        $caja->cantidad_sscc_unidad_distribucion = $caja->cantidad_sscc_unidad_distribucion - $cantidad_entrante;
+                    }
 
-                    $total = $total + $caja->cantidad_sscc_unidad_distribucion;
-                    $caja->cantidad_sscc_unidad_distribucion = $caja->cantidad_sscc_unidad_distribucion - 1;
                     $caja->save();
-                    if ($total == $reserva->cantidad) {
+                    if ($total == $cantidad_entrante) {
                         break;
                     }
 
                 }
 
 
-                $response = [
-                    'status' => 1,
-                    'message' => 'Leido correctamente',
-                    'reserva' => [$reserva, Auth::user()->nombre]
-                ];
             }
 
 

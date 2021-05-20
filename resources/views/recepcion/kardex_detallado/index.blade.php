@@ -38,25 +38,72 @@
                             <b>{{ number_format($saldo_inicial,3,'.',',')}}</b>
                         </td>
                     </tr>
-                    @foreach($movimientos as $movimiento)
-                        <tr>
-                            <td>{{$movimiento->fecha_hora_movimiento->format('d/m/Y')}}</td>
-                            <td>{{$movimiento->numero_documento}}</td>
-                            <td>{{$movimiento->requisicion}}</td>
-                            <td>  {{ number_format(($movimiento->factor>0?$movimiento->total:0),3,'.',',') }}</td>
-                            <td> {{ number_format(($movimiento->factor<0?$movimiento->total:0),3,'.',',') }}</td>
-                            <td>{{ number_format($saldo_inicial=$saldo_inicial+($movimiento->factor*$movimiento->total),3,'.',',')   }}</td>
-                            <td>{{$movimiento->lote}}</td>
-                        </tr>
-                    @endforeach
-                    <tr>
+
+                    @foreach($movimientos->groupBy('codigo_sector') as $ubicacion)
+                        @foreach($ubicacion as $movimiento)
+                            @if($movimiento->codigo_sector == '4140754842000031' & $movimiento->tipo_produccto=='PT')
+                                <tr>
+                                    <td>{{$movimiento->fecha_hora_movimiento->format('d/m/Y')}}</td>
+                                    <td>{{$movimiento->numero_documento}}</td>
+                                    <td>{{$movimiento->requisicion}}</td>
+                                    <td>  {{ number_format(($movimiento->factor>0?$movimiento->total:0),3,'.',',') }}</td>
+                                    <td> {{ number_format(($movimiento->factor<0?$movimiento->total:0),3,'.',',') }}</td>
+                                    <td>{{ number_format($saldo_inicial_cajas=$saldo_inicial_cajas+($movimiento->factor*$movimiento->total),3,'.',',')   }}</td>
+                                    <td>{{$movimiento->lote}}</td>
+                                    @php
+                                        $hay_movimientos_cajas=true
+                                    @endphp
+                                </tr>
+                            @elseif($movimiento->codigo_sector == '4140754842000208' & $movimiento->tipo_produccto=='PT')
+                                <tr>
+                                    <td>{{$movimiento->fecha_hora_movimiento->format('d/m/Y')}}</td>
+                                    <td>{{$movimiento->numero_documento}}</td>
+                                    <td>{{$movimiento->requisicion}}</td>
+                                    <td>  {{ number_format(($movimiento->factor>0?$movimiento->total:0),3,'.',',') }}</td>
+                                    <td> {{ number_format(($movimiento->factor<0?$movimiento->total:0),3,'.',',') }}</td>
+                                    <td>{{ number_format($saldo_inicial_unidades=$saldo_inicial_unidades+($movimiento->factor*$movimiento->total),3,'.',',')   }}</td>
+                                    <td>{{$movimiento->lote}}</td>
+                                    @php
+                                        $hay_movimientos_unidades=true
+                                    @endphp
+                                </tr>
+                            @else
+                                <tr>
+                                    <td>{{$movimiento->fecha_hora_movimiento->format('d/m/Y')}}</td>
+                                    <td>{{$movimiento->numero_documento}}</td>
+                                    <td>{{$movimiento->requisicion}}</td>
+                                    <td>  {{ number_format(($movimiento->factor>0?$movimiento->total:0),3,'.',',') }}</td>
+                                    <td> {{ number_format(($movimiento->factor<0?$movimiento->total:0),3,'.',',') }}</td>
+                                    <td>{{ number_format($saldo_inicial=$saldo_inicial+($movimiento->factor*$movimiento->total),3,'.',',')   }}</td>
+                                    <td>{{$movimiento->lote}}</td>
+                                </tr>
+                            @endif
+                        @endforeach
                         <td colspan="4">
-                            <b>TOTAL</b>
+                            <b>TOTAL
+                                @if($hay_movimientos_unidades && $ubicacion->first()->codigo_sector == '4140754842000208')
+                                    UNIDADES
+
+                                @elseif($hay_movimientos_cajas && $ubicacion->first()->codigo_sector == '4140754842000031')
+                                    CAJAS
+                                @else
+
+                                @endif
+                            </b>
                         </td>
                         <td>
-                            <b>{{ number_format($saldo_inicial,3,'.',',')}}</b>
+                            @if($hay_movimientos_unidades && $ubicacion->first()->codigo_sector == '4140754842000208')
+                                <b>{{ number_format($saldo_inicial_unidades,3,'.',',')}}</b>
+
+                            @elseif($hay_movimientos_cajas && $ubicacion->first()->codigo_sector == '4140754842000031')
+                                <b>{{ number_format($saldo_inicial_cajas,3,'.',',')}}</b>
+                            @else
+                                <b>{{ number_format($saldo_inicial,3,'.',',')}}</b>
+                            @endif
+
                         </td>
-                    </tr>
+                    @endforeach
+
                 @else
                     <tr>
                         <td colspan="6"> Sin resultados</td>

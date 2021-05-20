@@ -408,6 +408,8 @@ class MovimientoController extends Controller
         $movimientos = collect([]);
 
         $saldo_inicial = 0;
+        $saldo_inicial_cajas = 0;
+        $saldo_inicial_unidades = 0;
         if ($this->producto != '') {
             $producto = Producto::orWhere('productos.codigo_interno', $this->producto)
                 ->orwhere('productos.codigo_barras', $this->producto)
@@ -423,7 +425,9 @@ class MovimientoController extends Controller
                         'movimientos.fecha_hora_movimiento as fecha_hora_movimiento',
                         'productos.descripcion as producto',
                         'productos.codigo_interno as codigo_interno',
+                        'productos.tipo_producto as tipo_produccto',
                         'productos.unidad_medida as unidad_medida',
+                        'sectores.codigo_barras as codigo_sector',
                         'movimientos.lote as lote',
                         'bodegas.descripcion as bodega',
                         'sectores.descripcion as ubicacion',
@@ -438,7 +442,8 @@ class MovimientoController extends Controller
                 $movimientos = $movimientos->where(function ($query) {
                     $query->where('productos.codigo_interno', $this->producto)
                         ->orwhere('productos.codigo_barras', $this->producto);
-                })->orderBy('fecha_hora_movimiento', 'asc')
+                })->orderBy('sectores.codigo_barras', 'asc')
+                    ->orderBy('fecha_hora_movimiento', 'asc')
                     ->get();
             }
 
@@ -449,6 +454,8 @@ class MovimientoController extends Controller
             ->where('id_bodega', '1')
             ->actived()
             ->get();
+        $hay_movimientos_unidades = false;
+        $hay_movimientos_cajas = false;
         if ($request->ajax()) {
 
             return view('recepcion.kardex_detallado.index',
@@ -463,8 +470,12 @@ class MovimientoController extends Controller
                     'start' => $this->start,
                     'end' => $this->end,
                     'saldo_inicial' => $saldo_inicial,
+                    'saldo_inicial_cajas' => $saldo_inicial_cajas,
+                    'saldo_inicial_unidades' => $saldo_inicial_unidades,
                     'ubicaciones' => $ubicaciones,
                     'ubicacion' => $ubicacion,
+                    'hay_movimientos_unidades' => $hay_movimientos_unidades,
+                    'hay_movimientos_cajas' => $hay_movimientos_cajas,
 
                 ]
             );
@@ -480,8 +491,12 @@ class MovimientoController extends Controller
                     'start' => $this->start,
                     'end' => $this->end,
                     'saldo_inicial' => $saldo_inicial,
+                    'saldo_inicial_cajas' => $saldo_inicial_cajas,
+                    'saldo_inicial_unidades' => $saldo_inicial_unidades,
                     'ubicaciones' => $ubicaciones,
                     'ubicacion' => $ubicacion,
+                    'hay_movimientos_unidades' => $hay_movimientos_unidades,
+                    'hay_movimientos_cajas' => $hay_movimientos_cajas,
                 ]
             );
         }

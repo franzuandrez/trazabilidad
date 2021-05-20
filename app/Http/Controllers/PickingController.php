@@ -109,11 +109,10 @@ class PickingController extends Controller
             }
         } catch (\Exception $ex) {
 
-            return  redirect()
+            return redirect()
                 ->back()
                 ->withErrors([$ex->getMessage()]);
         }
-
 
 
     }
@@ -148,6 +147,7 @@ class PickingController extends Controller
             } else {
                 $reserva->leido = 'S';
                 $reserva->estado = 'R';
+                $reserva->cantidad_acumulada = $reserva->cantidad;
                 $reserva->id_usuario_picking = Auth::user()->id;
                 $reserva->fecha_lectura = \Carbon\Carbon::now();
                 $reserva->update();
